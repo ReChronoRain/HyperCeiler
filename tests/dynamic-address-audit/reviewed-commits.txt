@@ -1,0 +1,3 @@
+1d96c182954aadca6073f67286c35d9618eee19b home: locate every hook site by scanning instead of by stored offset
+6d3234834eb77be0b27369bd68a26e4ab380cc15 home: resolve the GridInfo field offsets instead of storing them
+0ba84123b12018326c166fe866ee740273e1ed86 tweaks: add symbol spans for bodies the table understates

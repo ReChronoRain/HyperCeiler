@@ -188,6 +188,39 @@ public class DialogHelper {
         showRestartDialog(context, false, appLabel, packageName);
     }
 
+    public static void showHomeRestartActions(Activity activity) {
+        new AlertDialog.Builder(activity)
+            .setTitle(R.string.hyperceiler_restart_quick)
+            .setItems(new CharSequence[]{activity.getString(R.string.home_restart_launcher),
+                activity.getString(R.string.home_restart_zygote)}, (dialog, which) -> {
+                    if (which == 0) showRestartDialog(activity, "com.miui.home");
+                    else if (which == 1) showRestartZygoteDialog(activity);
+                })
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+    }
+
+    public static void showRestartZygoteDialog(Activity activity) {
+        new AlertDialog.Builder(activity)
+            .setTitle(R.string.home_restart_zygote)
+            .setMessage(R.string.home_restart_zygote_confirm)
+            .setHapticFeedbackEnabled(true)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok, (dialog, which) ->
+                ThreadUtils.postOnBackgroundThread(() -> {
+                    boolean success = false;
+                    try {
+                        if (checkRootPermission() == 0) {
+                            success = ShellInit.getShell().run("setprop ctl.restart zygote").sync().isResult();
+                        }
+                    } catch (RuntimeException ignored) { /* Report command failure on the UI thread. */ }
+                    if (!success) ThreadUtils.postOnMainThread(() -> {
+                        if (!activity.isFinishing() && !activity.isDestroyed()) showAlertDialog(activity, true, true);
+                    });
+                }))
+            .show();
+    }
+
     public static void showRestartSystemDialog(Context context) {
         showRestartDialog(context, true, "", new String[]{""});
     }

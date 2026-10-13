@@ -33,6 +33,122 @@
     ldp x9, x10, [x15], #16
 .endm
 
+/* No relocated Dart BL and no heap allocation. The original putInt BL and return PC
+ * retain their stack map. Both new routes rejoin the original serializer frame. */
+.globl hc_gadget_select_entry
+.p2align 4
+hc_gadget_select_entry:
+    dart_save
+    adrp x9, hc_gadget_bridge_enabled
+    add x9, x9, :lo12:hc_gadget_bridge_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    cmp x1, #0x7f2
+    b.ne 1f
+    ldur x9, [x29, #-0x18]
+    mov x17, #0x11b
+    ldr w10, [x9, x17]
+    cmp w10, #24
+    b.ne 1f
+    ldur x10, [x9, #0x1f]
+    cmp x10, #1
+    b.ne 1f
+    ldur x10, [x9, #0x27]
+    cmp x10, #1
+    b.ne 1f
+    dart_restore
+    ldur x0, [x29, #-0x18]
+    ldur x1, [x29, #-0x10]
+    add x2, x27, #0x36, lsl #12
+    ldr x2, [x2, #0xff8] // Original widget_type pool entry.
+    mov x3, #0x1802
+    movk x3, #0x3086, lsl #16 // Smi(0x18430c01), not protocol type 5.
+    adrp x16, hc_gadget_put_int
+    ldr x16, [x16, :lo12:hc_gadget_put_int]
+    br x16 // Execute the original BL, not blr from module code.
+1:
+    dart_restore
+    cmp x1, #0x7ed
+    b.ne 2f
+    ldur x0, [x29, #-0x18]
+    ldur x1, [x29, #-0x10]
+    adrp x16, hc_gadget_select_continue
+    ldr x16, [x16, :lo12:hc_gadget_select_continue]
+    br x16
+2:
+    adrp x16, hc_gadget_common
+    ldr x16, [x16, :lo12:hc_gadget_common]
+    br x16
+
+.globl hc_gadget_return_entry
+.p2align 4
+hc_gadget_return_entry:
+    // putInt may GC: reload the original rooted model, never cache a heap pointer.
+    dart_save
+    ldur x9, [x29, #-0x18]
+    ldur x10, [x9, #-1]
+    ubfx x10, x10, #12, #20
+    cmp x10, #0x7f2
+    b.ne 3f
+    dart_restore
+    adrp x16, hc_gadget_common
+    ldr x16, [x16, :lo12:hc_gadget_common]
+    br x16
+3:
+    dart_restore
+    // Unchanged MaMl serialization, including its original Gadget id load.
+    ldur x0, [x29, #-0x18]
+    mov x17, #0x143
+    ldr w3, [x0, x17]
+    add x3, x3, x28, lsl #32
+    adrp x16, hc_gadget_return_continue
+    ldr x16, [x16, :lo12:hc_gadget_return_continue]
+    br x16
+
+/* Only the bridged Gadget12 bypasses unsupported 1x1; all other size results remain original.
+ * Original span BL has already returned: reload model through rooted handler +0x2b. */
+.globl hc_gadget_span_entry
+.p2align 4
+hc_gadget_span_entry:
+    dart_save
+    adrp x9, hc_gadget_bridge_enabled
+    add x9, x9, :lo12:hc_gadget_bridge_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    ldur x9, [x29, #-0x18]
+    ldur w9, [x9, #0x2b]
+    add x9, x9, x28, lsl #32
+    ldur x10, [x9, #-1]
+    ubfx x10, x10, #12, #20
+    cmp x10, #0x7f2
+    b.ne 1f
+    mov x17, #0x11b
+    ldr w10, [x9, x17]
+    cmp w10, #24
+    b.ne 1f
+    ldur x10, [x9, #0x1f]
+    cmp x10, #1
+    b.ne 1f
+    ldur x10, [x9, #0x27]
+    cmp x10, #1
+    b.ne 1f
+    dart_restore
+    b 2f
+1:
+    dart_restore
+    tbnz w0, #4, 3f
+2:
+    ldur x0, [x29, #-8]
+    ldur x2, [x29, #-0x18]
+    mov x1, x0
+    adrp x16, hc_gadget_span_continue
+    ldr x16, [x16, :lo12:hc_gadget_span_continue]
+    br x16
+3:
+    adrp x16, hc_gadget_span_reject
+    ldr x16, [x16, :lo12:hc_gadget_span_reject]
+    br x16
+
 /*
  * capture_trampoline entry, original, object, hits
  *
@@ -81,6 +197,496 @@ capture_trampoline hc_layout_config_capture_entry, \
     hc_layout_config_capture_original, hc_layout_config_object, hc_layout_config_capture_hits
 capture_trampoline hc_layout_dock_capture_entry, \
     hc_layout_dock_capture_original, hc_layout_dock_object, hc_layout_dock_capture_hits
+
+/* Keep the launcher's selection intact. Clone only through the verified nursery fast path;
+ * a full nursery returns the original color, never an untracked Dart GC slow-path call.
+ * Only the private clone is recolored, not a shared pool constant. */
+.globl hc_title_color_entry
+.p2align 4
+hc_title_color_entry:
+    dart_save
+    adrp x9, hc_title_color_enabled
+    add x9, x9, :lo12:hc_title_color_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x1
+    mov x1, x26
+    bl hc_title_color_clone
+    str x0, [sp, #8]
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+1:
+    dart_restore
+    stur x1, [x29, #-0x28]
+    ldr x0, [x26, #0x78]
+    ldr x0, [x0, #0x2710]
+    cmp w0, w22
+    adrp x16, hc_title_color_continue
+    add x16, x16, :lo12:hc_title_color_continue
+    ldr x16, [x16]
+    br x16
+
+/* Original caption is replaced only in the drawing local. Root the private UTF16 string
+ * at the original stack-map slot before resuming the untouched allocation BL. */
+.globl hc_title_custom_entry
+.p2align 4
+hc_title_custom_entry:
+    ldur x2, [x29, #-0x18]
+    ldur w3, [x2, #0x47]
+    add x3, x3, x28, lsl #32
+    dart_save
+    adrp x9, hc_title_custom_enabled
+    add x9, x9, :lo12:hc_title_custom_enabled
+    ldar w9, [x9]
+    cbz w9, 12f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x3
+    mov x17, #0x153
+    ldr w1, [x2, x17]
+    add x1, x1, x28, lsl #32
+    mov x2, x28
+    mov x3, x26
+    mov x4, x21
+    mov x5, x22
+    mov w6, #0
+    bl hc_title_custom_label
+    str x0, [sp, #24]
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+12:
+    dart_restore
+    stur x3, [x29, #-0x38]
+    adrp x16, hc_title_custom_continue
+    add x16, x16, :lo12:hc_title_custom_continue
+    ldr x16, [x16]
+    br x16
+
+/* AppIcon.build keeps its original getter call. Replace its following no-call window only;
+ * every other caller keeps the launcher value, and GC never sees a foreign Dart return PC. */
+.globl hc_drawer_title_entry
+.p2align 4
+hc_drawer_title_entry:
+    dart_save
+    adrp x9, hc_drawer_title_override
+    add x9, x9, :lo12:hc_drawer_title_override
+    ldar w9, [x9]
+    cbz w9, 2f
+    adrp x10, hc_drawer_title_baseline
+    add x10, x10, :lo12:hc_drawer_title_baseline
+    str d0, [x10]
+    adrp x9, hc_drawer_title_sp
+    add x9, x9, :lo12:hc_drawer_title_sp
+    ldar w9, [x9]
+    scvtf d0, w9
+2:
+    dart_restore
+    ldur x0, [x29, #-8]
+    stur d0, [x29, #-0x40]
+    ldur w1, [x0, #0x13]
+    add x1, x1, x28, lsl #32
+    adrp x16, hc_drawer_title_continue
+    add x16, x16, :lo12:hc_drawer_title_continue
+    ldr x16, [x16]
+    br x16
+
+/* Exact four displaced instructions from _buildTextWidget+0xb4. Apply the desktop size
+ * before it is cached in the builder's local; default 12 replays the launcher value. */
+.globl hc_desktop_title_entry
+.p2align 4
+hc_desktop_title_entry:
+    ldur d0, [x0, #0x43]
+    dart_save
+    // Replay the original custom-config branch, not a global "drawer currently visible" flag.
+    ldur x16, [x29, #-8]
+    ldur w17, [x16, #0x17]
+    add x17, x17, x28, lsl #32
+    ldur w17, [x17, #0xb]
+    tbz w17, #4, 13f
+    adrp x9, hc_desktop_title_sp
+    add x9, x9, :lo12:hc_desktop_title_sp
+    adrp x10, hc_desktop_title_baseline
+    add x10, x10, :lo12:hc_desktop_title_baseline
+    b 14f
+13:
+    adrp x9, hc_drawer_title_sp
+    add x9, x9, :lo12:hc_drawer_title_sp
+    adrp x10, hc_shared_drawer_title_baseline
+    add x10, x10, :lo12:hc_shared_drawer_title_baseline
+14:
+    ldar w9, [x9]
+    cmp w9, #12
+    b.eq 3f
+    str d0, [x10]
+    scvtf d0, w9
+3:
+    dart_restore
+    ldur x0, [x29, #-8]
+    stur d0, [x29, #-0x58]
+    ldur w1, [x0, #0x17]
+    adrp x16, hc_desktop_title_continue
+    add x16, x16, :lo12:hc_desktop_title_continue
+    ldr x16, [x16]
+    br x16
+
+/* Resize the matching text line box too. Otherwise a larger font is clipped to the old
+ * twelve-sp box. Replay the no-call load window, preserving every register and NZCV. */
+.globl hc_desktop_title_height_entry
+.p2align 4
+hc_desktop_title_height_entry:
+    ldur w1, [x0, #0x6f]
+    add x1, x1, x28, lsl #32
+    ldur d0, [x1, #0x27]
+    dart_save
+    ldur x16, [x29, #-8]
+    ldur w17, [x16, #0x17]
+    add x17, x17, x28, lsl #32
+    ldur w17, [x17, #0xb]
+    tbz w17, #4, 15f
+    adrp x9, hc_desktop_title_sp
+    add x9, x9, :lo12:hc_desktop_title_sp
+    adrp x10, hc_desktop_title_baseline
+    add x10, x10, :lo12:hc_desktop_title_baseline
+    b 16f
+15:
+    adrp x9, hc_drawer_title_sp
+    add x9, x9, :lo12:hc_drawer_title_sp
+    adrp x10, hc_shared_drawer_title_baseline
+    add x10, x10, :lo12:hc_shared_drawer_title_baseline
+16:
+    ldar w9, [x9]
+    cmp w9, #12
+    b.eq 7f
+    stp d1, d2, [sp, #-16]!
+    ldr d2, [x10]
+    fcmp d2, #0.0
+    b.le 8f
+    scvtf d1, w9
+    fdiv d1, d1, d2
+    fmul d0, d0, d1
+8:
+    ldp d1, d2, [sp], #16
+7:
+    dart_restore
+    stur d0, [x29, #-0x60]
+    adrp x16, hc_desktop_title_height_continue
+    add x16, x16, :lo12:hc_desktop_title_height_continue
+    ldr x16, [x16]
+    br x16
+
+/* Drawer line box consumes a fixed titleHeight, not the supplied font-size argument. */
+.globl hc_drawer_title_height_entry
+.p2align 4
+hc_drawer_title_height_entry:
+    dart_save
+    adrp x9, hc_drawer_title_override
+    add x9, x9, :lo12:hc_drawer_title_override
+    ldar w9, [x9]
+    cbz w9, 9f
+    stp d1, d2, [sp, #-16]!
+    adrp x10, hc_drawer_title_baseline
+    add x10, x10, :lo12:hc_drawer_title_baseline
+    ldr d2, [x10]
+    fcmp d2, #0.0
+    b.le 10f
+    adrp x9, hc_drawer_title_sp
+    add x9, x9, :lo12:hc_drawer_title_sp
+    ldar w9, [x9]
+    scvtf d1, w9
+    fdiv d1, d1, d2
+    fmul d0, d0, d1
+10:
+    ldp d1, d2, [sp], #16
+9:
+    dart_restore
+    ldur x0, [x29, #-0x10]
+    stur d0, [x29, #-0x48]
+    ldur w1, [x0, #0x5f]
+    add x1, x1, x28, lsl #32
+    dart_save
+    adrp x9, hc_title_custom_enabled
+    add x9, x9, :lo12:hc_title_custom_enabled
+    ldar w9, [x9]
+    cbz w9, 12f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x17, x0
+    mov x0, x1
+    mov x1, x17
+    mov x2, x28
+    mov x3, x26
+    mov x4, x21
+    mov x5, x22
+    mov w6, #1
+    bl hc_title_custom_label
+    str x0, [sp, #8]
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+12:
+    dart_restore
+    adrp x16, hc_drawer_title_height_continue
+    add x16, x16, :lo12:hc_drawer_title_height_continue
+    ldr x16, [x16]
+    br x16
+
+/* Preserve XSpace/other title prefixes. Only the exact original new-install asset is hidden. */
+.globl hc_title_prefix_entry
+.p2align 4
+hc_title_prefix_entry:
+    dart_save
+    adrp x9, hc_title_hide_new_install
+    add x9, x9, :lo12:hc_title_hide_new_install
+    ldar w9, [x9]
+    cbz w9, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x1
+    bl hc_title_is_new_asset
+    cbz w0, 11f
+    ldr x0, [x27, #0xf8]
+    str x0, [sp, #8]
+11:
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+1:
+    dart_restore
+    mov x0, x1
+    mov x15, x29
+    ldp x29, x30, [x15], #16
+    ret
+
+/* Scope the folder answer to the drawing controller, not model/database processing. */
+.globl hc_title_folder_new_entry
+.p2align 4
+hc_title_folder_new_entry:
+    dart_save
+    adrp x9, hc_title_hide_new_install
+    add x9, x9, :lo12:hc_title_hide_new_install
+    ldar w9, [x9]
+    cbz w9, 5f
+    adrp x9, hc_title_folder_new_caller
+    add x9, x9, :lo12:hc_title_folder_new_caller
+    ldr x9, [x9]
+    cmp x30, x9
+    b.ne 5f
+    dart_restore
+    add x0, x22, #0x30 // Dart false
+    ret
+5:
+    dart_restore
+    adrp x16, hc_title_folder_new_original
+    add x16, x16, :lo12:hc_title_folder_new_original
+    ldr x16, [x16]
+    br x16
+
+.globl hc_title_light_entry
+.p2align 4
+hc_title_light_entry:
+    adrp x16, hc_title_hide_new_install
+    add x16, x16, :lo12:hc_title_hide_new_install
+    ldar w16, [x16]
+    cbz w16, 6f
+    mov x0, x22 // Original void-return method's Dart null.
+    ret
+6:
+    adrp x16, hc_title_light_original
+    add x16, x16, :lo12:hc_title_light_original
+    ldr x16, [x16]
+    br x16
 
 /*
  * geometry_trampoline entry, original, delta, enabled, hits
@@ -145,7 +751,8 @@ HC_LAYOUT_KNOBS(HC_ASM_KNOB)
 #undef HC_ASM_KNOB
 
 /* Interior original RenderBox layout splices. Preserve all live Dart registers
- * and NZCV; the helper writes only verified local frame slots, never heap fields.
+ * and NZCV; helpers write verified scalar frame slots (indicator also reuses its
+ * freshly allocated original EdgeInsets). They never reserve Dart heap space.
  * Original loops retain constraints, hit testing and ParentData.offset ownership. */
 .macro workspace_layout_splice name, slot, occupied
 .globl \name
@@ -159,7 +766,7 @@ HC_LAYOUT_KNOBS(HC_ASM_KNOB)
     str x10, [x9]
     adrp x9, hc_layout_dart_\slot\()_enabled
     add x9, x9, :lo12:hc_layout_dart_\slot\()_enabled
-    ldrb w10, [x9]
+    ldarb w10, [x9] // Acquire the release-published scalar/gate pair.
     cbz w10, 1f
     sub sp, sp, #704
     stp x0, x1, [sp, #0]
@@ -190,9 +797,9 @@ HC_LAYOUT_KNOBS(HC_ASM_KNOB)
     mov x0, x29
     mov x1, x28
     .if \occupied == 3
-    mov x2, x26
+    ldr x2, [sp, #0] /* original x0: freshly allocated EdgeInsets */
     mov x3, x22
-    bl hc_layout_indicator_pair
+    bl hc_layout_indicator_position
     .else
     mov x2, #\occupied
     bl hc_layout_workspace_layout
@@ -324,7 +931,92 @@ folder_geometry_splice hc_layout_folder_2_entry, 2
 folder_geometry_splice hc_layout_folder_3_entry, 3
 folder_geometry_splice hc_layout_folder_4_entry, 4
 
-/* Both finished animation branches receive the same fresh outer Padding. */
+/* The drop-back center's X and Y are calculated in separate no-call windows
+ * of the launcher's original function. Retain its Dart frame and replay only
+ * those four verified instructions per site through native scalar outputs. */
+.macro drop_geometry_splice name, kind
+.globl \name
+.p2align 4
+\name:
+    dart_save
+    adrp x9, hc_layout_drop_enabled
+    add x9, x9, :lo12:hc_layout_drop_enabled
+    ldar w10, [x9]
+    cbz w10, 2f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x29
+    mov x1, x28
+    mov x2, sp
+    mov x3, #\kind
+    bl hc_layout_drop_body
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+    dart_restore
+    adrp x16, hc_layout_drop_resume
+    add x16, x16, :lo12:hc_layout_drop_resume
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+2:
+    dart_restore
+    adrp x16, hc_layout_drop_original
+    add x16, x16, :lo12:hc_layout_drop_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+drop_geometry_splice hc_layout_drop_0_entry, 0
+drop_geometry_splice hc_layout_drop_1_entry, 1
+
+/* Both branches use the same original outer Insets. Entry runs after its bottom
+ * store; the helper changes only that object, never the animation/height frame local. */
 workspace_layout_splice hc_layout_capsule_entry, IndicatorMargin, 3
 
 /* The original screen-indicator builder owns its Dart frame and every Dart call.
@@ -555,3 +1247,557 @@ hc_layout_passthrough_entry:
     ldp x30, xzr, [x15], #16
     dart_restore
     ret
+
+
+/* Folder-layout original-code splices. Native helper never calls Dart, allocates,
+ * or holds a heap pointer. Each original GC return PC stays in libapp.so.
+ * All V registers and Dart scratch registers survive AAPCS; native SP remains16. */
+.macro folder_layout_splice kind
+.globl hc_folder_layout_\kind\()_entry
+.p2align 4
+hc_folder_layout_\kind\()_entry:
+    dart_save
+    adrp x9, hc_folder_layout_ready
+    add x9, x9, :lo12:hc_folder_layout_ready
+    ldar w9, [x9]
+    cbz w9, 1f
+    adrp x9, hc_folder_layout_requested
+    add x9, x9, :lo12:hc_folder_layout_requested
+    ldar x9, [x9]
+.if (\kind == 4) || (\kind == 5) || (\kind == 7)
+    tbz x9, #0, 1f
+.else
+    tbz x9, #1, 1f
+.endif
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, sp
+    mov x1, x27
+    mov w2, #\kind
+    lsl x3, x28, #32
+    bl hc_folder_layout_body
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+    dart_restore
+
+.if (\kind == 1) || (\kind == 6)
+    // Helper replays the dynamically decoded original double load before adjusting it.
+    mov x15, x29
+    ldp x29, x30, [x15], #16
+    ret
+.elseif (\kind == 2) || (\kind == 3)
+    // Original freshly allocated Double store, common to fast and GC slow paths.
+    stur d0, [x0, #7]
+    mov x15, x29
+    ldp x29, x30, [x15], #16
+    ret
+.else
+    b 2f
+.endif
+1:
+    dart_restore
+2:
+    adrp x16, hc_folder_layout_original
+    add x16, x16, :lo12:hc_folder_layout_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+folder_layout_splice 0
+folder_layout_splice 1
+folder_layout_splice 2
+folder_layout_splice 3
+folder_layout_splice 4
+folder_layout_splice 5
+folder_layout_splice 6
+
+folder_layout_splice 7
+
+/* Final workspace row spacing: both fixed and variable paths, no Dart BL relocation. */
+.macro grid_autofit_splice kind
+.globl hc_grid_autofit_\kind\()_entry
+.p2align 4
+hc_grid_autofit_\kind\()_entry:
+    dart_save
+    adrp x9, hc_grid_autofit_ready
+    add x9, x9, :lo12:hc_grid_autofit_ready
+    ldar w9, [x9]
+    cbz w9, 1f
+    adrp x9, hc_grid_autofit_requested
+    add x9, x9, :lo12:hc_grid_autofit_requested
+    ldar w9, [x9]
+    tbz x9, #0, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, sp
+    mov x1, x29
+    mov w2, #\kind
+    bl hc_grid_autofit_body
+    str w0, [sp, #144]
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    ldr w16, [sp, #144]
+    add sp, sp, #704
+    dart_restore
+
+    cbz w16, 2f
+    adrp x16, hc_grid_autofit_resume
+    add x16, x16, :lo12:hc_grid_autofit_resume
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+1:
+    dart_restore
+2:
+    adrp x16, hc_grid_autofit_original
+    add x16, x16, :lo12:hc_grid_autofit_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+grid_autofit_splice 0
+grid_autofit_splice 1
+
+// Folder preview coordinates consume the actually rendered SliverGrid, not unclamped metrics.
+.macro folder_preview_splice kind
+.globl hc_folder_preview_\kind\()_entry
+.p2align 4
+hc_folder_preview_\kind\()_entry:
+    dart_save
+    adrp x9, hc_folder_preview_enabled
+    add x9, x9, :lo12:hc_folder_preview_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, sp
+    mov x1, x29
+    mov w2, #\kind
+    lsl x3, x28, #32
+    bl hc_folder_preview_body
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+    dart_restore
+
+    b 2f
+1:
+    dart_restore
+2:
+    adrp x16, hc_folder_preview_original
+    add x16, x16, :lo12:hc_folder_preview_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+folder_preview_splice 0
+folder_preview_splice 1
+folder_preview_splice 2
+
+/*
+ * The DESTINATION preview inside FolderAnimController._calcFolderPreviewLoc is spliced twice:
+ *
+ *  kind 3 sits on the four words that end with the absolute index in x2, and only records it.
+ *  kind 4 sits on the write-back of the finished Offset and rewrites its two doubles.
+ *
+ * Both windows replay the original four words verbatim and then jump one word past the window,
+ * so the launcher's own arithmetic, GC call and write barrier are untouched. Neither window
+ * contains a branch or a Dart call, which is what makes a plain 16-byte splice safe here.
+ */
+.macro folder_preview_register_entry name, kind
+.globl \name
+.p2align 4
+\name:
+    dart_save
+    adrp x9, hc_folder_preview_enabled
+    add x9, x9, :lo12:hc_folder_preview_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, sp
+    mov x1, x29
+    mov w2, #\kind
+    lsl x3, x28, #32
+    bl hc_folder_preview_body
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+    dart_restore
+    b 2f
+1:
+    dart_restore
+2:
+    /*
+     * The backend continuation replays the four displaced words and returns into the launcher, so
+     * kind 3's x2 read and kind 4's Offset rewrite happen before that replay runs. Kind 4 stores the
+     * compressed pointer unchanged; kind 3 has already stashed its index.
+     */
+    adrp x16, hc_folder_preview_original
+    add x16, x16, :lo12:hc_folder_preview_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+folder_preview_register_entry hc_folder_preview_3_entry, 3
+folder_preview_register_entry hc_folder_preview_4_entry, 4
+folder_preview_register_entry hc_folder_preview_5_entry, 5
+folder_preview_register_entry hc_folder_preview_6_entry, 6
+
+// Read-only destination observer: records _calcRealIconPos' incoming receiver/item and the
+// cached grid insets it adds, without touching any of them. Never rewrites a field.
+.macro folder_probe_splice kind
+.globl hc_folder_probe_\kind\()_entry
+.p2align 4
+hc_folder_probe_\kind\()_entry:
+    dart_save
+    adrp x9, hc_folder_probe_enabled
+    add x9, x9, :lo12:hc_folder_probe_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, sp
+    mov x1, x29
+    mov w2, #\kind
+    lsl x3, x28, #32
+    bl hc_folder_probe_body
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+    dart_restore
+
+    b 2f
+1:
+    dart_restore
+2:
+    adrp x16, hc_folder_probe_original
+    add x16, x16, :lo12:hc_folder_probe_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+folder_probe_splice 0
+
+/* Large-folder original size producer and workspace-size consumers. No relocated calls. */
+.macro big_folder_size_splice name, kind
+.globl \name
+.p2align 4
+\name:
+    dart_save
+    adrp x9, hc_big_folder_size_enabled
+    add x9, x9, :lo12:hc_big_folder_size_enabled
+    ldar w10, [x9]
+    cbz w10, 2f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x29
+    mov x1, x28
+    mov x2, sp
+    mov x3, #\kind
+    mov x4, x26
+    mov x5, x22
+    bl hc_big_folder_size_body
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+    dart_restore
+    adrp x16, hc_big_folder_size_resume
+    add x16, x16, :lo12:hc_big_folder_size_resume
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+2:
+    // Partial registration must use untouched original arithmetic, including
+    // the screen-index local; never run a half-installed scalar carry path.
+    dart_restore
+    adrp x16, hc_big_folder_size_original
+    add x16, x16, :lo12:hc_big_folder_size_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+
+big_folder_size_splice hc_big_folder_size_0_entry, 0
+big_folder_size_splice hc_big_folder_size_1_entry, 1
+big_folder_size_splice hc_big_folder_size_2_entry, 2
+big_folder_size_splice hc_big_folder_size_3_entry, 3
+big_folder_size_splice hc_big_folder_size_4_entry, 4
+
+big_folder_size_splice hc_big_folder_size_5_entry, 5
+big_folder_size_splice hc_big_folder_size_6_entry, 6

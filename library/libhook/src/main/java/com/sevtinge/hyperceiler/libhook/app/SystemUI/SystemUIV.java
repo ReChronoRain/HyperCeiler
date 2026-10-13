@@ -138,6 +138,8 @@ public class SystemUIV extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassRendererSystemUI(),
+            isHyperOSVersion(4f));
         MiuiStub.createHook();
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);

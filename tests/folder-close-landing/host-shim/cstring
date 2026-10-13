@@ -1,0 +1,3 @@
+#pragma once
+extern "C" { __declspec(dllimport) void* memcpy(void*,const void*,unsigned long long); __declspec(dllimport) void* memset(void*,int,unsigned long long); __declspec(dllimport) int memcmp(const void*,const void*,unsigned long long); }
+namespace std { using ::memcpy; using ::memset; using ::memcmp; }

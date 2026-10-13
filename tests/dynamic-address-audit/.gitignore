@@ -1,0 +1,35 @@
+runtime/
+run-*/
+baseline-copy/
+rollback-copy/
+bindings-HyperCeiler/
+geometry/
+device-*/
+
+# Transaction snapshots, refreshed in place by transaction.py. Git already holds
+# both endpoints of the change, so a second copy of the same bytes only lets the
+# two drift apart - which is exactly what happened once already.
+BASELINE.zip
+MODIFIED_FILE.zip
+DIFF_FILE.patch
+ROLLBACK.sh
+*hashes.json
+
+# Build output and evidence dumps. geometry/ is regenerated per run; device-*/
+# holds per-run modules_config.db captures pulled off a device.
+*.exe
+*.pdb
+*.obj
+*.lib
+*.log
+*.jsonl
+*.png
+*.mp4
+*.apk
+geometry-results.json
+
+# Build/signature receipts for one specific APK build. The signature block is
+# still v3-only because signing.properties points at the debug keystore, which
+# is expected; the per-build hashes are not worth carrying.
+apk-verification.json
+apk-signature.txt

@@ -906,7 +906,8 @@ final class DockGlassHost {
             Object original = field.get(root);
             if (!(original instanceof String)) return false;
             String ownPackage = view.getContext().getPackageName();
-            if (!"com.sevtinge.hyperceiler".equals(ownPackage)) return false;
+            if (!"com.sevtinge.hyperceiler".equals(ownPackage)
+                && !"com.android.systemui".equals(ownPackage)) return false;
             // Instance field of OUR windowless ViewRoot only. Never alter static flags,
             // global settings, system properties, or another window's package/filter.
             field.set(root, original + "," + ownPackage);
@@ -928,6 +929,15 @@ final class DockGlassHost {
             }
         }
         return null;
+    }
+
+    void close() {
+        main.post(() -> {
+            for (String id : new java.util.ArrayList<>(entries.keySet())) {
+                try { release(id); }
+                catch (Exception error) { Log.w(TAG, "Renderer retirement failed", error); }
+            }
+        });
     }
 
     private void release(String id) {

@@ -85,7 +85,9 @@ public final class HomeLayoutAtomicReloadTest {
             android.content.SharedPreferences prefs = () -> { reads[0]++; return new HashMap<>(rows); };
             try (var cursor = (android.database.Cursor) build.invoke(null, prefs)) {
                 rows.put("prefs_key_" + MARGIN, 70);
-                check(reads[0] == 1 && cursor.moveToFirst() && cursor.getColumnCount() == 37, "snapshot shape / getAll count");
+                check(reads[0] == 1 && cursor.moveToFirst()
+                    && cursor.getColumnCount() == ((String[][]) specs.get(null)).length + 1,
+                    "snapshot shape / getAll count");
                 for (int i = 1; i < cursor.getColumnCount(); i++) {
                     String key = cursor.getColumnName(i);
                     if (key.equals(MARGIN)) check(cursor.getInt(i) == 184, "provider cursor changed after creation");

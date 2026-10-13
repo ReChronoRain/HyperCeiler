@@ -18,6 +18,10 @@ struct Image {
     size_t segmentCount;
     uint64_t apkEntryOffset;
     bool fromApkEntry;
+    // Relative file view: entire bare file or one verified stored APK entry.
+    uint64_t fileViewBytes;
+    uint64_t sourceDevice;
+    uint64_t sourceInode;
 };
 
 bool FindImageByName(const char* basename, Image* out);

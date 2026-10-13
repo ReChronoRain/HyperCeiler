@@ -10,6 +10,7 @@ public final class MatrixCursor implements Cursor {
     }
     public boolean moveToFirst() { return row != null; }
     public int getInt(int index) { return ((Number) row[index]).intValue(); }
+    public String getString(int index) { return (String) row[index]; }
     public boolean isNull(int index) { return row[index] == null; }
     public int getColumnCount() { return columns.length; }
     public String getColumnName(int index) { return columns[index]; }

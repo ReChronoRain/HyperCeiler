@@ -23,16 +23,16 @@ public final class HomeLayoutIdleSnapshotTest {
         try { body.run(); passed++; System.out.println("PASS " + name); }
         catch (AssertionError error) { failed++; System.out.println("FAIL " + name + ": " + error.getMessage()); }
     }
-    private static Map<String, Integer> rows(int margin) {
-        Map<String, Integer> rows = new HashMap<>();
-        for (String[] spec : keys) rows.put("prefs_key_" + spec[1], 0);
+    private static Map<String, Object> rows(int margin) {
+        Map<String, Object> rows = new HashMap<>();
+        for (String[] spec : keys) rows.put("prefs_key_" + spec[1], "stringset".equals(spec[0]) ? "0:" : 0);
         rows.put("prefs_key_home_layout_unlock_grids_cell_x", 4);
         rows.put("prefs_key_home_layout_unlock_grids_cell_y", 6);
         rows.put("prefs_key_" + ENABLE, 1);
         rows.put("prefs_key_" + MARGIN, margin);
         return rows;
     }
-    private static void publish(Map<String, Integer> values) {
+    private static void publish(Map<String, ?> values) {
         try { cache.set(null, values); }
         catch (IllegalAccessException error) { throw new AssertionError(error); }
     }

@@ -13,6 +13,10 @@ class CodeView {
 public:
     explicit CodeView(const Image& image) : image_(image) {}
 
+    // 64 KiB per live read, bounded temporary storage (never a stale code cache).
+    static constexpr size_t kReadChunkWords = 16384;
+    bool ExecutableRangesOk() const;
+    bool ReadWords(uint32_t va, uint32_t* out, size_t count) const;
     bool Word(uint32_t va, uint32_t* out) const;
 
     bool InText(uint32_t va) const;

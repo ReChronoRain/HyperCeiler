@@ -113,6 +113,9 @@ public class SharedPrefsProvider extends ContentProvider {
                 case "boolean" -> PrefsBridge.putBoolean(parts[1], Boolean.parseBoolean(parts[2]));
                 case "integer" -> PrefsBridge.putInt(parts[1], Integer.parseInt(parts[2]));
                 case "string" -> PrefsBridge.putString(parts[1], parts[2]);
+                case "remove" -> PrefsBridge.remove(parts[1]);
+                case "stringset" -> PrefsBridge.putStringSet(parts[1],
+                    HomeLayoutPrefsSnapshot.decodeTitleRecords(parts[2]));
                 default -> {
                     result.putBoolean("ok", false);
                     result.putString("why", "unknown type " + parts[0]);

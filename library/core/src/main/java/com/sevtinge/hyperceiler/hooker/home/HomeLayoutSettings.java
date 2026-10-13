@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
 import androidx.preference.PreferenceCategory;
@@ -49,6 +50,14 @@ public class HomeLayoutSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        if (isHyperOSVersion(4f)) {
+            // OS4's existing native keys now have a single entry on their respective pages.
+            findPreference("prefs_key_home_layout_icon_scale_enable").setVisible(false);
+            findPreference("prefs_key_home_layout_icon_scale").setVisible(false);
+            findPreference("prefs_key_home_layout_recents_hide_clear").setVisible(false);
+            findPreference("prefs_key_home_layout_recents_no_clear").setVisible(false);
+        }
+
         boolean mWidthEnable = getSharedPreferences().getBoolean("prefs_key_home_folder_width", false);
         boolean mPaddingEnable = getSharedPreferences().getBoolean("prefs_key_home_folder_horizontal_padding_enable", false);
 

@@ -360,7 +360,7 @@ void run_dock_motion() {
 
         unavailable_reported = false;
         __android_log_print(ANDROID_LOG_INFO, kTag,
-            "motion v33 ready: semantic native scale + independent Hotseat projection reconnect=%u",
+            "motion v36 transport ready (source hooks validated separately) reconnect=%u",
             reconnects);
 
         bool disconnected = false;

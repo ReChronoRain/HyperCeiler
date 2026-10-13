@@ -1337,7 +1337,6 @@
     <string name="home_title_notif_color">Notification dot background color customize</string>
     <string name="home_title_notif_color_picker">Custom color</string>
     <string name="home_title_icon_size">Icon size</string>
-    <string name="home_title_icon_size_moved">From HyperOS 4 on the icon size is adjusted under Layout → Icon scale. Please change it there.</string>
     <string name="home_recent">Recents</string>
     <string name="home_recent_animation_speed">Animation speed</string>
     <string name="home_recent_unlock_pin">Unlock pinned apps</string>
@@ -1877,6 +1876,9 @@
     <string name="home_layout_recents_hide_clear_desc">Hides the button but keeps its function</string>
     <string name="home_layout_recents_no_clear_title">Disable the recents clear button</string>
     <string name="home_layout_recents_no_clear_desc">Removes the button and what it does</string>
+    <string name="home_recent_clear_button">Recents clear button</string>
+    <string name="home_recent_clear_action_hide">Hide (keep its function)</string>
+    <string name="home_recent_clear_action_disable">Disable (remove its function)</string>
     <string name="home_layout_folder_cols_title">Folder columns</string>
     <string name="home_layout_folder_cols_desc">Uses the folder column count from the folder settings page</string>
 </resources>

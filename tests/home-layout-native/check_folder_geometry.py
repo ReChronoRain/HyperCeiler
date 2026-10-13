@@ -12,27 +12,23 @@ assert 'sub sp, sp, #704' in stub and 'add sp, sp, #704' in stub
 assert 'mov x2, sp' in stub and 'bl hc_layout_folder_body' in stub
 assert 'hc_layout_folder_resume' in stub and 'hc_layout_folder_original' in stub
 assert 'ldar w10, [x9]' in stub and 'cbz w10, 2f' in stub
-assert 'candidates[i].address + 16' in c and 'full.size()' in c
-assert 'frame[2] != full[2]' in c
+assert 'candidates[i].address+16' in c
+assert 'folder_geometry_contract(consumers' in c
+assert 'folder_call_target' in h and 'folder_helper' in h
+assert 'folder_relative_branch' in h and 'map[to]' in h
+assert 'g_folder_geometry_checked=true' in c
+assert 'g_folder_geometry_checked=false' in c
 assert 'workspace_write(fp, -0x18, workspace_read<double>(fp, -0x30))' in h
 assert 'workspace_read<double>(fp, -0x18)' in h
 assert 'top & 7' in (root/'app/src/main/cpp/targets/home/home_indicator_pair.h').read_text()
 assert 'thread_local home_layout::WorkspaceRenderSnapshot rendered_workspace' in c
-assert 'folder_ready || g_knobs[2]' in c
-assert c.count('&rendered_workspace') == 2
+assert 'folder_ready || drop_ready || g_knobs[2]' in c
+assert c.count('&rendered_workspace') == 4  # folder, drop, close and large-folder consumers
 assert 'rendered->begin_preview(fp, valid ? g[1] : 0)' in h
 assert 'rendered->finish_preview(fp, top)' in h
-print('folder original-body guards: PASS (5 windows; whole bodies; +16 outside patches; partial install stock fallback; outgoing argument overwrite; rendered/off-state snapshots; thread-local cache; SP16/Dart8)')
+print('folder original-body guards: PASS (5 windows; semantic bodies; named calls; decoded operands; +16 outside patches; partial install stock fallback; outgoing argument overwrite; rendered/off-state snapshots; thread-local cache; SP16/Dart8)')
 if len(sys.argv)>1:
- from dart_dump import Elf,Symbols,engine
- e=Elf(sys.argv[1]);s=Symbols(sys.argv[2]);windows=[]
- for name,size,offset,words in re.findall(r'\{"([^"]+)", (0x\w+), (0x\w+),\s*\{([^}]+)\}\}',h):
-  va,z=max([(v,z) for v,z,n in s.entries if n==name],key=lambda t:t[1]);assert z==int(size,16)
-  off=int(offset,16);expect=b''.join(int(w.strip(),16).to_bytes(4,'little') for w in words.split(','));assert e.read(va+off,16)==expect
-  assert all(i.mnemonic not in ['bl','blr','b','ret'] for i in engine().disasm(expect,va+off))
-  windows.append((va+off,va+off+16));print(f'fixture {name}+{off:#x}: exact 4 instructions; no relocated Dart call')
- assert all(not any(a<=b<b2 for a,b2 in windows) for _,b in windows)
- for name,label in [('WidgetPositionUtil.getCellPosition','kFolderPositionOriginal'),('FolderIconGetxController.calOriginPreviewIconLoc','kFolderSizeOriginal')]:
-  text=h.split(label+'[] = {')[1].split('};')[0];expect=b''.join(int(w,16).to_bytes(4,'little') for w in re.findall('0x[0-9a-f]+',text))
-  va,z=max([(v,z) for v,z,n in s.entries if n==name],key=lambda t:t[1]);assert len(expect)==z and e.read(va,z)==expect
- print('launcher 7722 full bodies: PASS (129 + 169 original instructions)')
+ import subprocess
+ # Run the production binder against real ELF, relocation, fields, control flow,
+ # helper bodies and partial-install refusal. No regex assertion substitutes for it.
+ subprocess.run([sys.executable,'-X','utf8',str(root/'tests/os4-audit-folder-geometry-20261005/verify.py')],check=True)

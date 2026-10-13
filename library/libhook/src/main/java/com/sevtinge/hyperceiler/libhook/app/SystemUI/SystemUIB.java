@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app.SystemUI;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
@@ -114,7 +115,11 @@ public class SystemUIB extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassRendererSystemUI(),
+            isHyperOSVersion(4f));
         MiuiStub.createHook();
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.systemui.navigation.BackGestureWidthOS4(),
+            isHyperOSVersion(4f));
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         // Actions

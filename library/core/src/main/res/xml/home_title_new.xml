@@ -35,6 +35,27 @@
             app:minValue="50"
             app:stepValue="1" />
 
+        <!-- OS4-only replacement, made visible by HomeTitleSettings after the version check. -->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_icon_scale_enable"
+            android:summary="@string/home_layout_icon_scale_desc"
+            android:title="@string/home_layout_icon_scale_title"
+            app:isPreferenceVisible="false" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="70"
+            android:dependency="prefs_key_home_layout_icon_scale_enable"
+            android:key="prefs_key_home_layout_icon_scale"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s%%"
+            app:maxValue="140"
+            app:minValue="60"
+            app:showSeekBarValue="true"
+            app:stepValue="1"
+            app:isPreferenceVisible="false" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_title_big_icon_corner"

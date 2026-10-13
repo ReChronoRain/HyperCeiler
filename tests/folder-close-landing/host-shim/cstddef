@@ -1,0 +1,7 @@
+#pragma once
+// Freestanding host build (run.py passes -nostdinc++): only the declarations the
+// snapshotters actually reference. size_t/ptrdiff_t mirror the MSVC x64 ABI the
+// host objects are linked for, so a header that only wants the type name links.
+using size_t = unsigned long long;
+using ptrdiff_t = long long;
+using max_align_t = long long;

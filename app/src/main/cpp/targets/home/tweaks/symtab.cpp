@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 #include "symtab.h"
+#include "htcache.h"
 
 #include "a64.h"
+#include "scanner.h"
 
 #include <elf.h>
 #include <stdarg.h>
@@ -9,7 +11,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <chrono>
+#include <array>
 #include <vector>
+#include <algorithm>
+#include <limits>
 
 extern "C" {
 #include "xz/xz.h"
@@ -19,14 +25,48 @@ namespace hometweaks {
 namespace {
 
 const TargetFunction kTargets[] = {
+        {"AssistantDragDataHelper.putWidgetIntoBundle", "AssistantDragDataHelper.putWidgetIntoBundle", "OS4 Gadget 传输"},
+        {"GadgetInfoModel.cloneModel", "GadgetInfoModel.cloneModel", "OS4 Gadget 模型校验"},
+        {"BundleImpl.putInt", "BundleImpl.putInt", "OS4 Gadget 原序列化调用"},
+        {"AssistantDragToPAHandler.canDragToPA", "AssistantDragToPAHandler.canDragToPA", "OS4 安卓小部件负一屏原逻辑"},
+        {"AssistantDragToPAHandler._isSpanSupportedByPa", "AssistantDragToPAHandler._isSpanSupportedByPa", "OS4 小部件尺寸校验"},
+        {"AssistantDragToPAHandler._ensureDragSessionId", "AssistantDragToPAHandler._ensureDragSessionId", "OS4 小部件交接校验"},
+        // Only registered names survive the mini-ELF scan. These are validation/render targets,
+        // not UI switches; omitting one makes original-body title injection silently do nothing.
+        {"ShortcutIconWidget._buildTextWidget", "ShortcutIconWidget._buildTextWidget", "OS4 桌面标题原逻辑"},
+        {"GridConfig.getTitleTextSize", "GridConfig.getTitleTextSize", "OS4 抽屉标题字号"},
+        {"AppIcon.build", "AppIcon.build", "OS4 抽屉标题构建"},
+        {"ShortcutIconWidget.getTextColor", "ShortcutIconWidget.getTextColor", "OS4 桌面标题颜色"},
+        {"Color.withAlpha", "Color.withAlpha", "OS4 颜色字段和分配器校验"},
+        {"ShortcutInfoModel.getPackageName", "ShortcutInfoModel.getPackageName", "OS4 自定义标题数据路径校验"},
+        {"ShortcutInfoModel.getComponentName", "ShortcutInfoModel.getComponentName", "OS4 自定义标题数据路径校验"},
+        {"PinShortcutInfoModel.getComponentName", "PinShortcutInfoModel.getComponentName", "OS4 自定义标题数据路径校验"},
+        {"ShortcutInfoModel.copyShortcutModel", "ShortcutInfoModel.copyShortcutModel", "OS4 自定义标题数据路径校验"},
+        {"PinShortcutInfoModel.copyShortcutModel", "PinShortcutInfoModel.copyShortcutModel", "OS4 自定义标题数据路径校验"},
+        {"PinShortcutInfoModel.makePinAppComponentName", "PinShortcutInfoModel.makePinAppComponentName", "OS4 自定义标题数据路径校验"},
+        {"ShortcutIconWidgetConfig.customShortcutIconConfig", "ShortcutIconWidgetConfig.customShortcutIconConfig", "OS4 抽屉文字组件配置"},
+        {"allocateTwoByteString", "allocateTwoByteString", "OS4 自定义标题数据路径校验"},
+        {"ShortcutIconWidget.getPrefixAssetName", "ShortcutIconWidget.getPrefixAssetName", "OS4 新安装标题标记"},
+        {"FolderInfoModel.hasNewInstalledApp", "FolderInfoModel.hasNewInstalledApp", "OS4 文件夹新安装标记"},
+        {"FolderIconGetxController.updateNewInstallNotification", "FolderIconGetxController.updateNewInstallNotification", "OS4 新安装标记调用校验"},
+        {"ShortcutIconWidget._addNewInstallLight", "ShortcutIconWidget._addNewInstallLight", "OS4 新安装光效"},
+        {"FolderGridViewGetxController.getFirstVisibleItemIndex", "FolderGridViewGetxController.getFirstVisibleItemIndex", "OS4 关闭预览原始索引取值校验"},
+        {"FolderClingGetxController.calcPositionForCellX", "FolderClingGetxController.calcPositionForCellX", "OS4 关闭预览原始坐标计算校验"},
+        {"Inst|find", "Inst|find", "OS4 文件夹原始 singleton 取值校验"},
+        {"WidgetPositionUtil.transformPointX", "WidgetPositionUtil.transformPointX", "OS4 文件夹屏幕坐标变换校验"},
+        {"SwipeController.isRtl", "SwipeController.isRtl", "OS4 文件夹方向分支校验"},
+        {"Offset.translate", "Offset.translate", "OS4 原始 Offset 分配器消费校验"},
         {"WidgetPositionUtil.getCellPosition", "WidgetPositionUtil.getCellPosition", "OS4 文件夹动画坐标原逻辑"},
         {"FolderIconGetxController.calOriginPreviewIconLoc", "FolderIconGetxController.calOriginPreviewIconLoc", "OS4 文件夹动画尺寸原逻辑"},
+        {"CellLayoutGetxController.isItemPosEmpty", "CellLayoutGetxController.isItemPosEmpty", "OS4 grid count bounds receiver"},
+        {"CellLayoutGetxController.calculateCenterGlobalPosition", "CellLayoutGetxController.calculateCenterGlobalPosition", "OS4 拖放回位中心原逻辑"},
         // OS4 original-body splice/branch guards. Registration does not hook getters.
         {"HotSeatLayoutDelegate.cellLayout", "HotSeatLayoutDelegate.cellLayout", "OS4 原逻辑注入校验"},
         {"LauncherIndicatorState._buildScreenIndicator", "LauncherIndicatorState._buildScreenIndicator", "OS4 原逻辑注入校验"},
         {"LauncherIndicatorState.isInEditing", "LauncherIndicatorState.isInEditing", "OS4 原逻辑注入校验"},
         {"LauncherIndicatorState._showIndicator", "LauncherIndicatorState._showIndicator", "OS4 原逻辑注入校验"},
         {"LauncherIndicatorState._animateIndicator", "LauncherIndicatorState._animateIndicator", "OS4 原逻辑注入校验"},
+        {"LauncherIndicatorState._getCurrentIndicatorType", "LauncherIndicatorState._getCurrentIndicatorType", "OS4 idle indicator type producer"},
         {"LauncherIndicatorState._refreshIndicator", "LauncherIndicatorState._refreshIndicator", "OS4 原逻辑注入校验"},
         {"HotseatLayerGetxController._isSeatsFull", "HotseatLayerGetxController._isSeatsFull", "OS4 原逻辑注入校验"},
         {"HotseatDragHandler._isSeatsFull", "HotseatDragHandler._isSeatsFull", "OS4 原逻辑注入校验"},
@@ -99,6 +139,11 @@ const TargetFunction kTargets[] = {
          "GridController.workspaceIndicatorMarginBottom", "布局 指示器底部边距(上游)"},
         {"_CapsuleIndicatorState.build", "_CapsuleIndicatorState.build", "布局 胶囊组件构建探针"},
         {"Container.build", "Container.build", "布局 胶囊外边距字段布局校验"},
+        // Slot 7 reads Container.padding from the function that actually consumes it,
+        // rather than trusting Container.build's own read set - `Container.build`
+        // delegates padding at the end, so the field is only visible downstream.
+        {"Container._paddingIncludingDecoration", "Container._paddingIncludingDecoration",
+         "布局 Container.padding 字段消费侧校验"},
         {"LauncherIndicatorState.build", "LauncherIndicatorState.build",
          "布局 胶囊第三动画包装调用点"},
         {"Padding.createRenderObject", "Padding.createRenderObject",
@@ -140,6 +185,9 @@ const TargetFunction kTargets[] = {
          */
         {"HotSeatsConstants2.hotSeatsMarginBottom", "HotSeatsConstants2.hotSeatsMarginBottom",
          "候选 dock 边距视图"},
+        {"GridSizeCalRules._calVariableHeight", "GridSizeCalRules._calVariableHeight", "解锁布局工作区自动间距"},
+        {"GridSizeCalRules.calVarCellHeight", "GridSizeCalRules.calVarCellHeight", "工作区最终高度上限校验"},
+        {"PhoneCellSizeHandler.calVariableValues", "PhoneCellSizeHandler.calVariableValues", "解锁布局工作区自动间距"},
         {"GridConfig.calGridSize", "GridConfig.calGridSize", "候选 布局总算"},
         {"GridController.statusBarHeight", "GridController.statusBarHeight", "候选 状态栏高度"},
         {"GridController.navigateBarHeight", "GridController.navigateBarHeight", "候选 导航栏高度"},
@@ -154,6 +202,19 @@ const TargetFunction kTargets[] = {
          "候选 搜索框宽增量"},
         {"GridController.iconTopPadding", "GridController.iconTopPadding", "候选 图标上内边距"},
         {"GridController.titleHeight", "GridController.titleHeight", "候选 标题高度"},
+        {"AppIconRemoteClick.handleRemoteClick", "AppIconRemoteClick.handleRemoteClick", "文件夹启动应用自动关闭"},
+        {"FolderClingGetxController.handleFolderClingClose", "FolderClingGetxController.handleFolderClingClose", "文件夹原始关闭链路"},
+        {"Inst|isRegistered", "Inst|isRegistered", "文件夹控制器注册检查"},
+        {"FolderGridView._buildScrollableGrid", "FolderGridView._buildScrollableGrid", "文件夹关闭图标坐标一致性"},
+        {"SliverGridDelegateWithFixedCrossAxisCount.getLayout", "SliverGridDelegateWithFixedCrossAxisCount.getLayout", "文件夹关闭图标坐标一致性"},
+        {"FolderAnimController._setCloseGridItemAnim", "FolderAnimController._setCloseGridItemAnim", "文件夹关闭图标坐标一致性"},
+        {"FolderAnimController._refreshCachedGridParams", "FolderAnimController._refreshCachedGridParams", "文件夹关闭图标坐标一致性"},
+        {"FolderClingGetxController.gridContainerWidth", "FolderClingGetxController.gridContainerWidth", "文件夹关闭图标坐标一致性"},
+        {"FolderAnimController._calcRealIconPos", "FolderAnimController._calcRealIconPos", "文件夹图标正空隙居中边界"},
+        {"FolderAnimController._setGridEndLoc", "FolderAnimController._setGridEndLoc", "文件夹关闭图标坐标一致性"},
+        {"FolderAnimController._calcFolderPreviewLoc", "FolderAnimController._calcFolderPreviewLoc", "文件夹关闭预览落点一致性"},
+        {"FolderAnimController._initGridViewItemAnimParams", "FolderAnimController._initGridViewItemAnimParams", "文件夹动画锚点负空隙截零"},
+        {"ShortcutIconDropMixin.folderItemPadding", "ShortcutIconDropMixin.folderItemPadding", "文件夹原始图标内边距"},
         {"GridController.folderCellHeight", "GridController.folderCellHeight", "候选 文件夹格高"},
         {"FolderGridViewGetxController.folderCellHeight",
          "FolderGridViewGetxController.folderCellHeight", "文件夹行间距"},
@@ -218,6 +279,26 @@ const TargetFunction kTargets[] = {
          * the 6309 image), so the hook path can bind them; `newPadding*` are shared-entry thunks and
          * are deliberately absent - bind_dart_target refuses their prologue.
          */
+        {"FolderGridViewGetxController.calGridWidth", "FolderGridViewGetxController.calGridWidth", "文件夹原逻辑布局"},
+        {"FolderClingWidget.getFolderClingWidth", "FolderClingWidget.getFolderClingWidth", "文件夹原逻辑布局"},
+        {"BigFolderCommonStrategy.calItemSize", "BigFolderCommonStrategy.calItemSize", "大文件夹工作区尺寸原逻辑"},
+        {"BigFolderCommonStrategy._calItemSizeByWidth", "BigFolderCommonStrategy._calItemSizeByWidth", "大文件夹预览尺寸原逻辑"},
+        {"BigFolderCommonStrategy._calItemSizeByHeight", "BigFolderCommonStrategy._calItemSizeByHeight", "大文件夹预览尺寸原逻辑"},
+        {"FolderLayoutStrategy.calItemSize", "FolderLayoutStrategy.calItemSize", "大文件夹工作区尺寸原逻辑"},
+        {"FolderIconGetxController.folderIconSize", "FolderIconGetxController.folderIconSize", "大文件夹工作区尺寸原逻辑"},
+        {"FolderIconGetxController.checkOrUpdateStrategy", "FolderIconGetxController.checkOrUpdateStrategy", "大文件夹工作区尺寸原逻辑"},
+        {"FolderClingGetxController._calcFolderPaddingTop", "FolderClingGetxController._calcFolderPaddingTop", "文件夹原逻辑布局"},
+        {"FolderHeaderWidget.build", "FolderHeaderWidget.build", "文件夹标题容器原逻辑"},
+        {"AndroidAttributeUtils.convertGravity", "AndroidAttributeUtils.convertGravity", "文件夹 Stack Alignment 语义"},
+        {"Stack.updateRenderObject", "Stack.updateRenderObject", "文件夹标题对齐字段校验"},
+        {"AndroidAttributeUtils.convertTextAlignment", "AndroidAttributeUtils.convertTextAlignment", "文件夹标题居中独立语义校验"},
+        {"_encodeParagraphStyle", "_encodeParagraphStyle", "文件夹标题枚举 index 非 Smi 校验"},
+        {"CrossAxisAlignment._getChildCrossAxisOffset", "CrossAxisAlignment._getChildCrossAxisOffset", "文件夹标题列居中校验"},
+        {"Flex.updateRenderObject", "Flex.updateRenderObject", "文件夹标题列字段校验"},
+        {"RxObjectMixin.value", "RxObjectMixin.value", "文件夹配置接收对象校验"},
+        {"FolderHeaderWidget._buildText", "FolderHeaderWidget._buildText", "文件夹原逻辑布局"},
+        {"FolderHeaderWidget._buildEditor", "FolderHeaderWidget._buildEditor", "文件夹原逻辑布局"},
+        {"_FlutterTextViewState._resolveEffectiveTextAlign", "_FlutterTextViewState._resolveEffectiveTextAlign", "文件夹原逻辑布局"},
         {"FolderGridViewGetxController.folderGridPaddingTop",
          "FolderGridViewGetxController.folderGridPaddingTop", "候选 文件夹网格上边距"},
         {"FolderGridViewGetxController.folderGridPaddingBottom",
@@ -293,26 +374,44 @@ const char* StrAt(const char* table, size_t tableSize, uint32_t offset) {
     return (memchr(s, '\0', max) != nullptr) ? s : nullptr;
 }
 
-bool VaInExecSegment(const Image& image, uint32_t va) {
+bool VaInExecSegment(const Image& image, uint32_t va, size_t bytes = 4) {
+    if (!bytes || (va & 3u) || (bytes & 3u) || !image.base || (image.base & 3u)
+        || image.segmentCount == 0 || image.segmentCount > std::size(image.segments)
+        || uint64_t(bytes) > uint64_t(UINT32_MAX) + 1u - va
+        || uintptr_t(va) > UINTPTR_MAX - image.base) return false;
+    const uintptr_t address = image.base + uintptr_t(va);
     for (size_t i = 0; i < image.segmentCount; ++i) {
         const Segment& s = image.segments[i];
-        if ((s.flags & 0x1u) == 0) continue;
-        const uint64_t begin = s.begin - image.base;
-        const uint64_t end = s.end - image.base;
-        if (static_cast<uint64_t>(va) >= begin && static_cast<uint64_t>(va) + 4 <= end) {
-            return true;
-        }
+        if ((s.flags & 7u) != 5u || s.begin < image.base || s.begin >= s.end
+            || (s.begin & 3u) || (s.end & 3u)) continue;
+        if (address >= s.begin && address < s.end && bytes <= s.end - address) return true;
     }
     return false;
 }
 
-bool LooksLikeDartFunction(const Image& image, uint32_t va) {
-    if (!VaInExecSegment(image, va)) return false;
-    if (va < 8) return false;
-    const uint32_t* p = reinterpret_cast<const uint32_t*>(
-            image.base + static_cast<uintptr_t>(va));
-    return p[0] == 0xA9BF79FDu  &&
-           p[1] == 0xAA0F03FDu ;
+bool LooksLikeDartFunction(const Image& image, uint32_t va, const char *name, uint32_t size) {
+    if (!name || va < 8 || (va & 3) || size < 8 || size > kMaxFunctionBytes
+        || (size & 3) || !VaInExecSegment(image, va, size)) return false;
+    const bool text_align = NameEquals(name, "AndroidAttributeUtils.convertTextAlignment");
+    const bool grid_width = NameEquals(name, "FolderClingGetxController.gridContainerWidth");
+    // Copy just the dispatch prefix, never dereference an execution mapping directly.
+    // A failed/partial read cannot classify even when it wrote matching initial words.
+    // Tiny normal framed bodies retain their old admission regardless of exact name.
+    const size_t required = grid_width ? 7 : text_align ? 3 : 2;
+    const size_t count = std::min<size_t>(size / sizeof(uint32_t), required);
+    std::array<uint32_t, 7> p{};
+    if (!CodeView(image).ReadWords(va, p.data(), count)) return false;
+    if (p[0] == 0xA9BF79FDu && p[1] == 0xAA0F03FDu) return true;
+    // Exact named read-only semantic roots, not anonymous leaf patch targets.
+    if (text_align) return size >= 12 && p[0] == 0xaa0103e3u && p[1] == 0xf1000c7fu
+        && (p[2] & 0xff00001fu) == 0x5400000cu;
+    if (grid_width) return size >= 28 && (p[0] & 0xffe00fff) == 0xb8400020 && p[1] == 0x8b1c8000
+        && (p[5] & 0xffe00fff) == 0xfc400000 && p[6] == 0xd65f03c0;
+    if (NameEquals(name, "ShortcutInfoModel.getComponentName") && size == 0x48)
+        return p[0] == 0xd28020f1u && p[1] == 0xb8716822u;
+    if (NameEquals(name, "allocateTwoByteString") && size == 0xec)
+        return p[0] == 0xf94001e2u && p[1] == 0x93407c42u;
+    return false;
 }
 
 void SetStatus(char* buf, size_t cap, const char* fmt, ...) {
@@ -320,6 +419,10 @@ void SetStatus(char* buf, size_t cap, const char* fmt, ...) {
     va_start(ap, fmt);
     vsnprintf(buf, cap, fmt, ap);
     va_end(ap);
+}
+
+bool BytesInBuffer(uint64_t offset, uint64_t bytes, size_t total) {
+    return offset <= total && bytes <= total - offset;
 }
 
 uint64_t DictSizeFromProps(uint8_t d) {
@@ -354,19 +457,25 @@ bool PatchBlockDictSize(std::vector<uint8_t>* blob, uint8_t newProps) {
     return true;
 }
 
+uint64_t SymbolNowMs() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()).count();
+}
 enum xz_ret RunDecoder(const std::vector<uint8_t>& packed, uint32_t dictMax,
-                       std::vector<uint8_t>* out) {
+                       std::vector<uint8_t>* out, uint64_t deadline = 0) {
     struct xz_dec* dec = xz_dec_init(XZ_PREALLOC, dictMax);
     if (dec == nullptr) return XZ_MEM_ERROR;
-    struct xz_buf buf {};
-    buf.in = packed.data();
-    buf.in_size = packed.size();
+    struct xz_buf buf{}; buf.in = packed.data(); buf.in_size = packed.size();
     buf.out = out->data();
-    buf.out_size = out->size();
     enum xz_ret ret = XZ_OK;
-    for (int round = 0; round < 4; ++round) {
+    for (unsigned round = 0; round < 1024; ++round) {
+        if (deadline && SymbolNowMs() >= deadline) break;
+        buf.out_size = deadline ? std::min(out->size(), buf.out_pos + size_t(65536)) : out->size();
+        const size_t input = buf.in_pos, output = buf.out_pos;
         ret = xz_dec_run(dec, &buf);
-        if (ret != XZ_UNSUPPORTED_CHECK) break;
+        if (ret == XZ_UNSUPPORTED_CHECK) continue;
+        if (ret != XZ_OK || (input == buf.in_pos && output == buf.out_pos)
+            || buf.out_pos == out->size()) break;
     }
     xz_dec_end(dec);
     if (ret == XZ_STREAM_END && out->size() != buf.out_pos) out->resize(buf.out_pos);
@@ -384,10 +493,13 @@ SymbolIndex& SymbolIndex::Instance() {
 }
 
 void SymbolIndex::ResetForTest() {
+    cachePersistTried_ = false;
     loaded_ = false;
     foundCount_ = 0;
     status_[0] = '\0';
     memset(has_, 0, sizeof(has_));
+    memset(span_, 0, sizeof(span_));
+    attempted_ = false;
 }
 
 bool SymbolIndex::Has(const char* needle) const {
@@ -410,9 +522,99 @@ bool SymbolIndex::Find(const char* needle, uint32_t* va, uint32_t* size) const {
     return false;
 }
 
-bool SymbolIndex::EnsureLoaded(const Image& image) {
-    if (attempted_) return loaded_;
+// A whitelist neighbour is not a function boundary: retain bounds from all STT_FUNC entries.
+bool SymbolIndex::SpanFrom(uint32_t va, uint32_t* span) const {
+    if (!loaded_ || va == 0 || span == nullptr) return false;
+    for (size_t i = 0; i < kTargetCount; ++i) {
+        if (has_[i] && va_[i] == va && span_[i] >= 4) {
+            *span = span_[i];
+            return true;
+        }
+    }
+    return false;
+}
+
+namespace {
+uint64_t SymbolRegistryId() {
+    uint64_t h = 1469598103934665603ull;
+    for (const auto& target : kTargets) {
+        for (const char* p = target.fullName; *p; ++p) { h ^= uint8_t(*p); h *= 1099511628211ull; }
+        h ^= 0; h *= 1099511628211ull;
+    }
+    return h;
+}
+uint32_t SymbolRead32(const uint8_t* p) {
+    return uint32_t(p[0]) | uint32_t(p[1]) << 8 | uint32_t(p[2]) << 16 | uint32_t(p[3]) << 24;
+}
+void SymbolPut32(std::vector<uint8_t>& out, uint32_t v) {
+    for (unsigned k = 0; k < 4; ++k) out.push_back(uint8_t(v >> (k * 8)));
+}
+}
+bool SymbolIndex::TryLoadCached(const Image& image, uint64_t imageId) {
+    if (loaded_) return true;
+    if (!CodeView(image).ExecutableRangesOk()) return false;
+    if (!imageId) imageId = ImageIdentity(image);
+    std::vector<uint8_t> payload;
+    if (!LoadSymbolCache(imageId, &payload) || payload.size() != 12 + kTargetCount * 16
+        || SymbolRead32(payload.data()) != uint32_t(SymbolRegistryId())
+        || SymbolRead32(payload.data() + 4) != uint32_t(SymbolRegistryId() >> 32)
+        || SymbolRead32(payload.data() + 8) != kTargetCount) return false;
+    std::array<uint32_t, kMaxTargetSlots> va{}, size{}, span{};
+    std::array<bool, kMaxTargetSlots> has{};
+    int found = 0;
+    for (size_t i = 0; i < kTargetCount; ++i) {
+        const uint8_t* p = payload.data() + 12 + i * 16;
+        const uint32_t flag = SymbolRead32(p);
+        va[i] = SymbolRead32(p + 4); size[i] = SymbolRead32(p + 8); span[i] = SymbolRead32(p + 12);
+        if (flag > 1 || (!flag && (va[i] || size[i] || span[i]))) return false;
+        if (!flag) continue;
+        if (!span[i] || span[i] > 0x100000 || (span[i] & 3)
+            || !VaInExecSegment(image, va[i], span[i])
+            || !LooksLikeDartFunction(image, va[i], kTargets[i].fullName, size[i])) return false;
+        has[i] = true; ++found;
+    }
+    if (!found) return false;
+    for (size_t i = 0; i < kTargetCount; ++i) {
+        va_[i] = va[i]; size_[i] = size[i]; span_[i] = span[i]; has_[i] = has[i];
+    }
+    foundCount_ = found; loaded_ = true; attempted_ = true; cachePersistTried_ = true;
+    SetStatus(status_, sizeof(status_), "原始镜像符号缓存命中：%d/%zu", found, kTargetCount);
+    LOGI("%s；不解压符号表", status_); return true;
+}
+bool SymbolIndex::SaveCached(const Image& image) {
+    if (!loaded_) return false;
+    std::vector<uint8_t> payload;
+    const uint64_t registry = SymbolRegistryId();
+    SymbolPut32(payload, uint32_t(registry)); SymbolPut32(payload, uint32_t(registry >> 32));
+    SymbolPut32(payload, uint32_t(kTargetCount));
+    for (size_t i = 0; i < kTargetCount; ++i) {
+        const bool valid = has_[i] && span_[i] && span_[i] <= 0x100000;
+        SymbolPut32(payload, valid ? 1u : 0u);
+        SymbolPut32(payload, valid ? va_[i] : 0u); SymbolPut32(payload, valid ? size_[i] : 0u);
+        SymbolPut32(payload, valid ? span_[i] : 0u);
+    }
+    return SaveSymbolCache(ImageIdentity(image), payload);
+}
+
+bool SymbolIndex::EnsureLoaded(const Image& image, uint64_t budgetMs) {
+    if (attempted_) {
+        if (loaded_ && !budgetMs && !cachePersistTried_) {
+            cachePersistTried_ = true; (void)SaveCached(image);
+        }
+        return loaded_;
+    }
+    const uint64_t deadline = budgetMs ? SymbolNowMs() + std::min(budgetMs, uint64_t(300)) : 0;
+    const auto expired = [&]() { return deadline && SymbolNowMs() >= deadline; };
+    struct ResetBudgetAttempt {
+        SymbolIndex* self; bool bounded;
+        ~ResetBudgetAttempt() { if (bounded && !self->loaded()) self->ResetForTest(); }
+    } reset{this, budgetMs != 0};
+    if (TryLoadCached(image)) return true;
     attempted_ = true;
+    if (!CodeView(image).ExecutableRangesOk()) {
+        SetStatus(status_, sizeof(status_), "目标执行段范围/权限不合法");
+        return false;
+    }
 
     Elf64_Ehdr eh{};
     if (!ReadImageFile(image, 0, &eh, sizeof(eh))) {
@@ -420,24 +622,29 @@ bool SymbolIndex::EnsureLoaded(const Image& image) {
         return false;
     }
     if (memcmp(eh.e_ident, ELFMAG, SELFMAG) != 0 || eh.e_ident[EI_CLASS] != ELFCLASS64 ||
+        eh.e_ident[EI_DATA] != ELFDATA2LSB || eh.e_ident[EI_VERSION] != EV_CURRENT ||
+        eh.e_machine != EM_AARCH64 || eh.e_version != EV_CURRENT ||
         eh.e_shentsize != sizeof(Elf64_Shdr) || eh.e_shnum == 0 ||
         eh.e_shnum > kMaxSections || eh.e_shstrndx >= eh.e_shnum) {
         SetStatus(status_, sizeof(status_), "ELF 节头表不合法（shnum=%u）", eh.e_shnum);
         return false;
     }
 
-    std::vector<uint8_t> shdrs(static_cast<size_t>(eh.e_shnum) * sizeof(Elf64_Shdr));
-    if (!ReadImageFile(image, eh.e_shoff, shdrs.data(), shdrs.size())) {
+    std::vector<Elf64_Shdr> shdrs(eh.e_shnum);
+    if (!ReadImageFile(image, eh.e_shoff, shdrs.data(), shdrs.size() * sizeof(Elf64_Shdr))) {
         SetStatus(status_, sizeof(status_), "读不到节头表（off=%#llx）",
                   static_cast<unsigned long long>(eh.e_shoff));
         return false;
     }
-    const Elf64_Shdr* sh = reinterpret_cast<const Elf64_Shdr*>(shdrs.data());
+    const Elf64_Shdr* sh = shdrs.data();
 
     const Elf64_Shdr& shstr = sh[eh.e_shstrndx];
-    std::vector<char> shstrBuf(static_cast<size_t>(shstr.sh_size) + 1, '\0');
-    if (shstr.sh_size == 0 || shstr.sh_size > (1u << 20) ||
-        !ReadImageFile(image, shstr.sh_offset, shstrBuf.data(), shstr.sh_size)) {
+    if (shstr.sh_type != SHT_STRTAB || shstr.sh_size == 0 || shstr.sh_size > (1u << 20)) {
+        SetStatus(status_, sizeof(status_), ".shstrtab 尺寸/类型不合法");
+        return false;
+    }
+    std::vector<char> shstrBuf(static_cast<size_t>(shstr.sh_size), '\0');
+    if (!ReadImageFile(image, shstr.sh_offset, shstrBuf.data(), shstrBuf.size())) {
         SetStatus(status_, sizeof(status_), "读不到 .shstrtab");
         return false;
     }
@@ -473,13 +680,14 @@ bool SymbolIndex::EnsureLoaded(const Image& image) {
     uint8_t smallProps = 0;
     const bool patched = PropsForDictSize(kXzDictDesired, &smallProps) &&
                          PatchBlockDictSize(&packed, smallProps);
-    enum xz_ret ret = RunDecoder(packed, patched ? kXzDictDesired : kXzDictMax, &debug);
-    if (ret != XZ_STREAM_END && patched) {
+    if (expired()) return false;
+    enum xz_ret ret = RunDecoder(packed, patched ? kXzDictDesired : kXzDictMax, &debug, deadline);
+    if (ret != XZ_STREAM_END && patched && !expired()) {
         LOGW("改了块头字典尺寸后解压失败（ret=%d），改回原样重试", static_cast<int>(ret));
         packed.resize(static_cast<size_t>(debugSec->sh_size));
         if (ReadImageFile(image, debugSec->sh_offset, packed.data(), packed.size())) {
             debug.resize(kXzOutCap);
-            ret = RunDecoder(packed, kXzDictMax, &debug);
+            ret = RunDecoder(packed, kXzDictMax, &debug, deadline);
         }
     }
     if (ret != XZ_STREAM_END) {
@@ -494,54 +702,71 @@ bool SymbolIndex::EnsureLoaded(const Image& image) {
         SetStatus(status_, sizeof(status_), "解压出来的调试数据太短");
         return false;
     }
-    const Elf64_Ehdr* deh = reinterpret_cast<const Elf64_Ehdr*>(debug.data());
-    if (memcmp(deh->e_ident, ELFMAG, SELFMAG) != 0 || deh->e_shentsize != sizeof(Elf64_Shdr) ||
-        deh->e_shnum == 0 || deh->e_shoff + static_cast<uint64_t>(deh->e_shnum) * sizeof(Elf64_Shdr) > debugSize) {
+    Elf64_Ehdr deh{};
+    memcpy(&deh, debug.data(), sizeof(deh));
+    if (memcmp(deh.e_ident, ELFMAG, SELFMAG) != 0 || deh.e_ident[EI_CLASS] != ELFCLASS64 ||
+        deh.e_ident[EI_DATA] != ELFDATA2LSB || deh.e_ident[EI_VERSION] != EV_CURRENT ||
+        deh.e_machine != EM_AARCH64 || deh.e_version != EV_CURRENT ||
+        deh.e_shentsize != sizeof(Elf64_Shdr) || deh.e_shnum == 0 || deh.e_shnum > kMaxSections ||
+        !BytesInBuffer(deh.e_shoff, uint64_t(deh.e_shnum) * sizeof(Elf64_Shdr), debugSize)) {
         SetStatus(status_, sizeof(status_), "调试数据不是预期的 ELF");
         return false;
     }
-    const Elf64_Shdr* dsh = reinterpret_cast<const Elf64_Shdr*>(debug.data() + deh->e_shoff);
+    std::vector<Elf64_Shdr> debugSections(deh.e_shnum);
+    memcpy(debugSections.data(), debug.data() + deh.e_shoff, debugSections.size() * sizeof(Elf64_Shdr));
+    const Elf64_Shdr* dsh = debugSections.data();
 
     const Elf64_Shdr* symtab = nullptr;
     const Elf64_Shdr* strtab = nullptr;
-    for (uint32_t i = 0; i < deh->e_shnum; ++i) {
+    for (uint32_t i = 0; i < deh.e_shnum; ++i) {
         if (dsh[i].sh_type != SHT_SYMTAB) continue;
         if (dsh[i].sh_entsize != sizeof(Elf64_Sym)) continue;
-        if (dsh[i].sh_link >= deh->e_shnum) continue;
-        if (dsh[i].sh_offset + dsh[i].sh_size > debugSize) continue;
+        if (dsh[i].sh_link >= deh.e_shnum || dsh[i].sh_size % sizeof(Elf64_Sym) != 0) continue;
+        if (!BytesInBuffer(dsh[i].sh_offset, dsh[i].sh_size, debugSize)) continue;
         symtab = &dsh[i];
         strtab = &dsh[dsh[i].sh_link];
         break;
     }
-    if (symtab == nullptr || strtab == nullptr || strtab->sh_offset + strtab->sh_size > debugSize) {
+    if (symtab == nullptr || strtab == nullptr || strtab->sh_type != SHT_STRTAB ||
+        !BytesInBuffer(strtab->sh_offset, strtab->sh_size, debugSize)) {
         SetStatus(status_, sizeof(status_), "调试 ELF 里没有可用的符号表");
         return false;
     }
 
-    const uint32_t count = static_cast<uint32_t>(symtab->sh_size / sizeof(Elf64_Sym));
-    if (count > kMaxSymbols) {
-        SetStatus(status_, sizeof(status_), "符号表异常大（%u 条）", count);
+    const uint64_t wideCount = symtab->sh_size / sizeof(Elf64_Sym);
+    if (wideCount > kMaxSymbols) {
+        SetStatus(status_, sizeof(status_), "符号表异常大（%llu 条）",
+                  static_cast<unsigned long long>(wideCount));
         return false;
     }
-    const Elf64_Sym* syms = reinterpret_cast<const Elf64_Sym*>(debug.data() + symtab->sh_offset);
+    const uint32_t count = static_cast<uint32_t>(wideCount);
     const char* strtabData = reinterpret_cast<const char*>(debug.data() + strtab->sh_offset);
     const size_t strtabSize = static_cast<size_t>(strtab->sh_size);
 
     std::vector<uint32_t> textVas;
     textVas.reserve(count / 4 + 8);
+    bool ambiguous[kTargetCount]{};
 
     for (uint32_t i = 0; i < count; ++i) {
-        const Elf64_Sym& sym = syms[i];
-        if (sym.st_shndx != SHN_UNDEF && sym.st_value != 0 &&
-            ELF64_ST_TYPE(sym.st_info) == STT_FUNC) {
-            textVas.push_back(static_cast<uint32_t>(sym.st_value));
-        }
-        if (sym.st_name == 0 || sym.st_value == 0) continue;
+        if ((i & 255u) == 0 && expired()) return false;
+        Elf64_Sym sym{};
+        memcpy(&sym, debug.data() + symtab->sh_offset + uint64_t(i) * sizeof(sym), sizeof(sym));
+        // Neither a data symbol nor a truncated 64-bit address is a function root.
+        if (sym.st_shndx == SHN_UNDEF || sym.st_shndx >= deh.e_shnum ||
+            !(dsh[sym.st_shndx].sh_flags & SHF_EXECINSTR) ||
+            ELF64_ST_TYPE(sym.st_info) != STT_FUNC || sym.st_value == 0 ||
+            sym.st_value > UINT32_MAX || (sym.st_value & 3) ||
+            sym.st_size > UINT32_MAX || (sym.st_size & 3) ||
+            !VaInExecSegment(image, static_cast<uint32_t>(sym.st_value)) ||
+            (sym.st_size && !VaInExecSegment(image, static_cast<uint32_t>(sym.st_value), sym.st_size))) continue;
+        textVas.push_back(static_cast<uint32_t>(sym.st_value));
+        if (sym.st_name == 0) continue;
         const char* name = StrAt(strtabData, strtabSize, sym.st_name);
         if (name == nullptr) continue;
         for (size_t t = 0; t < kTargetCount; ++t) {
             if (!NameEquals(name, kTargets[t].fullName)) continue;
             const uint32_t size = static_cast<uint32_t>(sym.st_size);
+            if (has_[t] && va_[t] != sym.st_value) ambiguous[t] = true;
             if (has_[t] && size_[t] >= size) break;
             va_[t] = static_cast<uint32_t>(sym.st_value);
             size_[t] = size;
@@ -550,8 +775,17 @@ bool SymbolIndex::EnsureLoaded(const Image& image) {
         }
     }
 
+    std::sort(textVas.begin(), textVas.end());
+    textVas.erase(std::unique(textVas.begin(), textVas.end()), textVas.end());
     for (size_t t = 0; t < kTargetCount; ++t) {
+        if (expired()) return false;
         if (!has_[t]) continue;
+        if (ambiguous[t]) { has_[t] = false; va_[t] = size_[t] = span_[t] = 0; continue; }
+        const auto next_function = std::upper_bound(textVas.begin(), textVas.end(), va_[t]);
+        if (next_function != textVas.end()) {
+            const uint32_t span = *next_function - va_[t];
+            if (VaInExecSegment(image, va_[t], span)) span_[t] = span;
+        }
         if (size_[t] == 0) {
             uint32_t next = 0;
             for (uint32_t candidate : textVas) {
@@ -562,7 +796,7 @@ bool SymbolIndex::EnsureLoaded(const Image& image) {
         if (size_[t] == 0 || size_[t] > kMaxFunctionBytes) {
             size_[t] = (size_[t] == 0) ? 0 : kMaxFunctionBytes;
         }
-        if (size_[t] == 0 || !LooksLikeDartFunction(image, va_[t])) {
+        if (size_[t] == 0 || !LooksLikeDartFunction(image, va_[t], kTargets[t].fullName, size_[t])) {
             has_[t] = false;
             size_[t] = 0;
             va_[t] = 0;
@@ -577,6 +811,7 @@ bool SymbolIndex::EnsureLoaded(const Image& image) {
     for (size_t t = 0; t < kTargetCount; ++t) {
         if (has_[t]) ++foundCount_;
     }
+    if (expired()) return false;
     loaded_ = foundCount_ > 0;
     if (loaded_) {
         SetStatus(status_, sizeof(status_), "符号表解析成功：%d/%zu 个目标函数（%u 条符号）",
@@ -584,6 +819,7 @@ bool SymbolIndex::EnsureLoaded(const Image& image) {
     } else {
         SetStatus(status_, sizeof(status_), "符号表里没找到任何目标函数（%u 条符号）", count);
     }
+    if (loaded_ && !budgetMs) { cachePersistTried_ = true; (void)SaveCached(image); }
     return loaded_;
 }
 

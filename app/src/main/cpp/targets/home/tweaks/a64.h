@@ -21,28 +21,27 @@ inline uint32_t TbBit(uint32_t w) {
 inline uint32_t TbReg(uint32_t w) { return w & 0x1Fu; }
 
 inline bool DecodeBranch(uint32_t w, uint32_t addr, uint32_t* target) {
+    if (target == nullptr || (addr & 3u) != 0) return false;
+    int64_t imm = 0;
     if ((w & 0xFC000000u) == 0x14000000u || (w & 0xFC000000u) == 0x94000000u) {
-        int32_t imm = static_cast<int32_t>(w & 0x03FFFFFFu);
+        imm = w & 0x03FFFFFFu;
         if (imm & 0x02000000) imm -= 0x04000000;
-        *target = static_cast<uint32_t>(
-                static_cast<int64_t>(addr) + static_cast<int64_t>(imm) * 4);
-        return true;
-    }
-    if ((w & 0xFF000010u) == 0x54000000u) {
-        int32_t imm = static_cast<int32_t>((w >> 5) & 0x7FFFFu);
+    } else if ((w & 0xFF000010u) == 0x54000000u ||
+               (w & 0x7E000000u) == 0x34000000u) {
+        // B.cond and both 32/64-bit CBZ/CBNZ use signed imm19.
+        // Omitting compare-and-branch can falsely prove a patch window has no inbound edge.
+        imm = (w >> 5) & 0x7FFFFu;
         if (imm & 0x40000) imm -= 0x80000;
-        *target = static_cast<uint32_t>(
-                static_cast<int64_t>(addr) + static_cast<int64_t>(imm) * 4);
-        return true;
-    }
-    if ((w & 0x7E000000u) == 0x36000000u) {
-        int32_t imm = static_cast<int32_t>((w >> 5) & 0x3FFFu);
+    } else if ((w & 0x7E000000u) == 0x36000000u) {
+        imm = (w >> 5) & 0x3FFFu;
         if (imm & 0x2000) imm -= 0x4000;
-        *target = static_cast<uint32_t>(
-                static_cast<int64_t>(addr) + static_cast<int64_t>(imm) * 4);
-        return true;
+    } else {
+        return false;
     }
-    return false;
+    const int64_t decoded = static_cast<int64_t>(addr) + imm * 4;
+    if (decoded < 0 || decoded > UINT32_MAX) return false;
+    *target = static_cast<uint32_t>(decoded);
+    return true;
 }
 
 inline bool MakeB(uint32_t from, uint32_t to, uint32_t* out) {

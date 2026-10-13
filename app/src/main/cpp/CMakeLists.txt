@@ -17,7 +17,8 @@ enable_language(ASM)
 target_sources(HyperCeilerNative PRIVATE targets/home/home_layout_targets.cpp)
 target_sources(HyperCeilerNative PRIVATE targets/home/home_layout_config.cpp
     targets/home/home_layout_hooks.cpp
-    targets/home/home_layout_dart_arm64.S)
+    targets/home/home_layout_dart_arm64.S
+    targets/home/home_back_gesture_arm64.S)
 
 # Launcher tweaks: the sign- and symbol-table-driven plan/apply path for the grid,
 # icon-size and recents-clear features. Its files are third-party (Apache-2.0) and keep

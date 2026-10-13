@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.DisableLiteVersion;
+import com.sevtinge.hyperceiler.libhook.rules.personalassistant.ClearGadgetBridge;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.UnlockWidgetCountLimit;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.WidgetBlurOpt;
 
@@ -31,6 +32,10 @@ public class PersonalAssistant extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        // Home's guarded native serializer emits the private marker only while its switch is on.
+        // Do not gate this receiver on a stale startup preference snapshot.
+        initHook(new ClearGadgetBridge(),
+            com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion(4f));
         // initHook(new BlurOverlay(), false);
         initHook(new DisableLiteVersion(), PrefsBridge.getBoolean("personal_assistant_disable_lite_version"));
         initHook(new UnlockWidgetCountLimit(), PrefsBridge.getBoolean("personal_assistant_unlock_widget_count_limit"));

@@ -406,8 +406,8 @@ struct GotHookRequest {
     void *replacement = nullptr;
 };
 
-template<typename ReadMemory>
-inline bool install_got_hooks(const elf::ElfImage &image,
+template<typename Image, typename ReadMemory>
+inline bool install_got_hooks(const Image &image,
     std::span<const GotHookRequest> requests,
     std::vector<GotHook<>> &installed, ReadMemory read_memory,
     bool guard_pages = true, bool *rollback_clean = nullptr,
@@ -545,8 +545,8 @@ inline bool restore_got_hooks(std::span<const GotHook<>> installed,
  * published - the caller may still run, it simply lacks the extra page
  * protection.
  */
-template<typename ReadMemory, typename PublishOriginal>
-inline bool install_madvise_guard(const elf::ElfImage &image, ReadMemory read_memory,
+template<typename Image, typename ReadMemory, typename PublishOriginal>
+inline bool install_madvise_guard(const Image &image, ReadMemory read_memory,
     void *replacement, PublishOriginal publish_original,
     std::vector<GotHook<>> &installed, bool *rollback_clean = nullptr,
     ImageIdentity identity = {}, std::vector<GotHook<>> *residual = nullptr) {

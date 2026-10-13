@@ -1,0 +1,4 @@
+#pragma once
+extern "C" __declspec(dllimport) int puts(const char*); namespace std { using ::puts; }
+
+extern "C" __declspec(dllimport) int printf(const char*,...); namespace std { using ::printf; }

@@ -21,8 +21,11 @@ package com.sevtinge.hyperceiler.hooker;
 
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion;
 
 import android.content.Context;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -37,6 +40,20 @@ public class HomeFragment extends DashboardFragment {
     LayoutPreference mHeader;
     LayoutPreference mHeaderHomeIsRust;
     LayoutPreference mHeaderHomeIsRustNoSupport;
+    private static final String PREF_KEY_VERSION_CODE = "prefs_key_framework_check_version_code";
+    private static final String PREF_KEY_API_VERSION = "prefs_key_framework_check_api_version";
+    private SharedPreferences mFrameworkPrefs;
+    private boolean mHomeIsRuntime;
+    private final SharedPreferences.OnSharedPreferenceChangeListener mFrameworkListener =
+        (prefs, key) -> {
+            if (key == null || PREF_KEY_VERSION_CODE.equals(key) || PREF_KEY_API_VERSION.equals(key)) {
+                Activity activity = getActivity();
+                if (activity == null) return;
+                activity.runOnUiThread(() -> {
+                    if (isResumed()) updateRuntimeSupportWarning();
+                });
+            }
+        };
 
     @Override
     public int getPreferenceScreenResId() {
@@ -70,26 +87,44 @@ public class HomeFragment extends DashboardFragment {
         mHeaderHomeIsRust = findPreference("prefs_key_home_is_rust");
         mHeaderHomeIsRustNoSupport = findPreference("prefs_key_home_is_rust_no_support");
 
-        final String PREF_KEY_VERSION = "prefs_key_framework_check_version";
-        final String PREF_KEY_VERSION_CODE = "prefs_key_framework_check_version_code";
-        final String PREF_KEY_API_VERSION = "prefs_key_framework_check_api_version";
-
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), "com.miui.home");
         boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
-        boolean isHyperOsPackage = isHyperOsPackage(getContext(), "com.miui.home");
+        mHomeIsRuntime = isHyperOsPackage(getContext(), "com.miui.home");
 
+        mHeader.setVisible(check && !isDebugMode);
+        if (mHeaderHomeIsRust != null) mHeaderHomeIsRust.setVisible(mHomeIsRuntime);
+        updateRuntimeSupportWarning();
+        if (findPreference("prefs_key_home_os4_unadapted_tip") != null) {
+            findPreference("prefs_key_home_os4_unadapted_tip").setVisible(isHyperOSVersion(4f));
+        }
+    }
 
-        String XposedVersion = getSharedPreferences().getString(PREF_KEY_VERSION, "Unknown");
-        long XposedVersionCode = getSharedPreferences().getLong(PREF_KEY_VERSION_CODE, 0);
-        int XposedApiVersion = getSharedPreferences().getInt(PREF_KEY_API_VERSION, 0);
+    // Preserve the existing numeric LSPosed baseline. A version name suffix
+    // such as "-it" is branding, not a runtime-hook capability requirement.
+    // Missing service metadata is pending, not evidence of incompatibility.
+    static boolean shouldWarnRuntimeUnsupported(boolean runtime, int api, long code) {
+        return runtime && api > 0 && code > 0 && (api < 102 || code < 7846);
+    }
+
+    private void updateRuntimeSupportWarning() {
+        if (mHeaderHomeIsRustNoSupport == null) return;
+        SharedPreferences prefs = getSharedPreferences();
+        int api = prefs == null ? -1 : prefs.getInt(PREF_KEY_API_VERSION, -1);
+        long code = prefs == null ? -1 : prefs.getLong(PREF_KEY_VERSION_CODE, -1);
+        mHeaderHomeIsRustNoSupport.setVisible(shouldWarnRuntimeUnsupported(mHomeIsRuntime, api, code));
+    }
 
         boolean isRustNoSupport = !(XposedApiVersion >= 102
             && XposedVersionCode >= 7846
             && (XposedVersionCode >= 7854 || XposedVersion.contains("it")));
 
-        mHeader.setVisible(check && !isDebugMode);
-        mHeaderHomeIsRust.setVisible(isHyperOsPackage);
-        mHeaderHomeIsRustNoSupport.setVisible(isRustNoSupport);
+    @Override
+    public void onPause() {
+        if (mFrameworkPrefs != null) {
+            mFrameworkPrefs.unregisterOnSharedPreferenceChangeListener(mFrameworkListener);
+            mFrameworkPrefs = null;
+        }
+        super.onPause();
     }
 
 }

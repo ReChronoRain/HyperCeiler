@@ -14,8 +14,21 @@ local.properties
 /app/canary
 /app/debug
 signing.properties
+*.keystore
+*.jks
 /.kotlin
 /library/hook
 *.apk
 /handover/
 /.workbuddy/
+
+# Python bytecode from the tests/ verification scripts.
+__pycache__/
+
+# Raw LSPosed/KernelSU log bundles from other people's devices. They carry IMEI-adjacent
+# identifiers, package inventories and full thread dumps - append-only evidence to read,
+# never something to publish. The lasting conclusions live in handover/ and .workbuddy/.
+tests/lsposed-log-*/
+
+# AI agent working conventions (kept locally, not tracked)
+AGENTS.md

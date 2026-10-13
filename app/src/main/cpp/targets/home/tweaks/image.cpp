@@ -1,305 +1,220 @@
 // SPDX-License-Identifier: Apache-2.0
 #include "image.h"
-
 #include "common.h"
-
-// The launcher's Dart image is a stored entry inside its own APK; the helper below is this
-// project's already-verified zip entry locator (it validates the stored method and the bounds).
 #include "nativehook/native_image.h"
-
+#include "nativehook/memory_io.h"
 #include <elf.h>
 #include <fcntl.h>
 #include <link.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/sysmacros.h>
+#include <cerrno>
+#include <limits>
+#include <array>
+#include <sstream>
+#include <set>
 
 namespace hometweaks {
 namespace {
-
-struct SearchRequest {
-    const char* basename;
-    Image result;
-    bool found;
-    int matches;
-};
-
-int CollectCallback(struct dl_phdr_info* info, size_t, void* opaque) {
-    auto* req = static_cast<SearchRequest*>(opaque);
-    if (info == nullptr || info->dlpi_name == nullptr) return 0;
-    const char* slash = strrchr(info->dlpi_name, '/');
-    const char* base = slash == nullptr ? info->dlpi_name : slash + 1;
-    if (strcmp(base, req->basename) != 0) return 0;
-    ++req->matches;
-    if (req->found) return 0;
-    Image& image = req->result;
-    memset(&image, 0, sizeof(image));
-    image.base = static_cast<uintptr_t>(info->dlpi_addr);
-    image.fromApkEntry = false;
-    const size_t pathLen = strlen(info->dlpi_name);
-    if (pathLen >= sizeof(image.path)) return 0;
-    memcpy(image.path, info->dlpi_name, pathLen + 1);
-    /*
-     * The linker reports a synthetic "…base.apk!/lib/arm64-v8a/libapp.so" for an image that is
-     * mapped straight out of the APK. That path cannot be opened, and every later read - section
-     * headers, .gnu_debugdata, and the original words of a patch site - has to be taken from the
-     * APK at the entry's own offset. Recording the split here is what makes those reads land on the
-     * right bytes; leaving it unset is why the symbol table looked unavailable.
-     */
-    if (const char* bang = strchr(image.path, '!'); bang != nullptr && bang[1] != '\0') {
-        const std::string apkPath(image.path, static_cast<size_t>(bang - image.path));
-        // The entry inside the archive is named without the separator's own leading slash
-        // ("lib/arm64-v8a/libapp.so"), while the synthetic path writes it as "!/lib/...".
-        const char* entry = bang + 1;
-        while (*entry == '/') ++entry;
-        if (const auto stored = nhk::zip_stored_entry(apkPath, entry)) {
-            if (apkPath.size() < sizeof(image.path)) {
-                memcpy(image.path, apkPath.c_str(), apkPath.size() + 1);
-                image.apkEntryOffset = stored->first;
-                image.fromApkEntry = true;
-                LOGI("镜像来自 APK 内嵌条目：%s 起始 %#llx 大小 %llu", entry,
-                     static_cast<unsigned long long>(stored->first),
-                     static_cast<unsigned long long>(stored->second));
-            }
-        } else {
-            LOGW("APK 内嵌条目 %s 在 %s 里找不到（符号表与补丁原值将无法读取）", entry,
-                 apkPath.c_str());
-        }
+struct MapRow { nhk::FileMapping map; bool readable; };
+// One bounded, complete snapshot per discovery. No static mutable inventory or timer.
+bool ReadMaps(std::string& text) {
+    const int fd=open("/proc/self/maps",O_RDONLY|O_CLOEXEC);
+    if(fd<0)return false;
+    text.clear();std::array<char,4096> chunk{};bool good=true;
+    for(;;){const ssize_t n=read(fd,chunk.data(),chunk.size());
+        if(n<0&&errno==EINTR)continue;
+        if(n<0){good=false;break;}
+        if(n==0)break;
+        if(size_t(n)>chunk.size()||size_t(n)>2*1024*1024-text.size()){good=false;break;}
+        text.append(chunk.data(),size_t(n));
     }
-    for (size_t i = 0; i < info->dlpi_phnum && image.segmentCount < 16; ++i) {
-        const ElfW(Phdr)& ph = info->dlpi_phdr[i];
-        if (ph.p_type != PT_LOAD || ph.p_memsz == 0) continue;
-        image.segments[image.segmentCount++] = {
-                image.base + static_cast<uintptr_t>(ph.p_vaddr),
-                image.base + static_cast<uintptr_t>(ph.p_vaddr + ph.p_memsz),
-                ph.p_flags};
-    }
-    req->found = image.segmentCount > 0;
-    return 0;
-}
-
-struct ApkMapLine {
-    uintptr_t begin;
-    uintptr_t end;
-    uint64_t fileOff;
-    char path[256];
-};
-
-bool ParseMapLine(const char* line, ApkMapLine* out) {
-    unsigned long long b = 0, e = 0, off = 0, ino = 0;
-    unsigned int maj = 0, min = 0;
-    char perms[8] = {0};
-    int consumed = 0;
-    if (sscanf(line, "%llx-%llx %7s %llx %x:%x %llu %n", &b, &e, perms, &off, &maj, &min,
-               &ino, &consumed) < 7) {
-        return false;
-    }
-    out->begin = static_cast<uintptr_t>(b);
-    out->end = static_cast<uintptr_t>(e);
-    out->fileOff = static_cast<uint64_t>(off);
-    out->path[0] = '\0';
-    const char* p = line + consumed;
-    while (*p == ' ' || *p == '\t') ++p;
-    if (*p != '\0' && *p != '\n') {
-        size_t n = 0;
-        while (p[n] != '\0' && p[n] != '\n' && n < sizeof(out->path) - 1) {
-            out->path[n] = p[n];
-            ++n;
-        }
-        out->path[n] = '\0';
-    }
-    return true;
-}
-
-bool ZipEntryNameBefore(const char* apkPath, uint64_t dataOff, char* nameOut, size_t cap) {
-    if (apkPath == nullptr || dataOff < 64) return false;
-    constexpr size_t kWindow = 2048;
-    const uint64_t start = dataOff > kWindow ? dataOff - kWindow : 0;
-    const size_t len = static_cast<size_t>(dataOff - start);
-    if (len < 30) return false;
-
-    static uint8_t win[kWindow];
-    const int fd = open(apkPath, O_RDONLY | O_CLOEXEC);
-    if (fd < 0) return false;
-    const ssize_t got = pread(fd, win, len, static_cast<off_t>(start));
     close(fd);
-    if (got != static_cast<ssize_t>(len)) return false;
-
-    for (size_t i = len; i >= 4; --i) {
-        const size_t h = i - 4;
-        if (win[h] != 0x50 || win[h + 1] != 0x4B || win[h + 2] != 0x03 || win[h + 3] != 0x04) {
-            continue;
+    return good&&!text.empty()&&text.back()=='\n';
+}
+bool MapSnapshot(std::vector<MapRow>& rows) {
+    std::string text;if(!ReadMaps(text))return false;
+    std::istringstream stream(text);std::string line;size_t count=0;
+    while(std::getline(stream,line)){
+        if(++count>16384||line.find('\0')!=std::string::npos)return false;
+        unsigned long long b=0,e=0,off=0,ino=0;unsigned maj=0,min=0;char perms[5]{};int at=0;
+        if(sscanf(line.c_str(),"%llx-%llx %4s %llx %x:%x %llu %n",&b,&e,perms,&off,&maj,&min,&ino,&at)!=7
+            ||at<=0||size_t(at)>line.size())return false;
+        if(b>=e||e>UINTPTR_MAX||strlen(perms)!=4
+            ||(perms[0]!='r'&&perms[0]!='-')||(perms[1]!='w'&&perms[1]!='-')
+            ||(perms[2]!='x'&&perms[2]!='-')||(perms[3]!='p'&&perms[3]!='s'))return false;
+        std::string path=line.substr(size_t(at));
+        if(path.empty()||path[0]!='/')continue;
+        rows.push_back({{uintptr_t(b),uintptr_t(e),off,maj,min,ino,perms[2]=='x',perms[1]=='w',path},perms[0]=='r'});
+    }
+    return !rows.empty();
+}
+uint64_t Device(const nhk::FileMapping& m){return uint64_t(makedev(m.device_major,m.device_minor));}
+bool StatMatches(const Image& image,const struct stat& st) {
+    if(!S_ISREG(st.st_mode)||st.st_size<0||uint64_t(st.st_dev)!=image.sourceDevice
+        ||uint64_t(st.st_ino)!=image.sourceInode)return false;
+    const uint64_t origin=image.fromApkEntry?image.apkEntryOffset:0;
+    return origin<=uint64_t(st.st_size)&&image.fileViewBytes<=uint64_t(st.st_size)-origin;
+}
+// Both linker and fallback use the same verified source and program-header path.
+bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
+    uint64_t origin,uint64_t bytes,bool apk,Image& image) {
+    if(path.empty()||path.size()>=sizeof(image.path)||origin>UINT64_MAX-bytes||!bytes)return false;
+    Image result{};memcpy(result.path,path.c_str(),path.size()+1);
+    result.fromApkEntry=apk;result.apkEntryOffset=origin;result.fileViewBytes=bytes;
+    std::vector<nhk::FileMapping> maps;
+    for(const auto& row:inventory){const auto& m=row.map;
+        if(m.path!=path||m.file_offset<origin||m.file_offset>=origin+bytes)continue;
+        if(!row.readable||!m.inode||(m.executable&&m.writable))return false;
+        if(!maps.empty()&&(Device(m)!=result.sourceDevice||m.inode!=result.sourceInode))return false;
+        result.sourceDevice=Device(m);result.sourceInode=m.inode;maps.push_back(m);
+    }
+    if(maps.empty()||maps.size()>64)return false;
+    Elf64_Ehdr header{};
+    if(!ReadImageFile(result,0,&header,sizeof header)
+        ||memcmp(header.e_ident,ELFMAG,SELFMAG)||header.e_ident[EI_CLASS]!=ELFCLASS64
+        ||header.e_ident[EI_DATA]!=ELFDATA2LSB||header.e_ident[EI_VERSION]!=EV_CURRENT
+        ||header.e_version!=EV_CURRENT||header.e_type!=ET_DYN||header.e_machine!=EM_AARCH64
+        ||header.e_ehsize!=sizeof header||header.e_phentsize!=sizeof(Elf64_Phdr)
+        ||header.e_phnum==0||header.e_phnum>64||header.e_phoff<sizeof header||header.e_phoff>4096)return false;
+    const size_t tableEnd=size_t(header.e_phoff)+size_t(header.e_phnum)*sizeof(Elf64_Phdr);
+    std::array<std::byte,8192> disk{},live{};
+    if(tableEnd>disk.size()||!ReadImageFile(result,0,disk.data(),tableEnd))return false;
+    const auto decoded=nhk::elf::parse_program_segments(std::span(disk.data(),tableEnd),true);
+    if(!decoded)return false;
+    std::vector<nhk::elf::ProgramSegment> loads;bool exec=false;
+    const uint64_t page=nhk::host_page_size();
+    for(const auto& p:*decoded){
+        if(p.type!=PT_LOAD||!p.memsz)continue;
+        if(loads.size()>=16||!(p.flags&PF_R)||(p.flags&(PF_W|PF_X))==(PF_W|PF_X)
+            ||p.offset>bytes||p.filesz>bytes-p.offset||p.vaddr>UINT32_MAX
+            ||p.memsz>UINT32_MAX-p.vaddr||p.offset%page!=p.vaddr%page)return false;
+        // Virtual intervals may touch, but may not claim each other's bytes.
+        for(const auto& old:loads)if(p.vaddr<old.vaddr+old.memsz&&old.vaddr<p.vaddr+p.memsz)return false;
+        loads.push_back(p);exec|=(p.flags&PF_X)!=0&&p.filesz!=0;
+    }
+    if(loads.empty()||!exec)return false;
+    const auto view=nhk::image_view_from_segments_in_window(maps,path,loads,origin,origin+bytes);
+    if(!view||view->load_base>UINTPTR_MAX-view->needed_vaddr)return false;
+    result.base=view->load_base;
+    // Confirm full map extents and effective permissions, not only the first page.
+    std::vector<Segment> actual;actual.reserve(maps.size());
+    for(const auto& m:maps){bool owned=false;
+        for(const auto& p:loads){
+            if(!p.filesz)continue;
+            const uint64_t relative=m.file_offset-origin;
+            const uint64_t fileBegin=nhk::page_down(p.offset),fileEnd=nhk::page_up(p.offset+p.filesz);
+            if(relative<fileBegin||relative>=fileEnd)continue;
+            const uint64_t va=nhk::page_down(p.vaddr)+relative-fileBegin;
+            if(result.base+va!=m.begin||m.end-result.base>nhk::page_up(p.vaddr+p.memsz))continue;
+            if(m.executable!=bool(p.flags&PF_X)|| (m.writable&&!(p.flags&PF_W)))continue;
+            const uintptr_t begin=std::max(m.begin,result.base+p.vaddr);
+            const uintptr_t end=std::min(m.end,result.base+p.vaddr+p.memsz);
+            if(begin>=end)continue;
+            const uint32_t flags=PF_R|(m.writable?PF_W:0)|(m.executable?PF_X:0);
+            actual.push_back({begin,end,flags});owned=true;
         }
-        if (h + 30 > len) continue;
-        const uint16_t nameLen =
-                static_cast<uint16_t>(win[h + 26] | (static_cast<uint32_t>(win[h + 27]) << 8));
-        const uint16_t extraLen =
-                static_cast<uint16_t>(win[h + 28] | (static_cast<uint32_t>(win[h + 29]) << 8));
-        if (static_cast<uint64_t>(h) + start + 30u + nameLen + extraLen != dataOff) continue;
-        if (nameLen == 0 || nameLen >= cap || h + 30 + nameLen > len) continue;
-        memcpy(nameOut, win + h + 30, nameLen);
-        nameOut[nameLen] = '\0';
-        return true;
+        if(!owned)return false;
+    }
+    std::sort(actual.begin(),actual.end(),
+        [](const Segment& a,const Segment& b){return a.begin<b.begin;});
+    size_t merged=0;
+    for(const Segment& s:actual){
+        if(merged&&s.begin<result.segments[merged-1].end)return false;
+        if(merged&&s.begin==result.segments[merged-1].end&&s.flags==result.segments[merged-1].flags)
+            result.segments[merged-1].end=s.end;
+        else {if(merged>=16)return false;result.segments[merged++]=s;}
+    }
+    result.segmentCount=merged;
+    // Every file-backed load byte must be mapped; page padding is not trusted code.
+    for(const auto& p:loads){uintptr_t cursor=result.base+p.vaddr,target=cursor+p.filesz;
+        for(size_t i=0;i<merged&&cursor<target;++i){const auto& s=result.segments[i];
+            if(s.begin>cursor)break;if(s.end>cursor)cursor=std::min(s.end,target);}
+        if(cursor!=target)return false;
+    }
+    bool sameHeader=false;
+    for(const auto& m:maps)if(m.file_offset==origin&&m.end-m.begin>=tableEnd
+        &&nhk::safe_read(m.begin,std::span(live.data(),tableEnd))
+        &&memcmp(disk.data(),live.data(),tableEnd)==0)sameHeader=true;
+    if(!sameHeader)return false;
+    image=result;return true;
+}
+struct SearchRequest { const char* basename;std::string path;uintptr_t bias=0;unsigned matches=0; };
+int CollectCallback(struct dl_phdr_info* info,size_t,void* opaque) {
+    auto& req=*static_cast<SearchRequest*>(opaque);
+    if(!info||!info->dlpi_name)return 0;
+    const size_t size=strnlen(info->dlpi_name,4096);if(size==4096)return 0;
+    const char* slash=strrchr(info->dlpi_name,'/');const char* base=slash?slash+1:info->dlpi_name;
+    if(strcmp(base,req.basename))return 0;
+    if(++req.matches==1){req.path.assign(info->dlpi_name,size);req.bias=info->dlpi_addr;}
+    return 0; // Do not dereference linker phdrs; verified file headers drive resolution.
+}
+}
+
+bool FindImageByName(const char* basename,Image* out) {
+    if(!basename||!*basename||!out)return false;
+    SearchRequest req{basename};dl_iterate_phdr(CollectCallback,&req);
+    if(req.matches!=1||req.path.size()>=sizeof(out->path))return false;
+    std::vector<MapRow> rows;if(!MapSnapshot(rows))return false;
+    Image image{};const auto bang=req.path.find('!');
+    if(bang!=std::string::npos){
+        if(req.path.find('!',bang+1)!=std::string::npos||req.path.compare(bang,2,"!/")!=0)return false;
+        const std::string path=req.path.substr(0,bang),entry=req.path.substr(bang+2);
+        const auto stored=nhk::zip_stored_entry(path,entry);
+        if(!stored||!MappedImage(rows,path,stored->first,stored->second,true,image))return false;
+    }else{
+        struct stat st{};const int fd=open(req.path.c_str(),O_RDONLY|O_CLOEXEC);
+        if(fd<0)return false;const bool good=fstat(fd,&st)==0&&S_ISREG(st.st_mode)&&st.st_size>0;close(fd);
+        if(!good||!MappedImage(rows,req.path,0,uint64_t(st.st_size),false,image))return false;
+    }
+    if(image.base!=req.bias)return false;
+    *out=image;return true;
+}
+bool FindImageFromApkMaps(const char* apkMarker,const char* libName,Image* out) {
+    if(!apkMarker||!*apkMarker||!libName||!*libName||!out)return false;
+    std::vector<MapRow> rows;if(!MapSnapshot(rows))return false;
+    std::set<std::string> paths;
+    for(const auto& row:rows)if(row.map.path.find(apkMarker)!=std::string::npos){
+        paths.insert(row.map.path);if(paths.size()>64)return false;}
+    Image chosen{};unsigned found=0;
+    for(const auto& path:paths){const auto stored=nhk::zip_stored_entry(path,libName);if(!stored)continue;
+        Image image{};
+        if(MappedImage(rows,path,stored->first,stored->second,true,image)){
+            if(++found>1)return false;chosen=image;
+        }
+    }
+    if(found!=1)return false;
+    *out=chosen;return true;
+}
+bool RangeInImage(const Image& image,uintptr_t address,size_t length) {
+    if(!length||image.segmentCount==0||image.segmentCount>16)return false;
+    for(size_t i=0;i<image.segmentCount;++i){const Segment& s=image.segments[i];
+        if(!(s.flags&PF_R)||s.begin>=s.end)continue;
+        if(address>=s.begin&&address<s.end&&length<=s.end-address)return true;
     }
     return false;
 }
-
-bool ImageFromElfAt(uintptr_t base, const char* path, Image* out) {
-    if (base == 0 || path == nullptr || out == nullptr) return false;
-    memset(out, 0, sizeof(*out));
-    out->base = base;
-    const size_t pl = strlen(path);
-    if (pl >= sizeof(out->path)) return false;
-    memcpy(out->path, path, pl + 1);
-    out->fromApkEntry = true;
-
-    const Elf64_Ehdr* eh = reinterpret_cast<const Elf64_Ehdr*>(base);
-    if (memcmp(eh->e_ident, ELFMAG, SELFMAG) != 0) return false;
-    if (eh->e_ident[EI_CLASS] != ELFCLASS64) return false;
-    if (eh->e_ident[EI_DATA] != ELFDATA2LSB) return false;
-    if (eh->e_phnum == 0 || eh->e_phnum > 64) return false;
-
-    const Elf64_Phdr* ph = reinterpret_cast<const Elf64_Phdr*>(base + eh->e_phoff);
-    for (int i = 0; i < eh->e_phnum && out->segmentCount < 16; ++i) {
-        if (ph[i].p_type != PT_LOAD || ph[i].p_memsz == 0) continue;
-        out->segments[out->segmentCount++] = {
-                base + static_cast<uintptr_t>(ph[i].p_vaddr),
-                base + static_cast<uintptr_t>(ph[i].p_vaddr + ph[i].p_memsz),
-                static_cast<uint32_t>(ph[i].p_flags)};
+bool ReadImageFile(const Image& image,uint64_t offset,void* out,size_t length) {
+    if(!out||!length||!image.path[0]||!memchr(image.path,'\0',sizeof(image.path))
+        ||!image.sourceInode||!image.fileViewBytes||offset>image.fileViewBytes
+        ||uint64_t(length)>image.fileViewBytes-offset)return false;
+    const uint64_t origin=image.fromApkEntry?image.apkEntryOffset:0;
+    const uint64_t maxOffset=uint64_t(std::numeric_limits<off_t>::max());
+    if(origin>maxOffset||offset>maxOffset-origin)return false;
+    const uint64_t fileOffset=origin+offset;
+    if(uint64_t(length)>maxOffset-fileOffset)return false;
+    const int fd=open(image.path,O_RDONLY|O_CLOEXEC);if(fd<0)return false;
+    struct stat st{};bool ok=fstat(fd,&st)==0&&StatMatches(image,st);
+    auto* dst=static_cast<uint8_t*>(out);size_t done=0;
+    while(ok&&done<length){const ssize_t n=pread(fd,dst+done,length-done,off_t(fileOffset+done));
+        if(n<0&&errno==EINTR)continue;
+        if(n<=0||size_t(n)>length-done){ok=false;break;}
+        done+=size_t(n);
     }
-    return out->segmentCount > 0;
-}
-
-size_t ReadMaps(char* buf, size_t cap) {
-    const int fd = open("/proc/self/maps", O_RDONLY | O_CLOEXEC);
-    if (fd < 0) return 0;
-    size_t total = 0;
-    while (total < cap - 1) {
-        const ssize_t n = read(fd, buf + total, cap - 1 - total);
-        if (n <= 0) break;
-        total += static_cast<size_t>(n);
-    }
-    close(fd);
-    buf[total] = '\0';
-    return total;
-}
-
-}
-
-bool FindImageByName(const char* basename, Image* out) {
-    if (basename == nullptr || out == nullptr) return false;
-    SearchRequest req{basename, {}, false, 0};
-    dl_iterate_phdr(CollectCallback, &req);
-    if (!req.found) return false;
-    *out = req.result;
-    return true;
-}
-
-bool FindImageFromApkMaps(const char* apkMarker, const char* libName, Image* out) {
-    if (apkMarker == nullptr || libName == nullptr || out == nullptr) return false;
-
-    constexpr size_t kMapsCap = 512 * 1024;
-    constexpr size_t kMaxLines = 512;
-    constexpr size_t kMaxOffsets = 64;
-
-    static char* buf = nullptr;
-    static ApkMapLine lines[kMaxLines];
-    if (buf == nullptr) {
-        buf = static_cast<char*>(malloc(kMapsCap));
-        if (buf == nullptr) return false;
-    }
-    if (ReadMaps(buf, kMapsCap) == 0) return false;
-
-    size_t lineCount = 0;
-    uint64_t offsets[kMaxOffsets];
-    size_t offsetCount = 0;
-    char apkPath[256] = {0};
-
-    char* p = buf;
-    while (p != nullptr && *p != '\0' && lineCount < kMaxLines) {
-        char* nl = strchr(p, '\n');
-        if (nl != nullptr) *nl = '\0';
-        ApkMapLine ml{};
-        if (ParseMapLine(p, &ml) && ml.path[0] != '\0' &&
-            strstr(ml.path, apkMarker) != nullptr) {
-            lines[lineCount++] = ml;
-            if (apkPath[0] == '\0' && strlen(ml.path) < sizeof(apkPath)) {
-                memcpy(apkPath, ml.path, strlen(ml.path) + 1);
-            }
-            bool seen = false;
-            for (size_t i = 0; i < offsetCount; ++i) {
-                if (offsets[i] == ml.fileOff) {
-                    seen = true;
-                    break;
-                }
-            }
-            if (!seen && offsetCount < kMaxOffsets) offsets[offsetCount++] = ml.fileOff;
-        }
-        if (nl == nullptr) break;
-        p = nl + 1;
-    }
-    if (lineCount == 0 || apkPath[0] == '\0' || offsetCount == 0) return false;
-
-    for (size_t i = 0; i < offsetCount; ++i) {
-        size_t best = i;
-        for (size_t j = i + 1; j < offsetCount; ++j) {
-            if (offsets[j] < offsets[best]) best = j;
-        }
-        if (best != i) {
-            const uint64_t t = offsets[i];
-            offsets[i] = offsets[best];
-            offsets[best] = t;
-        }
-
-        char name[256] = {0};
-        if (!ZipEntryNameBefore(apkPath, offsets[i], name, sizeof(name))) continue;
-        const char* slash = strrchr(name, '/');
-        const char* entryBase = slash == nullptr ? name : slash + 1;
-        if (strcmp(entryBase, libName) != 0) continue;
-
-        for (size_t j = 0; j < lineCount; ++j) {
-            if (lines[j].fileOff != offsets[i]) continue;
-            if (ImageFromElfAt(lines[j].begin, lines[j].path, out)) {
-                out->apkEntryOffset = offsets[i];
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-bool RangeInImage(const Image& image, uintptr_t address, size_t length) {
-    if (length == 0) return false;
-    const uintptr_t end = address + length;
-    if (end < address) return false;
-    for (size_t i = 0; i < image.segmentCount; ++i) {
-        const Segment& s = image.segments[i];
-        if (address >= s.begin && end <= s.end) return true;
-    }
-    return false;
-}
-
-bool ReadImageFile(const Image& image, uint64_t offset, void* out, size_t length) {
-    if (out == nullptr || length == 0 || image.path[0] == '\0') return false;
-    const uint64_t fileOffset =
-            image.fromApkEntry ? image.apkEntryOffset + offset : offset;
-    const int fd = open(image.path, O_RDONLY | O_CLOEXEC);
-    if (fd < 0) return false;
-    uint8_t* dst = static_cast<uint8_t*>(out);
-    size_t done = 0;
-    bool ok = true;
-    while (done < length) {
-        const ssize_t n = pread(fd, dst + done, length - done,
-                                static_cast<off_t>(fileOffset + done));
-        if (n <= 0) {
-            ok = false;
-            break;
-        }
-        done += static_cast<size_t>(n);
-    }
-    close(fd);
-    return ok;
+    close(fd);return ok;
 }
 
 namespace {
@@ -316,8 +231,13 @@ int DumpCallback(struct dl_phdr_info* info, size_t, void* opaque) {
     ++req->seen;
     const char* name = info->dlpi_name != nullptr ? info->dlpi_name : "(空)";
     int loads = 0;
-    for (size_t i = 0; i < info->dlpi_phnum; ++i) {
-        if (info->dlpi_phdr[i].p_type == PT_LOAD) ++loads;
+    for (size_t i = 0; info->dlpi_phdr != nullptr && i < std::min<size_t>(info->dlpi_phnum,64); ++i) {
+        Elf64_Phdr ph{};
+        const uintptr_t base=reinterpret_cast<uintptr_t>(info->dlpi_phdr);
+        const size_t off=i*sizeof(ph);
+        if(base>UINTPTR_MAX-off||!nhk::safe_read(base+off,
+            std::span(reinterpret_cast<std::byte*>(&ph),sizeof(ph))))break;
+        if (ph.p_type == PT_LOAD) ++loads;
     }
     LOGI("  [phdr] base=%#lx PT_LOAD=%d name=%s",
          static_cast<unsigned long>(info->dlpi_addr), loads, name);
@@ -334,37 +254,17 @@ void DumpLoadedLibraries(int maxEntries) {
 }
 
 void DumpApkMaps(int maxEntries) {
-    constexpr size_t kMapsCap = 512 * 1024;
-    static char* buf = nullptr;
-    if (buf == nullptr) {
-        buf = static_cast<char*>(malloc(kMapsCap));
-        if (buf == nullptr) return;
-    }
-    const size_t total = ReadMaps(buf, kMapsCap);
-    if (total == 0) {
-        LOGW("/proc/self/maps 读不到");
-        return;
-    }
-    LOGI("/proc/self/maps 里含 .apk 的映射（最多 %d 条）：", maxEntries);
-    int shown = 0;
-    char* p = buf;
-    while (p != nullptr && *p != '\0' && shown < maxEntries) {
-        char* nl = strchr(p, '\n');
-        if (nl != nullptr) *nl = '\0';
-        if (strstr(p, ".apk") != nullptr) {
-            LOGI("  [maps] %s", p);
-            ++shown;
-        }
-        if (nl == nullptr) break;
-        p = nl + 1;
-    }
-    LOGI("maps 中 .apk 映射共显示 %d 条", shown);
+    std::vector<MapRow> rows;if(!MapSnapshot(rows))return;
+    int shown=0;for(const auto& row:rows){if(shown>=maxEntries)break;
+        if(row.map.path.find(".apk")==std::string::npos)continue;
+        LOGI("  [maps] %#lx-%#lx off=%#llx %s",(unsigned long)row.map.begin,
+            (unsigned long)row.map.end,(unsigned long long)row.map.file_offset,row.map.path.c_str());++shown;}
 }
 
 void DumpImage(const Image& image) {
     LOGI("镜像 base=%#lx 段数=%zu path=%s", static_cast<unsigned long>(image.base),
          image.segmentCount, image.path);
-    for (size_t i = 0; i < image.segmentCount; ++i) {
+    for (size_t i = 0; i < std::min<size_t>(image.segmentCount,16); ++i) {
         const Segment& s = image.segments[i];
         LOGI("  段%zu %#lx - %#lx flags=%#x 大小=%#lx", i,
              static_cast<unsigned long>(s.begin), static_cast<unsigned long>(s.end), s.flags,

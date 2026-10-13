@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.sub.SubPickerActivity.INPUT_MODE;
 
@@ -65,13 +66,15 @@ public class HomeTitleSettings extends DashboardFragment {
             return true;
         });
 
-        setPreVisible(mDisableHideTheme, isPad());
+        if (isHyperOSVersion(4f)) {
+            mDisableHideTheme.setVisible(isPad());
+        } else {
+            setPreVisible(mDisableHideTheme, isPad());
+        }
 
-        // HyperOS 4 起图标大小改由「布局」页的 home_layout_icon_scale 接管：旧的
-        // home_title_icon_size 只在 os2/os3 的 hook 里被消费（见 Home/os3/HomePhone），
-        // 在 OS4 上它已经不起作用，留着只会给出一个无效入口。
-        if (isMoreHyperOSVersion(4f)) {
-            moveIconSizeToLayout();
+        // Only OS4 uses the native icon scale controls. Keep OS2/OS3 values and UI intact.
+        if (isHyperOSVersion(4f)) {
+            replaceIconSizeForOS4();
         }
 
         Bundle args1 = new Bundle();
@@ -97,28 +100,14 @@ public class HomeTitleSettings extends DashboardFragment {
             );
         }
 
+        HomeOS4AdaptationGate.apply(getPreferenceScreen(), getPreferenceScreenResId());
     }
 
-    /**
-     * HyperOS 4 起图标大小由「布局」页的 {@code home_layout_icon_scale} 接管。
-     *
-     * <p>旧的 {@code home_title_icon_size} 只在 os2/os3 的 hook 里被消费，OS4 上这个入口
-     * 已经不起作用。选择置灰而不是隐藏 —— 用户记得它原本在这里，直接标出去处比让它凭空消失
-     * 更好找。依赖它的滑块由 {@link Preference#setEnabled(boolean)} 连带禁用。
-     */
-    private void moveIconSizeToLayout() {
-        Preference enable = findPreference("prefs_key_home_title_icon_size_enable");
-        Preference size = findPreference("prefs_key_home_title_icon_size");
-
-        // 先落成关闭：置灰而不改值的话，UI 仍显示为「开」，旧值也还会被 hook 读到。
-        if (enable instanceof SwitchPreference switchPreference && switchPreference.isChecked()) {
-            switchPreference.setChecked(false);
-        }
-
-        for (Preference preference : new Preference[]{enable, size}) {
-            if (preference == null) continue;
-            preference.setEnabled(false);
-            preference.setSummary(R.string.home_title_icon_size_moved);
-        }
+    /** Relocate the existing native keys, without rewriting either generation's saved values. */
+    private void replaceIconSizeForOS4() {
+        findPreference("prefs_key_home_title_icon_size_enable").setVisible(false);
+        findPreference("prefs_key_home_title_icon_size").setVisible(false);
+        findPreference("prefs_key_home_layout_icon_scale_enable").setVisible(true);
+        findPreference("prefs_key_home_layout_icon_scale").setVisible(true);
     }
 }

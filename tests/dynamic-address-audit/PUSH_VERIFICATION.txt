@@ -1,0 +1,13 @@
+PUSH_VERIFICATION 2026-10-03 Asia/Shanghai
+REMOTE=git@github.com:LDS-XiaoYe/HyperCeiler.git
+COMMIT=825dba606; nine source files; local regression and prior device results recorded separately
+MERGE=6e138f323; retained os4-branch history; no conflicts; both final trees identical
+PUSH_COMMAND=git push --atomic origin codex/os4-dock-icon-align:refs/heads/os4-personal os4-branch:refs/heads/os4-branch
+PUSH_RESULT=exit0; os4-branch 1e403fc5d..6e138f323; os4-personal 657379cc3..825dba606
+VERIFY_COMMAND=git ls-remote --heads origin os4-personal os4-branch
+LITERAL_OUTPUT=
+6e138f323bbc7867aeb69a30acdafbdcf13d31fc	refs/heads/os4-branch
+825dba606d3fa39a01c3846b87885d235de1f20a	refs/heads/os4-personal
+EXIT=0
+EXCLUDED=keystore, APK, personal phone logs, test output/binaries, untracked local audit harnesses
+CURRENT_CHECKOUT=codex/os4-dock-icon-align; tracked changes clean; pre-existing untracked files preserved
