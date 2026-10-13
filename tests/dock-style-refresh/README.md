@@ -1,7 +1,9 @@
 # Dock unlock style refresh regression
 
-Run `python tests/dock-style-refresh/run.py [source-root]` with JDK 25 at
-`D:/build-tools/jdk-25.0.4.1+1`. An optional root lets the same tests inspect a
+Run `python tests/dock-style-refresh/run.py [source-root]` with JDK 25. Set
+`JAVA_HOME` to its installation directory, or use the configured build cache
+as described in [PORTABILITY.md](../PORTABILITY.md).
+An optional root lets the same tests inspect a
 pre-fix or rollback fixture. The harness compiles the real PrefsBridge with
 minimal Android stubs; it does not replace its write/notification logic.
 
