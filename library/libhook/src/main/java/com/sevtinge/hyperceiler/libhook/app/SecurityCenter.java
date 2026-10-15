@@ -47,6 +47,8 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.OpenByDefaultSetting;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.BatteryHealth;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.BatterySaverEnableHapticFeedback;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.BatterySaverLockFps;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.MoreBatteryInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.ScreenUsedTime;
@@ -100,6 +102,8 @@ public class SecurityCenter extends BaseLoad {
         initHook(BatteryHealth.INSTANCE, PrefsBridge.getBoolean("security_center_show_battery_health"));
         initHook(new UnlockLowTempExtEndurance(), PrefsBridge.getBoolean("security_center_battery_unlock_low_temp_ext_endurance"));
         initHook(MoreBatteryInfoNew.INSTANCE, PrefsBridge.getBoolean("secutity_center_battery_show_more_info"));
+        initHook(BatterySaverEnableHapticFeedback.INSTANCE, PrefsBridge.getBoolean("secutity_center_battery_saver_enable_haptic_feedback"));
+        initHook(BatterySaverLockFps.INSTANCE, PrefsBridge.getBoolean("secutity_center_battery_saver_lock_fps"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), PrefsBridge.getBoolean("security_center_applock_pin_scramble"));
