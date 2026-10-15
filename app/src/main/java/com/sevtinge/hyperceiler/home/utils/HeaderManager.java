@@ -23,6 +23,8 @@ public class HeaderManager {
     public static final String PREF_SCOPE_SYNC = "prefs_key_settings_scope_sync";
     public static final String PREF_HIDE_CANT_SEE_APPS_GUIDE = "prefs_key_help_cant_see_apps_switch";
     private static final String SYSTEM_SCOPE_PACKAGE = "system";
+    private static final String DOWNLOADS_PACKAGE = "com.android.providers.downloads";
+    private static final String DOWNLOADS_UI_PACKAGE = "com.android.providers.downloads.ui";
 
     public static List<Header> getDisplayHeaders(Context context, List<Header> allHeaders) {
         updateHeaderDisplayStates(context, allHeaders);
@@ -143,6 +145,7 @@ public class HeaderManager {
                 selectedPackages.add(getNormalizedPackageName(header));
             }
         }
+        addDownloadUiCompanion(selectedPackages);
         return selectedPackages;
     }
 
@@ -160,6 +163,7 @@ public class HeaderManager {
                 }
             }
         }
+        addDownloadUiCompanion(homePackages);
 
         Set<String> currentPackages = new LinkedHashSet<>();
         for (String packageName : scopePackages) {
@@ -191,6 +195,7 @@ public class HeaderManager {
                 storedPackages.add(getNormalizedPackageName(header));
             }
         }
+        addDownloadUiCompanion(storedPackages);
         return storedPackages;
     }
 
@@ -209,7 +214,15 @@ public class HeaderManager {
                 packages.add(getPackageName(header));
             }
         }
+        addDownloadUiCompanion(packages);
         return new ArrayList<>(packages);
+    }
+
+    private static void addDownloadUiCompanion(Set<String> packages) {
+        // One visible Downloads page controls hooks in both package processes.
+        if (packages.contains(DOWNLOADS_PACKAGE)) {
+            packages.add(DOWNLOADS_UI_PACKAGE);
+        }
     }
 
     public static boolean isScopeSyncEnabled() {

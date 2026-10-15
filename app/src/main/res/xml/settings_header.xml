@@ -95,13 +95,6 @@
 
     <header
         android:icon="@drawable/ic_default"
-        android:id="@+id/downloads_ui"
-        android:summary="com.android.providers.downloads.ui"
-        android:title="@string/downloads_ui"
-        app:inflatedXml="@xml/downloads_ui"/>
-
-    <header
-        android:icon="@drawable/ic_default"
         android:id="@+id/telecom"
         android:summary="com.android.server.telecom"
         android:title="@string/telecom"
