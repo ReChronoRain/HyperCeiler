@@ -70,5 +70,26 @@
             android:summary="@string/security_app_summary"
             android:title="@string/security_app_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_uninstall_with_default_package_manager"
+            android:summary="@string/security_uninstall_default_package_manager_summary"
+            android:title="@string/security_uninstall_default_package_manager_title" />
+
+        <fan.preference.DropDownPreference
+            android:key="prefs_key_security_center_uninstaller"
+            android:summary="@string/security_uninstaller_summary"
+            android:title="@string/security_uninstaller_title"
+            app:entries="@array/security_uninstaller"
+            app:entryValues="@array/security_uninstaller_value" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="both"
+            android:key="prefs_key_security_center_uninstall_hook_point"
+            android:summary="@string/security_uninstall_hook_point_summary"
+            android:title="@string/security_uninstall_hook_point_title"
+            app:entries="@array/security_uninstall_hook_point"
+            app:entryValues="@array/security_uninstall_hook_point_value" />
+
     </PreferenceCategory>
 </PreferenceScreen>
