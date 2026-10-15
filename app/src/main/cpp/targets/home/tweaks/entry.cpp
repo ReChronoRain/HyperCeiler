@@ -101,6 +101,18 @@ State g_state;
 std::mutex g_workMutex;
 std::atomic<bool> g_imageKnown{false};
 
+/*
+ * Set once the maps search has read this process's launcher APK and proved that no entry in it
+ * carries the target name.
+ *
+ * The desktop ships in two variants - one with a dex payload and one that is native and maps its
+ * image out of its own APK - and which one a process runs never changes while that process lives,
+ * so the verdict has no reason to expire. It is per-process state for the same reason g_imageKnown
+ * is: a child specialized from the spawner must drop it (HomeTweaksPrepareForLauncherChild), and a
+ * load of the target revokes it outright (OnNativeLibraryLoaded).
+ */
+std::atomic<bool> g_imageAbsent{false};
+
 uint64_t NowMs() {
     struct timespec ts {};
     clock_gettime(CLOCK_MONOTONIC, &ts);
@@ -833,6 +845,13 @@ void SettleLocked(State* state, bool allowScan) {
 
 bool TryDiscoverImage() {
     if (g_imageKnown.load(std::memory_order_acquire)) return true;
+    /*
+     * The maps fallback is the expensive half of discovery - it reads and parses the whole of
+     * /proc/self/maps and then the APK's entry table - and this function runs on every monitor pass.
+     * Skipping it for a process that provably cannot carry the image is what keeps the monitor from
+     * paying for discovery twenty times a second.
+     */
+    if (g_imageAbsent.load(std::memory_order_acquire)) return false;
 
     Image image{};
     const char* how = nullptr;
@@ -842,6 +861,17 @@ bool TryDiscoverImage() {
     } else if (FindImageFromApkMaps(kDesktopApkMarker, kTargetLibName, &image)) {
         how = "maps+apk";
     } else {
+        /*
+         * Both searches above answer "where is the image", and their failure carries no answer to
+         * "can this launcher hold one at all". That is a separate, definite question - the launcher
+         * APK either has an entry of that name or it does not - and the searches must not be
+         * trusted to answer it: the maps one stops at 512 lines of the first 512 KiB, while the
+         * desktop's own APK on the diagnosed device sits at line 8042 of a 1.0 MiB table.
+         */
+        if (LauncherApkLacksEntry(kDesktopApkMarker, kTargetLibName)) {
+            g_imageAbsent.store(true, std::memory_order_release);
+            LOGI("桌面 APK 内没有 %s 条目：本进程不会再有该镜像，停止发现重试", kTargetLibName);
+        }
         return false;
     }
 
@@ -901,6 +931,15 @@ void MonitorLoop() {
 
             if (state->imageFound && state->configLoaded && !state->repatchNeeded) {
                 periodMs = 1500;
+            } else if (!state->imageFound && g_imageAbsent.load(std::memory_order_acquire)) {
+                /*
+                 * The verdict is in and nothing running here can change it. Every remaining duty of
+                 * a pass is already a no-op without an image - SettleLocked returns at its own
+                 * !imageFound guard, so no patch is ever applied and the watchdog has nothing to
+                 * watch - so this parks at the steady-state cadence instead of the 50 ms start-up
+                 * one. A target load or a pushed configuration still wakes the loop through g_wakeCv.
+                 */
+                periodMs = 1500;
             }
         }
 
@@ -931,6 +970,13 @@ void OnNativeLibraryLoaded(const char* name, void* ) {
     const size_t want = strlen(kTargetLibName);
     if (len < want || strcmp(name + (len - want), kTargetLibName) != 0) return;
     LOGI("检测到 %s 加载，立即落补丁", name);
+
+    /*
+     * A load of the target is proof that the "this launcher carries no such entry" verdict was
+     * wrong - a replaced launcher, or an entry the maps pass could not name. Revoke it before the
+     * patch attempt so the price of a wrong verdict is one delayed patch and never a dead feature.
+     */
+    g_imageAbsent.store(false, std::memory_order_release);
 
     FastPatchOnLibraryLoad();
 
@@ -1024,8 +1070,10 @@ void HomeTweaksOnLibraryLoaded(const char* name) {
  * looks exactly like the launcher. If the monitor was started there, the child inherits the
  * "already started" flag while the thread itself does not survive the fork - the monitor is then
  * gone for good and every later start is a no-op. The image record and the symbol table are just as
- * poisoned: they describe the parent's mappings. Called from the child's first specialization
- * signal; the exchange makes repeated calls free.
+ * poisoned: they describe the parent's mappings. So is the "this launcher carries no image" verdict,
+ * which is a statement about the process that reached it rather than about the launcher the child
+ * will be. Called from the child's first specialization signal; the exchange makes repeated calls
+ * free.
  */
 void HomeTweaksPrepareForLauncherChild() {
     // Deduplicated by pid: a fork changes the pid, so the first specialization signal in the child
@@ -1035,6 +1083,12 @@ void HomeTweaksPrepareForLauncherChild() {
     const pid_t self = getpid();
     if (prepared_pid == self) return;
     prepared_pid = self;
+    /*
+     * Dropped ahead of the "did the parent run a monitor" guard below, because the verdict is also
+     * reachable without one: HomeTweaksFindSymbol and HomeTweaksTargetImage run the same discovery
+     * from the layout side, so a parent that never started the monitor can still have reached it.
+     */
+    g_imageAbsent.store(false, std::memory_order_release);
     if (!g_tweaksStarted.exchange(false, std::memory_order_acq_rel)) return;
     std::lock_guard<std::mutex> work(g_workMutex);
     g_state = State{};

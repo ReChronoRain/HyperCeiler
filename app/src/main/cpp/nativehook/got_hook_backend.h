@@ -28,6 +28,7 @@
 #include "nhk_base.h"
 #include "page_guard.h"
 
+#include <algorithm>
 #include <atomic>
 #include <cstdint>
 #include <fstream>
