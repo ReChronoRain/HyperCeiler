@@ -121,6 +121,12 @@
     <PreferenceCategory android:title="@string/system_framework_core_title">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_screen_brightness_unlock"
+            android:summary="@string/system_framework_screen_brightness_unlock_desc"
+            android:title="@string/system_framework_screen_brightness_unlock" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_disable_miui_watermark"
             android:title="@string/system_framework_disable_miui_watermark" />
 
