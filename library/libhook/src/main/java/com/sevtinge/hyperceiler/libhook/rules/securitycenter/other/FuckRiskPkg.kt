@@ -19,33 +19,43 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import java.util.ArrayList
 import java.lang.reflect.Method
 
 object FuckRiskPkg : BaseHook() {
 
-    override fun useDexKit(): Boolean = true
+    override fun useDexKit() = true
 
     override fun initDexKit(): Boolean {
-        pkg
+        legacyNotificationMethods
         return true
     }
 
-    private val pkg by lazy<List<Method>> {
-        requiredMemberList("FuckRiskPkg") {
+    private val legacyNotificationMethods by lazy<List<Method>> {
+        optionalMemberList("FuckRiskPkg") {
             it.findMethod {
                 matcher {
-                    usingEqStrings(
-                        "riskPkgList", "key_virus_pkg_list", "show_virus_notification"
-                    )
+                    usingEqStrings("riskPkgList", "key_virus_pkg_list", "show_virus_notification")
                 }
             }
         }
     }
 
     override fun init() {
-        pkg.createHooks {
+        legacyNotificationMethods.createHooks {
             returnConstant(null)
+        }
+        // HyperOS 4 builds the "malicious app found" notification here.
+        runCatching {
+            loadClass("com.miui.antivirus.service.VirusScanJobService")
+                .findMethod { name("x"); parameterTypes(ArrayList::class.java) }
+                .createHook {
+                    returnConstant(null)
+                }
         }
     }
 }
