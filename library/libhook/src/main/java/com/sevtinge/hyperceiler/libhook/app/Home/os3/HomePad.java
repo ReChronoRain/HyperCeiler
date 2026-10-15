@@ -200,7 +200,7 @@ public class HomePad extends BaseLoad {
         initHook(AlwaysShowMiuiWidget.INSTANCE, PrefsBridge.getBoolean("home_widget_show_miui_widget"));
 
         // 其他
-        initHook(new FreeformShortcutMenu(), PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"));
+        initHook(new FreeformShortcutMenu(), PrefsBridge.getBoolean("home_other_tasks_shortcut_menu") || PrefsBridge.getBoolean("home_other_force_stop_shortcut_menu"));
         initHook(ShortcutItemCount.INSTANCE, PrefsBridge.getBoolean("home_other_shortcut_remove_restrictions"));
 
         initHook(SetDeviceLevel.INSTANCE, PrefsBridge.getBoolean("home_other_high_models"));
