@@ -267,7 +267,6 @@ public class SystemUIV extends BaseLoad {
 
         // Other
         initHook(DoubleTapToSleep.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
-        initHook(new HideStatusBarBeforeScreenshot(), PrefsBridge.getBoolean("system_ui_status_bar_hide_icon"));
 
         initHook(new GuidedAccessDialogBlock(),
             PrefsBridge.getBoolean("system_framework_guided_access")
