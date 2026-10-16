@@ -53,6 +53,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.SetGestureNe
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AntiQues;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AppLinkVerify;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceDownloadui;
@@ -88,7 +89,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeDisab
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeFirstPress;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeSteps;
-import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AntiQues;
 
 @HookBase(targetPackage = "system", maxSdk = 35)
 public class SystemFrameworkV extends BaseLoad {
@@ -135,6 +135,8 @@ public class SystemFrameworkV extends BaseLoad {
         initHook(new ThemeProvider(), PrefsBridge.getBoolean("system_framework_allow_third_theme"));
 
         // 其他
+        // 设备名称违规词校验：必须挂框架侧（system_server）的那套，
+        // 设置应用侧的那套由 SystemSettingsV 在 com.android.settings 进程里负责。
         initHook(new AntiQues(), PrefsBridge.getBoolean("system_settings_anti_ques"));
         initHook(new SystemLockApp(), PrefsBridge.getBoolean("system_framework_guided_access"));
         initHook(new ScreenRotation(), PrefsBridge.getBoolean("system_framework_screen_all_rotations"));
