@@ -14,11 +14,15 @@ for at in range(sy[4],sy[4]+sy[5],24):
  n,info,other,section,value,size=struct.unpack_from('<IBBHQQ',e.data,at);symbols.append((strings[n:strings.find(b'\0',n)].decode(),section,value,size))
 ix=e.section_names['.text'];ts=e.sections[ix];code=bytearray(e.data[ts[4]:ts[4]+ts[5]]);names=['hc_icon_width_entry','hc_icon_height_entry','hc_desktop_icon_width_entry','hc_desktop_icon_height_entry','hc_dock_icon_width_entry','hc_dock_icon_height_entry'];starts={n:next(v for k,s,v,z in symbols if k==n and s==ix) for n in names};begin=min(starts.values());base=0x100000;data=0x300000;stop=0x400000
 targets={n:data+i*8 for i,n in enumerate(['hc_icon_render_enabled','hc_folder_title_scale_bits','hc_icon_width_hits','hc_icon_height_hits','hc_desktop_icon_width_hits','hc_desktop_icon_height_hits','hc_dock_icon_width_hits','hc_dock_icon_height_hits','hc_icon_width_original','hc_icon_height_original','hc_desktop_icon_width_original','hc_desktop_icon_height_original','hc_dock_icon_width_original','hc_dock_icon_height_original'])}
+# Relocations belong to the six tested banks only. New unrelated stubs can
+# follow them in the same object; they are not executed by this harness.
+from capstone import Cs,CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN
+last=max(starts.values());bank_end=next(i.address+4 for i in Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN).disasm(bytes(code[last:]),last) if i.mnemonic=='br')
 for sec in e.sections.values():
  if sec[1]!=4 or sec[7]!=ix:continue
  for at in range(sec[4],sec[4]+sec[5],24):
   off,info,addend=struct.unpack_from('<QQq',e.data,at)
-  if off<begin:continue
+  if off<begin or off>=bank_end:continue
   name=symbols[info>>32][0];kind=info&0xffffffff;addr=targets[name]+addend;pc=base+off;word=struct.unpack_from('<I',code,off)[0]
   if kind==275:
    pages=(addr>>12)-(pc>>12);word=(word&~((3<<29)|(0x7ffff<<5)))|((pages&3)<<29)|(((pages>>2)&0x7ffff)<<5)

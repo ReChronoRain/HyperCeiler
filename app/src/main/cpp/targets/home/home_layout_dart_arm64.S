@@ -2189,3 +2189,103 @@ icon_render_bank hc_desktop_icon_height_entry, d1, hc_desktop_icon_height_origin
 
 icon_render_bank hc_dock_icon_width_entry, d0, hc_dock_icon_width_original, hc_dock_icon_width_hits
 icon_render_bank hc_dock_icon_height_entry, d0, hc_dock_icon_height_original, hc_dock_icon_height_hits
+
+/* Phone map/default branches converge here with raw row=-1; other-device bypass
+ * carries row=0. Only the scalar Smi argument changes. Original copyWith BL,
+ * GC return PC, row argument and receiver load remain in the original frame. */
+.globl hc_dart_columns_entry
+.p2align 4
+hc_dart_columns_entry:
+    dart_save
+    adrp x9, hc_dart_columns_ready
+    add x9, x9, :lo12:hc_dart_columns_ready
+    ldar w9, [x9]
+    cbz w9, 1f
+    adrp x9, hc_native_columns_request
+    add x9, x9, :lo12:hc_native_columns_request
+    ldar w9, [x9]
+    tbz w9, #0, 1f
+    cmn x1, #1
+    b.ne 1f
+    lsr w9, w9, #8
+    sub w10, w9, #1
+    cmp w10, #7
+    b.hi 1f
+    adrp x10, hc_grid_transient_seen
+    add x10, x10, :lo12:hc_grid_transient_seen
+    mov w11, #1
+    stlr w11, [x10]
+    lsl w2, w9, #1
+    lsl x3, x1, #1
+    // Forward an explicit row request to the same original copyWith. Otherwise
+    // changing columns selects the launcher's auto-row calculation (e.g. 5x9).
+    adrp x9, hc_grid_autofit_requested
+    add x9, x9, :lo12:hc_grid_autofit_requested
+    ldar w9, [x9]
+    tbz w9, #0, 2f
+    lsr w9, w9, #8
+    sub w10, w9, #2
+    cmp w10, #14
+    b.hi 2f
+    lsl w3, w9, #1
+2:
+    dart_restore
+    stp x3, x2, [x15]
+    dynamic_load x1, x29, hc_dart_columns_frame
+    adrp x16, hc_dart_columns_continue
+    ldr x16, [x16, :lo12:hc_dart_columns_continue]
+    br x16
+1:
+    dart_restore
+    adrp x16, hc_dart_columns_original
+    ldr x16, [x16, :lo12:hc_dart_columns_original]
+    br x16
+
+/* A displayed transient grid must never leak back into native defaults, even
+ * between disabling the preference and the next model rebuild. Keep ownership
+ * sticky for this Home process; a clean Home start restores native persistence. */
+.macro transient_grid original
+    dart_save
+    adrp x9, hc_native_columns_request
+    add x9, x9, :lo12:hc_native_columns_request
+    ldar w9, [x9]
+    tbz w9, #0, 1f
+    adrp x10, hc_grid_transient_seen
+    add x10, x10, :lo12:hc_grid_transient_seen
+    mov w11, #1
+    stlr w11, [x10]
+    b 2f
+1:
+    adrp x9, hc_grid_transient_seen
+    add x9, x9, :lo12:hc_grid_transient_seen
+    ldar w9, [x9]
+    cbnz w9, 2f
+    dart_restore
+    adrp x16, \original
+    ldr x16, [x16, :lo12:\original]
+    br x16
+2:
+    dart_restore
+.endm
+
+/* The validated original synchronous method returns null on every path. */
+.globl hc_grid_persist_entry
+.p2align 4
+hc_grid_persist_entry:
+    transient_grid hc_grid_persist_original
+    mov x0, x22
+    ret
+
+/* Preserve the live layout-type scalar update; omit only logging/closure
+ * allocation and the default-preference side effect. No object pointer retained. */
+.globl hc_layout_save_entry
+.p2align 4
+hc_layout_save_entry:
+    transient_grid hc_layout_save_original
+    dart_save
+    adrp x9, hc_layout_save_field
+    ldr x9, [x9, :lo12:hc_layout_save_field]
+    str x2, [x1, x9]
+    dart_restore
+    mov x0, x22
+    ret

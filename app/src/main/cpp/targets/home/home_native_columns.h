@@ -1,7 +1,115 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
 #include "home_layout_elf_targets.h"
+#include "home_dynamic_layout.h"
 namespace home_layout {
+// PhoneRowColHandler converges its map/default arms at this scalar argument bank.
+// Override the argument, not only the two fallback constants. The zero-row
+// bypass arm remains stock; the phone arms explicitly carry raw row=-1.
+struct DartColumns {uint32_t splice=0,field=0;int32_t frame=0;};
+inline std::optional<DartColumns> resolve_dart_columns(
+    const home_dynamic::Body& b,uint32_t owner,uint32_t copy_with) {
+    using namespace home_dynamic;
+    if(!owner||!copy_with||b.size()<16)return {};
+    unsigned hits=0;DartColumns found;
+    for(size_t i=4;i+7<b.size();++i){
+        if(!ldw(b[i],0,2)||b[i+1]!=0xd37ff823u||b[i+2]!=0xa90009e3u
+            ||!ldx(b[i+3],29,1)||!slot(imm9(b[i+3])))continue;
+        uint32_t call=0;
+        if(!target(b[i+6],owner+uint32_t((i+6)*4),call)||call!=copy_with)continue;
+        // The copyWith named-argument descriptor is loaded into x4, not a second call.
+        if((b[i+4]&0xffc003ffu)!=0x91400364u
+            ||(b[i+5]&0xffc003ffu)!=0xf9400084u)continue;
+        if(b[i-4]!=0x92800001u||b[i-2]!=0xaa0203e0u||b[i-1]!=0xd2800001u)continue;
+        auto branch=nhk::arm64::branch_target(owner+uint32_t((i-3)*4),b[i-3],false);
+        if(!branch||*branch!=owner+i*4)continue;
+        const int32_t off=imm9(b[i]);if(!field(off))continue;
+        unsigned writes=0;
+        for(size_t q=0;q+1<i;++q)
+            if((b[q]&0xffe00000u)==0xd2800000u && (b[q+1]&0xffe00fe0u)==0xb8000000u
+                && rd(b[q])==rd(b[q+1])&&imm9(b[q+1])==off
+                &&zimm(b[q])>=2&&zimm(b[q])<=16&&!(zimm(b[q])&1))++writes;
+        if(writes!=2)continue;
+        ++hits;found={uint32_t(i*4),uint32_t(off),imm9(b[i+3])};
+    }
+    return hits==1?std::optional<DartColumns>(found):std::nullopt;
+}
+// The original persistence boundary writes two currentConfig integer fields.
+// A module override is transient: it must not replace the launcher's own defaults.
+inline bool grid_persist_boundary(const home_dynamic::Body& b,uint32_t owner,
+        uint32_t current,uint32_t put_int) {
+    using namespace home_dynamic;
+    if(b.size()<16||b[0]!=0xa9bf79fdu||b[1]!=0xaa0f03fdu
+        ||(b[2]&0xffc003ffu)!=0xd10001efu||!stx(b[3],29,1)||!slot(imm9(b[3])))return false;
+    unsigned writes=0,reads=0,returns=0;int32_t first=-1;
+    for(size_t i=0;i<b.size();++i){
+        uint32_t call=0;
+        if(target(b[i],owner+uint32_t(i*4),call)){
+            if(call==current)++reads;
+            if(call==put_int){
+                if(i<4||!target(b[i-4],owner+uint32_t((i-4)*4),call)||call!=current
+                    ||!ldx(b[i-3],0,2)||(imm9(b[i-3])&7)!=3)return false;
+                // Named keys come from the original pool, never a guessed preference name.
+                if((b[i-2]&0xffc003ffu)!=0x91400361u||(b[i-1]&0xffc003ffu)!=0xf9400021u)return false;
+                if(!writes)first=imm9(b[i-3]);else if(imm9(b[i-3])!=first+8)return false;
+                ++writes;
+            }
+        }
+        if(b[i]==0xd65f03c0u){
+            if(i<3||b[i-3]!=0xaa1603e0u||b[i-2]!=0xaa1d03efu||b[i-1]!=0xa8c179fdu)return false;
+            ++returns;
+        }
+    }
+    return writes==2&&reads==2&&returns>=2;
+}
+// saveAndUpdateLayoutType also updates the live native integer. Recreate only
+// that original scalar store while suppressing its persistent default write.
+inline std::optional<int32_t> grid_layout_save_field(const home_dynamic::Body& b,
+        uint32_t owner,uint32_t put_int) {
+    using namespace home_dynamic;
+    if(b.size()<20||b[0]!=0xa9bf79fdu||b[1]!=0xaa0f03fdu
+        ||(b[2]&0xffc003ffu)!=0xd10001efu||!stx(b[3],29,1)
+        ||!slot(imm9(b[3]))||!stx(b[4],29,2)||!slot(imm9(b[4])))return {};
+    unsigned writes=0,returns=0;int32_t field_off=0;
+    for(size_t i=0;i<b.size();++i){
+        uint32_t call=0;
+        if(target(b[i],owner+uint32_t(i*4),call)&&call==put_int){
+            if(i<10||i+4>=b.size()||!ldx(b[i-4],29,0)
+                ||imm9(b[i-4])!=imm9(b[3])||!stx(b[i-3],0,2)
+                ||(imm9(b[i-3])&7)!=7||imm9(b[i-3])<=0
+                ||(b[i-2]&0xffc003ffu)!=0x91400361u
+                ||(b[i-1]&0xffc003ffu)!=0xf9400021u
+                ||b[i-7]!=0x93417c22u||b[i-6]!=0x36000041u
+                ||b[i-5]!=0xf8407022u||!ldx(b[i-10],29,0)||!slot(imm9(b[i-10]))||!ldw(b[i-9],0,1)
+                ||b[i-8]!=0x8b1c8021u)return {};
+            // Trace the saved raw x2 parameter through its original Smi/Mint
+            // boxing into this exact closure field, then back through unboxing.
+            // Without that proof an entry shortcut must not synthesize a store.
+            unsigned inputs=0;
+            for(size_t q=5;q+6<i-9;++q){
+                uint32_t allocator=0;
+                const int32_t rel=int32_t(b[q+3]<<8)>>13;
+                const uint32_t join=owner+uint32_t((q+3)*4)+uint32_t(rel*4);
+                if(!stx(b[q-2],29,3)||imm9(b[q-2])!=imm9(b[i-10])
+                    ||!target(b[q+4],owner+uint32_t((q+4)*4),allocator)
+                    ||!ldx(b[q],29,4)||imm9(b[q])!=imm9(b[4])
+                    ||b[q+1]!=0x937f7880u||b[q+2]!=0xeb80049fu
+                    ||(b[q+3]&0xff00001fu)!=0x54000000u
+                    ||join!=owner+(q+6)*4||!stx(b[q+5],0,4)
+                    ||imm9(b[q+5])!=7||(b[q+6]&0xffe00fffu)!=0xb8000060u
+                    ||imm9(b[q+6])!=imm9(b[i-9]))continue;
+                ++inputs;
+            }
+            if(inputs!=1)return {};
+            field_off=imm9(b[i-3]);++writes;
+        }
+        if(b[i]==0xd65f03c0u){
+            if(i<3||b[i-3]!=0xaa1603e0u||b[i-2]!=0xaa1d03efu||b[i-1]!=0xa8c179fdu)return {};
+            ++returns;
+        }
+    }
+    return writes==1&&returns==1?std::optional<int32_t>(field_off):std::nullopt;
+}
 struct NativeColumns {
     uint64_t splice=0, width=0;
     uint32_t slot=0, frame=0, context=0, bytes=0, reg=0;

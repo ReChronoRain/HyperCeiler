@@ -114,10 +114,10 @@ ok(get<double>(box+7)==300,"original boxed input immutable");
 unsigned char before[4096];std::memcpy(before,buffer,sizeof(buffer));hc_grid_autofit_requested=0;
 ok(hc_grid_autofit_body(saved,fp,1)==0&&std::memcmp(before,buffer,sizeof(buffer))==0,"disabled splice exact no-op before original replay");
 hc_grid_autofit_requested=1|(7<<8);std::memcpy(before,buffer,sizeof(buffer));
-ok(hc_grid_autofit_body(saved,fp,1)==0&&std::memcmp(before,buffer,sizeof(buffer))==0,"other row configuration never written");
+ok(hc_grid_autofit_body(saved,fp,1)==1&&get<int64_t>(owner+f.rows)==7&&get<double>(owner+f.height)==90,"explicit row request resizes fresh calculator using original usable height");
 hc_grid_autofit_requested=1|(6<<8);put(box+7,double(NAN));std::memcpy(before,buffer,sizeof(buffer));
 ok(hc_grid_autofit_body(saved,fp,1)==0&&std::memcmp(before,buffer,sizeof(buffer))==0,"nonfinite input never writes heap or saved registers");
-put(box+7,300.0);
+put(box+7,300.0);put(owner+f.rows,int64_t(6));put(owner+f.height,90.0);
 for(int i=0;i<1000;i++){
  ok(hc_grid_autofit_body(saved,fp,1)==1&&get<double>(owner+f.height)==105,"1000 recalculations do not compound");
 }

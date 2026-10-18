@@ -387,7 +387,10 @@ constexpr size_t kWorkspaceSceneSlot = kWorkspaceDoubleCallbackSlot + 1;
 constexpr size_t kWorkspaceStatusSlotBase = kWorkspaceSceneSlot + 1;
 constexpr size_t kIconRenderSlotBase = kWorkspaceStatusSlotBase + 3;
 constexpr size_t kNativeColumnsSlot = kIconRenderSlotBase + 6;
-constexpr size_t kSlotCount = kNativeColumnsSlot + 1;
+constexpr size_t kDartColumnsSlot = kNativeColumnsSlot + 1;
+constexpr size_t kGridPersistSlot = kDartColumnsSlot + 1;
+constexpr size_t kLayoutSaveSlot = kGridPersistSlot + 1;
+constexpr size_t kSlotCount = kLayoutSaveSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -1992,6 +1995,63 @@ bool folder_layout_anchors(uint32_t grid, uint32_t cell, uint32_t config,
     return gaps == 1 && widths == 1 && heights == 1 && pad_returns == 1
         && gap > 0 && gap <= 255 && (gap & 7) == 3
         && width > 0 && height > 0 && width != height && ws.field > 0;
+}
+
+extern "C" uint32_t hc_grid_transient_seen=0;
+extern "C" void hc_layout_save_entry();
+extern "C" void *hc_layout_save_original=nullptr;
+extern "C" int64_t hc_layout_save_field=0;
+extern "C" void hc_grid_persist_entry();
+extern "C" void *hc_grid_persist_original=nullptr;
+extern "C" uint32_t hc_dart_columns_ready=0;
+extern "C" void hc_dart_columns_entry();
+extern "C" void *hc_dart_columns_original=nullptr;
+extern "C" uintptr_t hc_dart_columns_continue=0;
+extern "C" int64_t hc_dart_columns_frame=0;
+bool bind_dart_columns() {
+    if(g_slots[kDartColumnsSlot].address)return true;
+    if(!g_dart)return false;
+    uint32_t owner=0,copy=0,size=0;home_dynamic::Body body;
+    if(!hometweaks::HomeTweaksFindSymbol("PhoneRowColHandler.handle",&owner,&size)
+        ||!hometweaks::HomeTweaksFindSymbol("ComputeContext.copyWith",&copy,&size)
+        ||!dartscan::body(owner,body))return false;
+    const auto shape=home_layout::resolve_dart_columns(body,owner,copy);if(!shape)return false;
+    uint32_t persist=0,persist_size=0,current=0,put=0;home_dynamic::Body policy;
+    if(!hometweaks::HomeTweaksFindSymbol("GridController._persistCellCountIfEligible",&persist,&persist_size)
+        ||!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size)
+        ||!hometweaks::HomeTweaksFindSymbol("PreferenceUtils.putInt",&put,&size)
+        ||!dartscan::body(persist,policy)||persist_size<16||(persist_size&3)
+        ||persist_size>policy.size()*4)return false;
+    // SpanFrom may include following unnamed helper bodies. This exact owned
+    // STT_FUNC has its own validated st_size; do not inspect a neighbour's RET.
+    policy.resize(persist_size/4);
+    if(!home_layout::grid_persist_boundary(policy,persist,current,put))return false;
+    uint32_t save=0,save_size=0;home_dynamic::Body save_body;
+    if(!hometweaks::HomeTweaksFindSymbol("LauncherLayoutType.saveAndUpdateLayoutType",&save,&save_size)
+        ||!dartscan::body(save,save_body)||save_size<16||(save_size&3)
+        ||save_size>save_body.size()*4)return false;
+    save_body.resize(save_size/4);
+    const auto save_field=home_layout::grid_layout_save_field(save_body,save,put);
+    if(!save_field)return false;
+    uintptr_t save_address=0;nhk::CodeSource save_source{};Words save_words{};
+    if(!bind_dart_target(save,save_address,save_source,save_words))return false;
+    uintptr_t policy_address=0;nhk::CodeSource policy_source{};Words policy_words{};
+    if(!bind_dart_target(persist,policy_address,policy_source,policy_words))return false;
+    uintptr_t address=0;nhk::CodeSource source{};Words words{};
+    if(!bind_dart_target(owner+shape->splice,address,source,words)||address>UINTPTR_MAX-16)return false;
+    hc_layout_save_field=*save_field;
+    g_slots[kLayoutSaveSlot]={save_address,reinterpret_cast<void*>(hc_layout_save_entry),
+        &hc_layout_save_original,save_source,save_words};
+    g_slots[kGridPersistSlot]={policy_address,reinterpret_cast<void*>(hc_grid_persist_entry),
+        &hc_grid_persist_original,policy_source,policy_words};
+    hc_dart_columns_frame=shape->frame;hc_dart_columns_continue=address+16;
+    g_slots[kDartColumnsSlot]={address,reinterpret_cast<void*>(hc_dart_columns_entry),
+        &hc_dart_columns_original,source,words};
+    __android_log_print(ANDROID_LOG_INFO,kTag,"phone columns final argument source=%#x field=%u frame=%d request=%#x rows=%#x; map/default arms",
+        owner+shape->splice,shape->field,shape->frame,
+        __atomic_load_n(&hc_native_columns_request,__ATOMIC_ACQUIRE),
+        __atomic_load_n(&hc_grid_autofit_requested,__ATOMIC_ACQUIRE));
+    return true;
 }
 
 // BOTH fixed-row and variable-row paths converge here, AFTER the original max
@@ -3739,6 +3799,7 @@ bool bind_dock_edit() {
 }
 
 size_t arm_hooks(std::vector<size_t> &order) {
+    (void)bind_dart_columns();
     (void) bind_folder_title();
     (void) bind_dock_edit();
     (void) bind_workspace_double();
@@ -3764,6 +3825,15 @@ size_t arm_hooks(std::vector<size_t> &order) {
             " (first symbol resolved=%d)", g_folder_layout_checked ? 1 : 0);
     (void) bind_gadget_bridge();
     size_t added = 0;
+    if(g_slots[kLayoutSaveSlot].address && std::find(order.begin(),order.end(),kLayoutSaveSlot)==order.end()) {
+        order.push_back(kLayoutSaveSlot);++added;
+    }
+    if(g_slots[kGridPersistSlot].address && std::find(order.begin(),order.end(),kGridPersistSlot)==order.end()) {
+        order.push_back(kGridPersistSlot);++added;
+    }
+    if(g_slots[kDartColumnsSlot].address && std::find(order.begin(),order.end(),kDartColumnsSlot)==order.end()) {
+        order.push_back(kDartColumnsSlot);++added;
+    }
     if (g_slots[kNativeColumnsSlot].address &&
         std::find(order.begin(), order.end(), kNativeColumnsSlot) == order.end()) {
         order.push_back(kNativeColumnsSlot); ++added;
@@ -3936,6 +4006,9 @@ static int requested_knob_delta(const home_layout::KnobConfig &config) {
 }
 
 size_t publish_hooks() {
+    __atomic_store_n(&hc_dart_columns_ready,
+        nhk::slot_ready(g_slots[kDartColumnsSlot])&&nhk::slot_ready(g_slots[kGridPersistSlot])
+        &&nhk::slot_ready(g_slots[kLayoutSaveSlot])?1u:0u,__ATOMIC_RELEASE);
     bool status_ready=g_workspace_status_bound;
     for(unsigned i=0;i<3;++i)if(g_slots[kWorkspaceStatusSlotBase+i].address)
         status_ready &= nhk::slot_ready(g_slots[kWorkspaceStatusSlotBase+i]);
@@ -4791,7 +4864,17 @@ extern "C" int hc_grid_autofit_body(uintptr_t saved, uintptr_t frame, unsigned k
     const double remaining = kind == 0 ? num(frame - 0x28) : num(box + 7);
     const double dock_height = num(owner + (kind == 0 ? f.legacy_dock : f.dock));
     double height = 0;
-    if (!home_layout::grid_autofit_height(base_width, remaining, dock_height, rows, requested >> 8, height)) return 0;
+    const unsigned wanted_rows=requested>>8;
+    const bool fit=kind==1
+        ? home_layout::grid_requested_rows_height(base_width,remaining,dock_height,rows,wanted_rows,height)
+        : home_layout::grid_autofit_height(base_width,remaining,dock_height,rows,wanted_rows,height);
+    if(!fit)return 0;
+    if(kind==1) {
+        // The original owner is this invocation's scalar calculator, not GridInfo.
+        // Keep its row field and already-loaded native integer bank consistent.
+        put(owner+f.rows,int64_t(wanted_rows));
+        put(saved+3*8,uint64_t(wanted_rows));put(saved+4*8,uint64_t(wanted_rows+1));
+    }
     put(owner + (kind == 0 ? f.legacy_height : f.height), height);
     // The original cap assumed row/dock heights grew together (rows+1). Rejoin
     // its original redistribution with ZERO leftover, preserving the stock dock.
@@ -5335,6 +5418,14 @@ bool adopt_layout_state() {
     if (!g_slots[kNativeColumnsSlot].backend_owned) {
         hc_native_columns_original = nullptr; g_native_columns = {};
     }
+    __atomic_store_n(&hc_dart_columns_ready,0u,__ATOMIC_RELEASE);
+    if(!g_slots[kLayoutSaveSlot].backend_owned){hc_layout_save_original=nullptr;hc_layout_save_field=0;}
+    if(!g_slots[kGridPersistSlot].backend_owned)hc_grid_persist_original=nullptr;
+    if(!g_slots[kGridPersistSlot].backend_owned&&!g_slots[kLayoutSaveSlot].backend_owned)
+        __atomic_store_n(&hc_grid_transient_seen,0u,__ATOMIC_RELEASE);
+    if(!g_slots[kDartColumnsSlot].backend_owned) {
+        hc_dart_columns_original=nullptr;hc_dart_columns_continue=0;hc_dart_columns_frame=0;
+    }
     __atomic_store_n(&hc_native_columns_request, 0u, __ATOMIC_RELEASE);
     g_native_columns_prime_next = 0;
     if(!g_slots[kBackWindowSlot].backend_owned){hc_back_window_original=nullptr;g_back_window_update={};g_back_window_shape={};}
@@ -5744,11 +5835,19 @@ void prime_native_columns(HookFunction hook, UnhookFunction unhook) {
     uintptr_t address=0;nhk::CodeSource source{};Words words{};
     if(!bind_target(*rust,shape->splice,address,source,words))return;
     g_hook_function=hook;g_unhook_function=unhook;
+    // stable_read proves ownership through current_mappings(), including on the
+    // first loader callback before locate()/the worker has published any image.
+    // Publish this validated Rust container BEFORE asking the bank to install.
+    g_container_path=rust->path;g_view_begin=rust->view_begin;g_view_end=rust->view_end;
     g_native_columns=*shape;
     g_slots[kNativeColumnsSlot]={address,reinterpret_cast<void*>(hc_native_columns_entry),
         &hc_native_columns_original,source,words};
     __atomic_store_n(&hc_native_columns_request,
         1u|(unsigned(std::clamp(config.cell_x,1,8))<<8),__ATOMIC_RELEASE);
+    // The worker's first full bind can finish after the first Dart pipeline.
+    // Publish BOTH scalar requests from this same already-read boot snapshot.
+    __atomic_store_n(&hc_grid_autofit_requested,
+        1u|(unsigned(std::clamp(config.cell_y,2,16))<<8),__ATOMIC_RELEASE);
     const bool live=nhk::ensure_slots_live(g_slots,slot_host(),std::vector<size_t>{kNativeColumnsSlot});
     __android_log_print(ANDROID_LOG_INFO,kTag,"native columns pre-init live=%d slot=%u",live,shape->slot);
 }
