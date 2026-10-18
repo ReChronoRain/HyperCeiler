@@ -124,22 +124,37 @@ inline bool folder_preview_plan(std::span<const uint32_t>build,std::span<const u
         uint32_t build_va,uint32_t height_va,std::span<const uint32_t> end,std::span<const uint32_t> real,
         std::span<const uint32_t> preview,std::span<const uint32_t> init,std::span<const uint32_t> padding,FolderPreviewPlan &out){
     FolderPreviewPlan p;unsigned builders=0,contexts=0,layouts=0,closes=0,indices=0;
+    size_t builder_at=0,context_at=0;
     for(size_t i=0;i+15<build.size();++i){
         // Fresh SliverGridDelegate: count, both spacings, then its aspect ratio.
-        if((build[i]&0xffe00fff)!=0xf8000020||build[i+1]!=0xfc5b03a0
-            ||(build[i+2]&0xffe00fff)!=0xfc000020||build[i+3]!=0xfc5a83a0
-            ||(build[i+4]&0xffe00fff)!=0xfc000020||build[i+5]!=0xfc5983a0
+        // The compiler moves these live locals between builds. Derive their
+        // signed frame slots, while retaining the exact delegate/register flow.
+        const auto local_double=[](uint32_t w){return (w&0xffe00fff)==0xfc4003a0
+            &&preview_imm9(w)<0&&(preview_imm9(w)&7)==0;};
+        if((build[i]&0xffe00fff)!=0xf8000020||!local_double(build[i+1])
+            ||(build[i+2]&0xffe00fff)!=0xfc000020||!local_double(build[i+3])
+            ||(build[i+4]&0xffe00fff)!=0xfc000020||!local_double(build[i+5])
             ||(build[i+6]&0xffe00fff)!=0xfc000020)continue;
-        p.delegate_count=preview_imm9(build[i]);p.delegate_main=preview_imm9(build[i+2]);p.delegate_cross=preview_imm9(build[i+4]);p.site[0]=uint32_t((i+6)*4);++builders;
+        if(build[i+1]==build[i+3]||build[i+1]==build[i+5]||build[i+3]==build[i+5])return false;
+        p.delegate_count=preview_imm9(build[i]);p.delegate_main=preview_imm9(build[i+2]);p.delegate_cross=preview_imm9(build[i+4]);p.site[0]=uint32_t((i+6)*4);builder_at=i;++builders;
     }
     for(size_t i=0;i+4<build.size();++i){
-        if((build[i]&0xffe00fff)!=0xf84003a2 || (build[i+1]&0xffe00fff)!=0xfc0003a0
-            ||(build[i+2]&0xffe00fff)!=0xb8400041||build[i+3]!=0x8b1c8021
+        const bool context_x2=(build[i]&0xffe00fff)==0xf84003a2
+            &&(build[i+2]&0xffe00fff)==0xb8400041;
+        const bool context_x0=(build[i]&0xffe00fff)==0xf84003a0
+            &&(build[i+2]&0xffe00fff)==0xb8400001;
+        if((!context_x2&&!context_x0) || (build[i+1]&0xffe00fff)!=0xfc0003a0
+            ||build[i+3]!=0x8b1c8021
             ||(build[i+4]&0xfc000000)!=0x94000000)continue;
         int32_t d=int32_t(build[i+4]<<6)>>6;
         if(int64_t(build_va+(i+4)*4)+int64_t(d)*4!=height_va)continue;
-        p.context_local=preview_imm9(build[i]);p.context_controller=preview_imm9(build[i+2]);++contexts;
+        p.context_local=preview_imm9(build[i]);p.context_controller=preview_imm9(build[i+2]);context_at=i;++contexts;
     }
+    // A symbol span can contain anonymous siblings. The context must belong to
+    // THIS live builder frame, not merely resemble a load in another sibling.
+    if(builders!=1||contexts!=1||builder_at<=context_at||builder_at-context_at>128)return false;
+    for(size_t i=context_at;i<builder_at;++i)
+        if(build[i]==0xa9bf79fd||build[i]==0xaa0f03fd||build[i]==0xd65f03c0)return false;
     for(size_t i=0;i+13<layout.size();++i){
         if((layout[i]&0xffe00fff)!=0xf8000001)continue;
         if((layout[i+2]&0xffe00fff)!=0xfc000000||(layout[i+4]&0xffe00fff)!=0xfc000000

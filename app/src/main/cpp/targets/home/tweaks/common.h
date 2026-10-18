@@ -21,8 +21,6 @@ struct NativeAPIEntries {
 
 constexpr const char* kTargetLibName = "libapp.so";
 
-constexpr const char* kDesktopApkMarker = "/com.miui.home-";
-
 constexpr char kBlobMagic[4] = {'H', 'T', 'W', 'K'};
 constexpr uint32_t kBlobFormatVersion = 1;
 constexpr uint32_t kBlobFlagEnabled = 1u << 0;

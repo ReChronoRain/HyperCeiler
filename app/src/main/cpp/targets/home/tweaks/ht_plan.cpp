@@ -16,11 +16,11 @@ namespace {
 
 bool gForceSymbolOnly = false;
 
-constexpr uint32_t kFolderColsOffset = 0x2638;
+
 constexpr uint32_t kFolderColsOrigSmi = 8;
 constexpr uint32_t kFolderColsOfficial = kFolderColsOrigSmi / 2u;
 
-constexpr uint32_t kCellCountXOffset = 19;
+
 
 void SetWhy(char* buf, size_t cap, const char* fmt, ...) {
     if (buf == nullptr || cap == 0) return;
@@ -613,14 +613,29 @@ bool LocateFeature4(const CodeView& code, LocatedSites* out) {
     return true;
 }
 
+// Resolve the column field from the actual final (row,column) argument consumer.
+// Both official layout arms must write this same field; no historical +0x13 fallback.
+static bool PhoneColumnOffset(const CodeView& code,uint32_t va,uint32_t size,uint32_t *offset) {
+    unsigned hits=0;uint32_t found=0;
+    for(uint32_t pc=va;pc+12<=va+size;pc+=4){uint32_t a=0,b=0,c=0;
+        if(!code.Word(pc,&a)||!code.Word(pc+4,&b)||!code.Word(pc+8,&c))return false;
+        if((a&0xffe00fffu)!=0xb8400002u || b!=0xd37ff823u || c!=0xa90009e3u)continue;
+        const uint32_t field=(a>>12)&511;
+        if(field==0 || field>=256 || ((field+1)&3))return false;
+        ++hits;found=field;
+    }
+    if(hits!=1)return false;*offset=found;return true;
+}
+
 bool LocateFeature19(const CodeView& code, LocatedSites* out) {
-    constexpr uint32_t kSlot = 19;
+    uint32_t kSlot=0;
     uint32_t va = 0, size = 0;
     if (!LocateFunction(code, "PhoneRowColHandler.handle", &va, &size, out->why19,
                         sizeof(out->why19))) {
         return false;
     }
 
+    if(!PhoneColumnOffset(code,va,size,&kSlot))return false;
     uint32_t siteVa[kMaxPhoneSites] = {0, 0};
     uint32_t siteRd[kMaxPhoneSites] = {0, 0};
     uint32_t siteImm[kMaxPhoneSites] = {0, 0};
@@ -1537,7 +1552,7 @@ bool ValidateSitesImpl(const CodeView& code, LocatedSites& s) {
         if (imm != kFolderColsOrigSmi) {
             if (imm < 2u || imm > 32u || (imm & 1u) != 0u) return false;
         }
-        if (!a64::IsStrXUimm(sw, s.colsOffset != 0 ? s.colsOffset : kFolderColsOffset))
+        if (!s.colsOffset || !a64::IsStrXUimm(sw, s.colsOffset))
             return false;
         if (s.storeVa <= s.movzVa || s.storeVa - s.movzVa > 20u) return false;
 
@@ -1584,6 +1599,9 @@ bool ValidateSitesImpl(const CodeView& code, LocatedSites& s) {
         }
     }
     if (s.ok19) {
+        uint32_t column=0,owner=0,owner_size=0;
+        if(!LocateFunction(code,"PhoneRowColHandler.handle",&owner,&owner_size,nullptr,0) || owner!=s.phoneVa
+            || !PhoneColumnOffset(code,owner,owner_size,&column))return false;
         uint32_t p0 = 0, p1 = 0;
         if (!code.Word(s.phoneVa, &p0) || !code.Word(s.phoneVa + 4, &p1)) return false;
         if (!a64::IsStpFpLrPre(p0) || !a64::IsMovX29X15(p1)) return false;
@@ -1597,7 +1615,7 @@ bool ValidateSitesImpl(const CodeView& code, LocatedSites& s) {
             if ((imm & 1u) != 0u || imm < 2u || imm > 32u) return false;
             uint32_t rt = 0, rn = 0, slot = 0;
             if (!a64::IsSturW(nxt, &rt, &rn, &slot)) return false;
-            if (rt != s.phoneSiteRd[i] || slot != kCellCountXOffset) return false;
+            if (rt != s.phoneSiteRd[i] || slot != column) return false;
         }
         if (s.ok19r) {
             for (uint32_t i = 0; i < kMaxPhoneRowSites; ++i) {
@@ -1710,7 +1728,7 @@ bool ValidateSites(const CodeView& code, LocatedSites& s) {    if (!s.AnyOk()) r
         if (imm != kFolderColsOrigSmi) {
             if (imm < 2u || imm > 32u || (imm & 1u) != 0u) return false;
         }
-        if (!a64::IsStrXUimm(sw, s.colsOffset != 0 ? s.colsOffset : kFolderColsOffset))
+        if (!s.colsOffset || !a64::IsStrXUimm(sw, s.colsOffset))
             return false;
         if (s.storeVa <= s.movzVa || s.storeVa - s.movzVa > 20u) return false;
         if (s.gateVa != 0) {
@@ -1756,6 +1774,9 @@ bool ValidateSites(const CodeView& code, LocatedSites& s) {    if (!s.AnyOk()) r
     }
 
     if (s.ok19) {
+        uint32_t column=0,owner=0,owner_size=0;
+        if(!LocateFunction(code,"PhoneRowColHandler.handle",&owner,&owner_size,nullptr,0) || owner!=s.phoneVa
+            || !PhoneColumnOffset(code,owner,owner_size,&column))return false;
         const FunctionSignature* sig = FindSignatureByName("PhoneRowColHandler.handle");
         if (sig == nullptr || !code.MatchSignatureAt(*sig, s.phoneVa)) return false;
         const uint32_t end = s.phoneVa + sig->wordCount * 4;
@@ -1772,7 +1793,7 @@ bool ValidateSites(const CodeView& code, LocatedSites& s) {    if (!s.AnyOk()) r
             uint32_t rt = 0, rn = 0, slot = 0;
             if (!a64::IsSturW(nxt, &rt, &rn, &slot)) return false;
             if (rt != s.phoneSiteRd[i]) return false;
-            if (slot != kCellCountXOffset) return false;
+            if (slot != column) return false;
         }
         if (s.ok19r) {
             for (uint32_t i = 0; i < kMaxPhoneRowSites; ++i) {

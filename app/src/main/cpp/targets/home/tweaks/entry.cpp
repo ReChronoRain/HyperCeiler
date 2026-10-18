@@ -587,9 +587,9 @@ bool RefreshConfigLocked(State* state, bool allowBakedFallback, bool fast) {
     return state->configLoaded;
 }
 
-void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted) {
+void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted, bool allowBuild) {
     SymbolIndex& index = SymbolIndex::Instance();
-    if (!index.EnsureLoaded(state->image)) {
+    if (allowBuild ? !index.EnsureLoaded(state->image) : !index.loaded()) {
         LOGW("符号表不可用（%s），只能回退到构建期指纹", index.status());
         return;
     }
@@ -608,7 +608,7 @@ void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted) 
     LOGI("符号定位完成：用时 %llu ms（%s）→ %s", static_cast<unsigned long long>(NowMs() - t0),
          index.status(), DescribeMask(adopted).c_str());
 
-    if (adopted != 0 && (adopted & ~before) != 0) {
+    if (allowBuild && adopted != 0 && (adopted & ~before) != 0) {
         SaveSitesCache(state->imageId, found);
     }
     (void) wanted;
@@ -678,7 +678,7 @@ void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image)
     }
 
     if (NeedAcquire(state, wanted)) {
-        AcquireSitesBySymbols(state, code, wanted);
+        AcquireSitesBySymbols(state, code, wanted, allowScan);
     }
 
     if (!allowScan) return;
@@ -840,8 +840,8 @@ bool TryDiscoverImage() {
 
     if (FindImageByName(kTargetLibName, &image)) {
         how = "dl_iterate_phdr";
-    } else if (FindImageFromApkMaps(kDesktopApkMarker, kTargetLibName, &image)) {
-        how = "maps+apk";
+    } else if (FindImageFromMappedApks(kTargetLibName, &image)) {
+        how = "mapped-ELF-container";
     } else {
         return false;
     }
@@ -934,9 +934,11 @@ void MonitorLoop() {
 }
 
 void FastPatchOnLibraryLoad() {
-    TryDiscoverImage();
-
-    std::lock_guard<std::mutex> work(g_workMutex);
+    // PrimeCachedSymbols already publishes the image. A cache/lock miss falls to
+    // the worker; never discover/wait under the Android linker callback lock.
+    if (!g_imageKnown.load(std::memory_order_acquire)) return;
+    std::unique_lock<std::mutex> work(g_workMutex, std::try_to_lock);
+    if (!work.owns_lock()) return;
     State* state = &g_state;
     if (!state->imageFound) return;
     if (!state->applied.empty()) return;
@@ -1073,7 +1075,7 @@ void HomeTweaksPrepareForLauncherChild() {
 bool HomeTweaksPrimeCachedSymbols() {
     Image image{};
     if (!FindImageByName(kTargetLibName, &image)
-        && !FindImageFromApkMaps(kDesktopApkMarker, kTargetLibName, &image)) return false;
+        && !FindImageFromMappedApks(kTargetLibName, &image)) return false;
     std::unique_lock<std::mutex> work(g_workMutex, std::try_to_lock);
     if (!work.owns_lock()) return false;
     if (!g_state.imageFound) {
@@ -1084,11 +1086,18 @@ bool HomeTweaksPrimeCachedSymbols() {
         g_state.identityTried = true; g_state.imageId = ImageIdentity(g_state.image);
     }
     auto& index = SymbolIndex::Instance();
-    if (index.TryLoadCached(g_state.image, g_state.imageId)) return true;
+    if (index.TryLoadCached(g_state.image, g_state.imageId)) {
+        // Keep index publication and initial source-word writes in ONE critical
+        // section. Otherwise the monitor wins this lock after index publication,
+        // and the loader's later try-lock misses the one-shot icon calculation.
+        if(g_state.configLoaded)SettleLocked(&g_state,false);
+        return true;
+    }
     const uint64_t start = NowMs();
     const bool ready = index.EnsureLoaded(g_state.image, 300);
     LOGI("首次无符号缓存预算解析：ready=%d elapsed=%llu ms（预算300ms）", ready ? 1 : 0,
         static_cast<unsigned long long>(NowMs() - start));
+    if(ready && g_state.configLoaded)SettleLocked(&g_state,false);
     return ready;
 }
 
@@ -1147,14 +1156,7 @@ bool HomeTweaksSymbolSpan(uint32_t va, uint32_t *outSpan) {
     return index.SpanFrom(va, outSpan);
 }
 
-/**
- * Report the launcher image this module resolved.
- *
- * The layout module's own APK discovery matches a fixed /data directory pattern; the 7654 desktop
- * ships from /product/priv-app/MiuiHome, which that pattern can never match, so its geometry sites
- * and every hook knob lost their image anchor. This hands over the path dl_iterate_phdr actually
- * proved — the same image the symbol table above is read from — instead of a second guess.
- */
+/** Return the verified image source for diagnostics/bridge callers; never infer an APK from a directory. */
 bool HomeTweaksTargetImage(char *path, size_t cap) {
     if (path == nullptr || cap == 0) return false;
     TryDiscoverImage();
@@ -1171,6 +1173,17 @@ void PushPhoneGrid(uint32_t cols, uint32_t rows) {
     config.phoneCols = cols;
     config.phoneRows = rows;
     PushTweaksConfig(config);
+}
+
+// A boot snapshot fills only an empty planner. A newer pushed configuration,
+// including explicit disable, must never be overwritten by a stale disk cache.
+bool PrimeTweaksConfig(const Config& config) {
+    std::unique_lock<std::mutex> work(g_workMutex,std::try_to_lock);
+    if(!work.owns_lock())return false;
+    if(g_state.configLoaded)return true;
+    g_state.config=config;g_state.configLoaded=true;g_state.configFromBaked=false;
+    g_state.repatchNeeded=true;g_state.packTried=false;g_state.cacheTried=false;
+    return true;
 }
 
 void PushTweaksConfig(const Config& config) {

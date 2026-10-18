@@ -72,6 +72,10 @@ ssize_t pread(int,void*out,size_t n,off_t at){if(at<0||uint64_t(at)>outerFile.si
 if 'CodeView(image)' in S:
  sys.path.insert(0,str(W/'tests/os4-audit-symbol-prologue-20261005'));from fixture_support import codeview_fixture
  pre+=codeview_fixture(R,'if(faultAll || (faultAddress && address==faultAddress))return false;for(const auto& [begin,bytes]:readable)if(address>=begin&&address-begin<=bytes&&out.size()<=bytes-(address-begin)){std::memcpy(out.data(),reinterpret_cast<void*>(address),out.size());return true;}return false;')
+if (R/'app/src/main/cpp/targets/home/home_workspace_gesture.h').is_file():
+ pre='#include \"'+str(R/'app/src/main/cpp/targets/home/home_workspace_gesture.h').replace('\\','/')+'\"\n'+pre
+if (R/'app/src/main/cpp/targets/home/home_workspace_swipe.h').is_file():
+ pre='#include "'+str(R/'app/src/main/cpp/targets/home/home_workspace_swipe.h').replace('\\','/')+'"\n'+pre
 pre+=header+'\n'+code+'\nnamespace hometweaks {\n'+fun(I,'bool ReadImageFile(').replace('bool ReadImageFile(','bool audit_read_image_file(')+'\n}\n'
 pre+=r'''
 std::vector<uint8_t> read(const char*p){std::ifstream f(p,std::ios::binary|std::ios::ate);if(!f)return {};const auto size=f.tellg();std::vector<uint8_t>b(size);f.seekg(0);f.read(reinterpret_cast<char*>(b.data()),b.size());return b;}
@@ -109,7 +113,18 @@ if(test=="exec_bounds"){
  blockLargeString=test=="oversize_shstr";auto &index=SymbolIndex::Instance();bool loaded=false;bool threw=false;
  try{loaded=index.EnsureLoaded(image);}catch(const std::exception&e){threw=true;std::cout<<"EXCEPTION "<<e.what()<<"\n";}
  blockLargeString=false;uint32_t va=0,size=0,span=0;const char* target="BigFolderCommonStrategy.calItemSize";
- if(test=="fault_all"||test=="fault_target"){
+ if(test=="workspace"){
+  ok(loaded&&!threw,"real workspace symbol index loads");
+  const char* names[]={"WorkspaceGetxController.isDoubleTapLock","_DoubleTapGestureDetectorState._handlePointerDown",
+   "LauncherModeController.isElderlyManMode","Inst|isRegistered","_DoubleTapGestureDetectorState.isConsideredDoubleTap",
+   "_DoubleTapGestureDetectorState._resetState","RxObjectMixin.value"};uint32_t roots[7]{};
+  for(size_t i=0;i<7;++i)ok(index.Find(names[i],&roots[i],&size),names[i]);
+  home_dynamic::Body p,d;
+  for(auto entry: {std::pair{roots[0],&p},std::pair{roots[1],&d}}){uint32_t z=0;ok(index.SpanFrom(entry.first,&z),"actual all-symbol function span");entry.second->resize(z/4);memcpy(entry.second->data(),mapped.data()+entry.first,z);}
+  home_workspace_gesture::DoubleTapSites sites;
+  ok(home_workspace_gesture::resolve(p,roots[0],d,roots[1],roots[2],roots[3],roots[4],roots[5],roots[6],sites),"indexed actual bodies pass production source contract");
+  std::cout<<"WORKSPACE_REGISTRY policy="<<sites.policy<<" callback="<<sites.callback<<"\n";
+ }else if(test=="fault_all"||test=="fault_target"){
   ok(!threw&&loaded==(test=="fault_target"),"read fault drops affected roots without crashing unrelated roots");
   va=0xabcdef;size=0xabcdef;ok(!index.Find(target,&va,&size)&&va==0xabcdef&&size==0xabcdef,"failed prologue never publishes target/out fields");
  }else if(test=="real"){
@@ -154,9 +169,25 @@ cacheOn=false;slowDecode=true;index.ResetForTest();
 std::cout<<"SYMBOL_LOADER "<<test<<": "<<checks<<" checks; failed="<<failed<<"\n";return failed?1:0;
 }
 '''
+if not (R/'app/src/main/cpp/targets/home/home_workspace_gesture.h').is_file():
+ a=pre.index(' if(test==\"workspace\"){');b=pre.index('}else if(test==\"fault_all\"',a);pre=pre[:a]+' if(test==\"fault_all\"'+pre[b+len('}else if(test==\"fault_all\"'):]
+if (R/'app/src/main/cpp/targets/home/home_workspace_swipe.h').is_file():
+ extra=r'''  const char* scopeNames[]={"_TransformedPointerEvent.timeStamp","SwipeDetector.onPointerMove","SwipeDetector._computeVelocity"};uint32_t sr[3]{};
+  for(unsigned i=0;i<3;++i)ok(index.Find(scopeNames[i],&sr[i],&size),scopeNames[i]);
+  home_dynamic::Body stamp,move;
+  for(auto entry: {std::pair{sr[0],&stamp},std::pair{sr[1],&move}}){uint32_t z=0;ok(index.SpanFrom(entry.first,&z),"actual scope span");entry.second->resize(z/4);if(z)memcpy(entry.second->data(),mapped.data()+entry.first,z);}
+  home_workspace_gesture::ScopeContract scope;
+  ok(home_workspace_gesture::scope_contract(d,roots[1],roots[0],stamp,move,sr[1],sr[2],scope),"indexed original timestamp/Down contract");
+  const char* statusNames[]={"StatusBarSwipeController.onInterceptTouchEvent","StatusBarSwipeController.canInterceptTouch"};uint32_t st[2]{};
+  for(unsigned i=0;i<2;++i)ok(index.Find(statusNames[i],&st[i],&size),statusNames[i]);
+  uint32_t statusSize=0;ok(index.SpanFrom(st[0],&statusSize),"actual status span");home_dynamic::Body status(statusSize/4);if(statusSize)memcpy(status.data(),mapped.data()+st[0],statusSize);
+  home_workspace_gesture::StatusPolicy statusPolicy;ok(home_workspace_gesture::status_policy(status,st[0],st[1],statusPolicy),"indexed status result source contract");
+  std::cout<<"WORKSPACE_SCOPE_REGISTRY frame="<<scope.event_frame<<" time="<<scope.timestamp_field<<" duration="<<scope.duration_field<<"\n";
+'''
+ pre=pre.replace('  std::cout<<"WORKSPACE_REGISTRY',extra+'  std::cout<<"WORKSPACE_REGISTRY')
 (run/'test.cpp').write_text(pre,encoding='utf8')
 zig=W/'tests/dynamic-address-audit/runtime/zig-windows-x86_64-0.13.0/zig.exe'
-p=subprocess.run([str(zig),'c++','-std=c++20','-O0',str(run/'test.cpp'),'-o',str(run/'test.exe')],capture_output=True,text=True,encoding='utf8');print(p.stdout+p.stderr,end='')
+p=subprocess.run([str(zig),'c++','-std=c++20','-O0','-I'+str(R/'app/src/main/cpp'),str(run/'test.cpp'),'-o',str(run/'test.exe')],capture_output=True,text=True,encoding='utf8');print(p.stdout+p.stderr,end='')
 if p.returncode:sys.exit(p.returncode)
 cases={}
 def add(name,out=None,debug=None):cases[name]=(bytes(outer.data if out is None else out),bytes(mini.data if debug is None else debug))

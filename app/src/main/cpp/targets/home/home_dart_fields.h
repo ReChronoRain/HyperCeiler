@@ -130,11 +130,11 @@ inline bool read_grid_counts(const std::vector<uint32_t> &body, uint32_t va,
         int32_t imm = 0;
         if (!dart_call_to(body[i], va + static_cast<uint32_t>(i * 4), current_config)
             || !dart_ldur_x(body[i + 1], 0, 1, &imm) || !dart_plausible_field(imm)) continue;
-        if (body[i + 2] == 0xf85e83a0 && body[i + 3] == 0xeb01001f
+        if ((body[i + 2] & 0xffe00fffu) == 0xf84003a0u && body[i + 3] == 0xeb01001f
             && (body[i + 4] & 0xff00001f) == 0x5400000a) {
             ++xhits; x = imm; xr = dart_cond_target(i + 4, body[i + 4]);
         }
-        if (body[i + 2] == 0xf85f03a2 && body[i + 3] == 0x93417c43
+        if ((body[i + 2] & 0xffe00fffu) == 0xf84003a2u && body[i + 3] == 0x93417c43
             && body[i + 4] == 0x36000042 && body[i + 5] == 0xf8407043
             && body[i + 6] == 0xeb01007f
             && (body[i + 7] & 0xff00001f) == 0x5400000a) {
@@ -151,18 +151,18 @@ inline bool read_occupied_fields(const std::vector<uint32_t> &body, GridFieldOff
     size_t hits = 0, grid_hits = 0; int32_t col = -1, row = -1, grid = -1;
     for (size_t i = 0; i + 12 < body.size(); ++i) {
         int32_t x = 0, y = 0;
-        if (body[i] == 0xf85f03a0 && body[i + 1] == 0xf85e83a1
+        if ((body[i] & 0xffe00fffu) == 0xf84003a0u && (body[i + 1] & 0xffe00fffu) == 0xf84003a1u
             && dart_ldur_x(body[i + 2], 0, 2, &x) && dart_plausible_field(x)
             && body[i + 3] == 0x9e620043 && body[i + 4] == 0x1e600864
-            && body[i + 5] == 0x1e642843 && body[i + 6] == 0xfc1903a3
+            && body[i + 5] == 0x1e642843 && (body[i + 6] & 0xffe00fffu) == 0xfc0003a3u
             && dart_ldur_x(body[i + 7], 0, 2, &y) && dart_plausible_field(y)
             && body[i + 8] == 0x9e620044 && body[i + 9] == 0x1e610885
-            && body[i + 10] == 0xfc1983a5 && x != y) { ++hits; col = x; row = y; }
+            && (body[i + 10] & 0xffe00fffu) == 0xfc0003a5u && x != y) { ++hits; col = x; row = y; }
         int32_t ptr = 0, w = 0, h = 0;
-        if (body[i] == 0xf85f83a2 && dart_ldur_w(body[i + 1], 2, 0, &ptr)
+        if ((body[i] & 0xffe00fffu) == 0xf84003a2u && dart_ldur_w(body[i + 1], 2, 0, &ptr)
             && dart_plausible_field(ptr) && dart_sign_extend_pair(body[i + 2], 0)
-            && dart_ldur_d(body[i + 3], 0, 0, &w) && body[i + 4] == 0xfc1a03a0
-            && dart_ldur_d(body[i + 5], 0, 1, &h) && body[i + 6] == 0xfc1a83a1
+            && dart_ldur_d(body[i + 3], 0, 0, &w) && (body[i + 4] & 0xffe00fffu) == 0xfc0003a0u
+            && dart_ldur_d(body[i + 5], 0, 1, &h) && (body[i + 6] & 0xffe00fffu) == 0xfc0003a1u
             && w == out.cell_width && h == out.cell_height) { ++grid_hits; grid = ptr; }
     }
     if (hits != 1 || grid_hits != 1) return false;
@@ -175,14 +175,14 @@ inline bool read_hotseat_fields(const std::vector<uint32_t> &body, GridFieldOffs
     size_t counts = 0, chains = 0; int32_t count = -1, item = -1, info = -1;
     for (size_t i = 0; i + 8 < body.size(); ++i) {
         int32_t imm = 0, a = 0, b = 0, col = 0;
-        if (body[i] == 0xf85f83a5 && body[i + 1] == 0xf81c03a4
+        if ((body[i] & 0xffe00fffu) == 0xf84003a5u && (body[i + 1] & 0xffe00fffu) == 0xf80003a4u
             && dart_ldur_x(body[i + 2], 5, 6, &imm) && dart_plausible_field(imm)
             && body[i + 3] == 0x937f78c0 && body[i + 4] == 0xeb8004df
             && body[i + 5] == 0x54000060 && dart_is_bl(body[i + 6])
-            && body[i + 7] == 0xf8007006 && body[i + 8] == 0xf81c83a0) {
+            && body[i + 7] == 0xf8007006 && (body[i + 8] & 0xffe00fffu) == 0xf80003a0u) {
             ++counts; count = imm;
         }
-        if (body[i] == 0xf85b03a2 && dart_ldur_w(body[i + 1], 2, 0, &a)
+        if ((body[i] & 0xffe00fffu) == 0xf84003a2u && dart_ldur_w(body[i + 1], 2, 0, &a)
             && dart_plausible_field(a) && dart_sign_extend_pair(body[i + 2], 0)
             && dart_ldur_w(body[i + 3], 0, 1, &b) && dart_plausible_field(b)
             && dart_sign_extend_pair(body[i + 4], 1)

@@ -2,6 +2,7 @@
 #pragma once
 #include "home_folder_auto_close.h"
 #include "home_back_gesture.h"
+#include "home_gestures_os4.h"
 
 #include "home_layout_knobs.h"
 #include "home_title_custom.h"
@@ -85,6 +86,7 @@ struct Config {
     bool title_hide_new_install = false;
     bool widget_allow_move = false;
     BackGestureConfig back_gesture{};
+    home_gestures::Config gestures{};
     bool folder_auto_close = false;
     std::vector<home_title::CustomTitle> title_custom_labels;
 };

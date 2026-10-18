@@ -13,13 +13,13 @@ namespace hc::indicator {
 // Changing it couples the user position to subsequent layout/animation rebuilds.
 // Never reserve TLAB memory, retain a pointer, or change that shared scalar local.
 inline bool inset_original_frame(uintptr_t frame, uint64_t heap, uint64_t edge,
-    uint64_t dart_null, double delta) {
+    uint64_t dart_null, double delta, uint32_t edge_cid = 0x15c9) {
     if (frame < 0x48 || (frame & 7u) || (edge & 7u) != 1u || edge == dart_null
         || (edge >> 32) != static_cast<uint32_t>(heap)
         || !std::isfinite(delta) || delta < -630 || delta > 370 || delta == 0) return false;
     uint64_t header = 0;
     std::memcpy(&header, reinterpret_cast<const void *>(edge - 1), 8);
-    if (((header >> 12) & 0xfffffu) != 0x15c9) return false;
+    if (edge_cid == 0 || ((header >> 12) & 0xfffffu) != edge_cid) return false;
     double left = 0, top = 0, right = 0, bottom = 0, original_bottom = 0;
     std::memcpy(&left, reinterpret_cast<const void *>(edge + 7), 8);
     std::memcpy(&top, reinterpret_cast<const void *>(edge + 0xf), 8);

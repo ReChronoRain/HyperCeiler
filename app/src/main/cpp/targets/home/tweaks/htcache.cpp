@@ -91,11 +91,13 @@ bool PrivateDirectory(int fd) {
         && !(st.st_mode & 0002) && (!(st.st_mode & 0020) || st.st_gid == getegid());
 }
 int OpenCacheDirectory(bool create) {
+    // Symbols and sites must be readable before credential unlock, just like the
+    // layout bootstrap. Rebuild old CE caches through original-image validation.
     // Cache is advisory. Never accept or publish patch locations in shared tmp/media.
     // A pinned directory FD owns open/unlink/rename; the final component cannot be a link.
     char path[160];
     const unsigned user = unsigned(geteuid()) / 100000u;
-    const int n = snprintf(path, sizeof(path), "/data/user/%u/com.miui.home/files", user);
+    const int n = snprintf(path, sizeof(path), "/data/user_de/%u/com.miui.home/files", user);
     if (n <= 0 || size_t(n) >= sizeof(path)) return -1;
     int fd = open(path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK);
     if (fd < 0 && errno == ENOENT && create) {

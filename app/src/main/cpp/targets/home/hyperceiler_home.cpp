@@ -20,6 +20,7 @@
 void resolve_home_layout_targets();
 void start_home_layout_hooks(const char *site, int (*hook)(void *, void *, void **),
     int (*unhook)(void *));
+void prime_home_tweaks();
 void prime_home_layout_probe(int (*hook)(void *, void *, void **), int (*unhook)(void *));
 void home_layout_prepare_for_launcher_child();
 void prime_home_layout_knobs(int (*hook)(void *, void *, void **), int (*unhook)(void *));
@@ -256,6 +257,7 @@ void on_library_loaded(const char *name, void *) {
     if (std::string_view(name).ends_with("libapp.so")) {
         if (launcher) {
             hometweaks::HomeTweaksPrepareForLauncherChild();
+            prime_home_tweaks();
             (void)hometweaks::HomeTweaksPrimeCachedSymbols();
         }
         // Patch before the dart runtime runs: the probe target is called exactly once, at start-up.

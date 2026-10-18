@@ -22,6 +22,16 @@ public final class HomeOS4AdaptationGate {
     private static final Set<String> ADAPTED_OTHER_KEYS = Set.of(
         "prefs_key_home_folder_auto_close", "prefs_key_home_other_home_mode", "prefs_key_home_widget_allow_moved_to_minus_one_screen");
 
+    // Keep the UI in sync with the verified OS4 native workspace/quick-switch paths.
+    private static final Set<String> ADAPTED_GESTURE_KEYS = Set.of(
+        "prefs_key_home_gesture_enable", "prefs_key_home_navigation_quick_back",
+        "prefs_key_home_gesture_double_tap", "prefs_key_home_gesture_shake",
+        "prefs_key_home_navigation_assist_left_slide", "prefs_key_home_navigation_assist_right_slide",
+        "prefs_key_home_gesture_line_long_press", "prefs_key_home_gesture_line_double_click",
+        "prefs_key_home_gesture_up_swipe", "prefs_key_home_gesture_down_swipe",
+        "prefs_key_home_gesture_up_swipe2", "prefs_key_home_gesture_down_swipe2",
+        "prefs_key_home_navigation_back_area_height", "prefs_key_home_navigation_back_area_width");
+
     private HomeOS4AdaptationGate() {}
 
     public static void apply(PreferenceGroup screen, int xml) {
@@ -36,8 +46,7 @@ public final class HomeOS4AdaptationGate {
         } else if (xml == R.xml.home_other_new) {
             disableLeaves(screen, ADAPTED_OTHER_KEYS);
         } else if (xml == R.xml.home_gesture) {
-            disableLeaves(screen, Set.of("prefs_key_home_navigation_back_area_height",
-                "prefs_key_home_navigation_back_area_width"));
+            disableLeaves(screen, ADAPTED_GESTURE_KEYS);
         } else if (xml == R.xml.home_drawer) {
             disableLeaves(screen, Set.of());
         }

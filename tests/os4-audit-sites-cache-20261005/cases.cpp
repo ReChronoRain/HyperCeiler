@@ -85,7 +85,7 @@ int main(int argc,char** argv){
  else if(c=="cache-boolean"){auto b=get("cacheA");u32(b,b.size()-16,2);crc(b);put("cacheA",b);ok(!LoadSitesCache(11,&out)&&out.overlayVa==9999);}
  else if(c=="cache-crc"){auto b=get("cacheA");b.back()^=1;put("cacheA",b);ok(!LoadSitesCache(11,&out)&&out.overlayVa==9999);}
  else if(c=="cache-id"){ok(!LoadSitesCache(22,&out)&&out.overlayVa==9999);}
- else if(c=="cache-user"){uid=1010001;ok(SaveSitesCache(11,valid()));ok(lastDir.find("/data/user/10/")!=std::string::npos);}
+ else if(c=="cache-user"){uid=1010001;ok(SaveSitesCache(11,valid()));ok(lastDir.find("/data/user_de/10/")!=std::string::npos);}
  else if(c=="save-valid"){ok(SaveSitesCache(33,valid(777)));ok(LoadSitesCache(33,&out)&&out.overlayVa==777);}
  else if(c=="save-temp"){ok(SaveSitesCache(11,valid(777)));ok(get("victim")==std::vector<uint8_t>({'O','R','I','G'})&&linksFollowed==0);}
  else if(c=="save-eintr"){writeEintr=syncEintr=true;shortIO=true;ok(SaveSitesCache(11,valid()));}

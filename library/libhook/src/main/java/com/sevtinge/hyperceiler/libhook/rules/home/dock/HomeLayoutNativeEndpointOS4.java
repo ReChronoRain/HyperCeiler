@@ -582,6 +582,24 @@ public final class HomeLayoutNativeEndpointOS4 {
         return folder;
     }
 
+    /** Uses one complete revision from the existing provider cache, without a second gesture poller. */
+    public static int[] gestureConfig() {
+        final java.util.Map<String, Object> values = cachedValues;
+        int mask=0;
+        String[] actions=com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.ACTIONS;
+        for(int i=0;i<com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.NATIVE_ACTION_COUNT;i++) {
+            int action=readInt(values,actions[i]+"_action",0);
+            if(action>0 && action<=100)mask|=1<<i;
+        }
+        final android.content.Context context=com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+        final android.util.DisplayMetrics dm=context!=null?context.getResources().getDisplayMetrics():null;
+        return new int[]{readBoolean(values,"home_gesture_enable",false)?1:0,
+            readBoolean(values,"home_navigation_quick_back",false)?1:0,mask,
+            dm!=null?Math.max(80,Math.min(1280,dm.densityDpi)):160,
+            dm!=null?Math.max(1,Math.min(32768,dm.widthPixels)):1};
+    }
+
     public static final int TITLE_COUNT = 4;
 
     /** Number of code-patch feature values, in the order the native side reads them. */

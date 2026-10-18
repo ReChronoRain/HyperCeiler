@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 #include "symtab.h"
 #include "htcache.h"
+#include "../home_workspace_gesture.h"
 
 #include "a64.h"
 #include "scanner.h"
@@ -25,14 +26,18 @@ namespace hometweaks {
 namespace {
 
 const TargetFunction kTargets[] = {
+        {"EditModeGetxController.isInNormalEditing", "EditModeGetxController.isInNormalEditing", "Dock 编辑状态字段校验"},
+        {"EditModeGetxController._updateGridState", "EditModeGetxController._updateGridState", "Dock 编辑状态原消费域"},
         {"AssistantDragDataHelper.putWidgetIntoBundle", "AssistantDragDataHelper.putWidgetIntoBundle", "OS4 Gadget 传输"},
         {"GadgetInfoModel.cloneModel", "GadgetInfoModel.cloneModel", "OS4 Gadget 模型校验"},
+        {"GadgetInfoModel.getCategoryId", "GadgetInfoModel.getCategoryId", "OS4 Gadget 类型字段解析"},
         {"BundleImpl.putInt", "BundleImpl.putInt", "OS4 Gadget 原序列化调用"},
         {"AssistantDragToPAHandler.canDragToPA", "AssistantDragToPAHandler.canDragToPA", "OS4 安卓小部件负一屏原逻辑"},
         {"AssistantDragToPAHandler._isSpanSupportedByPa", "AssistantDragToPAHandler._isSpanSupportedByPa", "OS4 小部件尺寸校验"},
         {"AssistantDragToPAHandler._ensureDragSessionId", "AssistantDragToPAHandler._ensureDragSessionId", "OS4 小部件交接校验"},
         // Only registered names survive the mini-ELF scan. These are validation/render targets,
         // not UI switches; omitting one makes original-body title injection silently do nothing.
+        {"FolderIconWidget._buildText", "FolderIconWidget._buildText", "OS4 桌面文件夹标题原逻辑"},
         {"ShortcutIconWidget._buildTextWidget", "ShortcutIconWidget._buildTextWidget", "OS4 桌面标题原逻辑"},
         {"GridConfig.getTitleTextSize", "GridConfig.getTitleTextSize", "OS4 抽屉标题字号"},
         {"AppIcon.build", "AppIcon.build", "OS4 抽屉标题构建"},
@@ -60,6 +65,16 @@ const TargetFunction kTargets[] = {
         {"FolderIconGetxController.calOriginPreviewIconLoc", "FolderIconGetxController.calOriginPreviewIconLoc", "OS4 文件夹动画尺寸原逻辑"},
         {"CellLayoutGetxController.isItemPosEmpty", "CellLayoutGetxController.isItemPosEmpty", "OS4 grid count bounds receiver"},
         {"CellLayoutGetxController.calculateCenterGlobalPosition", "CellLayoutGetxController.calculateCenterGlobalPosition", "OS4 拖放回位中心原逻辑"},
+        {"WorkspaceGetxController.isDoubleTapLock", "WorkspaceGetxController.isDoubleTapLock", "OS4 workspace gesture source contract"},
+        {"_DoubleTapGestureDetectorState._handlePointerDown", "_DoubleTapGestureDetectorState._handlePointerDown", "OS4 workspace gesture source contract"},
+        {"LauncherModeController.isElderlyManMode", "LauncherModeController.isElderlyManMode", "OS4 workspace gesture source contract"},
+        {"_DoubleTapGestureDetectorState.isConsideredDoubleTap", "_DoubleTapGestureDetectorState.isConsideredDoubleTap", "OS4 workspace gesture source contract"},
+        {"_DoubleTapGestureDetectorState._resetState", "_DoubleTapGestureDetectorState._resetState", "OS4 workspace gesture source contract"},
+        {"_TransformedPointerEvent.timeStamp", "_TransformedPointerEvent.timeStamp", "OS4 workspace original PointerEvent timestamp"},
+        {"SwipeDetector.onPointerMove", "SwipeDetector.onPointerMove", "OS4 workspace timestamp consumer"},
+        {"SwipeDetector._computeVelocity", "SwipeDetector._computeVelocity", "OS4 workspace original time unit"},
+        {"StatusBarSwipeController.onInterceptTouchEvent", "StatusBarSwipeController.onInterceptTouchEvent", "OS4 original status swipe result"},
+        {"StatusBarSwipeController.canInterceptTouch", "StatusBarSwipeController.canInterceptTouch", "OS4 status swipe semantic guard"},
         // OS4 original-body splice/branch guards. Registration does not hook getters.
         {"HotSeatLayoutDelegate.cellLayout", "HotSeatLayoutDelegate.cellLayout", "OS4 原逻辑注入校验"},
         {"LauncherIndicatorState._buildScreenIndicator", "LauncherIndicatorState._buildScreenIndicator", "OS4 原逻辑注入校验"},
@@ -99,6 +114,9 @@ const TargetFunction kTargets[] = {
         {"PhoneDeviceRules._calCellCountYWithGridHeightAndLayoutType",
          "PhoneDeviceRules._calCellCountYWithGridHeightAndLayoutType",
          "功能19 行数（DeviceRules 拷贝）"},
+        {"ShortcutIconWidget._buildNormalDrawable", "ShortcutIconWidget._buildNormalDrawable", "工作区位图尺寸消费者"},
+        {"ShortcutIconWidget.iconWidth", "ShortcutIconWidget.iconWidth", "工作区宽度调用链"},
+        {"ShortcutIconWidget.iconHeight", "ShortcutIconWidget.iconHeight", "工作区高度调用链"},
         {"IconConfigHandler.calIconSize", "IconConfigHandler.calIconSize",
          "功能21 手机/通用图标尺寸"},
         {"Q18CalculateHandler._calInnerPortrait", "Q18CalculateHandler._calInnerPortrait",
@@ -148,8 +166,8 @@ const TargetFunction kTargets[] = {
          "布局 胶囊第三动画包装调用点"},
         {"Padding.createRenderObject", "Padding.createRenderObject",
          "布局 胶囊整体位移包装校验"},
-        {"LauncherIndicatorState._wrapWithAnimation",
-         "LauncherIndicatorState._wrapWithAnimation", "布局 指示器组件包装探针"},
+        {"Workspace._createIndicator",
+         "Workspace._createIndicator", "布局 桌面搜索原始 Insets 消费入口"},
         {"WorkspaceGetxController.indicatorOffsetBottomPortrait",
          "WorkspaceGetxController.indicatorOffsetBottomPortrait", "布局 指示器底部边距"},
         {"GridController.searchBarMarginBottom", "GridController.searchBarMarginBottom",
@@ -203,9 +221,13 @@ const TargetFunction kTargets[] = {
         {"GridController.iconTopPadding", "GridController.iconTopPadding", "候选 图标上内边距"},
         {"GridController.titleHeight", "GridController.titleHeight", "候选 标题高度"},
         {"AppIconRemoteClick.handleRemoteClick", "AppIconRemoteClick.handleRemoteClick", "文件夹启动应用自动关闭"},
+        {"FolderClingGetxController._shouldCloseWithAnimation", "FolderClingGetxController._shouldCloseWithAnimation", "文件夹关闭动画参数校验"},
+        {"FolderClingGetxController.handleFolderClingCloseImmediately", "FolderClingGetxController.handleFolderClingCloseImmediately", "文件夹同步关闭原逻辑"},
+        {"FolderGridViewGetxController.scrollNearestRow", "FolderGridViewGetxController.scrollNearestRow", "文件夹异步滚动关闭校验"},
         {"FolderClingGetxController.handleFolderClingClose", "FolderClingGetxController.handleFolderClingClose", "文件夹原始关闭链路"},
         {"Inst|isRegistered", "Inst|isRegistered", "文件夹控制器注册检查"},
         {"FolderGridView._buildScrollableGrid", "FolderGridView._buildScrollableGrid", "文件夹关闭图标坐标一致性"},
+        {"FolderGridView._interruptScrollWhenClosing", "FolderGridView._interruptScrollWhenClosing", "文件夹布局匿名消费域"},
         {"SliverGridDelegateWithFixedCrossAxisCount.getLayout", "SliverGridDelegateWithFixedCrossAxisCount.getLayout", "文件夹关闭图标坐标一致性"},
         {"FolderAnimController._setCloseGridItemAnim", "FolderAnimController._setCloseGridItemAnim", "文件夹关闭图标坐标一致性"},
         {"FolderAnimController._refreshCachedGridParams", "FolderAnimController._refreshCachedGridParams", "文件夹关闭图标坐标一致性"},
@@ -397,18 +419,34 @@ bool LooksLikeDartFunction(const Image& image, uint32_t va, const char *name, ui
     // Copy just the dispatch prefix, never dereference an execution mapping directly.
     // A failed/partial read cannot classify even when it wrote matching initial words.
     // Tiny normal framed bodies retain their old admission regardless of exact name.
-    const size_t required = grid_width ? 7 : text_align ? 3 : 2;
+    const bool double_reset = NameEquals(name, "_DoubleTapGestureDetectorState._resetState");
+    const bool swipe_velocity = NameEquals(name, "SwipeDetector._computeVelocity");
+    const size_t required = grid_width || swipe_velocity ? 7 : double_reset ? 6 : text_align ? 3 : 2;
     const size_t count = std::min<size_t>(size / sizeof(uint32_t), required);
     std::array<uint32_t, 7> p{};
     if (!CodeView(image).ReadWords(va, p.data(), count)) return false;
     if (p[0] == 0xA9BF79FDu && p[1] == 0xAA0F03FDu) return true;
+    if (double_reset && size == 24) {
+        using namespace home_dynamic;
+        return ux(p[0],27,2) && mem(p[1],0xb8000000u,1,22) && mem(p[2],0xb8000000u,1,22)
+            && mem(p[3],0xb8000000u,1,2) && field(imm9(p[1])) && field(imm9(p[2]))
+            && field(imm9(p[3])) && imm9(p[1])!=imm9(p[2]) && imm9(p[1])!=imm9(p[3])
+            && imm9(p[2])!=imm9(p[3]) && p[4]==0xaa1603e0u && p[5]==0xd65f03c0u;
+    }
+    if(swipe_velocity&&size<=1024) {
+        home_dynamic::Body body(size/4);
+        return CodeView(image).ReadWords(va,body.data(),body.size())&&home_workspace_gesture::velocity_leaf(body);
+    }
+
     // Exact named read-only semantic roots, not anonymous leaf patch targets.
     if (text_align) return size >= 12 && p[0] == 0xaa0103e3u && p[1] == 0xf1000c7fu
         && (p[2] & 0xff00001fu) == 0x5400000cu;
     if (grid_width) return size >= 28 && (p[0] & 0xffe00fff) == 0xb8400020 && p[1] == 0x8b1c8000
         && (p[5] & 0xffe00fff) == 0xfc400000 && p[6] == 0xd65f03c0;
-    if (NameEquals(name, "ShortcutInfoModel.getComponentName") && size == 0x48)
-        return p[0] == 0xd28020f1u && p[1] == 0xb8716822u;
+    if (NameEquals(name, "GadgetInfoModel.getCategoryId") && size >= 12)
+        return (p[0] & 0xffe0001fu) == 0xd2800011u && p[1] == 0xb8716822u;
+    if (NameEquals(name, "ShortcutInfoModel.getComponentName") && size >= 12)
+        return (p[0] & 0xffe0001fu) == 0xd2800011u && p[1] == 0xb8716822u;
     if (NameEquals(name, "allocateTwoByteString") && size == 0xec)
         return p[0] == 0xf94001e2u && p[1] == 0x93407c42u;
     return false;
@@ -537,6 +575,7 @@ bool SymbolIndex::SpanFrom(uint32_t va, uint32_t* span) const {
 namespace {
 uint64_t SymbolRegistryId() {
     uint64_t h = 1469598103934665603ull;
+    h ^= 4; // source-contract tear-off/reset/time-leaf admission revision; invalidate negative entries
     for (const auto& target : kTargets) {
         for (const char* p = target.fullName; *p; ++p) { h ^= uint8_t(*p); h *= 1099511628211ull; }
         h ^= 0; h *= 1099511628211ull;
@@ -746,6 +785,7 @@ bool SymbolIndex::EnsureLoaded(const Image& image, uint64_t budgetMs) {
     std::vector<uint32_t> textVas;
     textVas.reserve(count / 4 + 8);
     bool ambiguous[kTargetCount]{};
+    uint32_t forwarding[kTargetCount]{};
 
     for (uint32_t i = 0; i < count; ++i) {
         if ((i & 255u) == 0 && expired()) return false;
@@ -766,6 +806,29 @@ bool SymbolIndex::EnsureLoaded(const Image& image, uint64_t budgetMs) {
         for (size_t t = 0; t < kTargetCount; ++t) {
             if (!NameEquals(name, kTargets[t].fullName)) continue;
             const uint32_t size = static_cast<uint32_t>(sym.st_size);
+            if (NameEquals(name, "_DoubleTapGestureDetectorState._handlePointerDown") && size == 40) {
+                home_dynamic::Body body(10);uint32_t destination=0;
+                if (CodeView(image).ReadWords(static_cast<uint32_t>(sym.st_value),body.data(),body.size())
+                    && home_workspace_gesture::tearoff(body,static_cast<uint32_t>(sym.st_value),destination)) {
+                    if (forwarding[t]) ambiguous[t]=true;
+                    forwarding[t]=destination;
+                    break;
+                }
+            }
+            // The closure tear-off is a second same-name symbol, not a second
+            // implementation. Admit it only when its complete ABI forwards to
+            // the unique same-name body selected below.
+            if(NameEquals(name,"ShortcutIconWidget._buildNormalDrawable")&&size==36){
+                home_dynamic::Body b(9);uint32_t destination=0;
+                if(CodeView(image).ReadWords(uint32_t(sym.st_value),b.data(),b.size())
+                  &&b[0]==0xa9bf79fdu&&b[1]==0xaa0f03fdu
+                  &&home_dynamic::ux(b[2],29,0)&&home_dynamic::uoff(b[2])>=16&&home_dynamic::uoff(b[2])<=64
+                  &&home_dynamic::ldw(b[3],0,1)&&home_dynamic::field(home_dynamic::imm9(b[3]))
+                  &&b[4]==0x8b1c8021u&&home_dynamic::target(b[5],uint32_t(sym.st_value)+20,destination)
+                  &&b[6]==0xaa1d03efu&&b[7]==0xa8c179fdu&&b[8]==0xd65f03c0u){
+                    if(forwarding[t])ambiguous[t]=true;forwarding[t]=destination;break;
+                }
+            }
             if (has_[t] && va_[t] != sym.st_value) ambiguous[t] = true;
             if (has_[t] && size_[t] >= size) break;
             va_[t] = static_cast<uint32_t>(sym.st_value);
@@ -780,7 +843,9 @@ bool SymbolIndex::EnsureLoaded(const Image& image, uint64_t budgetMs) {
     for (size_t t = 0; t < kTargetCount; ++t) {
         if (expired()) return false;
         if (!has_[t]) continue;
-        if (ambiguous[t]) { has_[t] = false; va_[t] = size_[t] = span_[t] = 0; continue; }
+        if (ambiguous[t] || (forwarding[t] && forwarding[t] != va_[t])) {
+            has_[t] = false; va_[t] = size_[t] = span_[t] = 0; continue;
+        }
         const auto next_function = std::upper_bound(textVas.begin(), textVas.end(), va_[t]);
         if (next_function != textVas.end()) {
             const uint32_t span = *next_function - va_[t];

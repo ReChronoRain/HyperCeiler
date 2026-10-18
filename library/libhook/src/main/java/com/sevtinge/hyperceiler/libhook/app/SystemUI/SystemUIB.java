@@ -115,6 +115,10 @@ public class SystemUIB extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeExtraGesturesOS4(),
+            isHyperOSVersion(4f));
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchSystemUIOS4(),
+            isHyperOSVersion(4f));
         initHook(new com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassRendererSystemUI(),
             isHyperOSVersion(4f));
         MiuiStub.createHook();
@@ -123,7 +127,8 @@ public class SystemUIB extends BaseLoad {
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         // Actions
-        initHook(new StatusBarActionBootstrap(), PrefsBridge.getBoolean("home_gesture_enable"));
+        initHook(new StatusBarActionBootstrap(), PrefsBridge.getBoolean("home_gesture_enable")
+            || com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
 
         // 锁屏
         initHook(HideLockScreenHint.INSTANCE, PrefsBridge.getBoolean("system_ui_lock_screen_unlock_tip"));

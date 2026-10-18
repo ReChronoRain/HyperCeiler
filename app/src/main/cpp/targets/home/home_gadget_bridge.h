@@ -6,34 +6,27 @@ namespace home_layout {
 // Private protocol, NOT Gadget itemType=5 or PA ServiceDelivery widget_type=5.
 // Fits a compressed Dart Smi (31 signed bits); original putInt performs conversion.
 inline constexpr uint32_t kClearGadgetWireType = 0x18430c01;
-inline constexpr uint32_t kClearGadgetCid = 0x7f2;
+
 
 inline constexpr const char *kGadgetSerializer = "AssistantDragDataHelper.putWidgetIntoBundle";
 inline constexpr const char *kGadgetModel = "GadgetInfoModel.cloneModel";
 inline constexpr const char *kGadgetBundlePut = "BundleImpl.putInt";
 // kWidgetMoveSymbol lives in home_widget_move.h; the gate function is shared by both bridges.
 
-/*
- * No offset, address or field displacement is written down anywhere in this file. Each anchor
- * below names an *instruction semantic* that the runtime scans for, and the scan must find
- * exactly one site: zero matches means the launcher reshaped that part and the bridge declines
- * to bind; two matches means the shape does not identify the site, and binding either one
- * would splice the wrong code. Both outcomes are failures by design -- a silently mis-bound
- * bridge is worse than an inert one, because then the original path no longer runs at all.
- *
- * The semantics were read off launcher 7722 with a disassembler, not by eyeballing hex. On
- * that build each shape below is unique inside its function, which is what makes the scan a
- * determination rather than a guess.
- */
+// Decode the original serializer, cloned model and PA consumer as one contract.
 struct GadgetAnchors {
     uint32_t put_int = 0;      // bl BundleImpl.putInt
     uint32_t ret = 0;          // the pair storing the private marker
     uint32_t select = 0;       // the branch that picks the marker path
+    uint32_t original_reject=0;int64_t select_model_slot=0,select_bundle_slot=0;
     uint32_t common = 0;       // the Bundle field read shared by both paths
     uint32_t id_offset = 0;    // ldur w2,[x0,#imm]: the cleared id, immediate learned
     uint32_t span_entry = 0;   // tbnz after the span bl
     uint32_t span_reject = 0;  // shared reject arm the tbnz branches to
     uint32_t widget_gate = 0;  // tbnz on the isMIUIWidget bit
+    int64_t model_slot=0,bundle_slot=0,handler_slot=0,receiver_slot=0;
+    uint64_t widget_pool=0,marker_field=0,select_cid=0,select_value=0;
+    uint64_t model_field=0,cid=0;int64_t handler_field=0,width_field=0,height_field=0;
     bool ok = false;
 };
 
@@ -103,18 +96,6 @@ constexpr bool is_ldur_sp(uint32_t w, int32_t want_imm, uint32_t base) {
         && load_imm9(w) == want_imm;
 }
 
-/*
- * These three are data the launcher itself carries, not addresses: the Bundle key the marker
- * is stored under, the discriminator the select branches on, and the model field key the clone
- * factory indexes. Each is compared against, never used to form an address -- if the launcher
- * renumbers any of them the scan finds nothing and the bridge declines, which is the correct
- * outcome, whereas a stored offset would have kept pointing somewhere plausible.
- */
-inline constexpr uint32_t kMarkerKey = 0x143;            // mov x17,#0x143; ldr w3,[x0,x17]
-inline constexpr uint32_t kSelectDiscriminator = 0x7ED;  // cmp #0x7ed; b.<cond>
-inline constexpr uint32_t kClearField = 0x9F;            // ldur w3,[x0,#0x9f]
-inline constexpr int32_t kClearSlot = -0x18;            // the spilled Bundle both reads share
-inline constexpr uint32_t kModelFieldKey = 0x11B;        // mov x17,#0x11b; ldr w3,[x1,x17]
 /* The Dart frame pointer every AOT body keeps its locals under. */
 inline constexpr uint32_t kFramePointer = 29;
 
