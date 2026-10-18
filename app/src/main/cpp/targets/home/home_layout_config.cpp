@@ -20,6 +20,8 @@
 #include <utility>
 #include <string_view>
 #include <vector>
+#include <cerrno>
+#include <sys/stat.h>
 
 namespace home_layout {
 namespace {
@@ -158,9 +160,13 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 12;
-constexpr const char *kCachePath = "/data/user/0/com.miui.home/files/layout_config_cache.bin";
-constexpr const char *kCacheTmpPath = "/data/user/0/com.miui.home/files/layout_config_cache.bin.tmp";
+constexpr uint32_t kCacheVersion = 13;
+// The first launcher layout can run before credential-encrypted storage unlocks.
+// Bootstrap must survive a device reboot, not only a process restart after unlock.
+constexpr const char *kCacheDir = "/data/user_de/0/com.miui.home/files";
+constexpr const char *kCachePath = "/data/user_de/0/com.miui.home/files/layout_config_cache.bin";
+constexpr const char *kCacheTmpPath = "/data/user_de/0/com.miui.home/files/layout_config_cache.bin.tmp";
+constexpr const char *kLegacyCachePath = "/data/user/0/com.miui.home/files/layout_config_cache.bin";
 
 void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     out.clear();
@@ -215,6 +221,9 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(kBackGestureMagic);
     put_u32(config.back_gesture.height); put_u32(config.back_gesture.width);
     put_u32(kFolderAutoCloseMagic); put_u32(config.folder_auto_close ? 1U : 0U);
+    put_u32(home_gestures::kMagic);
+    put_u32(config.gestures.enabled); put_u32(config.gestures.quick); put_u32(config.gestures.mask);
+    put_u32(config.gestures.density_dpi); put_u32(config.gestures.width);
 }
 
 bool parse_config(const std::vector<uint8_t> &data, Config &config) {
@@ -223,7 +232,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
     if (version != 4 && version != 5 && version != 6 && version != 7 && version != 8
-        && version != 9 && version != 10 && version != 11 && version != kCacheVersion)
+        && version != 9 && version != 10 && version != 11 && version != 12 && version != kCacheVersion)
         return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
@@ -306,6 +315,10 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if (version >= 12 && !read_folder_auto_close([&](int32_t &word) {
         auto next = get_u32(); if (!next) return false; word = static_cast<int32_t>(*next); return true;
     }, config.folder_auto_close, false)) return false;
+    config.gestures = {};
+    if (version >= 13 && !home_gestures::read_config([&](int32_t &word) {
+        auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
+    },config.gestures,false)) return false;
     if (version >= 8 && at != data.size()) return false;
     return true;
 }
@@ -313,6 +326,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
 bool write_config_cache(const Config &config) {
     std::vector<uint8_t> data;
     serialize_config(config, data);
+    if (::mkdir(kCacheDir, 0700) != 0 && errno != EEXIST) return false;
     FILE *tmp = std::fopen(kCacheTmpPath, "wb");
     if (tmp == nullptr) return false;
     const auto written = std::fwrite(data.data(), 1, data.size(), tmp);
@@ -326,6 +340,9 @@ bool write_config_cache(const Config &config) {
 
 bool read_config_cache(Config &config) {
     FILE *file = std::fopen(kCachePath, "rb");
+    // Migration only: a present-but-invalid DE snapshot must not resurrect an
+    // older CE enabled setting. The authoritative Binder snapshot still wins.
+    if (file == nullptr && errno == ENOENT) file = std::fopen(kLegacyCachePath, "rb");
     if (file == nullptr) return false;
     std::vector<uint8_t> data;
     uint8_t buffer[512];
@@ -449,6 +466,9 @@ static bool query_binder(Config &result) {
     if (valid) valid = read_folder_auto_close([&](int32_t &word) {
         return AParcel_readInt32(output, &word) == STATUS_OK;
     }, candidate.folder_auto_close);
+    if (valid) valid=home_gestures::read_config([&](int32_t &word) {
+        return AParcel_readInt32(output,&word)==STATUS_OK;
+    },candidate.gestures);
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
         return value >= lo && value <= hi;

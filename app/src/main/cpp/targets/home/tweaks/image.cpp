@@ -16,6 +16,7 @@
 #include <array>
 #include <sstream>
 #include <set>
+#include <string_view>
 
 namespace hometweaks {
 namespace {
@@ -183,6 +184,33 @@ bool FindImageFromApkMaps(const char* apkMarker,const char* libName,Image* out) 
     for(const auto& path:paths){const auto stored=nhk::zip_stored_entry(path,libName);if(!stored)continue;
         Image image{};
         if(MappedImage(rows,path,stored->first,stored->second,true,image)){
+            if(++found>1)return false;chosen=image;
+        }
+    }
+    if(found!=1)return false;
+    *out=chosen;return true;
+}
+bool FindImageFromMappedApks(const char* libName,Image* out) {
+    if(!libName||!*libName||!out)return false;
+    const size_t length=strnlen(libName,128);
+    if(length==128||strchr(libName,'/')||strchr(libName,'\\'))return false;
+    std::vector<MapRow> rows;if(!MapSnapshot(rows))return false;
+    std::set<std::string> paths;
+    for(const auto& row:rows) {
+        const auto& m=row.map;
+        // Resource-only APKs do not own native code. Deleted containers are not
+        // reopened under a potentially replaced pathname. Real metadata and live
+        // program headers below remain mandatory; a suffix is not attribution.
+        if(!row.readable||!m.executable||m.writable||!m.inode
+            ||!std::string_view(m.path).ends_with(".apk"))continue;
+        paths.insert(m.path);if(paths.size()>64)return false;
+    }
+    const std::string entry=std::string("lib/arm64-v8a/")+libName;
+    Image chosen{};unsigned found=0;
+    for(const auto& path:paths) {
+        const auto stored=nhk::zip_stored_entry(path,entry);if(!stored)continue;
+        Image image{};
+        if(MappedImage(rows,path,stored->first,stored->second,true,image)) {
             if(++found>1)return false;chosen=image;
         }
     }

@@ -5,6 +5,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include "home_dynamic_layout.h"
 
 namespace home_title {
 struct CustomTitle {
@@ -25,16 +26,6 @@ constexpr unsigned kSurrogateLowFirst = 0xdc00;
 constexpr unsigned kSurrogateLowLast = 0xdfff;
 
 /*
- * The class ids of the launcher's icon model family, and the dispatch-table index its vtable
- * starts at. `cid` is the VM-assigned class id read out of an object header; the model family
- * occupies a contiguous run of them, and the dispatch table is indexed off the first.
- */
-constexpr unsigned kModelCidBase = 0x7f5;
-constexpr unsigned kModelCidLast = 0x7fc;
-constexpr int64_t kDispatchTableCid = 0xfd7;
-constexpr unsigned kPinnedModelCid = 0x7fc;
-
-/*
  * `thread` is a `Dart_Thread*` -- the VM's own C++ thread object, not a Dart heap object -- and
  * these are the bump-allocator cursors inside it. They are part of the VM's C ABI rather than
  * of any launcher build: the C API this module allocates through (`Dart_NewString` and friends)
@@ -44,22 +35,6 @@ constexpr unsigned kPinnedModelCid = 0x7fc;
  */
 constexpr unsigned kThreadTopOffset = 0x60;
 constexpr unsigned kThreadEndOffset = 0x68;
-
-/*
- * The fields `model_package` walks. See the note on that function for why they are named
- * rather than scanned: the launcher's copy of this logic is inlined into every caller, so no
- * single instruction sequence identifies which read is the model access.
- */
-constexpr unsigned kPinnedNameField = 0x147;
-constexpr unsigned kUnifiedFlagField = 0x107;
-constexpr unsigned kUnifiedFlagMask = 0x10;
-constexpr unsigned kIntentField = 0xbb;
-constexpr unsigned kComponentField = 0x1f;
-constexpr unsigned kPackageField = 0xc3;
-constexpr unsigned kIntentCid = 0xd78;
-constexpr unsigned kComponentCid = 0xd7b;
-/// Slot inside a ComponentName holding its package, a Dart string whose first word is its length.
-constexpr unsigned kComponentNameSlot = 7;
 
 inline bool valid_label(std::u16string_view text) {
     for (size_t i = 0; i < text.size(); ++i) {
@@ -136,50 +111,30 @@ inline bool string_equals(uint64_t text, std::u16string_view expected) {
     return true;
 }
 
-/*
- * The class ids and field offsets this dataflow walks are Dart runtime facts about the
- * launcher's own model classes, not positions this module chose:
- *
- *  - the `cid` values are the class ids the VM assigns, read out of each object's header;
- *  - the field offsets are where those classes keep their members.
- *
- * They are not derived from a scan, and deliberately so. This function is a hand-built
- * equivalent of `getPackageName` rather than a replay of one, because the launcher's own copy
- * is inlined at a different place in every method that calls it -- a scan of the image finds
- * each of these offsets spread across unrelated functions (`SfWindowAnimImplementor`,
- * `RemoteAnimationManager`, `FlutterFrameLayout`), with no single site that identifies which
- * read is the model access. A scan here would pick one of those and read a neighbour.
- *
- * The consequence of a launcher renumbering them is bounded: the walk reads a field that is
- * not the one it wanted, the `dart_cid` checks below reject anything that is not the expected
- * class, and the function returns 0 -- no title, which is a no-op rather than a wrong label.
- */
-
-// Replay getPackageName's non-allocating dataflow; no virtual Dart call, lazy initializer or model edit.
+// Replay the current getter dataflow. Dispatch identity, not a historic CID range,
+// determines which owning getter the actual model uses. No Dart call or heap write.
 inline uint64_t model_package(uint64_t model, uint64_t heap, uint64_t dispatch, uint64_t null_object,
-    uint64_t component_method, uint64_t pin_method) {
+    uint64_t component_method, uint64_t pin_method, const home_dynamic::ModelLayout &layout) {
+    if (!layout.usable() || !dispatch || !(model & 1U)) return 0;
     const unsigned cid = dart_cid(model);
-    if (cid < kModelCidBase || cid > kModelCidLast) return 0;
+    if (!cid) return 0;
     uint64_t method = 0;
-    if (dispatch) {
-        const int64_t offset = (static_cast<int64_t>(cid) - kDispatchTableCid) * 8;
-        std::memcpy(&method, reinterpret_cast<const void *>(dispatch + offset), 8);
-    }
-    if (cid == kPinnedModelCid && (!dispatch || method == pin_method))
-        return dart_field(model, kPinnedNameField, heap);
-    if (dispatch ? method != component_method : cid != kModelCidBase) return 0;
+    const int64_t offset = (static_cast<int64_t>(cid) - layout.dispatch) * 8;
+    std::memcpy(&method, reinterpret_cast<const void *>(dispatch + offset), 8);
+    if (method == pin_method) return dart_field(model, layout.pin_name, heap);
+    if (method != component_method) return 0;
     uint64_t package = 0;
-    const auto flag = dart_field(model, kUnifiedFlagField, heap);
-    if ((flag & kUnifiedFlagMask) == 0) {
-        const auto intent = dart_field(model, kIntentField, heap);
-        if (dart_cid(intent) == kIntentCid) {
-            const auto component = dart_field(intent, kComponentField, heap);
-            if (dart_cid(component) == kComponentCid)
-                package = dart_field(component, kComponentNameSlot, heap);
+    const auto flag = dart_field(model, layout.flag, heap);
+    if ((flag & layout.flag_mask) == 0) {
+        const auto intent = dart_field(model, layout.intent, heap);
+        if (static_cast<uint32_t>(intent) != static_cast<uint32_t>(null_object) && (intent & 1U)) {
+            const auto component = dart_field(intent, layout.component, heap);
+            if (static_cast<uint32_t>(component) != static_cast<uint32_t>(null_object) && (component & 1U))
+                package = dart_field(component, layout.component_package, heap);
         }
     }
     if (!package || static_cast<uint32_t>(package) == static_cast<uint32_t>(null_object))
-        package = dart_field(model, kPackageField, heap);
+        package = dart_field(model, layout.package, heap);
     return package;
 }
 
@@ -204,9 +159,9 @@ inline uint64_t clone_label(uint64_t original, uint64_t thread, std::u16string_v
 }
 inline uint64_t custom_label(uint64_t original, uint64_t model, uint64_t heap, uint64_t thread,
     uint64_t dispatch, uint64_t null_object, uint64_t component_method, uint64_t pin_method,
-    const std::vector<CustomTitle> &names) {
+    const std::vector<CustomTitle> &names, const home_dynamic::ModelLayout &layout) {
     if (names.empty()) return original;
-    const auto package = model_package(model, heap, dispatch, null_object, component_method, pin_method);
+    const auto package = model_package(model, heap, dispatch, null_object, component_method, pin_method, layout);
     // Compare the compressed Dart string in place: no UTF conversion, temporary allocation,
     // full app-list scan or retained heap pointer on the rendering path.
     const auto cid = dart_cid(package);

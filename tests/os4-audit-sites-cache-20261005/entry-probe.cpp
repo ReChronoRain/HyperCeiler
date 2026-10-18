@@ -42,7 +42,7 @@ std::string DescribeMask(uint32_t){return "boundary";}
 bool LoadSitesCache(uint64_t,LocatedSites*){return false;}
 void DropSitesCache(){}
 bool SaveSitesCache(uint64_t,const LocatedSites&){return false;}
-void AcquireSitesBySymbols(State* s,const CodeView&,uint32_t){++symbolCalls;if(symbolsReady)s->sites.ok9=true;}
+void AcquireSitesBySymbols(State* s,const CodeView&,uint32_t,bool allowBuild=true){++symbolCalls;if(symbolsReady)s->sites.ok9=true;}
 uint64_t NowMs(){return 0;}
 void LocateSites(const CodeView&,const Config&,LocatedSites* out){++scanCalls;out->ok9=true;}
 // INSERT_PRODUCTION_METHODS

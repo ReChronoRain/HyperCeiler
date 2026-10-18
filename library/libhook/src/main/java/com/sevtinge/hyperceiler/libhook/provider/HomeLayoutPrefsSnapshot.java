@@ -11,6 +11,13 @@ import java.util.Map;
 public final class HomeLayoutPrefsSnapshot {
     public static final int SCHEMA = 1;
     private static final String[][] KEYS = {
+        {"boolean", "home_gesture_enable"},
+        {"boolean", "home_navigation_quick_back"},
+        {"integer", "home_gesture_double_tap_action"},
+        {"integer", "home_gesture_up_swipe_action"},
+        {"integer", "home_gesture_down_swipe_action"},
+        {"integer", "home_gesture_up_swipe2_action"},
+        {"integer", "home_gesture_down_swipe2_action"},
         {"integer", "home_navigation_back_area_height"},
         {"integer", "home_navigation_back_area_width"},
         {"boolean", "home_layout_unlock_grids_new"},

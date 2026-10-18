@@ -1190,7 +1190,7 @@
     <string name="home_layout_workspace_padding_horizontal_desc">主屏幕距离屏幕左右两边边距</string>
     <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
     <string name="home_layout_hotseats_height">高度</string>
-    <string name="home_layout_hotseats_margin_bottom_desc">底栏距离屏幕底部边距</string>
+    <string name="home_layout_hotseats_margin_bottom_desc">底栏图标距离屏幕底部边距</string>
     <string name="home_layout_searchbar_margin_bottom_desc">搜索栏距离屏幕底部边距</string>
     <string name="home_folder">文件夹</string>
     <string name="home_small_folder_title">小文件夹</string>

@@ -321,6 +321,7 @@ class HomeDockWindow : BaseHook() {
         rotationActive = { layerUpdate.isDisplayRotated() })
     private val nativeMotionEndpoint = DockNativeMotionEndpoint(
         {
+            requestTraversal() // Editing changes background visibility, not just animation pose.
             if (directMotionAvailable) scheduleAnimationFrame(true) else {
                 requestTraversal()
                 scheduleDirectMotionRecovery()
@@ -566,6 +567,13 @@ class HomeDockWindow : BaseHook() {
                             param.result = true
                             return@createBeforeHook
                         }
+                        if (code == com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchOS4.TRANSACTION) {
+                            val reply = param.args[2] as? Parcel ?: return@createBeforeHook
+                            com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchOS4.receive(
+                                param.args[1] as Parcel, reply, param.args[3] as Int)
+                            param.result = true
+                            return@createBeforeHook
+                        }
                         val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
                         if (!layout && !DockNativeMotionEndpoint.handles(code)) return@createBeforeHook
                         val data = param.args[1] as Parcel
@@ -649,6 +657,8 @@ class HomeDockWindow : BaseHook() {
                         for (value in backGesture) reply.writeInt(value)
                         reply.writeInt(HomeLayoutNativeEndpointOS4.FOLDER_AUTO_CLOSE_MAGIC)
                         reply.writeInt(if (result?.folderAutoClose() == true) 1 else 0)
+                        reply.writeInt(0x48434731)
+                        for (value in HomeLayoutNativeEndpointOS4.gestureConfig()) reply.writeInt(value)
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()
@@ -968,9 +978,10 @@ class HomeDockWindow : BaseHook() {
             // the compositor fallback covers exactly those frames and the glass returns the
             // moment the geometry catches up - no hide, no rebuild, no timer.
             refreshRotationGate()
-            val visible = windowVisible && !overlayShowing
-            val wasVisible = layer.lastVisible == true
             bindNativeMotion(window, layer)
+            val editing = nativeMotionEndpoint.editing(layer.nativeUid, layer.nativePid)
+            val visible = windowVisible && !overlayShowing && !editing
+            val wasVisible = layer.lastVisible == true
             if (!visible) {
                 layer.motion.finish()
                 layer.clearNativeSample()
@@ -2161,7 +2172,7 @@ class HomeDockWindow : BaseHook() {
      * Whether the launcher's overlay window - the minus-one screen - is currently visible.
      *
      * <p>Read straight from WMS's window map, on the display thread and under the same global
-     * lock as every other traversal write. This is deliberately the only launcher state we read:
+     * lock as every other traversal write. This is the Java-visible overlay state; editing arrives on the separate native scalar lane:
      * OS4's launcher is a Flutter application with no dex at all, so edit mode and the pages
      * themselves live in Dart and no Java hook can reach them, while the overlay is a real
      * WindowState that WMS owns.

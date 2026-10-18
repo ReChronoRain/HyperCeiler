@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <span>
 #include <optional>
+#include <array>
+#include "home_dynamic_layout.h"
 namespace home_layout {
 constexpr const char* kFolderAutoClickSymbol = "AppIconRemoteClick.handleRemoteClick";
 constexpr uint32_t kFolderAutoCloseMagic = 0x48434641;
@@ -45,6 +47,46 @@ inline std::optional<size_t> resolve_folder_auto_close(std::span<const uint32_t>
     }
     if(!(gate<reg_at && reg_at<open_at && open_at<close_at))return {};
     return gate*4;
+}
+// Auto-close must finish synchronously before the untouched launch continuation.
+// Animated close awaits snapshot/scrollNearestRow and can complete after launch,
+// bringing Home back above the new task. Only this click's animation argument is
+// changed; manual Back/blank-area close and their animations remain original.
+constexpr uint32_t kFolderAutoCloseImmediate = 0x9100c2c2; // Dart false -> x2
+inline bool close_animation_argument(std::span<const uint32_t> b,uint32_t va,
+    uint32_t should_animate,uint32_t immediate,uint32_t scroll) {
+    using namespace home_dynamic;
+    int32_t incoming=0,field=0;unsigned captures=0,uses=0,fast=0,slow=0;
+    for(size_t i=2;i<b.size() && i<24;++i)
+        if(stx(b[i],29,2) && slot(imm9(b[i]))) {incoming=imm9(b[i]);++captures;}
+    if(captures!=1)return false;
+    unsigned stores=0;
+    for(size_t i=0;i+1<b.size();++i)
+        if(ldx(b[i],29,0) && imm9(b[i])==incoming
+            && mem(b[i+1],0xb8000000,2,0) && home_dynamic::field(imm9(b[i+1]))) {
+            field=imm9(b[i+1]);++stores;
+        }
+    if(stores!=1)return false;
+    for(size_t i=3;i<b.size();++i) {
+        uint32_t callee=0;if(!target(b[i],va+uint32_t(i*4),callee))continue;
+        if(callee==immediate)++fast;if(callee==scroll)++slow;
+        if(callee==should_animate && ldw(b[i-3],0,2) && imm9(b[i-3])==field
+            && b[i-2]==0x8b1c8042u && ldx(b[i-1],29,1))++uses;
+    }
+    return uses==1 && fast==1 && slow==1;
+}
+inline std::optional<std::array<size_t,2>> resolve_folder_auto_close_immediate(
+    std::span<const uint32_t> click,uint32_t va,uint32_t close,uint32_t rx,uint32_t registered,
+    std::span<const uint32_t> close_body,uint32_t should_animate,uint32_t immediate,uint32_t scroll) {
+    auto gate=resolve_folder_auto_close(click,va,close,rx,registered);
+    if(!gate || !close_animation_argument(close_body,close,should_animate,immediate,scroll))return {};
+    size_t argument=0,hits=0;
+    for(size_t i=2;i<click.size();++i)
+        if((click[i]&0xfc000000u)==0x94000000u && auto_close_call(va+uint32_t(i*4),click[i])==close) {
+            argument=(i-2)*4;++hits;
+        }
+    if(hits!=1 || click[argument/4]!=0x910082c2u)return {};
+    return std::array<size_t,2>{*gate,argument};
 }
 template<class Read> bool read_folder_auto_close(Read read,bool& enabled,bool optional=true) {
     int32_t magic=0,flag=0;enabled=false;

@@ -21,6 +21,18 @@ inline bool grid_autofit_height(double base_width, double remaining, double dock
     if (!std::isfinite(fit) || fit < 24 || fit > 1024 || usable > 4000) return false;
     height = fit; return true;
 }
+// A changed column count changes the stock auto-row result. Resize this fresh
+// calculator using its ORIGINAL usable height, rather than accepting that new
+// auto-row count or deriving usable height from the requested count.
+inline bool grid_requested_rows_height(double width,double remaining,double dock,
+        int64_t original_rows,unsigned requested_rows,double& height) {
+    if(requested_rows<4||requested_rows>13)return false;
+    double original_height=0;
+    if(!grid_autofit_height(width,remaining,dock,original_rows,unsigned(original_rows),original_height))return false;
+    const double fit=original_height*double(original_rows)/double(requested_rows);
+    if(!std::isfinite(fit)||fit<24||fit>1024)return false;
+    height=fit;return true;
+}
 struct GridAutofitSites {
     uint32_t legacy = 0, handler = 0;
     int32_t legacy_height = -1, legacy_dock = -1;
@@ -68,7 +80,8 @@ inline bool grid_autofit_sites(std::span<const uint32_t> old,
         }
     }
     if (legacy != 1 || caps != 1 || height != 1 || copy != 1 || dock != 1
-        || f.dock == f.height || f.dock == f.width) return false;
+        || f.dock == f.height || f.dock == f.width
+        || f.rows == f.width || f.rows == f.height || f.rows == f.dock) return false;
     out = f; return true;
 }
 } // namespace home_layout

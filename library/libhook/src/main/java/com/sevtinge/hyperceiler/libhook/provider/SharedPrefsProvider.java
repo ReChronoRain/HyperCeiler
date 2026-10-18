@@ -192,6 +192,9 @@ public class SharedPrefsProvider extends ContentProvider {
         if (AUTHORITY.equals(uri.getAuthority()) && "/diagnostics/dock_glass_api".equals(uri.getPath())) {
             return DockGlassDiagnostics.query();
         }
+        if (AUTHORITY.equals(uri.getAuthority()) && "/home_gestures".equals(uri.getPath())) {
+            return HomeGesturePrefsSnapshot.cursor(prefs);
+        }
         if (AUTHORITY.equals(uri.getAuthority()) && "/home_layout".equals(uri.getPath())) {
             return HomeLayoutPrefsSnapshot.cursor(prefs);
         }
