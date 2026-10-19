@@ -29,6 +29,19 @@ int main(){
         auto saved=animation[i];animation[i]=0xd503201f;
         assert(!folder_animation_scale_sites(animation,ANIMATION_VA,CURRENT,sites));animation[i]=saved;
     }
+    auto cache=ANIMATION_CACHE;std::array<uint32_t,2> cache_sites{};
+    const int32_t grid=home_dynamic::imm9(animation[sites[0]/4-3]);
+    const int32_t size=home_dynamic::imm9(animation[sites[0]/4-1]);
+    assert(folder_animation_cache_sites(cache,ANIMATION_CACHE_VA,CURRENT,grid,size,cache_sites));
+    assert(!folder_animation_cache_sites(cache,ANIMATION_CACHE_VA,CURRENT+4,grid,size,cache_sites));
+    assert(!folder_animation_cache_sites(cache,ANIMATION_CACHE_VA,CURRENT,grid+4,size,cache_sites));
+    assert(!folder_animation_cache_sites(cache,ANIMATION_CACHE_VA,CURRENT,grid,size+8,cache_sites));
+    for(size_t i=0;i<cache.size();++i)
+        if((home_dynamic::ldd(cache[i],1,0)&&home_dynamic::imm9(cache[i])==size)
+            ||cache[i]==0x1e623823u){
+            auto saved=cache[i];cache[i]=0xd503201f;
+            assert(!folder_animation_cache_sites(cache,ANIMATION_CACHE_VA,CURRENT,grid,size,cache_sites));cache[i]=saved;
+        }
     // Model the actual close equation: scaled source / scaled preview, reversed for close.
     for(double icon:{.6875,1.,1.375})for(double folder:{.6,1.,1.4}){
         const double source=64*icon,preview=22*folder;
@@ -36,6 +49,14 @@ int main(){
         assert(std::abs(source/open_ratio-preview)<1e-10);
         // The selected-icon Rect correction uses this same scaled source dimension.
         const double width=53.25;assert(std::abs(width*(source/width)/open_ratio-preview)<1e-10);
+        // The center stays fixed across the animated/static handoff, in both axes.
+        // The previous unscaled inset produced a diagonal snap of 64*(1-icon)/2.
+        for(double cell:{53.25,92.5})for(double title:{0.,18.}){
+            const double old_inset=(cell-64-title)/2;
+            const double inset=(cell-source-title)/2;
+            assert(std::abs(inset+source/2-(cell-title)/2)<1e-10);
+            if(icon!=1)assert(std::abs(old_inset+source/2-(cell-title)/2)>1);
+        }
     }
     auto build=WIDGET,transform=TRANSFORM;
     WidgetScaleLayout layout;

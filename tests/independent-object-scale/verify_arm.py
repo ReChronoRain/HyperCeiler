@@ -21,7 +21,7 @@ with tempfile.TemporaryDirectory(prefix='hc-scale-arm-') as temp:
     original=elf.data[section[4]:section[4]+section[5]]
     text_base,data,replay,heap,stack,helper=0x100000,0x300000,0x400000,0x500000,0x608000,0x401000
     names=['hc_folder_anim_scale_enabled','hc_icon_scale_bits','hc_folder_anim_scale_hits']
-    names += [f'hc_folder_anim_scale{i}_original' for i in range(3)]
+    names += [f'hc_folder_anim_scale{i}_original' for i in range(5)]
     names += ['hc_widget_scale_frame','hc_widget_scale_child_field','hc_widget_scale_enabled','hc_widget_scale_continue','hc_widget_scale_wrap']
     targets={n:data+i*128 for i,n in enumerate(names)};targets['hc_widget_scale_wrap']=helper
     def bank(name):
@@ -55,7 +55,7 @@ with tempfile.TemporaryDirectory(prefix='hc-scale-arm-') as temp:
         u.reg_write(A.UC_ARM64_REG_SP,0x708000);u.reg_write(A.UC_ARM64_REG_NZCV,0xa0000000)
         return regs,simd
     def put(u,n,v,fmt='<Q'):u.mem_write(targets[n],struct.pack(fmt,v))
-    for i in range(3):
+    for i in range(5):
         for enabled in [0,1]:
             for factor in [.6875,1.,1.375]:
                 u,start=bank(f'hc_folder_anim_scale{i}_entry');regs,simd=init(u)
@@ -98,4 +98,4 @@ with tempfile.TemporaryDirectory(prefix='hc-scale-arm-') as temp:
         assert u.reg_read(A.UC_ARM64_REG_X15)==frame+16
         assert u.reg_read(A.UC_ARM64_REG_X29)==oldfp and u.reg_read(A.UC_ARM64_REG_X30)==oldlr
         assert u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
-    print('production ARM64 animation/widget banks: PASS (20 cases, independent gate/scalar, native ABI, SIMD/flags, original return)')
+    print('production ARM64 animation/widget banks: PASS (32 cases, dimensions/cached origins, gate/scalar, native ABI, SIMD/flags, original return)')
