@@ -2155,13 +2155,13 @@ workspace_status_result hc_workspace_status_register_entry, 1
 workspace_status_result hc_workspace_status_field_entry, 2
 
 /* Scalar-only banks: preserve SIMD scratch, GPRs and flags; no Dart call/GC PC relocation. */
-.macro icon_render_bank name, reg, original, hits
+.macro icon_render_bank name, reg, original, hits, enabled=hc_icon_render_enabled
 .globl \name
 .p2align 4
 \name:
     dart_save
-    adrp x9, hc_icon_render_enabled
-    add x9, x9, :lo12:hc_icon_render_enabled
+    adrp x9, \enabled
+    add x9, x9, :lo12:\enabled
     ldar w9, [x9]
     cbz w9, 1f
     str q31, [x15, #-16]!
@@ -2189,6 +2189,11 @@ icon_render_bank hc_desktop_icon_height_entry, d1, hc_desktop_icon_height_origin
 
 icon_render_bank hc_dock_icon_width_entry, d0, hc_dock_icon_width_original, hc_dock_icon_width_hits
 icon_render_bank hc_dock_icon_height_entry, d0, hc_dock_icon_height_original, hc_dock_icon_height_hits
+
+icon_render_bank hc_progress_icon_width_entry, d1, hc_progress_icon_width_original, hc_progress_icon_width_hits, hc_progress_icon_enabled
+icon_render_bank hc_progress_icon_height_entry, d1, hc_progress_icon_height_original, hc_progress_icon_height_hits, hc_progress_icon_enabled
+icon_render_bank hc_progress_dock_width_entry, d0, hc_progress_dock_width_original, hc_progress_dock_width_hits, hc_progress_icon_enabled
+icon_render_bank hc_progress_dock_height_entry, d0, hc_progress_dock_height_original, hc_progress_dock_height_hits, hc_progress_icon_enabled
 
 /* Phone map/default branches converge here with raw row=-1; other-device bypass
  * carries row=0. Only the scalar Smi argument changes. Original copyWith BL,

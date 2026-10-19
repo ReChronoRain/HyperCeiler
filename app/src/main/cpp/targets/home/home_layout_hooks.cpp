@@ -198,6 +198,14 @@ void hc_dock_icon_width_entry();void hc_dock_icon_height_entry();
 void *hc_dock_icon_width_original=nullptr,*hc_dock_icon_height_original=nullptr;
 uint64_t hc_dock_icon_width_hits=0,hc_dock_icon_height_hits=0;
 uint64_t hc_icon_width_hits=0,hc_icon_height_hits=0;
+uint32_t hc_progress_icon_enabled=0;
+void hc_progress_icon_width_entry();void hc_progress_icon_height_entry();
+void hc_progress_dock_width_entry();void hc_progress_dock_height_entry();
+void *hc_progress_icon_width_original=nullptr,*hc_progress_icon_height_original=nullptr;
+void *hc_progress_dock_width_original=nullptr,*hc_progress_dock_height_original=nullptr;
+uint64_t hc_progress_icon_width_hits=0,hc_progress_icon_height_hits=0;
+uint64_t hc_progress_dock_width_hits=0,hc_progress_dock_height_hits=0;
+
 
 int64_t hc_title_color_frame=0;uint64_t hc_title_color_thread=0,hc_title_color_static=0;
 int64_t hc_title_custom_widget_frame=0,hc_title_custom_label_field=0,hc_title_custom_label_frame=0;
@@ -390,7 +398,8 @@ constexpr size_t kNativeColumnsSlot = kIconRenderSlotBase + 6;
 constexpr size_t kDartColumnsSlot = kNativeColumnsSlot + 1;
 constexpr size_t kGridPersistSlot = kDartColumnsSlot + 1;
 constexpr size_t kLayoutSaveSlot = kGridPersistSlot + 1;
-constexpr size_t kSlotCount = kLayoutSaveSlot + 1;
+constexpr size_t kProgressIconSlotBase = kLayoutSaveSlot + 1;
+constexpr size_t kSlotCount = kProgressIconSlotBase + 4;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -3064,6 +3073,37 @@ bool bind_desktop_icon_render() {
     __android_log_print(ANDROID_LOG_INFO,kTag,"icon canonical dimensions resolved normal=%#x/%#x dock=%#x/%#x fields=%d/%d",sites[0],sites[1],sites[2],sites[3],ws.value,hs.value);return true;
 }
 
+bool bind_progress_icon_render() {
+    if(!g_dart)return false;
+    if(g_slots[kProgressIconSlotBase].address)return true;
+    uint32_t root=0,size=0,current=0,app=0,rx=0;
+    std::vector<uint32_t> ab;home_layout::IconRenderSites render;
+    if(!hometweaks::HomeTweaksFindSymbol("ProgressShortcutIconGetxController.onInit",&root,&size)
+      ||!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size)
+      ||!hometweaks::HomeTweaksFindSymbol("AppIcon.build",&app,&size)
+      ||!hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value",&rx,&size)
+      ||!dartscan::body(app,ab)||!home_layout::icon_render_sites(ab,app,current,render))return false;
+    // Bounded original-image reads, only along the typed init/callee chain.
+    auto read=[](uint32_t va,std::vector<uint32_t>& b){
+        if(!dart_words(va,1024,b))return false;
+        for(size_t i=2;i<b.size();++i)if(b[i]==0xd65f03c0u){
+            if(b[i-2]!=0xaa1d03efu||b[i-1]!=0xa8c179fdu)return false;
+            b.resize(i+1);return true;}
+        return false;
+    };
+    home_layout::IconInitDimensions shape;
+    if(!home_layout::icon_init_dimensions(root,read,rx,render.grid,render.value,shape))return false;
+    std::array<Slot,4> prepared{};
+    void* entries[]={reinterpret_cast<void*>(hc_progress_icon_width_entry),reinterpret_cast<void*>(hc_progress_icon_height_entry),reinterpret_cast<void*>(hc_progress_dock_width_entry),reinterpret_cast<void*>(hc_progress_dock_height_entry)};
+    void** originals[]={&hc_progress_icon_width_original,&hc_progress_icon_height_original,&hc_progress_dock_width_original,&hc_progress_dock_height_original};
+    const uint32_t sites[]={shape.width+shape.ws.normal,shape.height+shape.hs.normal,shape.width+shape.ws.dock,shape.height+shape.hs.dock};
+    for(unsigned i=0;i<4;++i){uintptr_t address=0;nhk::CodeSource source{};Words words{};
+        if(!bind_dart_target(sites[i],address,source,words))return false;
+        prepared[i]={address,entries[i],originals[i],source,words};}
+    for(unsigned i=0;i<4;++i)g_slots[kProgressIconSlotBase+i]=prepared[i];
+    __android_log_print(ANDROID_LOG_INFO,kTag,"progress icon dimensions resolved normal=%#x/%#x dock=%#x/%#x",sites[0],sites[1],sites[2],sites[3]);return true;
+}
+
 bool bind_drawer_title() {
     if (g_drawer_title_bound) return true;
     if (!g_dart || (g_title_drawer_sp.load(std::memory_order_acquire) == 12
@@ -3148,36 +3188,23 @@ bool sync_hotseat_capacity(bool enabled) {
     if (!g_dart) return false;
     if (!g_capacity_bound) {
         std::array<nhk::SourceWordPatch,home_layout::kCapacitySiteCount> candidate{};
+        uint32_t max_count=0,fixed_count=0,root_size=0;
+        if(!hometweaks::HomeTweaksFindSymbol("DeviceConfig.hotSeatMaxCount",&max_count,&root_size)
+          ||!hometweaks::HomeTweaksFindSymbol("HotSeatsConstants2.hotseatMaxFixedCount",&fixed_count,&root_size))return false;
         for (int i = 0; i < home_layout::kCapacitySiteCount; ++i) {
             const auto &site = home_layout::kCapacitySites[i];
-            uint32_t va = 0, size = 0;
-            std::vector<uint32_t> body;
-            if (!hometweaks::HomeTweaksFindSymbol(site.symbol, &va, &size)) return false;
-            if (!dart_words(va, 4, body) || body[0] != kDartPrologue) return false;
-            // The guard run is the site; the patched instruction is the word it ends on. The
-            // reported symbol size is not consulted: it is shorter than the real body for
-            // `calculatePositionX` (0x18c against a 0x138 offset), so requiring it to match
-            // would refuse a site that is present and unchanged.
-            uint32_t span = 0;
-            if (!dartscan::function_span(va, &span)) return false;
-            std::vector<uint32_t> full;
-            if (!dart_function_words(va, span, full)) return false;
-            uint32_t guard_at = 0;
-            if (!dartscan::unique_sequence(full, site.guard, home_layout::kCapacityGuardWords,
-                    &guard_at)) {
-                return false;
-            }
-            const uint32_t offset = guard_at + home_layout::kCapacityGuardLead;
-            if (offset + 4 > span) return false;
-            // source() pins the runtime address to this loaded image, not another libapp mapping.
+            uint32_t va = 0, size = 0;std::vector<uint32_t> body;home_layout::CapacityResolved resolved;
+            if (!hometweaks::HomeTweaksFindSymbol(site.symbol, &va, &size)
+              ||!dart_words(va,size/4,body)
+              ||!home_layout::capacity_site(body,va,i,max_count,fixed_count,resolved))return false;
+            const uint32_t offset=resolved.offset;
             if (g_dart->load_base > UINTPTR_MAX - va - offset) return false;
             const uintptr_t address = g_dart->load_base + va + offset;
             const auto file = dart_file_offset(va + offset, 4);
             const auto origin = nhk::source_at(g_dart->owned, address, 4);
             if (!file || !origin || nhk::add_overflows(g_dart->view_begin, *file)
                 || origin->file_offset != g_dart->view_begin + *file || (address & 3)) return false;
-            candidate[i] = {address, site.guard[home_layout::kCapacityGuardWords - 1],
-                site.replacement, *origin};
+            candidate[i] = {address,resolved.original,resolved.replacement,*origin};
         }
         std::copy(std::begin(candidate), std::end(candidate), std::begin(g_capacity_words));
         g_capacity_bound = true;
@@ -3840,6 +3867,8 @@ size_t arm_hooks(std::vector<size_t> &order) {
     }
     for(size_t i=kIconRenderSlotBase;i<kIconRenderSlotBase+6;++i)
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
+    for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)
+        if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     // Keep transparent observers installed: switches and action assignments are live snapshots.
     for(size_t i : {kWorkspaceDoublePolicySlot,kWorkspaceDoubleCallbackSlot})
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
@@ -4089,6 +4118,11 @@ void publish_indicator_dot_delta() {
         &&hc_desktop_icon_width_original&&hc_desktop_icon_height_original
         &&nhk::slot_ready(g_slots[kIconRenderSlotBase+4])&&nhk::slot_ready(g_slots[kIconRenderSlotBase+5])
         &&hc_dock_icon_width_original&&hc_dock_icon_height_original),__ATOMIC_RELEASE);
+    bool progress_ready=true;
+    for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)progress_ready &= nhk::slot_ready(g_slots[i]);
+    __atomic_store_n(&hc_progress_icon_enabled,uint32_t(progress_ready
+        &&hc_progress_icon_width_original&&hc_progress_icon_height_original
+        &&hc_progress_dock_width_original&&hc_progress_dock_height_original),__ATOMIC_RELEASE);
     const int mode = g_knobs[6].delta_dp.load(std::memory_order_relaxed);
     const bool ready = nhk::slot_ready(g_slots[kKnobHookSlotBase + 6])
         && nhk::slot_ready(g_slots[kKnobHookSlotBase + 7]) && nhk::slot_ready(g_slots[kIndicatorDotSlot])
@@ -4493,6 +4527,7 @@ void *worker(void *) {
     (void) bind_desktop_title();
     (void) bind_icon_render();
     (void) bind_desktop_icon_render();
+    (void) bind_progress_icon_render();
     (void) bind_title_hide();
     arm_hooks(order);
     publish_hooks();
@@ -4671,6 +4706,7 @@ void *worker(void *) {
             (void) bind_desktop_title();
     (void) bind_icon_render();
     (void) bind_desktop_icon_render();
+    (void) bind_progress_icon_render();
             (void) bind_title_hide();
             if (arm_hooks(order) != 0 || publish_hooks() != 0) {
                 g_dart_ready.store(true, std::memory_order_release);
@@ -5368,6 +5404,12 @@ bool adopt_layout_state() {
     g_loader_prime_finished.store(false, std::memory_order_release);
     hc_icon_render_enabled=0;hc_icon_width_original=nullptr;hc_icon_height_original=nullptr;
     hc_icon_width_hits=hc_icon_height_hits=0;
+    hc_progress_icon_enabled=0;
+    hc_progress_icon_width_original=hc_progress_icon_height_original=nullptr;
+    hc_progress_dock_width_original=hc_progress_dock_height_original=nullptr;
+    hc_progress_icon_width_hits=hc_progress_icon_height_hits=0;
+    hc_progress_dock_width_hits=hc_progress_dock_height_hits=0;
+
     hc_desktop_icon_width_original=hc_desktop_icon_height_original=nullptr;hc_desktop_icon_width_hits=hc_desktop_icon_height_hits=0;
     hc_dock_icon_width_original=hc_dock_icon_height_original=nullptr;hc_dock_icon_width_hits=hc_dock_icon_height_hits=0;
 
@@ -5649,6 +5691,7 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
     (void) bind_desktop_title();
     (void) bind_icon_render();
     (void) bind_desktop_icon_render();
+    (void) bind_progress_icon_render();
     (void) bind_title_hide();
     const size_t added = arm_hooks(order);
     if (added == 0 && order.empty()) return;

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 #include "symtab.h"
+#include "../home_hotseat_capacity.h"
 #include "htcache.h"
 #include "../home_workspace_gesture.h"
 
@@ -89,6 +90,7 @@ const TargetFunction kTargets[] = {
         {"HotseatLayerGetxController.resetAnimationAndUpdateDatabase", "HotseatLayerGetxController.resetAnimationAndUpdateDatabase", "OS4 原逻辑注入校验"},
         {"HotseatLayerGetxController._updateDragItemCount", "HotseatLayerGetxController._updateDragItemCount", "OS4 原逻辑注入校验"},
         {"HotseatLayerGetxController._pushDragItem", "HotseatLayerGetxController._pushDragItem", "OS4 原逻辑注入校验"},
+        {"HotSeatsConstants2.hotseatMaxFixedCount", "HotSeatsConstants2.hotseatMaxFixedCount", "底栏拖入容量校验根"},
         {"DeviceConfig.hotSeatMaxCount", "DeviceConfig.hotSeatMaxCount", "OS4 原逻辑注入校验"},
 
         {"_insertClearButtonOverlay", "RecentsPageState._insertClearButtonOverlay",
@@ -119,6 +121,7 @@ const TargetFunction kTargets[] = {
          "PhoneDeviceRules._calCellCountYWithGridHeightAndLayoutType",
          "功能19 行数（DeviceRules 拷贝）"},
         {"ShortcutIconWidget._buildNormalDrawable", "ShortcutIconWidget._buildNormalDrawable", "工作区位图尺寸消费者"},
+        {"ProgressShortcutIconGetxController.onInit", "ProgressShortcutIconGetxController.onInit", "进度图标实际 mixin 初始化链"},
         {"ShortcutIconWidget.iconWidth", "ShortcutIconWidget.iconWidth", "工作区宽度调用链"},
         {"ShortcutIconWidget.iconHeight", "ShortcutIconWidget.iconHeight", "工作区高度调用链"},
         {"IconConfigHandler.calIconSize", "IconConfigHandler.calIconSize",
@@ -429,6 +432,10 @@ bool LooksLikeDartFunction(const Image& image, uint32_t va, const char *name, ui
     const size_t count = std::min<size_t>(size / sizeof(uint32_t), required);
     std::array<uint32_t, 7> p{};
     if (!CodeView(image).ReadWords(va, p.data(), count)) return false;
+    if(NameEquals(name,"HotseatLayerGetxController.calculatePositionX")) {
+        home_dynamic::Body body(size/4);
+        return CodeView(image).ReadWords(va,body.data(),body.size())&&home_layout::capacity_position_shape(body);
+    }
     if (p[0] == 0xA9BF79FDu && p[1] == 0xAA0F03FDu) return true;
     if (double_reset && size == 24) {
         using namespace home_dynamic;
@@ -579,7 +586,7 @@ bool SymbolIndex::SpanFrom(uint32_t va, uint32_t* span) const {
 namespace {
 uint64_t SymbolRegistryId() {
     uint64_t h = 1469598103934665603ull;
-    h ^= 4; // source-contract tear-off/reset/time-leaf admission revision; invalidate negative entries
+    h ^= 5; // capacity scalar-body selection; source-contract tear-off/reset/time-leaf admission revision; invalidate negative entries
     for (const auto& target : kTargets) {
         for (const char* p = target.fullName; *p; ++p) { h ^= uint8_t(*p); h *= 1099511628211ull; }
         h ^= 0; h *= 1099511628211ull;
@@ -810,6 +817,11 @@ bool SymbolIndex::EnsureLoaded(const Image& image, uint64_t budgetMs) {
         for (size_t t = 0; t < kTargetCount; ++t) {
             if (!NameEquals(name, kTargets[t].fullName)) continue;
             const uint32_t size = static_cast<uint32_t>(sym.st_size);
+            // Select the scalar implementation before duplicate-name accounting.
+            // The optional-argument ABI adapter calls it but is not another source body.
+            if(NameEquals(name,"HotseatLayerGetxController.calculatePositionX")
+              &&!LooksLikeDartFunction(image,uint32_t(sym.st_value),name,size))continue;
+
             if (NameEquals(name, "_DoubleTapGestureDetectorState._handlePointerDown") && size == 40) {
                 home_dynamic::Body body(10);uint32_t destination=0;
                 if (CodeView(image).ReadWords(static_cast<uint32_t>(sym.st_value),body.data(),body.size())

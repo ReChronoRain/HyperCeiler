@@ -17,6 +17,7 @@ dec=fun(code,'enum xz_ret RunDecoder(')
 code=code.replace(dec,'enum xz_ret RunDecoder(const std::vector<uint8_t>&,uint32_t,std::vector<uint8_t>*out,uint64_t=0){if(slowDecode){auto until=std::chrono::steady_clock::now()+std::chrono::milliseconds(5);while(std::chrono::steady_clock::now()<until){}}*out=decoded;return XZ_STREAM_END;}')
 header='\n'.join(line for line in (R/'app/src/main/cpp/targets/home/tweaks/symtab.h').read_text().splitlines() if not line.startswith('#include') and not line.startswith('#pragma'))
 pre=r'''
+#include "targets/home/home_hotseat_capacity.h"
 #define LOGI(...) ((void)0)
 #include <chrono>
 #include <array>
