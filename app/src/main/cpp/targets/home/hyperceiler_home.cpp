@@ -14,6 +14,11 @@
 #include <cstdio>
 #include <cstring>
 #include <string_view>
+#include "native_home_entry.h"
+#ifdef HYPERCEILER_HYOS_BACKEND
+#include "targets/hyos/hyos_control.h"
+#include "home_report_hooks.h"
+#endif
 
 // Runtime-discovered HyperOS 4 launcher layout targets (see home_layout_resolver.h). Gated on
 // debug.hyperceiler.home_layout_resolve so a release build stays silent.
@@ -38,6 +43,7 @@ void HomeTweaksPrepareForLauncherChild();
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
 void start_dock_native_motion(int (*hook)(void *, void *, void **), int (*unhook)(void *));
 void set_dock_motion_feature_enabled(bool enabled);
+void set_dock_motion_feature_enabled_quiet(bool enabled);
 uint32_t dock_native_motion_state();
 #endif
 
@@ -49,30 +55,30 @@ using HookFunction = int (*)(void *function, void *replacement, void **backup);
 using UnhookFunction = int (*)(void *function);
 using NativeOnModuleLoaded = void (*)(const char *name, void *handle);
 
-struct NativeApiEntries {
-    // Loader-owned LSPosed ABI. unhook_func is optional at runtime: immutable
-    // per-generation banks never need to tear down a live replacement.
-    uint32_t version;
-    HookFunction hook_func;
-    UnhookFunction unhook_func;
-};
+using NativeApiEntries = home_native::ApiEntries;
 
 HookFunction g_hook_function = nullptr;
 UnhookFunction g_unhook_function = nullptr;
 std::atomic_bool g_property_hook_installed = false;
+#ifndef HYPERCEILER_HYOS_BACKEND
 std::atomic_bool g_process_name_hook_installed = false;
+#endif
 std::atomic_bool g_high_device_level = false;
 std::atomic_bool g_disable_prestart = false;
 std::atomic_bool g_soft_glass = false;
 std::atomic_bool g_configured = false;
 // 0=not specialized yet, 1=launcher, 2=another app. The spawner's zero state is
 // inherited independently by every child.
+#ifndef HYPERCEILER_HYOS_BACKEND
 std::atomic_int g_process_kind = 0;
+#endif
 
 using SystemPropertyGet = int (*)(const char *name, char *value);
 SystemPropertyGet g_original_system_property_get = nullptr;
 using SetProcessName = void (*)(const char *name);
+#ifndef HYPERCEILER_HYOS_BACKEND
 SetProcessName g_original_setprogname = nullptr;
+#endif
 
 bool is_launcher_process() {
     char name[128]{};
@@ -83,6 +89,7 @@ bool is_launcher_process() {
     return size > 0 && std::string_view(name) == "com.miui.home";
 }
 
+#ifndef HYPERCEILER_HYOS_BACKEND
 void start_motion_after_specialization() {
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     const int kind = g_process_kind.load(std::memory_order_acquire);
@@ -112,6 +119,7 @@ void start_motion_after_specialization() {
     }
 #endif
 }
+#endif
 
 bool is_hyos_spawner_process() {
     char executable[128]{};
@@ -142,6 +150,7 @@ int copy_property_value(char *destination, std::string_view value) {
 }
 
 int hooked_system_property_get(const char *name, char *value) {
+#ifndef HYPERCEILER_HYOS_BACKEND
     // HYOS maps its AOT libapp outside the ordinary linker callback path. The
     // inherited property hook is the earliest reliable post-specialization signal.
     start_motion_after_specialization();
@@ -153,17 +162,33 @@ int hooked_system_property_get(const char *name, char *value) {
         hometweaks::HomeTweaksPrepareForLauncherChild();
         hometweaks::StartHomeTweaks();
     }
+#endif
+    // A stalled Binder poll must not keep an old affirmative preference alive.
+    // Check the local lease at the read site; this never talks to Binder.
+#ifdef HYPERCEILER_HYOS_BACKEND
+    const bool managed = hyos_control::active();
+    const bool high_models = managed ? hyos_control::feature_enabled(hyos_control::kHighModels)
+                                    : g_high_device_level.load(std::memory_order_relaxed);
+    const bool disable_prestart = managed ? hyos_control::feature_enabled(hyos_control::kDisablePrestart)
+                                         : g_disable_prestart.load(std::memory_order_relaxed);
+    const bool soft_glass = managed ? hyos_control::feature_enabled(hyos_control::kSoftGlass)
+                                   : g_soft_glass.load(std::memory_order_relaxed);
+#else
+    const bool high_models = g_high_device_level.load(std::memory_order_relaxed);
+    const bool disable_prestart = g_disable_prestart.load(std::memory_order_relaxed);
+    const bool soft_glass = g_soft_glass.load(std::memory_order_relaxed);
+#endif
     if (name != nullptr) {
         const std::string_view property(name);
-        if (g_disable_prestart.load(std::memory_order_relaxed) &&
+        if (disable_prestart &&
             is_prestart_property(property)) {
             return copy_property_value(value, "false");
         }
-        if (g_soft_glass.load(std::memory_order_relaxed) &&
+        if (soft_glass &&
             property == "persist.sys.background_blur_supported") {
             return copy_property_value(value, "true");
         }
-        if (g_high_device_level.load(std::memory_order_relaxed)) {
+        if (high_models) {
             if (property == "ro.config.low_ram.threshold_gb") {
                 return copy_property_value(value, "false");
             }
@@ -180,6 +205,7 @@ int hooked_system_property_get(const char *name, char *value) {
         ? g_original_system_property_get(name, value) : 0;
 }
 
+#ifndef HYPERCEILER_HYOS_BACKEND
 void hooked_setprogname(const char *name) {
     if (g_original_setprogname != nullptr) g_original_setprogname(name);
     if (name != nullptr && std::string_view(name) == "com.miui.home") {
@@ -221,6 +247,7 @@ void install_process_name_hook() {
     __android_log_print(ANDROID_LOG_INFO, kLogTag,
         "HyperOS 4 launcher specialization hook installed");
 }
+#endif
 
 void install_property_hook() {
     if (g_hook_function == nullptr ||
@@ -244,6 +271,11 @@ void install_property_hook() {
 void on_library_loaded(const char *name, void *) {
     if (name == nullptr) return;
     const bool launcher = is_launcher_process();
+#ifdef HYPERCEILER_HYOS_BACKEND
+    // Loader notifications are drained by the control worker. The exact Dart
+    // snapshot observer owns first layout; never start legacy layout writers here.
+    if (launcher && is_library(name, "libapp_launcher.so")) install_property_hook();
+#else
     /*
      * Adopt the fork handoff before anything primes. prime_home_layout_probe/knobs below publish
      * hook state (armed flags, registered slots), and the adoption reset wipes exactly that: run
@@ -286,6 +318,7 @@ void on_library_loaded(const char *name, void *) {
         start_dock_native_motion(g_hook_function, g_unhook_function);
     }
 #endif
+#endif
 }
 
 jint native_status() {
@@ -306,6 +339,33 @@ jint native_status() {
 
 }  // namespace
 
+void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
+                                     bool soft_glass, bool dock_enabled, bool hide_report) {
+    g_high_device_level.store(high_models, std::memory_order_relaxed);
+    g_disable_prestart.store(disable_prestart, std::memory_order_relaxed);
+    g_soft_glass.store(soft_glass, std::memory_order_relaxed);
+    g_configured.store(true, std::memory_order_release);
+#ifdef HYPERCEILER_DOCK_NATIVE_MOTION
+    set_dock_motion_feature_enabled_quiet(dock_enabled);
+#else
+    (void) dock_enabled;
+#endif
+#ifdef HYPERCEILER_HYOS_BACKEND
+    home_report::set_enabled(hide_report);
+#else
+    (void) hide_report;
+#endif
+}
+
+#ifdef HYPERCEILER_HYOS_BACKEND
+void hyperceiler_home_after_startup() {
+#ifdef HYPERCEILER_DOCK_NATIVE_MOTION
+    if (hyos_control::feature_enabled(hyos_control::kDock))
+        start_dock_native_motion(g_hook_function, g_unhook_function);
+#endif
+}
+#endif
+
 extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeConfigure(
     JNIEnv *, jobject, jboolean high_device_level, jboolean disable_prestart,
@@ -314,6 +374,7 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
     g_disable_prestart.store(disable_prestart == JNI_TRUE, std::memory_order_relaxed);
     g_soft_glass.store(soft_glass == JNI_TRUE, std::memory_order_relaxed);
     g_configured.store(true, std::memory_order_release);
+#ifndef HYPERCEILER_HYOS_BACKEND
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     if (is_launcher_process() && g_hook_function != nullptr) {
         start_dock_native_motion(g_hook_function, g_unhook_function);
@@ -325,6 +386,7 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
         hometweaks::HomeTweaksPrepareForLauncherChild();
         hometweaks::StartHomeTweaks();
     }
+#endif
     return native_status();
 }
 
@@ -385,7 +447,9 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" [[gnu::visibility("default")]] [[gnu::used]]
 NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
     if (entries == nullptr || entries->hook_func == nullptr) return nullptr;
-    const bool spawner = is_hyos_spawner_process();
+    // A specialized Rust child retains /proc/self/exe=hyos_spawner. Its process
+    // identity is already Home; do not install the parent setprogname observer.
+    const bool spawner = is_hyos_spawner_process() && !is_launcher_process();
     __android_log_print(ANDROID_LOG_INFO, kLogTag,
         "native v34 hook API version=%u unhook=%d hyosSpawner=%d launcher=%d",
         entries->version, entries->unhook_func != nullptr, spawner, is_launcher_process());
@@ -394,6 +458,7 @@ NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
     // Install before libapp_launcher/libapp run their static initialization and cache the
     // properties. The load callback remains as a retry path for unusual linker ordering.
     if (spawner || is_launcher_process()) install_property_hook();
+#ifndef HYPERCEILER_HYOS_BACKEND
     if (is_launcher_process()) resolve_home_layout_targets();
     if (is_launcher_process()) {
         home_layout_prepare_for_launcher_child();
@@ -408,6 +473,7 @@ NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
     // In the normal path the spawner does not contain libapp.so. Starting here
     // would spend the entire retry budget before a launcher child is forked.
     if (is_launcher_process()) start_dock_native_motion(g_hook_function, g_unhook_function);
+#endif
 #endif
     // Retaining the callback is harmless in unrelated scoped processes and is
     // required when HYOS specializes a process after native_init returned.

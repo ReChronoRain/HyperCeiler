@@ -20,158 +20,90 @@ package com.sevtinge.hyperceiler.libhook.rules.getapps;
 
 import android.os.Build;
 
+import com.sevtinge.hyperceiler.common.utils.GetAppsDeviceConfig;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Objects;
 
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-
+/** Process-start Build identity. Existing consumer caches require an app restart. */
 public class DeviceModify extends BaseHook {
+    private final GetAppsDeviceConfig config;
 
-    String mDevice;
-    String mModel;
-    String mManufacturer;
+    public DeviceModify() {
+        this(GetAppsDeviceConfig.from(PrefsBridge.getSharedPreferences().getAll()));
+    }
+
+    public DeviceModify(GetAppsDeviceConfig config) {
+        this.config = config;
+    }
 
     @Override
     public void init() {
-        if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 108) {
-            // 15sp
-            mDevice = "dijun"; // O2S
-            mModel = "25042PN24C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 112) {
-            // 17u
-            mDevice = "nezha"; // P1
-            mModel = "2512BPNDAC";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 111) {
-            // 17pm
-            mDevice = "popsicle"; // P2
-            mModel = "25098PN5AC";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 110) {
-            // 17p
-            mDevice = "pandora"; // Q200
-            mModel = "2509FPN0BC";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 109) {
-            // 17
-            mDevice = "pudding"; // P3
-            mModel = "25113PN0EC";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 107) {
-            // 15u
-            mDevice = "xuanyuan"; // O1
-            mModel = "25010PN30C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 106) {
-            // 15p
-            mDevice = "haotian"; // O2
-            mModel = "2410DPN6CC";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 105) {
-            // 15
-            mDevice = "dada"; // O3
-            mModel = "24129PN74C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 156) {
-            // civi5p
-            mDevice = "luming";
-            mModel = "25067PYE3C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 202) {
-            // flip2
-            mDevice = "bixi"; // O8
-            mModel = "2505APX7BC";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 224) {
-            // f4
-            mDevice = "goku";  // N18
-            mModel = "24072PX77C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 190) {
-            // alpha
-            mDevice = "avenger";
-            mModel = "MIX Alpha";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 214) {
-            // pad8
-            mDevice = "yupei"; // P82
-            mModel = "25097RP43C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 215) {
-            // pad8p
-            mDevice = "piano"; // P81
-            mModel = "25091RP04C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 212) {
-            // pad7u
-            mDevice = "jinghu";
-            mModel = "25032RP42C";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 213) {
-            // pad7sp
-            mDevice = "violin";
-            mModel = "25053RP5CC";
-            mManufacturer = "Xiaomi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 316) {
-            // k90pm
-            mDevice = "myron";
-            mModel = "25102RKBEC";
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 315) {
-            // k90
-            mDevice = "annibale";
-            mModel = "2510DRK44C";
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 314) {
-            // k80u
-            mDevice = "dali";
-            mModel = "25060RK16C";
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 313) {
-            // k80pc
-            mDevice = "miro";
-            mModel = "24127RK2CC";
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 380) {
-            // k Pad
-            mDevice = "turner";
-            mModel = "25079RPDCC";
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 335) {
-            // t4p
-            mDevice = "onyx";
-            mModel = "25053RT47C";
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 355) {
-            // n15p+
-            mDevice = "flourite";
-            mModel = "2510ERA8BC"; // P16U
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 403) {
-            // 14c
-            mDevice = "lake";
-            mModel = "2409BRN2CC";
-            mManufacturer = "Redmi";
-        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 1) {
-            // customization
-            mDevice = PrefsBridge.getString("market_device_modify_device", "");
-            mModel = PrefsBridge.getString("market_device_modify_model", "");
-            mManufacturer = PrefsBridge.getString("market_device_modify_manufacturer", "");
-        } else {
-            return;
+        if (!config.enabled || !config.hasOverrides()) return;
+        Class<?> app = findClassIfExists("com.xiaomi.market.MarketApp");
+        if (app == null) throw new IllegalStateException("GetApps MarketApp is unavailable");
+        String[] names = {"DEVICE", "MODEL", "MANUFACTURER"};
+        String[] values = {config.device, config.model, config.manufacturer};
+        for (String name : names) {
+            Field field;
+            try {
+                field = Build.class.getDeclaredField(name);
+            } catch (NoSuchFieldException error) {
+                throw new IllegalStateException("Missing Build identity field: " + name, error);
+            }
+            if (field.getType() != String.class || !Modifier.isStatic(field.getModifiers())) {
+                throw new IllegalStateException("Unexpected Build identity field: " + name);
+            }
         }
-        findAndHookConstructor("com.xiaomi.market.MarketApp", new IMethodHook() {
+        if (findAndHookConstructor(app, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                setStaticObjectField(Build.class, "DEVICE", mDevice);
-                setStaticObjectField(Build.class, "MODEL", mModel);
-                setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);
+                if (param.isSkipped()) return;
+                // MarketApp.<clinit> does not capture this identity. Its constructor
+                // starts delegates/async resource work, so write before that body.
+                applyIdentity(names, values);
             }
-        });
+        }) == null) throw new IllegalStateException("GetApps constructor hook was not installed");
+    }
+
+    private void applyIdentity(String[] names, String[] values) {
+        String[] original = new String[names.length];
+        int attempted = -1;
+        try {
+            for (int i = 0; i < names.length; i++) {
+                original[i] = (String) getStaticObjectField(Build.class, names[i]);
+            }
+            for (int i = 0; i < names.length; i++) {
+                if (values[i] == null || Objects.equals(values[i], original[i])) continue;
+                attempted = i;
+                setStaticObjectField(Build.class, names[i], values[i]);
+                if (!Objects.equals(getStaticObjectField(Build.class, names[i]), values[i])) {
+                    throw new IllegalStateException("Build identity write did not persist: " + names[i]);
+                }
+            }
+        } catch (Throwable error) {
+            // Include the attempted field: a backend can write and then throw.
+            for (int i = attempted; i >= 0; i--) {
+                if (values[i] == null || Objects.equals(values[i], original[i])) continue;
+                try {
+                    // Never overwrite a value that a different writer has replaced.
+                    if (Objects.equals(getStaticObjectField(Build.class, names[i]), values[i])) {
+                        setStaticObjectField(Build.class, names[i], original[i]);
+                        if (!Objects.equals(getStaticObjectField(Build.class, names[i]), original[i])) {
+                            throw new IllegalStateException("Build identity rollback did not persist");
+                        }
+                    }
+                } catch (Throwable rollbackError) {
+                    error.addSuppressed(rollbackError);
+                }
+            }
+            debugCallbackError("GetApps Build identity", error);
+        }
     }
 }
-
-

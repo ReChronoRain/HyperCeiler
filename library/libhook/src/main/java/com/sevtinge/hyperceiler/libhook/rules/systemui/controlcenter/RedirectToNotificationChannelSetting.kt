@@ -104,8 +104,10 @@ object RedirectToNotificationChannelSetting : BaseHook() {
                 ?: findClass("com.android.systemui.statusbar.notification.NotificationSettingsHelper")
         notificationSettingsHelper.findMethodOrNull { name("startAppNotificationSettings") }?.createHook {
                 before { param ->
-                    startChannelNotificationSettings(statusBarNotification!!)
-                    param.result = null
+                    statusBarNotification?.let { notification ->
+                        startChannelNotificationSettings(notification)
+                        param.result = null
+                    }
                 }
             }
     }

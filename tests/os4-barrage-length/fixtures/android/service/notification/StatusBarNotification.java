@@ -1,0 +1,2 @@
+package android.service.notification;
+public class StatusBarNotification {public final android.app.Notification n=new android.app.Notification();public final String pkg,tag;public StatusBarNotification(String p,String t,CharSequence title,CharSequence text){pkg=p;tag=t;n.extras.putCharSequence("android.title",title);n.extras.putCharSequence("android.text",text);}public android.app.Notification getNotification(){return n;}public String getPackageName(){return pkg;}public String getTag(){return tag;}public int getUserId(){return 10;}}

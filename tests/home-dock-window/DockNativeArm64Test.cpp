@@ -1,7 +1,4 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
-#if defined(__GNUC__) && !defined(__clang__)
-#pragma GCC diagnostic ignored "-Wunused-member"
-#endif
 #include <atomic>
 #include <bit>
 #include <cassert>
@@ -25,6 +22,12 @@ alignas(8) std::atomic<uint64_t> dock_motion_publish_hits{0};
 alignas(8) std::atomic<uint64_t> dock_auto_aim_value{0x3ff0000000000003ULL};
 alignas(8) std::atomic<uint64_t> dock_auto_aim_entry_hits{0};
 alignas(8) std::atomic<uint64_t> dock_auto_aim_publish_hits{0};
+// Keep the test's exported diagnostics in step with dock_native_motion.cpp.
+// The real assembly increments these even though the Android logger is absent here.
+alignas(8) std::atomic<uint64_t> dock_auto_aim_receiver_bad{0};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_widget_bad{0};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_cell_bad{0};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_container_miss{0};
 alignas(8) std::atomic<uint64_t> dock_motion_active_callbacks{0};
 alignas(4) std::atomic<uint32_t> dock_motion_subscribed{0};
 int dock_motion_event = -1;
@@ -313,6 +316,10 @@ int main() {
     assert(dock_auto_aim_publish_hits.load() == before_foreign);
     invoke_unlock(dock_motion_unlock_scale_entry_0, reinterpret_cast<void *>(2), .86);
     assert(dock_auto_aim_publish_hits.load() == before_foreign);
+    assert(dock_auto_aim_container_miss.load() == 1);
+    assert(dock_auto_aim_widget_bad.load() == 1);
+    assert(dock_auto_aim_cell_bad.load() == 1);
+    assert(dock_auto_aim_receiver_bad.load() == 1);
     aim_widget.cell = static_cast<uint32_t>(aim_cell_tagged);
 
     // A different CID/tag layout, tagged-header position, bool singleton offset

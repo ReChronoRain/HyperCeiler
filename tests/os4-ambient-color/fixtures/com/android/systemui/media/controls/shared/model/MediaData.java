@@ -1,0 +1,1 @@
+package com.android.systemui.media.controls.shared.model;import android.graphics.drawable.Icon;public final class MediaData {public final Icon artwork;public final int userId;public final String packageName;public MediaData(Icon i,int u,String p){artwork=i;userId=u;packageName=p;}}

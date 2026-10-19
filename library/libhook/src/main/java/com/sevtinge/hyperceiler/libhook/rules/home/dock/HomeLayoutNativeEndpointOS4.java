@@ -7,9 +7,12 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
+import android.os.SystemClock;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
+import com.sevtinge.hyperceiler.libhook.base.FrameworkHookGate;
 import com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot;
 
 import java.io.FileInputStream;
@@ -19,6 +22,19 @@ import java.io.IOException;
 public final class HomeLayoutNativeEndpointOS4 {
     public static final int TRANSACTION_CODE = 0x0048434C;
     public static final int ACK = 0x48434C34;
+    /** Separate versioned reply; older layout clients keep their existing wire format. */
+    public static final int HYOS_TRANSACTION_CODE = 0x00484359;
+    public static final int HYOS_ACK = 0x48435931;
+    public static final int HYOS_ALLOWED = 1;
+    public static final int HYOS_HIGH_MODELS = 2;
+    public static final int HYOS_DISABLE_PRESTART = 4;
+    public static final int HYOS_SOFT_GLASS = 8;
+    public static final int HYOS_DOCK = 16;
+    public static final int HYOS_HIDE_REPORT = 32;
+    /** HCS1 is a fixed 188-byte atomic authorization + layout reply. HCY1/HCL4 stay unchanged. */
+    public static final int COMBINED_TRANSACTION_CODE = 0x00484353;
+    public static final int COMBINED_ACK = 0x48435331;
+    public static final int COMBINED_REPLY_BYTES = 188;
     private static final String DESCRIPTOR = "android.view.IWindowManager";
     /**
      * Where the current values come from.
@@ -51,7 +67,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static volatile String lastDenied;
     private static volatile String lastAccepted;
     private static Thread refresher;
-    private static boolean paused;
+    private static volatile boolean paused;
     private static long refreshEpoch;
     private static long notificationVersion;
     private static long queryVersion;
@@ -192,6 +208,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         synchronized (refresherLock) {
             paused = true;
             ++refreshEpoch; // A query already in flight must not publish after retirement.
+            invalidateCombinedLocked();
             worker = refresher;
             if (worker == null) return true;
             worker.interrupt();
@@ -228,6 +245,22 @@ public final class HomeLayoutNativeEndpointOS4 {
             notificationAtQuery = notificationVersion;
             query = ++queryVersion;
         }
+        if (needsEpoch) {
+            // Once per generation, on the provider worker, outside publication/WMS locks.
+            long nonce = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+            if (nonce == 0) nonce = 1;
+            synchronized (refresherLock) {
+                if (paused || refreshEpoch != epoch || refreshTicket != ticket) return false;
+                if (combinedEpoch == 0) combinedEpoch = nonce;
+            }
+        }
+        return true;
+    }
+
+    private record ProviderSnapshot(java.util.Map<String, Integer> values, String reason,
+        FrameworkHookGate.Fingerprint framework) { }
+
+    private static ProviderSnapshot queryProviderSnapshot() {
         final android.content.Context context =
             com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
                 com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
@@ -235,15 +268,12 @@ public final class HomeLayoutNativeEndpointOS4 {
         final java.util.Map<String, Object> values = new java.util.HashMap<>();
         try {
             final android.content.ContentResolver resolver = context.getContentResolver();
-            if (resolver == null) return false;
+            if (resolver == null) return null;
             try (final android.database.Cursor cursor = resolver.query(android.net.Uri.parse(
                     "content://" + PREFS_AUTHORITY + "/home_layout"), null, null, null, null)) {
                 // Older providers return an empty / one-column cursor for an unknown path.
                 // It must not erase a complete cache, especially while an APK is being replaced.
-                if (cursor == null || !cursor.moveToFirst()
-                    || cursor.getColumnCount() != PREF_KEYS.length + 1
-                    || !"schema".equals(cursor.getColumnName(0))
-                    || cursor.isNull(0) || cursor.getInt(0) != HomeLayoutPrefsSnapshot.SCHEMA) return false;
+                if (!isProviderSchema(cursor)) return null;
                 for (int index = 0; index < PREF_KEYS.length; ++index) {
                     final String key = PREF_KEYS[index][1];
                     final int column = index + 1;
@@ -370,6 +400,143 @@ public final class HomeLayoutNativeEndpointOS4 {
         this.preferences = preferences;
     }
 
+    /** -1 means unavailable/denied, 0 is an authoritative disabled configuration. */
+    public int receiveHyosFlags(Parcel data, int flags) {
+        data.enforceInterface(DESCRIPTOR);
+        if ((flags & IBinder.FLAG_ONEWAY) != 0 || data.dataAvail() != 0) return -1;
+        final int uid = Binder.getCallingUid();
+        final int pid = Binder.getCallingPid();
+        if (uid < 10000 || pid <= 0 || !verifier.isLauncher(uid, pid)) return -1;
+        return readHyosFlags();
+    }
+
+    static int readHyosFlags() {
+        ensureRefresher();
+        final java.util.Map<String, Integer> values;
+        final String frameworkReason;
+        final FrameworkHookGate.Fingerprint checkedFramework;
+        synchronized (refresherLock) {
+            if (!hyosSnapshotLive || paused
+                || System.nanoTime() - hyosSnapshotAtNanos > HYOS_MAX_SNAPSHOT_AGE_NANOS) return -1;
+            values = cachedValues;
+            frameworkReason = cachedFrameworkReason;
+            checkedFramework = cachedFrameworkFingerprint;
+        }
+        // No JNI/remote-preference fallback in a Rust child. Activation requires
+        // the module application's authoritative snapshot and normal hook gates.
+        if (values == null) return -1;
+        return deriveHyosFlags(values, frameworkReason, checkedFramework);
+    }
+
+    private static int deriveHyosFlags(java.util.Map<String, Integer> values, String frameworkReason,
+        FrameworkHookGate.Fingerprint checkedFramework) {
+        if (!readBoolean(values, "allow_hook", false)) return 0;
+        if (!FrameworkHookGate.isAllowed(readBoolean(values, "framework_api_allow_hook", true),
+                frameworkReason, () -> {
+                    final var framework = BaseLoad.getXposed();
+                    if (framework == null) return null;
+                    return new FrameworkHookGate.Fingerprint(framework.getFrameworkName(),
+                        framework.getFrameworkVersion(), framework.getFrameworkVersionCode());
+                }, () -> checkedFramework)) return 0;
+        int flags = HYOS_ALLOWED;
+        if (readBoolean(values, "home_other_high_models", false)) flags |= HYOS_HIGH_MODELS;
+        if (readBoolean(values, "home_other_disable_prestart", false)) flags |= HYOS_DISABLE_PRESTART;
+        final boolean dock = readBoolean(values, "home_dock_bg_custom_enable", false);
+        if (dock) {
+            flags |= HYOS_DOCK;
+            if (readInt(values, "home_dock_add_blur", 0) == 1) flags |= HYOS_SOFT_GLASS;
+        }
+        if (readBoolean(values, "home_title_hide_report_text", false)) flags |= HYOS_HIDE_REPORT;
+        return flags;
+    }
+
+    public CombinedSnapshot receiveCombinedSnapshot(Parcel data, int flags) {
+        data.enforceInterface(DESCRIPTOR);
+        if ((flags & IBinder.FLAG_ONEWAY) != 0 || data.dataAvail() != 0)
+            return unavailableCombined(null);
+        final int uid = Binder.getCallingUid();
+        final int pid = Binder.getCallingPid();
+        if (uid < 10000 || pid <= 0 || !verifier.isLauncher(uid, pid))
+            return unavailableCombined(null);
+        return readCombinedSnapshot();
+    }
+
+    static CombinedSnapshot readCombinedSnapshot() {
+        ensureRefresher();
+        // Framework inspection is outside the publication lock. Retry once when a concurrent
+        // publication changes the identity; never mix old flags with a newer layout.
+        CombinedSnapshot result = tryReadCombinedSnapshot();
+        if (result != null) return result;
+        result = tryReadCombinedSnapshot();
+        return result == null ? unavailableCombined(combinedPublished) : result;
+    }
+
+    /** Null means the publication changed while its framework gate was inspected. */
+    // A refreshed record with equal contents is still a new publication; validate its identity.
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    private static CombinedSnapshot tryReadCombinedSnapshot() {
+        final PublishedSnapshot value = combinedPublished;
+        final long now = SystemClock.elapsedRealtimeNanos();
+        if (!isCombinedLeaseLive(value, now)) return unavailableCombined(value);
+        final int flags = deriveHyosFlags(value.values(), value.reason(), value.framework());
+        final long finished = SystemClock.elapsedRealtimeNanos();
+        if (combinedPublished != value || paused) return null;
+        if (finished < now || finished >= value.deadline()) return unavailableCombined(value);
+        if (flags == 0) return new CombinedSnapshot(1, 0, value.epoch(), value.revision(), 0, null);
+        if (!validCombinedLayout(value.layout())) return unavailableCombined(value);
+        return new CombinedSnapshot(1, flags, value.epoch(), value.revision(),
+            value.deadline(), value.layout());
+    }
+
+    private static boolean isCombinedLeaseLive(PublishedSnapshot value, long now) {
+        return value != null && !paused && value.values() != null && now > 0
+            && now < value.deadline() && value.deadline() - now <= HYOS_MAX_SNAPSHOT_AGE_NANOS;
+    }
+
+    private static boolean validCombinedLayout(Snapshot value) {
+        if (!hasValidLayoutShape(value)) return false;
+        for (int i = 0; i < KNOB_ROWS.length; ++i) {
+            int enabled = value.knobEnabled()[i];
+            int delta = value.knobDeltaDp()[i];
+            if ((enabled != 0 && enabled != 1) || delta < -MAX_DELTA_DP || delta > MAX_DELTA_DP
+                || (enabled == 0 && delta != 0)) return false;
+        }
+        for (int i = 0; i < TWEAK_COUNT; ++i)
+            if (value.tweaks()[i] < TWEAK_MIN[i] || value.tweaks()[i] > TWEAK_MAX[i]) return false;
+        return true;
+    }
+
+    private static boolean hasValidLayoutShape(Snapshot value) {
+        return !(value == null || (value.gridEnabled() != 0 && value.gridEnabled() != 1)
+            || value.cellX() < 3 || value.cellX() > 9 || value.cellY() < 4 || value.cellY() > 13
+            || value.knobEnabled().length != KNOB_ROWS.length
+            || value.knobDeltaDp().length != KNOB_ROWS.length || value.tweaks().length != TWEAK_COUNT);
+    }
+
+    /** Fixed HCS1 wire, including the canonical zero payload for denied/unavailable replies. */
+    public static void writeCombinedReply(Parcel reply, CombinedSnapshot result) {
+        final CombinedSnapshot value = result == null ? unavailableCombined(null) : result;
+        final Snapshot layout = value.layout();
+        reply.setDataSize(0);
+        reply.setDataPosition(0);
+        reply.writeInt(COMBINED_ACK);
+        reply.writeInt(value.available());
+        reply.writeInt(value.flags());
+        reply.writeLong(value.epoch());
+        reply.writeLong(value.revision());
+        reply.writeLong(value.deadline());
+        reply.writeInt(layout.gridEnabled());
+        reply.writeInt(layout.cellX());
+        reply.writeInt(layout.cellY());
+        reply.writeInt(KNOB_ROWS.length);
+        for (int i = 0; i < KNOB_ROWS.length; ++i) {
+            reply.writeInt(layout.knobEnabled()[i]);
+            reply.writeInt(layout.knobDeltaDp()[i]);
+        }
+        reply.writeInt(TWEAK_COUNT);
+        for (int valuePart : layout.tweaks()) reply.writeInt(valuePart);
+    }
+
     public Snapshot receive(Parcel data, int flags) {
         data.enforceInterface(DESCRIPTOR);
         // An asynchronous Binder call does not carry a trustworthy caller PID on this ROM.
@@ -489,7 +656,15 @@ public final class HomeLayoutNativeEndpointOS4 {
         final int count = KNOB_ROWS.length;
         final int[] enabled = new int[count];
         final int[] deltas = new int[count];
-        for (int index = 0; index < count; ++index) {
+        decodeGeometryKnobs(values, enabled, deltas);
+        decodeIndicatorMode(values, enabled, deltas);
+        final int[] tweaks = decodeTweaks(values);
+        return new Snapshot(ACK, gridEnabled ? 1 : 0, cellX, cellY, enabled, deltas, tweaks);
+    }
+
+    private static void decodeGeometryKnobs(java.util.Map<String, Integer> values,
+                                            int[] enabled, int[] deltas) {
+        for (int index = 0; index < KNOB_ROWS.length; ++index) {
             // OS4 renders the old search bar as the Indicator capsule. Retired controls remain
             // visible but disabled in settings; ignore saved values too, so a previously enabled
             // search-bar tweak cannot keep moving the capsule behind that disabled UI.
@@ -504,6 +679,10 @@ public final class HomeLayoutNativeEndpointOS4 {
             enabled[index] = 1;
             deltas[index] = clampDelta(value - fallback);
         }
+    }
+
+    private static void decodeIndicatorMode(java.util.Map<String, Integer> values,
+                                           int[] enabled, int[] deltas) {
         // Reuse the two retired search-bar wire columns; no Binder payload/array ABI change.
         final Integer cachedMode = cached(values, "home_other_seek_points");
         int indicatorMode = cachedMode != null ? cachedMode
@@ -511,6 +690,9 @@ public final class HomeLayoutNativeEndpointOS4 {
         if (indicatorMode < 0 || indicatorMode > 2) indicatorMode = 0;
         enabled[6] = enabled[7] = indicatorMode == 0 ? 0 : 1;
         deltas[6] = deltas[7] = indicatorMode;
+    }
+
+    private static int[] decodeTweaks(java.util.Map<String, Integer> values) {
         final int[] tweaks = new int[TWEAK_COUNT];
         /* The existing folder-column slider is the single control. Its default keeps the launcher
          * untouched; choosing any other value enables the native patch automatically. */
@@ -519,23 +701,23 @@ public final class HomeLayoutNativeEndpointOS4 {
         tweaks[1] = folderColumns != 3 ? 1 : 0;
         tweaks[2] = readIntInRange(values, "home_layout_pad_major", 8, 2);
         tweaks[3] = readIntInRange(values, "home_layout_pad_minor", 5, 3);
-        tweaks[4] = readBoolean(values, "home_layout_pad_grid_enable", false) ? 1 : 0;
+        tweaks[4] = readBit(values, "home_layout_pad_grid_enable");
         tweaks[5] = readIntInRange(values, "home_layout_fold_major", 8, 5);
         tweaks[6] = readIntInRange(values, "home_layout_fold_minor", 5, 6);
-        tweaks[7] = readBoolean(values, "home_layout_fold_grid_enable", false) ? 1 : 0;
+        tweaks[7] = readBit(values, "home_layout_fold_grid_enable");
         /* Default level 70 = the page's "system default size" level; must match the SeekBar's
          * android:defaultValue and the native kIconScaleCodeDefault (both 0x66 for this level). */
         tweaks[8] = iconScaleCodeFor(readInt(values, "home_layout_icon_scale", 70));
-        tweaks[9] = readBoolean(values, "home_layout_icon_scale_enable", false) ? 1 : 0;
-        tweaks[10] = readBoolean(values, "home_layout_recents_hide_clear", false) ? 1 : 0;
-        tweaks[11] = readBoolean(values, "home_layout_recents_no_clear", false) ? 1 : 0;
+        tweaks[9] = readBit(values, "home_layout_icon_scale_enable");
+        tweaks[10] = readBit(values, "home_layout_recents_hide_clear");
+        tweaks[11] = readBit(values, "home_layout_recents_no_clear");
         /* Two fully independent animation controls, each with its own gate and duration ratio.
          * The page enforces 30..200 on both sliders (above 100 deliberately allowed so animations
          * can run slower); a stale or hand-edited value is clamped into that window here rather
          * than falling back to identity, so "as fast as allowed" survives a schema change. */
-        tweaks[12] = readBoolean(values, "home_animation_open_rate_enable", false) ? 1 : 0;
+        tweaks[12] = readBit(values, "home_animation_open_rate_enable");
         tweaks[13] = Math.max(30, Math.min(200, readInt(values, "home_animation_open_rate", 100)));
-        tweaks[14] = readBoolean(values, "home_animation_recents_enable", false) ? 1 : 0;
+        tweaks[14] = readBit(values, "home_animation_recents_enable");
         tweaks[15] = Math.max(30, Math.min(200, readInt(values, "home_animation_recents_rate", 100)));
         tweaks[16] = readBoolean(values, "home_dock_unlock_hotseat", false) ? 1 : 0;
         final int[] title = {
@@ -739,9 +921,23 @@ public final class HomeLayoutNativeEndpointOS4 {
         return Math.max(-MAX_DELTA_DP, Math.min(MAX_DELTA_DP, deltaDp));
     }
 
-    /** Binder's synchronous PID plus its exact process name identify this caller before WMS binds a window. */
+    /** Bind Binder's UID to the Home package as well as checking its exact live process name. */
+    static boolean uidBelongsToLauncher(int uid) {
+        if (uid < 10000) return false;
+        try {
+            final android.content.Context context =
+                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                    com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+            if (context == null || context.getPackageManager() == null) return false;
+            final String[] packages = context.getPackageManager().getPackagesForUid(uid);
+            if (packages == null) return false;
+            for (String name : packages) if ("com.miui.home".equals(name)) return true;
+        } catch (RuntimeException unavailable) { return false; }
+        return false;
+    }
+
     private static boolean verifyLauncherProcess(int uid, int pid) {
-        if (uid < 10000 || pid <= 0) return false;
+        if (pid <= 0 || !uidBelongsToLauncher(uid)) return false;
         final byte[] command = new byte[64];
         try (FileInputStream input = new FileInputStream("/proc/" + pid + "/cmdline")) {
             final int count = input.read(command);

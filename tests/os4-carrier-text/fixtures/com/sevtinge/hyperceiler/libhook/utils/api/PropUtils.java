@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.libhook.utils.api;public class PropUtils{public static String name="My Phone";public static boolean fail;public static String getProp(String key){if(!key.equals("persist.private.device_name"))throw new AssertionError();if(fail)throw new IllegalStateException("property");return name;}}

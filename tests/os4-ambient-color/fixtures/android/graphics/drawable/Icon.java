@@ -1,0 +1,1 @@
+package android.graphics.drawable;import android.content.Context;public final class Icon {public Drawable drawable; public boolean throwsLoad;public int loads;public Icon(Drawable d){drawable=d;}public Drawable loadDrawable(Context c){loads++;if(throwsLoad)throw new IllegalArgumentException("load");return drawable;}}

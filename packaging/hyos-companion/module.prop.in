@@ -1,0 +1,6 @@
+id=hyperceiler_hyos_popsicle
+name=HyperCeiler OS4 Home and Weather companion (experimental)
+version=@LABEL@
+versionCode=@VERSION_CODE@
+author=Local HyperCeiler OS4 adaptation
+description=Experimental native Home and Weather bridges for popsicle OS4.0.0.44.XPBCNXM only. Requires the matching HyperCeiler APK and Zygisk Next API 4 with Hyos API 1. Device acceptance remains pending.

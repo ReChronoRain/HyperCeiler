@@ -1,0 +1,1 @@
+package com.android.systemui.monet;public class TonalPalette{public final java.util.List allShades;public TonalPalette(int base){java.util.ArrayList x=new java.util.ArrayList();for(int i=0;i<ColorScheme.count;i++)x.add(base+i);if(ColorScheme.bad&&base==300)x.set(4,"wrong");allShades=x;}}

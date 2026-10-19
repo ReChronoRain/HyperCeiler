@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.CustomWatermark;
+import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.GalleryCreationAvailabilityOS4;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockAigc;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockCustomPhotoFrames;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockDisney;
@@ -36,6 +37,10 @@ public class MediaEditor extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        // Install even when all four Gallery switches are initially off: their
+        // values are checked per request without restarting the provider process.
+        initHook(new GalleryCreationAvailabilityOS4(),
+            com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
         // AI
         initHook(new UnlockAigc(), PrefsBridge.getBoolean("mediaeditor_unlock_aigc"));
         // 基础

@@ -1,0 +1,1 @@
+package android.media;import android.graphics.Probe;import android.hardware.HardwareBuffer;public class Image{public HardwareBuffer getHardwareBuffer(){Probe.hit("buffer");return Probe.nullAt.equals("buffer")?null:new HardwareBuffer();}public void close(){Probe.hit("image.close");}}

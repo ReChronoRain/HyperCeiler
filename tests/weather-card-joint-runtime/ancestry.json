@@ -1,0 +1,4 @@
+{
+  "tests/weather-joint-runtime/runtime_test.cpp": "d9f260f71e321a7af3d18a15bccbe69069312d9c88b9c89d896610ae1c0f6b30",
+  "tests/weather-joint-runtime/calls.S": "87a126729a02c32484848837892ec8ac15112e179b54b41460495efed177cf00"
+}

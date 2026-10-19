@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.common.utils;public class PrefsBridge{public static int mode;public static int getStringAsInt(String k,int d){if(!k.equals("system_ui_control_center_hide_operator"))throw new AssertionError(k);return mode;}}

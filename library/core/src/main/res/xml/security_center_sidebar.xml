@@ -137,6 +137,12 @@
             android:key="prefs_key_security_center_unlock_s_resolution"
             android:title="@string/security_center_unlock_s_resolution" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_remove_vb_temp_limit"
+            android:summary="@string/security_center_remove_vb_temp_limit_summary"
+            android:title="@string/security_center_remove_vb_temp_limit" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_sidebar_gamebox_title">

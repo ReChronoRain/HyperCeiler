@@ -1,0 +1,1 @@
+package android.hardware;import android.graphics.Probe;public class HardwareBuffer{public static final long USAGE_GPU_SAMPLED_IMAGE=1,USAGE_GPU_COLOR_OUTPUT=2;public void close(){Probe.hit("buffer.close");}}

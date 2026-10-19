@@ -37,9 +37,8 @@ public final class FrameworkStatusManager {
         sCurrentStatus = restoreStatus();
     }
 
-    public static void onServiceBound(@NonNull XposedService service) {
+    public static synchronized void onServiceBound(@NonNull XposedService service) {
         Status status = evaluateService(service);
-        updateHookGate(status.isHookAllowed());
         persistStatus(status);
         sCurrentStatus = status;
     }
@@ -225,24 +224,10 @@ public final class FrameworkStatusManager {
         return t.getClass().getSimpleName() + ": " + message;
     }
 
-    private static void updateHookGate(boolean allowHook) {
-        if (PrefsBridge.getBoolean(PREF_KEY_ALLOW_HOOK, true) != allowHook) {
-            PrefsBridge.putByApp(PREF_KEY_ALLOW_HOOK, allowHook);
-            return;
-        }
-        SharedPreferences prefs = PrefsBridge.getSharedPreferences();
-        if (prefs != null && !prefs.contains("prefs_key_" + PREF_KEY_ALLOW_HOOK)) {
-            PrefsBridge.putByApp(PREF_KEY_ALLOW_HOOK, allowHook);
-        }
-    }
-
     private static void persistStatus(@NonNull Status status) {
-        PrefsBridge.putByApp(PREF_KEY_REASON, status.getReason().name());
-        PrefsBridge.putByApp(PREF_KEY_NAME, status.getFrameworkName());
-        PrefsBridge.putByApp(PREF_KEY_VERSION, status.getFrameworkVersion());
-        PrefsBridge.putByApp(PREF_KEY_VERSION_CODE, status.getFrameworkVersionCode());
-        PrefsBridge.putByApp(PREF_KEY_API_VERSION, status.getFrameworkApiVersion());
-        PrefsBridge.putByApp(PREF_KEY_DETAIL, status.getDetail());
+        PrefsBridge.putFrameworkStatusByApp(status.isHookAllowed(), status.getReason().name(),
+            status.getFrameworkName(), status.getFrameworkVersion(), status.getFrameworkVersionCode(),
+            status.getFrameworkApiVersion(), status.getDetail());
     }
 
     @NonNull

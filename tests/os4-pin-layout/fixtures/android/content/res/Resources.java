@@ -1,0 +1,1 @@
+package android.content.res;public class Resources{public int missing;public int getIdentifier(String name,String type,String pkg){if(!pkg.equals("com.android.systemui")||!type.equals("id"))throw new AssertionError();int row=Integer.parseInt(name.substring(3));return row==missing?0:100+row;}}

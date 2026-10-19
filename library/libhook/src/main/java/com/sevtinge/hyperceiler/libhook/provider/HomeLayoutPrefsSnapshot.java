@@ -9,7 +9,7 @@ import java.util.Map;
 
 /** One authoritative physical-file revision; a null cell is a known missing key. */
 public final class HomeLayoutPrefsSnapshot {
-    public static final int SCHEMA = 1;
+    public static final int SCHEMA = 2;
     private static final String[][] KEYS = {
         {"boolean", "home_gesture_enable"},
         {"boolean", "home_navigation_quick_back"},
@@ -77,6 +77,17 @@ public final class HomeLayoutPrefsSnapshot {
         {"integer", "home_animation_open_rate"},
         {"boolean", "home_animation_recents_enable"},
         {"integer", "home_animation_recents_rate"},
+        {"boolean", "allow_hook"},
+        {"boolean", "framework_api_allow_hook"},
+        {"text", "framework_check_reason"},
+        {"text", "framework_check_name"},
+        {"text", "framework_check_version"},
+        {"long", "framework_check_version_code"},
+        {"boolean", "home_other_high_models"},
+        {"boolean", "home_other_disable_prestart"},
+        {"boolean", "home_dock_bg_custom_enable"},
+        {"string", "home_dock_add_blur"},
+        {"boolean", "home_title_hide_report_text"},
     };
     private HomeLayoutPrefsSnapshot() {}
     public static String[][] specs() {
@@ -115,6 +126,13 @@ public final class HomeLayoutPrefsSnapshot {
                     case "stringset" -> {
                         if (!(value instanceof java.util.Set<?> records)) return null;
                         row.add(encodeTitleRecords(records));
+                    case "text" -> {
+                        if (!(value instanceof String)) return null;
+                        row.add(value);
+                    }
+                    case "long" -> {
+                        if (!(value instanceof Long)) return null;
+                        row.add(value);
                     }
                     default -> { return null; }
                 }

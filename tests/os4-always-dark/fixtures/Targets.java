@@ -1,0 +1,24 @@
+import android.content.Context;import android.content.res.*;import android.widget.*;import android.graphics.drawable.Drawable;import java.util.*;
+public class Targets {
+ public interface Lazy {Object get();}
+ public static class Configs{public static boolean tiny;public static boolean isFlipTinyScreen(Context c){return tiny;}}
+ public static class Seek {public int mDeviceLevel;public final Object highEndShader=new Object();public int mForegroundPrimaryColor=1,mForegroundPrimaryDisableColor=2,mBackgroundPrimaryColor=3,mBackgroundPrimaryDisableColor=4;public void setForegroundPrimaryColor(int v){if(mDeviceLevel!=0&&mDeviceLevel!=1)return;mForegroundPrimaryColor=v;}public void setForegroundPrimaryDisableColor(int v){if(mDeviceLevel!=0&&mDeviceLevel!=1)return;mForegroundPrimaryDisableColor=v;}public void setBackgroundPrimaryColor(int v){if(mDeviceLevel!=0&&mDeviceLevel!=1)return;mBackgroundPrimaryColor=v;}public void setBackgroundPrimaryDisableColor(int v){if(mDeviceLevel!=0&&mDeviceLevel!=1)return;mBackgroundPrimaryDisableColor=v;}}
+ public static class Holder {public final android.view.View player=new android.view.View();public ImageView mediaBg=new ImageView(),seamlessIcon=new ImageView();public TextView titleText=new TextView(),artistText=new TextView(),elapsedTimeView=new TextView(),totalTimeView=new TextView();public Seek seekBar=new Seek();public List<ImageView>icons=List.of(new ImageView(),new ImageView(),new ImageView(),new ImageView(),new ImageView());public List<ImageView>getActionList(){return icons;} }
+ public static class Header {public Holder holder=new Holder();public Holder getMediaViewHolder(){return holder;}}
+ public static class Controller {public final Context context=new Context();public Holder holder=new Holder();public final Aod aod=new Aod();public final Lazy fullAodController=()->aod;public final Listener listener=new Listener(this);public final List<Object>listeners=new ArrayList<>(List.of(listener));public int foregrounds,detaches;public boolean failForeground,failDetach;
+ public void updateForegroundColors(){foregrounds++;int c=(context.resources.configuration.uiMode&48)==32?0xffeeeeee:0xff111111;for(TextView t:List.of(holder.titleText,holder.artistText,holder.elapsedTimeView,holder.totalTimeView))t.setTextColor(ColorStateList.valueOf(c));for(ImageView i:holder.icons)i.setImageTintList(ColorStateList.valueOf(c));holder.seamlessIcon.setImageTintList(ColorStateList.valueOf(c));holder.seekBar.setForegroundPrimaryColor(1);holder.seekBar.setForegroundPrimaryDisableColor(2);holder.seekBar.setBackgroundPrimaryColor(3);holder.seekBar.setBackgroundPrimaryDisableColor(4);if(failForeground)throw new IllegalArgumentException("OEM foreground");}
+ public void detach(){detaches++;holder=null;listeners.remove(listener);if(failDetach)throw new IllegalArgumentException("OEM detach");}}
+ public static class Layout {public final Context context=new Context();public Holder mediaViewHolder;public int layouts;public void updateLayout$1(){layouts++;if(mediaViewHolder!=null){mediaViewHolder.titleText.setTextColor(ColorStateList.valueOf(21));mediaViewHolder.artistText.setTextColor(ColorStateList.valueOf(22));}}}
+ public static class Aod {public float mCurrentFraction;public boolean mFromDesktop;public Runnable insideReset;public void resetRowFullAodStyle(){if(insideReset!=null)insideReset.run();}}
+ public static class Listener {public final Controller this$0;public Object[]frame;public int calls;public Listener(Controller c){this$0=c;}public void completeFullAodAnim(){this$0.holder.player.transitionAlpha=1;}
+ public void updateFullAodAnimState(int a,int b,int c,int d,int e,int f,int g,int h,int i,int j,float[]x,float[]y,boolean glass,float alpha){calls++;frame=new Object[]{a,b,c,d,e,f,g,h,i,j,x,y,glass,alpha};if(this$0.holder!=null)this$0.holder.mediaBg.setBackground(new Drawable(c));}}
+ public static Context lastContext;public static Runnable inside;public static boolean failEffect;
+ static void apply(Header h,Context c){lastContext=c;h.holder.mediaBg.setBackground(new Drawable((c.resources.configuration.uiMode&48)==32?0xff1a1a1a:0xffffffff));if(inside!=null){Runnable r=inside;inside=null;r.run();}if(failEffect)throw new IllegalArgumentException("OEM effect");}
+ public static class Normal{public void apply(Object h,Context c){Targets.apply((Header)h,c);}}
+ public static class Blur{public void apply(Header h,Context c){Targets.apply(h,c);}}
+ public static class BlurKeyguard{public void apply(Object h,Context c){Targets.apply((Header)h,c);}}
+ public static class Glass{public void apply(Object h,Context c){Targets.apply((Header)h,c);}}
+ public static class GlassAod{public void apply(Object h,Context c){Targets.apply((Header)h,c);}}
+ public static class GlassKeyguard{public void apply(Object h,Context c){Targets.apply((Header)h,c);}}
+ public static class GlassLight{public void apply(Object h,Context c){Targets.apply((Header)h,c);}}
+}

@@ -1560,6 +1560,8 @@
     <string name="security_center_unlock_memc">解锁动态画面补偿</string>
     <string name="security_center_unlock_enhance_contours">解锁影像轮廓增强</string>
     <string name="security_center_unlock_s_resolution">解锁极清播放</string>
+    <string name="security_center_remove_vb_temp_limit">移除画质提升温度限制</string>
+    <string name="security_center_remove_vb_temp_limit_summary">温度过高时不再自动禁用「极清播放」「画质提升」等功能，温度过高继续使用这些功能可能会导致设备严重过热，本软件不担责喵。</string>
     <string name="security_center_hide_sidebar">隐藏侧边栏</string>
     <string name="security_center_leave_open">保留侧滑展开</string>
     <string name="security_center_sidebar_show_suggest">禁止展示推荐应用</string>
@@ -1610,6 +1612,7 @@
     <string name="barrage_global_enable">允许全局使用弹幕通知</string>
     <string name="barrage_not_touchable">弹幕通知不可点击</string>
     <string name="barrage_custom_barrage_length">自定义弹幕长度</string>
+    <string name="barrage_custom_barrage_length_desc">省略号前的文本长度上限。默认沿用系统限制，部分表情占多个长度单位。修改后需重启弹幕通知。</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">云控</string>

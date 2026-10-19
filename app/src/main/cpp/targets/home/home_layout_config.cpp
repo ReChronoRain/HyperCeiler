@@ -27,6 +27,7 @@
 #include <sys/stat.h>
 
 namespace home_layout {
+#ifndef HYPERCEILER_HYOS_BACKEND
 namespace {
 constexpr transaction_code_t kLayoutTransaction = 0x0048434C;
 constexpr int32_t kLayoutAck = 0x48434C34;
@@ -625,6 +626,7 @@ bool query_config(Config &result) {
     if (serialized != g_process_config.persisted && write_config_cache(candidate))
         g_process_config.persisted = std::move(serialized);
     return true;
+#endif
 }
 
 } // namespace home_layout

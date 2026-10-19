@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.libhook.utils.api;public class ContextUtils{public static final int FlAG_ONLY_ANDROID=2;public static boolean missing;public static android.content.Context getContextNoError(int f){return missing?null:new android.content.Context();}}

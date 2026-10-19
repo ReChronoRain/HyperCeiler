@@ -1,0 +1,1 @@
+package android.content;public class Intent{public static final String ACTION_SCREEN_ON="android.intent.action.SCREEN_ON",ACTION_SCREEN_OFF="android.intent.action.SCREEN_OFF";private String action;public Intent(String s){action=s;}public String getAction(){return action;}}
