@@ -81,4 +81,40 @@ inline bool icon_mixin_sites(const home_dynamic::Body& b,uint32_t va,uint32_t rx
     }
     if(normal!=1||dock!=1||next.normal==next.dock)return false;out=next;return true;
 }
+
+struct IconInitDimensions {uint32_t width=0,height=0;IconMixinSites ws{},hs{};};
+// Progress icons instantiate another ShortCutCommonMixin. Resolve that instance
+// through its typed lifecycle chain, never the first duplicate mixin symbol.
+template<class Read>
+inline bool icon_init_dimensions(uint32_t root,Read read,uint32_t rx,int32_t grid,
+    int32_t size,IconInitDimensions& out) {
+    using namespace home_dynamic;
+    std::array<uint32_t,4> visited{};
+    for(unsigned depth=0;depth<visited.size();++depth){
+        for(unsigned j=0;j<depth;++j)if(visited[j]==root)return false;
+        visited[depth]=root;Body b;
+        if(!read(root,b)||b.size()<8||b[0]!=0xa9bf79fdu||b[1]!=0xaa0f03fdu)return false;
+        IconInitDimensions next;unsigned hits=0;uint32_t first=0;
+        for(size_t i=2;i+4<b.size();++i){uint32_t to=0;
+            if(!target(b[i],root+uint32_t(i*4),to))continue;
+            const bool receiver_forward=b[i-1]==0xaa0003e1u
+                ||(stx(b[i-1],29,1)&&slot(imm9(b[i-1]))&&b[i-2]==0xaa0103e0u);
+            if(!first&&receiver_forward)first=to;
+            // An unboxed double returned by the dimension getter is boxed by
+            // the original init frame immediately after the call.
+            if(b[i+1]!=0xa9460740u||b[i+2]!=0x91004000u||b[i+3]!=0xeb00003fu
+              ||(b[i+4]&0xff00001fu)!=0x54000009u)continue;
+            Body callee;IconMixinSites shape;
+            if(!read(to,callee)||!icon_mixin_sites(callee,to,rx,grid,size,shape))return false;
+            if(++hits==1){next.width=to;next.ws=shape;}
+            else if(hits==2){next.height=to;next.hs=shape;}
+            else return false;
+        }
+        if(hits){if(hits!=2||next.width==next.height||next.ws.value+8!=next.hs.value)return false;
+            out=next;return true;}
+        if(!first||first==root)return false;
+        root=first;
+    }
+    return false;
+}
 }
