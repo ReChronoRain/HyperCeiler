@@ -228,6 +228,7 @@ struct FolderInnerContainer {
     uint32_t alignment = 0;       // Container.alignment field offset
     uint32_t padding = 0;         // Container.padding field offset
     uint32_t inset = 0;           // EdgeInsets.left, the three others follow at +8/16/24
+    uint32_t inset_slot = 0;      // FP offset of this build's freshly initialized EdgeInsets
     uint32_t center_pool = 0;     // Alignment.center object-pool offset
     uint32_t direction_pool[2] = {0, 0}; // the two AlignmentDirectional roots
     uint32_t direction_bit = 0;   // which bit of the cross-axis value selects between them
@@ -460,10 +461,29 @@ inline bool folder_inner_padding(std::span<const uint32_t> body,
 //    encoding family above the GPR stores the three zero fields use. A scan restricted
 //    to GPR stores sees only three of the four and cannot derive the base, which is
 //    exactly the failure mode where every offset comes back zero.
-inline bool folder_inner_inset(std::span<const uint32_t> body, uint32_t &inset) {
-    unsigned hits = 0; uint32_t found = 0;
-    for (size_t i = 0; i + 4 < body.size(); ++i) {
+inline bool folder_inner_inset(std::span<const uint32_t> body, uint32_t va,
+        uint32_t window, uint32_t frame, uint32_t &inset, uint32_t &slot) {
+    if (window < va || (window - va) % 4) return false;
+    const size_t end = (window - va) / 4;
+    if (end >= body.size()) return false;
+    size_t begin = end;
+    while (begin > 0) {
+        --begin;
+        if (insn_is_stp_pre(body[begin]) && insn_rt(body[begin]) == 29
+            && insn_stp_rt2(body[begin]) == 30) break;
+    }
+    unsigned hits = 0; uint32_t found = 0, local = 0;
+    for (size_t i = begin + 3; i + 4 < end; ++i) {
         if (!insn_is_stur_d(body[i]) || insn_rt(body[i]) != 0 || insn_rn(body[i]) != 0) continue;
+        // The allocator result is spilled before the four scalar initializers.
+        // Keep that local as an ownership witness; a Container's padding may also
+        // point at a shared constant, which must never be modified.
+        if (!insn_is_bl(body[i - 3])
+            || (body[i - 2] & 0xffc00c1fu) != 0xfc400000u
+            || !insn_is_stur_x(body[i - 1]) || insn_rt(body[i - 1]) != 0
+            || insn_rn(body[i - 1]) != 29) continue;
+        const int32_t spill = int32_t(insn_imm9(body[i - 1]));
+        if (spill >= 0 || uint32_t(-spill) > frame) continue;
         bool run = true;
         int32_t want[3];
         for (int k = 0; k < 3; ++k) {
@@ -472,11 +492,14 @@ inline bool folder_inner_inset(std::span<const uint32_t> body, uint32_t &inset) 
             if (!insn_is_stur_x(s) || insn_rt(s) != 31 || insn_rn(s) != 0
                 || int32_t(insn_imm9(s)) != want[k]) { run = false; break; }
         }
+        for (size_t j = i + 4; run && j < end; ++j)
+            if (insn_is_stur_x(body[j]) && insn_rn(body[j]) == 29
+                && insn_imm9(body[j]) == uint32_t(spill)) run = false;
         if (!run) continue;
-        found = insn_imm9(body[i]); ++hits;
+        found = insn_imm9(body[i]); local = uint32_t(-spill); ++hits;
     }
     if (hits != 1) return false;
-    inset = found; return true;
+    inset = found; slot = local; return true;
 }
 
 // 7. The two AlignmentDirectional roots. They are the two arms of ONE TBNZ diamond
@@ -552,7 +575,8 @@ inline bool folder_inner_container(std::span<const uint32_t> buildText,
     if (!folder_inner_owner_store(buildText, bt_va, c.window, c.owner_slot)) return false;
     if (!folder_inner_alignment(build, c.alignment)) return false;
     if (!folder_inner_padding(paddingBody, c.padding, dec)) return false;
-    if (!folder_inner_inset(buildText, c.inset)) return false;
+    if (!folder_inner_inset(buildText, bt_va, c.window, c.frame, c.inset, c.inset_slot)
+        || c.inset_slot == c.owner_slot) return false;
     if (!folder_inner_directions(buildText, bt_va, c.direction_bit,
             c.direction_pool[0], c.direction_pool[1])) return false;
     if (!folder_inner_center(buildText, c.alignment, c.center_pool)) return false;

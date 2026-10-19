@@ -257,4 +257,44 @@ inline bool folder_animation_scale_sites(const home_dynamic::Body& b,uint32_t va
     }
     if(hits!=3||!field(grid)||!field(value))return false;out=next;return true;
 }
+
+// _refreshCachedGridParams computes the painted origin as (cell - icon)/2.
+// Scaling _initScale alone fixes the size but leaves this cached origin at the
+// unscaled position. Resolve the two boxed dimensions AND their inset consumers.
+inline bool folder_animation_cache_sites(const home_dynamic::Body& b,uint32_t va,
+    uint32_t current,int32_t grid,int32_t value,std::array<uint32_t,2>& out){
+    using namespace home_dynamic;
+    std::array<uint32_t,2> next{};std::array<int32_t,2> fields{};unsigned hits=0;
+    for(size_t i=0;i+7<b.size();++i){uint32_t to=0;
+        if(!target(b[i],va+uint32_t(i*4),to)||to!=current||!ldw(b[i+1],0,1)
+            ||imm9(b[i+1])!=grid||b[i+2]!=0x8b1c8021u)continue;
+        if(hits==2||!ldd(b[i+3],1,0)||imm9(b[i+3])!=value
+            ||b[i+4]!=0xa9460740u||b[i+5]!=0x91004000u||b[i+6]!=0xeb00003fu
+            ||(b[i+7]&0xff00001fu)!=0x54000009u)return false;
+        unsigned stores=0;int32_t field=0;
+        for(size_t j=i+8;j<i+24&&j+3<b.size();++j)
+            if(b[j]==0xfc007000u
+                &&((ldx(b[j+1],29,2)&&b[j+3]==0xb8316840u)
+                    ||(ldx(b[j+1],29,1)&&b[j+3]==0xb8316820u))
+                &&(b[j+2]&0xffe0001fu)==0xd2800011u){
+                field=int32_t((b[j+2]>>5)&65535);++stores;}
+        if(stores!=1||!home_dynamic::field(field))return false;
+        next[hits]=uint32_t((i+4)*4);fields[hits++]=field;
+    }
+    if(hits!=2||fields[0]==fields[1])return false;
+    for(int32_t field:fields){unsigned uses=0;
+        for(size_t i=0;i+6<b.size();++i)
+            if((b[i]&0xffe0001fu)==0xd2800011u&&int32_t((b[i]>>5)&65535)==field
+                &&b[i+1]==0xb8716822u&&b[i+2]==0x8b1c8042u
+                &&b[i+3]==0xfc407001u&&b[i+4]==0xfc407042u&&b[i+5]==0x1e623823u){
+                // Horizontal half-difference; vertical also subtracts the title.
+                if((b[i+6]!=0x1e601001u||i+7>=b.size()||b[i+7]!=0x1e611862u)
+                    &&(b[i+6]!=0x1e603861u||i+8>=b.size()
+                        ||b[i+7]!=0x1e6c1000u||b[i+8]!=0x1e600822u))return false;
+                ++uses;
+            }
+        if(uses!=1)return false;
+    }
+    out=next;return true;
+}
 }

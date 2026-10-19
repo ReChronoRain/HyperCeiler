@@ -194,7 +194,9 @@ uint64_t hc_small_folder_scale_bits=0x3ff0000000000000ULL;
 uint64_t hc_big_folder_scale_bits=0x3ff0000000000000ULL;
 uint64_t hc_widget_scale_bits=0x3ff0000000000000ULL;
 void hc_folder_anim_scale0_entry();void hc_folder_anim_scale1_entry();void hc_folder_anim_scale2_entry();
+void hc_folder_anim_scale3_entry();void hc_folder_anim_scale4_entry();
 void *hc_folder_anim_scale0_original=nullptr,*hc_folder_anim_scale1_original=nullptr,*hc_folder_anim_scale2_original=nullptr;
+void *hc_folder_anim_scale3_original=nullptr,*hc_folder_anim_scale4_original=nullptr;
 uint64_t hc_folder_anim_scale_hits=0;
 uint32_t hc_folder_anim_scale_enabled=0;
 void hc_widget_scale_entry();
@@ -423,7 +425,8 @@ constexpr size_t kLayoutSaveSlot = kGridPersistSlot + 1;
 constexpr size_t kProgressIconSlotBase = kLayoutSaveSlot + 1;
 constexpr size_t kFolderIconScaleSlot = kProgressIconSlotBase + 4;
 constexpr size_t kFolderAnimScaleSlotBase = kFolderIconScaleSlot + 1;
-constexpr size_t kWidgetScaleSlot = kFolderAnimScaleSlotBase + 3;
+constexpr size_t kFolderAnimScaleSlotCount = 5;
+constexpr size_t kWidgetScaleSlot = kFolderAnimScaleSlotBase + kFolderAnimScaleSlotCount;
 constexpr size_t kSlotCount = kWidgetScaleSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
@@ -3145,8 +3148,9 @@ bool bind_desktop_icon_render() {
 bool bind_folder_animation_scale() {
     if(!g_dart)return scale_bind_failure(0,1,"Dart image not available yet");
     if(g_slots[kFolderAnimScaleSlotBase].address)return true;
-    uint32_t builder=0,current=0,size=0;home_dynamic::Body body;
+    uint32_t builder=0,current=0,size=0,cache=0;home_dynamic::Body body,cache_body;
     std::array<uint32_t,3> sites{};
+    std::array<uint32_t,2> cache_sites{};
     if(!hometweaks::HomeTweaksFindSymbol("FolderAnimController._initScale",&builder,&size))
         return scale_bind_failure(0,10,"symbol unavailable: FolderAnimController._initScale");
     if(!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size))
@@ -3154,17 +3158,26 @@ bool bind_folder_animation_scale() {
     if(!dartscan::body(builder,body))return scale_bind_failure(0,20,"cannot read FolderAnimController._initScale body");
     if(!home_layout::folder_animation_scale_sites(body,builder,current,sites))
         return scale_bind_failure(0,30,"close-animation instruction shape does not match this launcher image");
+    if(!hometweaks::HomeTweaksFindSymbol("FolderAnimController._refreshCachedGridParams",&cache,&size))
+        return scale_bind_failure(0,12,"symbol unavailable: FolderAnimController._refreshCachedGridParams");
+    if(!dartscan::body(cache,cache_body))return scale_bind_failure(0,21,"cannot read close-animation cached geometry");
+    if(!home_layout::folder_animation_cache_sites(cache_body,cache,current,
+        home_dynamic::imm9(body[sites[0]/4-3]),home_dynamic::imm9(body[sites[0]/4-1]),cache_sites))
+        return scale_bind_failure(0,31,"close-animation cached origin consumers do not match this launcher image");
     const void* entries[]={reinterpret_cast<void*>(hc_folder_anim_scale0_entry),
-        reinterpret_cast<void*>(hc_folder_anim_scale1_entry),reinterpret_cast<void*>(hc_folder_anim_scale2_entry)};
-    void** originals[]={&hc_folder_anim_scale0_original,&hc_folder_anim_scale1_original,&hc_folder_anim_scale2_original};
-    std::array<Slot,3> slots{};
-    for(unsigned i=0;i<3;++i){uintptr_t address=0;nhk::CodeSource source{};Words words{};
-        if(!bind_dart_target(builder+sites[i],address,source,words))
+        reinterpret_cast<void*>(hc_folder_anim_scale1_entry),reinterpret_cast<void*>(hc_folder_anim_scale2_entry),
+        reinterpret_cast<void*>(hc_folder_anim_scale3_entry),reinterpret_cast<void*>(hc_folder_anim_scale4_entry)};
+    void** originals[]={&hc_folder_anim_scale0_original,&hc_folder_anim_scale1_original,&hc_folder_anim_scale2_original,
+        &hc_folder_anim_scale3_original,&hc_folder_anim_scale4_original};
+    std::array<Slot,kFolderAnimScaleSlotCount> slots{};
+    for(unsigned i=0;i<slots.size();++i){uintptr_t address=0;nhk::CodeSource source{};Words words{};
+        const uint32_t target=i<3?builder+sites[i]:cache+cache_sites[i-3];
+        if(!bind_dart_target(target,address,source,words))
             return scale_bind_failure(0,40+i,"close-animation replay window cannot be bound");
         slots[i]={address,const_cast<void*>(entries[i]),originals[i],source,words};}
-    for(unsigned i=0;i<3;++i)g_slots[kFolderAnimScaleSlotBase+i]=slots[i];
+    for(unsigned i=0;i<slots.size();++i)g_slots[kFolderAnimScaleSlotBase+i]=slots[i];
     g_scale_bind_failure[0].store(0,std::memory_order_relaxed);
-    __android_log_print(ANDROID_LOG_INFO,kTag,"folder close scale resolved dimensions=3");return true;
+    __android_log_print(ANDROID_LOG_INFO,kTag,"folder close scale resolved dimensions=3 cached_origin=2");return true;
 }
 
 bool bind_widget_scale() {
@@ -4303,9 +4316,10 @@ size_t publish_hooks() {
 /* Publish a policy only after all original-code continuations exist. */
 void publish_indicator_dot_delta() {
     bool animation_ready=true;
-    for(size_t i=kFolderAnimScaleSlotBase;i<kFolderAnimScaleSlotBase+3;++i)animation_ready&=nhk::slot_ready(g_slots[i]);
+    for(size_t i=kFolderAnimScaleSlotBase;i<kFolderAnimScaleSlotBase+kFolderAnimScaleSlotCount;++i)animation_ready&=nhk::slot_ready(g_slots[i]);
     __atomic_store_n(&hc_folder_anim_scale_enabled,uint32_t(animation_ready&&hc_folder_anim_scale0_original
-        &&hc_folder_anim_scale1_original&&hc_folder_anim_scale2_original),__ATOMIC_RELEASE);
+        &&hc_folder_anim_scale1_original&&hc_folder_anim_scale2_original
+        &&hc_folder_anim_scale3_original&&hc_folder_anim_scale4_original),__ATOMIC_RELEASE);
     __atomic_store_n(&hc_widget_scale_enabled,uint32_t(nhk::slot_ready(g_slots[kWidgetScaleSlot])
         &&hc_widget_scale_original),__ATOMIC_RELEASE);
     __atomic_store_n(&hc_folder_icon_scale_enabled,uint32_t(nhk::slot_ready(g_slots[kFolderIconScaleSlot])
@@ -5360,7 +5374,7 @@ extern "C" void hc_folder_layout_body(uintptr_t saved, uintptr_t pool, unsigned 
             std::memcpy(&center, reinterpret_cast<const void *>(pool + g_folder_inner.center_pool), 4);
             std::memcpy(&low, reinterpret_cast<const void *>(pool + g_folder_inner.direction_pool[0]), 4);
             std::memcpy(&high, reinterpret_cast<const void *>(pool + g_folder_inner.direction_pool[1]), 4);
-            const bool known = cur == 0 || cur == low || cur == high;
+            const bool known = cur == 0 || cur == low || cur == high || cur == center;
             if (known && center != 0 && (center & 7) == 1 && center != cur) {
                 std::memcpy(reinterpret_cast<void *>(owner + g_folder_inner.alignment), &center, 4);
                 static std::atomic_uint reported{0};
@@ -5369,6 +5383,30 @@ extern "C" void hc_folder_layout_body(uintptr_t saved, uintptr_t pool, unsigned 
                     __android_log_print(ANDROID_LOG_INFO, kTag,
                         "folder inner alignment rewritten: align=%#x cur=%#x dirs=%#x/%#x -> center=%#x bit=%u",
                         g_folder_inner.alignment, cur, low, high, center, g_folder_inner.direction_bit);
+            }
+            if (known && center != 0 && (center & 7) == 1) {
+                uint32_t padding = 0, fresh = 0;
+                std::memcpy(&padding, reinterpret_cast<const void *>(owner + g_folder_inner.padding), 4);
+                std::memcpy(&fresh, reinterpret_cast<const void *>(x15_saved + 32
+                    + g_folder_inner.frame - g_folder_inner.inset_slot), 4);
+                // Both references must identify the EdgeInsets initialized in this
+                // closure. Never write a pooled/shared padding object or an editor.
+                if (padding != 0 && padding == fresh && (padding & 7) == 1
+                    && padding != uint32_t(read64(pool + 0x40))) {
+                    const uintptr_t inset = base + padding + g_folder_inner.inset;
+                    const double left = scalar(inset), top = scalar(inset + 8);
+                    const double right = scalar(inset + 16), bottom = scalar(inset + 24);
+                    // Centering inside left-only padding shifts the title by L/2.
+                    // Mirror the existing margin so long titles keep equal gutters.
+                    if (std::isfinite(left) && left > 0 && top == 0 && right == 0 && bottom == 0) {
+                        std::memcpy(reinterpret_cast<void *>(inset + 16), &left, 8);
+                        static std::atomic_bool reported{false};
+                        if (!reported.exchange(true, std::memory_order_relaxed))
+                            __android_log_print(ANDROID_LOG_INFO, kTag,
+                                "folder title padding centered: left=%g right=%g -> %g fresh_local=%#x",
+                                left, right, left, g_folder_inner.inset_slot);
+                    }
+                }
             }
         }
     } else if ((packed & 1) && pool) {
@@ -5635,6 +5673,7 @@ bool adopt_layout_state() {
     for(auto& live:g_scale_live_diagnostic)live.store(2,std::memory_order_relaxed);
     g_scale_request_diagnostic.store(UINT64_MAX,std::memory_order_relaxed);
     hc_folder_anim_scale0_original=hc_folder_anim_scale1_original=hc_folder_anim_scale2_original=nullptr;
+    hc_folder_anim_scale3_original=hc_folder_anim_scale4_original=nullptr;
     hc_widget_scale_original=nullptr;hc_widget_scale_continue=0;g_widget_scale_layout={};
     for(auto* bits:{&hc_icon_scale_bits,&hc_small_folder_scale_bits,&hc_big_folder_scale_bits,&hc_widget_scale_bits})
         __atomic_store_n(bits,0x3ff0000000000000ULL,__ATOMIC_RELEASE);
