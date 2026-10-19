@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.provision.utils;
 
 import android.app.Activity;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import com.sevtinge.hyperceiler.provision.activity.BaseActivity;
 
@@ -45,9 +45,9 @@ public class LifecycleHandler {
 
     public Activity getActivity(Class<?> clazz) {
         for (Activity activity : mActivitieStack) {
-            Log.d("MyLifecycleHandler", "class is:" + activity.getClass());
+            ModuleLog.d("MyLifecycleHandler", "class is:" + activity.getClass());
             if (activity.getClass().equals(clazz)) {
-                Log.d("MyLifecycleHandler", "class is:" + activity.getClass() + " finish");
+                ModuleLog.d("MyLifecycleHandler", "class is:" + activity.getClass() + " finish");
                 return activity;
             }
         }
@@ -56,9 +56,9 @@ public class LifecycleHandler {
 
     public void finishActivity(Class<?> clazz) {
         for (Activity activity : mActivitieStack) {
-            Log.d("MyLifecycleHandler", "class is:" + activity.getClass());
+            ModuleLog.d("MyLifecycleHandler", "class is:" + activity.getClass());
             if (activity.getClass().equals(clazz)) {
-                Log.d("MyLifecycleHandler", "class is:" + activity.getClass() + " finish");
+                ModuleLog.d("MyLifecycleHandler", "class is:" + activity.getClass() + " finish");
                 activity.finish();
                 boolean z = activity instanceof BaseActivity;
                 return;

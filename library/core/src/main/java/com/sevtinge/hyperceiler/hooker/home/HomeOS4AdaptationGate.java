@@ -13,6 +13,13 @@ import java.util.Set;
 public final class HomeOS4AdaptationGate {
     private static final Set<String> ADAPTED_TITLE_KEYS = Set.of(
         "prefs_key_home_layout_icon_scale_enable", "prefs_key_home_layout_icon_scale",
+        "prefs_key_home_layout_small_folder_scale_enable",
+        "prefs_key_home_layout_small_folder_scale",
+        "prefs_key_home_layout_big_folder_scale_enable",
+        "prefs_key_home_layout_big_folder_scale",
+        "prefs_key_home_layout_widget_scale_enable",
+        "prefs_key_home_layout_widget_scale",
+
         "prefs_key_home_title_title_icontitlecustomization_onoff",
         "prefs_key_home_title_title_icontitlecustomization",
         "prefs_key_home_title_title_new_install", "prefs_key_home_title_title_color",

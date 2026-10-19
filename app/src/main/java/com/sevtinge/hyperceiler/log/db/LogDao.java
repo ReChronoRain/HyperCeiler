@@ -40,6 +40,17 @@ public interface LogDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<LogEntry> entries);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertImportedLogs(List<LogEntry> entries);
+
+    @Query("SELECT * FROM logs WHERE module = 'Xposed' AND source_group = 'diagnostic' " +
+        "AND tag = :tag ORDER BY timestamp DESC, id DESC LIMIT 1")
+    LogEntry latestSyncDiagnostic(String tag);
+
+    /** Refreshing LSPosed files must preserve logcat records from earlier captures. */
+    @Query("DELETE FROM logs WHERE module = :module AND source_group NOT IN ('logcat', 'diagnostic')")
+    void deleteSyncedXposedLogs(String module);
+
     /**
      * 3. UI 列表核心查询：
      * 支持模块筛选、级别过滤、关键词搜索，单页查看时放宽到最近 20000 条
@@ -95,7 +106,8 @@ public interface LogDao {
     @Query("SELECT * FROM logs WHERE module = :module ORDER BY timestamp ASC, id ASC LIMIT :limit OFFSET :offset")
     List<LogEntry> getLogsByModulePageForExport(String module, int limit, int offset);
 
-    @Query("SELECT * FROM logs WHERE module = :module AND source_group = :sourceGroup " +
+    @Query("SELECT * FROM logs WHERE module = :module AND (source_group = :sourceGroup " +
+        "OR (:sourceGroup = 'log' AND source_group IN ('logcat', 'diagnostic'))) " +
         "ORDER BY timestamp ASC, id ASC LIMIT :limit OFFSET :offset")
     List<LogEntry> getLogsByModuleAndSourceGroupPageForExport(String module, String sourceGroup, int limit, int offset);
 }

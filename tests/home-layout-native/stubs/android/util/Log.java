@@ -9,6 +9,9 @@ package android.util;
  */
 public final class Log {
     private Log() { }
+    public static final int DEBUG=3,INFO=4,WARN=5,ERROR=6;
+    public static int println(int priority,String tag,String message){return 0;}
+    public static String getStackTraceString(Throwable error){return error.toString();}
 
     public static int i(String tag, String message) {
         return 0;

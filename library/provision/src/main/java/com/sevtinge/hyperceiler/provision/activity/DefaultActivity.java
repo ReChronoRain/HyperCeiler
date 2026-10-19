@@ -23,7 +23,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -111,7 +111,7 @@ public class DefaultActivity extends ProvisionBaseActivity {
         if (mStateMachine == null || mStateMachine.getCurrentState() == null) return;
         super.onWindowFocusChanged(hasFocus);
         if (mStateMachine.getCurrentState() instanceof IKeyEvent) {
-            Log.i(TAG, " here is onWindowFocusChanged ");
+            ModuleLog.i(TAG, " here is onWindowFocusChanged ");
             ((StartupState) mStateMachine.getCurrentState()).onWindowFocusChanged(hasFocus);
         }
     }

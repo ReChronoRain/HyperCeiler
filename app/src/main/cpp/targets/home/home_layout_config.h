@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
 #include "home_folder_auto_close.h"
+#include "home_object_scale.h"
 #include "home_back_gesture.h"
 #include "home_gestures_os4.h"
 
@@ -80,6 +81,7 @@ struct Config {
     std::array<KnobConfig, HC_LAYOUT_KNOB_COUNT> knobs{};
     TweaksConfig tweaks{};
     FolderLayoutConfig folder{};
+    ObjectScales object_scales{};
     int title_desktop_sp = 12;
     int title_drawer_sp = 12;
     int title_color = -1;

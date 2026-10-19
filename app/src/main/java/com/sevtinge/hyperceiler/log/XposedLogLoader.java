@@ -106,11 +106,24 @@ public class XposedLogLoader {
         if (context == null) {
             return;
         }
+        LogSyncDiagnostics.context(context, LogRepository.getInstance().getDao());
         if (sSyncDeferredUntilNextLaunch) {
             AndroidLog.i(TAG, "Skip Xposed log sync until next app launch.");
+            // LSPosed keeps its old files, but new native logs can still be imported
+            // after the persisted clear cutoff without resurrecting cleared records.
+            if (LogSyncDiagnostics.checkRoot(LogRepository.getInstance().getDao())) {
+                LogcatLogLoader.sync(context, LogRepository.getInstance().getDao());
+            }
             return;
         }
-        getInstance(context).syncToDatabase();
+        try {
+            getInstance(context).syncToDatabase();
+        } catch (RuntimeException failure) {
+            LogSyncDiagnostics.record(LogRepository.getInstance().getDao(), "LogSync.LSPosed", "E",
+                "LSPOSED_SYNC_START_FAILED: " + failure.getClass().getSimpleName() + ": " + failure.getMessage());
+            if (LogSyncDiagnostics.checkRoot(LogRepository.getInstance().getDao()))
+                LogcatLogLoader.sync(context, LogRepository.getInstance().getDao());
+        }
     }
 
     public static void loadLogsSync() {
@@ -130,6 +143,7 @@ public class XposedLogLoader {
             return;
         }
         sSyncDeferredUntilNextLaunch = true;
+        LogcatLogLoader.markCleared(context);
         getInstance(context).clearLogs();
     }
 
@@ -138,14 +152,17 @@ public class XposedLogLoader {
     }
 
     private void syncToDatabase() {
-        if (ShellUtils.checkRootPermission() != 0) {
-            AndroidLog.w(TAG, "Root permission is required to sync Xposed logs.");
-            return;
+        if (!LogSyncDiagnostics.checkRoot(LogRepository.getInstance().getDao())) return;
+        try {
+            initLogDirectories();
+            if (copyLspdLogs()) persistFilteredLogsToDatabase();
+            // A failed copy must not replace the last usable LSPosed records with an empty/partial capture.
+        } catch (RuntimeException failure) {
+            LogSyncDiagnostics.record(LogRepository.getInstance().getDao(), "LogSync.LSPosed", "E",
+                "LSPOSED_IMPORT_FAILED: " + failure.getClass().getSimpleName() + ": " + failure.getMessage());
+        } finally {
+            LogcatLogLoader.sync(mContext, LogRepository.getInstance().getDao());
         }
-
-        initLogDirectories();
-        copyLspdLogs();
-        persistFilteredLogsToDatabase();
     }
 
     private void initLogDirectories() {
@@ -158,27 +175,46 @@ public class XposedLogLoader {
         );
     }
 
-    private void copyLspdLogs() {
-        copyLspdDirectory(LSPD_LOG_DIR, mLspdLogDir);
-        copyLspdDirectory(LSPD_LOG_OLD_DIR, mLspdLogOldDir);
+    private boolean copyLspdLogs() {
+        final boolean current = copyLspdDirectory(LSPD_LOG_DIR, mLspdLogDir);
+        final boolean old = copyLspdDirectory(LSPD_LOG_OLD_DIR, mLspdLogOldDir);
+        return current && old;
     }
 
-    private void copyLspdDirectory(String sourceDir, File targetDir) {
+    private boolean copyLspdDirectory(String sourceDir, File targetDir) {
         String checkCmd = "[ -d '" + sourceDir + "' ] && echo exists || echo missing";
+        final String diagnosticTag = "LogSync.LSPosed." + (LSPD_LOG_DIR.equals(sourceDir) ? "current" : "old");
+        final LogDao dao = LogRepository.getInstance().getDao();
         if (!"exists".equals(ShellUtils.rootExecCmd(checkCmd).trim())) {
             clearDirectory(targetDir);
-            return;
+            LogSyncDiagnostics.record(dao, diagnosticTag, LSPD_LOG_DIR.equals(sourceDir) ? "W" : "I",
+                "LSPOSED_DIRECTORY_UNAVAILABLE: " + sourceDir
+                    + "; framework log location may differ or logging may be disabled. Native logcat collection runs separately.");
+            return true;
         }
 
         ensureDirs(targetDir);
         clearDirectory(targetDir);
-        ShellUtils.rootExecCmd("cp -f '" + sourceDir + "'/* '" + targetDir.getAbsolutePath() + "/' 2>/dev/null");
-        ShellUtils.rootExecCmd("chmod -R 644 '" + targetDir.getAbsolutePath() + "'/* 2>/dev/null");
+        final String captured = ShellUtils.rootExecCmd("set -- '" + sourceDir + "'/*; "
+            + "if [ ! -e \"$1\" ]; then echo HC_LSPD_EMPTY; "
+            + "elif cp -f '" + sourceDir + "'/* '" + targetDir.getAbsolutePath() + "/' 2>&1 "
+            + "&& chmod -R 644 '" + targetDir.getAbsolutePath() + "'/* 2>&1; "
+            + "then echo HC_LSPD_COPY_OK; else echo HC_LSPD_COPY_FAILED; fi").trim();
+        if (captured.endsWith("HC_LSPD_COPY_OK")) {
+            LogSyncDiagnostics.record(dao, diagnosticTag, "I", "LSPOSED_COPY_OK: " + sourceDir);
+        } else if (captured.endsWith("HC_LSPD_EMPTY")) {
+            LogSyncDiagnostics.record(dao, diagnosticTag, "I", "LSPOSED_DIRECTORY_EMPTY: " + sourceDir);
+        } else {
+            LogSyncDiagnostics.record(dao, diagnosticTag, "E", "LSPOSED_COPY_FAILED: " + sourceDir + " detail="
+                + captured.substring(0, Math.min(captured.length(), 2048)));
+            return false;
+        }
+        return true;
     }
 
     private void persistFilteredLogsToDatabase() {
         LogDao dao = LogRepository.getInstance().getDao();
-        dao.deleteByModule(FILTERED_MODULE);
+        dao.deleteSyncedXposedLogs(FILTERED_MODULE);
 
         List<LogEntry> batch = new ArrayList<>(INSERT_BATCH_SIZE);
         importDirectoryToDatabase(mLspdLogOldDir, LogEntry.SOURCE_GROUP_OLD, dao, batch);
@@ -200,9 +236,13 @@ public class XposedLogLoader {
             return;
         }
 
+        boolean hasModules = Arrays.stream(files).anyMatch(file -> file.getName().startsWith(MODULES_LOG_PREFIX));
         for (File file : files) {
             try {
-                importSourceFile(file, sourceGroup, dao, batch);
+                // Verbose repeats module records, but also owns pre-module load failures.
+                // Always scan those failures even when modules_ logs are available.
+                boolean frameworkOnly = hasModules && file.getName().startsWith(VERBOSE_LOG_PREFIX);
+                importSourceFile(file, sourceGroup, dao, batch, frameworkOnly);
             } catch (IOException e) {
                 AndroidLog.e(TAG, "Failed to import filtered log: " + file.getName(), e);
             }
@@ -211,20 +251,16 @@ public class XposedLogLoader {
 
     private File[] getSourceLogFiles(File directory) {
         File[] files = directory.listFiles((dir, name) ->
-            name.startsWith(MODULES_LOG_PREFIX) && name.endsWith(".log")
+            (name.startsWith(MODULES_LOG_PREFIX) || name.startsWith(VERBOSE_LOG_PREFIX)) && name.endsWith(".log")
         );
-        if (files == null || files.length == 0) {
-            files = directory.listFiles((dir, name) ->
-                name.startsWith(VERBOSE_LOG_PREFIX) && name.endsWith(".log")
-            );
-        }
         if (files != null) {
             Arrays.sort(files, Comparator.comparing(File::getName));
         }
         return files;
     }
 
-    private void importSourceFile(File file, String sourceGroup, LogDao dao, List<LogEntry> batch) throws IOException {
+    private void importSourceFile(File file, String sourceGroup, LogDao dao, List<LogEntry> batch,
+                                  boolean frameworkOnly) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file), 16384)) {
             String line;
             StringBuilder currentEntry = new StringBuilder();
@@ -235,7 +271,7 @@ public class XposedLogLoader {
                     if (isTarget && !currentEntry.isEmpty()) {
                         addFilteredEntry(dao, batch, currentEntry.toString(), sourceGroup);
                     }
-                    isTarget = line.contains(HYPERCEILER_TAG);
+                    isTarget = (!frameworkOnly && line.contains(HYPERCEILER_TAG)) || LspdLoadFailure.matches(line);
                     currentEntry = new StringBuilder(line);
                 } else if (!currentEntry.isEmpty()
                     && currentEntry.length() + line.length() + 1 <= MAX_ENTRY_MESSAGE_LENGTH) {
@@ -288,6 +324,11 @@ public class XposedLogLoader {
         String processIds = extractProcessIds(line);
         String tag = extractPackageName(message);
 
+        if (LspdLoadFailure.matches(line)) {
+            tag = "LSPosed.ModuleLoad";
+            message = LspdLoadFailure.explain(message);
+        }
+
         if (message.contains("[CrashMonitor]")) {
             level = "C";
         }
@@ -335,7 +376,7 @@ public class XposedLogLoader {
         Matcher prefixMatcher = LINE_PREFIX_LEVEL_PATTERN.matcher(line);
         if (prefixMatcher.find()) {
             String level = prefixMatcher.group(4);
-            if (level != null && !level.isEmpty() && isNewFormat(line)) {
+            if (level != null && !level.isEmpty()) {
                 return level;
             }
         }
@@ -371,10 +412,6 @@ public class XposedLogLoader {
             return "";
         }
         return uid + ":" + pid + ":" + tid;
-    }
-
-    private boolean isNewFormat(String line) {
-        return NEW_MODULE_PATTERN.matcher(line).find();
     }
 
     private String extractMessage(String line) {

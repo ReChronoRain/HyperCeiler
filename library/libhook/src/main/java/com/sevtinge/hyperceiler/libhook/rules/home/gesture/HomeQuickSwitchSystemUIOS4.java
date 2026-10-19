@@ -250,6 +250,6 @@ public final class HomeQuickSwitchSystemUIOS4 extends BaseHook {
         if(android.os.SystemProperties.getBoolean("debug.hyperceiler.gesture_probe",false))log(msg,null);
     }
     private static void log(String msg,Exception ex) {
-        if(ex!=null)android.util.Log.w(TAG_LOG,msg,ex);else android.util.Log.i(TAG_LOG,msg);
+        if(ex!=null)com.sevtinge.hyperceiler.common.log.ModuleLog.w(TAG_LOG,msg,ex);else com.sevtinge.hyperceiler.common.log.ModuleLog.i(TAG_LOG,msg);
     }
 }

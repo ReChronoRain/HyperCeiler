@@ -28,7 +28,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.IBinder
 import android.os.SystemClock
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import android.view.SurfaceControl
 import android.view.SurfaceControlViewHost
 import com.sevtinge.hyperceiler.common.log.XposedLog

@@ -27,7 +27,7 @@ public final class HomeQuickSwitchOS4 {
 
     private static void diagnostic(String text) {
         if (android.os.SystemProperties.getBoolean("debug.hyperceiler.gesture_probe", false))
-            android.util.Log.i("HyperCeiler.HomeGesture", text);
+            com.sevtinge.hyperceiler.common.log.ModuleLog.i("HyperCeiler.HomeGesture", text);
     }
 
     public static synchronized void receive(Parcel data, Parcel reply, int flags) {
@@ -62,7 +62,7 @@ public final class HomeQuickSwitchOS4 {
                 }
             } finally { Binder.restoreCallingIdentity(token); }
         } catch (Exception error) {
-            android.util.Log.w("HyperCeiler.HomeGesture", "previous task failed", error);
+            com.sevtinge.hyperceiler.common.log.ModuleLog.w("HyperCeiler.HomeGesture", "previous task failed", error);
         }
         reply.writeInt(ACK); reply.writeInt(result ? 1 : 0);
     }
@@ -135,7 +135,7 @@ public final class HomeQuickSwitchOS4 {
     private static boolean switchPrevious(Context context, int expected) throws Exception {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> running = am.getRunningTasks(1);
-        if (running.isEmpty()) {android.util.Log.i("HyperCeiler.HomeGesture", "no current task");return false;}
+        if (running.isEmpty()) {com.sevtinge.hyperceiler.common.log.ModuleLog.i("HyperCeiler.HomeGesture", "no current task");return false;}
         ActivityManager.RunningTaskInfo current = running.get(0);
         if (expected >= 0 && current.taskId != expected) return false;
         int user = (Integer) current.getClass().getField("userId").get(current);
@@ -159,11 +159,11 @@ public final class HomeQuickSwitchOS4 {
             types[i] = (Integer) window.getClass().getMethod("getActivityType").invoke(window);
         }
         int target = selectPrevious(current.taskId, user, ids, users, types, available);
-        if (target < 0) {android.util.Log.i("HyperCeiler.HomeGesture", "no previous task current="+current.taskId+" recent="+n+" types="+java.util.Arrays.toString(types));return false;}
+        if (target < 0) {com.sevtinge.hyperceiler.common.log.ModuleLog.i("HyperCeiler.HomeGesture", "no previous task current="+current.taskId+" recent="+n+" types="+java.util.Arrays.toString(types));return false;}
         Object result = contract.getMethod("startActivityFromRecents", int.class, Bundle.class)
             .invoke(service, target, null);
         boolean started = result instanceof Integer code && code >= 0 && code < 100;
-        android.util.Log.i("HyperCeiler.HomeGesture", "previous task current=" + current.taskId + " target=" + target + " started=" + started);
+        com.sevtinge.hyperceiler.common.log.ModuleLog.i("HyperCeiler.HomeGesture", "previous task current=" + current.taskId + " target=" + target + " started=" + started);
         return started;
     }
 }

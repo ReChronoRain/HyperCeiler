@@ -33,7 +33,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 import com.sevtinge.hyperceiler.log.db.LogDao;
 import com.sevtinge.hyperceiler.log.db.LogEntry;
 import com.sevtinge.hyperceiler.log.db.LogRepository;
@@ -175,9 +174,10 @@ public class LogListFragment extends Fragment {
 
         new Thread(() -> {
             boolean hasRootPermission;
-            if (mModule == 1) {
-                hasRootPermission = ShellUtils.checkRootPermission() == 0;
-                if (syncBeforeQuery && hasRootPermission && context != null) {
+            if (mModule == 1 || syncBeforeQuery) {
+                hasRootPermission = LogSyncDiagnostics.checkRoot(LogRepository.getInstance().getDao());
+                if (syncBeforeQuery && context != null) {
+                    // The loader persists denied Root access too; never silently skip collection.
                     XposedLogLoader.syncLogsToDatabaseSync(context.getApplicationContext());
                 }
             } else {

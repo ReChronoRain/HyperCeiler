@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
@@ -95,7 +95,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
             updateButtonState(false);
             mHandler.postDelayed(() -> updateButtonState(true), 5000L);
         }
-        Log.d(TAG, "begin start OOBSETTINGS");
+        ModuleLog.d(TAG, "begin start OOBSETTINGS");
         if (mProvisionAnimHelper != null) {
             mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
             mProvisionAnimHelper.goNextStep(0);
@@ -114,13 +114,13 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
                 updateButtonState(false);
                 mHandler.postDelayed(() -> updateButtonState(true), 5000L);
             } else if (!isOtherAnimEnd()) {
-                Log.w(TAG, "other anim not end");
+                ModuleLog.w(TAG, "other anim not end");
                 return;
             } else if (!isAnimEnded()) {
-                Log.w(TAG, "video anim not end");
+                ModuleLog.w(TAG, "video anim not end");
                 return;
             }
-            Log.d(TAG, "begin start OOBSETTINGS");
+            ModuleLog.d(TAG, "begin start OOBSETTINGS");
             if (mProvisionAnimHelper != null) {
                 mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
                 mProvisionAnimHelper.goNextStep(1);
@@ -131,7 +131,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         @Override
         public void onClick(View v) {
             if (!isBackBtnEnable) {
-                Log.i(TAG, " mBackListener fast click ");
+                ModuleLog.i(TAG, " mBackListener fast click ");
                 return;
             }
             if (OobeUtils.isTabletLand(ProvisionBaseActivity.this)) {
@@ -142,10 +142,10 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
                 updateButtonState(false);
                 mHandler.postDelayed(() -> updateButtonState(true), 5000L);
             } else if (!isOtherAnimEnd()) {
-                Log.w(TAG, "other anim not end");
+                ModuleLog.w(TAG, "other anim not end");
                 return;
             }
-            Log.d(TAG, "begin back OOBSETTINGS");
+            ModuleLog.d(TAG, "begin back OOBSETTINGS");
             if (mProvisionAnimHelper != null) {
                 mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
                 mProvisionAnimHelper.goBackStep();
@@ -155,7 +155,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
-            Log.i(TAG, " Inner onSurfaceTextureAvailable ");
+            ModuleLog.i(TAG, " Inner onSurfaceTextureAvailable ");
             playInnerVideo(new Surface(surface));
             mMediaPlayer.setOnCompletionListener(mp -> {
                 if (mImageView != null) {
@@ -216,7 +216,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
             mConfirmButton.setOnClickListener(mNextClickListener);
             mSkipButton.setOnClickListener(mSkipClickListener);
         }
-        Log.i(TAG, " current density is " + mNewBackBtn.getResources().getDisplayMetrics().density);
+        ModuleLog.i(TAG, " current density is " + mNewBackBtn.getResources().getDisplayMetrics().density);
         setDefaultPadding();
         setExtraPaddingBottom(mConfirmButton);
 
@@ -342,7 +342,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         }
         mProvisionContainer.setPadding(horizontal, mProvisionContainer.getPaddingTop(), horizontal, mProvisionContainer.getPaddingBottom());
         setContainerMargin(i);
-        Log.d("OobeUtil2", "adaptContainerMargin: " + i);
+        ModuleLog.d("OobeUtil2", "adaptContainerMargin: " + i);
     }
 
     protected void adaptPadImageStyleLayout(DisplayMetrics metrics) {

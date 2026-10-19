@@ -27,6 +27,9 @@ namespace hometweaks {
 namespace {
 
 const TargetFunction kTargets[] = {
+        {"FolderAnimController._initScale", "FolderAnimController._initScale", "OS4 独立缩放及归位动画"},
+        {"WidgetContainerWidget.build", "WidgetContainerWidget.build", "OS4 独立缩放及归位动画"},
+        {"_TransformedWidgetContainer.build", "_TransformedWidgetContainer.build", "OS4 独立缩放及归位动画"},
         {"EditModeGetxController.isInNormalEditing", "EditModeGetxController.isInNormalEditing", "Dock 编辑状态字段校验"},
         {"EditModeGetxController._updateGridState", "EditModeGetxController._updateGridState", "Dock 编辑状态原消费域"},
         {"AssistantDragDataHelper.putWidgetIntoBundle", "AssistantDragDataHelper.putWidgetIntoBundle", "OS4 Gadget 传输"},
@@ -314,6 +317,9 @@ const TargetFunction kTargets[] = {
         {"BigFolderCommonStrategy._calItemSizeByWidth", "BigFolderCommonStrategy._calItemSizeByWidth", "大文件夹预览尺寸原逻辑"},
         {"BigFolderCommonStrategy._calItemSizeByHeight", "BigFolderCommonStrategy._calItemSizeByHeight", "大文件夹预览尺寸原逻辑"},
         {"FolderLayoutStrategy.calItemSize", "FolderLayoutStrategy.calItemSize", "大文件夹工作区尺寸原逻辑"},
+        {"FolderLayout1x1.calItemSize", "FolderLayout1x1.calItemSize", "小文件夹背景和预览缩放"},
+        {"GridController.folderPreviewHeight", "GridController.folderPreviewHeight", "小文件夹预览高度调用校验"},
+        {"BigFolderCommonStrategy.setPreviewItemInfos", "BigFolderCommonStrategy.setPreviewItemInfos", "大文件夹缩放几何消费校验"},
         {"FolderIconGetxController.folderIconSize", "FolderIconGetxController.folderIconSize", "大文件夹工作区尺寸原逻辑"},
         {"FolderIconGetxController.checkOrUpdateStrategy", "FolderIconGetxController.checkOrUpdateStrategy", "大文件夹工作区尺寸原逻辑"},
         {"FolderClingGetxController._calcFolderPaddingTop", "FolderClingGetxController._calcFolderPaddingTop", "文件夹原逻辑布局"},

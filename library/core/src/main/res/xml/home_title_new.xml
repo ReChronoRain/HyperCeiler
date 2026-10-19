@@ -58,6 +58,66 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_layout_small_folder_scale_enable"
+            android:summary="@string/home_layout_independent_scale_desc"
+            android:title="@string/home_layout_small_folder_scale_title"
+            app:isPreferenceVisible="false" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:dependency="prefs_key_home_layout_small_folder_scale_enable"
+            android:key="prefs_key_home_layout_small_folder_scale"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s%%"
+            app:maxValue="140"
+            app:minValue="60"
+            app:showSeekBarValue="true"
+            app:stepValue="1"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_big_folder_scale_enable"
+            android:summary="@string/home_layout_independent_scale_desc"
+            android:title="@string/home_layout_big_folder_scale_title"
+            app:isPreferenceVisible="false" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:dependency="prefs_key_home_layout_big_folder_scale_enable"
+            android:key="prefs_key_home_layout_big_folder_scale"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s%%"
+            app:maxValue="140"
+            app:minValue="60"
+            app:showSeekBarValue="true"
+            app:stepValue="1"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_widget_scale_enable"
+            android:summary="@string/home_layout_independent_scale_desc"
+            android:title="@string/home_layout_widget_scale_title"
+            app:isPreferenceVisible="false" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:dependency="prefs_key_home_layout_widget_scale_enable"
+            android:key="prefs_key_home_layout_widget_scale"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s%%"
+            app:maxValue="140"
+            app:minValue="60"
+            app:showSeekBarValue="true"
+            app:stepValue="1"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_title_big_icon_corner"
             android:title="@string/home_title_big_icon_corner" />
 

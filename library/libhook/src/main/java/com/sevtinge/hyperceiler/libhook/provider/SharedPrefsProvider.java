@@ -31,7 +31,7 @@ import android.os.Binder;
 import android.os.ParcelFileDescriptor;
 import android.os.Bundle;
 import android.os.SystemProperties;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import androidx.annotation.NonNull;
 
@@ -354,7 +354,7 @@ public class SharedPrefsProvider extends ContentProvider {
             if (filename != null) try {
                 afd = getContext().getAssets().openFd(filename);
             } catch (Throwable t) {
-                Log.i("afd", String.valueOf(t));
+                ModuleLog.i("afd", String.valueOf(t));
             }
             return afd;
         } else if (uriMatcher.match(uri) == 6) {

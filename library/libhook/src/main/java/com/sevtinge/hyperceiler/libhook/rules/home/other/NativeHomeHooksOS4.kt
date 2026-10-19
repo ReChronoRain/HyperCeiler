@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.other
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import androidx.annotation.Keep
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils

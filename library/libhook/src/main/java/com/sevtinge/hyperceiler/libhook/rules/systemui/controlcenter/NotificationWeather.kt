@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter
 import android.annotation.SuppressLint
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
