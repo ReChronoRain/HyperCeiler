@@ -12,7 +12,13 @@ public final class HomeOS4EntryVisibility {
             if ("prefs_key_home_title_icon_size_enable".equals(key)
                 || "prefs_key_home_title_icon_size".equals(key)) return true;
             if ("prefs_key_home_layout_icon_scale_enable".equals(key)
-                || "prefs_key_home_layout_icon_scale".equals(key)) return false;
+                || "prefs_key_home_layout_icon_scale".equals(key)
+                || "prefs_key_home_layout_small_folder_scale_enable".equals(key)
+                || "prefs_key_home_layout_small_folder_scale".equals(key)
+                || "prefs_key_home_layout_big_folder_scale_enable".equals(key)
+                || "prefs_key_home_layout_big_folder_scale".equals(key)
+                || "prefs_key_home_layout_widget_scale_enable".equals(key)
+                || "prefs_key_home_layout_widget_scale".equals(key)) return false;
         } else if (xml == R.xml.home_layout) {
             if ("prefs_key_home_layout_icon_scale_enable".equals(key)
                 || "prefs_key_home_layout_icon_scale".equals(key)

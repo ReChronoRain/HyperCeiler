@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -144,7 +144,7 @@ public class XposedInitEntry extends XposedModule {
         // Keep the old generation intact until normal process startup loads the new APK.
         if (HotReloadCompatibility.requiresProcessRestart(
                 Build.VERSION.SDK_INT, DeviceHelper.System.isHyperOSVersion(4f))) {
-            Log.w("HyperCeiler.HotReload", "RESTART_REQUIRED: keeping live hooks/resources intact"
+            ModuleLog.w("HyperCeiler.HotReload", "RESTART_REQUIRED: keeping live hooks/resources intact"
                 + " sdk=" + Build.VERSION.SDK_INT + " process=" + processName);
             return false;
         }
@@ -257,11 +257,11 @@ public class XposedInitEntry extends XposedModule {
         final String name = processName;
         if (name == null || !name.startsWith(LAUNCHER_PACKAGE)) return;
         try {
-            Log.i(LAUNCHER_ENTRY_TAG,
+            ModuleLog.i(LAUNCHER_ENTRY_TAG,
                 "stage=module-entry pkg=" + LAUNCHER_PACKAGE + " process=" + name);
             NativeHomeHooksOS4.INSTANCE.ensureLoadedFromModuleEntry(name);
         } catch (Throwable t) {
-            Log.w(LAUNCHER_ENTRY_TAG, "stage=module-entry probe failed", t);
+            ModuleLog.w(LAUNCHER_ENTRY_TAG, "stage=module-entry probe failed", t);
         }
     }
 

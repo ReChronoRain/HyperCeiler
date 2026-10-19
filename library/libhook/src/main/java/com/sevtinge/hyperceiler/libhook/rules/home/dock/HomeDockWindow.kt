@@ -659,6 +659,14 @@ class HomeDockWindow : BaseHook() {
                         reply.writeInt(if (result?.folderAutoClose() == true) 1 else 0)
                         reply.writeInt(0x48434731)
                         for (value in HomeLayoutNativeEndpointOS4.gestureConfig()) reply.writeInt(value)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.OBJECT_SCALE_MAGIC)
+                        for (value in result?.objectScales() ?: intArrayOf(0, 100, 0, 100, 0, 100))
+                            reply.writeInt(value)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_MAGIC)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_SCHEMA)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_REVISION)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_CAPABILITIES)
+                        reply.writeInt(android.os.Process.myPid())
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()

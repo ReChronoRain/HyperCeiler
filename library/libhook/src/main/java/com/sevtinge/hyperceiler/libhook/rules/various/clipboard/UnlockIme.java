@@ -21,13 +21,17 @@ package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.widget.ListView;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodBottomManagerHelper;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
+import com.sevtinge.hyperceiler.libhook.appbase.input.MiuiImeInsets;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.base.PackageTarget;
 
@@ -115,8 +119,36 @@ public class UnlockIme extends BaseHook {
         if (inputMethodBottomManager != null) {
             hookSIsImeSupport(inputMethodBottomManager);
             hookIsXiaoAiEnable(inputMethodBottomManager);
+            hookInputViewInsets(inputMethodBottomManager);
         } else {
             XposedLog.e(TAG, "Class not found: com.miui.inputmethod.InputMethodBottomManager");
+        }
+    }
+
+    private void hookInputViewInsets(Class<?> manager) {
+        if (Build.VERSION.SDK_INT < 35) return;
+        MiuiImeInsets insets = new MiuiImeInsets();
+        registerHotReloadCleanup(insets::clear);
+        try {
+            hookAllMethods(manager, "addMiuiBottomView", new IMethodHook() {
+                @Override
+                public void after(HookParam param) {
+                    Object[] args = param.getArgs();
+                    if (args.length > 5 && args[3] instanceof ViewGroup frame
+                        && args[5] instanceof ViewGroup area) {
+                        insets.bind(frame, area);
+                    }
+                }
+            });
+            findAndHookMethod(View.class, "dispatchApplyWindowInsets", WindowInsets.class, new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    param.getArgs()[0] = insets.forInputView((View) param.getThisObject(),
+                        (WindowInsets) param.getArgs()[0]);
+                }
+            });
+        } catch (Throwable failure) {
+            ModuleLog.w("HyperCeiler.ImeBottom", "Keyboard navigation inset hook unavailable", failure);
         }
     }
 

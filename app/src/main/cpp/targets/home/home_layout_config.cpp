@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
 #include "home_widget_move.h"
+#include "home_endpoint_diagnostics.h"
 
 #include <android/binder_ibinder.h>
 #include <android/log.h>
@@ -19,6 +20,8 @@
 #include <mutex>
 #include <utility>
 #include <string_view>
+#include <string>
+#include <cstdarg>
 #include <vector>
 #include <cerrno>
 #include <sys/stat.h>
@@ -160,7 +163,7 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 13;
+constexpr uint32_t kCacheVersion = 14;
 // The first launcher layout can run before credential-encrypted storage unlocks.
 // Bootstrap must survive a device reboot, not only a process restart after unlock.
 constexpr const char *kCacheDir = "/data/user_de/0/com.miui.home/files";
@@ -224,6 +227,8 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(home_gestures::kMagic);
     put_u32(config.gestures.enabled); put_u32(config.gestures.quick); put_u32(config.gestures.mask);
     put_u32(config.gestures.density_dpi); put_u32(config.gestures.width);
+    put_u32(kObjectScaleMagic);
+    for(const auto& scale:config.object_scales){put_u32(scale.enabled);put_u32(scale.percent);}
 }
 
 bool parse_config(const std::vector<uint8_t> &data, Config &config) {
@@ -232,7 +237,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
     if (version != 4 && version != 5 && version != 6 && version != 7 && version != 8
-        && version != 9 && version != 10 && version != 11 && version != 12 && version != kCacheVersion)
+        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != kCacheVersion)
         return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
@@ -319,6 +324,10 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if (version >= 13 && !home_gestures::read_config([&](int32_t &word) {
         auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
     },config.gestures,false)) return false;
+    config.object_scales={};
+    if(version>=14 && !read_object_scales([&](int32_t& word){
+        auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
+    },config.object_scales,false))return false;
     if (version >= 8 && at != data.size()) return false;
     return true;
 }
@@ -360,13 +369,27 @@ bool read_config_cache(Config &config) {
 
 /* The Binder lane: same synchronous IWindowManager transport as DockNativeMotionEndpoint, with an
    independent transaction code and response. No private launcher file or Java injection is needed. */
+// query_config serializes these worker-only reports. Keep startup loader bootstrap free of I/O/locks.
+static void config_diagnostic(unsigned category,int priority,const char* format,...) {
+    static std::array<std::string,3> last{};
+    char message[768];va_list args;va_start(args,format);
+    std::vsnprintf(message,sizeof(message),format,args);va_end(args);
+    if(last[category]==message)return;
+    last[category]=message;
+    __android_log_print(priority,"HyperCeiler.HomeConfig","%s",message);
+}
+
 static bool query_binder(Config &result) {
     using GetService = AIBinder *(*)(const char *);
     const auto get_service = reinterpret_cast<GetService>(
         dlsym(RTLD_DEFAULT, "AServiceManager_getService"));
-    if (get_service == nullptr) return false;
+    if (get_service == nullptr) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: AServiceManager_getService missing");return false;
+    }
     AIBinder *window = get_service("window");
-    if (window == nullptr) return false;
+    if (window == nullptr) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: window service missing");return false;
+    }
     const AIBinder_Class *clazz = AIBinder_getClass(window);
     bool associated = false;
     if (clazz != nullptr) {
@@ -377,11 +400,13 @@ static bool query_binder(Config &result) {
         associated = clazz != nullptr && AIBinder_associateClass(window, clazz);
     }
     if (!associated) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: IWindowManager descriptor association failed");
         AIBinder_decStrong(window);
         return false;
     }
     AParcel *input = nullptr;
     if (AIBinder_prepareTransaction(window, &input) != STATUS_OK || input == nullptr) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: cannot prepare layout transaction");
         AIBinder_decStrong(window);
         return false;
     }
@@ -390,9 +415,9 @@ static bool query_binder(Config &result) {
         &input, &output, 0);
     AIBinder_decStrong(window);
     if (status != STATUS_OK || output == nullptr) {
-        __android_log_print(ANDROID_LOG_WARN, "HyperCeiler.HomeLayout",
-            "layout config transact failed status=%d output=%p", static_cast<int>(status),
-            static_cast<void *>(output));
+        config_diagnostic(0,ANDROID_LOG_WARN,"CONFIG_TRANSACT_FAILED: status=%d response=%d; "
+            "check system_server module scope and restart device after module updates",int(status),output!=nullptr);
+        if(output)AParcel_delete(output);
         return false;
     }
     int32_t ack = 0;
@@ -469,6 +494,15 @@ static bool query_binder(Config &result) {
     if (valid) valid=home_gestures::read_config([&](int32_t &word) {
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.gestures);
+    bool has_object_scales=false;
+    if(valid)valid=read_object_scales([&](int32_t& word){
+        return AParcel_readInt32(output,&word)==STATUS_OK;
+    },candidate.object_scales,true,&has_object_scales);
+    EndpointDiagnostics endpoint;
+    auto endpoint_state=EndpointDiagnosticState::Missing;
+    if(valid)endpoint_state=read_endpoint_diagnostics([&](int32_t& word){
+        return AParcel_readInt32(output,&word)==STATUS_OK;
+    },endpoint);
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
         return value >= lo && value <= hi;
@@ -487,11 +521,26 @@ static bool query_binder(Config &result) {
          * One line for the whole failure, because "config unavailable" on the launcher side used to be
          * the only symptom and it cannot tell a dead transact from a rejected snapshot.
          */
-        __android_log_print(ANDROID_LOG_WARN, "HyperCeiler.HomeLayout",
-            "layout config rejected status=%d ack=%#x grid=%d cell=%dx%d count=%d tweaks_ok=%d "
-            "valid=%d", static_cast<int>(status), ack, grid_enabled, x, y, count,
-            tweaks_ok ? 1 : 0, valid ? 1 : 0);
+        config_diagnostic(0,ANDROID_LOG_WARN,
+            "CONFIG_REJECTED: status=%d ack=%#x grid=%d cell=%dx%d count=%d tweaks_ok=%d valid=%d; "
+            "endpoint may be uninitialized, incompatible or denying this caller",int(status),ack,grid_enabled,x,y,count,
+            tweaks_ok?1:0,valid?1:0);
         return false;
+    }
+    config_diagnostic(0,ANDROID_LOG_INFO,"CONFIG_TRANSPORT_READY: authenticated layout snapshot accepted");
+    if(endpoint_state==EndpointDiagnosticState::Valid) {
+        const bool mismatch=endpoint.revision!=kEndpointRevision
+            ||!(endpoint.capabilities&kIndependentScalesCapability)||!has_object_scales;
+        config_diagnostic(1,mismatch?ANDROID_LOG_WARN:ANDROID_LOG_INFO,
+            "ENDPOINT_%s: client_revision=%d server_revision=%d schema=%d capabilities=%#x pid=%d object_scales=%d%s",
+            mismatch?"MISMATCH":"READY",kEndpointRevision,endpoint.revision,endpoint.schema,endpoint.capabilities,endpoint.pid,
+            has_object_scales,mismatch?"; reboot to reload launcher and system_server from the same module APK":"");
+    } else {
+        config_diagnostic(1,ANDROID_LOG_WARN,
+            "ENDPOINT_VERSION_UNKNOWN: client_revision=%d metadata_state=%d schema=%d object_scales=%d; %s",
+            kEndpointRevision,int(endpoint_state),endpoint.schema,has_object_scales,
+            has_object_scales?"older/unknown endpoint metadata; reboot after updating if functions do not apply"
+                :"independent scale extension missing; system_server may still run an older module; reboot after updating");
     }
     candidate.grid_enabled = grid_enabled != 0;
     candidate.cell_x = x;
@@ -548,21 +597,27 @@ bool query_config(Config &result) {
     if (debug_override_enabled()) {
         // Calibration never changes the authoritative in-memory or disk snapshot.
         apply_debug_override(candidate);
+        config_diagnostic(2,ANDROID_LOG_WARN,"CONFIG_SOURCE: debug property override (not persisted)");
         result = candidate;
         return true;
     }
     if (!from_binder) {
         if (g_process_config.latest) {
+            config_diagnostic(2,ANDROID_LOG_WARN,"CONFIG_SOURCE: in-memory fallback; live preferences unavailable, see transport diagnostic");
             result = *g_process_config.latest;
             return true;
         }
-        if (!read_config_cache(candidate)) return false;
+        if (!read_config_cache(candidate)) {
+            config_diagnostic(2,ANDROID_LOG_ERROR,"CONFIG_SOURCE: none; no valid Binder response or cached configuration");return false;
+        }
+        config_diagnostic(2,ANDROID_LOG_WARN,"CONFIG_SOURCE: disk fallback; live preferences unavailable, see transport diagnostic");
         g_process_config.latest = candidate;
         result = candidate;
         return true;
     }
     // Publish even when the subsequent disk write is rejected. Explicit disable,
     // a lower/higher margin and a complete settings reset remain authoritative.
+    config_diagnostic(2,ANDROID_LOG_INFO,"CONFIG_SOURCE: live system_server endpoint");
     g_process_config.latest = candidate;
     result = candidate;
     std::vector<uint8_t> serialized;

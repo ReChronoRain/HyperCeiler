@@ -304,7 +304,14 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public record Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
         int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
-        boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose) {
+        boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales) {
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, backGesture, folderAutoClose,
+                new int[]{0, 100, 0, 100, 0, 100});
+        }
         public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
             int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
             boolean widgetAllowMove, int[] folder, int[] backGesture) {
@@ -384,7 +391,8 @@ public final class HomeLayoutNativeEndpointOS4 {
                     || read.tweaks().length != TWEAK_COUNT
                     || read.title() == null || read.title().length != TITLE_COUNT
                     || read.customTitles() == null || read.customTitles().length > 1024
-                    || !validFolder(read.folder()) || !validBackGesture(read.backGesture())) {
+                    || !validFolder(read.folder()) || !validBackGesture(read.backGesture())
+                    || !validObjectScales(read.objectScales())) {
                 return denied("snapshot shape is wrong: " + describe(read));
             }
             for (int index = 0; index < KNOB_ROWS.length; ++index) {
@@ -407,11 +415,11 @@ public final class HomeLayoutNativeEndpointOS4 {
             }
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
             read.knobEnabled(), read.knobDeltaDp(), read.tweaks(), read.title(), read.customTitles(),
-            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose());
+            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone());
             final String summary = describe(accepted);
             if (!summary.equals(lastAccepted)) {
                 lastAccepted = summary;
-                android.util.Log.i(TAG, "layout endpoint serving " + summary);
+                com.sevtinge.hyperceiler.common.log.ModuleLog.i(TAG, "layout endpoint serving " + summary);
             }
             int units = 0;
             for (String[] pair : accepted.customTitles()) {
@@ -431,7 +439,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static Snapshot denied(String why) {
         if (!why.equals(lastDenied)) {
             lastDenied = why;
-            android.util.Log.w(TAG, "layout endpoint denied: " + why);
+            com.sevtinge.hyperceiler.common.log.ModuleLog.w(TAG, "layout endpoint denied: " + why);
         }
         return new Snapshot(ACK, 0, 0, 0, new int[KNOB_ROWS.length], new int[KNOB_ROWS.length],
             new int[TWEAK_COUNT]);
@@ -439,7 +447,7 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     private static String describe(Snapshot snapshot) {
         if (snapshot == null) return "null";
-        final StringBuilder text = new StringBuilder("grid=").append(snapshot.gridEnabled())
+        final StringBuilder text = new StringBuilder("endpoint_revision=" + ENDPOINT_REVISION + " grid=").append(snapshot.gridEnabled())
             .append(" cell=").append(snapshot.cellX()).append('x').append(snapshot.cellY());
         if (snapshot.knobEnabled() != null && snapshot.knobDeltaDp() != null) {
             text.append(" knobs=[");
@@ -456,6 +464,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             .append(java.util.Arrays.toString(snapshot.title()));
         if (snapshot.customTitles() != null) text.append(" custom_titles=").append(snapshot.customTitles().length);
         text.append(" folder=").append(java.util.Arrays.toString(snapshot.folder()));
+        text.append(" object_scales=").append(java.util.Arrays.toString(snapshot.objectScales()));
         return text.toString();
     }
 
@@ -545,7 +554,30 @@ public final class HomeLayoutNativeEndpointOS4 {
                 : new String[0][],
             readBoolean(values, "home_widget_allow_moved_to_minus_one_screen", false), readFolder(values), new int[]{
                 boundedBack(readInt(values, "home_navigation_back_area_height", 60), 10, 100, 60),
-                boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false));
+                boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values));
+    }
+
+    public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
+    public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
+    public static final int ENDPOINT_REVISION = 20261019;
+    public static final int ENDPOINT_CAPABILITIES = 1; // independent scale extension
+
+    public static final int OBJECT_SCALE_MAGIC = 0x48435331;
+    private static boolean validObjectScales(int[] values) {
+        if (values == null || values.length != 6) return false;
+        for (int i = 0; i < 6; i += 2)
+            if (values[i] < 0 || values[i] > 1 || values[i + 1] < 60 || values[i + 1] > 140) return false;
+        return true;
+    }
+    private static int[] readObjectScales(java.util.Map<String, Object> values) {
+        final String[] kinds = {"small_folder", "big_folder", "widget"};
+        final int[] result = new int[6];
+        for (int i = 0; i < kinds.length; ++i) {
+            final String key = "home_layout_" + kinds[i] + "_scale";
+            result[i * 2] = readBoolean(values, key + "_enable", false) ? 1 : 0;
+            result[i * 2 + 1] = Math.max(60, Math.min(140, readInt(values, key, 100)));
+        }
+        return result;
     }
 
     public static final int FOLDER_AUTO_CLOSE_MAGIC = 0x48434641;

@@ -64,6 +64,13 @@ public final class HomeLayoutPrefsSnapshot {
         {"integer", "home_layout_fold_minor"},
         {"boolean", "home_layout_icon_scale_enable"},
         {"integer", "home_layout_icon_scale"},
+        {"boolean", "home_layout_small_folder_scale_enable"},
+        {"integer", "home_layout_small_folder_scale"},
+        {"boolean", "home_layout_big_folder_scale_enable"},
+        {"integer", "home_layout_big_folder_scale"},
+        {"boolean", "home_layout_widget_scale_enable"},
+        {"integer", "home_layout_widget_scale"},
+
         {"boolean", "home_layout_recents_hide_clear"},
         {"boolean", "home_layout_recents_no_clear"},
         {"boolean", "home_animation_open_rate_enable"},

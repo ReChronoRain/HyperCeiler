@@ -1,4 +1,5 @@
 #include "home_icon_render.h"
+#include "home_widget_scale.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
 #include "home_back_gesture.h"
@@ -188,6 +189,20 @@ uint64_t hc_folder_title_color_thread=0,hc_folder_title_color_static=0;
 uint64_t hc_folder_title_nursery=0,hc_folder_title_allocation=0;
 // Atomic bits are loaded directly by the no-call Dart replay bank.
 uint64_t hc_folder_title_scale_bits=0x3ff0000000000000ULL;
+uint64_t hc_icon_scale_bits=0x3ff0000000000000ULL;
+uint64_t hc_small_folder_scale_bits=0x3ff0000000000000ULL;
+uint64_t hc_big_folder_scale_bits=0x3ff0000000000000ULL;
+uint64_t hc_widget_scale_bits=0x3ff0000000000000ULL;
+void hc_folder_anim_scale0_entry();void hc_folder_anim_scale1_entry();void hc_folder_anim_scale2_entry();
+void *hc_folder_anim_scale0_original=nullptr,*hc_folder_anim_scale1_original=nullptr,*hc_folder_anim_scale2_original=nullptr;
+uint64_t hc_folder_anim_scale_hits=0;
+uint32_t hc_folder_anim_scale_enabled=0;
+void hc_widget_scale_entry();
+void *hc_widget_scale_original=nullptr;
+uintptr_t hc_widget_scale_continue=0;
+int64_t hc_widget_scale_frame=0,hc_widget_scale_child_field=0;
+uint32_t hc_widget_scale_enabled=0;
+uint64_t hc_widget_scale_wrap(uint64_t child,uint64_t thread,uint64_t pool,uint64_t null_value);
 void hc_icon_width_entry();void hc_icon_height_entry();
 void *hc_icon_width_original=nullptr,*hc_icon_height_original=nullptr;
 uint32_t hc_icon_render_enabled=0;
@@ -205,6 +220,13 @@ void *hc_progress_icon_width_original=nullptr,*hc_progress_icon_height_original=
 void *hc_progress_dock_width_original=nullptr,*hc_progress_dock_height_original=nullptr;
 uint64_t hc_progress_icon_width_hits=0,hc_progress_icon_height_hits=0;
 uint64_t hc_progress_dock_width_hits=0,hc_progress_dock_height_hits=0;
+void hc_folder_icon_scale_entry();
+void *hc_folder_icon_scale_original=nullptr;
+uint32_t hc_folder_icon_scale_enabled=0;
+uintptr_t hc_folder_icon_scale_caller=0;
+int64_t hc_folder_icon_scale_fields[4]{};
+uintptr_t hc_folder_icon_scale_big_caller=0;
+int64_t hc_folder_icon_scale_big_fields[13]{};
 
 
 int64_t hc_title_color_frame=0;uint64_t hc_title_color_thread=0,hc_title_color_static=0;
@@ -399,7 +421,10 @@ constexpr size_t kDartColumnsSlot = kNativeColumnsSlot + 1;
 constexpr size_t kGridPersistSlot = kDartColumnsSlot + 1;
 constexpr size_t kLayoutSaveSlot = kGridPersistSlot + 1;
 constexpr size_t kProgressIconSlotBase = kLayoutSaveSlot + 1;
-constexpr size_t kSlotCount = kProgressIconSlotBase + 4;
+constexpr size_t kFolderIconScaleSlot = kProgressIconSlotBase + 4;
+constexpr size_t kFolderAnimScaleSlotBase = kFolderIconScaleSlot + 1;
+constexpr size_t kWidgetScaleSlot = kFolderAnimScaleSlotBase + 3;
+constexpr size_t kSlotCount = kWidgetScaleSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -421,6 +446,7 @@ std::atomic_int g_title_desktop_sp{12};
 std::atomic_int g_title_drawer_sp{12};
 home_dynamic::GeometryFrame g_geometry_frame[3]{};
 home_dynamic::ColorLayout g_title_color_layout{};
+home_layout::WidgetScaleLayout g_widget_scale_layout{};
 home_dynamic::ModelLayout g_title_model_layout{};
 std::atomic_int g_title_color{-1};
 bool g_desktop_title_bound = false;
@@ -514,15 +540,34 @@ std::atomic_uint32_t g_back_prime_stage{0};
 std::atomic_uint32_t g_back_window_applied[2]{{60u|(100u<<16)},{60u|(100u<<16)}};
 home_layout::BackWindowShape g_back_window_shape{};
 
+std::atomic_uint64_t g_scale_request_diagnostic{UINT64_MAX};
 void sync_title_config(const home_layout::Config &config) {
     hc_gestures_config(config.gestures);
     sync_folder_layout(config);
-    const double folder_scale = config.tweaks.icon_scale_enabled
+    uint64_t scale_request=uint64_t(config.tweaks.icon_scale_enabled)|(uint64_t(config.tweaks.icon_scale_code)<<1);
+    for(unsigned i=0;i<3;++i)scale_request|=(uint64_t(config.object_scales[i].enabled)
+        |(uint64_t(config.object_scales[i].percent)<<1))<<(10+i*10);
+    if(g_scale_request_diagnostic.exchange(scale_request,std::memory_order_relaxed)!=scale_request)
+        __android_log_print(ANDROID_LOG_INFO,kTag,
+            "scale request icon=%d/code:%#x small_folder=%d/%d%% big_folder=%d/%d%% widget=%d/%d%%",
+            config.tweaks.icon_scale_enabled,config.tweaks.icon_scale_code,
+            config.object_scales[0].enabled,config.object_scales[0].percent,
+            config.object_scales[1].enabled,config.object_scales[1].percent,
+            config.object_scales[2].enabled,config.object_scales[2].percent);
+    const double icon_scale = config.tweaks.icon_scale_enabled
         && hometweaks::IconScaleCodeValid(config.tweaks.icon_scale_code)
         ? hometweaks::IconScaleValueFromCode(config.tweaks.icon_scale_code) : 1.0;
-    uint64_t folder_scale_bits=0;
-    std::memcpy(&folder_scale_bits,&folder_scale,sizeof(folder_scale));
-    __atomic_store_n(&hc_folder_title_scale_bits,folder_scale_bits,__ATOMIC_RELEASE);
+    const auto publish_scale=[](uint64_t* target,double factor){
+        uint64_t bits=0;std::memcpy(&bits,&factor,sizeof(bits));
+        return __atomic_exchange_n(target,bits,__ATOMIC_ACQ_REL)!=bits;
+    };
+    bool scales_changed=publish_scale(&hc_icon_scale_bits,icon_scale);
+    scales_changed|=publish_scale(&hc_small_folder_scale_bits,config.object_scales[0].factor());
+    scales_changed|=publish_scale(&hc_big_folder_scale_bits,config.object_scales[1].factor());
+    scales_changed|=publish_scale(&hc_widget_scale_bits,config.object_scales[2].factor());
+    if(scales_changed)__android_log_print(ANDROID_LOG_INFO,kTag,
+        "render scales icon=%.4f small_folder=%.2f big_folder=%.2f widget=%.2f",
+        icon_scale,config.object_scales[0].factor(),config.object_scales[1].factor(),config.object_scales[2].factor());
     g_back_gesture_config.store(static_cast<uint32_t>(config.back_gesture.height)
         | (static_cast<uint32_t>(config.back_gesture.width) << 16), std::memory_order_release);
     const auto previous = std::atomic_load_explicit(&g_title_names, std::memory_order_acquire);
@@ -3012,42 +3057,63 @@ bool bind_title_custom() {
     g_title_custom_bound=true;return true;
 }
 
+// One report per changed failure stage; these binders also run on the loader callback.
+// Atomic-only bookkeeping here: never add Binder, blocking locks or disk I/O to that callback.
+std::array<std::atomic_uint32_t,6> g_scale_bind_failure{};
+std::array<std::atomic_uint32_t,3> g_scale_live_diagnostic{{2,2,2}};
+bool scale_bind_failure(unsigned feature,uint32_t stage,const char* detail) {
+    constexpr const char* names[]={"folder_close_animation","widget_scale","folder_scale","app_icon_scale","desktop_dock_icon_scale","progress_icon_scale"};
+    if(g_scale_bind_failure[feature].exchange(stage,std::memory_order_relaxed)!=stage)
+        __android_log_print(ANDROID_LOG_WARN,kTag,
+            "feature=%s state=unavailable stage=%u reason=%s; original launcher behavior retained",
+            names[feature],stage,detail);
+    return false;
+}
+
 bool bind_icon_render() {
-    if(!g_dart)return false;
+    if(!g_dart)return scale_bind_failure(3,1,"Dart image not available yet");
     if(g_slots[kIconRenderSlotBase].address)return true;
     uint32_t va=0,size=0,current=0;
     std::vector<uint32_t> body;home_layout::IconRenderSites shape;
-    if(!hometweaks::HomeTweaksFindSymbol("AppIcon.build",&va,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size)
-      ||!dartscan::body(va,body)||!home_layout::icon_render_sites(body,va,current,shape))return false;
+    if(!hometweaks::HomeTweaksFindSymbol("AppIcon.build",&va,&size))
+        return scale_bind_failure(3,10,"symbol unavailable: AppIcon.build");
+    if(!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size))
+        return scale_bind_failure(3,11,"symbol unavailable: GridController.currentConfig");
+    if(!dartscan::body(va,body))return scale_bind_failure(3,20,"cannot read AppIcon.build body");
+    if(!home_layout::icon_render_sites(body,va,current,shape))
+        return scale_bind_failure(3,30,"AppIcon dimensions instruction validation failed");
     std::array<Slot,2> prepared{};
     void *entries[]={reinterpret_cast<void*>(hc_icon_width_entry),reinterpret_cast<void*>(hc_icon_height_entry)};
     void **originals[]={&hc_icon_width_original,&hc_icon_height_original};
     const uint32_t offsets[]={shape.width,shape.height};
     for(unsigned i=0;i<2;++i){uintptr_t address=0;nhk::CodeSource source{};Words words{};
-        if(!bind_dart_target(va+offsets[i],address,source,words))return false;
+        if(!bind_dart_target(va+offsets[i],address,source,words))
+            return scale_bind_failure(3,40+i,"AppIcon size replay window cannot be bound");
         prepared[i]={address,entries[i],originals[i],source,words};}
     for(unsigned i=0;i<2;++i)g_slots[kIconRenderSlotBase+i]=prepared[i];
+    g_scale_bind_failure[3].store(0,std::memory_order_relaxed);
     __android_log_print(ANDROID_LOG_INFO,kTag,"icon render source resolved grid=%d value=%d width=%#x height=%#x",shape.grid,shape.value,va+shape.width,va+shape.height);
     return true;
 }
 
 bool bind_desktop_icon_render() {
-    if(!g_dart)return false;
+    if(!g_dart)return scale_bind_failure(4,1,"Dart image not available yet");
     if(g_slots[kIconRenderSlotBase+2].address)return true;
     uint32_t va=0,size=0,w=0,h=0,wt=0,ht=0,rx=0,current=0,app=0;
     std::vector<uint32_t> b,wb,hb,wm,hm,ab;home_layout::IconRenderSites shape,render;
     home_layout::IconMixinSites ws,hs;
-    if(!hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget._buildNormalDrawable",&va,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget.iconWidth",&w,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget.iconHeight",&h,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value",&rx,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("AppIcon.build",&app,&size)
-      ||!dartscan::body(w,wb)||!dartscan::body(h,hb)||!dartscan::body(va,b)||!dartscan::body(app,ab)
-      ||!home_layout::icon_dimension_callee(wb,w,wt)||!home_layout::icon_dimension_callee(hb,h,ht)
-      ||!home_layout::desktop_icon_sites(b,va,wt,ht,shape)
-      ||!home_layout::icon_render_sites(ab,app,current,render))return false;
+    struct Root {const char* name;uint32_t* value;};
+    const Root roots[]={ {"ShortcutIconWidget._buildNormalDrawable",&va},{"ShortcutIconWidget.iconWidth",&w},
+        {"ShortcutIconWidget.iconHeight",&h},{"RxObjectMixin.value",&rx},{"GridController.currentConfig",&current},
+        {"AppIcon.build",&app} };
+    for(unsigned i=0;i<6;++i)if(!hometweaks::HomeTweaksFindSymbol(roots[i].name,roots[i].value,&size))
+        return scale_bind_failure(4,10+i,roots[i].name);
+    if(!dartscan::body(w,wb)||!dartscan::body(h,hb)||!dartscan::body(va,b)||!dartscan::body(app,ab))
+        return scale_bind_failure(4,20,"cannot read desktop/Dock size getter/drawing bodies");
+    if(!home_layout::icon_dimension_callee(wb,w,wt)||!home_layout::icon_dimension_callee(hb,h,ht))
+        return scale_bind_failure(4,30,"desktop/Dock canonical size callee validation failed");
+    if(!home_layout::desktop_icon_sites(b,va,wt,ht,shape)||!home_layout::icon_render_sites(ab,app,current,render))
+        return scale_bind_failure(4,31,"desktop/Dock drawing dimensions instruction validation failed");
     // Bounded typed callee prefixes; stop at the first complete Dart return.
     auto prefix=[](uint32_t target,std::vector<uint32_t>& body){
         if(!dart_words(target,128,body))return false;
@@ -3061,28 +3127,145 @@ bool bind_desktop_icon_render() {
     if(!prefix(wt,wm)||!prefix(ht,hm)
       ||!home_layout::icon_mixin_sites(wm,wt,rx,render.grid,render.value,ws)
       ||!home_layout::icon_mixin_sites(hm,ht,rx,render.grid,render.value,hs)
-      ||ws.value+8!=hs.value)return false;
+      ||ws.value+8!=hs.value)
+        return scale_bind_failure(4,32,"desktop/Dock canonical size fields/caller validation failed");
     std::array<Slot,4> prepared{};
     void *entries[]={reinterpret_cast<void*>(hc_desktop_icon_width_entry),reinterpret_cast<void*>(hc_desktop_icon_height_entry),reinterpret_cast<void*>(hc_dock_icon_width_entry),reinterpret_cast<void*>(hc_dock_icon_height_entry)};
     void **originals[]={&hc_desktop_icon_width_original,&hc_desktop_icon_height_original,&hc_dock_icon_width_original,&hc_dock_icon_height_original};
     const uint32_t sites[]={wt+ws.normal,ht+hs.normal,wt+ws.dock,ht+hs.dock};
     for(unsigned i=0;i<4;++i){uintptr_t address=0;nhk::CodeSource source{};Words words{};
-        if(!bind_dart_target(sites[i],address,source,words))return false;
+        if(!bind_dart_target(sites[i],address,source,words))
+            return scale_bind_failure(4,40+i,"desktop/Dock size replay window cannot be bound");
         prepared[i]={address,entries[i],originals[i],source,words};}
     for(unsigned i=0;i<4;++i)g_slots[kIconRenderSlotBase+2+i]=prepared[i];
+    g_scale_bind_failure[4].store(0,std::memory_order_relaxed);
     __android_log_print(ANDROID_LOG_INFO,kTag,"icon canonical dimensions resolved normal=%#x/%#x dock=%#x/%#x fields=%d/%d",sites[0],sites[1],sites[2],sites[3],ws.value,hs.value);return true;
 }
 
+bool bind_folder_animation_scale() {
+    if(!g_dart)return scale_bind_failure(0,1,"Dart image not available yet");
+    if(g_slots[kFolderAnimScaleSlotBase].address)return true;
+    uint32_t builder=0,current=0,size=0;home_dynamic::Body body;
+    std::array<uint32_t,3> sites{};
+    if(!hometweaks::HomeTweaksFindSymbol("FolderAnimController._initScale",&builder,&size))
+        return scale_bind_failure(0,10,"symbol unavailable: FolderAnimController._initScale");
+    if(!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size))
+        return scale_bind_failure(0,11,"symbol unavailable: GridController.currentConfig");
+    if(!dartscan::body(builder,body))return scale_bind_failure(0,20,"cannot read FolderAnimController._initScale body");
+    if(!home_layout::folder_animation_scale_sites(body,builder,current,sites))
+        return scale_bind_failure(0,30,"close-animation instruction shape does not match this launcher image");
+    const void* entries[]={reinterpret_cast<void*>(hc_folder_anim_scale0_entry),
+        reinterpret_cast<void*>(hc_folder_anim_scale1_entry),reinterpret_cast<void*>(hc_folder_anim_scale2_entry)};
+    void** originals[]={&hc_folder_anim_scale0_original,&hc_folder_anim_scale1_original,&hc_folder_anim_scale2_original};
+    std::array<Slot,3> slots{};
+    for(unsigned i=0;i<3;++i){uintptr_t address=0;nhk::CodeSource source{};Words words{};
+        if(!bind_dart_target(builder+sites[i],address,source,words))
+            return scale_bind_failure(0,40+i,"close-animation replay window cannot be bound");
+        slots[i]={address,const_cast<void*>(entries[i]),originals[i],source,words};}
+    for(unsigned i=0;i<3;++i)g_slots[kFolderAnimScaleSlotBase+i]=slots[i];
+    g_scale_bind_failure[0].store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"folder close scale resolved dimensions=3");return true;
+}
+
+bool bind_widget_scale() {
+    if(!g_dart)return scale_bind_failure(1,1,"Dart image not available yet");
+    if(g_slots[kWidgetScaleSlot].address)return true;
+    uint32_t builder=0,transform=0,size=0;home_dynamic::Body build,body,allocator,common;
+    home_layout::WidgetScaleLayout layout;
+    if(!hometweaks::HomeTweaksFindSymbol("WidgetContainerWidget.build",&builder,&size))
+        return scale_bind_failure(1,10,"symbol unavailable: WidgetContainerWidget.build");
+    if(!hometweaks::HomeTweaksFindSymbol("_TransformedWidgetContainer.build",&transform,&size))
+        return scale_bind_failure(1,11,"symbol unavailable: _TransformedWidgetContainer.build");
+    if(!dartscan::body(builder,build)||!dartscan::body(transform,body))
+        return scale_bind_failure(1,20,"cannot read widget builder/transform body");
+    if(!home_layout::widget_scale_layout(build,body,transform,layout))
+        return scale_bind_failure(1,30,"widget transform instruction shape does not match this launcher image");
+    // The original allocator stub supplies the current CID, instance size and nursery pair.
+    allocator.resize(3);
+    if(!dart_words(layout.allocator,3,allocator)||!home_dynamic::tag(allocator,layout.tag)
+        ||(allocator[2]&0xfc000000u)!=0x14000000u)
+        return scale_bind_failure(1,31,"widget allocator tag/branch validation failed");
+    const int64_t target=int64_t(layout.allocator)+8+(int32_t(allocator[2]<<6)>>6)*int64_t{4};
+    if(target<=0||target>UINT32_MAX)return scale_bind_failure(1,32,"widget allocator branch is out of image range");
+    common.resize(4);
+    if(!dart_words(uint32_t(target),4,common)||common[0]!=0xd3482c44u||common[1]!=0xd37cec84u
+        ||(common[2]&0xffc07fffu)!=0xa9401740u||common[3]!=0x8b040003u)
+        return scale_bind_failure(1,33,"widget nursery allocator instruction validation failed");
+    layout.size=((layout.tag>>8)&15)*16;layout.top=((common[2]>>15)&127)*8;
+    if(!layout.usable())return scale_bind_failure(1,34,"widget instance fields/size are not usable");
+    uintptr_t address=0;nhk::CodeSource source{};Words words{};
+    if(!bind_dart_target(builder+layout.bank,address,source,words)||address>UINTPTR_MAX-16)
+        return scale_bind_failure(1,40,"widget build replay window cannot be bound");
+    g_widget_scale_layout=layout;hc_widget_scale_frame=layout.frame;hc_widget_scale_child_field=layout.child;
+    hc_widget_scale_continue=address+16;
+    g_slots[kWidgetScaleSlot]={address,reinterpret_cast<void*>(hc_widget_scale_entry),&hc_widget_scale_original,source,words};
+    g_scale_bind_failure[1].store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"widget scale resolved visual transform size=%u scale_field=%d",layout.size,layout.scale);
+    return true;
+}
+
+bool bind_folder_icon_scale() {
+    if(!g_dart)return scale_bind_failure(2,1,"Dart image not available yet");
+    if(g_slots[kFolderIconScaleSlot].address)return true;
+    uint32_t small=0,base=0,current=0,preview=0,size=0;
+    std::vector<uint32_t> body,base_body;home_layout::SmallFolderScaleSite shape;
+    struct Root {const char* name;uint32_t* value;};
+    const Root roots[]={ {"FolderLayout1x1.calItemSize",&small},{"FolderLayoutStrategy.calItemSize",&base},
+        {"GridController.currentConfig",&current},{"GridController.folderPreviewHeight",&preview} };
+    for(unsigned i=0;i<4;++i)if(!hometweaks::HomeTweaksFindSymbol(roots[i].name,roots[i].value,&size))
+        return scale_bind_failure(2,10+i,roots[i].name);
+    if(!dartscan::body(small,body)||!dartscan::body(base,base_body))
+        return scale_bind_failure(2,20,"cannot read small-folder/base size producer");
+    if(!home_layout::small_folder_scale_site(body,small,base_body,base,current,preview,shape))
+        return scale_bind_failure(2,30,"small-folder geometry instruction validation failed");
+    uint32_t big=0,preview_builder=0,helper_va[2]{};
+    std::vector<uint32_t> big_body,preview_body;
+    std::array<std::vector<uint32_t>,2> helpers;
+    home_layout::BigFolderScaleSite big_shape;
+    const char* helper_names[]={"BigFolderCommonStrategy._calItemSizeByWidth",
+        "BigFolderCommonStrategy._calItemSizeByHeight"};
+    for(unsigned i=0;i<2;++i){
+        if(!hometweaks::HomeTweaksFindSymbol(helper_names[i],&helper_va[i],&size))
+            return scale_bind_failure(2,14+i,helper_names[i]);
+        if(!dartscan::body(helper_va[i],helpers[i]))
+            return scale_bind_failure(2,21+i,"cannot read large-folder preview size helper");
+    }
+    if(!hometweaks::HomeTweaksFindSymbol("BigFolderCommonStrategy.calItemSize",&big,&size))
+        return scale_bind_failure(2,16,"symbol unavailable: BigFolderCommonStrategy.calItemSize");
+    if(!hometweaks::HomeTweaksFindSymbol("BigFolderCommonStrategy.setPreviewItemInfos",&preview_builder,&size))
+        return scale_bind_failure(2,17,"symbol unavailable: BigFolderCommonStrategy.setPreviewItemInfos");
+    if(!dartscan::body(big,big_body)||!dartscan::body(preview_builder,preview_body))
+        return scale_bind_failure(2,23,"cannot read large-folder size/preview producer");
+    if(!home_layout::big_folder_scale_site(big_body,big,helpers,helper_va,preview_body,base,shape,big_shape))
+        return scale_bind_failure(2,31,"large-folder geometry instruction validation failed; small/large bank kept inactive");
+    uintptr_t address=0;nhk::CodeSource source{};Words words{};
+    if(!bind_dart_target(base,address,source,words))
+        return scale_bind_failure(2,40,"folder size replay window cannot be bound");
+    hc_folder_icon_scale_caller=g_dart->load_base+small+shape.caller_return;
+    for(unsigned i=0;i<4;++i)hc_folder_icon_scale_fields[i]=shape.dimensions[i];
+    hc_folder_icon_scale_big_caller=g_dart->load_base+big+big_shape.caller_return;
+    for(unsigned i=0;i<13;++i)hc_folder_icon_scale_big_fields[i]=big_shape.dimensions[i];
+    g_slots[kFolderIconScaleSlot]={address,reinterpret_cast<void*>(hc_folder_icon_scale_entry),
+        &hc_folder_icon_scale_original,source,words};
+    g_scale_bind_failure[2].store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"folder icon scale resolved small/big=4/13 small_caller=%#x fields=%d/%d/%d/%d",
+        small+shape.caller_return,shape.dimensions[0],shape.dimensions[1],shape.dimensions[2],shape.dimensions[3]);
+    return true;
+}
+
 bool bind_progress_icon_render() {
-    if(!g_dart)return false;
+    if(!g_dart)return scale_bind_failure(5,1,"Dart image not available yet");
     if(g_slots[kProgressIconSlotBase].address)return true;
     uint32_t root=0,size=0,current=0,app=0,rx=0;
     std::vector<uint32_t> ab;home_layout::IconRenderSites render;
-    if(!hometweaks::HomeTweaksFindSymbol("ProgressShortcutIconGetxController.onInit",&root,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("AppIcon.build",&app,&size)
-      ||!hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value",&rx,&size)
-      ||!dartscan::body(app,ab)||!home_layout::icon_render_sites(ab,app,current,render))return false;
+    struct Root {const char* name;uint32_t* value;};
+    const Root roots[]={ {"ProgressShortcutIconGetxController.onInit",&root},{"GridController.currentConfig",&current},
+        {"AppIcon.build",&app},{"RxObjectMixin.value",&rx} };
+    for(unsigned i=0;i<4;++i)if(!hometweaks::HomeTweaksFindSymbol(roots[i].name,roots[i].value,&size))
+        return scale_bind_failure(5,10+i,roots[i].name);
+    if(!dartscan::body(app,ab))return scale_bind_failure(5,20,"cannot read AppIcon dimensions for progress icons");
+    if(!home_layout::icon_render_sites(ab,app,current,render))
+        return scale_bind_failure(5,30,"progress icon source dimensions instruction validation failed");
     // Bounded original-image reads, only along the typed init/callee chain.
     auto read=[](uint32_t va,std::vector<uint32_t>& b){
         if(!dart_words(va,1024,b))return false;
@@ -3092,15 +3275,18 @@ bool bind_progress_icon_render() {
         return false;
     };
     home_layout::IconInitDimensions shape;
-    if(!home_layout::icon_init_dimensions(root,read,rx,render.grid,render.value,shape))return false;
+    if(!home_layout::icon_init_dimensions(root,read,rx,render.grid,render.value,shape))
+        return scale_bind_failure(5,31,"progress icon init/canonical size callee validation failed");
     std::array<Slot,4> prepared{};
     void* entries[]={reinterpret_cast<void*>(hc_progress_icon_width_entry),reinterpret_cast<void*>(hc_progress_icon_height_entry),reinterpret_cast<void*>(hc_progress_dock_width_entry),reinterpret_cast<void*>(hc_progress_dock_height_entry)};
     void** originals[]={&hc_progress_icon_width_original,&hc_progress_icon_height_original,&hc_progress_dock_width_original,&hc_progress_dock_height_original};
     const uint32_t sites[]={shape.width+shape.ws.normal,shape.height+shape.hs.normal,shape.width+shape.ws.dock,shape.height+shape.hs.dock};
     for(unsigned i=0;i<4;++i){uintptr_t address=0;nhk::CodeSource source{};Words words{};
-        if(!bind_dart_target(sites[i],address,source,words))return false;
+        if(!bind_dart_target(sites[i],address,source,words))
+            return scale_bind_failure(5,40+i,"progress icon size replay window cannot be bound");
         prepared[i]={address,entries[i],originals[i],source,words};}
     for(unsigned i=0;i<4;++i)g_slots[kProgressIconSlotBase+i]=prepared[i];
+    g_scale_bind_failure[5].store(0,std::memory_order_relaxed);
     __android_log_print(ANDROID_LOG_INFO,kTag,"progress icon dimensions resolved normal=%#x/%#x dock=%#x/%#x",sites[0],sites[1],sites[2],sites[3]);return true;
 }
 
@@ -3869,6 +4055,11 @@ size_t arm_hooks(std::vector<size_t> &order) {
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
+    if(g_slots[kFolderIconScaleSlot].address&&std::find(order.begin(),order.end(),kFolderIconScaleSlot)==order.end()) {
+        order.push_back(kFolderIconScaleSlot);++added;
+    }
+    for(size_t i=kFolderAnimScaleSlotBase;i<=kWidgetScaleSlot;++i)
+        if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     // Keep transparent observers installed: switches and action assignments are live snapshots.
     for(size_t i : {kWorkspaceDoublePolicySlot,kWorkspaceDoubleCallbackSlot})
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
@@ -4111,6 +4302,22 @@ size_t publish_hooks() {
 
 /* Publish a policy only after all original-code continuations exist. */
 void publish_indicator_dot_delta() {
+    bool animation_ready=true;
+    for(size_t i=kFolderAnimScaleSlotBase;i<kFolderAnimScaleSlotBase+3;++i)animation_ready&=nhk::slot_ready(g_slots[i]);
+    __atomic_store_n(&hc_folder_anim_scale_enabled,uint32_t(animation_ready&&hc_folder_anim_scale0_original
+        &&hc_folder_anim_scale1_original&&hc_folder_anim_scale2_original),__ATOMIC_RELEASE);
+    __atomic_store_n(&hc_widget_scale_enabled,uint32_t(nhk::slot_ready(g_slots[kWidgetScaleSlot])
+        &&hc_widget_scale_original),__ATOMIC_RELEASE);
+    __atomic_store_n(&hc_folder_icon_scale_enabled,uint32_t(nhk::slot_ready(g_slots[kFolderIconScaleSlot])
+        &&hc_folder_icon_scale_original),__ATOMIC_RELEASE);
+    const uint32_t live[]={__atomic_load_n(&hc_folder_anim_scale_enabled,__ATOMIC_ACQUIRE),
+        __atomic_load_n(&hc_widget_scale_enabled,__ATOMIC_ACQUIRE),
+        __atomic_load_n(&hc_folder_icon_scale_enabled,__ATOMIC_ACQUIRE)};
+    constexpr const char* features[]={"folder_close_animation","widget_scale","folder_scale"};
+    for(unsigned i=0;i<3;++i)if(g_scale_live_diagnostic[i].exchange(live[i],std::memory_order_relaxed)!=live[i])
+        __android_log_print(live[i]?ANDROID_LOG_INFO:ANDROID_LOG_WARN,kTag,
+            "feature=%s hooks=%s; requested switches/percentages are reported separately",
+            features[i],live[i]?"active":"inactive (see binding/slot diagnostic)");
     __atomic_store_n(&hc_icon_render_enabled,
         uint32_t(nhk::slot_ready(g_slots[kIconRenderSlotBase])&&nhk::slot_ready(g_slots[kIconRenderSlotBase+1])
         &&hc_icon_width_original&&hc_icon_height_original
@@ -4344,6 +4551,7 @@ void *worker(void *) {
      */
     const bool any_tweak = config.tweaks.folder_enabled || config.tweaks.pad_enabled
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
+        || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
         || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close
@@ -4528,6 +4736,9 @@ void *worker(void *) {
     (void) bind_icon_render();
     (void) bind_desktop_icon_render();
     (void) bind_progress_icon_render();
+    (void) bind_folder_icon_scale();
+    (void) bind_folder_animation_scale();
+    (void) bind_widget_scale();
     (void) bind_title_hide();
     arm_hooks(order);
     publish_hooks();
@@ -4707,6 +4918,9 @@ void *worker(void *) {
     (void) bind_icon_render();
     (void) bind_desktop_icon_render();
     (void) bind_progress_icon_render();
+    (void) bind_folder_icon_scale();
+    (void) bind_folder_animation_scale();
+    (void) bind_widget_scale();
             (void) bind_title_hide();
             if (arm_hooks(order) != 0 || publish_hooks() != 0) {
                 g_dart_ready.store(true, std::memory_order_release);
@@ -5193,6 +5407,12 @@ extern "C" uint32_t hc_title_is_new_asset(uint64_t text) {
     return home_title::new_install_asset(text) ? 1U : 0U;
 }
 
+extern "C" uint64_t hc_widget_scale_wrap(uint64_t child,uint64_t thread,uint64_t pool,uint64_t null_value) {
+    uint64_t bits=__atomic_load_n(&hc_widget_scale_bits,__ATOMIC_ACQUIRE);double scale=1;
+    std::memcpy(&scale,&bits,sizeof(scale));
+    return home_layout::wrap_scaled_widget(child,thread,pool,null_value,scale,g_widget_scale_layout);
+}
+
 extern "C" uint64_t hc_title_color_clone(uint64_t color, uint64_t thread) {
     const auto result = home_title::clone_color(color, thread,
         g_title_color.load(std::memory_order_acquire), g_title_color_layout);
@@ -5409,6 +5629,17 @@ bool adopt_layout_state() {
     hc_progress_dock_width_original=hc_progress_dock_height_original=nullptr;
     hc_progress_icon_width_hits=hc_progress_icon_height_hits=0;
     hc_progress_dock_width_hits=hc_progress_dock_height_hits=0;
+    hc_folder_icon_scale_enabled=0;hc_folder_icon_scale_original=nullptr;
+    hc_folder_anim_scale_enabled=0;hc_widget_scale_enabled=0;
+    for(auto& stage:g_scale_bind_failure)stage.store(0,std::memory_order_relaxed);
+    for(auto& live:g_scale_live_diagnostic)live.store(2,std::memory_order_relaxed);
+    g_scale_request_diagnostic.store(UINT64_MAX,std::memory_order_relaxed);
+    hc_folder_anim_scale0_original=hc_folder_anim_scale1_original=hc_folder_anim_scale2_original=nullptr;
+    hc_widget_scale_original=nullptr;hc_widget_scale_continue=0;g_widget_scale_layout={};
+    for(auto* bits:{&hc_icon_scale_bits,&hc_small_folder_scale_bits,&hc_big_folder_scale_bits,&hc_widget_scale_bits})
+        __atomic_store_n(bits,0x3ff0000000000000ULL,__ATOMIC_RELEASE);
+    hc_folder_icon_scale_caller=0;
+    hc_folder_icon_scale_big_caller=0;
 
     hc_desktop_icon_width_original=hc_desktop_icon_height_original=nullptr;hc_desktop_icon_width_hits=hc_desktop_icon_height_hits=0;
     hc_dock_icon_width_original=hc_dock_icon_height_original=nullptr;hc_dock_icon_width_hits=hc_dock_icon_height_hits=0;
@@ -5692,6 +5923,9 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
     (void) bind_icon_render();
     (void) bind_desktop_icon_render();
     (void) bind_progress_icon_render();
+    (void) bind_folder_icon_scale();
+    (void) bind_folder_animation_scale();
+    (void) bind_widget_scale();
     (void) bind_title_hide();
     const size_t added = arm_hooks(order);
     if (added == 0 && order.empty()) return;

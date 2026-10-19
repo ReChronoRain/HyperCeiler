@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.zhenxiang
 
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import android.view.View
 import android.view.ViewRootImpl
 import com.android.internal.graphics.drawable.BackgroundBlurDrawable

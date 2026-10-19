@@ -5,7 +5,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Process;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.provider.DockGlassRendererProtocol;
@@ -84,7 +84,7 @@ public final class DockGlassRendererBroker {
             String[] owners = context.getPackageManager().getPackagesForUid(uid);
             return owners != null && owners.length == 1 && SYSTEM_UI_PACKAGE.equals(owners[0]);
         } catch (Throwable t) {
-            Log.w("HyperCeiler.DockGlass", "Renderer UID ownership lookup failed for uid=" + uid, t);
+            ModuleLog.w("HyperCeiler.DockGlass", "Renderer UID ownership lookup failed for uid=" + uid, t);
             return false;
         }
     }

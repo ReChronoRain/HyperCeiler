@@ -227,5 +227,5 @@ public final class HomeExtraGesturesOS4 extends BaseHook {
         main.removeCallbacksAndMessages(null);disposeInput();
         if(sensorRegistered&&sensors!=null)sensors.unregisterListener(listener);sensorRegistered=false;shake.reset();
     }
-    private static void log(String message,Exception ex){if(ex==null)android.util.Log.i(TAG_LOG,message);else android.util.Log.w(TAG_LOG,message,ex);}
+    private static void log(String message,Exception ex){if(ex==null)com.sevtinge.hyperceiler.common.log.ModuleLog.i(TAG_LOG,message);else com.sevtinge.hyperceiler.common.log.ModuleLog.w(TAG_LOG,message,ex);}
 }

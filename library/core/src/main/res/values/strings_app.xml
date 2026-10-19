@@ -1870,7 +1870,7 @@
     <string name="home_layout_fold_grid_desc">Rewrite the foldable layout grid; no effect on phones</string>
     <string name="home_layout_fold_major_title">Foldable long side</string>
     <string name="home_layout_fold_minor_title">Foldable short side</string>
-    <string name="home_layout_icon_scale_title">Icon scale</string>
+    <string name="home_layout_icon_scale_title">App icon scale</string>
     <string name="home_layout_icon_scale_desc">Icon size levels: 70 is the system default size, drag right to enlarge and left to shrink</string>
     <string name="home_layout_recents_hide_clear_title">Hide the recents clear button</string>
     <string name="home_layout_recents_hide_clear_desc">Hides the button but keeps its function</string>
@@ -1881,4 +1881,8 @@
     <string name="home_recent_clear_action_disable">Disable (remove its function)</string>
     <string name="home_layout_folder_cols_title">Folder columns</string>
     <string name="home_layout_folder_cols_desc">Uses the folder column count from the folder settings page</string>
+    <string name="home_layout_small_folder_scale_title">Small folder scale</string>
+    <string name="home_layout_big_folder_scale_title">Large folder scale</string>
+    <string name="home_layout_widget_scale_title">Widget scale</string>
+    <string name="home_layout_independent_scale_desc">Adjust independently. 100% keeps the original size.</string>
 </resources>

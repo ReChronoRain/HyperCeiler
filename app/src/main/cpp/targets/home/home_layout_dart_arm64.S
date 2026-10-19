@@ -2165,8 +2165,8 @@ workspace_status_result hc_workspace_status_field_entry, 2
     ldar w9, [x9]
     cbz w9, 1f
     str q31, [x15, #-16]!
-    adrp x9, hc_folder_title_scale_bits
-    add x9, x9, :lo12:hc_folder_title_scale_bits
+    adrp x9, hc_icon_scale_bits
+    add x9, x9, :lo12:hc_icon_scale_bits
     ldar x10, [x9]
     fmov d31, x10
     fmul \reg, \reg, d31
@@ -2194,6 +2194,89 @@ icon_render_bank hc_progress_icon_width_entry, d1, hc_progress_icon_width_origin
 icon_render_bank hc_progress_icon_height_entry, d1, hc_progress_icon_height_original, hc_progress_icon_height_hits, hc_progress_icon_enabled
 icon_render_bank hc_progress_dock_width_entry, d0, hc_progress_dock_width_original, hc_progress_dock_width_hits, hc_progress_icon_enabled
 icon_render_bank hc_progress_dock_height_entry, d0, hc_progress_dock_height_original, hc_progress_dock_height_hits, hc_progress_icon_enabled
+
+/* Strategies have just overwritten these unboxed lengths. Scale background,
+ * previews and gaps before the original padding calculator centers the result.
+ * Caller guards select the independently validated small/large geometry tables.
+ * No Dart call or allocation moves, and no movable pointer survives the replay. */
+.globl hc_folder_icon_scale_entry
+.p2align 4
+hc_folder_icon_scale_entry:
+    dart_save
+    adrp x9, hc_folder_icon_scale_enabled
+    add x9, x9, :lo12:hc_folder_icon_scale_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    adrp x9, hc_folder_icon_scale_caller
+    ldr x9, [x9, :lo12:hc_folder_icon_scale_caller]
+    cmp x30, x9
+    b.ne 2f
+    adrp x9, hc_folder_icon_scale_fields
+    add x9, x9, :lo12:hc_folder_icon_scale_fields
+    mov x11, #4
+    adrp x16, hc_small_folder_scale_bits
+    add x16, x16, :lo12:hc_small_folder_scale_bits
+    b 3f
+2:
+    adrp x9, hc_folder_icon_scale_big_caller
+    ldr x9, [x9, :lo12:hc_folder_icon_scale_big_caller]
+    cmp x30, x9
+    b.ne 1f
+    adrp x9, hc_folder_icon_scale_big_fields
+    add x9, x9, :lo12:hc_folder_icon_scale_big_fields
+    mov x11, #13
+    adrp x16, hc_big_folder_scale_bits
+    add x16, x16, :lo12:hc_big_folder_scale_bits
+3:
+    stp q30, q31, [x15, #-32]!
+    ldar x10, [x16]
+    fmov d31, x10
+4:
+    ldr x10, [x9], #8
+    ldr d30, [x1, x10]
+    fmul d30, d30, d31
+    str d30, [x1, x10]
+    subs x11, x11, #1
+    b.ne 4b
+    ldp q30, q31, [x15], #32
+1:
+    dart_restore
+    adrp x16, hc_folder_icon_scale_original
+    ldr x16, [x16, :lo12:hc_folder_icon_scale_original]
+    br x16
+
+/* Closing previews consume the same ordinary-icon render scale as AppIcon. */
+icon_render_bank hc_folder_anim_scale0_entry, d0, hc_folder_anim_scale0_original, hc_folder_anim_scale_hits, hc_folder_anim_scale_enabled
+icon_render_bank hc_folder_anim_scale1_entry, d0, hc_folder_anim_scale1_original, hc_folder_anim_scale_hits, hc_folder_anim_scale_enabled
+icon_render_bank hc_folder_anim_scale2_entry, d0, hc_folder_anim_scale2_original, hc_folder_anim_scale_hits, hc_folder_anim_scale_enabled
+
+/* Wrap the completed widget build with the launcher's own HyperTransform.
+ * Original Observer/closure allocation and GC PCs remain untouched. The native
+ * helper only performs a bounded nursery fast allocation; it cannot trigger GC. */
+.globl hc_widget_scale_entry
+.p2align 4
+hc_widget_scale_entry:
+    dynamic_load x0, x29, hc_widget_scale_frame
+    dynamic_store w1, x0, hc_widget_scale_child_field
+    dart_save
+    adrp x9, hc_widget_scale_enabled
+    add x9, x9, :lo12:hc_widget_scale_enabled
+    ldar w9, [x9]
+    cbz w9, 1f
+    workspace_native_save
+    mov x1, x26
+    mov x2, x27
+    mov x3, x22
+    bl hc_widget_scale_wrap
+    str x0, [sp, #0]
+    workspace_native_restore
+1:
+    dart_restore
+    mov x15, x29
+    ldp x29, x30, [x15], #16
+    adrp x16, hc_widget_scale_continue
+    ldr x16, [x16, :lo12:hc_widget_scale_continue]
+    br x16
 
 /* Phone map/default branches converge here with raw row=-1; other-device bypass
  * carries row=0. Only the scalar Smi argument changes. Original copyWith BL,

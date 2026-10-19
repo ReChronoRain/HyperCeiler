@@ -4,7 +4,7 @@ package com.sevtinge.hyperceiler.libhook.rules.personalassistant;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
@@ -61,7 +61,7 @@ public final class ClearGadgetBridge extends BaseHook {
             @Override public void before(HookParam param) {
                 Bundle source = (Bundle) param.getArgs()[0];
                 if (source != null && diagnostics++ < 3)
-                    Log.i("HyperCeiler.GadgetBridge", "parser input type=" + source.getInt("widget_type")
+                    ModuleLog.i("HyperCeiler.GadgetBridge", "parser input type=" + source.getInt("widget_type")
                         + " span=" + source.getInt("widget_span_x") + "x" + source.getInt("widget_span_y")
                         + " id=" + source.getInt("widget_id", -1));
                 if (source == null || !matches(source.getInt("widget_type"),
@@ -80,14 +80,14 @@ public final class ClearGadgetBridge extends BaseHook {
                     converted.putBoolean("maml_clip_corner", false);
                     converted.putString("picker_id", PRODUCT);
                     param.getArgs()[0] = converted;
-                    Log.i("HyperCeiler.GadgetBridge", "Gadget12 -> original PA MAML parser, 1x1");
+                    ModuleLog.i("HyperCeiler.GadgetBridge", "Gadget12 -> original PA MAML parser, 1x1");
                 } catch (Exception failure) {
                     // Leave the unknown wire type intact: original failure keeps the Home item.
-                    Log.e("HyperCeiler.GadgetBridge", "resource preparation failed; no success ACK", failure);
+                    ModuleLog.e("HyperCeiler.GadgetBridge", "resource preparation failed; no success ACK", failure);
                 }
             }
         });
-        Log.i("HyperCeiler.GadgetBridge", "parser bridge installed " + parser);
+        ModuleLog.i("HyperCeiler.GadgetBridge", "parser bridge installed " + parser);
     }
 
     private static synchronized File ensureResource(Context context) throws Exception {

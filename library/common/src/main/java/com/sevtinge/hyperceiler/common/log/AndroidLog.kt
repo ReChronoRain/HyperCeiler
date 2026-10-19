@@ -29,6 +29,13 @@ object AndroidLog {
         }
     }
 
+    // App records already delivered to the database listener must not be imported twice.
+    // Calls from hooked processes (which have no listener) use the same identifiable wire tag.
+    private fun write(priority: Int, tag: String, message: String, error: Throwable? = null) {
+        val wireTag = if (sLogListener != null) "HyperCeiler.App.$tag" else ModuleLog.PREFIX + tag
+        Log.println(priority, wireTag, message + (error?.let { "\n" + Log.getStackTraceString(it) } ?: ""))
+    }
+
     private fun shouldLog(requiredLevel: Int): Boolean {
         return LoggerUtils.shouldLog(LogStatusManager.getLogLevel(), requiredLevel)
     }
@@ -37,28 +44,28 @@ object AndroidLog {
     @JvmStatic
     fun d(msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.d(TAG, msg)
+        write(Log.DEBUG, TAG, msg)
         notifyListener("D", TAG, msg)
     }
 
     @JvmStatic
     fun d(tag: String, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.d(tag, "[$tag]: $msg")
+        write(Log.DEBUG, tag, "[$tag]: $msg")
         notifyListener("D", tag, msg)
     }
 
     @JvmStatic
     fun d(tag: String, msg: String, t: Throwable?) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.d(tag, "[$tag]: $msg", t)
+        write(Log.DEBUG, tag, "[$tag]: $msg", t)
         notifyListener("D", tag, msg + if (t != null) "\n$t" else "")
     }
 
     @JvmStatic
     fun d(tag: String, pkg: String?, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.d(tag, LoggerUtils.formatBrackets(pkg, tag, msg))
+        write(Log.DEBUG, tag, LoggerUtils.formatBrackets(pkg, tag, msg))
         notifyListener("D", tag, msg)
     }
 
@@ -66,21 +73,21 @@ object AndroidLog {
     @JvmStatic
     fun i(msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.i(TAG, msg)
+        write(Log.INFO, TAG, msg)
         notifyListener("I", TAG, msg)
     }
 
     @JvmStatic
     fun i(tag: String, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.i(tag, "[$tag]: $msg")
+        write(Log.INFO, tag, "[$tag]: $msg")
         notifyListener("I", tag, msg)
     }
 
     @JvmStatic
     fun i(tag: String, pkg: String?, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.i(tag, LoggerUtils.formatBrackets(pkg, tag, msg))
+        write(Log.INFO, tag, LoggerUtils.formatBrackets(pkg, tag, msg))
         notifyListener("I", tag, msg)
     }
 
@@ -88,35 +95,35 @@ object AndroidLog {
     @JvmStatic
     fun w(msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.w(TAG, msg)
+        write(Log.WARN, TAG, msg)
         notifyListener("W", TAG, msg)
     }
 
     @JvmStatic
     fun w(tag: String, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.w(tag, "[$tag]: $msg")
+        write(Log.WARN, tag, "[$tag]: $msg")
         notifyListener("W", tag, msg)
     }
 
     @JvmStatic
     fun w(tag: String, msg: String, t: Throwable?) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.w(tag, "[$tag]: $msg", t)
+        write(Log.WARN, tag, "[$tag]: $msg", t)
         notifyListener("W", tag, msg + if (t != null) "\n$t" else "")
     }
 
     @JvmStatic
     fun w(tag: String, pkg: String?, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.w(tag, LoggerUtils.formatBrackets(pkg, tag, msg))
+        write(Log.WARN, tag, LoggerUtils.formatBrackets(pkg, tag, msg))
         notifyListener("W", tag, msg)
     }
 
     @JvmStatic
     fun w(tag: String, pkg: String?, msg: String, t: Throwable?) {
         if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
-        Log.w(tag, LoggerUtils.formatBrackets(pkg, tag, msg), t)
+        write(Log.WARN, tag, LoggerUtils.formatBrackets(pkg, tag, msg), t)
         notifyListener("W", tag, msg + if (t != null) "\n$t" else "")
     }
 
@@ -124,42 +131,42 @@ object AndroidLog {
     @JvmStatic
     fun e(msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
-        Log.e(TAG, msg)
+        write(Log.ERROR, TAG, msg)
         notifyListener("E", TAG, msg)
     }
 
     @JvmStatic
     fun e(tag: String, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
-        Log.e(tag, "[$tag]: $msg")
+        write(Log.ERROR, tag, "[$tag]: $msg")
         notifyListener("E", tag, msg)
     }
 
     @JvmStatic
     fun e(tag: String, t: Throwable) {
         if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
-        Log.e(tag, "[$tag]: ${t.message ?: t.toString()}", t)
+        write(Log.ERROR, tag, "[$tag]: ${t.message ?: t.toString()}", t)
         notifyListener("E", tag, t.message ?: t.toString())
     }
 
     @JvmStatic
     fun e(tag: String, msg: String, t: Throwable?) {
         if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
-        Log.e(tag, "[$tag]: $msg", t)
+        write(Log.ERROR, tag, "[$tag]: $msg", t)
         notifyListener("E", tag, msg + if (t != null) "\n$t" else "")
     }
 
     @JvmStatic
     fun e(tag: String, pkg: String?, msg: String) {
         if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
-        Log.e(tag, LoggerUtils.formatBrackets(pkg, tag, msg))
+        write(Log.ERROR, tag, LoggerUtils.formatBrackets(pkg, tag, msg))
         notifyListener("E", tag, msg)
     }
 
     @JvmStatic
     fun e(tag: String, pkg: String?, msg: String, t: Throwable?) {
         if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
-        Log.e(tag, LoggerUtils.formatBrackets(pkg, tag, msg), t)
+        write(Log.ERROR, tag, LoggerUtils.formatBrackets(pkg, tag, msg), t)
         notifyListener("E", tag, msg + if (t != null) "\n$t" else "")
     }
 }

@@ -27,7 +27,10 @@ public class Context {
 package android.util;
 public class Log {
     public static int errors;
+    public static final int DEBUG=3, INFO=4, WARN=5, ERROR=6;
     public static int e(String tag, String text, Throwable error) { errors++; return 0; }
+    public static int println(int priority, String tag, String text) { if (priority==ERROR) errors++; return 0; }
+    public static String getStackTraceString(Throwable error) { return error.toString(); }
 }
 """,
     "androidx/room/Room.java": """
@@ -134,6 +137,10 @@ with tempfile.TemporaryDirectory(prefix="hc-issue1-") as temporary:
         target.write_text(source, encoding="utf-8")
     target = work / "com/sevtinge/hyperceiler/log/db/LogRepository.java"
     target.write_text(SOURCE.read_text(encoding="utf-8"), encoding="utf-8")
+    (work / "com/sevtinge/hyperceiler/common/log/ModuleLog.java").write_text(
+        (ROOT / "library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java").read_text(),
+        encoding="utf-8",
+    )
     files = [str(path) for path in work.rglob("*.java")]
     subprocess.run(["javac", "-encoding", "UTF-8", "-d", str(work / "classes"), *files], check=True)
     subprocess.run(["java", "-cp", str(work / "classes"), "TestMain"], check=True)

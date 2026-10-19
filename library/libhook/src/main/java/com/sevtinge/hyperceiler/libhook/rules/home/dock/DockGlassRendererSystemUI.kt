@@ -6,7 +6,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.IBinder
 import android.os.Process
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.provider.DockGlassRendererEndpoint
 import com.sevtinge.hyperceiler.libhook.provider.DockGlassRendererProtocol

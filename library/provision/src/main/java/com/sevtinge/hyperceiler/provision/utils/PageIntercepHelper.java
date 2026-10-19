@@ -24,7 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import androidx.annotation.Nullable;
 
@@ -60,18 +60,18 @@ public class PageIntercepHelper {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d(TAG, "onReceive");
+                ModuleLog.d(TAG, "onReceive");
                 int requestCode = intent.getIntExtra("placeholderCode", 0);
                 int resultCode = intent.getIntExtra("resultCode", 0);
-                Log.d(TAG, "placeHoderCodde:" + requestCode);
+                ModuleLog.d(TAG, "placeHoderCodde:" + requestCode);
                 if (mCallback != null) {
                     mCallback.onActivityResult(requestCode, resultCode, intent);
                 }
                 Class<?> adapterClass = getAdapterClass(requestCode);
-                Log.d(TAG, "adapterClass:" + adapterClass);
+                ModuleLog.d(TAG, "adapterClass:" + adapterClass);
                 if (adapterClass != null) {
                     Activity activity = LifecycleHandler.getInstance().getActivity(adapterClass);
-                    Log.d(TAG, "activity:" + activity);
+                    ModuleLog.d(TAG, "activity:" + activity);
                     if (activity != null) {
                         activity.overridePendingTransition(R.anim.provision_slide_in_right, R.anim.provision_slide_out_left);
                     }
@@ -121,13 +121,13 @@ public class PageIntercepHelper {
         if (activity == null) return false;
         int resultCode = getActivityResultCode(activity);
         boolean isAdapterNewJump = resultCode != -1073741823 && resultCode != 0 && mActivityCode != null && mActivityCode.containsKey(activity.getClass());
-        Log.d("PageIntercepHelper", "isAdapterNewJump:" + isAdapterNewJump);
+        ModuleLog.d("PageIntercepHelper", "isAdapterNewJump:" + isAdapterNewJump);
         return isAdapterNewJump;
 
     }
 
     public void sendFinish(Activity activity) {
-        Log.d("PageIntercepHelper", "sendFinish:" + activity);
+        ModuleLog.d("PageIntercepHelper", "sendFinish:" + activity);
         activity.overridePendingTransition(R.anim.provision_slide_in_right, R.anim.provision_slide_out_left);
     }
 
@@ -145,7 +145,7 @@ public class PageIntercepHelper {
             field.setAccessible(true);
             return ((Integer) field.get(activity)).intValue();
         } catch (Exception e) {
-            Log.e("PageIntercepHelper", "mResultCode get error", e);
+            ModuleLog.e("PageIntercepHelper", "mResultCode get error", e);
             return -1073741823;
         }
     }

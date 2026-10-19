@@ -109,5 +109,12 @@ public class HomeTitleSettings extends DashboardFragment {
         findPreference("prefs_key_home_title_icon_size").setVisible(false);
         findPreference("prefs_key_home_layout_icon_scale_enable").setVisible(true);
         findPreference("prefs_key_home_layout_icon_scale").setVisible(true);
+        findPreference("prefs_key_home_layout_small_folder_scale_enable").setVisible(true);
+        findPreference("prefs_key_home_layout_small_folder_scale").setVisible(true);
+        findPreference("prefs_key_home_layout_big_folder_scale_enable").setVisible(true);
+        findPreference("prefs_key_home_layout_big_folder_scale").setVisible(true);
+        findPreference("prefs_key_home_layout_widget_scale_enable").setVisible(true);
+        findPreference("prefs_key_home_layout_widget_scale").setVisible(true);
+
     }
 }
