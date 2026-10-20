@@ -33,7 +33,7 @@ inline bool readable_memory_ranges(uintptr_t address, size_t size,
             if (n<0 && errno==EINTR && ++interruptions<=32) continue;
             if (n<0) { good=false; break; }
             if (!n) break;
-            if (size_t(n)>chunk.size() || size_t(n)>2*1024*1024-text.size()) { good=false; break; }
+            if (size_t(n)>chunk.size() || size_t(n)>kMaxFileInventoryBytes-text.size()) { good=false; break; }
             text.append(chunk.data(),size_t(n));
         }
         const int closed=close(fd); fd=-1;

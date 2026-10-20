@@ -27,6 +27,8 @@ namespace hometweaks {
 namespace {
 
 const TargetFunction kTargets[] = {
+        {"DockScope.isInDock", "DockScope.isInDock", "OS4 Dock 应用标题位置判断"},
+        {"ProgressShortCutIconWidget._buildTextWidget", "ProgressShortCutIconWidget._buildTextWidget", "OS4 Dock 下载图标标题"},
         {"FolderAnimController._initScale", "FolderAnimController._initScale", "OS4 独立缩放及归位动画"},
         {"WidgetContainerWidget.build", "WidgetContainerWidget.build", "OS4 独立缩放及归位动画"},
         {"_TransformedWidgetContainer.build", "_TransformedWidgetContainer.build", "OS4 独立缩放及归位动画"},

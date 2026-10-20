@@ -43,10 +43,7 @@ public final class HomeOS4AdaptationGate {
 
     public static void apply(PreferenceGroup screen, int xml) {
         if (!isHyperOSVersion(4f)) return;
-        if (xml == R.xml.home_dock) {
-            Preference title = screen.findPreference("prefs_key_home_dock_icon_title");
-            if (title != null) title.setEnabled(false);
-        } else if (xml == R.xml.home_title_new) {
+        if (xml == R.xml.home_title_new) {
             disableLeaves(screen, ADAPTED_TITLE_KEYS);
         } else if (xml == R.xml.home_recent) {
             disableLeaves(screen, ADAPTED_RECENT_KEYS);

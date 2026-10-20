@@ -334,7 +334,14 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public record Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
         int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
-        boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales) {
+        boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales,
+        boolean dockShowTitle) {
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, backGesture, folderAutoClose, objectScales, false);
+        }
         public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
             int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
             boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose) {
@@ -582,7 +589,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             }
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
             read.knobEnabled(), read.knobDeltaDp(), read.tweaks(), read.title(), read.customTitles(),
-            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone());
+            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle());
             final String summary = describe(accepted);
             if (!summary.equals(lastAccepted)) {
                 lastAccepted = summary;
@@ -631,6 +638,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             .append(java.util.Arrays.toString(snapshot.title()));
         if (snapshot.customTitles() != null) text.append(" custom_titles=").append(snapshot.customTitles().length);
         text.append(" folder=").append(java.util.Arrays.toString(snapshot.folder()));
+        text.append(" dock_show_title=").append(snapshot.dockShowTitle());
         text.append(" object_scales=").append(java.util.Arrays.toString(snapshot.objectScales()));
         return text.toString();
     }
@@ -736,14 +744,16 @@ public final class HomeLayoutNativeEndpointOS4 {
                 : new String[0][],
             readBoolean(values, "home_widget_allow_moved_to_minus_one_screen", false), readFolder(values), new int[]{
                 boundedBack(readInt(values, "home_navigation_back_area_height", 60), 10, 100, 60),
-                boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values));
+                boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values),
+            readBoolean(values, "home_dock_icon_title", false));
     }
 
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
     public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
-    public static final int ENDPOINT_REVISION = 20261019;
-    public static final int ENDPOINT_CAPABILITIES = 1; // independent scale extension
+    public static final int ENDPOINT_REVISION = 20261020;
+    public static final int ENDPOINT_CAPABILITIES = 3; // independent object scales + Dock app titles
 
+    public static final int DOCK_TITLE_MAGIC = 0x48434454;
     public static final int OBJECT_SCALE_MAGIC = 0x48435331;
     private static boolean validObjectScales(int[] values) {
         if (values == null || values.length != 6) return false;
