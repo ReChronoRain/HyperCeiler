@@ -2251,6 +2251,9 @@ icon_render_bank hc_folder_anim_scale1_entry, d0, hc_folder_anim_scale1_original
 icon_render_bank hc_folder_anim_scale2_entry, d0, hc_folder_anim_scale2_original, hc_folder_anim_scale_hits, hc_folder_anim_scale_enabled
 icon_render_bank hc_folder_anim_scale3_entry, d0, hc_folder_anim_scale3_original, hc_folder_anim_scale_hits, hc_folder_anim_scale_enabled
 icon_render_bank hc_folder_anim_scale4_entry, d0, hc_folder_anim_scale4_original, hc_folder_anim_scale_hits, hc_folder_anim_scale_enabled
+/* App-to-folder stable landing dimensions use the same ordinary-icon factor. */
+icon_render_bank hc_folder_return_width_entry, d0, hc_folder_return_width_original, hc_folder_return_scale_hits, hc_folder_return_scale_enabled
+icon_render_bank hc_folder_return_height_entry, d0, hc_folder_return_height_original, hc_folder_return_scale_hits, hc_folder_return_scale_enabled
 
 /* Wrap the completed widget build with the launcher's own HyperTransform.
  * Original Observer/closure allocation and GC PCs remain untouched. The native

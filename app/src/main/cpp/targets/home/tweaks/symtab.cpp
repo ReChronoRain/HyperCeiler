@@ -30,6 +30,8 @@ const TargetFunction kTargets[] = {
         {"DockScope.isInDock", "DockScope.isInDock", "OS4 Dock 应用标题位置判断"},
         {"ProgressShortCutIconWidget._buildTextWidget", "ProgressShortCutIconWidget._buildTextWidget", "OS4 Dock 下载图标标题"},
         {"FolderAnimController._initScale", "FolderAnimController._initScale", "OS4 独立缩放及归位动画"},
+        {"FolderClingGetxController.getStableIconRectInFolder", "FolderClingGetxController.getStableIconRectInFolder", "OS4 应用返回文件夹的图标落点尺寸"},
+        {"CheckRectHelper.deterministicFolderLandingRect", "CheckRectHelper.deterministicFolderLandingRect", "OS4 文件夹落点调用校验"},
         {"WidgetContainerWidget.build", "WidgetContainerWidget.build", "OS4 独立缩放及归位动画"},
         {"_TransformedWidgetContainer.build", "_TransformedWidgetContainer.build", "OS4 独立缩放及归位动画"},
         {"EditModeGetxController.isInNormalEditing", "EditModeGetxController.isInNormalEditing", "Dock 编辑状态字段校验"},
