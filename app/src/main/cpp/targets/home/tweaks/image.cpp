@@ -21,37 +21,46 @@
 namespace hometweaks {
 namespace {
 struct MapRow { nhk::FileMapping map; bool readable; };
+constexpr size_t kMaxApkCandidates = 1024;
 // One bounded, complete snapshot per discovery. No static mutable inventory or timer.
-bool ReadMaps(std::string& text) {
+bool ReadMaps(std::string& text, ImageDiscoveryDiagnostic* diagnostic) {
+    const auto fail=[&](const char* why){if(diagnostic)diagnostic->reason=why;return false;};
     const int fd=open("/proc/self/maps",O_RDONLY|O_CLOEXEC);
-    if(fd<0)return false;
-    text.clear();std::array<char,4096> chunk{};bool good=true;
+    if(fd<0)return fail("maps-open");
+    text.clear();std::array<char,4096> chunk{};bool good=true;const char* why="maps-read";
     for(;;){const ssize_t n=read(fd,chunk.data(),chunk.size());
         if(n<0&&errno==EINTR)continue;
         if(n<0){good=false;break;}
         if(n==0)break;
-        if(size_t(n)>chunk.size()||size_t(n)>2*1024*1024-text.size()){good=false;break;}
+        if(size_t(n)>chunk.size()||size_t(n)>nhk::kMaxFileInventoryBytes-text.size()){good=false;why="maps-byte-budget";break;}
         text.append(chunk.data(),size_t(n));
     }
     close(fd);
-    return good&&!text.empty()&&text.back()=='\n';
+    if(!good)return fail(why);
+    if(text.empty()||text.back()!='\n')return fail("maps-incomplete");
+    return true;
 }
-bool MapSnapshot(std::vector<MapRow>& rows) {
-    std::string text;if(!ReadMaps(text))return false;
+bool MapSnapshot(std::vector<MapRow>& rows, ImageDiscoveryDiagnostic* diagnostic = nullptr) {
+    const auto fail=[&](const char* why){if(diagnostic)diagnostic->reason=why;return false;};
+    std::string text;if(!ReadMaps(text,diagnostic))return false;
     std::istringstream stream(text);std::string line;size_t count=0;
     while(std::getline(stream,line)){
-        if(++count>16384||line.find('\0')!=std::string::npos)return false;
+        ++count;
+        if(diagnostic)diagnostic->inventoryRows=count;
+        if(count>nhk::kMaxFileInventoryLines)return fail("maps-line-budget");
+        if(line.find('\0')!=std::string::npos)return fail("maps-malformed");
         unsigned long long b=0,e=0,off=0,ino=0;unsigned maj=0,min=0;char perms[5]{};int at=0;
         if(sscanf(line.c_str(),"%llx-%llx %4s %llx %x:%x %llu %n",&b,&e,perms,&off,&maj,&min,&ino,&at)!=7
-            ||at<=0||size_t(at)>line.size())return false;
+            ||at<=0||size_t(at)>line.size())return fail("maps-malformed");
         if(b>=e||e>UINTPTR_MAX||strlen(perms)!=4
             ||(perms[0]!='r'&&perms[0]!='-')||(perms[1]!='w'&&perms[1]!='-')
-            ||(perms[2]!='x'&&perms[2]!='-')||(perms[3]!='p'&&perms[3]!='s'))return false;
+            ||(perms[2]!='x'&&perms[2]!='-')||(perms[3]!='p'&&perms[3]!='s'))return fail("maps-permissions");
         std::string path=line.substr(size_t(at));
         if(path.empty()||path[0]!='/')continue;
         rows.push_back({{uintptr_t(b),uintptr_t(e),off,maj,min,ino,perms[2]=='x',perms[1]=='w',path},perms[0]=='r'});
     }
-    return !rows.empty();
+    if(diagnostic)diagnostic->inventoryRows=count;
+    return !rows.empty()||fail("maps-no-files");
 }
 uint64_t Device(const nhk::FileMapping& m){return uint64_t(makedev(m.device_major,m.device_minor));}
 bool StatMatches(const Image& image,const struct stat& st) {
@@ -62,18 +71,25 @@ bool StatMatches(const Image& image,const struct stat& st) {
 }
 // Both linker and fallback use the same verified source and program-header path.
 bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
-    uint64_t origin,uint64_t bytes,bool apk,Image& image) {
-    if(path.empty()||path.size()>=sizeof(image.path)||origin>UINT64_MAX-bytes||!bytes)return false;
+    uint64_t origin,uint64_t bytes,bool apk,Image& image, ImageDiscoveryDiagnostic* diagnostic = nullptr) {
+    const auto fail=[&](const char* why){if(diagnostic)diagnostic->reason=why;return false;};
+    if(path.empty()||path.size()>=sizeof(image.path)||origin>UINT64_MAX-bytes||!bytes)return fail("image-window");
+    if(diagnostic)diagnostic->reason="image-window";
     Image result{};memcpy(result.path,path.c_str(),path.size()+1);
     result.fromApkEntry=apk;result.apkEntryOffset=origin;result.fileViewBytes=bytes;
+    if(diagnostic)diagnostic->reason="image-source-metadata";
     std::vector<nhk::FileMapping> maps;
     for(const auto& row:inventory){const auto& m=row.map;
         if(m.path!=path||m.file_offset<origin||m.file_offset>=origin+bytes)continue;
+        if(diagnostic)++diagnostic->imageMappings;
         if(!row.readable||!m.inode||(m.executable&&m.writable))return false;
         if(!maps.empty()&&(Device(m)!=result.sourceDevice||m.inode!=result.sourceInode))return false;
         result.sourceDevice=Device(m);result.sourceInode=m.inode;maps.push_back(m);
     }
-    if(maps.empty()||maps.size()>64)return false;
+    // Hook mprotect calls split one image into many VMAs. The final merged
+    // segments below retain their budget; raw VMAs already have the inventory cap.
+    if(maps.empty())return fail("image-not-mapped");
+    if(diagnostic)diagnostic->reason="image-elf-header";
     Elf64_Ehdr header{};
     if(!ReadImageFile(result,0,&header,sizeof header)
         ||memcmp(header.e_ident,ELFMAG,SELFMAG)||header.e_ident[EI_CLASS]!=ELFCLASS64
@@ -84,6 +100,7 @@ bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
     const size_t tableEnd=size_t(header.e_phoff)+size_t(header.e_phnum)*sizeof(Elf64_Phdr);
     std::array<std::byte,8192> disk{},live{};
     if(tableEnd>disk.size()||!ReadImageFile(result,0,disk.data(),tableEnd))return false;
+    if(diagnostic)diagnostic->reason="image-program-headers";
     const auto decoded=nhk::elf::parse_program_segments(std::span(disk.data(),tableEnd),true);
     if(!decoded)return false;
     std::vector<nhk::elf::ProgramSegment> loads;bool exec=false;
@@ -98,10 +115,12 @@ bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
         loads.push_back(p);exec|=(p.flags&PF_X)!=0&&p.filesz!=0;
     }
     if(loads.empty()||!exec)return false;
+    if(diagnostic)diagnostic->reason="image-load-bias";
     const auto view=nhk::image_view_from_segments_in_window(maps,path,loads,origin,origin+bytes);
     if(!view||view->load_base>UINTPTR_MAX-view->needed_vaddr)return false;
     result.base=view->load_base;
     // Confirm full map extents and effective permissions, not only the first page.
+    if(diagnostic)diagnostic->reason="image-segment-ownership";
     std::vector<Segment> actual;actual.reserve(maps.size());
     for(const auto& m:maps){bool owned=false;
         for(const auto& p:loads){
@@ -112,8 +131,8 @@ bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
             const uint64_t va=nhk::page_down(p.vaddr)+relative-fileBegin;
             if(result.base+va!=m.begin||m.end-result.base>nhk::page_up(p.vaddr+p.memsz))continue;
             if(m.executable!=bool(p.flags&PF_X)|| (m.writable&&!(p.flags&PF_W)))continue;
-            const uintptr_t begin=std::max(m.begin,result.base+p.vaddr);
-            const uintptr_t end=std::min(m.end,result.base+p.vaddr+p.memsz);
+            const uintptr_t begin=std::max<uintptr_t>(m.begin,result.base+p.vaddr);
+            const uintptr_t end=std::min<uintptr_t>(m.end,result.base+p.vaddr+p.memsz);
             if(begin>=end)continue;
             const uint32_t flags=PF_R|(m.writable?PF_W:0)|(m.executable?PF_X:0);
             actual.push_back({begin,end,flags});owned=true;
@@ -122,6 +141,7 @@ bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
     }
     std::sort(actual.begin(),actual.end(),
         [](const Segment& a,const Segment& b){return a.begin<b.begin;});
+    if(diagnostic)diagnostic->reason="image-segment-ranges";
     size_t merged=0;
     for(const Segment& s:actual){
         if(merged&&s.begin<result.segments[merged-1].end)return false;
@@ -131,16 +151,19 @@ bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
     }
     result.segmentCount=merged;
     // Every file-backed load byte must be mapped; page padding is not trusted code.
+    if(diagnostic)diagnostic->reason="image-incomplete-load";
     for(const auto& p:loads){uintptr_t cursor=result.base+p.vaddr,target=cursor+p.filesz;
         for(size_t i=0;i<merged&&cursor<target;++i){const auto& s=result.segments[i];
             if(s.begin>cursor)break;if(s.end>cursor)cursor=std::min(s.end,target);}
         if(cursor!=target)return false;
     }
+    if(diagnostic)diagnostic->reason="image-live-header";
     bool sameHeader=false;
     for(const auto& m:maps)if(m.file_offset==origin&&m.end-m.begin>=tableEnd
         &&nhk::safe_read(m.begin,std::span(live.data(),tableEnd))
         &&memcmp(disk.data(),live.data(),tableEnd)==0)sameHeader=true;
     if(!sameHeader)return false;
+    if(diagnostic)diagnostic->reason="ready";
     image=result;return true;
 }
 struct SearchRequest { const char* basename;std::string path;uintptr_t bias=0;unsigned matches=0; };
@@ -157,7 +180,7 @@ int CollectCallback(struct dl_phdr_info* info,size_t,void* opaque) {
 
 bool FindImageByName(const char* basename,Image* out) {
     if(!basename||!*basename||!out)return false;
-    SearchRequest req{basename};dl_iterate_phdr(CollectCallback,&req);
+    SearchRequest req{basename,{}};dl_iterate_phdr(CollectCallback,&req);
     if(req.matches!=1||req.path.size()>=sizeof(out->path))return false;
     std::vector<MapRow> rows;if(!MapSnapshot(rows))return false;
     Image image{};const auto bang=req.path.find('!');
@@ -179,7 +202,7 @@ bool FindImageFromApkMaps(const char* apkMarker,const char* libName,Image* out) 
     std::vector<MapRow> rows;if(!MapSnapshot(rows))return false;
     std::set<std::string> paths;
     for(const auto& row:rows)if(row.map.path.find(apkMarker)!=std::string::npos){
-        paths.insert(row.map.path);if(paths.size()>64)return false;}
+        paths.insert(row.map.path);if(paths.size()>kMaxApkCandidates)return false;}
     Image chosen{};unsigned found=0;
     for(const auto& path:paths){const auto stored=nhk::zip_stored_entry(path,libName);if(!stored)continue;
         Image image{};
@@ -190,11 +213,14 @@ bool FindImageFromApkMaps(const char* apkMarker,const char* libName,Image* out) 
     if(found!=1)return false;
     *out=chosen;return true;
 }
-bool FindImageFromMappedApks(const char* libName,Image* out) {
+bool FindImageFromMappedApks(const char* libName,Image* out,ImageDiscoveryDiagnostic* diagnostic) {
+    ImageDiscoveryDiagnostic local;
+    if(!diagnostic)diagnostic=&local;
+    *diagnostic={};diagnostic->reason="invalid-request";
     if(!libName||!*libName||!out)return false;
     const size_t length=strnlen(libName,128);
     if(length==128||strchr(libName,'/')||strchr(libName,'\\'))return false;
-    std::vector<MapRow> rows;if(!MapSnapshot(rows))return false;
+    std::vector<MapRow> rows;if(!MapSnapshot(rows,diagnostic))return false;
     std::set<std::string> paths;
     for(const auto& row:rows) {
         const auto& m=row.map;
@@ -203,18 +229,30 @@ bool FindImageFromMappedApks(const char* libName,Image* out) {
         // program headers below remain mandatory; a suffix is not attribution.
         if(!row.readable||!m.executable||m.writable||!m.inode
             ||!std::string_view(m.path).ends_with(".apk"))continue;
-        paths.insert(m.path);if(paths.size()>64)return false;
+        paths.insert(m.path);
+        if(paths.size()>kMaxApkCandidates){diagnostic->reason="apk-candidate-budget";diagnostic->apkCandidates=paths.size();return false;}
     }
+    diagnostic->apkCandidates=paths.size();
+    diagnostic->reason="no-mapped-entry";
     const std::string entry=std::string("lib/arm64-v8a/")+libName;
     Image chosen{};unsigned found=0;
     for(const auto& path:paths) {
         const auto stored=nhk::zip_stored_entry(path,entry);if(!stored)continue;
+        ++diagnostic->entryCandidates;
         Image image{};
-        if(MappedImage(rows,path,stored->first,stored->second,true,image)) {
-            if(++found>1)return false;chosen=image;
+        ImageDiscoveryDiagnostic candidate;
+        const bool valid=MappedImage(rows,path,stored->first,stored->second,true,image,&candidate);
+        // Preloaded APKs can contain the entry without mapping it. Preserve the
+        // failure of the actual mapped candidate rather than the last APK scanned.
+        if(candidate.imageMappings>diagnostic->imageMappings){
+            diagnostic->reason=candidate.reason;diagnostic->imageMappings=candidate.imageMappings;
+        }
+        if(valid) {
+            if(++found>1){diagnostic->reason="ambiguous-images";return false;}chosen=image;
         }
     }
     if(found!=1)return false;
+    diagnostic->reason="ready";
     *out=chosen;return true;
 }
 bool RangeInImage(const Image& image,uintptr_t address,size_t length) {

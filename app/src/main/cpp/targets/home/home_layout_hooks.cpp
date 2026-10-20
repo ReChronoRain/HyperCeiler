@@ -102,6 +102,13 @@ bool dock_motion_screen_active();
  * and this keeps working.
  */
 extern "C" {
+void hc_dock_title_model_0_entry();void hc_dock_title_model_1_entry();
+int32_t hc_dock_title_model_fields[2][8]{};
+uintptr_t hc_dock_title_model_continue[2]{};
+void* hc_dock_title_model_original[2]{};
+uint32_t hc_dock_title_model_enabled=0;
+uint64_t hc_dock_title_model_hits[2]{},hc_dock_title_model_hotseat_hits[2]{};
+
 void hc_native_columns_entry();
 void *hc_native_columns_original = nullptr;
 uint32_t hc_native_columns_request = 0;
@@ -427,7 +434,8 @@ constexpr size_t kFolderIconScaleSlot = kProgressIconSlotBase + 4;
 constexpr size_t kFolderAnimScaleSlotBase = kFolderIconScaleSlot + 1;
 constexpr size_t kFolderAnimScaleSlotCount = 5;
 constexpr size_t kWidgetScaleSlot = kFolderAnimScaleSlotBase + kFolderAnimScaleSlotCount;
-constexpr size_t kSlotCount = kWidgetScaleSlot + 1;
+constexpr size_t kDockTitleModelSlotBase = kWidgetScaleSlot + 1;
+constexpr size_t kSlotCount = kDockTitleModelSlotBase + 2;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -544,7 +552,10 @@ std::atomic_uint32_t g_back_window_applied[2]{{60u|(100u<<16)},{60u|(100u<<16)}}
 home_layout::BackWindowShape g_back_window_shape{};
 
 std::atomic_uint64_t g_scale_request_diagnostic{UINT64_MAX};
+std::atomic_int g_dock_title_requested{-1};
 void sync_title_config(const home_layout::Config &config) {
+    if(g_dock_title_requested.exchange(config.dock_show_title, std::memory_order_acq_rel) != config.dock_show_title)
+        __android_log_print(ANDROID_LOG_INFO,kTag,"dock title request enabled=%d",config.dock_show_title);
     hc_gestures_config(config.gestures);
     sync_folder_layout(config);
     uint64_t scale_request=uint64_t(config.tweaks.icon_scale_enabled)|(uint64_t(config.tweaks.icon_scale_code)<<1);
@@ -1110,12 +1121,16 @@ struct Library {
 
 template <typename Mappings>
 std::optional<Library> open_library(const std::string &apk_path, std::string_view entry,
-    const Mappings &all) {
+    const Mappings &all, const char **diagnostic = nullptr) {
+    const auto fail = [&](const char *reason) -> std::optional<Library> {
+        if (diagnostic) *diagnostic = reason;
+        return {};
+    };
     const auto stored = nhk::zip_stored_entry(apk_path, entry);
     if (!stored || stored->second == 0 || stored->second > kMaxLauncherImageBytes
-        || nhk::add_overflows(stored->first, stored->second)) return {};
+        || nhk::add_overflows(stored->first, stored->second)) return fail("stored-entry-window");
     std::ifstream apk(apk_path, std::ios::binary);
-    if (!apk) return {};
+    if (!apk) return fail("container-open");
     Library library;
     library.path = apk_path;
     library.view_begin = stored->first;
@@ -1124,17 +1139,17 @@ std::optional<Library> open_library(const std::string &apk_path, std::string_vie
     apk.seekg(static_cast<std::streamoff>(stored->first));
     apk.read(reinterpret_cast<char *>(library.bytes.data()),
         static_cast<std::streamsize>(library.bytes.size()));
-    if (static_cast<size_t>(apk.gcount()) != library.bytes.size()) return {};
+    if (static_cast<size_t>(apk.gcount()) != library.bytes.size()) return fail("container-read");
     const auto segments = nhk::elf::parse_program_segments(library.bytes);
-    if (!segments) return {};
+    if (!segments) return fail("container-program-headers");
     library.segments = *segments;
     const auto view = nhk::image_view_from_segments_in_window(all, apk_path, library.segments,
         library.view_begin, library.view_end);
-    if (!view) return {};
+    if (!view) return fail("container-load-bias");
     const std::vector<nhk::ImageContainer> container{{
         apk_path, library.view_begin, library.view_end}};
     library.owned = nhk::owned_image_mappings(all, container);
-    if (library.owned.empty()) return {};
+    if (library.owned.empty()) return fail("container-executable-ownership");
     library.load_base = view->load_base;
     return library;
 }
@@ -1177,22 +1192,38 @@ struct DartLibrary {
 
 std::optional<DartLibrary> g_dart;
 
+void report_layout_image_failure(const char *reason) {
+    static std::atomic<const char *> previous{nullptr};
+    if (previous.exchange(reason, std::memory_order_relaxed) != reason)
+        __android_log_print(ANDROID_LOG_WARN, kTag,
+            "layout Dart image rejected stage=%s; layout overrides remain inactive", reason);
+}
+
 std::optional<std::string> launcher_apk(const std::vector<nhk::FileMapping> &all) {
     std::optional<std::string> path;
     // HYOS can map either image without dl_iterate_phdr. Rust is often mapped
     // first, so waiting for the Dart index loses pre-init geometry setup. Both
     // discoveries use source device/inode + ZIP window + full ELF/live-header
     // validation; when both are present they must name the same APK generation.
+    unsigned index=0;
+    static std::atomic<const char *> previous[2]{};
     for(const char* name:{"libapp.so","libapp_launcher.so"}) {
         hometweaks::Image image{};
-        if(!hometweaks::FindImageFromMappedApks(name,&image))continue;
+        hometweaks::ImageDiscoveryDiagnostic diagnostic;
+        const bool found=hometweaks::FindImageFromMappedApks(name,&image,&diagnostic);
+        if(previous[index++].exchange(diagnostic.reason,std::memory_order_relaxed)!=diagnostic.reason)
+            __android_log_print(found?ANDROID_LOG_INFO:ANDROID_LOG_WARN,kTag,
+                "layout image discovery library=%s stage=%s rows=%zu apks=%zu entries=%zu maps=%zu",
+                name,diagnostic.reason,diagnostic.inventoryRows,diagnostic.apkCandidates,
+                diagnostic.entryCandidates,diagnostic.imageMappings);
+        if(!found)continue;
         bool present=false;
         for(const auto& m:all)if(m.executable&&!m.writable&&m.path==image.path
             &&m.inode==image.sourceInode&&uint64_t(makedev(m.device_major,m.device_minor))==image.sourceDevice
             &&m.file_offset>=image.apkEntryOffset
             &&m.file_offset-image.apkEntryOffset<image.fileViewBytes) {present=true;break;}
-        if(!present)return {}; // Discovery must still belong to this caller's inventory.
-        if(path&&*path!=image.path)return {}; // Never combine Rust and Dart from different APKs.
+        if(!present){report_layout_image_failure("caller-inventory-changed");return {};}
+        if(path&&*path!=image.path){report_layout_image_failure("mixed-Dart-Rust-containers");return {};}
         path=image.path;
     }
     return path;
@@ -1201,8 +1232,9 @@ std::optional<std::string> launcher_apk(const std::vector<nhk::FileMapping> &all
 bool ensure_dart_library() {
     if (g_dart) return true;
     std::ifstream maps("/proc/self/maps");
-    if (!maps) return false;
+    if (!maps) { report_layout_image_failure("maps-open"); return false; }
     const auto all = nhk::parse_file_mappings(maps);
+    if (all.empty()) { report_layout_image_failure("maps-empty-or-over-budget"); return false; }
     const auto path = launcher_apk(all);
     if (!path) return false;
     /*
@@ -1211,7 +1243,7 @@ bool ensure_dart_library() {
      * not mapped yet. An embedded library's first segment is mapped at the entry's own file offset.
      */
     const auto stored = nhk::zip_stored_entry(*path, "libapp.so");
-    if (!stored) return false;
+    if (!stored) { report_layout_image_failure("Dart-stored-entry"); return false; }
     /*
      * Cheap gate before the expensive open: this is polled while the launcher starts, and
      * open_library() reads the whole 28 MB entry out of the APK before it can discover the window is
@@ -1245,8 +1277,9 @@ bool ensure_dart_library() {
         }
         return false;
     }
-    const auto dart = open_library(*path, "libapp.so", all);
-    if (!dart) return false;
+    const char *reason = "container-unresolved";
+    const auto dart = open_library(*path, "libapp.so", all, &reason);
+    if (!dart) { report_layout_image_failure(reason); return false; }
     DartLibrary retained;
     retained.path = dart->path;
     retained.view_begin = dart->view_begin;
@@ -3441,6 +3474,12 @@ bool g_widget_move_checked = false;
 bool g_widget_move_enabled = false;
 bool g_widget_move_known = true;
 std::array<nhk::SourceWordPatch,2> g_widget_move_words{};
+std::array<nhk::SourceWordPatch,4> g_dock_title_words{};
+std::atomic_flag g_dock_title_busy = ATOMIC_FLAG_INIT;
+bool g_dock_title_generation_valid = false;
+bool g_dock_title_model_bound=false;
+std::atomic_bool g_dock_title_patches_ready{false};
+bool g_dock_title_reported = false, g_dock_title_request = false, g_dock_title_result = false;
 std::array<nhk::SourceWordPatch,2> g_auto_close_words{};
 std::atomic_flag g_auto_close_busy = ATOMIC_FLAG_INIT;
 bool g_auto_close_generation_valid = false;
@@ -3479,6 +3518,12 @@ void refresh_scalar_generation(const std::vector<nhk::ExecutableMapping>& invent
             }
             if (!g_capacity_generation_valid) g_capacity_known = false;
         }
+    }
+    if (claim(g_dock_title_busy)) {
+        Release release{held == &g_dock_title_busy ? nullptr : &g_dock_title_busy};
+        if (g_dock_title_words[0].address)
+            g_dock_title_generation_valid = std::all_of(g_dock_title_words.begin(),g_dock_title_words.end(),
+                [&](const auto& site) { return site.address && (site.pending() || matches(site)); });
     }
     if (claim(g_auto_close_busy)) {
         Release release{held == &g_auto_close_busy ? nullptr : &g_auto_close_busy};
@@ -3589,6 +3634,129 @@ bool sync_widget_move(bool enabled) {
 }
 
 
+// Replace only the rendered animation-wrapper frame local for the five validated
+// hotseat containers. The shared controller, animation and model stay untouched.
+bool bind_dock_title_model() {
+    if(g_dock_title_model_bound)return true;
+    if(!g_dart||g_dock_title_requested.load(std::memory_order_acquire)!=1)return false;
+    uint32_t scope=0,size=0;
+    if(!hometweaks::HomeTweaksFindSymbol("DockScope.isInDock",&scope,&size))return false;
+    const char* builders[]={"ShortcutIconWidget._buildTextWidget","ProgressShortCutIconWidget._buildTextWidget"};
+    const void* entries[]={reinterpret_cast<void*>(hc_dock_title_model_0_entry),
+        reinterpret_cast<void*>(hc_dock_title_model_1_entry)};
+    Slot prepared[2]{};int32_t fields[2][8]{};
+    for(unsigned i=0;i<2;++i){
+        uint32_t va=0,span=0;std::vector<uint32_t> body,getter;
+        if(!hometweaks::HomeTweaksFindSymbol(builders[i],&va,&size)
+            ||!dartscan::function_span(va,&span)||!dart_function_words(va,span,body))return false;
+        const auto plan=home_layout::resolve_dock_title(body,va,scope);
+        if(!plan||!dart_function_words(plan->hotseat_getter,80,getter)
+            ||!home_layout::dock_title_hotseat_getter(getter))return false;
+        uintptr_t address=0;nhk::CodeSource source{};Words words{};
+        if(plan->alpha_offset>UINT32_MAX-va
+            ||!bind_dart_target(va+uint32_t(plan->alpha_offset),address,source,words)
+            ||address>UINTPTR_MAX-16)return false;
+        std::copy(plan->alpha_fields.begin(),plan->alpha_fields.end(),fields[i]);
+        fields[i][6]=home_dynamic::zimm(getter[0]);fields[i][7]=home_dynamic::imm9(getter[3]);
+        prepared[i]={address,const_cast<void*>(entries[i]),&hc_dock_title_model_original[i],source,words};
+    }
+    for(unsigned i=0;i<2;++i){
+        if(g_slots[kDockTitleModelSlotBase+i].backend_owned)return false;
+    }
+    for(unsigned i=0;i<2;++i){
+        std::copy(std::begin(fields[i]),std::end(fields[i]),hc_dock_title_model_fields[i]);
+        hc_dock_title_model_continue[i]=prepared[i].address+16;
+        g_slots[kDockTitleModelSlotBase+i]=prepared[i];
+    }
+    g_dock_title_model_bound=true;return true;
+}
+void publish_dock_title_model(){
+    const bool live=g_dock_title_patches_ready.load(std::memory_order_acquire)
+        &&g_dock_title_requested.load(std::memory_order_acquire)==1
+        &&g_dock_title_model_bound&&nhk::slot_ready(g_slots[kDockTitleModelSlotBase])
+        &&nhk::slot_ready(g_slots[kDockTitleModelSlotBase+1]);
+    __atomic_store_n(&hc_dock_title_model_enabled,uint32_t(live),__ATOMIC_RELEASE);
+}
+
+// The AOT builders suppress text by location, independently of the legacy Java
+// DeviceConfig switch. Keep model/null guards and replace only the two location
+// branches in each builder; the source-word journal restores them on disable.
+bool sync_dock_titles(bool enabled) {
+    if(!enabled)__atomic_store_n(&hc_dock_title_model_enabled,0u,__ATOMIC_RELEASE);
+    if(g_dock_title_busy.test_and_set(std::memory_order_acquire))return false;
+    struct Release {~Release(){g_dock_title_busy.clear(std::memory_order_release);}} release;
+    if(!g_dart || (!enabled && !g_dock_title_words[0].address))return !enabled;
+    if(!g_dock_title_words[0].address) {
+        uint32_t scope=0,size=0;
+        std::array<nhk::SourceWordPatch,4> prepared{};size_t next=0;
+        bool compatible=hometweaks::HomeTweaksFindSymbol("DockScope.isInDock",&scope,&size);
+        const char* builders[]={"ShortcutIconWidget._buildTextWidget",
+            "ProgressShortCutIconWidget._buildTextWidget"};
+        for(size_t builder=0;compatible && builder<2;++builder) {
+            uint32_t va=0,span=0;
+            std::vector<uint32_t> body,getter;
+            compatible=hometweaks::HomeTweaksFindSymbol(builders[builder],&va,&size)
+                && dartscan::function_span(va,&span) && dart_function_words(va,span,body);
+            if(!compatible)break;
+            const auto plan=home_layout::resolve_dock_title(body,va,scope);
+            compatible=plan && plan->gates.size()==2
+                && dart_function_words(plan->hotseat_getter,80,getter)
+                && home_layout::dock_title_hotseat_getter(getter);
+            if(!compatible)break;
+            for(size_t i=0;compatible && i<plan->gates.size();++i) {
+                const auto gate=plan->gates[i];
+                if(gate.offset>UINT32_MAX-va || g_dart->load_base>UINTPTR_MAX-va-gate.offset) {
+                    compatible=false;break;
+                }
+                const uint32_t site=va+uint32_t(gate.offset);
+                const uintptr_t address=g_dart->load_base+site;
+                const auto file=dart_file_offset(site,4);
+                const auto source=nhk::source_at(g_dart->owned,address,4);
+                if(!file || !source || nhk::add_overflows(g_dart->view_begin,*file)
+                    || source->file_offset!=g_dart->view_begin+*file || (address&3)) {
+                    compatible=false;break;
+                }
+                prepared[next++]={address,body[gate.offset/4],gate.replacement,*source};
+            }
+        }
+        if(compatible && next==prepared.size()) {
+            g_dock_title_words=prepared;g_dock_title_generation_valid=true;
+        }
+    }
+    bool applied=false;
+    if(g_dock_title_words[0].address) {
+        if(!g_dock_title_generation_valid) {
+            const auto inventory=current_mappings();
+            if(inventory)refresh_scalar_generation(*inventory,&g_dock_title_busy);
+        }
+        const auto factory=[](const nhk::SourceWordPatch& site){return nhk::SourceWordOps{site.address,site.source};};
+        bool protected_words=true;
+        if(enabled)for(const auto& site:g_dock_title_words)
+            if(!slot_host().protect_range || !slot_host().protect_range(site.address,4))protected_words=false;
+        if(g_dock_title_generation_valid && protected_words)
+            applied=nhk::apply_source_words(g_dock_title_words,enabled,factory);
+    }
+    g_dock_title_patches_ready.store(enabled&&applied,std::memory_order_release);
+    publish_dock_title_model();
+    if(enabled)applied &= __atomic_load_n(&hc_dock_title_model_enabled,__ATOMIC_ACQUIRE)!=0;
+    if(!g_dock_title_reported || g_dock_title_request!=enabled || g_dock_title_result!=applied) {
+        g_dock_title_reported=true;g_dock_title_request=enabled;g_dock_title_result=applied;
+        __android_log_print(applied?ANDROID_LOG_INFO:ANDROID_LOG_WARN,kTag,
+            "dock title source-word requested=%d applied=%d compatible=%d sites=4 builders=shortcut/progress alpha=hotseat-only model=unchanged",
+            enabled,applied,g_dock_title_words[0].address!=0);
+    }
+    static std::array<uint64_t,4> previous{};static unsigned reports=0;
+    const std::array<uint64_t,4> hits{__atomic_load_n(&hc_dock_title_model_hits[0],__ATOMIC_RELAXED),
+        __atomic_load_n(&hc_dock_title_model_hits[1],__ATOMIC_RELAXED),
+        __atomic_load_n(&hc_dock_title_model_hotseat_hits[0],__ATOMIC_RELAXED),
+        __atomic_load_n(&hc_dock_title_model_hotseat_hits[1],__ATOMIC_RELAXED)};
+    if(enabled&&reports<8&&hits!=previous){previous=hits;++reports;
+        __android_log_print(ANDROID_LOG_INFO,kTag,"dock title render hits=%llu/%llu hotseat=%llu/%llu",
+            (unsigned long long)hits[0],(unsigned long long)hits[1],
+            (unsigned long long)hits[2],(unsigned long long)hits[3]);}
+    return applied;
+}
+
 bool sync_folder_auto_close(bool enabled) {
     if (g_auto_close_busy.test_and_set(std::memory_order_acquire)) return false;
     struct Release { ~Release() { g_auto_close_busy.clear(std::memory_order_release); } } release;
@@ -3667,7 +3835,8 @@ bool settle_scalar_pending() {
     const bool capacity = settle(g_capacity_words,g_capacity_busy);
     const bool widget = settle(g_widget_move_words,g_widget_move_busy);
     const bool auto_close = settle(g_auto_close_words,g_auto_close_busy);
-    return capacity && widget && auto_close;
+    const bool dock_title = settle(g_dock_title_words,g_dock_title_busy);
+    return capacity && widget && auto_close && dock_title;
 }
 
 /* Inject the exact inlined load that _buildTextWidget actually uses. It is a different cache
@@ -4025,6 +4194,7 @@ bool bind_dock_edit() {
 }
 
 size_t arm_hooks(std::vector<size_t> &order) {
+    (void)bind_dock_title_model();
     (void)bind_dart_columns();
     (void) bind_folder_title();
     (void) bind_dock_edit();
@@ -4051,6 +4221,11 @@ size_t arm_hooks(std::vector<size_t> &order) {
             " (first symbol resolved=%d)", g_folder_layout_checked ? 1 : 0);
     (void) bind_gadget_bridge();
     size_t added = 0;
+    for(unsigned i=0;i<2;++i){const size_t index=kDockTitleModelSlotBase+i;
+        if(g_slots[index].address&&std::find(order.begin(),order.end(),index)==order.end()){
+            order.push_back(index);++added;
+        }
+    }
     if(g_slots[kLayoutSaveSlot].address && std::find(order.begin(),order.end(),kLayoutSaveSlot)==order.end()) {
         order.push_back(kLayoutSaveSlot);++added;
     }
@@ -4239,6 +4414,7 @@ static int requested_knob_delta(const home_layout::KnobConfig &config) {
 }
 
 size_t publish_hooks() {
+    publish_dock_title_model();
     __atomic_store_n(&hc_dart_columns_ready,
         nhk::slot_ready(g_slots[kDartColumnsSlot])&&nhk::slot_ready(g_slots[kGridPersistSlot])
         &&nhk::slot_ready(g_slots[kLayoutSaveSlot])?1u:0u,__ATOMIC_RELEASE);
@@ -4491,8 +4667,12 @@ void *worker(void *) {
         if (home_layout::query_config(config)) { queried = true; break; }
         delay_ms(100);
     }
-    if (queried) sync_title_config(config);
-    if (!queried && !kDockEditPolicy && g_title_desktop_sp.load(std::memory_order_acquire) == 12
+    if (queried) {
+        sync_title_config(config);
+        if(!config.dock_show_title)(void)sync_dock_titles(false);
+    }
+    if (!queried && !kDockEditPolicy && g_dock_title_requested.load(std::memory_order_acquire) != 1
+        && g_title_desktop_sp.load(std::memory_order_acquire) == 12
         && g_title_drawer_sp.load(std::memory_order_acquire) == 12
         && g_title_color.load(std::memory_order_acquire) == -1
         && !__atomic_load_n(&hc_title_hide_new_install, __ATOMIC_ACQUIRE)
@@ -4568,8 +4748,9 @@ void *worker(void *) {
         || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
-        || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close
-        || config.folder.full_width || config.folder.title_center;
+        || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close || config.dock_show_title
+        || config.folder.full_width || config.folder.title_center
+        || nhk::source_words_owned(g_dock_title_words);
     if (!kDockEditPolicy && !config.grid_enabled && !any_knob && !top_probe && !any_tweak
         && g_title_desktop_sp.load(std::memory_order_acquire) == 12
         && g_title_drawer_sp.load(std::memory_order_acquire) == 12
@@ -4759,6 +4940,7 @@ void *worker(void *) {
     (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
     (void) sync_widget_move(config.widget_allow_move);
     (void) sync_folder_auto_close(config.folder_auto_close);
+    (void) sync_dock_titles(config.dock_show_title);
     const bool grid_live =
         config.grid_enabled && located && located->x != 0 && located->y != 0;
     g_ready.store(grid_live, std::memory_order_release);
@@ -4921,7 +5103,8 @@ void *worker(void *) {
                 }
                 (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
                 (void) sync_widget_move(config.widget_allow_move);
-    (void) sync_folder_auto_close(config.folder_auto_close);
+                (void) sync_folder_auto_close(config.folder_auto_close);
+                (void) sync_dock_titles(config.dock_show_title);
                 (void) knobs_changed;
             }
             any_knob = sync_requested();
@@ -5694,6 +5877,13 @@ bool adopt_layout_state() {
     g_capacity_generation_valid = false;
     g_capacity_reported = false;
     g_widget_move_busy.clear(std::memory_order_release);
+    g_dock_title_busy.clear(std::memory_order_release);
+    if (!nhk::source_words_owned(g_dock_title_words)) g_dock_title_words = {};
+    g_dock_title_generation_valid = false; g_dock_title_reported = false;
+    g_dock_title_requested.store(-1,std::memory_order_release);
+    g_dock_title_patches_ready.store(false,std::memory_order_release);
+    g_dock_title_model_bound=false;hc_dock_title_model_enabled=0;
+    for(unsigned i=0;i<2;++i){hc_dock_title_model_continue[i]=0;hc_dock_title_model_original[i]=nullptr;}
     g_auto_close_busy.clear(std::memory_order_release);
     if (!nhk::source_words_owned(g_auto_close_words)) g_auto_close_words = {};
     g_auto_close_generation_valid = false; g_auto_close_reported = false;
@@ -5999,7 +6189,8 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
     if (have_config) {
         (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
         (void) sync_widget_move(config.widget_allow_move);
-    (void) sync_folder_auto_close(config.folder_auto_close);
+        (void) sync_folder_auto_close(config.folder_auto_close);
+        (void) sync_dock_titles(config.dock_show_title);
     }
     g_loader_prime_finished.store(true, std::memory_order_release);
 }

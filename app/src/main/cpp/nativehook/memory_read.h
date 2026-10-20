@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
+#include "nhk_base.h"
 #include <algorithm>
 #include <charconv>
 #include <cstdint>
@@ -20,7 +21,7 @@ struct ReadRegion {
 // the bytes were one simultaneous application-level snapshot.
 inline bool ParseReadableRanges(const std::string& text, uintptr_t address, size_t size,
     std::vector<ReadRegion>& out) {
-    if (!size || address > UINTPTR_MAX-size || text.empty() || text.size()>2*1024*1024
+    if (!size || address > UINTPTR_MAX-size || text.empty() || text.size()>kMaxFileInventoryBytes
         || text.back()!='\n' || text.find('\0')!=std::string::npos) return false;
     const auto number = [](const std::string& s, int base, uint64_t& n) {
         if (s.empty()) return false;
@@ -30,7 +31,7 @@ inline bool ParseReadableRanges(const std::string& text, uintptr_t address, size
     std::istringstream lines(text); std::string line; uintptr_t previous=0,cursor=address;
     const uintptr_t limit=address+size; size_t count=0; std::vector<ReadRegion> candidate;
     while (std::getline(lines,line)) {
-        if (++count>16384) return false;
+        if (++count>kMaxFileInventoryLines) return false;
         std::istringstream fields(line); std::string range,perms,offset,device,inode;
         if (!(fields>>range>>perms>>offset>>device>>inode)) return false;
         const auto dash=range.find('-'),colon=device.find(':');

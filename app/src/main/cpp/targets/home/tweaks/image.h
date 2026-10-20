@@ -30,7 +30,12 @@ bool FindImageFromApkMaps(const char* apkMarker, const char* libName, Image* out
 
 // Manual HYOS mappings need not be registered with the ordinary linker. Attribute
 // the unique live arm64 entry by its mapped ELF, never an installation directory.
-bool FindImageFromMappedApks(const char* libName, Image* out);
+struct ImageDiscoveryDiagnostic {
+    const char* reason = "not-started";
+    size_t inventoryRows = 0, apkCandidates = 0, entryCandidates = 0, imageMappings = 0;
+};
+bool FindImageFromMappedApks(const char* libName, Image* out,
+    ImageDiscoveryDiagnostic* diagnostic = nullptr);
 
 void DumpLoadedLibraries(int maxEntries);
 void DumpApkMaps(int maxEntries);

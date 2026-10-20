@@ -163,7 +163,7 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 14;
+constexpr uint32_t kCacheVersion = 15;
 // The first launcher layout can run before credential-encrypted storage unlocks.
 // Bootstrap must survive a device reboot, not only a process restart after unlock.
 constexpr const char *kCacheDir = "/data/user_de/0/com.miui.home/files";
@@ -229,6 +229,7 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(config.gestures.density_dpi); put_u32(config.gestures.width);
     put_u32(kObjectScaleMagic);
     for(const auto& scale:config.object_scales){put_u32(scale.enabled);put_u32(scale.percent);}
+    put_u32(kDockTitleMagic); put_u32(config.dock_show_title);
 }
 
 bool parse_config(const std::vector<uint8_t> &data, Config &config) {
@@ -237,7 +238,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
     if (version != 4 && version != 5 && version != 6 && version != 7 && version != 8
-        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != kCacheVersion)
+        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != kCacheVersion)
         return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
@@ -328,6 +329,10 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if(version>=14 && !read_object_scales([&](int32_t& word){
         auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
     },config.object_scales,false))return false;
+    config.dock_show_title=false;
+    if(version>=15 && !read_dock_title([&](int32_t& word){
+        auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
+    },config.dock_show_title,false))return false;
     if (version >= 8 && at != data.size()) return false;
     return true;
 }
@@ -503,6 +508,10 @@ static bool query_binder(Config &result) {
     if(valid)endpoint_state=read_endpoint_diagnostics([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },endpoint);
+    bool has_dock_title=false;
+    if(valid && endpoint_state==EndpointDiagnosticState::Valid && !read_dock_title([&](int32_t& word){
+        return AParcel_readInt32(output,&word)==STATUS_OK;
+    },candidate.dock_show_title,true,&has_dock_title))valid=false;
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
         return value >= lo && value <= hi;
@@ -530,15 +539,16 @@ static bool query_binder(Config &result) {
     config_diagnostic(0,ANDROID_LOG_INFO,"CONFIG_TRANSPORT_READY: authenticated layout snapshot accepted");
     if(endpoint_state==EndpointDiagnosticState::Valid) {
         const bool mismatch=endpoint.revision!=kEndpointRevision
-            ||!(endpoint.capabilities&kIndependentScalesCapability)||!has_object_scales;
+            ||!(endpoint.capabilities&kIndependentScalesCapability)||!has_object_scales
+            ||!(endpoint.capabilities&kDockTitleCapability)||!has_dock_title;
         config_diagnostic(1,mismatch?ANDROID_LOG_WARN:ANDROID_LOG_INFO,
-            "ENDPOINT_%s: client_revision=%d server_revision=%d schema=%d capabilities=%#x pid=%d object_scales=%d%s",
+            "ENDPOINT_%s: client_revision=%d server_revision=%d schema=%d capabilities=%#x pid=%d object_scales=%d dock_title=%d%s",
             mismatch?"MISMATCH":"READY",kEndpointRevision,endpoint.revision,endpoint.schema,endpoint.capabilities,endpoint.pid,
-            has_object_scales,mismatch?"; reboot to reload launcher and system_server from the same module APK":"");
+            has_object_scales,has_dock_title,mismatch?"; reboot to reload launcher and system_server from the same module APK":"");
     } else {
         config_diagnostic(1,ANDROID_LOG_WARN,
-            "ENDPOINT_VERSION_UNKNOWN: client_revision=%d metadata_state=%d schema=%d object_scales=%d; %s",
-            kEndpointRevision,int(endpoint_state),endpoint.schema,has_object_scales,
+            "ENDPOINT_VERSION_UNKNOWN: client_revision=%d metadata_state=%d schema=%d object_scales=%d dock_title=%d; %s",
+            kEndpointRevision,int(endpoint_state),endpoint.schema,has_object_scales,has_dock_title,
             has_object_scales?"older/unknown endpoint metadata; reboot after updating if functions do not apply"
                 :"independent scale extension missing; system_server may still run an older module; reboot after updating");
     }

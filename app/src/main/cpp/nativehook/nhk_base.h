@@ -27,6 +27,11 @@
 
 namespace nhk {
 
+// HYOS children inherit the preloader's inventory, including other applications.
+// These limits cover complete map snapshots, not the final coalesced code ranges.
+inline constexpr size_t kMaxFileInventoryLines = 65536;
+inline constexpr size_t kMaxFileInventoryBytes = 8U * 1024U * 1024U;
+
 /** True when left + right would wrap; the caller must fail closed instead. */
 inline bool add_overflows(uint64_t left, uint64_t right) {
     return left > UINT64_MAX - right;

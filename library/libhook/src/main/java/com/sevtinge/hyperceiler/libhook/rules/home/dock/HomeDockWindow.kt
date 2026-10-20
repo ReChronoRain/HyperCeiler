@@ -667,6 +667,8 @@ class HomeDockWindow : BaseHook() {
                         reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_REVISION)
                         reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_CAPABILITIES)
                         reply.writeInt(android.os.Process.myPid())
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.DOCK_TITLE_MAGIC)
+                        reply.writeInt(if (result?.dockShowTitle() == true) 1 else 0)
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()

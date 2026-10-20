@@ -2379,3 +2379,76 @@ hc_layout_save_entry:
     dart_restore
     mov x0, x22
     ret
+
+/* Original four-word builder initialization. Only the rendered frame local is
+ * changed for Dock; the Folme controller and its animation remain untouched. */
+.macro dock_title_model index
+.globl hc_dock_title_model_\index\()_entry
+.p2align 4
+hc_dock_title_model_\index\()_entry:
+    mrs x16, nzcv
+    str x16, [sp, #-16]!
+    adrp x16, hc_dock_title_model_hits
+    add x16, x16, :lo12:hc_dock_title_model_hits
+    ldr x17, [x16, #(\index * 8)]
+    add x17, x17, #1
+    str x17, [x16, #(\index * 8)]
+    adrp x16, hc_dock_title_model_fields
+    add x16, x16, :lo12:hc_dock_title_model_fields
+    add x16, x16, #(\index * 32)
+    ldrsw x17, [x16, #4]
+    str x1, [x29, x17]
+    ldrsw x17, [x16, #12]
+    str w0, [x1, x17]
+    ldrsw x17, [x16, #8]
+    ldr x0, [x29, x17]
+    ldrsw x17, [x16, #16]
+    str w0, [x1, x17]
+    adrp x16, hc_dock_title_model_enabled
+    add x16, x16, :lo12:hc_dock_title_model_enabled
+    ldar w16, [x16]
+    cbz w16, 3f
+    adrp x16, hc_dock_title_model_fields
+    add x16, x16, :lo12:hc_dock_title_model_fields
+    add x16, x16, #(\index * 32)
+    ldrsw x17, [x16]
+    ldr x17, [x29, x17]
+    ldr w16, [x16, #24]
+    ldr w17, [x17, x16]
+    add x17, x17, x28, lsl #32
+    adrp x16, hc_dock_title_model_fields
+    add x16, x16, :lo12:hc_dock_title_model_fields
+    add x16, x16, #(\index * 32)
+    ldr w16, [x16, #28]
+    ldr x17, [x17, x16]
+    cmn x17, #0x65
+    b.eq 1f
+    cmn x17, #0x66
+    b.eq 1f
+    cmn x17, #0x67
+    b.eq 1f
+    cmn x17, #0x69
+    b.eq 1f
+    cmn x17, #0x6a
+    b.ne 3f
+1:
+    adrp x16, hc_dock_title_model_hotseat_hits
+    add x16, x16, :lo12:hc_dock_title_model_hotseat_hits
+    ldr x17, [x16, #(\index * 8)]
+    add x17, x17, #1
+    str x17, [x16, #(\index * 8)]
+    adrp x16, hc_dock_title_model_fields
+    add x16, x16, :lo12:hc_dock_title_model_fields
+    add x16, x16, #(\index * 32)
+    ldrsw x17, [x16, #4]
+    str x0, [x29, x17]
+3:
+    ldr x16, [sp], #16
+    msr nzcv, x16
+    adrp x16, hc_dock_title_model_continue
+    add x16, x16, :lo12:hc_dock_title_model_continue
+    ldr x16, [x16, #(\index * 8)]
+    br x16
+.endm
+dock_title_model 0
+dock_title_model 1

@@ -141,12 +141,14 @@ struct FileMapping {
 /** Parse metadata only. Callers must use a fault-reporting read API for bytes. */
 inline std::vector<FileMapping> parse_file_mappings(std::istream &maps) {
     // A pathological inventory must not be able to grow without bound.
-    constexpr size_t kMaxInventoryLines = 16384;
     std::vector<FileMapping> result;
     result.reserve(256);
     std::string line;
+    size_t lines = 0, bytes = 0;
     while (std::getline(maps, line)) {
-        if (result.size() >= kMaxInventoryLines) break;
+        if (++lines > kMaxFileInventoryLines || line.size() >= kMaxFileInventoryBytes - bytes)
+            return {}; // Never publish a truncated inventory as a complete generation.
+        bytes += line.size() + 1;
         unsigned long long begin = 0;
         unsigned long long end = 0;
         unsigned long long offset = 0;
