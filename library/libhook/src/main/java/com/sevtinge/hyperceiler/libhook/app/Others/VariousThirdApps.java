@@ -27,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodClassLoaderDispatcher;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
@@ -58,9 +59,17 @@ public class VariousThirdApps extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         mPackageName = getPackageName();
-        boolean isInputMethod = isEnabledInputMethodPackage(mPackageName);
+        // Selected IMEs must not depend on a one-shot system-list query during
+        // cold start: the context/service may not be ready, or the list filtered.
+        boolean selectedInputMethod = InputMethodConfig.shouldHookMiuiIme(mPackageName)
+            || InputMethodConfig.shouldHookAospIme(mPackageName);
+        boolean isInputMethod = selectedInputMethod || isEnabledInputMethodPackage(mPackageName);
 
         if (isInputMethod) {
+            if (selectedInputMethod) {
+                ModuleLog.i("HyperCeiler.ImeBottom", "Installing selected IME hooks package=" + mPackageName
+                    + " style=" + InputMethodConfig.getImeStyle());
+            }
             initInputMethodHooks();
             initClipboardHooks();
             return;

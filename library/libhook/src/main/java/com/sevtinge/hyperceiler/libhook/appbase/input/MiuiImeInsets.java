@@ -4,6 +4,7 @@ package com.sevtinge.hyperceiler.libhook.appbase.input;
 import android.graphics.Insets;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import java.lang.ref.WeakReference;
@@ -13,12 +14,34 @@ public final class MiuiImeInsets {
     private WeakReference<ViewGroup> inputFrame = new WeakReference<>(null);
     private WeakReference<ViewGroup> bottomArea = new WeakReference<>(null);
     private int loggedBottom;
+    private boolean bottomReady;
+    private ViewTreeObserver layoutObserver;
+    private final ViewTreeObserver.OnGlobalLayoutListener layoutListener = () -> {
+        ViewGroup area = bottomArea.get();
+        boolean ready = area != null && area.getVisibility() == View.VISIBLE && area.getChildCount() > 0;
+        boolean becameReady = ready && !bottomReady;
+        bottomReady = ready;
+        if (becameReady) requestApplyInsets();
+    };
 
     public void bind(ViewGroup frame, ViewGroup area) {
-        if (frame.getContext().getApplicationInfo().targetSdkVersion < 35) return;
+        int sdk = frame.getContext().getApplicationInfo().targetSdkVersion;
+        ModuleLog.i("HyperCeiler.ImeBottom", "Keyboard inset binding targetSdk=" + sdk
+            + " bottomChildren=" + area.getChildCount() + " bottomVisible=" + (area.getVisibility() == View.VISIBLE));
+        if (sdk < 35) return;
+        clear();
         inputFrame = new WeakReference<>(frame);
         bottomArea = new WeakReference<>(area);
+        // The bottom area starts GONE on cold start. Its first visible layout
+        // must re-dispatch the insets that the keyboard already received.
+        layoutObserver = area.getViewTreeObserver();
+        layoutObserver.addOnGlobalLayoutListener(layoutListener);
         frame.requestApplyInsets();
+    }
+
+    public void requestApplyInsets() {
+        ViewGroup frame = inputFrame.get();
+        if (frame != null) frame.requestApplyInsets();
     }
 
     public WindowInsets forInputView(View view, WindowInsets original) {
@@ -44,7 +67,16 @@ public final class MiuiImeInsets {
     }
 
     public void clear() {
+        if (layoutObserver != null && layoutObserver.isAlive()) {
+            layoutObserver.removeOnGlobalLayoutListener(layoutListener);
+        }
+        ViewGroup area = bottomArea.get();
+        if (area != null && area.getViewTreeObserver() != layoutObserver && area.getViewTreeObserver().isAlive()) {
+            area.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
+        }
+        layoutObserver = null;
         inputFrame.clear();
         bottomArea.clear();
+        bottomReady = false;
     }
 }
