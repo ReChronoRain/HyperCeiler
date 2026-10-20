@@ -5,6 +5,16 @@ against lightweight Android fixtures. It checks that only the input-frame child
 receives a copy with zero navigation-bar bottom insets; side insets, other inset
 types, the original packet and the MIUI bottom area are preserved. Hidden/empty
 bottom areas and input methods targeting SDK 34 or lower retain their insets.
+It also rebinds to a new keyboard tree after service recreation and checks that
+window-show inset requests target the current frame and stop after cleanup.
+
+The integration hooks both `View` and `ViewGroup.dispatchApplyWindowInsets`,
+including optimized group dispatch. It requests insets again
+after the MIUI plugin's `onWindowShown`, since the initial bottom-view binding
+can run before the input view is attached or the bottom buttons are visible.
+The first visible global layout also requests insets; this covers a bottom area
+that is still GONE at the initial bind/show. Repeated unchanged layouts do not
+request another traversal, and rebinding/cleanup removes the old listener.
 
 On the Android 17 test phone, WeType 4.0.0 targets SDK 35. Its input frame
 contained a 941 px keyboard view with 876 px of keyboard content: the remaining
