@@ -15,6 +15,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <fstream>
+#include <string>
+
 namespace hometweaks {
 namespace {
 
@@ -185,6 +188,44 @@ size_t ReadMaps(char* buf, size_t cap) {
     return total;
 }
 
+/*
+ * The launcher's own APK path, taken from the whole of /proc/self/maps.
+ *
+ * FindImageFromApkMaps reads at most kMapsCap bytes and stops at kMaxLines lines, which is right for
+ * a search whose answer is an offset inside the table, but wrong for a verdict about the launcher: a
+ * desktop that maps other packages' APKs - icon and preview work - pushes its own APK far past both.
+ * On the device this was diagnosed on the launcher's APK sits at line 8042 of a 1.0 MiB table, so
+ * that search never sees it, while this walks the table once, whole, a line at a time.
+ *
+ * Only a "/base.apk" path is accepted, and it is the caller's job to treat a false return as "not
+ * established" rather than as evidence of absence.
+ */
+bool LauncherApkPathFromMaps(const char* marker, std::string* out) {
+    if (marker == nullptr || out == nullptr) return false;
+
+    constexpr size_t kMaxLine = 4096;
+    constexpr const char* kApkSuffix = "/base.apk";
+    constexpr size_t kApkSuffixLen = 9;
+
+    std::ifstream maps("/proc/self/maps");
+    if (!maps) return false;
+    std::string line;
+    while (std::getline(maps, line)) {
+        if (line.size() > kMaxLine) continue;
+        ApkMapLine ml{};
+        if (!ParseMapLine(line.c_str(), &ml)) continue;
+        if (ml.path[0] == '\0' || strstr(ml.path, marker) == nullptr) continue;
+        /* Bounded in both directions: the name is at most the field the parser filled. */
+        const std::string path(ml.path, strnlen(ml.path, sizeof(ml.path)));
+        if (path.size() > kApkSuffixLen
+            && path.compare(path.size() - kApkSuffixLen, kApkSuffixLen, kApkSuffix) == 0) {
+            *out = path;
+            return true;
+        }
+    }
+    return false;
+}
+
 }
 
 bool FindImageByName(const char* basename, Image* out) {
@@ -267,6 +308,36 @@ bool FindImageFromApkMaps(const char* apkMarker, const char* libName, Image* out
         }
     }
     return false;
+}
+
+/**
+ * Whether this process's launcher APK provably carries no image of the target name.
+ *
+ * "Provably" is the point of the signature: the caller latches a permanent verdict on a true
+ * return, so every uncertain outcome - the APK was not located, or its entry table could not be
+ * read at all - has to answer false and let the retries continue.
+ *
+ * The entry is asked for by its exact ABI path rather than by basename, because a basename match is
+ * ambiguous for an APK carrying both ABIs' copies of the image, and zip_stored_entry refuses an
+ * ambiguous container - which would read as "absent" and latch the verdict on a launcher that has
+ * the image.
+ */
+bool LauncherApkLacksEntry(const char* apkMarker, const char* libName) {
+    if (apkMarker == nullptr || libName == nullptr) return false;
+    std::string apk;
+    if (!LauncherApkPathFromMaps(apkMarker, &apk)) return false;
+
+    char entry[128];
+    snprintf(entry, sizeof(entry), "lib/%s/%s",
+             sizeof(void*) == 8 ? "arm64-v8a" : "armeabi-v7a", libName);
+    if (nhk::zip_stored_entry(apk, entry).has_value()) return false;
+    /*
+     * A missing entry can also mean the container could not be read at all, and only the first of
+     * those describes the launcher. resources.arsc is stored uncompressed in every APK whose
+     * resources are mapped rather than copied out, so finding it proves this APK's central
+     * directory was read; finding neither entry answers "not established", never "absent".
+     */
+    return nhk::zip_stored_entry(apk, "resources.arsc").has_value();
 }
 
 bool RangeInImage(const Image& image, uintptr_t address, size_t length) {

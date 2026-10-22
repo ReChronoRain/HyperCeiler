@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+#include <string>
+
 namespace hometweaks {
 
 struct Segment {
@@ -23,6 +25,13 @@ struct Image {
 bool FindImageByName(const char* basename, Image* out);
 
 bool FindImageFromApkMaps(const char* apkMarker, const char* libName, Image* out);
+
+/**
+ * True only when the launcher APK this process has mapped was read and carries no entry of that
+ * name at all - the property that separates "this launcher variant cannot carry the image" from
+ * "the image has not been located yet". False means "not established" and must not stop a retry.
+ */
+bool LauncherApkLacksEntry(const char* apkMarker, const char* libName);
 
 void DumpLoadedLibraries(int maxEntries);
 void DumpApkMaps(int maxEntries);

@@ -24,6 +24,7 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <optional>
 #include <span>
 #include <string_view>
