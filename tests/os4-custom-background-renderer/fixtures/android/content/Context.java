@@ -1,0 +1,1 @@
+package android.content;import android.graphics.drawable.Drawable;public final class Context {public android.content.res.Resources getResources(){return new android.content.res.Resources();}public Drawable fallback;public int requestedUser=-1;public String requestedPackage;public int fallbackCalls;public boolean throwsFallback;public Context(Drawable d){fallback=d;}}

@@ -25,7 +25,12 @@ public final class HomeLayoutIdleSnapshotTest {
     }
     private static Map<String, Object> rows(int margin) {
         Map<String, Object> rows = new HashMap<>();
-        for (String[] spec : keys) rows.put("prefs_key_" + spec[1], "stringset".equals(spec[0]) ? "0:" : 0);
+        for (String[] spec : keys) rows.put("prefs_key_" + spec[1], switch (spec[0]) {
+            case "stringset" -> "0:";
+            case "text" -> "";
+            case "long" -> 0L;
+            default -> 0;
+        });
         rows.put("prefs_key_home_layout_unlock_grids_cell_x", 4);
         rows.put("prefs_key_home_layout_unlock_grids_cell_y", 6);
         rows.put("prefs_key_" + ENABLE, 1);

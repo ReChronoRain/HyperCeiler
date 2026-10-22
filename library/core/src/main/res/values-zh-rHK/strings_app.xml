@@ -1418,6 +1418,8 @@
     <string name="security_center_unlock_memc">解鎖動態畫面補償</string>
     <string name="security_center_unlock_enhance_contours">解鎖影像輪廓增強</string>
     <string name="security_center_unlock_s_resolution">解鎖極清播放</string>
+    <string name="security_center_remove_vb_temp_limit">移除畫質提升溫度限制</string>
+    <string name="security_center_remove_vb_temp_limit_summary">溫度過高時不再自動禁用「極清播放」「畫質提升」等功能，溫度過高繼續使用這些功能可能會導致設備嚴重過熱，本軟件不擔責喵</string>
     <string name="security_center_hide_sidebar">隱藏側邊欄</string>
     <string name="security_center_leave_open">保留側滑展開</string>
     <string name="security_center_sidebar_show_suggest">禁止展示推薦應用程式</string>

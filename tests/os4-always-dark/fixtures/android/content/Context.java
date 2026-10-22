@@ -1,0 +1,1 @@
+package android.content;import android.content.res.*;public class Context {public Resources resources=new Resources();public Resources getResources(){return resources;}public Context createConfigurationContext(Configuration c){Context n=new Context();n.resources=new Resources(resources,c);return n;}public int getColor(int id){return resources.getColor(id);} }

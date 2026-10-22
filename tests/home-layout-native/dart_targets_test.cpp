@@ -14,6 +14,7 @@
  *      expectation, which is what makes this a cross-check rather than a lookup.
  */
 #include "nativehook/elf_image.h"
+#include "fixture_expectations.h"
 #include "targets/home/home_layout_dart_targets.h"
 
 #include <algorithm>
@@ -86,7 +87,8 @@ void check_shapes() {
     std::printf("shape predicates: ok\n");
 }
 
-void check_fixture(const char *path) {
+void check_fixture(const char *path, const char *expectations_path) {
+    const auto expected = fixture_expectations(expectations_path);
     std::ifstream file(path, std::ios::binary);
     assert(file);
     const std::string raw(std::istreambuf_iterator<char>{file}, {});
@@ -101,44 +103,25 @@ void check_fixture(const char *path) {
         resolution->getters.size(), resolution->views.size(),
         resolution->families.size(), resolution->resolved_families);
 
-    /*
-     * Contract: whenever the resolver claims a resolution it must agree, to the
-     * instruction, with the addresses the shipped Dart symbol table names. While
-     * the remaining selectivity rules are still being built the resolver refuses
-     * instead, and that refusal is reported rather than asserted away - a
-     * fail-closed resolver that resolves nothing is incomplete, not wrong.
-     */
-    struct Expected {
-        uint32_t margin;       // GridController.hotSeatsMarginBottom (layout hub)
-        uint32_t margin_view;  // HotSeatsConstants2.hotSeatsMarginBottom (delegating view)
-        uint32_t height;       // HotSeatsConstants2.hotSeatsHeight (extent partner)
-        uint32_t height_alt;   // layout-side alias; 0 while two members share the field
-        const char *what;
-    };
-    const Expected expected[] = {
-        {0x9e54d4u, 0xf26da0u, 0x1099d3cu, 0u,
-            "GridController hotseat margin/height + HotSeatsConstants2 views"},
-    };
+    // An image that fails resolution must fail fixture validation. Shape-only tests can
+    // run without a fixture; a supplied OTA is an explicit compatibility assertion.
     /* Discovery must always produce something: an empty scan means the shapes broke. */
     assert(!resolution->getters.empty());
     assert(!resolution->families.empty());
 
     if (!resolution->ok()) {
-        std::printf("  resolver refused: %s\n  (expected %s: margin=0x%x view=0x%x "
-            "height=0x%x heightView=0x%x)\n",
-            resolution->rejected != nullptr ? resolution->rejected : "unknown reason",
-            expected[0].what, expected[0].margin, expected[0].margin_view, expected[0].height,
-            expected[0].height_alt);
-        std::printf("fixture: discovery ok, resolution incomplete\n");
-        return;
+        std::fprintf(stderr, "fixture resolver refused: %s\n",
+            resolution->rejected != nullptr ? resolution->rejected : "unknown reason");
     }
+    assert(resolution->ok());
     std::printf("  resolved margin=0x%x view=0x%x height=0x%x heightAlt=0x%x\n",
         resolution->margin, resolution->margin_view, resolution->height, resolution->height_alt);
-    for (const Expected &want : expected) {
-        assert(resolution->margin == want.margin);
-        assert(resolution->margin_view == want.margin_view);
-        assert(resolution->height == want.height);
-        assert(resolution->height_alt == want.height_alt);
+    assert(resolution->margin == expected.at("margin"));
+    assert(resolution->margin_view == expected.at("margin_view"));
+    assert(resolution->height == expected.at("height"));
+    // The optional alias may be absent when same-field members are ambiguous.
+    if (resolution->height_alt != 0) {
+        assert(resolution->height_alt == expected.at("height_alt"));
     }
     /*
      * The labelled knobs need the object pool, and the pool is only reachable from inside the
@@ -157,7 +140,11 @@ void check_fixture(const char *path) {
 } // namespace
 
 int main(int argc, char **argv) {
+    std::setvbuf(stdout, nullptr, _IONBF, 0);
     check_shapes();
-    if (argc > 1) check_fixture(argv[1]);
+    if (argc > 1) {
+        assert(argc == 3);
+        check_fixture(argv[1], argv[2]);
+    }
     return 0;
 }

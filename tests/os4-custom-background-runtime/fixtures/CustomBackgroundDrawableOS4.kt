@@ -1,0 +1,2 @@
+package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3
+class CustomBackgroundDrawableOS4(@JvmField var color:Int):android.graphics.drawable.Drawable(){@JvmField var paused=true;@JvmField var stops=0;@JvmField var updates=0;@JvmField var resize=false;init{if(!ready)throw IllegalStateException("drawer");all.add(this)};fun setActive(v:Boolean){paused=!v};fun dispose(){paused=true;stops++};companion object{@JvmField var ready=true;@JvmField val all=ArrayList<CustomBackgroundDrawableOS4>()}}

@@ -260,6 +260,8 @@ const TargetFunction kTargets[] = {
         {"GridController.folderCellHeight", "GridController.folderCellHeight", "候选 文件夹格高"},
         {"FolderGridViewGetxController.folderCellHeight",
          "FolderGridViewGetxController.folderCellHeight", "文件夹行间距"},
+        {"FolderIconGetxController.folderIconSize",
+         "FolderIconGetxController.folderIconSize", "文件夹图标宽高基准"},
         {"GridController.folderCellWidth", "GridController.folderCellWidth", "候选 文件夹格宽"},
         {"GridController.screenMarginBottom", "GridController.screenMarginBottom",
          "候选 屏幕下边距"},

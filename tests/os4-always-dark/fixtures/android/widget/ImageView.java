@@ -1,0 +1,1 @@
+package android.widget;import android.content.res.ColorStateList;public class ImageView extends android.view.View{public ColorStateList tint;public ColorStateList getImageTintList(){return tint;}public void setImageTintList(ColorStateList c){tint=c;}}

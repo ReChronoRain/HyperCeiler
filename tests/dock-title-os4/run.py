@@ -38,7 +38,7 @@ int main(){unsigned checks=0;auto ok=[&](bool b){++checks;assert(b);};
     java=[]
     for rel,text in sources.items():
         p=out/'stubs'/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text);java.append(p)
-    java += [ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeLayoutPrefsSnapshot.java',ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java',ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeGesturePrefsSnapshot.java',HERE/'EndpointTest.java']
+    java += [ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeLayoutPrefsSnapshot.java',ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java',ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeGesturePrefsSnapshot.java',ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/base/FrameworkHookGate.java',HERE/'EndpointTest.java']
     classes=out/'classes';classes.mkdir()
     run(['javac','-encoding','UTF-8','-d',classes]+java)
     run(['java','-ea','-cp',classes,'com.sevtinge.hyperceiler.libhook.rules.home.dock.EndpointTest'])

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Guard the original-body folder animation path, including partial install fallback."""
+
 from pathlib import Path
 import re,sys
 root=Path(__file__).resolve().parents[2]

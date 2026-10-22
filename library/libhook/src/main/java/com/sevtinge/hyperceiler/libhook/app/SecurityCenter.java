@@ -72,6 +72,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game.Remove
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.RemoveVideoTempLimit;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.UnlockVideoSomeFunc;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VideoDolbyOpen;
@@ -151,6 +152,7 @@ public class SecurityCenter extends BaseLoad {
         initHook(UnlockGunService.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_gun_service"));
         initHook(DisableRemoveScreenHoldOn.INSTANCE, PrefsBridge.getBoolean("security_center_disable_remove_screen_hold_on"));
         initHook(UnlockVideoSomeFunc.INSTANCE, isVideoFunc);
+        initHook(RemoveVideoTempLimit.INSTANCE, PrefsBridge.getBoolean("security_center_remove_vb_temp_limit"));
         initHook(new AddSideBarExpandReceiver(), PrefsBridge.getBoolean("security_center_hide_sidebar"));
         initHook(new VideoDolbyOpen(), PrefsBridge.getBoolean("security_center_dolby_open"));
         initHook(new VBVideoMode(), PrefsBridge.getBoolean("security_center_unlock_new_vb"));

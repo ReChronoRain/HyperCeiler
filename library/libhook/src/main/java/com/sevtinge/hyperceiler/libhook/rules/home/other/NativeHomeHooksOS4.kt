@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.other
 
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
@@ -86,13 +87,26 @@ object NativeHomeHooksOS4 {
     private const val LIBRARY = "HyperCeilerNative"
     /** The Dock feature switch; see `HomeDockWindow`'s settings read. */
     private const val DOCK_ENABLED_KEY = "home_dock_bg_custom_enable"
+    private const val DOCK_ENABLED_STORAGE_KEY = "prefs_key_$DOCK_ENABLED_KEY"
     private const val LIBRARY_FILE = "libHyperCeilerNative.so"
     private const val PACKAGE = "com.sevtinge.hyperceiler"
 
     private val loadStarted = AtomicBoolean()
     private val diagnosticsStarted = AtomicBoolean()
     private val dockWatchStarted = AtomicBoolean()
+    @Volatile private var libraryLoaded = false
+    private val preferencesRecoveryPending = AtomicBoolean()
+    private val preferencesRecoveryRunning = AtomicBoolean()
     private val diagnosticsUri = Uri.parse("content://com.sevtinge.hyperceiler.provider.sharedprefs")
+    // SharedPreferences may hold listeners weakly. Keep the listener alive with this process.
+    private val dockEnabledListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        // PrefsBridge wraps its read/write keys, but raw preference callbacks use the stored key.
+        // A null key reports a cleared preference file, which also resets the Dock switch.
+        if (key == null || key == DOCK_ENABLED_STORAGE_KEY) {
+            val status = syncDockEnabled()
+            stage("dock switch refreshed status=${hex(status)} enabled=${prefBoolean(DOCK_ENABLED_KEY)}")
+        }
+    }
 
     /**
      * Rule-side entry (`HomePhone.onPackageLoaded`). Kept for the normal path; the module-entry
@@ -109,7 +123,12 @@ object NativeHomeHooksOS4 {
      * the native chain would otherwise never start and the device would silently fall back to the
      * `miui.wallpaper.animation` spring in system_server.
      */
-    fun ensureLoadedFromModuleEntry(processName: String?) {
+    @JvmOverloads
+    fun ensureLoadedFromModuleEntry(processName: String?, preferencesReady: Boolean = true) {
+        // A handle can already exist when a later bootstrap read (for example log level) fails.
+        // Preserve the entry's explicit initialization result rather than inferring readiness
+        // only from whether SharedPreferences is non-null.
+        if (!preferencesReady) preferencesRecoveryPending.set(true)
         ensureLoaded("moduleEntry", processName)
     }
 
@@ -117,6 +136,9 @@ object NativeHomeHooksOS4 {
         stage("probe begin source=$source process=${processName ?: "unknown"}")
         if (!loadStarted.compareAndSet(false, true)) {
             stage("probe skipped source=$source alreadyLoaded=true")
+            // A rule-side call is behind the entry's normal hook gates. It can finish a
+            // previously deferred preference/listener recovery without reloading the library.
+            if (source == "homeRule") onPreferencesReadyAfterRetry()
             return
         }
 
@@ -124,6 +146,7 @@ object NativeHomeHooksOS4 {
         var failure: Throwable? = null
         try {
             loadLibrary()
+            libraryLoaded = true
             stage("library loaded name=$LIBRARY")
         } catch (t: Throwable) {
             failure = t
@@ -132,6 +155,9 @@ object NativeHomeHooksOS4 {
 
         if (failure == null) {
             try {
+                // Keep the original conservative fallback during bootstrap, but remember that
+                // it is not the user's configuration. A successful target-ready retry repairs it.
+                if (PrefsBridge.getSharedPreferences() == null) preferencesRecoveryPending.set(true)
                 initialStatus = nativeConfigure(
                     prefBoolean("home_other_high_models"),
                     prefBoolean("home_other_disable_prestart"),
@@ -142,7 +168,9 @@ object NativeHomeHooksOS4 {
                 // motion pipeline at all; push it before anything else can start following.
                 val dockStatus = syncDockEnabled()
                 stage("dock switch status=${hex(dockStatus)} enabled=${prefBoolean(DOCK_ENABLED_KEY)}")
-                watchDockEnabled()
+                // A failed bootstrap can leave an early handle bound. The target-ready retry
+                // may return a different handle; attach only after that binding succeeds.
+                if (!preferencesRecoveryPending.get()) watchDockEnabled()
             } catch (t: Throwable) {
                 failure = t
                 stage("configure failed detail=${t.javaClass.simpleName}: ${describe(t)}")
@@ -150,6 +178,35 @@ object NativeHomeHooksOS4 {
         }
 
         startDiagnostics(initialStatus, failure)
+    }
+
+    /** Called only after a failed bootstrap preference bind recovers and entry gates pass. */
+    fun onPreferencesReadyAfterRetry() {
+        if (!libraryLoaded || !preferencesRecoveryPending.get()) return
+        if (PrefsBridge.getSharedPreferences() == null) return
+        if (!preferencesRecoveryRunning.compareAndSet(false, true)) return
+        try {
+            // A concurrent caller may have observed pending=true before the previous recovery
+            // finished and released running. Recheck after acquiring the recovery slot.
+            if (!preferencesRecoveryPending.get()) return
+            // Read directly: an unavailable value must retain the pending recovery, not replace
+            // a recovered setting with a second silent false/default configuration.
+            val status = nativeConfigure(
+                PrefsBridge.getBoolean("home_other_high_models"),
+                PrefsBridge.getBoolean("home_other_disable_prestart"),
+                PrefsBridge.getBoolean(DOCK_ENABLED_KEY)
+                    && PrefsBridge.getStringAsInt("home_dock_add_blur", 0) == 1
+            )
+            nativeSetDockEnabled(PrefsBridge.getBoolean(DOCK_ENABLED_KEY))
+            watchDockEnabled()
+            // Listener registration failure is retryable from the next rule-side init call.
+            if (dockWatchStarted.get()) preferencesRecoveryPending.set(false)
+            stage("preferences recovered status=${hex(status)} listener=${dockWatchStarted.get()}")
+        } catch (t: Throwable) {
+            stage("preferences recovery failed detail=${describe(t)}")
+        } finally {
+            preferencesRecoveryRunning.set(false)
+        }
     }
 
     /**
@@ -241,13 +298,16 @@ object NativeHomeHooksOS4 {
     private fun watchDockEnabled() {
         if (!dockWatchStarted.compareAndSet(false, true)) return
         runCatching {
-            PrefsBridge.getSharedPreferences()?.registerOnSharedPreferenceChangeListener { _, key ->
-                if (key == DOCK_ENABLED_KEY) {
-                    val status = syncDockEnabled()
-                    stage("dock switch refreshed status=${hex(status)} enabled=${prefBoolean(DOCK_ENABLED_KEY)}")
-                }
+            val preferences = PrefsBridge.getSharedPreferences()
+            if (preferences == null) {
+                dockWatchStarted.set(false)
+                return
             }
+            preferences.registerOnSharedPreferenceChangeListener(dockEnabledListener)
+            // Catch a switch change between the initial push and listener registration.
+            syncDockEnabled()
         }.onFailure {
+            dockWatchStarted.set(false)
             stage("dock switch listener unavailable detail=${describe(it)}")
         }
     }

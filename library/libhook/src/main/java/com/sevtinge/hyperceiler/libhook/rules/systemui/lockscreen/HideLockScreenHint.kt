@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
@@ -29,6 +30,10 @@ object HideLockScreenHint : BaseHook() {
     }
 
     override fun init() {
+        if (isMoreHyperOSVersion(4f)) {
+            HideLockScreenHintOS4.init()
+            return
+        }
         val controllerClass = keyguardIndicationController ?: return
         controllerClass.findMethod {
             paramCount(1)

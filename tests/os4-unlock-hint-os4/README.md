@@ -1,0 +1,4 @@
+Production scope: HideLockScreenHint route + HideLockScreenHintOS4 stock type13 before callback.
+Run `python3 source/tests/os4-unlock-hint-os4/run.py --output <new-dir> --negative-controls` from the workspace root. It runs 59 current host cases, Android37 production compilation, and 11 independent source mutants using at most three compiler workers. Full original OTA DEX queue execution is the separate `tests/os4-unlock-hint-oem` suite, not the local call-recording body.
+The historical os4-unlock-hint-decline runner applies to its frozen old source; this suite replaces current OS4 refusal checks while preserving the OS3 route and fingerprint-feedback regression requirements.
+See acceptance/java-test15/unlock-hint-runtime/README.md for exact supported stock condition, restart/refresh semantics and remaining ordinary bottom-hint gap. Physical device: NOT_TESTED.

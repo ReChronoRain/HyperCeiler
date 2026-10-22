@@ -1,0 +1,1 @@
+package com.android.keyguard;public class NumPadKey extends android.view.View{public final int mDigit;public final String label;public NumPadKey(int d,KeyguardPINView owner){mDigit=d;id=200+d;label=String.valueOf(d);listener=()->{if(owner.inputEnabled)owner.input.append((char)('0'+mDigit));};}}

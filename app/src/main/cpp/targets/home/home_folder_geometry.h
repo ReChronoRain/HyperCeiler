@@ -262,6 +262,7 @@ inline bool folder_geometry_contract(const std::array<std::vector<uint32_t>,2>& 
     return true;
 }
 
+
 inline bool folder_grid_geometry(uintptr_t grid, double top, double bottom,
     double side, double *g, const WorkspaceRenderSnapshot *rendered,
     const GridFieldOffsets *field) {

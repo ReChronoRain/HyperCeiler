@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -27,6 +28,7 @@ public class PrefsBridge {
     public static final String REMOTE_PREFS_GROUP = PREFS_NAME + "_remote";
     private static final Set<String> sWarnedHookWrites = Collections.synchronizedSet(new HashSet<>());
     private static final Map<String, Object> sHookCache = new ConcurrentHashMap<>();
+    private static final Object sFrameworkStatusWriteLock = new Object();
 
     // App 进程本地存储句柄
     private static SharedPreferences mPhysicalPrefs;
@@ -68,9 +70,11 @@ public class PrefsBridge {
      * 确保激活状态下，App 端的修改能推送到远程
      */
     public static void setRemotePrefs(SharedPreferences remote) {
-        mRemotePrefs = remote;
-        if (remote != null) {
-            syncPhysicalToRemote();
+        synchronized (sFrameworkStatusWriteLock) {
+            mRemotePrefs = remote;
+            if (remote != null) {
+                syncPhysicalToRemote();
+            }
         }
     }
 
@@ -182,6 +186,74 @@ public class PrefsBridge {
         // The provider reads the committed physical file. A missing/read-only remote endpoint
         // must not hide a successful local write from system_server's provider observers.
         notifyPrefChanged(rKey, prefType);
+    }
+
+    /**
+     * Publish the framework gate and the identity checked for that gate as one revision.
+     * Each store receives a single Editor commit; local and remote stores are not a
+     * cross-process transaction. Preserve local-first writes and per-key observer URIs.
+     */
+    public static void putFrameworkStatusByApp(boolean allowHook, @Nullable String reason,
+                                               @Nullable String name, @Nullable String version,
+                                               long versionCode, int apiVersion, @Nullable String detail) {
+        if (warnAndSkipIfHookWrite("put", wrap("framework_api_allow_hook"))) return;
+        synchronized (sFrameworkStatusWriteLock) {
+            if (mPhysicalPrefs == null) return;
+            final Map<String, ?> before;
+            try {
+                before = mPhysicalPrefs.getAll();
+            } catch (RuntimeException unavailable) {
+                AndroidLog.w(TAG, "Failed to read physical prefs before publishing framework status.", unavailable);
+                return;
+            }
+            Map<String, Object> values = new LinkedHashMap<>();
+            String allowKey = wrap("framework_api_allow_hook");
+            values.put(allowKey, allowHook);
+            values.put(wrap("framework_check_reason"), reason);
+            values.put(wrap("framework_check_name"), name);
+            values.put(wrap("framework_check_version"), version);
+            values.put(wrap("framework_check_version_code"), versionCode);
+            values.put(wrap("framework_check_api_version"), apiVersion);
+            values.put(wrap("framework_check_detail"), detail);
+            Map<String, PrefType> notifications = frameworkStatusNotifications(values, before, allowKey);
+            if (!commitFrameworkStatus(mPhysicalPrefs, values, before, "physical")) return;
+            if (mRemotePrefs != null) commitFrameworkStatus(mRemotePrefs, values, null, "remote");
+            for (Map.Entry<String, PrefType> entry : notifications.entrySet()) {
+                notifyPrefChanged(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    private static Map<String, PrefType> frameworkStatusNotifications(Map<String, Object> values,
+                                                                      Map<String, ?> before, String allowKey) {
+        Map<String, PrefType> notifications = new LinkedHashMap<>();
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
+            // The old writer notified the allow bit only when absent or changed.
+            if (entry.getKey().equals(allowKey)
+                && Objects.equals(before.get(allowKey), entry.getValue())) continue;
+            Object value = entry.getValue() != null ? entry.getValue() : before.get(entry.getKey());
+            notifications.put(entry.getKey(), resolvePrefType(value));
+        }
+        return notifications;
+    }
+
+    private static boolean commitFrameworkStatus(SharedPreferences prefs, Map<String, Object> values,
+                                                  @Nullable Map<String, ?> before, String source) {
+        try {
+            Map<String, ?> existing = before != null ? before : prefs.getAll();
+            SharedPreferences.Editor editor = prefs.edit();
+            for (Map.Entry<String, Object> entry : values.entrySet()) {
+                // libxposed's Editor notifies every put, even unchanged values. Keep the
+                // allow-key listener behavior while repairing a stale remote gate if needed.
+                if (entry.getKey().equals(wrap("framework_api_allow_hook"))
+                    && Objects.equals(existing.get(entry.getKey()), entry.getValue())) continue;
+                performPut(editor, entry.getKey(), entry.getValue());
+            }
+            return commitEditor(editor, source, "publish framework status");
+        } catch (RuntimeException e) {
+            AndroidLog.w(TAG, "Failed to prepare framework status for " + source + " prefs.", e);
+            return false;
+        }
     }
 
     /**

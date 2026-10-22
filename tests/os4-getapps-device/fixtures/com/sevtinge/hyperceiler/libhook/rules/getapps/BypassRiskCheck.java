@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.libhook.rules.getapps;import com.sevtinge.hyperceiler.libhook.base.BaseHook;public class BypassRiskCheck extends BaseHook{public static final BypassRiskCheck INSTANCE=new BypassRiskCheck(); public void init(){}}

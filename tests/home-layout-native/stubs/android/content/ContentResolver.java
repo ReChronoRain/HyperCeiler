@@ -56,13 +56,18 @@ public class ContentResolver {
                     return !snapshot.containsKey(key);
                 }
                 public int getInt(int i) {
-                    if (i == 0) return wrongSchema ? 999 : 1;
+                    if (i == 0) return wrongSchema ? 999
+                        : com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.SCHEMA;
                     if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cell");
                     return ((Number)snapshot.get("prefs_key_" + specs[i-1][1])).intValue();
                 }
                 public String getString(int i) {
                     if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cell");
                     return (String)snapshot.get("prefs_key_" + specs[i-1][1]);
+                }
+                public long getLong(int i) {
+                    if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cell");
+                    return ((Number)snapshot.get("prefs_key_" + specs[i-1][1])).longValue();
                 }
                 public void close() {
                     if (failureIndex >= 0 && "close".equals(failureMode)) throw new IllegalStateException("close failed");
@@ -82,7 +87,7 @@ public class ContentResolver {
             }
             public int getInt(int i) {
                 if (fail && "read".equals(failureMode)) throw new IllegalStateException("invalid cursor");
-                return value;
+                return ((Number)value).intValue();
             }
             public void close() {
                 if (fail && "close".equals(failureMode)) throw new IllegalStateException("close failed");

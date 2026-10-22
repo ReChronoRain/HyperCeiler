@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.HostExecutor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.MediaControlBgFactory.defaultColorConfig
@@ -134,6 +135,10 @@ object CustomBackground : BaseHook() {
     }
 
     override fun init() {
+        if (isMoreHyperOSVersion(4f)) {
+            CustomBackgroundOS4.init()
+            return
+        }
         if (ncBackgroundStyle != 0) {
             ncProcessor = setBackground(ncBackgroundStyle)
             initNCForOS3()

@@ -20,6 +20,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/weather"
     app:quick_restart="com.miui.weather2">
+
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_home_is_rust_no_support"
+        android:layout="@layout/headtip_warn"
+        android:title="@string/home_is_rust_no_support" />
+
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_home_is_rust"
+        android:layout="@layout/headtip_tip"
+        android:title="@string/home_is_rust_tips" />
+
     <PreferenceCategory>
         <fan.preference.DropDownPreference
             android:defaultValue="3"

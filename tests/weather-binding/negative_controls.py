@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+"""Copied resolver mutations must fail runtime tests, not compilation."""
+from pathlib import Path
+import argparse,hashlib,json,subprocess,sys
+p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True);b=Path(__file__).resolve().parent;src=b.parents[1]/'app/src/main/cpp/targets/weather/weather_binding.h';text=src.read_text();sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+variants=[('mixed_public_getters_accepted','!detail::targets(public_base, weather_guard::kWeatherImports, weather_pointers)','false'),('foreign_allocator_accepted','!detail::targets(standard_base, weather_guard::kStandardImports, standard_pointers)','false'),('miss_changed_weather_import','weather_again != weather_pointers','false'),('skip_complete_weather_guards','if (!verify_weather(weather_base, read)) return false;','// mutation: omit Weather verification')]
+results=[]
+for name,before,after in variants:
+ assert text.count(before)==1;d=a.output/name;d.mkdir(parents=True,exist_ok=True);copy=d/'weather_binding.h';copy.write_text(text.replace(before,after));cmd=[sys.executable,str(b/'run.py'),'--output',str(d/'run'),'--binding-header',str(copy.resolve())];z=subprocess.run(cmd,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120);(d/'stdout.txt').write_text(z.stdout);rp=d/'run/report.json';report=json.loads(rp.read_text())if rp.exists()else{};results.append({'name':name,'rejected_by_runtime_assertion':z.returncode==1 and report.get('tests',{}).get('failed',0)>0,'exit_code':z.returncode,'tests':report.get('tests'),'mutation_sha256':sha(copy),'report':str(rp)})
+x={'passed':all(x['rejected_by_runtime_assertion']for x in results),'controls':results,'production_input':{'path':str(src),'sha256':sha(src)},'script':{'path':str(Path(__file__).resolve()),'sha256':sha(Path(__file__))}};(a.output/'report.json').write_text(json.dumps(x,indent=2)+'\n');print(json.dumps(x,indent=2));raise SystemExit(0 if x['passed']else 1)

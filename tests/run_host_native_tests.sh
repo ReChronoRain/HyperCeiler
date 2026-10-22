@@ -52,7 +52,8 @@ run() {
 
 # --- NativeHookRuntime core tests (no external fixtures). ---
 for test in NativeHookElfTest NativeHookGotTest NativeHookBankTest \
-            NativeHookCoreResolverTest NativeHookPageGuardTest NativeHookImageViewTest; do
+            NativeHookCoreResolverTest NativeHookPageGuardTest NativeHookImageViewTest \
+            NativeHookBoundedReadsTest; do
   build "$test" "$ROOT/tests/nativehook/$test.cpp" && run "$test"
 done
 
