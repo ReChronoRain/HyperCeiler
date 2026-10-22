@@ -49,6 +49,7 @@ int main() {
         }
     };
     const auto render = [&](double top, double bottom, double side) {
+        const home_dynamic::GeometryFrame layout{-8,0,0,-88,-64,-80,-72,-88,-64,-80,-72};
         workspace_write(fp, -8, grid);
         workspace_write(fp, -0x58, 20.0);
         workspace_write(fp, -0x40, 30.0);
@@ -56,7 +57,7 @@ int main() {
         workspace_write(fp, -0x48, 100.0);
         ++checks;
         if (!inset_workspace_frame(fp, grid >> 32, false, &kDrop, top, bottom, side,
-                nullptr, &rendered)) { std::puts("render failed"); ++failed; }
+                nullptr, &rendered, &layout)) { std::puts("render failed"); ++failed; }
         workspace_write(fp, -8, uintptr_t{0x1234});
     };
     const auto drop = [&](double settings_top, double settings_bottom, double settings_side,

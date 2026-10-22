@@ -40,6 +40,10 @@ int main() {
         ++checks; if (std::abs(a-b) > 1e-9) ++failed;
     };
     const auto render = [&](double top, double bottom, double side, bool occupied) {
+        // This fixture owns its synthetic locals; production resolves these roles from AOT.
+        const home_dynamic::GeometryFrame layout = occupied
+            ? home_dynamic::GeometryFrame{-8,-16,0,-80,0,-96,-88,-112,-104,-96,-88}
+            : home_dynamic::GeometryFrame{-8,0,0,-88,-64,-80,-72,-88,-64,-80,-72};
         workspace_write(fp, -8, occupied ? delegate : grid);
         workspace_write(delegate, kFields.occupied_grid, static_cast<uint32_t>(grid));
         workspace_write(fp, -0x10, info);
@@ -51,7 +55,9 @@ int main() {
         double g[4];
         const bool ok = inset_workspace_frame(fp, grid >> 32, occupied, &kFields, top, bottom, side, g
 #if SNAPSHOT
-            , &cache
+            , &cache, &layout
+#else
+            , nullptr, &layout
 #endif
         );
         ++checks; if (!ok) ++failed;

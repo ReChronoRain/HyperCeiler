@@ -24,7 +24,7 @@ public final class CombinedSnapshotTest {
  static Object get(String n){try{var f=HomeLayoutNativeEndpointOS4.class.getDeclaredField(n);f.setAccessible(true);return f.get(null);}catch(Exception e){throw new AssertionError(e);}}
  static void reset(){
   for(String s:new String[]{"cachedValues","cachedFrameworkReason","cachedFrameworkFingerprint","combinedPublished"})set(s,null);
-  for(String s:new String[]{"refreshEpoch","refreshTicket","combinedEpoch","combinedRevision","hyosSnapshotAtNanos"})set(s,0L);
+  for(String s:new String[]{"refreshEpoch","refreshTicket","notificationVersion","combinedEpoch","combinedRevision","hyosSnapshotAtNanos"})set(s,0L);
   set("paused",false);set("hyosSnapshotLive",false);set("refresher",new Thread());
   BaseHook.resetTestState();BaseLoad.resetFrameworkForTest();Binder.setCallingIdentityForTest(10100,42);
   PackageManager.packages=new String[]{"com.miui.home"};PackageManager.fail=false;
@@ -59,6 +59,32 @@ public final class CombinedSnapshotTest {
   run("wire offsets exact int32 int64 counters and 8+17 arrays",()->{set("combinedEpoch",0x1122334455667788L);set("combinedRevision",0x2233445566778800L);publish(prefs("allow_hook",true,"home_layout_unlock_grids_new",true,"home_layout_unlock_grids_cell_x",8,"home_layout_unlock_grids_cell_y",12,"home_layout_hotseats_margin_bottom_enable",true,"home_layout_hotseats_margin_bottom",101,"home_dock_unlock_hotseat",true));var s=read();var b=ByteBuffer.wrap(wire(s)).order(ByteOrder.LITTLE_ENDIAN);eq(b.getInt(4),1);eq(b.getInt(8),1);eq(b.getLong(12),0x1122334455667788L);eq(b.getLong(20),0x2233445566778801L);eq(b.getLong(28),15_000_000_000L);eq(b.getInt(36),1);eq(b.getInt(40),8);eq(b.getInt(44),12);eq(b.getInt(48),8);eq(b.getInt(52),1);eq(b.getInt(56),31);eq(b.getInt(116),17);eq(b.getInt(184),1);});
   run("disabled knob always zero delta despite stored nondefault slider",()->{publish(prefs("allow_hook",true,"home_layout_hotseats_margin_bottom_enable",false,"home_layout_hotseats_margin_bottom",100));var s=read();eq(s.layout().knobEnabled()[0],0);eq(s.layout().knobDeltaDp()[0],0);});
   run("returned arrays cannot corrupt cached publication",()->{publish(prefs("allow_hook",true,"home_layout_workspace_padding_top_enable",true,"home_layout_workspace_padding_top",55));var s=read();s.layout().knobEnabled()[2]=0;s.layout().knobDeltaDp()[2]=999;s.layout().tweaks()[0]=15;eq(s.layout().knobDeltaDp()[2],25);eq(read().layout().knobDeltaDp()[2],25);eq(read().layout().tweaks()[0],3);});
+  run("extended layout and string titles survive unified decoding and defensive copies",()->{
+   publish(prefs("allow_hook",true,"home_title_font_size",15,"home_drawer_title_font_size",14,
+    "home_title_title_icontitlecustomization_onoff",true,"home_title_title_icontitlecustomization",Set.of("pkg.name฿新标题฿fixture"),
+    "home_layout_small_folder_scale_enable",true,"home_layout_small_folder_scale",83,
+    "home_layout_big_folder_scale_enable",true,"home_layout_big_folder_scale",121,
+    "home_layout_widget_scale_enable",true,"home_layout_widget_scale",130,"home_dock_icon_title",true,
+    "home_widget_allow_moved_to_minus_one_screen",true,"home_folder_auto_close",true,"home_folder_width",true,
+    "home_navigation_back_area_height",80,"home_navigation_back_area_width",230));
+   var combined=read();var legacy=HomeLayoutNativeEndpointOS4.readPreferences();
+   eq(Arrays.toString(combined.layout().title()),Arrays.toString(legacy.title()));
+   eq(Arrays.deepToString(combined.layout().customTitles()),Arrays.deepToString(legacy.customTitles()));
+   check(legacy.customTitles().length>0);eq(Arrays.toString(combined.layout().objectScales()),"[1, 83, 1, 121, 1, 130]");
+   check(combined.layout().dockShowTitle()&&combined.layout().widgetAllowMove()&&combined.layout().folderAutoClose());
+   eq(combined.layout().folder()[1],1);eq(Arrays.toString(combined.layout().backGesture()),"[80, 230]");
+   var escaped=combined.layout();escaped.title()[0]=99;escaped.customTitles()[0][0]="tampered";
+   escaped.folder()[1]=0;escaped.backGesture()[0]=10;escaped.objectScales()[1]=140;
+   eq(combined.layout().title()[0],15);eq(combined.layout().folder()[1],1);eq(combined.layout().objectScales()[1],83);
+   check(!Arrays.deepToString(read().layout().customTitles()).contains("tampered"));wire(combined);
+  });
+  run("notification during provider query rejects the entire in-flight revision",()->{
+   publish(prefs("allow_hook",true,"home_layout_unlock_grids_cell_x",7));Object previous=get("cachedValues");
+   ContentResolver.afterSnapshot=()->set("notificationVersion",(long)get("notificationVersion")+1);
+   ContentResolver.values=prefs("allow_hook",true,"home_layout_unlock_grids_cell_x",9);
+   check(!HomeLayoutNativeEndpointOS4.refreshFromProvider());inactive(read(),0);check(get("cachedValues")==previous);
+   ContentResolver.afterSnapshot=()->{};publish(ContentResolver.values);eq(read().layout().cellX(),9);
+  });
   run("all supported flags remain exact63",()->{publish(prefs("allow_hook",true,"home_other_high_models",true,"home_other_disable_prestart",true,"home_dock_bg_custom_enable",true,"home_dock_add_blur","1","home_title_hide_report_text",true));eq(read().flags(),63);});
   run("soft glass still requires dock",()->{publish(prefs("allow_hook",true,"home_dock_add_blur","1"));eq(read().flags(),1);});
   run("global off canonical zero layout despite all enabled controls",()->{publish(prefs("allow_hook",false,"home_title_hide_report_text",true,"home_layout_unlock_grids_new",true,"home_layout_unlock_grids_cell_x",9));inactive(read(),1);});
@@ -88,6 +114,22 @@ public final class CombinedSnapshotTest {
   run("oneway trailing payload never gets authorization",()->{publish(prefs("allow_hook",true));inactive(endpoint().receiveCombinedSnapshot(new Parcel(DESC),1),0);inactive(endpoint().receiveCombinedSnapshot(new Parcel(DESC,7),0),0);});
   for(int[] id:new int[][]{{9999,42},{10100,0},{10100,-1},{10101,42},{10100,43}})run("caller auth required "+Arrays.toString(id),()->{publish(prefs("allow_hook",true));Binder.setCallingIdentityForTest(id[0],id[1]);inactive(read(),0);});
   run("default production verifier rejects non-Home process",()->{publish(prefs("allow_hook",true));Binder.setCallingIdentityForTest(10100,(int)ProcessHandle.current().pid());inactive(new HomeLayoutNativeEndpointOS4().receiveCombinedSnapshot(new Parcel(DESC),0),0);});
+  run("prefetch worker renews leases without a preference notification",()->{
+   set("refresher",null);SystemClock.source=System::nanoTime;ContentResolver.values=prefs("allow_hook",true);
+   Gate invalidation=new Gate();
+   HomeLayoutNativeEndpointOS4.startCombinedPrefetch();
+   try {
+    long until=System.nanoTime()+TimeUnit.SECONDS.toNanos(7);
+    while(ContentResolver.queries.get()<4&&System.nanoTime()<until)Thread.sleep(20);
+    check(ContentResolver.queries.get()>=4);eq(read().flags(),1);
+    ContentResolver.values=prefs("allow_hook",false);ContentResolver.afterSnapshot=invalidation::block;
+    ContentResolver.signalChange("content://com.sevtinge.hyperceiler.provider.sharedprefs/pref/boolean/allow_hook");
+    invalidation.entered();inactive(read(),0);invalidation.release.countDown();
+    for(int i=0;i<100&&read().available()==0;i++)Thread.sleep(10);
+    inactive(read(),1);
+   } catch(InterruptedException e){throw new AssertionError(e);}
+   finally {invalidation.release.countDown();check(HomeLayoutNativeEndpointOS4.pauseForHotReload());}
+  });
   System.out.println("RESULT passes="+passed+" failures="+failed+"; production Java endpoint/provider/gate and wire writer, simulated Android/clock; device NOT_TESTED");
   if(failed>0)System.exit(1);
   if(System.getProperty("hcs.corpus")!=null)writeCorpus(Path.of(System.getProperty("hcs.corpus")));

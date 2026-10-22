@@ -51,10 +51,9 @@ public final class HomeLayoutNativeEndpointOS4 {
      * on a binder call. A refresh can start the module app, so idle refreshes must be sparse.
      */
     private static final String PREFS_AUTHORITY = "com.sevtinge.hyperceiler.provider.sharedprefs";
-    // Physical settings writes notify /pref/<type>/<key>. Polling every 1.5 s kept the
-    // module app and system_server waking even when the launcher was covered or asleep.
-    private static final long PREFS_REFRESH_MS = 60000;
-    private static final long UNOBSERVED_REFRESH_MS = 5000;
+    // HCS1 authorization expires after five BOOTTIME seconds, even without a settings write.
+    // Renew on the existing worker; notifications still coalesce slider updates promptly.
+    private static final long PREFS_REFRESH_MS = 1500;
     private static final long INITIAL_RETRY_MS = 1500;
     private static final long CHANGE_MIN_INTERVAL_NS = 150_000_000L;
     /**
@@ -64,19 +63,65 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static final long MAX_REFRESH_BACKOFF_MS = 30000;
     private static final String TAG = "HyperCeiler.HomeLayoutEndpoint";
     private static volatile java.util.Map<String, Object> cachedValues;
+    // Published with the same provider revision, never restored as live authorization.
+    private static String cachedFrameworkReason;
+    private static FrameworkHookGate.Fingerprint cachedFrameworkFingerprint;
+    private static boolean hyosSnapshotLive;
+    private static long hyosSnapshotAtNanos;
+    private static final long HYOS_MAX_SNAPSHOT_AGE_NANOS = 5_000_000_000L;
     private static volatile String lastDenied;
     private static volatile String lastAccepted;
     private static Thread refresher;
     private static volatile boolean paused;
     private static long refreshEpoch;
     private static long notificationVersion;
-    private static long queryVersion;
-    private static long publishedQueryVersion;
+    private static long refreshTicket;
+    private static long combinedEpoch;
+    private static long combinedRevision;
+    private static volatile PublishedSnapshot combinedPublished;
     private static final String RELOAD_CACHE_KEY = "OS4.HomeLayout.ProviderSnapshot.v1";
     private static final Object refresherLock = new Object();
 
     /** Every key this endpoint reads, without the module's own key prefix. */
     private static final String[][] PREF_KEYS = HomeLayoutPrefsSnapshot.specs();
+
+    // One immutable provider revision owns both authorization and the decoded layout.
+    private record PublishedSnapshot(java.util.Map<String, Object> values, String reason,
+        FrameworkHookGate.Fingerprint framework, Snapshot layout, long epoch, long revision,
+        long deadline) { }
+
+    public record CombinedSnapshot(int available, int flags, long epoch, long revision,
+        long deadline, Snapshot layout) {
+        public CombinedSnapshot { layout = copyLayout(layout); }
+        @Override public Snapshot layout() { return copyLayout(layout); }
+    }
+
+    private static Snapshot copyLayout(Snapshot value) {
+        if (value == null) return new Snapshot(ACK, 0, 0, 0, new int[KNOB_ROWS.length],
+            new int[KNOB_ROWS.length], new int[TWEAK_COUNT]);
+        final String[][] titles = new String[value.customTitles().length][];
+        for (int i = 0; i < titles.length; ++i) titles[i] = value.customTitles()[i].clone();
+        return new Snapshot(value.acknowledgment(), value.gridEnabled(), value.cellX(), value.cellY(),
+            value.knobEnabled().clone(), value.knobDeltaDp().clone(), value.tweaks().clone(),
+            value.title().clone(), titles, value.widgetAllowMove(), value.folder().clone(),
+            value.backGesture().clone(), value.folderAutoClose(), value.objectScales().clone(),
+            value.dockShowTitle());
+    }
+
+    private static CombinedSnapshot unavailableCombined(PublishedSnapshot value) {
+        return new CombinedSnapshot(0, 0, value == null ? 0 : value.epoch(),
+            value == null ? 0 : value.revision(), 0, null);
+    }
+
+    /** Caller holds refresherLock. Revocation advances the same publication sequence. */
+    private static void invalidateCombinedLocked() {
+        hyosSnapshotLive = false;
+        if (combinedEpoch == 0) { combinedPublished = null; return; }
+        combinedPublished = new PublishedSnapshot(null, null, null, null, combinedEpoch,
+            ++combinedRevision, 0);
+    }
+
+    public static void startCombinedPrefetch() { ensureRefresher(); }
 
     private static boolean isLayoutChange(Uri uri) {
         if (uri == null) return true; // A broad invalidation must never be dropped.
@@ -133,6 +178,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                                     if (!isLayoutChange(uri)) return;
                                     synchronized (refresherLock) {
                                         ++notificationVersion;
+                                        invalidateCombinedLocked();
                                         refresherLock.notifyAll();
                                     }
                                 }
@@ -166,7 +212,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                         final long period;
                         if (success) {
                             retry = INITIAL_RETRY_MS;
-                            period = observer == null ? UNOBSERVED_REFRESH_MS : PREFS_REFRESH_MS;
+                            period = PREFS_REFRESH_MS;
                         } else {
                             retry = Math.min(retry * 2, MAX_REFRESH_BACKOFF_MS);
                             period = retry;
@@ -175,14 +221,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                             if (paused || refreshEpoch != epoch) return;
                             // A write during the query needs a new whole-file revision now.
                             if (notificationVersion != beforeQuery) continue;
-                            if (success && observer != null) {
-                                // A committed snapshot is sufficient while settings do not change.
-                                // Spurious wakeups must not query/start the app again either.
-                                while (!paused && refreshEpoch == epoch
-                                    && notificationVersion == beforeQuery) refresherLock.wait();
-                            } else {
-                                refresherLock.wait(period);
-                            }
+                            refresherLock.wait(period);
                         }
                     }
                 } catch (InterruptedException cancelled) {
@@ -237,13 +276,58 @@ public final class HomeLayoutNativeEndpointOS4 {
     /** One Binder query / one physical settings revision, including an explicit empty reset. */
     static boolean refreshFromProvider() {
         final long epoch;
+        final long ticket;
         final long notificationAtQuery;
-        final long query;
         synchronized (refresherLock) {
             if (paused) return false;
             epoch = refreshEpoch;
+            ticket = ++refreshTicket;
             notificationAtQuery = notificationVersion;
-            query = ++queryVersion;
+        }
+        // The lease begins BEFORE the provider call. A slow response cannot renew stale data.
+        final long started = SystemClock.elapsedRealtimeNanos();
+        boolean success;
+        try { success = tryRefreshFromProvider(epoch, ticket, notificationAtQuery, started); }
+        catch (RuntimeException | Error unavailable) { success = false; }
+        synchronized (refresherLock) {
+            if (!success && refreshEpoch == epoch && refreshTicket == ticket) {
+                hyosSnapshotLive = false;
+                invalidateCombinedLocked();
+            }
+        }
+        return success;
+    }
+
+    private static boolean tryRefreshFromProvider(long epoch, long ticket, long notificationAtQuery, long started) {
+        if (started <= 0 || started > Long.MAX_VALUE - HYOS_MAX_SNAPSHOT_AGE_NANOS) return false;
+        if (!ensurePublicationEpoch(epoch, ticket)) return false;
+        final ProviderSnapshot source = queryProviderSnapshot();
+        if (source == null) return false;
+        final java.util.Map<String, Object> complete = source.values();
+        final Snapshot layout = decodeLayout(complete);
+        final long deadline = started + HYOS_MAX_SNAPSHOT_AGE_NANOS;
+        synchronized (refresherLock) {
+            final long now = SystemClock.elapsedRealtimeNanos();
+            if (paused || refreshEpoch != epoch || refreshTicket != ticket
+                || notificationVersion != notificationAtQuery || now < started || now >= deadline) return false;
+            // Boot-classloader Map/String/Integer only; no endpoint, callback or Thread crosses reload.
+            BaseHook.putHotReloadRuntimeState(RELOAD_CACHE_KEY, complete);
+            cachedValues = complete;
+            cachedFrameworkReason = source.reason();
+            cachedFrameworkFingerprint = source.framework();
+            hyosSnapshotAtNanos = System.nanoTime();
+            hyosSnapshotLive = true;
+            combinedPublished = new PublishedSnapshot(complete, cachedFrameworkReason,
+                cachedFrameworkFingerprint, layout, combinedEpoch, ++combinedRevision, deadline);
+        }
+        return true;
+    }
+
+    private static boolean ensurePublicationEpoch(long epoch, long ticket) {
+        final boolean needsEpoch;
+        synchronized (refresherLock) {
+            if (paused || refreshEpoch != epoch || refreshTicket != ticket) return false;
+            needsEpoch = combinedEpoch == 0;
         }
         if (needsEpoch) {
             // Once per generation, on the provider worker, outside publication/WMS locks.
@@ -257,15 +341,17 @@ public final class HomeLayoutNativeEndpointOS4 {
         return true;
     }
 
-    private record ProviderSnapshot(java.util.Map<String, Integer> values, String reason,
+    private record ProviderSnapshot(java.util.Map<String, Object> values, String reason,
         FrameworkHookGate.Fingerprint framework) { }
 
     private static ProviderSnapshot queryProviderSnapshot() {
         final android.content.Context context =
             com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
                 com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
-        if (context == null) return false;
+        if (context == null) return null;
         final java.util.Map<String, Object> values = new java.util.HashMap<>();
+        final java.util.Map<String, String> frameworkText = new java.util.HashMap<>();
+        long frameworkVersionCode = Long.MIN_VALUE;
         try {
             final android.content.ContentResolver resolver = context.getContentResolver();
             if (resolver == null) return null;
@@ -277,31 +363,32 @@ public final class HomeLayoutNativeEndpointOS4 {
                 for (int index = 0; index < PREF_KEYS.length; ++index) {
                     final String key = PREF_KEYS[index][1];
                     final int column = index + 1;
-                    if (!key.equals(cursor.getColumnName(column))) return false;
-                    if (!cursor.isNull(column)) {
-                        Object value = "stringset".equals(PREF_KEYS[index][0])
-                            ? cursor.getString(column) : cursor.getInt(column);
-                        if (value instanceof String packet) HomeLayoutPrefsSnapshot.decodeTitleRecords(packet);
-                        values.put(key, value);
+                    if (!key.equals(cursor.getColumnName(column))) return null;
+                    if (cursor.isNull(column)) continue;
+                    switch (PREF_KEYS[index][0]) {
+                        case "text" -> frameworkText.put(key, cursor.getString(column));
+                        case "stringset" -> {
+                            final String packet = cursor.getString(column);
+                            HomeLayoutPrefsSnapshot.decodeTitleRecords(packet);
+                            values.put(key, packet);
+                        }
+                        case "long" -> frameworkVersionCode = cursor.getLong(column);
+                        default -> values.put(key, cursor.getInt(column));
                     }
                 }
             }
-        } catch (RuntimeException | Error unavailable) { return false; }
-        final java.util.Map<String, Object> complete = java.util.Collections.unmodifiableMap(values);
-        synchronized (refresherLock) {
-            // An update received while this cursor was being read invalidates its
-            // whole revision. Keep the last-good height until the existing worker
-            // retries; never expose an older position for even one layout frame.
-            // Also reject an older query completing after a newer accepted query.
-            if (paused || refreshEpoch != epoch
-                || notificationVersion != notificationAtQuery
-                || query <= publishedQueryVersion) return false;
-            publishedQueryVersion = query;
-            // Boot-classloader Map/String/Integer only; no endpoint, callback or Thread crosses reload.
-            BaseHook.putHotReloadRuntimeState(RELOAD_CACHE_KEY, complete);
-            cachedValues = complete;
-        }
-        return true;
+        } catch (RuntimeException | Error unavailable) { return null; }
+        return new ProviderSnapshot(java.util.Collections.unmodifiableMap(values),
+            frameworkText.get("framework_check_reason"),
+            new FrameworkHookGate.Fingerprint(frameworkText.get("framework_check_name"),
+                frameworkText.get("framework_check_version"), frameworkVersionCode));
+    }
+
+    private static boolean isProviderSchema(android.database.Cursor cursor) {
+        return !(cursor == null || !cursor.moveToFirst()
+                    || cursor.getColumnCount() != PREF_KEYS.length + 1
+                    || !"schema".equals(cursor.getColumnName(0))
+                    || cursor.isNull(0) || cursor.getInt(0) != HomeLayoutPrefsSnapshot.SCHEMA);
     }
 
     /**
@@ -419,7 +506,7 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     static int readHyosFlags() {
         ensureRefresher();
-        final java.util.Map<String, Integer> values;
+        final java.util.Map<String, Object> values;
         final String frameworkReason;
         final FrameworkHookGate.Fingerprint checkedFramework;
         synchronized (refresherLock) {
@@ -435,7 +522,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         return deriveHyosFlags(values, frameworkReason, checkedFramework);
     }
 
-    private static int deriveHyosFlags(java.util.Map<String, Integer> values, String frameworkReason,
+    private static int deriveHyosFlags(java.util.Map<String, Object> values, String frameworkReason,
         FrameworkHookGate.Fingerprint checkedFramework) {
         if (!readBoolean(values, "allow_hook", false)) return 0;
         if (!FrameworkHookGate.isAllowed(readBoolean(values, "framework_api_allow_hook", true),
@@ -516,6 +603,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static boolean hasValidLayoutShape(Snapshot value) {
         return !(value == null || (value.gridEnabled() != 0 && value.gridEnabled() != 1)
             || value.cellX() < 3 || value.cellX() > 9 || value.cellY() < 4 || value.cellY() > 13
+            || value.knobEnabled() == null || value.knobDeltaDp() == null || value.tweaks() == null
             || value.knobEnabled().length != KNOB_ROWS.length
             || value.knobDeltaDp().length != KNOB_ROWS.length || value.tweaks().length != TWEAK_COUNT);
     }
@@ -657,6 +745,10 @@ public final class HomeLayoutNativeEndpointOS4 {
         // Capture once: the refresher may publish during this Binder transaction. Mixing an old
         // enable with a new value would otherwise produce a position nobody actually selected.
         final java.util.Map<String, Object> values = cachedValues;
+        return decodeLayout(values);
+    }
+
+    private static Snapshot decodeLayout(java.util.Map<String, Object> values) {
         boolean gridEnabled = readBoolean(values, "home_layout_unlock_grids_new", false);
         int cellX = readInt(values, "home_layout_unlock_grids_cell_x", 4);
         int cellY = readInt(values, "home_layout_unlock_grids_cell_y", 6);
@@ -667,67 +759,6 @@ public final class HomeLayoutNativeEndpointOS4 {
         decodeGeometryKnobs(values, enabled, deltas);
         decodeIndicatorMode(values, enabled, deltas);
         final int[] tweaks = decodeTweaks(values);
-        return new Snapshot(ACK, gridEnabled ? 1 : 0, cellX, cellY, enabled, deltas, tweaks);
-    }
-
-    private static void decodeGeometryKnobs(java.util.Map<String, Integer> values,
-                                            int[] enabled, int[] deltas) {
-        for (int index = 0; index < KNOB_ROWS.length; ++index) {
-            // OS4 renders the old search bar as the Indicator capsule. Retired controls remain
-            // visible but disabled in settings; ignore saved values too, so a previously enabled
-            // search-bar tweak cannot keep moving the capsule behind that disabled UI.
-            if (index == 6 || index == 7) continue;
-            final String key = (String) KNOB_ROWS[index][0];
-            final int fallback = (Integer) KNOB_ROWS[index][1];
-            final int min = (Integer) KNOB_ROWS[index][2];
-            final int max = (Integer) KNOB_ROWS[index][3];
-            if (!readBoolean(values, key + "_enable", false)) continue;
-            int value = readInt(values, key, fallback);
-            if (value < min || value > max) value = fallback;
-            enabled[index] = 1;
-            deltas[index] = clampDelta(value - fallback);
-        }
-    }
-
-    private static void decodeIndicatorMode(java.util.Map<String, Integer> values,
-                                           int[] enabled, int[] deltas) {
-        // Reuse the two retired search-bar wire columns; no Binder payload/array ABI change.
-        final Integer cachedMode = cached(values, "home_other_seek_points");
-        int indicatorMode = cachedMode != null ? cachedMode
-            : values != null ? 0 : PrefsBridge.getStringAsInt("home_other_seek_points", 0);
-        if (indicatorMode < 0 || indicatorMode > 2) indicatorMode = 0;
-        enabled[6] = enabled[7] = indicatorMode == 0 ? 0 : 1;
-        deltas[6] = deltas[7] = indicatorMode;
-    }
-
-    private static int[] decodeTweaks(java.util.Map<String, Integer> values) {
-        final int[] tweaks = new int[TWEAK_COUNT];
-        /* The existing folder-column slider is the single control. Its default keeps the launcher
-         * untouched; choosing any other value enables the native patch automatically. */
-        final int folderColumns = readIntInRange(values, "home_folder_columns", 3, 0);
-        tweaks[0] = folderColumns;
-        tweaks[1] = folderColumns != 3 ? 1 : 0;
-        tweaks[2] = readIntInRange(values, "home_layout_pad_major", 8, 2);
-        tweaks[3] = readIntInRange(values, "home_layout_pad_minor", 5, 3);
-        tweaks[4] = readBit(values, "home_layout_pad_grid_enable");
-        tweaks[5] = readIntInRange(values, "home_layout_fold_major", 8, 5);
-        tweaks[6] = readIntInRange(values, "home_layout_fold_minor", 5, 6);
-        tweaks[7] = readBit(values, "home_layout_fold_grid_enable");
-        /* Default level 70 = the page's "system default size" level; must match the SeekBar's
-         * android:defaultValue and the native kIconScaleCodeDefault (both 0x66 for this level). */
-        tweaks[8] = iconScaleCodeFor(readInt(values, "home_layout_icon_scale", 70));
-        tweaks[9] = readBit(values, "home_layout_icon_scale_enable");
-        tweaks[10] = readBit(values, "home_layout_recents_hide_clear");
-        tweaks[11] = readBit(values, "home_layout_recents_no_clear");
-        /* Two fully independent animation controls, each with its own gate and duration ratio.
-         * The page enforces 30..200 on both sliders (above 100 deliberately allowed so animations
-         * can run slower); a stale or hand-edited value is clamped into that window here rather
-         * than falling back to identity, so "as fast as allowed" survives a schema change. */
-        tweaks[12] = readBit(values, "home_animation_open_rate_enable");
-        tweaks[13] = Math.max(30, Math.min(200, readInt(values, "home_animation_open_rate", 100)));
-        tweaks[14] = readBit(values, "home_animation_recents_enable");
-        tweaks[15] = Math.max(30, Math.min(200, readInt(values, "home_animation_recents_rate", 100)));
-        tweaks[16] = readBoolean(values, "home_dock_unlock_hotseat", false) ? 1 : 0;
         final int[] title = {
             readInt(values, "home_title_font_size", 12),
             readInt(values, "home_drawer_title_font_size", 12),
@@ -746,6 +777,67 @@ public final class HomeLayoutNativeEndpointOS4 {
                 boundedBack(readInt(values, "home_navigation_back_area_height", 60), 10, 100, 60),
                 boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values),
             readBoolean(values, "home_dock_icon_title", false));
+    }
+
+    private static void decodeGeometryKnobs(java.util.Map<String, Object> values,
+                                            int[] enabled, int[] deltas) {
+        for (int index = 0; index < KNOB_ROWS.length; ++index) {
+            // OS4 renders the old search bar as the Indicator capsule. Retired controls remain
+            // visible but disabled in settings; ignore saved values too, so a previously enabled
+            // search-bar tweak cannot keep moving the capsule behind that disabled UI.
+            if (index == 6 || index == 7) continue;
+            final String key = (String) KNOB_ROWS[index][0];
+            final int fallback = (Integer) KNOB_ROWS[index][1];
+            final int min = (Integer) KNOB_ROWS[index][2];
+            final int max = (Integer) KNOB_ROWS[index][3];
+            if (!readBoolean(values, key + "_enable", false)) continue;
+            int value = readInt(values, key, fallback);
+            if (value < min || value > max) value = fallback;
+            enabled[index] = 1;
+            deltas[index] = clampDelta(value - fallback);
+        }
+    }
+
+    private static void decodeIndicatorMode(java.util.Map<String, Object> values,
+                                           int[] enabled, int[] deltas) {
+        // Reuse the two retired search-bar wire columns; no Binder payload/array ABI change.
+        final Integer cachedMode = cached(values, "home_other_seek_points");
+        int indicatorMode = cachedMode != null ? cachedMode
+            : values != null ? 0 : PrefsBridge.getStringAsInt("home_other_seek_points", 0);
+        if (indicatorMode < 0 || indicatorMode > 2) indicatorMode = 0;
+        enabled[6] = enabled[7] = indicatorMode == 0 ? 0 : 1;
+        deltas[6] = deltas[7] = indicatorMode;
+    }
+
+    private static int[] decodeTweaks(java.util.Map<String, Object> values) {
+        final int[] tweaks = new int[TWEAK_COUNT];
+        /* The existing folder-column slider is the single control. Its default keeps the launcher
+         * untouched; choosing any other value enables the native patch automatically. */
+        final int folderColumns = readIntInRange(values, "home_folder_columns", 3, 0);
+        tweaks[0] = folderColumns;
+        tweaks[1] = folderColumns != 3 ? 1 : 0;
+        tweaks[2] = readIntInRange(values, "home_layout_pad_major", 8, 2);
+        tweaks[3] = readIntInRange(values, "home_layout_pad_minor", 5, 3);
+        tweaks[4] = readBoolean(values, "home_layout_pad_grid_enable", false) ? 1 : 0;
+        tweaks[5] = readIntInRange(values, "home_layout_fold_major", 8, 5);
+        tweaks[6] = readIntInRange(values, "home_layout_fold_minor", 5, 6);
+        tweaks[7] = readBoolean(values, "home_layout_fold_grid_enable", false) ? 1 : 0;
+        /* Default level 70 = the page's "system default size" level; must match the SeekBar's
+         * android:defaultValue and the native kIconScaleCodeDefault (both 0x66 for this level). */
+        tweaks[8] = iconScaleCodeFor(readInt(values, "home_layout_icon_scale", 70));
+        tweaks[9] = readBit(values, "home_layout_icon_scale_enable");
+        tweaks[10] = readBit(values, "home_layout_recents_hide_clear");
+        tweaks[11] = readBit(values, "home_layout_recents_no_clear");
+        /* Two fully independent animation controls, each with its own gate and duration ratio.
+         * The page enforces 30..200 on both sliders (above 100 deliberately allowed so animations
+         * can run slower); a stale or hand-edited value is clamped into that window here rather
+         * than falling back to identity, so "as fast as allowed" survives a schema change. */
+        tweaks[12] = readBit(values, "home_animation_open_rate_enable");
+        tweaks[13] = Math.max(30, Math.min(200, readInt(values, "home_animation_open_rate", 100)));
+        tweaks[14] = readBit(values, "home_animation_recents_enable");
+        tweaks[15] = Math.max(30, Math.min(200, readInt(values, "home_animation_recents_rate", 100)));
+        tweaks[16] = readBoolean(values, "home_dock_unlock_hotseat", false) ? 1 : 0;
+        return tweaks;
     }
 
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
@@ -906,6 +998,10 @@ public final class HomeLayoutNativeEndpointOS4 {
         if (value != null) return value;
         if (values != null) return def;
         return PrefsBridge.getInt(key, def);
+    }
+
+    private static int readBit(java.util.Map<String, Object> values, String key) {
+        return readBoolean(values, key, false) ? 1 : 0;
     }
 
     /**

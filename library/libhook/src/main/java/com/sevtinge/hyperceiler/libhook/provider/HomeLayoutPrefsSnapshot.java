@@ -127,6 +127,7 @@ public final class HomeLayoutPrefsSnapshot {
                     case "stringset" -> {
                         if (!(value instanceof java.util.Set<?> records)) return null;
                         row.add(encodeTitleRecords(records));
+                    }
                     case "text" -> {
                         if (!(value instanceof String)) return null;
                         row.add(value);
