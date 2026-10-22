@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper
 import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 /**
@@ -45,14 +46,21 @@ abstract class MobileSignalHook : StatusBarHook() {
     protected fun hookConstructAndBind(callback: (ViewGroup, Int) -> Unit) {
         modernStatusBarMobileView.findMethod { name("constructAndBind") }
             .createAfterHook { param ->
-                val rootView = param.result as? ViewGroup ?: return@createAfterHook
-                val subId = rootView.getIntField("subId")
-                try {
-                    callback(rootView, subId)
-                } catch (e: Throwable) {
-                    XposedLog.e(TAG, lpparam.packageName, "hookConstructAndBind callback error", e)
-                }
+                handleConstructAndBind(param.result, callback)
             }
+    }
+
+    private fun handleConstructAndBind(
+        result: Any?,
+        callback: (ViewGroup, Int) -> Unit
+    ) {
+        val rootView = result as? ViewGroup ?: return
+        val subId = rootView.getIntField("subId")
+        try {
+            callback(rootView, subId)
+        } catch (e: Throwable) {
+            XposedLog.e(TAG, lpparam.packageName, "hookConstructAndBind callback error", e)
+        }
     }
 
     /**
@@ -65,21 +73,39 @@ abstract class MobileSignalHook : StatusBarHook() {
             .createAfterHook { param ->
                 val container = param.args[0] as? ViewGroup ?: return@createAfterHook
                 val binding = param.result ?: return@createAfterHook
-
-                val tintFlow = findTintLightColorFlow(binding)
-                if (tintFlow == null) {
-                    XposedLog.w(TAG, lpparam.packageName, "hookDarkMode: tintLightColorFlow not found")
-                    return@createAfterHook
-                }
-
-                MobileViewHelper.collectFlow(container, tintFlow) { triple ->
-                    try {
-                        callback(container, extractDarkInfo(triple))
-                    } catch (e: Throwable) {
-                        XposedLog.e(TAG, lpparam.packageName, "hookDarkMode flow error", e)
-                    }
-                }
+                dispatchDarkInfo(container, binding, callback)
             }
+
+        val darkChangedMethod = modernStatusBarMobileView.superclass?.declaredMethods
+            ?.firstOrNull { it.name == "onDarkChanged" && it.parameterCount == 6 }
+        if (darkChangedMethod == null) {
+            XposedLog.w(TAG, lpparam.packageName, "hookDarkMode: onDarkChanged not found")
+        } else {
+            darkChangedMethod.createAfterHook { param ->
+                val container = param.thisObject as? ViewGroup ?: return@createAfterHook
+                val binding = runCatching { container.getObjectField("binding") }.getOrNull()
+                    ?: return@createAfterHook
+                dispatchDarkInfo(container, binding, callback)
+            }
+        }
+    }
+
+    private fun dispatchDarkInfo(
+        container: ViewGroup,
+        binding: Any,
+        callback: (ViewGroup, DarkInfo) -> Unit
+    ) {
+        try {
+            val tintFlow = findTintLightColorFlow(binding)
+            if (tintFlow == null) {
+                XposedLog.w(TAG, lpparam.packageName, "hookDarkMode: tintLightColorFlow not found")
+                return
+            }
+            val triple = tintFlow.callMethodAs<Any>("getValue")
+            callback(container, extractDarkInfo(triple))
+        } catch (e: Throwable) {
+            XposedLog.e(TAG, lpparam.packageName, "hookDarkMode callback error", e)
+        }
     }
 
     /** 从 binding 对象中找到 tintLightColorFlow（值为 Triple 的 StateFlowImpl 字段） */
