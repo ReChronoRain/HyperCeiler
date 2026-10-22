@@ -70,6 +70,7 @@ public class HomeFragment extends DashboardFragment {
         mHeaderHomeIsRust = findPreference("prefs_key_home_is_rust");
         mHeaderHomeIsRustNoSupport = findPreference("prefs_key_home_is_rust_no_support");
 
+        final String PREF_KEY_FNAME = "prefs_key_framework_check_name";
         final String PREF_KEY_VERSION = "prefs_key_framework_check_version";
         final String PREF_KEY_VERSION_CODE = "prefs_key_framework_check_version_code";
         final String PREF_KEY_API_VERSION = "prefs_key_framework_check_api_version";
@@ -77,13 +78,13 @@ public class HomeFragment extends DashboardFragment {
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), "com.miui.home");
         boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
         boolean isHyperOsPackage = isHyperOsPackage(getContext(), "com.miui.home");
-
+        boolean isFrameworkLSPosed = "LSPosed".equals(getSharedPreferences().getString(PREF_KEY_FNAME, "Unknown"));
 
         String XposedVersion = getSharedPreferences().getString(PREF_KEY_VERSION, "Unknown");
         long XposedVersionCode = getSharedPreferences().getLong(PREF_KEY_VERSION_CODE, 0);
         int XposedApiVersion = getSharedPreferences().getInt(PREF_KEY_API_VERSION, 0);
 
-        boolean isRustNoSupport = !(XposedApiVersion >= 102
+        boolean isRustNoSupport = isFrameworkLSPosed && !(XposedApiVersion >= 102
             && XposedVersionCode >= 7846
             && (XposedVersionCode >= 7854 || XposedVersion.contains("it")));
 
