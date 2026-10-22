@@ -3,11 +3,10 @@
  * The geometry knobs this module exposes for the launcher layout.
  *
  * Each knob names the Dart accessor that produces the value *at layout time*, and the address is
- * found at run time from the launcher image's own symbol table (`.gnu_debugdata`). That is the
- * whole trick: the name is part of the launcher's build, so it survives an OTA, while the address
- * is read from the image that is actually loaded. Nothing here carries an offset, a signature or a
- * pool slot. The 2026-09-16 launcher OTA (8.01.02.6180 -> 8.01.02.6305) moved every address in the
- * image and left every name intact, which is exactly what this indirection is for.
+ * found at run time from the loaded image's symbol table (`.gnu_debugdata`). Names are owner
+ * hints: binders must additionally prove the relevant scalar producer/consumer, fields and
+ * replay windows from current instructions. A present symbol is not evidence of a compatible
+ * return type. Unknown or ambiguous contracts decline the affected feature.
  *
  * Why accessors and not the values the launcher computes from:
  *  - the geometry the desktop lays out with is read through `GridController`/`HotSeatsConstants2`

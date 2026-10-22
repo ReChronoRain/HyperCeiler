@@ -1,3 +1,4 @@
+#include "geometry_frame_fixture.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_folder_geometry.h"
 #include <cstdio>
@@ -40,10 +41,6 @@ int main() {
         ++checks; if (std::abs(a-b) > 1e-9) ++failed;
     };
     const auto render = [&](double top, double bottom, double side, bool occupied) {
-        // This fixture owns its synthetic locals; production resolves these roles from AOT.
-        const home_dynamic::GeometryFrame layout = occupied
-            ? home_dynamic::GeometryFrame{-8,-16,0,-80,0,-96,-88,-112,-104,-96,-88}
-            : home_dynamic::GeometryFrame{-8,0,0,-88,-64,-80,-72,-88,-64,-80,-72};
         workspace_write(fp, -8, occupied ? delegate : grid);
         workspace_write(delegate, kFields.occupied_grid, static_cast<uint32_t>(grid));
         workspace_write(fp, -0x10, info);
@@ -55,11 +52,9 @@ int main() {
         double g[4];
         const bool ok = inset_workspace_frame(fp, grid >> 32, occupied, &kFields, top, bottom, side, g
 #if SNAPSHOT
-            , &cache, &layout
-#else
-            , nullptr, &layout
+            , &cache
 #endif
-        );
+        , occupied ? &kOccupiedFrame : &kWorkspaceFrame);
         ++checks; if (!ok) ++failed;
     };
     const auto geometry = [&](double top, double bottom, double side,
@@ -87,7 +82,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     workspace_write(saved, 176, 2.0);
     workspace_write(saved, 192, workspace_read<double>(fp, -0x20));
     folder_geometry_body(fp, grid>>32, saved, 4, 0, 0, 0
@@ -95,7 +90,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160), 200);
     workspace_write(fp, -0x30, uintptr_t{0x12345678});
     workspace_write(origin, 7, 30.0); workspace_write(saved, 8, origin);
@@ -105,7 +100,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160)+workspace_read<double>(saved,192), 30+6*(100-44.0/7));
     workspace_write(origin, 7, 0.0);
     // The next real layout, including occupied multi-cell delegates, replaces it.
@@ -124,7 +119,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160), 35);
     eq(workspace_read<double>(fp, -0x20), 100-64.0/7);
     // Reproduce a settings publication and overwritten Dart outgoing argument.
@@ -136,7 +131,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160) + workspace_read<double>(saved, 192),
         50 + 6*(100-64.0/7));
     // Grid shape changes and unseen configurations must not use stale geometry.

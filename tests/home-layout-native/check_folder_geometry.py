@@ -8,7 +8,8 @@ h=(root/'app/src/main/cpp/targets/home/home_folder_geometry.h').read_text()
 a=(root/'app/src/main/cpp/targets/home/home_layout_dart_arm64.S').read_text()
 c=(root/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text(encoding='utf-8')
 assert len(re.findall(r'\{"(?:WidgetPositionUtil.getCellPosition|FolderIconGetxController.calOriginPreviewIconLoc)"',h))==5
-stub=a[a.index('.macro folder_geometry_splice'):a.index('/* Both finished animation branches')]
+begin=a.index('.macro folder_geometry_splice')
+stub=a[begin:a.index('.endm',begin)]
 assert 'sub sp, sp, #704' in stub and 'add sp, sp, #704' in stub
 assert 'mov x2, sp' in stub and 'bl hc_layout_folder_body' in stub
 assert 'hc_layout_folder_resume' in stub and 'hc_layout_folder_original' in stub
@@ -19,8 +20,8 @@ assert 'folder_call_target' in h and 'folder_helper' in h
 assert 'folder_relative_branch' in h and 'map[to]' in h
 assert 'g_folder_geometry_checked=true' in c
 assert 'g_folder_geometry_checked=false' in c
-assert 'workspace_write(fp, -0x18, workspace_read<double>(fp, -0x30))' in h
-assert 'workspace_read<double>(fp, -0x18)' in h
+assert 'workspace_write(at(2),0,workspace_read<double>(at(5),0))' in h
+assert 'workspace_read<double>(at(2),0)' in h
 assert 'top & 7' in (root/'app/src/main/cpp/targets/home/home_indicator_pair.h').read_text()
 assert 'thread_local home_layout::WorkspaceRenderSnapshot rendered_workspace' in c
 assert 'folder_ready || drop_ready || g_knobs[2]' in c

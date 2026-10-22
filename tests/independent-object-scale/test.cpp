@@ -66,6 +66,28 @@ int main(){
         &&layout.alignment==51&&layout.force==63&&layout.alignment_pool==0x8180&&layout.translate_pool==0x1de0);
     layout.tag=0x1dda51c;layout.size=80;layout.top=96;
     assert(layout.usable());
+    // Relocation and changed field/frame/pool operands must be decoded, never
+    // replaced with this fixture's addresses or offsets.
+    auto shifted_build=build,shifted_transform=transform;
+    auto shift_field=[](uint32_t w,int delta){
+        return (w&~0x001ff000u)|(uint32_t(home_dynamic::imm9(w)+delta)&511u)<<12;
+    };
+    for(auto& w:shifted_build){
+        if(home_dynamic::ldx(w,29,0))w=shift_field(w,-16);
+        else if(stw(w,0,1))w=shift_field(w,16);
+    }
+    for(auto& w:shifted_transform){
+        if(home_dynamic::std_(w,0,0)||home_dynamic::stx(w,0,31)||stw(w,0,1))w=shift_field(w,16);
+        if(home_dynamic::ux(w,27,1)||home_dynamic::ux(w,1,1))w+=1u<<10;
+    }
+    WidgetScaleLayout shifted;
+    assert(widget_scale_layout(shifted_build,shifted_transform,TRANSFORM_VA+0x200000,shifted));
+    assert(shifted.allocator==layout.allocator+0x200000&&shifted.frame==layout.frame-16);
+    assert(shifted.child==layout.child+16&&shifted.scale==layout.scale+16
+        &&shifted.opacity==layout.opacity+16&&shifted.rotation==layout.rotation+16
+        &&shifted.translate==layout.translate+16&&shifted.alignment==layout.alignment+16
+        &&shifted.force==layout.force+16&&shifted.alignment_pool==layout.alignment_pool+8
+        &&shifted.translate_pool==layout.translate_pool+8);
     auto old=transform;
     for(auto& w:transform)if(home_dynamic::std_(w,0,0)&&home_dynamic::imm9(w)==layout.scale)w=0xd503201f;
     WidgetScaleLayout ignored;assert(!widget_scale_layout(build,transform,TRANSFORM_VA,ignored));transform=old;
@@ -73,20 +95,34 @@ int main(){
     alignas(16) unsigned char threadmem[256]{},heap[512]{},poolmem[0x8200]{};
     const uintptr_t thread=uintptr_t(threadmem),pool=uintptr_t(poolmem),start=uintptr_t(heap),child=0x12340001,nullptr_dart=0xdead0001;
     put(pool+layout.alignment_pool,uintptr_t(0x12341001));put(pool+layout.translate_pool,uintptr_t(0x12342001));
-    for(double factor:{.6,1.,1.4}){
-        std::memset(heap,0x5a,sizeof(heap));put(thread+96,start);put(thread+104,start+sizeof(heap));
-        auto object=wrap_scaled_widget(child,thread,pool,nullptr_dart,factor,layout);
-        if(factor==1){assert(object==child&&get<uintptr_t>(thread+96)==start);continue;}
-        assert(object==start+1&&get<uintptr_t>(thread+96)==start+80);
-        assert(get<uint64_t>(start)==layout.tag&&get<uint32_t>(object+11)==child);
+    // The real Dart nursery is 8 mod 16. Testing only a native alignas(16)
+    // buffer previously hid a guard that silently skipped every real widget.
+    for(unsigned offset:{0u,8u})for(double factor:{.6,.7,1.,1.25,1.4}){
+        const uintptr_t top=start+offset;
+        std::memset(heap,0x5a,sizeof(heap));put(thread+96,top);put(thread+104,start+sizeof(heap));
+        WidgetScaleResult why;
+        auto object=wrap_scaled_widget(child,thread,pool,nullptr_dart,factor,layout,&why);
+        if(factor==1){assert(why==WidgetScaleResult::Neutral&&object==child&&get<uintptr_t>(thread+96)==top);continue;}
+        assert(why==WidgetScaleResult::Applied&&object==top+1&&get<uintptr_t>(thread+96)==top+80);
+        assert(get<uint64_t>(top)==layout.tag&&get<uint32_t>(object+11)==child);
         assert(get<double>(object+15)==1&&get<double>(object+27)==factor&&get<double>(object+43)==0);
         assert(get<uint32_t>(object+23)==0x12342001&&get<uint32_t>(object+51)==0x12341001);
         assert(get<uint32_t>(object+7)==nullptr_dart&&get<uint32_t>(object+55)==nullptr_dart
             &&get<uint32_t>(object+59)==nullptr_dart&&get<uint32_t>(object+67)==nullptr_dart);
         assert(get<uint32_t>(object+63)==uint32_t(nullptr_dart+0x30));
-        for(unsigned i=80;i<sizeof(heap);++i)assert(heap[i]==0x5a);
+        for(unsigned i=0;i<offset;++i)assert(heap[i]==0x5a);
+        for(unsigned i=offset+80;i<sizeof(heap);++i)assert(heap[i]==0x5a);
     }
-    put(thread+96,start);put(thread+104,start+80);
-    assert(wrap_scaled_widget(child,thread,pool,nullptr_dart,.8,layout)==child&&get<uintptr_t>(thread+96)==start);
+    for(unsigned offset:{0u,8u,4u}){
+        const auto top=start+offset;
+        for(unsigned room:{0u,79u,80u}){
+            put(thread+96,top);put(thread+104,top+room);
+            WidgetScaleResult why;
+            assert(wrap_scaled_widget(child,thread,pool,nullptr_dart,.8,layout,&why)==child
+                &&why==WidgetScaleResult::NurseryUnavailable&&get<uintptr_t>(thread+96)==top);
+        }
+    }
+    put(thread+96,start+4);put(thread+104,start+512);
+    assert(wrap_scaled_widget(child,thread,pool,nullptr_dart,.8,layout)==child);
     std::cout<<"independent scales, old endpoint/reset/range guards, close endpoints, widget resolver/allocation: PASS\n";
 }

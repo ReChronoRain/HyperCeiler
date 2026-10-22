@@ -190,13 +190,19 @@ const TargetFunction kTargets[] = {
         /*
          * The app-open duration ratio has two Dart boundaries. `getAnimDurationRatio` is the shared
          * entry every consumer funnels through (flight, Folme spring, blur, wallpaper), so replacing
-         * its result keeps the whole app-open move in step; `FlightCohort.animDurationRatio` only
-         * feeds the icon flight and is kept as the fallback because it is the boundary already
-         * proven to bind on launcher 7719. The hook tries them in this order.
+         * its result keeps the whole app-open move in step. FlightCohort supplies a consumer
+         * root; its call must reach that shared getter and then the verified double-return
+         * Rust API. No name/prologue-only fallback is admitted.
          */
         {"getAnimDurationRatio", "getAnimDurationRatio", "动画 时长倍率统一入口"},
         {"FlightCohort.animDurationRatio", "FlightCohort.animDurationRatio",
          "动画 应用打开时长倍率"},
+        {"RustLibApiImpl.crateApiSceneAnimationTransitionAnimDurationApiGetAnimDurationRatio",
+         "RustLibApiImpl.crateApiSceneAnimationTransitionAnimDurationApiGetAnimDurationRatio", "动画 倍率 API 返回类型证据"},
+        {"DeviceLevelUtils.isHighAnimationRate", "DeviceLevelUtils.isHighAnimationRate", "动画 高速档位生产者"},
+        {"DeviceLevelUtils.isLowAnimationRate", "DeviceLevelUtils.isLowAnimationRate", "动画 低速档位生产者"},
+        {"WidgetPositionUtil._getCellRectInHotSeatPad", "WidgetPositionUtil._getCellRectInHotSeatPad", "布局 Dock 边距实际消费者"},
+        {"EdgeInsets.deflateRect", "EdgeInsets.deflateRect", "布局 指示器 Insets 几何字段语义"},
         /*
          * The gear-derived speed factor of the launcher's own animation-rate setting
          * (`miui_home_animation_rate`). Measured on device: app open/close transitions respond to
