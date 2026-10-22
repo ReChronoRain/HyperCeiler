@@ -19,3 +19,5 @@ signing.properties
 *.apk
 /handover/
 /.workbuddy/
+.vscode
+.reasonix
