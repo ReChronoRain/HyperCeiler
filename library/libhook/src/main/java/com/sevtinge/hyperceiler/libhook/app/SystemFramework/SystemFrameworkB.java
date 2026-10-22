@@ -48,6 +48,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylus
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowDisableProtectedPackage;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BackTapWhenLocked;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AntiQues;
@@ -111,6 +112,8 @@ public class SystemFrameworkB extends BaseLoad {
         // 手势初始化
         initHook(new ModulePackageTrust(), PrefsBridge.getBoolean("home_gesture_enable"));
         initHook(new GlobalActionBootstrap(), PrefsBridge.getBoolean("home_gesture_enable"));
+
+        initHook(new BackTapWhenLocked(), PrefsBridge.getBoolean("system_framework_back_tap_when_locked"));
 
         // 修复 A16 移植包开启核心破解后掉指纹，仅作备选项
         initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, PrefsBridge.getBoolean("system_framework_core_patch_unloss_fingerprint"));
