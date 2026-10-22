@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/rear_alipay_component_title"
+    app:quick_restart="system">
+    <PreferenceCategory>
+        <Preference
+            android:selectable="false"
+            android:summary="@string/rear_alipay_gestures_summary" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/rear_alipay_power_category">
+        <SwitchPreference
+            android:key="prefs_key_securitycore_power_rear_code_enable"
+            android:defaultValue="false"
+            android:title="@string/rear_alipay_power_title"
+            android:summary="@string/rear_alipay_power_summary" />
+        <fan.preference.DropDownPreference
+            android:key="prefs_key_securitycore_power_rear_code_action"
+            android:defaultValue="launch_alipay_payment_code"
+            android:title="@string/rear_alipay_power_code_title"
+            app:entries="@array/rear_alipay_power_code_entries"
+            app:entryValues="@array/rear_alipay_power_code_values" />
+        <Preference
+            android:key="rear_alipay_power_settings"
+            android:title="@string/rear_alipay_power_settings" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/rear_alipay_back_title">
+        <SwitchPreference
+            android:key="prefs_key_securitycore_back_tap_rear_alipay_enable"
+            android:defaultValue="false"
+            android:title="@string/rear_alipay_back_enable_title"
+            android:summary="@string/rear_alipay_back_summary" />
+        <Preference
+            android:key="rear_alipay_back_settings"
+            android:title="@string/rear_alipay_back_settings" />
+    </PreferenceCategory>
+</PreferenceScreen>
