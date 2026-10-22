@@ -254,7 +254,7 @@ public class HomePadOld extends BaseLoad {
         // 其他
         initHook(new HomeMode(), PrefsBridge.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(new InfiniteScroll(), PrefsBridge.getBoolean("home_other_infinite_scroll"));
-        initHook(new FreeformShortcutMenu(), PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"));
+        initHook(new FreeformShortcutMenu(), PrefsBridge.getBoolean("home_other_tasks_shortcut_menu") || PrefsBridge.getBoolean("home_other_force_stop_shortcut_menu"));
         initHook(new EnableIconMonoChrome(), PrefsBridge.getBoolean("home_other_icon_mono_chrome"));
         initHook(new HomePortraitReverse(), PrefsBridge.getBoolean("home_other_portrait_reverse"));
         initHook(AlwaysBlurWallpaper.INSTANCE, PrefsBridge.getBoolean("home_other_always_blur_launcher_wallpaper"));
