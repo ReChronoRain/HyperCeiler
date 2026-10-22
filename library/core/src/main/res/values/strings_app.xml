@@ -1021,6 +1021,7 @@
     <string name="system_settings_novelty_haptic_title">Unlock new version of haptic feedback page</string>
     <string name="system_settings_novelty_haptic_desc">Only for devices with the Sounds &amp; Haptic feedback - Haptics page</string>
     <string name="system_settings_unlock_google_header">Unlock Google entry</string>
+    <string name="system_settings_hide_xiaomi_account">Hide Xiaomi account</string>
     <string name="system_settings_unlock_ui_mode">Unlock app layout optimizations</string>
     <string name="system_settings_usb_mode">Hide pop-up window when connecting to USB</string>
     <string name="system_settings_usb_mode_choose">USB default option</string>
