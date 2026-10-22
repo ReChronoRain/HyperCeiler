@@ -27,6 +27,25 @@ inline bool tag(const Body &b,uint32_t &value) {
 }
 inline bool field(int32_t off){return off>0 && off<4096 && ((off+1)&3)==0;}
 inline bool slot(int32_t off){return off<0 && off>=-4096 && !(off&7);}
+// A frame's size and slots belong to the current AOT body, not to the VM ABI.
+inline int32_t frame_size(const Body& b) {
+    if(b.size()<4||b[0]!=0xa9bf79fdu||b[1]!=0xaa0f03fdu
+        ||(b[2]&0xffc003ffu)!=0xd10001efu)return 0;
+    const int32_t size=(b[2]>>10)&4095;
+    return size>0&&!(size&7)?size:0;
+}
+inline bool frame_slot(const Body& b,int32_t off) {
+    const auto size=frame_size(b);return size&&slot(off)&&off>=-size;
+}
+inline bool receiver_slot(const Body& b,unsigned reg,int32_t& out) {
+    unsigned hits=0;int32_t found=0;
+    if(!frame_size(b))return false;
+    for(size_t i=3;i<b.size()&&i<20;++i) {
+        if((b[i]&0xfc000000u)==0x94000000u||(b[i]&0xfffffc1fu)==0xd63f0000u)break;
+        if(stx(b[i],29,reg)&&frame_slot(b,imm9(b[i]))){found=imm9(b[i]);++hits;}
+    }
+    if(hits!=1)return false;out=found;return true;
+}
 inline bool target(uint32_t w,uint32_t pc,uint32_t &out){
     if((w&0xfc000000u)!=0x94000000u)return false;
     int64_t v=static_cast<int32_t>(w<<6)>>6;v=pc+v*4;

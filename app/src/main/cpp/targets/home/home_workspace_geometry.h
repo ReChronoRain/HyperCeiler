@@ -41,7 +41,7 @@ template <typename T> inline void workspace_write(uintptr_t p, intptr_t off, T v
 // Occupied cells are recalculated from pristine GridInfo on EVERY iteration:
 // the preceding iteration's changed constraint locals must never compound.
 //
-// All heap offsets come from verified owning consumers; stack slots remain the stub ABI.
+// Heap fields and Dart frame slots come from verified owning consumers.
 inline bool inset_workspace_frame(uintptr_t fp, uint64_t heap, bool occupied,
     const GridFieldOffsets *field, double top, double bottom, double side, double *out,
     WorkspaceRenderSnapshot *rendered = nullptr, const home_dynamic::GeometryFrame *layout = nullptr) {

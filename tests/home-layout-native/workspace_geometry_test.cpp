@@ -1,3 +1,4 @@
+#include "geometry_frame_fixture.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_workspace_geometry.h"
 #include <cassert>
@@ -63,7 +64,7 @@ int main() {
     workspace_write(fp, -0x40, 0.0);
     workspace_write(fp, -0x50, 90.0);
     workspace_write(fp, -0x48, 100.0);
-    assert(home_layout::inset_workspace_frame(fp, grid >> 32, false, &kFields, 20, 30, 15, g));
+    assert(home_layout::inset_workspace_frame(fp, grid >> 32, false, &kFields, 20, 30, 15, g, nullptr, &kWorkspaceFrame));
     eq(workspace_read<double>(fp, -0x58), 35);
     eq(workspace_read<double>(fp, -0x40), 20);
     eq(workspace_read<double>(fp, -0x50), 82.5);
@@ -75,13 +76,13 @@ int main() {
     workspace_write(info, kFields.item_row, int64_t{5});
     workspace_write(fp, -0x50, 20.0);
     for (int i = 0; i < 1000; ++i) {
-        assert(home_layout::inset_workspace_frame(fp, grid >> 32, true, &kFields, 20, 30, 15, g));
+        assert(home_layout::inset_workspace_frame(fp, grid >> 32, true, &kFields, 20, 30, 15, g, nullptr, &kOccupiedFrame));
         eq(workspace_read<double>(fp, -0x70), 282.5);
         eq(workspace_read<double>(fp, -0x68), 20 + 5 * (100 - 50.0 / 6));
         eq(workspace_read<double>(fp, -0x60), 82.5);
     }
     workspace_write(grid, kFields.rows, int64_t{1});
-    assert(!home_layout::inset_workspace_frame(fp, grid >> 32, true, &kFields, 20, 30, 15, g));
+    assert(!home_layout::inset_workspace_frame(fp, grid >> 32, true, &kFields, 20, 30, 15, g, nullptr, &kOccupiedFrame));
 
     // The real Dock uses HotSeatLayoutDelegate, not either workspace delegate.
     // Reproduce its compressed per-item chain and final Offset.x stack local.
@@ -104,7 +105,7 @@ int main() {
                 workspace_write(fp, -0x88, 37.0);
                 workspace_write(fp, -0x70, 100.0);
                 std::memcpy(snapshot, storage, sizeof(storage));
-                const bool changed = home_layout::inset_hotseat_frame(fp, info >> 32, side, g, &kFields);
+                const bool changed = home_layout::inset_hotseat_frame(fp, info >> 32, side, g, &kFields, &kHotseatFrame);
                 assert(changed == (side != 0));
                 const double shift = side * (1 - (2.0 * column + 1) / columns);
                 eq(workspace_read<double>(fp, -0x80), x + shift);
@@ -122,21 +123,21 @@ int main() {
     workspace_write(info, kFields.item_col, int64_t{3});
     for (int i = 0; i < 1000; ++i) {
         workspace_write(fp, -0x80, 290.0);
-        assert(home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields));
+        assert(home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields, &kHotseatFrame));
         eq(workspace_read<double>(fp, -0x80), 278.75);
     }
     // Disabled/extreme-invalid/non-finite inputs and column/count guards are no-ops.
     const double invalid_sides[] = {0, -21, 81, std::numeric_limits<double>::quiet_NaN()};
     for (const double side : invalid_sides) {
         std::memcpy(snapshot, storage, sizeof(storage));
-        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, side, g, &kFields));
+        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, side, g, &kFields, &kHotseatFrame));
         assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
     }
     const int64_t invalid_columns[] = {-1, 4};
     for (const int64_t column : invalid_columns) {
         workspace_write(info, kFields.item_col, column);
         std::memcpy(snapshot, storage, sizeof(storage));
-        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields));
+        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields, &kHotseatFrame));
         assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
     }
     workspace_write(info, kFields.item_col, int64_t{0});
@@ -144,13 +145,13 @@ int main() {
     for (const int64_t columns : invalid_counts) {
         workspace_write(delegate, kFields.dock_columns, columns);
         std::memcpy(snapshot, storage, sizeof(storage));
-        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields));
+        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields, &kHotseatFrame));
         assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
     }
     workspace_write(delegate, kFields.dock_columns, int64_t{4});
     workspace_write(fp, -0x80, std::numeric_limits<double>::quiet_NaN());
     std::memcpy(snapshot, storage, sizeof(storage));
-    assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields));
+    assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g, &kFields, &kHotseatFrame));
     assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
     std::puts("workspace geometry: neutral/top/bottom/symmetric-side/combined/extremes/guards/rebuild ok");
     std::puts("workspace frame: grid/occupied/pristine-per-child/hotseat-exclusion ok");

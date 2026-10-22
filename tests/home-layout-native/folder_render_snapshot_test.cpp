@@ -1,3 +1,4 @@
+#include "geometry_frame_fixture.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_folder_geometry.h"
 #include <cstdio>
@@ -53,7 +54,7 @@ int main() {
 #if SNAPSHOT
             , &cache
 #endif
-        );
+        , occupied ? &kOccupiedFrame : &kWorkspaceFrame);
         ++checks; if (!ok) ++failed;
     };
     const auto geometry = [&](double top, double bottom, double side,
@@ -81,7 +82,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     workspace_write(saved, 176, 2.0);
     workspace_write(saved, 192, workspace_read<double>(fp, -0x20));
     folder_geometry_body(fp, grid>>32, saved, 4, 0, 0, 0
@@ -89,7 +90,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160), 200);
     workspace_write(fp, -0x30, uintptr_t{0x12345678});
     workspace_write(origin, 7, 30.0); workspace_write(saved, 8, origin);
@@ -99,7 +100,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160)+workspace_read<double>(saved,192), 30+6*(100-44.0/7));
     workspace_write(origin, 7, 0.0);
     // The next real layout, including occupied multi-cell delegates, replaces it.
@@ -118,7 +119,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160), 35);
     eq(workspace_read<double>(fp, -0x20), 100-64.0/7);
     // Reproduce a settings publication and overwritten Dart outgoing argument.
@@ -130,7 +131,7 @@ int main() {
         , &cache
 #endif
             , &kFields
-    );
+    , &kFolderFrame);
     eq(workspace_read<double>(saved, 160) + workspace_read<double>(saved, 192),
         50 + 6*(100-64.0/7));
     // Grid shape changes and unseen configurations must not use stale geometry.

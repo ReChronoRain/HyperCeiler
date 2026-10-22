@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <vector>
+#include "home_dynamic_layout.h"
 namespace home_layout {
 /* Resolve only bounded original consumers. Counts come from the named currentConfig
  * receiver followed by X/Y bounds checks with a shared reject arm. Item indices come from
@@ -81,8 +82,11 @@ inline void read_grid_cell_size(const std::vector<uint32_t> &body, GridFieldOffs
     int32_t width = -1, height = -1;
     for (size_t i = 0; i + 3 < body.size(); ++i) {
         int32_t w = 0, h = 0;
-        if (!dart_ldur_d(body[i], 3, 0, &w) || body[i + 1] != 0xfc1b03a0
-            || !dart_ldur_d(body[i + 2], 3, 1, &h) || body[i + 3] != 0xfc1b83a1
+        if (!dart_ldur_d(body[i], 3, 0, &w) || !home_dynamic::std_(body[i+1],29,0)
+            || !home_dynamic::frame_slot(body,home_dynamic::imm9(body[i+1]))
+            || !dart_ldur_d(body[i + 2], 3, 1, &h) || !home_dynamic::std_(body[i+3],29,1)
+            || !home_dynamic::frame_slot(body,home_dynamic::imm9(body[i+3]))
+            || home_dynamic::imm9(body[i+1])==home_dynamic::imm9(body[i+3])
             || w <= 0 || h <= 0 || w == h || ((w + 1) & 3) || ((h + 1) & 3)) continue;
         ++hits; width = w; height = h;
     }

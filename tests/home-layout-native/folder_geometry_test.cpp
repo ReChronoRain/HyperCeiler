@@ -1,3 +1,4 @@
+#include "geometry_frame_fixture.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_workspace_geometry.h"
 #if __has_include("targets/home/home_folder_geometry.h")
@@ -46,11 +47,11 @@ int main() {
         workspace_write(fp, -0x20, 90.0); workspace_write(fp, -0x28, 100.0);
         workspace_write(origin, 7, 20.0); workspace_write(saved, 0, grid);
 #if FIXED
-        assert(folder_geometry_body(fp, grid >> 32, saved, 0, top, bottom, side, nullptr, &kFields));
+        assert(folder_geometry_body(fp, grid >> 32, saved, 0, top, bottom, side, nullptr, &kFields, &kFolderFrame));
         workspace_write(fp, -0x18, int64_t{7});
         workspace_write(saved, 176, static_cast<double>(col));
         workspace_write(saved, 192, workspace_read<double>(fp, -0x20));
-        assert(folder_geometry_body(fp, grid >> 32, saved, 4, 0, 0, 0, nullptr, &kFields));
+        assert(folder_geometry_body(fp, grid >> 32, saved, 4, 0, 0, 0, nullptr, &kFields, &kFolderFrame));
         assert(workspace_read<uintptr_t>(saved, 8)==7);
         // Reproduce Inst.find writing the outgoing slot between x and y.
         workspace_write(fp, -0x30, uintptr_t{0x12345678});
@@ -58,7 +59,7 @@ int main() {
         workspace_write(origin, 7, 30.0); workspace_write(saved, 0, int64_t{row});
         workspace_write(saved, 8, origin);
         // A configuration change between original calls must not split x/y.
-        assert(folder_geometry_body(fp, grid >> 32, saved, 1, 0, 0, 0, nullptr, &kFields));
+        assert(folder_geometry_body(fp, grid >> 32, saved, 1, 0, 0, 0, nullptr, &kFields, &kFolderFrame));
         const double y = workspace_read<double>(saved, 160) + workspace_read<double>(saved, 192);
 #else
         const double x = 20 + col * 90.0, y = 30 + row * 100.0;
@@ -70,11 +71,11 @@ int main() {
         workspace_write(origin, 7, 20.0); workspace_write(saved, 0, grid);
         workspace_write(fp, -8, uintptr_t{123});
         workspace_write(fp, -0x18, 90.0); workspace_write(fp, -0x20, 100.0);
-        assert(folder_geometry_body(fp,grid>>32,saved,2,top,bottom,side,nullptr,&kFields));
+        assert(folder_geometry_body(fp,grid>>32,saved,2,top,bottom,side,nullptr,&kFields, &kFolderFrame));
         assert(workspace_read<uintptr_t>(saved,8)==123);
         const double preview_x=workspace_read<double>(saved,160)+col*workspace_read<double>(fp,-0x18);
         workspace_write(origin,7,30.0);workspace_write(saved,8,origin);workspace_write(saved,24,int64_t{row});
-        assert(folder_geometry_body(fp,grid>>32,saved,3,top,bottom,side,nullptr,&kFields));
+        assert(folder_geometry_body(fp,grid>>32,saved,3,top,bottom,side,nullptr,&kFields, &kFolderFrame));
         const double preview_y=workspace_read<double>(saved,160)+workspace_read<double>(saved,192);
         assert(std::abs(preview_x-(g[0]+col*g[2]))<1e-9);
         assert(std::abs(preview_y-(g[1]+row*g[3]))<1e-9);
@@ -87,14 +88,14 @@ int main() {
     for (int i=0;i<1000;++i) {
         workspace_write(saved, 0, grid); workspace_write(fp,-8,int64_t{3});
         workspace_write(fp,-0x20,90.0); workspace_write(fp,-0x28,100.0);
-        assert(folder_geometry_body(fp, grid>>32,saved,0,20,30,15,nullptr,&kFields));
+        assert(folder_geometry_body(fp, grid>>32,saved,0,20,30,15,nullptr,&kFields, &kFolderFrame));
         assert(workspace_read<double>(fp,-0x20)==82.5);
     }
     workspace_write(grid,0x23,int64_t{1}); workspace_write(saved,0,grid);
-    assert(!folder_geometry_body(fp,grid>>32,saved,0,20,30,15,nullptr,&kFields));
+    assert(!folder_geometry_body(fp,grid>>32,saved,0,20,30,15,nullptr,&kFields, &kFolderFrame));
     assert(workspace_read<double>(fp,-0x30)==0);
     workspace_write(grid,0x23,int64_t{6}); workspace_write(saved,0,grid);
-    assert(!folder_geometry_body(fp,grid>>32,saved,0,std::numeric_limits<double>::quiet_NaN(),0,0,nullptr,&kFields));
+    assert(!folder_geometry_body(fp,grid>>32,saved,0,std::numeric_limits<double>::quiet_NaN(),0,0,nullptr,&kFields, &kFolderFrame));
     assert(workspace_read<double>(fp,-0x30)==0);
 #endif
     if (max_error > 1e-9) { std::puts("folder endpoint regression: FAIL (stock coordinates differ from inset RenderBox)"); return 1; }

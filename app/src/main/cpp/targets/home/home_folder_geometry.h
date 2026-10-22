@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
 #include "home_workspace_geometry.h"
+#include "home_dynamic_layout.h"
 #include <array>
 #include <span>
 #include <map>
@@ -31,8 +32,8 @@ inline constexpr FolderGeometrySite kFolderGeometrySites[] = {
 
 // Semantic ABI profile: calls are roles, not old BL immediates. Branch destinations
 // are instruction identities mapped into the current body, allowing inert NOPs outside
-// displaced windows. Native frame slots stay exact because their GC/scalar lifetimes
-// must be unchanged. Heap fields and pool immediates are decoded below.
+// displaced windows. Frame slots may move, but all role aliases and GC/scalar
+// lifetimes must agree. Heap fields and pool immediates are decoded below.
 enum FolderCall : uint32_t {
     kFolderConfigCall=0xffff0000u, kFolderFindCall, kFolderTransformCall,
     kFolderRxCall, kFolderRtlCall, kFolderOffsetCall, kFolderInitCall, kFolderThrowCall
@@ -94,7 +95,11 @@ inline constexpr uint32_t kFolderPreviewProfile[] = {
 };
 
 // Read-only binding contract; no callback allocations or movable Dart roots persist here.
-struct FolderGeometryContract { uint32_t site[5]{}; };
+struct FolderGeometryContract {
+    uint32_t site[5]{};
+    // Semantic local roles from each owning profile; values are current byte offsets.
+    std::array<std::array<int32_t,8>,2> frame{};
+};
 struct FolderGeometryCalls {
     uint32_t config=0,find=0,transform=0,rx=0,rtl=0,offset=0;
     uint32_t table_word=0,singleton_word=0;
@@ -148,6 +153,7 @@ inline bool folder_geometry_contract(const std::array<std::vector<uint32_t>,2>& 
     for(unsigned owner=0;owner<2;++owner){
         const auto& b=body[owner];const auto ref=refs[owner];auto& map=at[owner];
         if(b.size()<ref.size()||b.size()>4096||b[0]!=ref[0]||b[1]!=ref[1])return false;
+        const auto size=home_dynamic::frame_size(b);if(!size)return false;
         for(size_t i=0;i<b.size();++i)if(b[i]!=0xd503201fu)map.push_back(i);
         if(map.size()!=ref.size())return false;
         for(size_t j=0;j<ref.size();++j){const uint32_t old=ref[j],w=b[map[j]];
@@ -160,6 +166,10 @@ inline bool folder_geometry_contract(const std::array<std::vector<uint32_t>,2>& 
                     if(previous&&previous!=target)return false;
                     if(!previous&&!folder_helper(target,role==6,calls,read))return false;
                     previous=target;}
+                continue;
+            }
+            if(j==2) { // SUB DSP's allocation grows with the resolved locals.
+                if((w&0xffc003ffu)!=(old&0xffc003ffu))return false;
                 continue;
             }
             int32_t delta=0,actual_delta=0;uint32_t mask=0,actual_mask=0;
@@ -180,6 +190,21 @@ inline bool folder_geometry_contract(const std::array<std::vector<uint32_t>,2>& 
             if(dynamic>=0){if(dynamic>255||(w&~0x001ff000u)!=(old&~0x001ff000u)
                 ||int((w>>12)&511)!=dynamic)return false;
                 continue;}
+            const unsigned base=(old>>5)&31;
+            const uint32_t frame_op=old&0xffe00c00u;
+            if(base==29&&(frame_op==0xf8400000u||frame_op==0xf8000000u
+                ||frame_op==0xfc400000u||frame_op==0xfc000000u)) {
+                const auto old_offset=home_dynamic::imm9(old),offset=home_dynamic::imm9(w);
+                if((w&~0x001ff000u)!=(old&~0x001ff000u)
+                    ||!home_dynamic::slot(old_offset)||!home_dynamic::frame_slot(b,offset))return false;
+                const unsigned role=unsigned(-old_offset/8-1);
+                if(role>=out.frame[owner].size())return false;
+                auto& previous=out.frame[owner][role];
+                if(previous&&previous!=offset)return false;
+                for(unsigned other=0;other<out.frame[owner].size();++other)
+                    if(other!=role&&out.frame[owner][other]==offset)return false;
+                previous=offset;continue;
+            }
             // Original-only pool operands may move. Keep registers, width, addressing
             // form and role aliases exact; these are never native heap read offsets.
             uint32_t immediate_mask=0;
@@ -213,6 +238,12 @@ inline bool folder_geometry_contract(const std::array<std::vector<uint32_t>,2>& 
             if(w!=old)return false;
         }
     }
+    // The temporary top inset occupies the original outgoing-argument word at
+    // DSP, then moves into the dead screen-index local before the next Dart BL.
+    // DSP is FP minus this body's decoded allocation, not a fixed FP-0x30.
+    const int32_t outgoing=-home_dynamic::frame_size(body[0]);
+    for(auto offset:out.frame[0])if(offset==outgoing)return false;
+    out.frame[0][5]=outgoing;
     // Resolve each replay window by semantic instruction identity. NOPs inside a
     // replay are refused; every original branch/GC call was checked against this map.
     for(unsigned i=0;i<5;++i){const unsigned owner=(i<2||i==4)?0:1;const auto ref=refs[owner];
@@ -251,8 +282,11 @@ inline bool folder_grid_geometry(uintptr_t grid, double top, double bottom,
 // lanes retain original contents unless the original scalar instruction clears them.
 inline bool folder_geometry_body(uintptr_t fp, uint64_t heap,
     uintptr_t saved, unsigned kind, double top, double bottom, double side,
-    WorkspaceRenderSnapshot *rendered = nullptr, const GridFieldOffsets *field = nullptr) {
-    if (!field || !field->usable()) return false;
+    WorkspaceRenderSnapshot *rendered = nullptr, const GridFieldOffsets *field = nullptr,
+    const FolderGeometryContract* contract=nullptr) {
+    if (!field || !field->usable()||!contract||kind>4) return false;
+    const auto& local=contract->frame[(kind<2||kind==4)?0:1];
+    const auto at=[&](unsigned role){return fp+local[role];};
     const uintptr_t x0 = workspace_read<uintptr_t>(saved, 0);
     const auto d = [saved](int n, double v, bool clear = true) {
         workspace_write(saved, 160 + n * 16, v);
@@ -266,21 +300,21 @@ inline bool folder_geometry_body(uintptr_t fp, uint64_t heap,
         valid = folder_grid_geometry(x0, top, bottom, side, g, rendered, field);
         workspace_write(saved, 8, origin);
         d(0, workspace_read<double>(origin, 7) + (valid ? g[0] : 0));
-        workspace_write(saved, 0, workspace_read<uintptr_t>(fp, -8));
+        workspace_write(saved, 0, workspace_read<uintptr_t>(at(0),0));
         if (valid) {
-            workspace_write(fp, -0x20, g[2]);
-            workspace_write(fp, -0x28, g[3]);
+            workspace_write(at(3),0,g[2]);
+            workspace_write(at(4),0,g[3]);
         }
         // The outgoing-argument slot is temporary ONLY until +140, with
         // no intervening Dart call. Kind 4 moves this scalar into the dead
         // screen-index local AFTER its last read, before transformPointX.
         // Thus later Inst.find outgoing arguments cannot overwrite the delta.
-        workspace_write(fp, -0x30, valid ? g[1] : 0.0);
+        workspace_write(at(5),0,valid ? g[1] : 0.0);
     } else if (kind == 1) {
         // +1cc: row conversion, changed stride, product, original origin.y.
         const uintptr_t origin = workspace_read<uintptr_t>(saved, 8);
-        const double height = workspace_read<double>(fp, -0x28);
-        d(0, workspace_read<double>(origin, 7) + workspace_read<double>(fp, -0x18));
+        const double height = workspace_read<double>(at(4),0);
+        d(0, workspace_read<double>(origin, 7) + workspace_read<double>(at(2),0));
         d(1, height);
         d(2, static_cast<double>(static_cast<int64_t>(x0)) * height);
         valid = true;
@@ -293,26 +327,26 @@ inline bool folder_geometry_body(uintptr_t fp, uint64_t heap,
         d(3, product); d(1, left + product);
         std::memcpy(reinterpret_cast<void *>(saved + 160),
             reinterpret_cast<const void *>(saved + 176), 16);
-        workspace_write(saved, 8, workspace_read<uintptr_t>(fp, -0x18));
-        workspace_write(fp, -0x18, workspace_read<double>(fp, -0x30));
+        workspace_write(saved, 8, workspace_read<uintptr_t>(at(2),0));
+        workspace_write(at(2),0,workspace_read<double>(at(5),0));
         valid = true;
     } else if (kind == 2) {
         // calOriginPreviewIconLoc +11c, not the rendered folder widget size.
         const uintptr_t origin = workspace_read<uint32_t>(x0, field->origin) + (heap << 32);
         double g[4]; valid = folder_grid_geometry(x0, top, bottom, side, g, rendered, field);
         if (rendered) rendered->begin_preview(fp, valid ? g[1] : 0);
-        workspace_write(saved, 8, workspace_read<uintptr_t>(fp, -8));
+        workspace_write(saved, 8, workspace_read<uintptr_t>(at(0),0));
         d(0, workspace_read<double>(origin, 7) + (valid ? g[0] : 0));
         if (valid) {
-            workspace_write(fp, -0x18, g[2]);
-            workspace_write(fp, -0x20, g[3]);
+            workspace_write(at(2),0,g[2]);
+            workspace_write(at(3),0,g[3]);
         }
     } else if (kind == 3) {
         // +1d4: row conversion/stride/product/original margin Rx double.
         // No pointer or scalar is carried through an outgoing-argument slot.
         const uintptr_t margin = workspace_read<uintptr_t>(saved, 8);
         const int64_t row = workspace_read<int64_t>(saved, 24);
-        const double height = workspace_read<double>(fp, -0x20);
+        const double height = workspace_read<double>(at(3),0);
         if (rendered) top = rendered->finish_preview(fp, top);
         valid = std::isfinite(top) && top >= -30 && top <= 120
             && std::isfinite(height) && height >= 1 && row >= 0 && row < 32;

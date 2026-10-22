@@ -25,8 +25,9 @@ def check(hooks, assembly):
     entry = assembly.split("hc_layout_indicator_edit_result_entry:")[1].split(".globl hc_layout_indicator_slide_only_entry")[0]
     assert "tbnz w0, #4, 2f" in entry, "Dart false (null+0x30) must select empty"
     empty = re.split(r"(?m)^2:$", entry)[1]; empty = re.split(r"(?m)^1:$", empty)[0]
-    assert "ldr x0, [x27, #0x6250]" in empty, "empty widget must replace the bool result"
-    assert empty.index("ldr x0, [x27, #0x6250]") < empty.index("br x16")
+    assert "dynamic_load x0, x27, hc_indicator_empty_pool" in empty, "empty widget must use the decoded pool root"
+    assert "hc_indicator_empty_pool=home_dynamic::uoff(body[anchors.result/4+3]);" in hooks
+    assert empty.index("dynamic_load x0, x27, hc_indicator_empty_pool") < empty.index("br x16")
     assert "g_loader_prime_finished.load(std::memory_order_acquire)" in hooks
     assert "std::find(order.begin(), order.end(), owned_slot)" in hooks
 hooks = (ROOT/"app/src/main/cpp/targets/home/home_layout_hooks.cpp").read_text(encoding="utf-8")
@@ -34,7 +35,7 @@ assembly = (ROOT/"app/src/main/cpp/targets/home/home_layout_dart_arm64.S").read_
 check(hooks, assembly)
 for bad_h, bad_a in [(hooks.replace("anchors.result + 16;", "anchors.result + 8;"), assembly),
                      (hooks.replace("anchors.result + 16;", "va + 0x408;"), assembly),
-                     (hooks, assembly.replace("ldr x0, [x27, #0x6250]", "nop")),
+                     (hooks, assembly.replace("dynamic_load x0, x27, hc_indicator_empty_pool", "nop")),
                      (hooks, assembly.replace("tbnz w0, #4, 2f", "tbz w0, #4, 2f"))]:
     try:
         check(bad_h, bad_a)

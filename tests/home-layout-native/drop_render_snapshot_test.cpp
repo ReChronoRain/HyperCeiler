@@ -1,3 +1,4 @@
+#include "geometry_frame_fixture.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #if __has_include("targets/home/home_drop_geometry.h")
 #include "targets/home/home_drop_geometry.h"
@@ -56,7 +57,7 @@ int main() {
         workspace_write(fp, -0x48, 100.0);
         ++checks;
         if (!inset_workspace_frame(fp, grid >> 32, false, &kDrop, top, bottom, side,
-                nullptr, &rendered)) { std::puts("render failed"); ++failed; }
+                nullptr, &rendered, &kWorkspaceFrame)) { std::puts("render failed"); ++failed; }
         workspace_write(fp, -8, uintptr_t{0x1234});
     };
     const auto drop = [&](double settings_top, double settings_bottom, double settings_side,
@@ -66,7 +67,7 @@ int main() {
         workspace_write(saved, 0, source ? source : grid);
         ++checks;
         if (!drop_geometry_body(fp, grid >> 32, saved, 0, &kDrop,
-                settings_top, settings_bottom, settings_side, &rendered)) { std::puts("drop x failed"); ++failed; }
+                settings_top, settings_bottom, settings_side, &rendered, &kDropFrame)) { std::puts("drop x failed"); ++failed; }
         const double width = 90 - 2 * expected_side / 4;
         const double height = 100 - (expected_top + expected_bottom) / 7;
         eq(workspace_read<double>(saved, 160) + 2 * workspace_read<double>(fp, -0x38),
@@ -78,7 +79,7 @@ int main() {
         workspace_write(saved, 176, height);
         ++checks;
         if (!drop_geometry_body(fp, grid >> 32, saved, 1, &kDrop,
-                settings_top, settings_bottom, settings_side, &rendered)
+                settings_top, settings_bottom, settings_side, &rendered, &kDropFrame)
                 && expected_top != 0) { std::puts("drop y failed"); ++failed; }
         eq(workspace_read<double>(saved, 176), 30 + 6 * height + expected_top);
         eq(static_cast<double>(workspace_read<uintptr_t>(saved, 8)), 0x1234);
@@ -103,7 +104,7 @@ int main() {
     workspace_write(fp, -0x40, 110.0);
     workspace_write(saved, 0, grid);
     ++checks;
-    if (!drop_geometry_body(fp, grid >> 32, saved, 0, &kDrop, 0, 44, 0, &rendered)) ++failed;
+    if (!drop_geometry_body(fp, grid >> 32, saved, 0, &kDrop, 0, 44, 0, &rendered, &kDropFrame)) ++failed;
     eq(workspace_read<double>(fp, -0x40), 110 - 44.0 / 7);
     if (checks < 24) ++failed;
     std::puts(failed

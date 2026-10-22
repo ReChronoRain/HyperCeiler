@@ -4,6 +4,13 @@
 #include <cstring>
 #include <cmath>
 namespace home_layout {
+enum class WidgetScaleResult : uint8_t {
+    Neutral, Applied, InvalidLayout, InvalidScale, InvalidInput, NurseryUnavailable, ConstantsUnavailable
+};
+inline const char* widget_scale_result_name(WidgetScaleResult value) {
+    constexpr const char* names[]={"neutral","wrapped","invalid-layout","invalid-scale","invalid-input","nursery-unavailable","constants-unavailable"};
+    return names[static_cast<unsigned>(value)];
+}
 struct WidgetScaleLayout {
     uint32_t allocator=0,tag=0,size=0,top=0,alignment_pool=0,translate_pool=0,bank=0;
     int32_t opacity=0,scale=0,rotation=0,translate=0,alignment=0,force=0,child=0,frame=0;
@@ -58,16 +65,21 @@ inline bool widget_scale_layout(const home_dynamic::Body& build,const home_dynam
 // No safepoint, Dart call or movable pointer retention. On nursery exhaustion leave
 // the original widget intact; never enter a Dart allocator from a native C frame.
 inline uintptr_t wrap_scaled_widget(uintptr_t child,uintptr_t thread,uintptr_t pool,
-    uintptr_t null_value,double factor,const WidgetScaleLayout& layout){
-    if(!layout.usable()||!std::isfinite(factor)||factor<0.6||factor>1.4||factor==1.0
-        ||!(child&1)||!thread||!pool||!(null_value&1))return child;
+    uintptr_t null_value,double factor,const WidgetScaleLayout& layout,WidgetScaleResult* status=nullptr){
+    auto finish=[&](uintptr_t result,WidgetScaleResult why){if(status)*status=why;return result;};
+    if(!layout.usable())return finish(child,WidgetScaleResult::InvalidLayout);
+    if(!std::isfinite(factor)||factor<0.6||factor>1.4)return finish(child,WidgetScaleResult::InvalidScale);
+    if(factor==1.0)return finish(child,WidgetScaleResult::Neutral);
+    if(!(child&1)||!thread||!pool||!(null_value&1))return finish(child,WidgetScaleResult::InvalidInput);
     auto read=[](uintptr_t at,auto& value){std::memcpy(&value,reinterpret_cast<const void*>(at),sizeof(value));};
     auto write=[](uintptr_t at,const auto& value){std::memcpy(reinterpret_cast<void*>(at),&value,sizeof(value));};
     uintptr_t top=0,end=0,alignment=0,translate=0;
     read(thread+layout.top,top);read(thread+layout.top+8,end);
-    if(!top||(top&15)||end<=top||end-top<=layout.size)return child;
+    // Dart's nursery can start at 8 mod 16 (new-space object alignment), unlike
+    // the native stack. Reject only unaligned words, as the VM allocator does.
+    if(!top||(top&7)||end<=top||end-top<=layout.size)return finish(child,WidgetScaleResult::NurseryUnavailable);
     read(pool+layout.alignment_pool,alignment);read(pool+layout.translate_pool,translate);
-    if(!(alignment&1)||!(translate&1))return child;
+    if(!(alignment&1)||!(translate&1))return finish(child,WidgetScaleResult::ConstantsUnavailable);
     // PP constants are the original Alignment.center and Offset.zero, never clones.
     const uintptr_t object=top+1;
     write(top,uint64_t(layout.tag));
@@ -77,6 +89,6 @@ inline uintptr_t wrap_scaled_widget(uintptr_t child,uintptr_t thread,uintptr_t p
     write(object+layout.translate,uint32_t(translate));write(object+layout.alignment,uint32_t(alignment));
     write(object+layout.force,uint32_t(null_value+0x30)); // Dart canonical false, as in the original builder.
     write(thread+layout.top,top+layout.size);
-    return object;
+    return finish(object,WidgetScaleResult::Applied);
 }
 }

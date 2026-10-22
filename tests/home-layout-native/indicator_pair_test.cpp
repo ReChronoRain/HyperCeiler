@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
+#define HC_INDICATOR_LEGACY_FIXTURE 1
 #include "targets/home/home_indicator_pair.h"
 #include <cassert>
 #include <cstdio>

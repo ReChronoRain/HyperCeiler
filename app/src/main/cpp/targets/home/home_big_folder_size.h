@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
 #include "home_folder_geometry.h"
+#include "home_dynamic_layout.h"
 #include <algorithm>
 #include <array>
 
@@ -14,6 +15,8 @@ struct BigFolderSizeSites {
     int table = -1, singleton = -1, device_singleton = -1, config_rx = -1, rx_value = -1;
     int hotseat = -1, folder_info = -1, span_x = -1, span_y = -1;
     int strategy_width = -1, strategy_height = -1;
+    int32_t receiver[3]{},producer_box=0,producer_width=0,producer_height=0;
+    int32_t base_local[2]{},size_edit=0,helper_receiver[2]{},helper_input[2]{};
     uint32_t base_return = 0;
 };
 inline bool big_folder_sequence(const std::vector<uint32_t>& b,
@@ -56,47 +59,65 @@ inline bool big_folder_size_sites(const std::array<std::vector<uint32_t>,5>& b,
     const std::vector<uint32_t>& check, const GridFieldOffsets& f, BigFolderSizeSites& out) {
     out={}; if(!f.usable())return false;
     // Producer, padding consumer, close-animation size consumer, currentConfig, Rx.value.
-    const uint32_t frame[]={0xd10121ef,0xd100a1ef,0xd10081ef,0xd10021ef,0xd10021ef};
-    for(unsigned i=0;i<5;++i)if(b[i].size()<24 || b[i][0]!=0xa9bf79fd
-        || b[i][1]!=0xaa0f03fd || b[i][2]!=frame[i])return false;
+    using namespace home_dynamic;
+    for(unsigned i=0;i<5;++i)if(b[i].size()<24||!frame_size(b[i]))return false;
+    for(unsigned i=0;i<3;++i)if(!receiver_slot(b[i],1,out.receiver[i]))return false;
     unsigned producer_hits=0,tail_hits=0;
     for(size_t i=3;i+5<b[0].size();++i){int width=0,height=0,width_alias=0,height_alias=0;
-        if(b[0][i-3]!=0xf85f83a2||b[0][i-2]!=0xf81f03a3||b[0][i-1]!=0xfc1c03a0
-            ||b[0][i]!=0xfc407061||b[0][i+1]!=0xfc1c83a1
+        if(!ldx(b[0][i-3],29,2)||imm9(b[0][i-3])!=out.receiver[0]
+            ||!stx(b[0][i-2],29,3)||!std_(b[0][i-1],29,0)
+            ||b[0][i]!=0xfc407061||!std_(b[0][i+1],29,1)
             ||!big_folder_store(b[0][i+2],2,1,width)||!big_folder_store(b[0][i+3],2,0,height)
             ||!big_folder_store(b[0][i+4],2,1,width_alias)||!big_folder_store(b[0][i+5],2,0,height_alias))continue;
         const int offsets[]={width,height,width_alias,height_alias};bool distinct=true;
         for(unsigned a=0;a<4;++a)for(unsigned c=a+1;c<4;++c)
             distinct &= std::abs(offsets[a]-offsets[c])>=int(sizeof(double));
         if(!distinct)continue;
-        out.site[0]=uint32_t(i*4);out.strategy_width=width;out.strategy_height=height;++producer_hits;
+        out.site[0]=uint32_t(i*4);out.strategy_width=width;out.strategy_height=height;
+        out.producer_box=imm9(b[0][i-2]);out.producer_height=imm9(b[0][i-1]);
+        out.producer_width=imm9(b[0][i+1]);++producer_hits;
     }
     for(size_t i=0;i+4<b[0].size();++i)if(dart_is_bl(b[0][i])&&b[0][i+1]==0xaa1603e0
         &&b[0][i+2]==0xaa1d03ef&&b[0][i+3]==0xa8c179fd&&b[0][i+4]==0xd65f03c0){out.base_return=uint32_t((i+1)*4);++tail_hits;}
     if(producer_hits!=1||tail_hits!=1||out.base_return<=out.site[0]+16)return false;
-    // FP-0x10 is a live original GC root; FP-0x38 carries the scaled producer width.
+    for(auto local:{out.producer_box,out.producer_height,out.producer_width})
+        if(!frame_slot(b[0],local)||local==out.receiver[0])return false;
+    if(out.producer_box==out.producer_width||out.producer_box==out.producer_height
+        ||out.producer_width==out.producer_height)return false;
+    // The decoded boxed input is a live GC root; the width local carries our scalar.
     // No native pointer cache crosses a Dart call. Reject writes that change either lifetime.
     for(size_t i=out.site[0]/4+4;i<out.base_return/4-1;++i){uint32_t w=b[0][i];
         if(((w>>5)&31)!=29)continue;
         if((w&0xffe00c00)==0xf8000000||(w&0xffe00c00)==0xb8000000||(w&0xffe00c00)==0xfc000000){
             int off=int((w>>12)&511);if(off&256)off-=512;
-            if(off==-8||off==-0x10||off==-0x38)return false;}
+            if(off==out.receiver[0]||off==out.producer_box||off==out.producer_width)return false;}
     }
     auto load=[](int imm){return 0xfc400000u|(uint32_t(imm)<<12);};
     // Require the same live config fields as the workspace's actual layout contract.
     uint32_t width=0,height=0;
     for(size_t i=0;i+4<=b[1].size();++i) {
-        if(b[1][i]==load(f.cell_width)&&b[1][i+1]==0xfc1e83a0
-            &&b[1][i+2]==b[3][3]&&b[1][i+3]==b[3][4]){out.site[1]=i*4;++width;}
-        if(b[1][i]==load(f.cell_height)&&b[1][i+1]==0xfc1e03a0
+        if(b[1][i]==load(f.cell_width)&&std_(b[1][i+1],29,0)
+            &&b[1][i+2]==b[3][3]&&b[1][i+3]==b[3][4]){
+            out.site[1]=i*4;out.base_local[0]=imm9(b[1][i+1]);++width;}
+        if(b[1][i]==load(f.cell_height)&&std_(b[1][i+1],29,0)
             &&b[1][i+2]==b[3][3]&&(b[1][i+3]&0xffc003ff)==0xf9400000){
             const uint32_t pair[]={b[1][i+2],b[1][i+3]};
             if(std::search(b[0].begin(),b[0].end(),pair,pair+2)==b[0].end())continue;
-            out.device_singleton=((b[1][i+3]>>10)&4095)*8;out.site[2]=i*4;++height;}
+            out.device_singleton=((b[1][i+3]>>10)&4095)*8;out.site[2]=i*4;
+            out.base_local[1]=imm9(b[1][i+1]);++height;}
     }
-    if(width!=1||height!=1)return false;
-    if(!big_folder_sequence(b[2],{load(f.cell_width),0xfc5f03a1,0x1e610802,0xf85f83a0},out.site[3])
-        ||!big_folder_sequence(b[2],{load(f.cell_height),0xfc5f03a1,0x1e610802,0xf85f83a0},out.site[4]))return false;
+    if(width!=1||height!=1||out.base_local[0]==out.base_local[1])return false;
+    for(auto local:out.base_local)if(!frame_slot(b[1],local)||local==out.receiver[1])return false;
+    unsigned sizes[2]{};
+    for(size_t i=0;i+3<b[2].size();++i)for(unsigned axis=0;axis<2;++axis)
+        if(b[2][i]==load(axis?f.cell_height:f.cell_width)&&ldd(b[2][i+1],29,1)
+            &&b[2][i+2]==0x1e610802&&ldx(b[2][i+3],29,0)
+            &&imm9(b[2][i+3])==out.receiver[2]) {
+            const auto edit=imm9(b[2][i+1]);
+            if(!frame_slot(b[2],edit)||edit==out.receiver[2]||(axis&&edit!=out.size_edit))return false;
+            out.size_edit=edit;out.site[3+axis]=i*4;++sizes[axis];
+        }
+    if(sizes[0]!=1||sizes[1]!=1)return false;
     // Decode the non-lazy currentConfig path. Do not invoke Dart or initialize a singleton.
     if((b[3][3]&0xffc003ff)!=0xf9400340 ||(b[3][4]&0xffc003ff)!=0xf9400000)return false;
     out.table=((b[3][3]>>10)&4095)*8;out.singleton=((b[3][4]>>10)&4095)*8;
@@ -142,7 +163,8 @@ inline bool big_folder_size_sites(const std::array<std::vector<uint32_t>,5>& b,
     // FolderInfo and spans are read by this SAME size consumer.
     n=0;
     for(size_t i=1;i+1<b[2].size();++i){int32_t off=0;
-        if(b[2][i-1]==0xf81f83a1&&dart_ldur_w(b[2][i],1,0,&off)&&b[2][i+1]==0x8b1c8000){out.folder_info=off;++n;}}
+        if(stx(b[2][i-1],29,1)&&imm9(b[2][i-1])==out.receiver[2]
+            &&dart_ldur_w(b[2][i],1,0,&off)&&b[2][i+1]==0x8b1c8000){out.folder_info=off;++n;}}
     if(n!=1)return false;
     n=0;
     for(size_t i=0;i+2<b[2].size();++i){int32_t off=0;
@@ -160,36 +182,47 @@ inline bool big_folder_size_sites(const std::array<std::vector<uint32_t>,5>& b,
 inline bool big_folder_preview_sites(const std::vector<uint32_t>& producer,uint32_t producer_va,
     const std::array<std::vector<uint32_t>,2>& helpers,const uint32_t helper_va[2],
     BigFolderSizeSites& out) {
+    using namespace home_dynamic;
     for(unsigned k=0;k<2;++k){const auto& b=helpers[k];
-        const uint32_t frame=k==0?0xd10181ef:0xd10161ef;
-        if(b.size()<32||b[0]!=0xa9bf79fd||b[1]!=0xaa0f03fd||b[2]!=frame)return false;
+        if(b.size()<32||!frame_size(b)||!receiver_slot(b,1,out.helper_receiver[k]))return false;
         const uint32_t width_args[]={0xaa0203e4,0xf81f03a2,0xaa0603e2,0xf81d83a6,
             0xaa0103e6,0xf81f83a1,0xf81e83a3,0xf81e03a5};
         const uint32_t height_args[]={0xaa0103e4,0xf81f83a1,0xf81f03a2,
             0xf81e83a3,0xf81e03a5,0xf81d83a6};
         const unsigned args=k==0?8:6;
-        for(unsigned j=0;j<args;++j)
-            if(b[3+j]!=(k==0?width_args[j]:height_args[j]))return false;
+        for(unsigned j=0;j<args;++j) {
+            const auto original=k==0?width_args[j]:height_args[j];
+            if((original&0xffe00fe0u)==0xf80003a0u) {
+                if((b[3+j]&~0x001ff000u)!=(original&~0x001ff000u)
+                    ||!frame_slot(b,imm9(b[3+j])))return false;
+                if((original&31)==2)out.helper_input[k]=imm9(b[3+j]);
+            }else if(b[3+j]!=original)return false;
+        }
         unsigned roots=0;
-        for(uint32_t w:b)roots+=w==0xf81f83a1;
+        for(uint32_t w:b)roots+=stx(w,29,1)&&imm9(w)==out.helper_receiver[k];
         if(roots!=1)return false; // Original receiver remains a live GC root at FP-8.
         unsigned hits=0;
         for(size_t i=1;i+3<b.size();++i){int local=0;
-            if(b[i-1]!=0xf85f03a0||b[i]!=0xfc407001
+            if(!ldx(b[i-1],29,0)||imm9(b[i-1])!=out.helper_input[k]||b[i]!=0xfc407001
                 ||(b[i+1]&0xffe00fff)!=0xfc0003a1||b[i+2]!=0x1e600822
-                ||b[i+3]!=(k==0?0x1e621000u:0xf85f83a2u))continue;
+                ||(k==0?b[i+3]!=0x1e621000u:!ldx(b[i+3],29,2)
+                    ||imm9(b[i+3])!=out.helper_receiver[k]))continue;
             local=int((b[i+1]>>12)&511);if(local&256)local-=512;
-            // Frame ABI is intentionally strict: subsequent original arithmetic
-            // consumes this slot. A lone changed store is not field relocation.
-            if(local!=(k==0?-0x38:-0x50))continue;
+            if(!frame_slot(b,local)||local==out.helper_receiver[k]||local==out.helper_input[k])continue;
+            unsigned uses=0;
+            for(size_t j=i+4;j<b.size();++j)
+                if((b[j]&0xffe00fe0u)==0xfc4003a0u&&imm9(b[j])==local)++uses;
+            if(!uses)continue;
             out.site[5+k]=uint32_t(i*4);out.helper_width_local[k]=local;++hits;
         }
         if(hits!=1||!big_folder_window(b,out.site[5+k]))return false;
         unsigned calls=0;
         for(size_t i=4;i<producer.size();++i)
             if(dart_call_to(producer[i],producer_va+uint32_t(i*4),helper_va[k])){
-                if(producer[i-4]!=0xf85f83a1||producer[i-3]!=0xf85f03a2
-                    ||producer[i-2]!=0xf85e83a5||producer[i-1]!=0xf85d83a6
+                if(!ldx(producer[i-4],29,1)||imm9(producer[i-4])!=out.receiver[0]
+                    ||!ldx(producer[i-3],29,2)||imm9(producer[i-3])!=out.producer_box
+                    ||!ldx(producer[i-2],29,5)||!ldx(producer[i-1],29,6)
+                    ||!frame_slot(producer,imm9(producer[i-2]))||!frame_slot(producer,imm9(producer[i-1]))
                     ||i*4<=out.site[0]+16||i*4>=out.base_return)return false;
                 out.helper_return[k]=uint32_t((i+1)*4);++calls;
             }
@@ -240,12 +273,12 @@ inline void big_folder_size_body(uintptr_t fp,uint64_t heap,uintptr_t saved,unsi
             // The base padding function is also called by 1x1 folders: only admit the large owner.
             const auto caller=workspace_read<uintptr_t>(fp,8);
             if(caller==big_begin+f.base_return&&caller<big_end
-                &&workspace_read<uint32_t>(workspace_read<uintptr_t>(fp,-8),f.hotseat)==uint32_t(null+0x30)) {
+                &&workspace_read<uint32_t>(workspace_read<uintptr_t>(fp,f.receiver[1]),f.hotseat)==uint32_t(null+0x30)) {
                 const uintptr_t parent=workspace_read<uintptr_t>(fp,0);
                 // Read only the current verified parent frame; GC updates its original root.
                 if(parent>fp&&parent-fp<=4096&&(parent&7)==0){
-                    const uintptr_t boxed=workspace_read<uintptr_t>(parent,-0x10);
-                    const double scaled=workspace_read<double>(parent,-0x38);
+                    const uintptr_t boxed=workspace_read<uintptr_t>(parent,f.producer_box);
+                    const double scaled=workspace_read<double>(parent,f.producer_width);
                     if((boxed&7)==1&&uint32_t(boxed)!=uint32_t(null)&&(boxed>>32)==heap){
                         const double raw=workspace_read<double>(boxed,7);
                         if(std::isfinite(raw)&&raw>0&&std::isfinite(scaled)&&scaled>0){
@@ -256,7 +289,7 @@ inline void big_folder_size_body(uintptr_t fp,uint64_t heap,uintptr_t saved,unsi
                 }
             }
         }else if(kind<=4){
-            const uintptr_t controller=workspace_read<uintptr_t>(fp,-8);
+            const uintptr_t controller=workspace_read<uintptr_t>(fp,f.receiver[2]);
             const uintptr_t info=workspace_read<uint32_t>(controller,f.folder_info)+(heap<<32);
             const int64_t x=workspace_read<int64_t>(info,f.span_x),y=workspace_read<int64_t>(info,f.span_y);
             if(x>=1&&x<=32&&y>=1&&y<=32&&(x>1||y>1))
@@ -269,12 +302,12 @@ inline void big_folder_size_body(uintptr_t fp,uint64_t heap,uintptr_t saved,unsi
             // a movable Double/strategy pointer or reread a newer margin setting.
             if(caller==big_begin+f.helper_return[helper]&&caller<big_end
                 &&parent>fp&&parent-fp<=4096&&(parent&7)==0){
-                const auto boxed=workspace_read<uintptr_t>(parent,-0x10);
-                const auto receiver=workspace_read<uintptr_t>(fp,-8);
+                const auto boxed=workspace_read<uintptr_t>(parent,f.producer_box);
+                const auto receiver=workspace_read<uintptr_t>(fp,f.helper_receiver[helper]);
                 if(boxed==readx(0)&&(boxed&7)==1&&uint32_t(boxed)!=uint32_t(null)
-                    &&(boxed>>32)==heap&&receiver==workspace_read<uintptr_t>(parent,-8)){
+                    &&(boxed>>32)==heap&&receiver==workspace_read<uintptr_t>(parent,f.receiver[0])){
                     const double raw=workspace_read<double>(boxed,7);
-                    const double scaled=workspace_read<double>(parent,-0x38);
+                    const double scaled=workspace_read<double>(parent,f.producer_width);
                     if(std::isfinite(raw)&&raw>0&&std::isfinite(scaled)&&scaled>0){
                         const double candidate=scaled/raw;
                         if(std::isfinite(candidate)&&candidate>0&&candidate<=2)ratio=candidate;
@@ -290,24 +323,24 @@ inline void big_folder_size_body(uintptr_t fp,uint64_t heap,uintptr_t saved,unsi
         double height=workspace_read<double>(saved,160);
         if(!std::isfinite(width)||!std::isfinite(height)||width*ratio<1||height*ratio<1)ratio=1;
         width*=ratio;height*=ratio;writed(1,width);if(ratio!=1)writed(0,height);
-        workspace_write(fp,-0x38,width);workspace_write(readx(2),f.strategy_width,width);workspace_write(readx(2),f.strategy_height,height);
-        workspace_write(fp,-0x40,height); // Original previous store must match the scaled height too.
+        workspace_write(fp,f.producer_width,width);workspace_write(readx(2),f.strategy_width,width);workspace_write(readx(2),f.strategy_height,height);
+        workspace_write(fp,f.producer_height,height); // Original previous store must match the scaled height too.
     }else if(kind<=2){
         const double value=workspace_read<double>(readx(0),kind==1?grid_fields.cell_width:grid_fields.cell_height)*ratio;
-        writed(0,value);workspace_write(fp,kind==1?-0x18:-0x20,value);
+        writed(0,value);workspace_write(fp,f.base_local[kind-1],value);
         auto table=workspace_read<uintptr_t>(thread,f.table);
         writex(0,workspace_read<uintptr_t>(table,kind==1?f.singleton:f.device_singleton));
     }else if(kind<=4){
         const double value=workspace_read<double>(readx(0),kind==3?grid_fields.cell_width:grid_fields.cell_height)*ratio;
-        const double edit=workspace_read<double>(fp,-0x10);
-        writed(0,value);writed(1,edit);writed(2,value*edit);writex(0,workspace_read<uintptr_t>(fp,-8));
+        const double edit=workspace_read<double>(fp,f.size_edit);
+        writed(0,value);writed(1,edit);writed(2,value*edit);writex(0,workspace_read<uintptr_t>(fp,f.receiver[2]));
     }else{
         const double width=workspace_read<double>(readx(0),7)*ratio;
         const double coefficient=workspace_read<double>(saved,160);
         writed(1,width);workspace_write(fp,f.helper_width_local[kind-5],width);
         writed(2,width*coefficient);
         if(kind==5)writed(0,4.0);
-        else writex(2,workspace_read<uintptr_t>(fp,-8));
+        else writex(2,workspace_read<uintptr_t>(fp,f.helper_receiver[kind-5]));
     }
 }
 } // namespace home_layout

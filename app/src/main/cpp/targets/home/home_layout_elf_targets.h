@@ -133,7 +133,7 @@ inline std::optional<unwind::FunctionBounds> unique_function(
  *
  * The log literal is only the first locator.  The candidate is accepted only when its unwind
  * bounds describe one reasonably-sized function which preserves the receiver in X19 and writes
- * the computed float to receiver+0x10.  That is the state transition established from 7719's
+ * the computed float to one decoded receiver field. That is the state transition established from 7719's
  * caller/callee analysis; refusing a changed shape is safer than writing an unrelated Rust object.
  */
 inline std::optional<uint64_t> resolve_animation_duration_update(
@@ -148,16 +148,20 @@ inline std::optional<uint64_t> resolve_animation_duration_update(
     if (size < 0x80 || size > 0x400) return {};
 
     bool receiver = false;
-    bool state_store = false;
+    unsigned state_stores = 0;
     for (uint64_t site = function->begin; site + 4 <= function->end; site += 4) {
         const auto instruction = image->word(site);
         if (!instruction) return {};
         if (site - function->begin < 0x60 && *instruction == 0xaa0003f3u) {
             receiver = true; // MOV X19, X0
         }
-        if (*instruction == 0xbd001260u) state_store = true; // STR S0, [X19,#0x10]
+        if((*instruction&0xffc003ffu)==0xbd000260u) {
+            const auto field=((*instruction>>10)&4095)*4;
+            if(field<8||field>4096)return {};
+            ++state_stores; // STR S0,[X19,#current byte offset], never a remembered field.
+        }
     }
-    return receiver && state_store ? std::optional<uint64_t>(function->begin) : std::nullopt;
+    return receiver && state_stores==1 ? std::optional<uint64_t>(function->begin) : std::nullopt;
 }
 
 struct GetterShape {
