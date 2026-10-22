@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,10 +33,6 @@ import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
-import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
-
-import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -44,6 +41,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 /**
  * 截屏时隐藏状态栏。
@@ -284,7 +285,7 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
 
     private boolean applySurfaceTransaction(SurfaceControl.Transaction transaction) {
         try {
-            Method applySynchronously = SurfaceControl.Transaction.class
+            @SuppressLint("SoonBlockedPrivateApi") Method applySynchronously = SurfaceControl.Transaction.class
                 .getDeclaredMethod("apply", boolean.class);
             applySynchronously.setAccessible(true);
             applySynchronously.invoke(transaction, true);
