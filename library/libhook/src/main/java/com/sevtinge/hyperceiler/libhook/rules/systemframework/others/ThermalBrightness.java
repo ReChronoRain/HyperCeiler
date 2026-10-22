@@ -45,9 +45,9 @@ public class ThermalBrightness extends BaseHook {
                 new IMethodHook() {
                     @Override
                     public void after(HookParam param) {
-                        setBooleanField(param.getThisObject(), "SUPPORT_TEMEPERATURE_CONTROL", false);
-                        setBooleanField(param.getThisObject(), "mThermalBrightnessControlAvailable", false);
-                        setBooleanField(param.getThisObject(), "mApplyThermalBrightnessRate", false);
+                        setBooleanField(param, "SUPPORT_TEMEPERATURE_CONTROL", false);
+                        setBooleanField(param, "mThermalBrightnessControlAvailable", false);
+                        setBooleanField(param, "mApplyThermalBrightnessRate", false);
                     }
                 }
             );
@@ -61,7 +61,7 @@ public class ThermalBrightness extends BaseHook {
                 new IMethodHook() {
                     @Override
                     public void after(HookParam param) {
-                        setBooleanField(param.getThisObject(), "SUPPORT_TEMEPERATURE_CONTROL", false);
+                        setBooleanField(param, "SUPPORT_TEMEPERATURE_CONTROL", false);
                     }
                 }
             );
