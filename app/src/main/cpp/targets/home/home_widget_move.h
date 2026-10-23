@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <vector>
+#include "home_dynamic_layout.h"
 
 namespace home_layout {
 inline constexpr const char *kWidgetMoveSymbol = "AssistantDragToPAHandler.canDragToPA";
@@ -14,8 +15,8 @@ inline constexpr uint32_t kWidgetMoveOriginal = 0x37200500; // tbnz w0,#4, rejec
 inline constexpr uint32_t kWidgetMoveReplacement = 0xd503201f; // nop; continue to span check
 inline constexpr int32_t kWidgetMoveMagic = 0x48435731; // HCW1; appended after custom titles
 
-// Find only the editing-state rejection in the named canDragToPA body. Its
-// captured closure field must come from the named Rx value getter, its reject
+// Find only the editing-state rejection in the proved canDragToPA body. Its
+// captured closure field must come from the actual Rx value getter, its reject
 // arm must equal the preceding first-page rejection, and the following pointer
 // null check must remain intact. Do not skip the whole precondition block.
 template <typename ReadWords>
@@ -24,6 +25,24 @@ size_t widget_move_editing_gate_offset(size_t bytes, ReadWords read,
     std::vector<uint32_t> code;
     if (!value_callee || !bytes || bytes > (1u << 20) || (bytes & 3)
         || !read(bytes, code) || code.size() != bytes / 4) return SIZE_MAX;
+    using namespace home_dynamic;
+    int32_t receiver=0,model=0,closure=0,grid=0;
+    if(!receiver_slot(code,1,receiver)||!receiver_slot(code,2,model)||receiver==model)return SIZE_MAX;
+    unsigned contexts=0,grids=0;
+    for(size_t i=1;i+5<code.size();++i) {
+        uint32_t allocator=0;
+        if(target(code[i-1],base+uint32_t((i-1)*4),allocator)&&ldx(code[i],29,1)&&imm9(code[i])==receiver
+            &&stx(code[i+1],29,0)&&frame_slot(code,imm9(code[i+1]))&&mem(code[i+2],0xb8000000u,0,1)
+            &&field(imm9(code[i+2]))&&ldx(code[i+3],29,2)&&imm9(code[i+3])==model
+            &&mem(code[i+4],0xb8000000u,0,2)&&field(imm9(code[i+4]))
+            &&imm9(code[i+2])!=imm9(code[i+4])) {closure=imm9(code[i+1]);++contexts;}
+        if(ldx(code[i],29,0)&&imm9(code[i])==receiver&&ldw(code[i+1],0,3)&&field(imm9(code[i+1]))
+            &&code[i+2]==0x8b1c8063u&&stx(code[i+3],29,3)&&frame_slot(code,imm9(code[i+3]))
+            &&ldw(code[i+4],3,1)&&field(imm9(code[i+4]))&&code[i+5]==0x8b1c8021u) {
+            grid=imm9(code[i+3]);++grids;
+        }
+    }
+    if(contexts!=1||grids!=1||closure==receiver||closure==grid)return SIZE_MAX;
     const auto destination = [](size_t i, uint32_t word) -> int64_t {
         const uint32_t raw = (word >> 5) & 0x3fff;
         const int64_t displacement = raw & 0x2000 ? int64_t(raw) - 0x4000 : raw;
@@ -50,16 +69,16 @@ size_t widget_move_editing_gate_offset(size_t bytes, ReadWords read,
         const int64_t pass = int64_t(i+9)*4 + pass_disp*4;
         if (pass <= reject || pass+16 > int64_t(bytes)) continue;
         const size_t p = size_t(pass)/4;
-        if (code[p] != 0xf85f03a0U || (code[p+1] & 0xffe00fffU) != 0xb8400001U
+        if (!ldx(code[p],29,0)||imm9(code[p])!=grid || (code[p+1] & 0xffe00fffU) != 0xb8400001U
             || code[p+2] != 0x8b1c8021U
             || (code[p+3] & 0xfff8001fU) != 0x37200001U) continue;
         const uint32_t field = (code[i+1] >> 12) & 0x1ffU;
-        if (!field || field >= 0x100 || field == ((code[i-2] >> 12) & 0x1ffU)
+        if (!home_dynamic::field(int32_t(field)) || field >= 0x100 || field == ((code[i-2] >> 12) & 0x1ffU)
             || field == ((code[i+4] >> 12) & 0x1ffU)) continue;
         size_t captures = 0;
         for (size_t c = 0; c+2 < i; ++c) {
             if ((code[c] & 0xfc000000U) != 0x94000000U
-                || code[c+1] != 0xf85e83a2U
+                || !ldx(code[c+1],29,2)||imm9(code[c+1])!=closure
                 || code[c+2] != (0xb8000040U | (field << 12))) continue;
             const uint32_t raw = code[c] & 0x3ffffffU;
             const int64_t displacement = raw & 0x2000000U ? int64_t(raw)-0x4000000 : raw;
@@ -72,7 +91,7 @@ size_t widget_move_editing_gate_offset(size_t bytes, ReadWords read,
     return found;
 }
 
-// Locate the model-flag rejection sharing the named span check's reject arm. Field magnitude
+// Locate the model-flag rejection sharing the actual span check's reject arm. Field magnitude
 // is not identity: another flag can move above 0x80, and the MIUI flag can move below it.
 template <typename ReadWords>
 size_t widget_move_gate_offset(size_t bytes, ReadWords read, int32_t *flag_field = nullptr,

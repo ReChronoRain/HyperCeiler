@@ -5,7 +5,7 @@
 #include <vector>
 #include "home_dynamic_layout.h"
 namespace home_layout {
-/* Resolve only bounded original consumers. Counts come from the named currentConfig
+/* Resolve only bounded original consumers. Counts come from the verified currentConfig
  * receiver followed by X/Y bounds checks with a shared reject arm. Item indices come from
  * occupied-cell X/Y stride arithmetic. No neighbouring function or adjacent-field guess.
  * Frame/register contracts are still verified: dynamic offsets do not relax stub ABI.
@@ -124,7 +124,7 @@ inline GridFieldOffsets read_grid_field_offsets(const std::vector<uint32_t> &bod
 }
 
 // isItemPosEmpty checks column (unboxed -0x18) and row (boxed -0x10), each
-// against the same named currentConfig return. Both GE branches must reject together.
+// against the same verified currentConfig return. Both GE branches must reject together.
 inline bool read_grid_counts(const std::vector<uint32_t> &body, uint32_t va,
     uint32_t current_config, GridFieldOffsets &out) {
     out.columns = out.rows = -1;

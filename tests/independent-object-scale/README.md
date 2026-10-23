@@ -8,6 +8,9 @@ continues reading v4–v13 with neutral object scales.
 `launcher-7751.json` records the original named ARM64 functions from
 RELEASE-8.01.02.7751. Production resolves each site, field, allocator tag, instance
 size, pool constant and nursery pair from the current image, never these addresses.
+The production widget hook now adjusts the launcher's existing outer transform
+scalar without another allocation; see `../runtime-feature-addressing/README.md`.
+The allocator helpers keep the alignment regression as historical coverage.
 
 Run host configuration, provider, instruction-shape and allocation checks:
 
@@ -22,7 +25,7 @@ python3 tests/independent-object-scale/verify_arm.py /path/to/android-ndk
 python3 tests/folder-icon-scale/verify.py --ndk /path/to/android-ndk
 ```
 
-The latter two cover 56 cases including distinct small/large factors, unrelated
+The latter two cover 64 cases including distinct small/large factors, unrelated
 callers, gates, SIMD/flags, original frame replay and native ABI preservation.
 The host checks verify old/missing config, separate revisions, reset/range guards,
 close ratios matching scaled icon/preview dimensions (including selected-icon Rect
@@ -32,10 +35,11 @@ fields as `_initScale`, validates both boxed writes and their half-difference
 consumers, and rejects missing/changed producers or consumers. The five animation
 banks are enabled together so dimensions and origins cannot use different units.
 
-Widget scaling wraps the completed widget container with the launcher's own
-HyperTransform; cell counts and occupied rectangles remain unchanged. It uses only
-the nursery fast path, performs no Dart call or GC and leaves the original widget
-on allocation refusal. Folder captions retain their independent font-size setting.
+Before the 2026-10-23 migration, widget scaling allocated an additional
+HyperTransform around the completed container. The current path adjusts the
+launcher's existing outer transform instead. It adds no allocation or GC call;
+cell counts, occupied rectangles and independent folder captions retain their
+original roles. The allocation regression below records the earlier implementation.
 
 On launcher 7751, the cached-origin fix was built as a signed release, installed
 non-incrementally and loaded by restarting the launcher. The installed APK hash
@@ -91,37 +95,79 @@ The older icon harness was run with host tool/output paths adapted in memory and
 its renamed scale symbol mapped to the current `hc_icon_scale_bits`; its replay
 and GC limitations still apply. Logcat parser/database import checks also passed.
 
-Runtime diagnostics distinguish `wrapped`, neutral scale, invalid layout/input/
+The 2026-10-21 runtime diagnostics distinguished `wrapped`, neutral scale, invalid layout/input/
 scale, unavailable nursery and unavailable constants. Counts and scalar memory
 alignment/room are logged on state changes, capped at 16 records per process.
 The existing `LogcatLogLoader`/`LogcatParser` imports `HyperCeiler.HomeLayout` into
 the built-in log database on refresh/export, including INFO and WARN records.
 
-## Dynamic addressing audit
+## Dynamic addressing audit (2026-10-23)
 
-| Active scale path | Derived from the current launcher image | Deliberate contracts / limits |
+The object-scale binders now use executable-code feature discovery instead of
+named roots or symbol spans. See `../runtime-feature-addressing/README.md` for
+full-image tests with symbol/section/string/debug data removed, independently
+relocated functions and fields, ambiguity/missing-link rejection and provenance.
+
+| Active object-scale path | Current-image evidence | Contracts / limits |
 | --- | --- | --- |
-| Ordinary icon, desktop and Dock | Named `AppIcon.build`/`GridController.currentConfig`, actual width/height inputs and config/double fields; `ShortcutIconWidget` typed getters identify the correct mixin copy and its normal/Dock branches | Unique instruction shapes, register ABI, bounded complete function bodies |
-| Download/progress icon | Typed `ProgressShortcutIconGetxController.onInit` callee chain, linked back to the canonical icon config fields | Bounded chain, original prologue/epilogue and scalar bank ABI |
-| Small folder | `FolderLayout1x1.calItemSize` and base strategy; four background/preview fields, current-config and preview-height producers, caller return | Validated matching stores/calls; independent small-folder factor |
-| Large folder | `BigFolderCommonStrategy.calItemSize`, width/height helpers and preview consumer; 13 geometry fields and caller return | Validated producer/consumer relationship; independent large-folder factor |
-| Folder close and app return | `_initScale`, `_refreshCachedGridParams`, canonical icon fields and verified app-return caller; source dimensions and cached center origins | Instruction windows/frames must match; ordinary icon and folder factors keep their separate roles |
-| Widget | `WidgetContainerWidget.build` plus the launcher's default `HyperTransform` construction; child/scalar/reference fields, frame, allocator tag/size, pool constants and nursery load/store offsets | Dart compressed references, `+1` object tag, 8-byte words, tag size encoding, canonical false relation and register ABI; fast allocation only |
+| Ordinary icon, desktop and Dock | Actual width/height consumer graph, config/double fields, matching mixin pair and its normal/Dock producers | Unique executable candidates, bounded frame roles, register ABI |
+| Download/progress icon | Typed lifecycle dimensions linked to the canonical icon source and a distinct mixin pair | Original caller/callee relationship; repeated callers share one bank |
+| Small/large folders | Common base padding, small producer's four fields, large producer/helpers' 13 fields, actual rectangle-list math/consumer and caller returns | Independent factors; unknown or ambiguous bank declines coherently |
+| Folder close and app return | Canonical icon fields, dimension producers, cached half-difference origins and real stable-landing tail caller | All replay slots must validate; ordinary and folder factors stay independent |
+| Widget | Actual three-way dispatcher/capture/producers, original closure-entry field, matching Observer consumers and canonical transform allocator/layout | Runtime closure entry + caller selection after either allocator return; bounded nursery wrapper, no VM/GC call relocation |
 
-No active scale path uses a remembered absolute function address or a table of
-per-version field offsets. Runtime VAs are added to the loaded image's base for
-ASLR. Symbol caches are keyed by image identity and registry identity, then
-revalidated for executable ownership, span, and current function shape; cache
-hits do not bypass each scale binder's instruction/field validation.
+Only immutable numeric feature contracts are retained per validated image.
+Generation reset invalidates them. Full discovery runs on the existing worker,
+never in the loader callback; unknown inventories are negatively cached. Widget
+runtime logs report `common-observer-wrapper`, observed factor, hits and
+applications through the existing built-in-log import path. The 2026-10-23
+record below covers the current path; earlier recordings do not validate it.
 
-The older `ht_plan.cpp` feature-21 calculator scanner remains in the tree, with
-boxed-double payload byte offset `7` as a VM ABI contract. The active
-`make_tweaks_config` deliberately does **not** enable that feature: rendering
-scalar banks own ordinary icon scaling, avoiding double scaling. The byte offset
-is relative to a tagged Dart double, not a fixed launcher function address.
+Other layout/title/tweaks paths still depend on names; their separate migration
+status is listed in `../runtime-feature-addressing/AUDIT.md`. This is not a
+repository-wide no-symbol claim.
 
-Thus addresses and image-specific fields are dynamically resolved, but the code
-is not independent of the Dart VM/compiler ABI. An OTA that changes symbols,
-registers or instruction shapes can make a binder refuse its hook and report the
-reason. Relocation/operand-mutation tests and this device check do not prove
-compatibility with every launcher build or exercise a Dart GC slow path.
+The older `ht_plan.cpp` feature-21 calculator scanner remains in the tree. The
+active `make_tweaks_config` does not enable that feature: rendering scalar banks
+own ordinary icon scaling. Its boxed-double byte offset7 is a VM ABI contract
+relative to a tagged double, not a saved function address.
+
+The parser still requires the verified ARM64 Dart ABI and supported instruction
+relationships. An OTA can change those and make an affected feature decline.
+Offline tests do not establish universal launcher compatibility or device
+appearance, inverse hit testing, phone/tablet behavior and long-run stability.
+
+## Current widget device verification (2026-10-23)
+
+Launcher RELEASE-8.01.02.8583 on OS4.0.0.22, phone 24129PN74C. A real
+installation test found that the initial executable-only migration had selected
+`_TransformedWidgetContainer.build`, which ordinary widgets bypassed. Hook-ready
+status therefore did not imply execution: both the existing step card and a
+new calendar card had zero scale hits/applications.
+
+The replacement discovers the actual common dispatcher and its capture/render
+producers. The image admits 23 equivalent Observer caller contracts; each final
+publication/epilogue bank preserves stock behavior unless the freshly returned
+closure entrypoint and the actual caller match the common-widget dispatcher.
+The VM allocator remains completely unchanged, so both allocator return paths
+reach the same bank. The native wrapper uses the verified nursery fast path
+only, including valid 8-mod-16 tops; exhaustion keeps the original Observer.
+
+Both step and calendar cards visibly rendered at 79%, with ordinary/folder
+scaling disabled. Their center taps opened `com.mi.health` and
+`com.android.calendar`, respectively. After narrowing the hook to caller banks,
+the final APK was retested with the existing step card: INFO diagnostics in the
+built-in log database reported factor 0.7900, hits=6 and applied=3 (the first
+three hits used neutral settings). The final step-card center tap opened
+`com.mi.health` again. The temporary calendar was removed; original preference
+values/switches were restored, with only explicit 100% defaults added for the
+three previously absent independent-scale keys.
+
+Final APK SHA-256, equal on host and device:
+`d6e9aa98c09fa1940417b69779b9654e1f3248e84e4e077eed2654b170a7ba0b`.
+Release compilation and APK signature verification passed. Two full-image/
+executable-only fixture regressions and 90 shipping completion/allocation cases
+passed, along with 30 animation and 32 Observer ARM64 cases. The latter check
+fast/slow allocator-return register states; they do not run an actual VM GC.
+Native Android/third-party widget variants, edge hit testing, dragging/resizing,
+phone/tablet differences and prolonged GC pressure remain unverified.

@@ -91,4 +91,20 @@ inline uintptr_t wrap_scaled_widget(uintptr_t child,uintptr_t thread,uintptr_t p
     write(thread+layout.top,top+layout.size);
     return finish(object,WidgetScaleResult::Applied);
 }
+struct WidgetBuildResult {uint64_t value,handled;};
+template<class Candidates>
+inline WidgetBuildResult complete_widget_observer(uintptr_t closure,uintptr_t frame,uintptr_t caller,
+    uintptr_t base,uintptr_t thread,uintptr_t pool,uintptr_t null_value,double factor,
+    const Candidates& candidates,const WidgetScaleLayout& layout,WidgetScaleResult* why=nullptr) {
+    const auto* selected=static_cast<const typename Candidates::value_type*>(nullptr);
+    for(const auto& candidate:candidates)
+        if(base<=UINTPTR_MAX-candidate.return_pc&&caller==base+candidate.return_pc){selected=&candidate;break;}
+    if(!selected)return {closure,0};
+    uint64_t parent=0;std::memcpy(&parent,reinterpret_cast<const void*>(frame+selected->parent_frame),8);
+    const auto compressed=static_cast<uint32_t>(closure);
+    // Exactly the original next store, to this invocation's fresh Observer.
+    std::memcpy(reinterpret_cast<void*>(parent+selected->child),&compressed,4);
+    return {wrap_scaled_widget(parent,thread,pool,null_value,factor,layout,why),1};
+}
+
 }
