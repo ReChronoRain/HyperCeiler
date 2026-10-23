@@ -22,11 +22,12 @@ with tempfile.TemporaryDirectory(prefix='hc-scale-arm-') as temp:
     text_base,data,replay,heap,stack,helper=0x100000,0x300000,0x400000,0x500000,0x608000,0x401000
     names=['hc_folder_anim_scale_enabled','hc_icon_scale_bits','hc_folder_anim_scale_hits']
     names += [f'hc_folder_anim_scale{i}_original' for i in range(5)]
-    names += ['hc_widget_scale_frame','hc_widget_scale_child_field','hc_widget_scale_enabled','hc_widget_scale_continue','hc_widget_scale_wrap']
-    targets={n:data+i*128 for i,n in enumerate(names)};targets['hc_widget_scale_wrap']=helper
+    names += ['hc_widget_scale_enabled','hc_widget_scale_original','hc_widget_scale_bits','hc_widget_scale_hits','hc_widget_scale_applied','hc_widget_scale_applied_bits','hc_widget_dispatch_entry','hc_widget_parent_frame','hc_widget_closure_entry_field','hc_widget_child_field','hc_widget_scale_build']
+    targets={n:data+i*128 for i,n in enumerate(names)}
+    targets['hc_widget_scale_build']=helper
     def bank(name):
         start=next(v for n,s,v in symbols if n==name)
-        end=next(i.address+4 for i in Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN).disasm(original[start:],start) if i.mnemonic=='br')
+        end=(min(v for n,s,v in symbols if s==text_index and v>start and n.startswith('hc_')) if name=='hc_widget_scale_entry' else next(i.address+4 for i in Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN).disasm(original[start:],start) if i.mnemonic=='br'))
         code=bytearray(original)
         for sec in elf.sections.values():
             if sec[1]!=4 or sec[7]!=text_index:continue
@@ -70,32 +71,52 @@ with tempfile.TemporaryDirectory(prefix='hc-scale-arm-') as temp:
                 for j,v in simd.items():
                     if j:assert u.reg_read(getattr(A,'UC_ARM64_REG_Q'+str(j)))==v
                 assert u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
-    for enabled in [0,1]:
-        u,start=bank('hc_widget_scale_entry');regs,simd=init(u)
-        owner=heap+1;frame=regs[29];oldfp,oldlr=0x12345678,0x23456789
-        u.mem_write(frame,struct.pack('<QQ',oldfp,oldlr));u.mem_write(frame-8,struct.pack('<Q',owner))
-        put(u,'hc_widget_scale_frame',-8,'<q');put(u,'hc_widget_scale_child_field',11,'<q')
-        put(u,'hc_widget_scale_enabled',enabled);put(u,'hc_widget_scale_continue',replay)
-        calls=[]
-        def call(uc,address,size,user):
-            if address!=helper:return
-            calls.append(1);assert uc.reg_read(A.UC_ARM64_REG_X0)==owner
-            assert uc.reg_read(A.UC_ARM64_REG_X1)==regs[26]
-            assert uc.reg_read(A.UC_ARM64_REG_X2)==regs[27]
-            assert uc.reg_read(A.UC_ARM64_REG_X3)==regs[22]
-            ret=uc.reg_read(A.UC_ARM64_REG_X30)
-            for j in range(19):uc.reg_write(getattr(A,'UC_ARM64_REG_X'+str(j)),j+900)
-            for j in range(32):uc.reg_write(getattr(A,'UC_ARM64_REG_Q'+str(j)),j+1000)
-            uc.reg_write(A.UC_ARM64_REG_X0,owner+256);uc.reg_write(A.UC_ARM64_REG_PC,ret)
-        u.hook_add(UC_HOOK_CODE,call)
-        u.emu_start(start,replay,count=1000)
-        assert u.reg_read(A.UC_ARM64_REG_X0)==owner+(256 if enabled else 0)
-        assert len(calls)==enabled
-        assert struct.unpack('<I',u.mem_read(owner+11,4))[0]==regs[1]
-        for j,v in regs.items():
-            if j not in [0,15,16,17,29,30]:assert u.reg_read(getattr(A,'UC_ARM64_REG_X'+str(j)))==v,(j,v)
-        for j,v in simd.items():assert u.reg_read(getattr(A,'UC_ARM64_REG_Q'+str(j)))==v
-        assert u.reg_read(A.UC_ARM64_REG_X15)==frame+16
-        assert u.reg_read(A.UC_ARM64_REG_X29)==oldfp and u.reg_read(A.UC_ARM64_REG_X30)==oldlr
-        assert u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
-    print('production ARM64 animation/widget banks: PASS (32 cases, dimensions/cached origins, gate/scalar, native ABI, SIMD/flags, original return)')
+    cases=0
+    # Original allocator has returned: exercise different volatile-register
+    # states for its fast and slow return, without relocating either GC path.
+    for moved in [0,8]:
+      for slow_return in [0,1]:
+       for enabled in [0,1]:
+        for matching in [0,1]:
+         for handled in [0,1]:
+            u,start=bank('hc_widget_scale_entry');regs,simd=init(u)
+            closure=heap+1;parent=heap+129;entry=0x481000
+            fields={'hc_widget_parent_frame':-8-moved,'hc_widget_child_field':11+moved,
+                'hc_widget_closure_entry_field':31+moved}
+            for n,v in fields.items():put(u,n,v,'<q')
+            put(u,'hc_widget_scale_enabled',enabled);put(u,'hc_widget_dispatch_entry',entry)
+            for r,v in {0:closure,1:closure,4:0x123 if slow_return else 0x481000,30:replay}.items():
+                regs[r]=v;u.reg_write(getattr(A,'UC_ARM64_REG_X'+str(r)),v)
+            u.mem_write(closure+31+moved,struct.pack('<Q',entry if matching else entry+4))
+            u.mem_write(regs[29]-8-moved,struct.pack('<Q',parent))
+            final=0x482000;result=heap+385
+            u.mem_write(regs[29],struct.pack('<QQ',0xdeadbeef,final))
+            calls=[]
+            def run_helper(uc,address,size,user):
+                if address!=helper:return
+                calls.append(1)
+                args=[uc.reg_read(getattr(A,'UC_ARM64_REG_X'+str(i))) for i in range(6)]
+                assert args==[closure,regs[29],replay,regs[26],regs[27],regs[22]],args
+                for i in range(19):uc.reg_write(getattr(A,'UC_ARM64_REG_X'+str(i)),0xaaa000+i)
+                for i in list(range(8))+list(range(16,32)):uc.reg_write(getattr(A,'UC_ARM64_REG_Q'+str(i)),0xbbb000+i)
+                uc.reg_write(A.UC_ARM64_REG_NZCV,0xf0000000)
+                uc.reg_write(A.UC_ARM64_REG_X0,result)
+                uc.reg_write(A.UC_ARM64_REG_X1,handled)
+            u.hook_add(UC_HOOK_CODE,run_helper)
+            routed=bool(enabled and matching and handled)
+            u.emu_start(start,final,count=2000)
+            assert len(calls)==int(bool(enabled and matching))
+            assert u.reg_read(A.UC_ARM64_REG_X0)==(result if routed else parent)
+            assert u.reg_read(A.UC_ARM64_REG_X1)==closure
+            assert int.from_bytes(u.mem_read(parent+11+moved,4),'little')==closure&0xffffffff
+            for i,v in regs.items():
+                if i in [0,16,17,15,29,30]:continue
+                assert u.reg_read(getattr(A,'UC_ARM64_REG_X'+str(i)))==v,(i,hex(v))
+            for i,v in simd.items():assert u.reg_read(getattr(A,'UC_ARM64_REG_Q'+str(i)))==v,(i,hex(v))
+            assert u.reg_read(A.UC_ARM64_REG_X15)==regs[29]+16
+            assert u.reg_read(A.UC_ARM64_REG_X29)==0xdeadbeef
+            assert u.reg_read(A.UC_ARM64_REG_X30)==final
+            assert u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
+            assert u.reg_read(A.UC_ARM64_REG_SP)==0x708000
+            cases+=1
+    print(f'production ARM64 animation and Observer routing: PASS (30 scalar cases + {cases} creation cases; original publication/epilogue, fast/slow allocator return states, disabled/unrelated/unknown callers, moved fields, GPR/SIMD/flags)')

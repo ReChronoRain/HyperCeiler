@@ -2155,7 +2155,7 @@ workspace_status_result hc_workspace_status_register_entry, 1
 workspace_status_result hc_workspace_status_field_entry, 2
 
 /* Scalar-only banks: preserve SIMD scratch, GPRs and flags; no Dart call/GC PC relocation. */
-.macro icon_render_bank name, reg, original, hits, enabled=hc_icon_render_enabled
+.macro icon_render_bank name, reg, original, hits, enabled=hc_icon_render_enabled, scale=hc_icon_scale_bits, applied=, applied_factor=
 .globl \name
 .p2align 4
 \name:
@@ -2165,12 +2165,27 @@ workspace_status_result hc_workspace_status_field_entry, 2
     ldar w9, [x9]
     cbz w9, 1f
     str q31, [x15, #-16]!
-    adrp x9, hc_icon_scale_bits
-    add x9, x9, :lo12:hc_icon_scale_bits
+    adrp x9, \scale
+    add x9, x9, :lo12:\scale
     ldar x10, [x9]
     fmov d31, x10
     fmul \reg, \reg, d31
     ldr q31, [x15], #16
+.ifnb \applied
+    mov x11, #0x3ff0000000000000
+    cmp x10, x11
+    b.eq 2f
+    adrp x9, \applied
+    ldr x11, [x9, :lo12:\applied]
+    add x11, x11, #1
+    str x11, [x9, :lo12:\applied]
+.ifnb \applied_factor
+    adrp x9, \applied_factor
+    add x9, x9, :lo12:\applied_factor
+    stlr x10, [x9]
+.endif
+2:
+.endif
     adrp x9, \hits
     ldr x10, [x9, :lo12:\hits]
     add x10, x10, #1
@@ -2255,33 +2270,42 @@ icon_render_bank hc_folder_anim_scale4_entry, d0, hc_folder_anim_scale4_original
 icon_render_bank hc_folder_return_width_entry, d0, hc_folder_return_width_original, hc_folder_return_scale_hits, hc_folder_return_scale_enabled
 icon_render_bank hc_folder_return_height_entry, d0, hc_folder_return_height_original, hc_folder_return_scale_hits, hc_folder_return_scale_enabled
 
-/* Wrap the completed widget build with the launcher's own HyperTransform.
- * Original Observer/closure allocation and GC PCs remain untouched. The native
- * helper only performs a bounded nursery fast allocation; it cannot trigger GC. */
+/* Verified two-capture Observer callers, after the original AllocateClosure
+ * returned. This covers both VM allocation paths without moving a GC PC or
+ * patching the allocator. Replay the original publication first. Only the real
+ * closure entrypoint AND its validated caller may wrap this fresh Observer. */
 .globl hc_widget_scale_entry
 .p2align 4
 hc_widget_scale_entry:
-    dynamic_load x0, x29, hc_widget_scale_frame
-    dynamic_store w1, x0, hc_widget_scale_child_field
+    dynamic_load x0, x29, hc_widget_parent_frame
+    dynamic_store w1, x0, hc_widget_child_field
     dart_save
     adrp x9, hc_widget_scale_enabled
     add x9, x9, :lo12:hc_widget_scale_enabled
     ldar w9, [x9]
-    cbz w9, 1f
+    cbz w9, 2f
+    dynamic_load x9, x1, hc_widget_closure_entry_field
+    adrp x10, hc_widget_dispatch_entry
+    ldr x10, [x10, :lo12:hc_widget_dispatch_entry]
+    cmp x9, x10
+    b.ne 2f
     workspace_native_save
-    mov x1, x26
-    mov x2, x27
-    mov x3, x22
-    bl hc_widget_scale_wrap
+    mov x0, x1
+    mov x1, x29
+    mov x2, x30
+    mov x3, x26
+    mov x4, x27
+    mov x5, x22
+    bl hc_widget_scale_build
+    cbz x1, 1f
     str x0, [sp, #0]
-    workspace_native_restore
 1:
+    workspace_native_restore
+2:
     dart_restore
     mov x15, x29
     ldp x29, x30, [x15], #16
-    adrp x16, hc_widget_scale_continue
-    ldr x16, [x16, :lo12:hc_widget_scale_continue]
-    br x16
+    ret
 
 /* Phone map/default branches converge here with raw row=-1; other-device bypass
  * carries row=0. Only the scalar Smi argument changes. Original copyWith BL,

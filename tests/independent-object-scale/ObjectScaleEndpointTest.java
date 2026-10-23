@@ -19,6 +19,16 @@ public class ObjectScaleEndpointTest {
         ContentResolver.setRows(rows);
         check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
         expect(0,100,0,100,0,100); // Ordinary icons never supply missing object settings.
+        int iconCode=HomeLayoutNativeEndpointOS4.readPreferences().tweaks()[8];
+        for(int height:new int[]{10,25,60,80,100})for(int width:new int[]{100,200,400}){
+            rows.put("prefs_key_home_navigation_back_area_height",height);
+            rows.put("prefs_key_home_navigation_back_area_width",width);
+            ContentResolver.setRows(rows);check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
+            var snapshot=HomeLayoutNativeEndpointOS4.readPreferences();
+            check(snapshot.tweaks()[8]==iconCode&&snapshot.tweaks()[9]==1);
+            check(Arrays.equals(snapshot.backGesture(),new int[]{height,width}));
+            expect(0,100,0,100,0,100);
+        }
         rows.put("prefs_key_home_layout_small_folder_scale_enable",1);
         rows.put("prefs_key_home_layout_small_folder_scale",75);
         rows.put("prefs_key_home_layout_big_folder_scale_enable",1);
@@ -27,6 +37,11 @@ public class ObjectScaleEndpointTest {
         rows.put("prefs_key_home_layout_widget_scale",110);
         ContentResolver.setRows(rows);check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
         expect(1,75,1,125,0,110);
+        rows.put("prefs_key_home_navigation_back_area_height",25);
+        ContentResolver.setRows(rows);check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
+        expect(1,75,1,125,0,110);
+        check(HomeLayoutNativeEndpointOS4.readPreferences().tweaks()[8]==iconCode);
+        check(HomeLayoutNativeEndpointOS4.readPreferences().tweaks()[9]==1);
         rows.put("prefs_key_home_layout_icon_scale",140);
         ContentResolver.setRows(rows);check(HomeLayoutNativeEndpointOS4.refreshFromProvider());expect(1,75,1,125,0,110);
         rows.put("prefs_key_home_layout_widget_scale_enable",1);

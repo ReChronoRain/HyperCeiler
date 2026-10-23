@@ -1,6 +1,16 @@
 #include "home_icon_render.h"
 #include "home_widget_scale.h"
 #include "home_runtime_layout_contracts.h"
+#include "home_icon_feature_resolver.h"
+#include "home_folder_feature_resolver.h"
+#include "home_animation_feature_resolver.h"
+#include "home_widget_feature_resolver.h"
+#include "home_title_feature_resolver.h"
+#include "home_grid_feature_resolver.h"
+#include "home_scalar_feature_resolver.h"
+#include "home_columns_feature_resolver.h"
+#include "home_indicator_feature_resolver.h"
+#include "home_widget_move_feature_resolver.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
 #include "home_back_gesture.h"
@@ -213,12 +223,15 @@ void *hc_folder_return_width_original=nullptr,*hc_folder_return_height_original=
 uint64_t hc_folder_return_scale_hits=0;
 uint32_t hc_folder_return_scale_enabled=0;
 void hc_widget_scale_entry();
-void *hc_widget_scale_original=nullptr;
-uintptr_t hc_widget_scale_continue=0;
-int64_t hc_widget_scale_frame=0,hc_widget_scale_child_field=0;
+void *hc_widget_scale_originals[64]{};
 uint32_t hc_widget_scale_enabled=0;
 uint64_t hc_widget_scale_hits=0,hc_widget_scale_applied=0;
-uint64_t hc_widget_scale_wrap(uint64_t child,uint64_t thread,uint64_t pool,uint64_t null_value);
+uint64_t hc_widget_scale_applied_bits=0;
+uintptr_t hc_widget_dispatch_entry=0;
+int64_t hc_widget_parent_frame=0,hc_widget_child_field=0,hc_widget_closure_entry_field=0;
+using WidgetBuildResult=home_layout::WidgetBuildResult;
+WidgetBuildResult hc_widget_scale_build(uint64_t closure,uint64_t frame,uint64_t caller,
+    uint64_t thread,uint64_t pool,uint64_t null_value);
 void hc_icon_width_entry();void hc_icon_height_entry();
 void *hc_icon_width_original=nullptr,*hc_icon_height_original=nullptr;
 uint32_t hc_icon_render_enabled=0;
@@ -368,10 +381,10 @@ void hc_layout_apply_now(uint64_t config, uintptr_t caller);
 
 namespace {
 constexpr char kTag[] = "HyperCeiler.HomeLayout";
-std::array<std::atomic_uint,10> g_layout_contract_declines{};
+std::array<std::atomic_uint,11> g_layout_contract_declines{};
 bool layout_contract_declined(unsigned feature,unsigned stage,const char* reason) {
     static constexpr const char* names[]={"dock_margin","folder_row_spacing","animation_ratio",
-        "animation_speed","new_install_appearance","drop_geometry","folder_geometry","grid_autofit","big_folder_size","indicator_position"};
+        "animation_speed","new_install_appearance","drop_geometry","folder_geometry","grid_autofit","big_folder_size","indicator_position","columns"};
     if(feature<std::size(names)&&stage<32) {
         const auto bit=uint32_t{1}<<stage;
         if(!(g_layout_contract_declines[feature].fetch_or(bit,std::memory_order_relaxed)&bit))
@@ -452,7 +465,8 @@ constexpr size_t kFolderIconScaleSlot = kProgressIconSlotBase + 4;
 constexpr size_t kFolderAnimScaleSlotBase = kFolderIconScaleSlot + 1;
 constexpr size_t kFolderAnimScaleSlotCount = 5;
 constexpr size_t kWidgetScaleSlot = kFolderAnimScaleSlotBase + kFolderAnimScaleSlotCount;
-constexpr size_t kDockTitleModelSlotBase = kWidgetScaleSlot + 1;
+constexpr size_t kWidgetScaleSlotCount = 64;
+constexpr size_t kDockTitleModelSlotBase = kWidgetScaleSlot + kWidgetScaleSlotCount;
 constexpr size_t kFolderReturnScaleSlotBase = kDockTitleModelSlotBase + 2;
 constexpr size_t kSlotCount = kFolderReturnScaleSlotBase + 2;
 using Slot = nhk::InlineSlot<kPatchWords>;
@@ -476,7 +490,6 @@ std::atomic_int g_title_desktop_sp{12};
 std::atomic_int g_title_drawer_sp{12};
 home_dynamic::GeometryFrame g_geometry_frame[3]{};
 home_dynamic::ColorLayout g_title_color_layout{};
-home_layout::WidgetScaleLayout g_widget_scale_layout{};
 hc::indicator::InsetsLayout g_indicator_layout{};
 std::atomic_uint64_t g_widget_scale_last{UINT64_MAX};
 std::atomic_uint g_widget_scale_reports{0};
@@ -1213,6 +1226,35 @@ struct DartLibrary {
 };
 
 std::optional<DartLibrary> g_dart;
+struct RuntimeFeatures {
+    std::optional<home_layout::features::WidgetMoveFeature> widget_move;
+    std::optional<home_layout::features::IndicatorMarginFeature> indicator_margin;
+    std::optional<home_layout::features::IndicatorPolicyFeature> indicator_policy;
+    std::optional<home_layout::features::IndicatorSlideFeature> indicator_slide;
+    std::optional<home_layout::features::ColumnsFeature> columns;
+    std::optional<home_layout::features::LayoutScalarFeature> dock_margin,folder_row;
+    std::optional<home_layout::features::GridAutofitFeature> autofit;
+    std::optional<home_layout::features::GridGeometryFeature> geometry;
+    std::optional<home_layout::features::IconFeature> icon;
+    std::optional<home_layout::features::DesktopIconFeature> desktop;
+    std::optional<home_layout::features::ProgressIconFeature> progress;
+    std::optional<home_layout::features::FolderCloseFeature> close;
+    std::optional<home_layout::features::FolderReturnFeature> app_return;
+    std::optional<home_layout::features::FolderFeatures> folders;
+    std::optional<home_layout::features::AnimationRatioFeature> ratio;
+    std::optional<home_layout::features::AnimationMagicFeature> magic;
+    std::optional<home_layout::features::WidgetScaleFeature> widget;
+    std::optional<home_layout::features::DockTitleFeature> dock_title;
+    std::optional<home_layout::features::DrawerFontFeature> drawer_font;
+};
+RuntimeFeatures g_runtime_features;
+struct WidgetRouting {
+    uintptr_t base;
+    home_layout::features::WidgetScaleFeature feature;
+};
+std::shared_ptr<const WidgetRouting> g_widget_routing;
+
+bool g_runtime_features_scanned=false;
 
 void report_layout_image_failure(const char *reason) {
     static std::atomic<const char *> previous{nullptr};
@@ -1332,6 +1374,73 @@ bool ensure_dart_library() {
             have_apk ? static_cast<unsigned long long>(apk.st_size) : 0ULL,
             have_apk ? static_cast<long long>(apk.st_mtime) : 0LL);
     }
+    return true;
+}
+
+bool ensure_runtime_features() {
+    // Full-code discovery belongs to the existing worker, never to a dlopen
+    // callback holding the linker's lock. The worker/loader setup lease owns
+    // this per-image publication, exactly as it owns g_dart and the hook slots.
+    if(!g_dart||hometweaks::InLoaderCallback())return false;
+    if(g_runtime_features_scanned)return true;
+    const uint64_t length=g_dart->view_end-g_dart->view_begin;
+    if(!length||length>kMaxLauncherImageBytes)return false;
+    std::ifstream input(g_dart->path,std::ios::binary);
+    if(!input){report_layout_image_failure("feature-container-open");return false;}
+    std::vector<std::byte> image(static_cast<size_t>(length));
+    input.seekg(static_cast<std::streamoff>(g_dart->view_begin));
+    input.read(reinterpret_cast<char*>(image.data()),static_cast<std::streamsize>(image.size()));
+    if(input.gcount()!=static_cast<std::streamsize>(image.size())){
+        report_layout_image_failure("feature-container-read");return false;
+    }
+    auto code=home_layout::features::Code::parse(image);
+    if(!code){
+        // A structurally unsupported, identity-checked image is immutable. Do
+        // not reread it once per binder/pass; generation reset permits retry.
+        g_runtime_features={};g_runtime_features_scanned=true;
+        report_layout_image_failure("feature-executable-inventory");return true;
+    }
+    RuntimeFeatures found;
+    found.widget_move=home_layout::features::widget_move_feature(*code);
+    found.indicator_margin=home_layout::features::indicator_margin_feature(*code);
+    found.indicator_policy=home_layout::features::indicator_policy_feature(*code);
+    found.indicator_slide=home_layout::features::indicator_slide_feature(*code);
+    found.autofit=home_layout::features::grid_autofit_feature(*code);
+    found.geometry=home_layout::features::grid_geometry_feature(*code);
+    found.icon=home_layout::features::icon_feature(*code);
+    if(found.icon) {
+        found.desktop=home_layout::features::desktop_icon_feature(*code,*found.icon);
+        if(found.desktop)found.progress=home_layout::features::progress_icon_feature(*code,*found.icon,*found.desktop);
+        found.close=home_layout::features::folder_close_feature(*code,*found.icon);
+        found.app_return=home_layout::features::folder_return_feature(*code,*found.icon);
+        found.drawer_font=home_layout::features::drawer_font_feature(*code,*found.icon);
+        home_layout::features::FolderFeatures folders;
+        if(home_layout::features::resolve_folders(*code,found.icon->current,folders))found.folders=folders;
+    }
+    const uint32_t grid_config=found.geometry?found.geometry->current:found.icon?found.icon->current:0;
+    if(grid_config&&(!found.icon||found.icon->current==grid_config)) {
+        found.columns=home_layout::features::columns_feature(*code,grid_config);
+        found.dock_margin=home_layout::features::layout_scalar_feature(*code,grid_config,true);
+        found.folder_row=home_layout::features::layout_scalar_feature(*code,grid_config,false);
+    }
+    found.ratio=home_layout::features::animation_ratio_feature(*code);
+    found.magic=home_layout::features::animation_magic_feature(*code);
+    found.widget=home_layout::features::widget_scale_feature(*code);
+    found.dock_title=home_layout::features::dock_title_feature(*code);
+    g_runtime_features=std::move(found);
+    g_runtime_features_scanned=true;
+    __android_log_print(ANDROID_LOG_INFO,kTag,
+        "layout executable feature bank candidates=%zu icon=%d desktop=%d progress=%d folder=%d close=%d return=%d ratio=%d magic=%d widget=%d dock_title=%d drawer_font=%d autofit=%d geometry=%d dock_margin=%d folder_row=%d columns=%d indicator_policy=%d indicator_slide=%d indicator_margin=%d widget_move=%d; scope=object-scale/animation/dock-title/drawer-font/workspace, unique linked contracts without symbols",
+        code->functions().size(),bool(g_runtime_features.icon),bool(g_runtime_features.desktop),
+        bool(g_runtime_features.progress),bool(g_runtime_features.folders),bool(g_runtime_features.close),
+        bool(g_runtime_features.app_return),bool(g_runtime_features.ratio),bool(g_runtime_features.magic),bool(g_runtime_features.widget),
+        bool(g_runtime_features.dock_title),bool(g_runtime_features.drawer_font),
+        bool(g_runtime_features.autofit),bool(g_runtime_features.geometry),
+        bool(g_runtime_features.dock_margin),bool(g_runtime_features.folder_row),bool(g_runtime_features.columns),
+        bool(g_runtime_features.indicator_policy),bool(g_runtime_features.indicator_slide),bool(g_runtime_features.indicator_margin),
+        bool(g_runtime_features.widget_move));
+    // Keep only immutable numeric contracts. The complete code inventory and
+    // APK snapshot are released here, rather than retained for every refresh.
     return true;
 }
 
@@ -1488,7 +1597,7 @@ bool body(uint32_t va, std::vector<uint32_t> &words) {
  * workspace/Dock geometry. Both capsule and dots are below that same Container.
  * Splice AFTER the bottom store: its scalar source is shared with the original animation and
  * inner Container height, so it must remain pristine throughout the whole build. */
-bool capsule_wrapper_layout_compatible(uint32_t workspace_va, uint32_t,
+[[maybe_unused]] bool capsule_wrapper_layout_compatible(uint32_t workspace_va, uint32_t,
     uint32_t *caller_va, uint32_t *edge_cid = nullptr,hc::indicator::InsetsLayout* layout=nullptr) {
     if (!caller_va) return false;
     uint32_t workspace = 0, deflate = 0, capsule = 0, unused = 0;
@@ -1662,13 +1771,10 @@ bool bind_animation_consumer(Located &located) {
      * actual BL through the shared getter to the Rust API's double unbox/return. Missing or
      * ambiguous linkage declines this feature instead of falling back to a name-only match.
      */
-    uint32_t flight=0,api=0,size=0,source=0;home_dynamic::Body fb,ab;
-    if(!hometweaks::HomeTweaksFindSymbol("FlightCohort.animDurationRatio",&flight,&size)
-        ||!hometweaks::HomeTweaksFindSymbol("RustLibApiImpl.crateApiSceneAnimationTransitionAnimDurationApiGetAnimDurationRatio",&api,&size)
-        ||!dartscan::body(flight,fb)||!dartscan::body(api,ab)
-        ||!home_layout::runtime_contract::animation_ratio(fb,flight,api,ab,
-            [](uint32_t va,home_dynamic::Body& b){return dartscan::body(va,b);},source))
+    if(!ensure_runtime_features()||!g_runtime_features.ratio)
         return layout_contract_declined(2,20,"flight/API linkage or double-return feature missing or ambiguous");
+    const auto& feature=*g_runtime_features.ratio;
+    const uint32_t flight=feature.flight,api=feature.api,source=feature.source;
     if(!bind_dart_target(source,located.animation,located.animation_source,located.animation_words))return false;
     __android_log_print(ANDROID_LOG_INFO,kTag,"animation ratio feature resolved source=%#x flight=%#x api=%#x; linked double-return chain",source,flight,api);
     return true;
@@ -1683,21 +1789,17 @@ bool bind_animation_consumer(Located &located) {
 bool bind_magic_consumer(Located &located) {
     if (located.magic != 0) return true;
     if (!g_dart) return false;
-    uint32_t va = 0;
-    uint32_t size = 0,high=0,low=0;home_dynamic::Body body;
-    if (!hometweaks::HomeTweaksFindSymbol("Utilities.getDefaultGestureAnimMagicSpeed", &va, &size)
-        || !hometweaks::HomeTweaksFindSymbol("DeviceLevelUtils.isHighAnimationRate",&high,&size)
-        || !hometweaks::HomeTweaksFindSymbol("DeviceLevelUtils.isLowAnimationRate",&low,&size)
-        || !dartscan::body(va,body)
-        || !home_layout::runtime_contract::animation_magic(body,va,high,low)
-        || !bind_dart_target(va, located.magic, located.magic_source, located.magic_words)
+    if(!ensure_runtime_features()||!g_runtime_features.magic)
+        return layout_contract_declined(3,20,"animation gear branches, scalar spill or final multiplier feature missing or ambiguous");
+    const uint32_t va=g_runtime_features.magic->magic;
+    if (!bind_dart_target(va, located.magic, located.magic_source, located.magic_words)
         || located.magic_words[0] != kDartPrologue) {
         located.magic = 0;
         return layout_contract_declined(3,20,"animation gear branches, scalar spill or final multiplier feature missing or ambiguous");
     }
     __android_log_print(ANDROID_LOG_INFO, kTag,
-        "animation magic feature resolved target=%p va=%#x size=%u; gear branches/multiplier/return verified",
-        reinterpret_cast<void *>(located.magic), va, size);
+        "animation magic feature resolved target=%p va=%#x; gear producers/branches/multiplier/return verified without symbols",
+        reinterpret_cast<void *>(located.magic), va);
     return true;
 }
 
@@ -1995,9 +2097,11 @@ bool g_captures_armed = false;
 bool g_probe_primed = false;
 int g_device_object_offset = -1;
 
-/* Bind only verified interior control-flow sites, never a margin getter. */
+/* Historical host-fixture admission predicates. Default policy/slide runtime
+ * binders use home_indicator_feature_resolver.h and never invoke these named
+ * predicates; retaining them permits comparison with the previous admission. */
 struct IndicatorPolicyAnchors { uint32_t gate = 0, result = 0; };
-bool indicator_policy_compatible(uint32_t va, uint32_t, IndicatorPolicyAnchors *out) {
+[[maybe_unused]] bool indicator_policy_compatible(uint32_t va, uint32_t, IndicatorPolicyAnchors *out) {
     if (!out) return false;
     uint32_t editing = 0, unused = 0;
     if (!hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState.isInEditing", &editing, &unused)) return false;
@@ -2017,7 +2121,7 @@ bool indicator_policy_compatible(uint32_t va, uint32_t, IndicatorPolicyAnchors *
         || tb_target(code[g/4+3],g+12)!=r+28 || cond_target(code[g/4+1],g+4)!=r+28)return false;
     *out = {g, r}; return true;
 }
-bool indicator_slide_compatible(uint32_t va, uint32_t *patch, uint32_t *idle_caller) {
+[[maybe_unused]] bool indicator_slide_compatible(uint32_t va, uint32_t *patch, uint32_t *idle_caller) {
     if (!patch || !idle_caller) return false;
     uint32_t animate = 0, refresh = 0, current_type = 0, unused = 0, fallback = 0;
     std::vector<uint32_t> show_body,animate_body;
@@ -2045,21 +2149,19 @@ bool indicator_slide_compatible(uint32_t va, uint32_t *patch, uint32_t *idle_cal
 
 void bind_indicator_dot_target() {
     if (hc_layout_dart_IndicatorDot_address != 0) return;
-    uint32_t va = 0, size = 0; IndicatorPolicyAnchors anchors;
-    if (!hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState._buildScreenIndicator", &va, &size)
-        || !indicator_policy_compatible(va, size, &anchors)) return;
-    uintptr_t address = 0;
-    if (!bind_dart_target(va + anchors.result, address, hc_layout_dart_IndicatorDot_source,
-        hc_layout_dart_IndicatorDot_words)) return;
-    hc_layout_dart_IndicatorDot_address = address;
-    hc_layout_dart_IndicatorDot_getter = va + anchors.result;
-    hc_layout_dart_IndicatorDot_size = size;
-    hc_layout_indicator_edit_call = g_dart->load_base + va + anchors.gate + 16;
-    std::vector<uint32_t> body;
-    if(!dartscan::body(va,body))return;
-    hc_indicator_empty_pool=home_dynamic::uoff(body[anchors.result/4+3]);
-    hc_layout_indicator_build_empty = g_dart->load_base + va + anchors.result + 16;
-    hc_layout_indicator_build_dots = g_dart->load_base + va + anchors.result + 28;
+    if(!ensure_runtime_features()||!g_runtime_features.indicator_policy)return;
+    const auto& feature=*g_runtime_features.indicator_policy;
+    const auto va=feature.owner;
+    uintptr_t address=0;
+    if(!bind_dart_target(va+feature.result,address,hc_layout_dart_IndicatorDot_source,
+        hc_layout_dart_IndicatorDot_words))return;
+    hc_layout_dart_IndicatorDot_address=address;
+    hc_layout_dart_IndicatorDot_getter=va+feature.result;
+    hc_layout_dart_IndicatorDot_size=feature.size;
+    hc_layout_indicator_edit_call=g_dart->load_base+va+feature.gate+16;
+    hc_indicator_empty_pool=feature.empty_pool;
+    hc_layout_indicator_build_empty=g_dart->load_base+va+feature.result+16;
+    hc_layout_indicator_build_dots=g_dart->load_base+va+feature.result+28;
 }
 
 home_layout::GridFieldOffsets g_grid_field{};
@@ -2125,44 +2227,27 @@ extern "C" int64_t hc_dart_columns_frame=0;
 bool bind_dart_columns() {
     if(g_slots[kDartColumnsSlot].address)return true;
     if(!g_dart)return false;
-    uint32_t owner=0,copy=0,size=0;home_dynamic::Body body;
-    if(!hometweaks::HomeTweaksFindSymbol("PhoneRowColHandler.handle",&owner,&size)
-        ||!hometweaks::HomeTweaksFindSymbol("ComputeContext.copyWith",&copy,&size)
-        ||!dartscan::body(owner,body))return false;
-    const auto shape=home_layout::resolve_dart_columns(body,owner,copy);if(!shape)return false;
-    uint32_t persist=0,persist_size=0,current=0,put=0;home_dynamic::Body policy;
-    if(!hometweaks::HomeTweaksFindSymbol("GridController._persistCellCountIfEligible",&persist,&persist_size)
-        ||!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size)
-        ||!hometweaks::HomeTweaksFindSymbol("PreferenceUtils.putInt",&put,&size)
-        ||!dartscan::body(persist,policy)||persist_size<16||(persist_size&3)
-        ||persist_size>policy.size()*4)return false;
-    // SpanFrom may include following unnamed helper bodies. This exact owned
-    // STT_FUNC has its own validated st_size; do not inspect a neighbour's RET.
-    policy.resize(persist_size/4);
-    if(!home_layout::grid_persist_boundary(policy,persist,current,put))return false;
-    uint32_t save=0,save_size=0;home_dynamic::Body save_body;
-    if(!hometweaks::HomeTweaksFindSymbol("LauncherLayoutType.saveAndUpdateLayoutType",&save,&save_size)
-        ||!dartscan::body(save,save_body)||save_size<16||(save_size&3)
-        ||save_size>save_body.size()*4)return false;
-    save_body.resize(save_size/4);
-    const auto save_field=home_layout::grid_layout_save_field(save_body,save,put);
-    if(!save_field)return false;
+    if(!ensure_runtime_features()||!g_runtime_features.columns)
+        return layout_contract_declined(10,20,"column argument, cloned counts or integer persistence graph missing or ambiguous");
+    const auto& feature=*g_runtime_features.columns;
+    const auto owner=feature.owner,persist=feature.persist,save=feature.save;
+    const auto& shape=feature.argument;
     uintptr_t save_address=0;nhk::CodeSource save_source{};Words save_words{};
     if(!bind_dart_target(save,save_address,save_source,save_words))return false;
     uintptr_t policy_address=0;nhk::CodeSource policy_source{};Words policy_words{};
     if(!bind_dart_target(persist,policy_address,policy_source,policy_words))return false;
     uintptr_t address=0;nhk::CodeSource source{};Words words{};
-    if(!bind_dart_target(owner+shape->splice,address,source,words)||address>UINTPTR_MAX-16)return false;
-    hc_layout_save_field=*save_field;
+    if(!bind_dart_target(owner+shape.splice,address,source,words)||address>UINTPTR_MAX-16)return false;
+    hc_layout_save_field=feature.save_field;
     g_slots[kLayoutSaveSlot]={save_address,reinterpret_cast<void*>(hc_layout_save_entry),
         &hc_layout_save_original,save_source,save_words};
     g_slots[kGridPersistSlot]={policy_address,reinterpret_cast<void*>(hc_grid_persist_entry),
         &hc_grid_persist_original,policy_source,policy_words};
-    hc_dart_columns_frame=shape->frame;hc_dart_columns_continue=address+16;
+    hc_dart_columns_frame=shape.frame;hc_dart_columns_continue=address+16;
     g_slots[kDartColumnsSlot]={address,reinterpret_cast<void*>(hc_dart_columns_entry),
         &hc_dart_columns_original,source,words};
     __android_log_print(ANDROID_LOG_INFO,kTag,"phone columns final argument source=%#x field=%u frame=%d request=%#x rows=%#x; map/default arms",
-        owner+shape->splice,shape->field,shape->frame,
+        owner+shape.splice,shape.field,shape.frame,
         __atomic_load_n(&hc_native_columns_request,__ATOMIC_ACQUIRE),
         __atomic_load_n(&hc_grid_autofit_requested,__ATOMIC_ACQUIRE));
     return true;
@@ -2174,29 +2259,13 @@ bool bind_grid_autofit() {
     if (g_grid_autofit_bound) return true;
     if (g_grid_autofit_checked || !g_dart
         || !__atomic_load_n(&hc_grid_autofit_requested, __ATOMIC_ACQUIRE)) return false;
-    const char *names[] = {"GridSizeCalRules._calVariableHeight", "GridSizeCalRules.calVarCellHeight",
-        "PhoneCellSizeHandler.calVariableValues"};
-    std::array<uint32_t, 3> va{}; std::array<std::vector<uint32_t>, 3> bodies;
-    for (size_t i = 0; i < 3; ++i) {
-        uint32_t size = 0;
-        if (!hometweaks::HomeTweaksFindSymbol(names[i], &va[i], &size)
-            || !dartscan::body(va[i], bodies[i])) return false;
-        if (i == 0) g_grid_autofit_checked = true;
-    }
-    if(!home_dynamic::frame_size(bodies[0])||!home_dynamic::frame_size(bodies[2]))return false;
-    home_layout::GridAutofitSites fields;
-    if (!home_layout::grid_autofit_sites(bodies[0], bodies[1], bodies[2], fields))
-        return layout_contract_declined(7,20,"final height-cap fields or live scalar frame roles could not be proved");
-    unsigned cap_calls = 0;
-    for (size_t j = 0; j + 2 < bodies[0].size(); ++j) {
-        int32_t height = -1;
-        if (home_layout::dart_call_to(bodies[0][j], va[0] + uint32_t(j * 4), va[1])
-            && home_dynamic::ldx(bodies[0][j+1],29,1)
-            && home_dynamic::imm9(bodies[0][j+1])==fields.owner[0]
-            && home_layout::dart_ldur_d(bodies[0][j + 2], 1, 0, &height)
-            && height == fields.legacy_height) ++cap_calls;
-    }
-    if (cap_calls != 1) return false;
+    if(!ensure_runtime_features())return false;
+    g_grid_autofit_checked=true;
+    if(!g_runtime_features.autofit)
+        return layout_contract_declined(7,20,"linked height cap/legacy/handler feature missing or ambiguous");
+    const auto& feature=*g_runtime_features.autofit;
+    const std::array<uint32_t,3> va{feature.legacy,feature.cap,feature.handler};
+    const auto& fields=feature.fields;
     const uint32_t sites[] = {fields.legacy, fields.handler};
     const void *entries[] = {reinterpret_cast<void *>(hc_grid_autofit_0_entry),
         reinterpret_cast<void *>(hc_grid_autofit_1_entry)};
@@ -2709,35 +2778,11 @@ void bind_folder_geometry() {
 home_layout::DropGeometryFields drop_geometry_fields() {
     return home_layout::drop_geometry_fields(g_grid_field);
 }
-void resolve_grid_fields(const char *symbol) {
-    if (g_grid_field.columns > 0) return;
-    const auto read = [](const char *name, uint32_t &va, std::vector<uint32_t> &body) {
-        uint32_t size = 0, span = 0;
-        return hometweaks::HomeTweaksFindSymbol(name, &va, &size)
-            && dartscan::function_span(va, &span) && dart_function_words(va, span, body);
-    };
-    uint32_t drop = 0, cell = 0, occupied = 0, counts = 0, config = 0, unused = 0;
-    std::vector<uint32_t> db, cb, ob, nb;
-    if (!read(symbol, drop, db) || !read("GridCellDelegate.performLayout", cell, cb)
-        || !read("GridOccupiedCellDelegate.performLayout", occupied, ob)
-        || !read("CellLayoutGetxController.isItemPosEmpty", counts, nb)
-        || !hometweaks::HomeTweaksFindSymbol("GridController.currentConfig", &config, &unused)) return;
-    auto found = home_layout::read_grid_field_offsets(db);
-    home_layout::read_grid_cell_size(cb, found);
-    // Prove the origin's receiver is the same named config used by the bounds consumer.
-    size_t origin_calls = 0;
-    for (size_t i = 0; i + 3 < db.size(); ++i) {
-        int32_t off = 0;
-        if (home_layout::dart_call_to(db[i], drop + static_cast<uint32_t>(i * 4), config)
-            && home_layout::dart_ldur_w(db[i + 1], 0, 1, &off) && off == found.origin
-            && db[i + 2] == 0x8b1c8021 && db[i + 3] == 0xfc407020) ++origin_calls;
-    }
-    if (origin_calls != 1 || found.cell_width <= 0 || found.cell_height <= 0
-        || !home_layout::read_grid_counts(nb, counts, config, found)
-        || !home_layout::read_occupied_fields(ob, found)) return;
-    uint32_t dock = 0; std::vector<uint32_t> hb;
-    if (read("HotSeatLayoutDelegate.cellLayout", dock, hb)) home_layout::read_hotseat_fields(hb, found);
-    g_grid_field = found;
+void resolve_grid_fields(const char *) {
+    if(g_grid_field.usable())return;
+    if(!ensure_runtime_features()||!g_runtime_features.geometry)return;
+    const auto& found=g_runtime_features.geometry->fields;
+    g_grid_field=found;
     __android_log_print(ANDROID_LOG_INFO, kTag,
         "grid contract admitted cols=%d rows=%d origin=%d item=%d,%d cell=%d,%d occupied=%d",
         found.columns, found.rows, found.origin, found.item_col, found.item_row,
@@ -2747,27 +2792,14 @@ void resolve_grid_fields(const char *symbol) {
 home_layout::DropGeometryContract g_drop_geometry_contract{};
 void bind_drop_geometry() {
     if (g_slots[kDropGeometrySlotBase].address != 0 || !g_dart) return;
-    uint32_t va = 0, size = 0;
-    if (!hometweaks::HomeTweaksFindSymbol(home_layout::kDropGeometrySymbol, &va, &size)) return;
-    // The whole body is the identity here -- it is what the field offsets below are read out
-    // of -- so it is scanned to the next symbol rather than to the reported size, which
-    // understates this body and would cut the search short of most of it.
-    uint32_t span = 0;
-    if (!dartscan::function_span(va, &span)) return;
-    std::vector<uint32_t> body;
-    if (!dart_function_words(va, span, body)) return;
-    if (body[0] != kDartPrologue || body[1] != 0xaa0f03fd) return;
-    // The GridInfo fields this hook reads, resolved from the body rather than stored. Any that
-    // the code does not pin down stays at -1 and the body declines to adjust, which leaves the
-    // drop where the stock code would have put it.
-    resolve_grid_fields(home_layout::kDropGeometrySymbol);
-    if (!g_grid_field.usable()) return;
-    uint32_t config=0,rx=0,unused=0;home_layout::DropGeometryContract contract;
-    if(!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&config,&unused)
-        ||!hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value",&rx,&unused)
-        ||!home_layout::drop_geometry_contract(body,va,config,rx,g_grid_field,contract)){
-        layout_contract_declined(5,20,"grid field producers, row/column arithmetic or live frame roles could not be proved");return;
+    if(!ensure_runtime_features()||!g_runtime_features.geometry) {
+        layout_contract_declined(5,20,"workspace stride/item/count/global-transform feature missing or ambiguous");return;
     }
+    const auto& feature=*g_runtime_features.geometry;
+    const auto va=feature.drop;
+    const auto& contract=feature.landing;
+    resolve_grid_fields(nullptr);
+    if(!g_grid_field.usable())return;
     const void *entries[] = {reinterpret_cast<void *>(hc_layout_drop_0_entry),
         reinterpret_cast<void *>(hc_layout_drop_1_entry)};
     std::array<Slot, 2> candidates{};
@@ -2804,36 +2836,46 @@ size_t bind_knobs() {
     // Hook-mode knobs: resolve the layout aggregator and bind its entry for the geometry trampoline.
     for (KnobRuntime &knob : g_knobs) {
         if (!knob.hook_mode || knob.hook_address != 0) continue;
-        uint32_t va = 0;
-        uint32_t size = 0;
-        if (!hometweaks::HomeTweaksFindSymbol(knob.symbol.c_str(), &va, &size) || size < 16) {
-            continue;
-        }
-        if((&knob==&g_knobs[0]&&knob.symbol=="GridController.hotSeatsMarginBottom")
-            ||(&knob==&g_knobs[1]&&knob.symbol=="FolderGridViewGetxController.folderCellHeight")) {
-            const bool margin=&knob==&g_knobs[0];uint32_t consumer=0,config=0,screen=0,unused=0;
-            home_dynamic::Body cb;home_layout::runtime_contract::ScalarSource source;
-            if(!hometweaks::HomeTweaksFindSymbol(margin?"WidgetPositionUtil._getCellRectInHotSeatPad":"FolderGridView._buildScrollableGrid",&consumer,&unused)
-                ||!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&config,&unused)
-                ||(margin&&!hometweaks::HomeTweaksFindSymbol("GridController.screenMarginBottom",&screen,&unused))
-                ||!dartscan::body(consumer,cb)
-                ||!home_layout::runtime_contract::layout_scalar(cb,consumer,config,screen,margin,
-                    [](uint32_t target,home_dynamic::Body& b){return dartscan::body(target,b);},source)
-                ||source.target!=va){
-                layout_contract_declined(margin?0:1,20,"actual layout consumer does not identify one matching config-derived scalar getter");continue;
+        const size_t index=size_t(&knob-g_knobs.data());
+        const bool feature_geometry=index>=2&&index<=4&&knob.symbol==kKnobHookSymbols[index];
+        const bool feature_scalar=index<2&&knob.symbol==kKnobHookSymbols[index];
+        const bool feature_margin=index==5&&knob.symbol==kKnobHookSymbols[index];
+        const bool feature_policy=index==6&&knob.symbol==kKnobHookSymbols[index];
+        const bool feature_slide=index==7&&knob.symbol==kKnobHookSymbols[index];
+        uint32_t va=0,size=0;
+        if(feature_scalar) {
+            if(!ensure_runtime_features())continue;
+            const auto& feature=index==0?g_runtime_features.dock_margin:g_runtime_features.folder_row;
+            if(!feature) {
+                layout_contract_declined(unsigned(index),20,"linked layout scalar feature missing or ambiguous");continue;
             }
-            __android_log_print(ANDROID_LOG_INFO,kTag,"layout scalar feature=%s resolved source=%#x consumer=%#x field=%d payload=%d",
-                margin?"dock_margin":"folder_row_spacing",source.target,consumer,source.field,source.payload);
-        }
+            va=feature->source.target;size=feature->size;
+            __android_log_print(ANDROID_LOG_INFO,kTag,"layout scalar feature=%s source=%#x consumer=%#x field=%d payload=%d; executable linkage",
+                index==0?"dock_margin":"folder_row_spacing",va,feature->consumer,feature->source.field,feature->source.payload);
+        } else if(feature_geometry) {
+            if(!ensure_runtime_features()||!g_runtime_features.geometry)continue;
+            const auto& feature=*g_runtime_features.geometry;
+            va=index==2?feature.cell:index==3?feature.occupied:feature.hotseat;
+            size=feature.sizes[index-2];
+            if(!va||size<16)continue;
+        } else if(feature_margin) {
+            if(!ensure_runtime_features()||!g_runtime_features.indicator_margin) {
+                layout_contract_declined(9,21,"Insets producer/deflation/constructor graph missing or ambiguous");continue;
+            }
+            va=g_runtime_features.indicator_margin->owner;size=g_runtime_features.indicator_margin->size;
+        } else if(feature_policy) {
+            if(!ensure_runtime_features()||!g_runtime_features.indicator_policy)continue;
+            va=g_runtime_features.indicator_policy->owner;size=g_runtime_features.indicator_policy->size;
+        } else if(feature_slide) {
+            if(!ensure_runtime_features()||!g_runtime_features.indicator_slide)continue;
+            va=g_runtime_features.indicator_slide->owner;size=g_runtime_features.indicator_slide->size;
+        } else if(!hometweaks::HomeTweaksFindSymbol(knob.symbol.c_str(),&va,&size)||size<16)continue;
         uint32_t capsule_patch_va = 0, policy_patch_offset = 0, slide_patch_offset = 0;
         if (&knob == &g_knobs[5]) {
             if (knob.symbol == "Workspace._createIndicator") {
-                uint32_t caller_va = 0;
-                if (!capsule_wrapper_layout_compatible(va, size, &caller_va, &g_indicator_edge_cid,&g_indicator_layout)) {
-                    layout_contract_declined(9,20,"Insets geometry fields, allocation, live root or Container forwarding could not be proved");
-                    continue;
-                }
-                capsule_patch_va = caller_va;
+                const auto& feature=*g_runtime_features.indicator_margin;
+                capsule_patch_va=feature.owner+feature.patch;
+                g_indicator_edge_cid=feature.layout.cid;g_indicator_layout=feature.layout;
                 knob.hook_entry = reinterpret_cast<void *>(hc_layout_capsule_entry);
             } else {
                 knob.hook_entry = reinterpret_cast<void *>(hc_layout_dart_IndicatorMargin_entry);
@@ -2842,17 +2884,15 @@ size_t bind_knobs() {
         const bool indicator_policy = &knob == &g_knobs[6]
             && knob.symbol == "LauncherIndicatorState._buildScreenIndicator";
         if (indicator_policy) {
-            IndicatorPolicyAnchors anchors;
-            if (!indicator_policy_compatible(va, size, &anchors)) continue;
-            policy_patch_offset = anchors.gate;
+            policy_patch_offset=g_runtime_features.indicator_policy->gate;
             knob.hook_entry = reinterpret_cast<void *>(hc_layout_indicator_policy_entry);
         }
         const bool indicator_slide = &knob == &g_knobs[7]
             && knob.symbol == "LauncherIndicatorState._showIndicator";
         if (indicator_slide) {
-            uint32_t idle_caller = 0;
-            if (!indicator_slide_compatible(va, &slide_patch_offset, &idle_caller)) continue;
-            hc_layout_indicator_idle_caller = g_dart->load_base + idle_caller;
+            const auto& feature=*g_runtime_features.indicator_slide;
+            slide_patch_offset=feature.patch;
+            hc_layout_indicator_idle_caller=g_dart->load_base+feature.idle_caller;
             knob.hook_entry = reinterpret_cast<void *>(hc_layout_indicator_slide_only_entry);
         }
         uint32_t geometry_patch_offset = 0;
@@ -2864,7 +2904,10 @@ size_t bind_knobs() {
             && knob.symbol == "HotSeatLayoutDelegate.cellLayout";
         if (workspace_cell || workspace_occupied) {
             if (!g_grid_field.usable()) continue;
-            if (!workspace_geometry_code_compatible(va, workspace_occupied, &geometry_patch_offset)) continue;
+            if(feature_geometry) {
+                const auto& feature=*g_runtime_features.geometry;
+                geometry_patch_offset=feature.patches[index-2];g_geometry_frame[index-2]=feature.frames[index-2];
+            } else if(!workspace_geometry_code_compatible(va,workspace_occupied,&geometry_patch_offset))continue;
             knob.hook_entry = workspace_cell
                 ? reinterpret_cast<void *>(hc_layout_workspace_entry)
                 : reinterpret_cast<void *>(hc_layout_workspace_occupied_entry);
@@ -2875,7 +2918,10 @@ size_t bind_knobs() {
         if (hotseat_horizontal) {
             if (g_grid_field.dock_columns <= 0 || g_grid_field.dock_item <= 0
                 || g_grid_field.dock_info <= 0) continue;
-            if (!hotseat_geometry_code_compatible(va, &geometry_patch_offset)) continue;
+            if(feature_geometry) {
+                const auto& feature=*g_runtime_features.geometry;
+                geometry_patch_offset=feature.patches[2];g_geometry_frame[2]=feature.frames[2];
+            } else if(!hotseat_geometry_code_compatible(va,&geometry_patch_offset))continue;
             knob.hook_entry = reinterpret_cast<void *>(hc_layout_hotseat_horizontal_entry);
         }
         const bool workspace_splice = workspace_cell || workspace_occupied || hotseat_horizontal
@@ -3158,15 +3204,10 @@ bool scale_bind_failure(unsigned feature,uint32_t stage,const char* detail) {
 bool bind_icon_render() {
     if(!g_dart)return scale_bind_failure(3,1,"Dart image not available yet");
     if(g_slots[kIconRenderSlotBase].address)return true;
-    uint32_t va=0,size=0,current=0;
-    std::vector<uint32_t> body;home_layout::IconRenderSites shape;
-    if(!hometweaks::HomeTweaksFindSymbol("AppIcon.build",&va,&size))
-        return scale_bind_failure(3,10,"symbol unavailable: AppIcon.build");
-    if(!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size))
-        return scale_bind_failure(3,11,"symbol unavailable: GridController.currentConfig");
-    if(!dartscan::body(va,body))return scale_bind_failure(3,20,"cannot read AppIcon.build body");
-    if(!home_layout::icon_render_sites(body,va,current,shape))
-        return scale_bind_failure(3,30,"AppIcon dimensions instruction validation failed");
+    if(!ensure_runtime_features()||!g_runtime_features.icon)
+        return scale_bind_failure(3,30,"unique executable icon dimensions producer/consumer graph unavailable");
+    const uint32_t va=g_runtime_features.icon->app;
+    const auto& shape=g_runtime_features.icon->render;
     std::array<Slot,2> prepared{};
     void *entries[]={reinterpret_cast<void*>(hc_icon_width_entry),reinterpret_cast<void*>(hc_icon_height_entry)};
     void **originals[]={&hc_icon_width_original,&hc_icon_height_original};
@@ -3184,36 +3225,11 @@ bool bind_icon_render() {
 bool bind_desktop_icon_render() {
     if(!g_dart)return scale_bind_failure(4,1,"Dart image not available yet");
     if(g_slots[kIconRenderSlotBase+2].address)return true;
-    uint32_t va=0,size=0,w=0,h=0,wt=0,ht=0,rx=0,current=0,app=0;
-    std::vector<uint32_t> b,wb,hb,wm,hm,ab;home_layout::IconRenderSites shape,render;
-    home_layout::IconMixinSites ws,hs;
-    struct Root {const char* name;uint32_t* value;};
-    const Root roots[]={ {"ShortcutIconWidget._buildNormalDrawable",&va},{"ShortcutIconWidget.iconWidth",&w},
-        {"ShortcutIconWidget.iconHeight",&h},{"RxObjectMixin.value",&rx},{"GridController.currentConfig",&current},
-        {"AppIcon.build",&app} };
-    for(unsigned i=0;i<6;++i)if(!hometweaks::HomeTweaksFindSymbol(roots[i].name,roots[i].value,&size))
-        return scale_bind_failure(4,10+i,roots[i].name);
-    if(!dartscan::body(w,wb)||!dartscan::body(h,hb)||!dartscan::body(va,b)||!dartscan::body(app,ab))
-        return scale_bind_failure(4,20,"cannot read desktop/Dock size getter/drawing bodies");
-    if(!home_layout::icon_dimension_callee(wb,w,wt)||!home_layout::icon_dimension_callee(hb,h,ht))
-        return scale_bind_failure(4,30,"desktop/Dock canonical size callee validation failed");
-    if(!home_layout::desktop_icon_sites(b,va,wt,ht,shape)||!home_layout::icon_render_sites(ab,app,current,render))
-        return scale_bind_failure(4,31,"desktop/Dock drawing dimensions instruction validation failed");
-    // Bounded typed callee prefixes; stop at the first complete Dart return.
-    auto prefix=[](uint32_t target,std::vector<uint32_t>& body){
-        if(!dart_words(target,128,body))return false;
-        for(size_t i=2;i<body.size();++i) {
-            if(body[i]!=0xd65f03c0u)continue;
-            if(body[i-2]!=0xaa1d03efu||body[i-1]!=0xa8c179fdu)return false;
-            body.resize(i+1);return true;
-        }
-        return false;
-    };
-    if(!prefix(wt,wm)||!prefix(ht,hm)
-      ||!home_layout::icon_mixin_sites(wm,wt,rx,render.grid,render.value,ws)
-      ||!home_layout::icon_mixin_sites(hm,ht,rx,render.grid,render.value,hs)
-      ||ws.value+8!=hs.value)
-        return scale_bind_failure(4,32,"desktop/Dock canonical size fields/caller validation failed");
+    if(!ensure_runtime_features()||!g_runtime_features.desktop)
+        return scale_bind_failure(4,32,"unique executable desktop/Dock dimensions, reactive source and drawing graph unavailable");
+    const auto& feature=*g_runtime_features.desktop;
+    const uint32_t wt=feature.width,ht=feature.height;
+    const auto& ws=feature.ws;const auto& hs=feature.hs;
     std::array<Slot,4> prepared{};
     void *entries[]={reinterpret_cast<void*>(hc_desktop_icon_width_entry),reinterpret_cast<void*>(hc_desktop_icon_height_entry),reinterpret_cast<void*>(hc_dock_icon_width_entry),reinterpret_cast<void*>(hc_dock_icon_height_entry)};
     void **originals[]={&hc_desktop_icon_width_original,&hc_desktop_icon_height_original,&hc_dock_icon_width_original,&hc_dock_icon_height_original};
@@ -3230,22 +3246,11 @@ bool bind_desktop_icon_render() {
 bool bind_folder_animation_scale() {
     if(!g_dart)return scale_bind_failure(0,1,"Dart image not available yet");
     if(g_slots[kFolderAnimScaleSlotBase].address)return true;
-    uint32_t builder=0,current=0,size=0,cache=0;home_dynamic::Body body,cache_body;
-    std::array<uint32_t,3> sites{};
-    std::array<uint32_t,2> cache_sites{};
-    if(!hometweaks::HomeTweaksFindSymbol("FolderAnimController._initScale",&builder,&size))
-        return scale_bind_failure(0,10,"symbol unavailable: FolderAnimController._initScale");
-    if(!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&current,&size))
-        return scale_bind_failure(0,11,"symbol unavailable: GridController.currentConfig");
-    if(!dartscan::body(builder,body))return scale_bind_failure(0,20,"cannot read FolderAnimController._initScale body");
-    if(!home_layout::folder_animation_scale_sites(body,builder,current,sites))
-        return scale_bind_failure(0,30,"close-animation instruction shape does not match this launcher image");
-    if(!hometweaks::HomeTweaksFindSymbol("FolderAnimController._refreshCachedGridParams",&cache,&size))
-        return scale_bind_failure(0,12,"symbol unavailable: FolderAnimController._refreshCachedGridParams");
-    if(!dartscan::body(cache,cache_body))return scale_bind_failure(0,21,"cannot read close-animation cached geometry");
-    if(!home_layout::folder_animation_cache_sites(cache_body,cache,current,
-        home_dynamic::imm9(body[sites[0]/4-3]),home_dynamic::imm9(body[sites[0]/4-1]),cache_sites))
-        return scale_bind_failure(0,31,"close-animation cached origin consumers do not match this launcher image");
+    if(!ensure_runtime_features()||!g_runtime_features.close)
+        return scale_bind_failure(0,30,"unique executable folder close dimensions/cache/centering graph unavailable");
+    const auto& feature=*g_runtime_features.close;
+    const uint32_t builder=feature.init,cache=feature.cache;
+    const auto& sites=feature.sites;const auto& cache_sites=feature.cache_sites;
     const void* entries[]={reinterpret_cast<void*>(hc_folder_anim_scale0_entry),
         reinterpret_cast<void*>(hc_folder_anim_scale1_entry),reinterpret_cast<void*>(hc_folder_anim_scale2_entry),
         reinterpret_cast<void*>(hc_folder_anim_scale3_entry),reinterpret_cast<void*>(hc_folder_anim_scale4_entry)};
@@ -3265,17 +3270,10 @@ bool bind_folder_animation_scale() {
 bool bind_folder_app_return_scale() {
     if(!g_dart)return scale_bind_failure(6,1,"Dart image not available yet");
     if(g_slots[kFolderReturnScaleSlotBase].address)return true;
-    uint32_t stable=0,caller=0,current=0,app=0,size=0;
-    for(auto pair:{std::pair{"FolderClingGetxController.getStableIconRectInFolder",&stable},
-        std::pair{"CheckRectHelper.deterministicFolderLandingRect",&caller},
-        std::pair{"GridController.currentConfig",&current},std::pair{"AppIcon.build",&app}})
-        if(!hometweaks::HomeTweaksFindSymbol(pair.first,pair.second,&size))return scale_bind_failure(6,10,pair.first);
-    home_dynamic::Body b,c,a;home_layout::IconRenderSites render;std::array<uint32_t,2> sites{};
-    if(!dartscan::body(stable,b)||!dartscan::body(caller,c)||!dartscan::body(app,a))
-        return scale_bind_failure(6,20,"cannot read app-to-folder landing bodies");
-    if(!home_layout::icon_render_sites(a,app,current,render)
-      ||!home_layout::folder_app_return_sites(b,stable,current,render.grid,render.value,c,caller,sites))
-        return scale_bind_failure(6,30,"stable landing dimensions/caller do not match icon render geometry");
+    if(!ensure_runtime_features()||!g_runtime_features.app_return)
+        return scale_bind_failure(6,30,"unique executable app-to-folder landing caller/dimensions graph unavailable");
+    const auto& feature=*g_runtime_features.app_return;
+    const uint32_t stable=feature.stable;const auto& sites=feature.sites;
     std::array<Slot,2> prepared{};
     void* entries[]={reinterpret_cast<void*>(hc_folder_return_width_entry),reinterpret_cast<void*>(hc_folder_return_height_entry)};
     void** originals[]={&hc_folder_return_width_original,&hc_folder_return_height_original};
@@ -3293,76 +3291,39 @@ bool bind_folder_app_return_scale() {
 bool bind_widget_scale() {
     if(!g_dart)return scale_bind_failure(1,1,"Dart image not available yet");
     if(g_slots[kWidgetScaleSlot].address)return true;
-    uint32_t builder=0,transform=0,size=0;home_dynamic::Body build,body,allocator,common;
-    home_layout::WidgetScaleLayout layout;
-    if(!hometweaks::HomeTweaksFindSymbol("WidgetContainerWidget.build",&builder,&size))
-        return scale_bind_failure(1,10,"symbol unavailable: WidgetContainerWidget.build");
-    if(!hometweaks::HomeTweaksFindSymbol("_TransformedWidgetContainer.build",&transform,&size))
-        return scale_bind_failure(1,11,"symbol unavailable: _TransformedWidgetContainer.build");
-    if(!dartscan::body(builder,build)||!dartscan::body(transform,body))
-        return scale_bind_failure(1,20,"cannot read widget builder/transform body");
-    if(!home_layout::widget_scale_layout(build,body,transform,layout))
-        return scale_bind_failure(1,30,"widget transform instruction shape does not match this launcher image");
-    // The original allocator stub supplies the current CID, instance size and nursery pair.
-    allocator.resize(3);
-    if(!dart_words(layout.allocator,3,allocator)||!home_dynamic::tag(allocator,layout.tag)
-        ||(allocator[2]&0xfc000000u)!=0x14000000u)
-        return scale_bind_failure(1,31,"widget allocator tag/branch validation failed");
-    const int64_t target=int64_t(layout.allocator)+8+(int32_t(allocator[2]<<6)>>6)*int64_t{4};
-    if(target<=0||target>UINT32_MAX)return scale_bind_failure(1,32,"widget allocator branch is out of image range");
-    common.resize(7);
-    if(!dart_words(uint32_t(target),7,common)||common[0]!=0xd3482c44u||common[1]!=0xd37cec84u
-        ||(common[2]&0xffc07fffu)!=0xa9401740u||common[3]!=0x8b040003u
-        ||common[4]!=0xeb0300bfu||!home_dynamic::ux(common[6]^0x00400000u,26,3))
-        return scale_bind_failure(1,33,"widget nursery allocator instruction validation failed");
-    layout.size=((layout.tag>>8)&15)*16;layout.top=((common[2]>>15)&127)*8;
-    if(home_dynamic::uoff(common[6])!=layout.top||!layout.usable())
-        return scale_bind_failure(1,34,"widget instance fields/size or nursery store are not usable");
-    uintptr_t address=0;nhk::CodeSource source{};Words words{};
-    if(!bind_dart_target(builder+layout.bank,address,source,words)||address>UINTPTR_MAX-16)
-        return scale_bind_failure(1,40,"widget build replay window cannot be bound");
-    g_widget_scale_layout=layout;hc_widget_scale_frame=layout.frame;hc_widget_scale_child_field=layout.child;
-    hc_widget_scale_continue=address+16;
-    g_slots[kWidgetScaleSlot]={address,reinterpret_cast<void*>(hc_widget_scale_entry),&hc_widget_scale_original,source,words};
+    if(!ensure_runtime_features()||!g_runtime_features.widget)
+        return scale_bind_failure(1,30,"unique executable widget dispatch/capture/allocation graph unavailable");
+    const auto& feature=*g_runtime_features.widget;
+    std::array<Slot,kWidgetScaleSlotCount> prepared{};
+    for(size_t i=0;i<feature.builders.size();++i) {
+        const auto& candidate=feature.builders[i];
+        uintptr_t address=0;nhk::CodeSource source{};Words words{};
+        if(!bind_dart_target(candidate.return_pc+4,address,source,words))
+            return scale_bind_failure(1,40,"Observer final-publication/epilogue bank cannot be bound");
+        prepared[i]={address,reinterpret_cast<void*>(hc_widget_scale_entry),&hc_widget_scale_originals[i],source,words};
+    }
+    std::atomic_store_explicit(&g_widget_routing,
+        std::make_shared<const WidgetRouting>(WidgetRouting{g_dart->load_base,feature}),std::memory_order_release);
+    hc_widget_parent_frame=feature.layout.frame;
+    hc_widget_child_field=feature.layout.child;
+    hc_widget_closure_entry_field=feature.closure_entry;
+    hc_widget_dispatch_entry=g_dart->load_base+feature.dispatch.owner;
+    for(size_t i=0;i<feature.builders.size();++i)g_slots[kWidgetScaleSlot+i]=prepared[i];
     g_scale_bind_failure[1].store(0,std::memory_order_relaxed);
-    __android_log_print(ANDROID_LOG_INFO,kTag,"widget scale resolved visual transform size=%u scale_field=%d",layout.size,layout.scale);
+    __android_log_print(ANDROID_LOG_INFO,kTag,
+        "widget scale resolved dispatch=%#x closure_witness=%#x caller_banks=%zu size=%u scale_field=%d; runtime closure entry/caller selection, VM allocation paths untouched",
+        feature.dispatch.owner,feature.tail,feature.builders.size(),feature.layout.size,feature.layout.scale);
     return true;
 }
 
 bool bind_folder_icon_scale() {
     if(!g_dart)return scale_bind_failure(2,1,"Dart image not available yet");
     if(g_slots[kFolderIconScaleSlot].address)return true;
-    uint32_t small=0,base=0,current=0,preview=0,size=0;
-    std::vector<uint32_t> body,base_body;home_layout::SmallFolderScaleSite shape;
-    struct Root {const char* name;uint32_t* value;};
-    const Root roots[]={ {"FolderLayout1x1.calItemSize",&small},{"FolderLayoutStrategy.calItemSize",&base},
-        {"GridController.currentConfig",&current},{"GridController.folderPreviewHeight",&preview} };
-    for(unsigned i=0;i<4;++i)if(!hometweaks::HomeTweaksFindSymbol(roots[i].name,roots[i].value,&size))
-        return scale_bind_failure(2,10+i,roots[i].name);
-    if(!dartscan::body(small,body)||!dartscan::body(base,base_body))
-        return scale_bind_failure(2,20,"cannot read small-folder/base size producer");
-    if(!home_layout::small_folder_scale_site(body,small,base_body,base,current,preview,shape))
-        return scale_bind_failure(2,30,"small-folder geometry instruction validation failed");
-    uint32_t big=0,preview_builder=0,helper_va[2]{};
-    std::vector<uint32_t> big_body,preview_body;
-    std::array<std::vector<uint32_t>,2> helpers;
-    home_layout::BigFolderScaleSite big_shape;
-    const char* helper_names[]={"BigFolderCommonStrategy._calItemSizeByWidth",
-        "BigFolderCommonStrategy._calItemSizeByHeight"};
-    for(unsigned i=0;i<2;++i){
-        if(!hometweaks::HomeTweaksFindSymbol(helper_names[i],&helper_va[i],&size))
-            return scale_bind_failure(2,14+i,helper_names[i]);
-        if(!dartscan::body(helper_va[i],helpers[i]))
-            return scale_bind_failure(2,21+i,"cannot read large-folder preview size helper");
-    }
-    if(!hometweaks::HomeTweaksFindSymbol("BigFolderCommonStrategy.calItemSize",&big,&size))
-        return scale_bind_failure(2,16,"symbol unavailable: BigFolderCommonStrategy.calItemSize");
-    if(!hometweaks::HomeTweaksFindSymbol("BigFolderCommonStrategy.setPreviewItemInfos",&preview_builder,&size))
-        return scale_bind_failure(2,17,"symbol unavailable: BigFolderCommonStrategy.setPreviewItemInfos");
-    if(!dartscan::body(big,big_body)||!dartscan::body(preview_builder,preview_body))
-        return scale_bind_failure(2,23,"cannot read large-folder size/preview producer");
-    if(!home_layout::big_folder_scale_site(big_body,big,helpers,helper_va,preview_body,base,shape,big_shape))
-        return scale_bind_failure(2,31,"large-folder geometry instruction validation failed; small/large bank kept inactive");
+    if(!ensure_runtime_features()||!g_runtime_features.folders)
+        return scale_bind_failure(2,30,"unique executable small/large folder producers, padding and rectangle-list consumers unavailable");
+    const auto& feature=*g_runtime_features.folders;
+    const uint32_t small=feature.small,base=feature.base,big=feature.big;
+    const auto& shape=feature.small_site;const auto& big_shape=feature.big_site;
     uintptr_t address=0;nhk::CodeSource source{};Words words{};
     if(!bind_dart_target(base,address,source,words))
         return scale_bind_failure(2,40,"folder size replay window cannot be bound");
@@ -3381,27 +3342,9 @@ bool bind_folder_icon_scale() {
 bool bind_progress_icon_render() {
     if(!g_dart)return scale_bind_failure(5,1,"Dart image not available yet");
     if(g_slots[kProgressIconSlotBase].address)return true;
-    uint32_t root=0,size=0,current=0,app=0,rx=0;
-    std::vector<uint32_t> ab;home_layout::IconRenderSites render;
-    struct Root {const char* name;uint32_t* value;};
-    const Root roots[]={ {"ProgressShortcutIconGetxController.onInit",&root},{"GridController.currentConfig",&current},
-        {"AppIcon.build",&app},{"RxObjectMixin.value",&rx} };
-    for(unsigned i=0;i<4;++i)if(!hometweaks::HomeTweaksFindSymbol(roots[i].name,roots[i].value,&size))
-        return scale_bind_failure(5,10+i,roots[i].name);
-    if(!dartscan::body(app,ab))return scale_bind_failure(5,20,"cannot read AppIcon dimensions for progress icons");
-    if(!home_layout::icon_render_sites(ab,app,current,render))
-        return scale_bind_failure(5,30,"progress icon source dimensions instruction validation failed");
-    // Bounded original-image reads, only along the typed init/callee chain.
-    auto read=[](uint32_t va,std::vector<uint32_t>& b){
-        if(!dart_words(va,1024,b))return false;
-        for(size_t i=2;i<b.size();++i)if(b[i]==0xd65f03c0u){
-            if(b[i-2]!=0xaa1d03efu||b[i-1]!=0xa8c179fdu)return false;
-            b.resize(i+1);return true;}
-        return false;
-    };
-    home_layout::IconInitDimensions shape;
-    if(!home_layout::icon_init_dimensions(root,read,rx,render.grid,render.value,shape))
-        return scale_bind_failure(5,31,"progress icon init/canonical size callee validation failed");
+    if(!ensure_runtime_features()||!g_runtime_features.progress)
+        return scale_bind_failure(5,31,"unique executable progress dimensions/lifecycle producer graph unavailable");
+    const auto& shape=g_runtime_features.progress->dimensions;
     std::array<Slot,4> prepared{};
     void* entries[]={reinterpret_cast<void*>(hc_progress_icon_width_entry),reinterpret_cast<void*>(hc_progress_icon_height_entry),reinterpret_cast<void*>(hc_progress_dock_width_entry),reinterpret_cast<void*>(hc_progress_dock_height_entry)};
     void** originals[]={&hc_progress_icon_width_original,&hc_progress_icon_height_original,&hc_progress_dock_width_original,&hc_progress_dock_height_original};
@@ -3419,34 +3362,9 @@ bool bind_drawer_title() {
     if (g_drawer_title_bound) return true;
     if (!g_dart || (g_title_drawer_sp.load(std::memory_order_acquire) == 12
         && !g_title_custom_bound)) return false;
-    uint32_t getter = 0, getter_size = 0, caller = 0, caller_size = 0;
-    if (!hometweaks::HomeTweaksFindSymbol("GridConfig.getTitleTextSize", &getter,
-            &getter_size)
-        || !hometweaks::HomeTweaksFindSymbol("AppIcon.build", &caller, &caller_size)
-       ) return false;
-    uint32_t font_offset = 0, height_offset = 0, target = 0;
-    std::vector<uint32_t> body;
-    if(!dartscan::body(caller,body))return false;
-    unsigned fonts=0,heights=0;
-    for(size_t i=1;i+3<body.size();++i) {
-        if(!home_dynamic::ldx(body[i],29,0) || !home_dynamic::std_(body[i+1],29,0)
-            || !home_dynamic::ldw(body[i+2],0,1) || body[i+3]!=0x8b1c8021u)continue;
-        uint32_t callee=0;
-        if(!bl_target(body[i-1],caller+static_cast<uint32_t>((i-1)*4),&callee))continue;
-        if(callee==getter){++fonts;font_offset=static_cast<uint32_t>(i*4);}
-    }
-    if(fonts!=1)return false;
-    const int32_t font_frame=home_dynamic::imm9(body[font_offset/4+1]);
-    for(size_t i=3;i+3<body.size();++i) {
-        if(!home_dynamic::ldx(body[i],29,0) || !home_dynamic::std_(body[i+1],29,0)
-            || !home_dynamic::ldw(body[i+2],0,1) || body[i+3]!=0x8b1c8021u
-            || !home_dynamic::ldx(body[i-3],29,2) || !home_dynamic::ldd(body[i-2],29,0)
-            || home_dynamic::imm9(body[i-2])!=font_frame
-            || home_dynamic::imm9(body[i-3])!=home_dynamic::imm9(body[i])
-            || !bl_target(body[i-1],caller+static_cast<uint32_t>((i-1)*4),&target))continue;
-        ++heights;height_offset=static_cast<uint32_t>(i*4);
-    }
-    if(heights!=1)return false;
+    if(!ensure_runtime_features()||!g_runtime_features.drawer_font)return false;
+    const auto& feature=*g_runtime_features.drawer_font;
+    const uint32_t caller=feature.owner,font_offset=feature.font,height_offset=feature.height;
     uintptr_t height_address = 0;
     nhk::CodeSource height_source{};
     Words height_words{};
@@ -3457,10 +3375,10 @@ bool bind_drawer_title() {
     Words words{};
     if (!bind_dart_target(caller + font_offset, address, source, words)
         || g_dart->load_base > UINTPTR_MAX - caller - font_offset) return false;
-    hc_drawer_font_widget=home_dynamic::imm9(body[font_offset/4]);
-    hc_drawer_font_frame=home_dynamic::imm9(body[font_offset/4+1]);hc_drawer_font_field=home_dynamic::imm9(body[font_offset/4+2]);
-    hc_drawer_height_widget=home_dynamic::imm9(body[height_offset/4]);
-    hc_drawer_height_frame=home_dynamic::imm9(body[height_offset/4+1]);hc_drawer_height_field=home_dynamic::imm9(body[height_offset/4+2]);
+    hc_drawer_font_widget=feature.font_widget;
+    hc_drawer_font_frame=feature.font_frame;hc_drawer_font_field=feature.font_field;
+    hc_drawer_height_widget=feature.height_widget;
+    hc_drawer_height_frame=feature.height_frame;hc_drawer_height_field=feature.height_field;
     hc_drawer_title_caller = static_cast<uintptr_t>(g_dart->load_base + caller + font_offset);
     hc_drawer_title_continue = address + 16;
     g_slots[kDrawerTitleSlot] = {address, reinterpret_cast<void *>(hc_drawer_title_entry),
@@ -3627,33 +3545,14 @@ bool sync_widget_move(bool enabled) {
     struct Release { ~Release() { g_widget_move_busy.clear(std::memory_order_release); } } release;
     if (!g_dart || (!enabled && !g_widget_move_address)) return !enabled;
     if (!g_widget_move_checked) {
-        uint32_t va = 0, size = 0;
-        /*
-         * No neighbour-placement assertion here. `_isSpanSupportedByPa` and
-         * `_ensureDragSessionId` have independent symbols, so a fixed distance or ordering says
-         * nothing about whether the hook is still aimed at the right code. The scan below is
-         * what decides: it either finds exactly one branch whose shape identifies the widget
-         * rejection, or the hook stays off.
-         */
-        bool compatible = hometweaks::HomeTweaksFindSymbol(home_layout::kWidgetMoveSymbol, &va, &size);
-        size_t gate = SIZE_MAX, editing_gate = SIZE_MAX;
-        int32_t flag_field = 0;
-        uint32_t body_span = 0, span_callee = 0, span_size = 0, value_callee = 0, value_size = 0;
-        if (compatible) compatible = dartscan::function_span(va, &body_span)
-            && hometweaks::HomeTweaksFindSymbol("AssistantDragToPAHandler._isSpanSupportedByPa",
-                &span_callee, &span_size)
-            && hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value", &value_callee, &value_size);
-        if (compatible) {
-            gate = home_layout::widget_move_gate_offset(body_span,
-                [&](size_t count, std::vector<uint32_t> &out) {
-                    return dart_function_words(va, static_cast<uint32_t>(count), out);
-                }, &flag_field, va, span_callee);
-            editing_gate = home_layout::widget_move_editing_gate_offset(body_span,
-                [&](size_t count, std::vector<uint32_t> &out) {
-                    return dart_function_words(va, static_cast<uint32_t>(count), out);
-                }, va, value_callee);
-            compatible = gate != SIZE_MAX && editing_gate != SIZE_MAX && gate != editing_gate
-                && gate + 4 <= body_span && editing_gate + 4 <= body_span;
+        uint32_t va=0;
+        size_t gate=SIZE_MAX,editing_gate=SIZE_MAX;
+        int32_t flag_field=0;
+        const bool compatible_feature=ensure_runtime_features()&&g_runtime_features.widget_move.has_value();
+        bool compatible=compatible_feature;
+        if(compatible_feature) {
+            const auto& feature=*g_runtime_features.widget_move;
+            va=feature.owner;gate=feature.gate;editing_gate=feature.editing;flag_field=feature.flag;
         }
         if (compatible) {
             std::array<nhk::SourceWordPatch,2> prepared{};
@@ -3681,8 +3580,8 @@ bool sync_widget_move(bool enabled) {
             }
         }
         if (g_widget_move_address || !g_widget_bind_reported) __android_log_print(g_widget_move_address ? ANDROID_LOG_INFO : ANDROID_LOG_WARN, kTag,
-            "widget minus-one original-code compatible=%d symbol=%s gate=%#zx editing=%#zx flag=%#x",
-            g_widget_move_address != 0, home_layout::kWidgetMoveSymbol, gate, editing_gate,
+            "widget minus-one original-code compatible=%d source=executable-feature gate=%#zx editing=%#zx flag=%#x",
+            g_widget_move_address != 0, gate, editing_gate,
             static_cast<uint32_t>(flag_field));
         g_widget_bind_reported = true;
     }
@@ -3718,25 +3617,19 @@ bool sync_widget_move(bool enabled) {
 bool bind_dock_title_model() {
     if(g_dock_title_model_bound)return true;
     if(!g_dart||g_dock_title_requested.load(std::memory_order_acquire)!=1)return false;
-    uint32_t scope=0,size=0;
-    if(!hometweaks::HomeTweaksFindSymbol("DockScope.isInDock",&scope,&size))return false;
-    const char* builders[]={"ShortcutIconWidget._buildTextWidget","ProgressShortCutIconWidget._buildTextWidget"};
+    if(!ensure_runtime_features()||!g_runtime_features.dock_title)return false;
+    const auto& feature=*g_runtime_features.dock_title;
     const void* entries[]={reinterpret_cast<void*>(hc_dock_title_model_0_entry),
         reinterpret_cast<void*>(hc_dock_title_model_1_entry)};
     Slot prepared[2]{};int32_t fields[2][8]{};
     for(unsigned i=0;i<2;++i){
-        uint32_t va=0,span=0;std::vector<uint32_t> body,getter;
-        if(!hometweaks::HomeTweaksFindSymbol(builders[i],&va,&size)
-            ||!dartscan::function_span(va,&span)||!dart_function_words(va,span,body))return false;
-        const auto plan=home_layout::resolve_dock_title(body,va,scope);
-        if(!plan||!dart_function_words(plan->hotseat_getter,80,getter)
-            ||!home_layout::dock_title_hotseat_getter(getter))return false;
+        const auto& builder=feature.builders[i];
+        const uint32_t va=builder.va;const auto& plan=builder.plan;
         uintptr_t address=0;nhk::CodeSource source{};Words words{};
-        if(plan->alpha_offset>UINT32_MAX-va
-            ||!bind_dart_target(va+uint32_t(plan->alpha_offset),address,source,words)
+        if(plan.alpha_offset>UINT32_MAX-va
+            ||!bind_dart_target(va+uint32_t(plan.alpha_offset),address,source,words)
             ||address>UINTPTR_MAX-16)return false;
-        std::copy(plan->alpha_fields.begin(),plan->alpha_fields.end(),fields[i]);
-        fields[i][6]=home_dynamic::zimm(getter[0]);fields[i][7]=home_dynamic::imm9(getter[3]);
+        std::copy(builder.fields.begin(),builder.fields.end(),fields[i]);
         prepared[i]={address,const_cast<void*>(entries[i]),&hc_dock_title_model_original[i],source,words};
     }
     for(unsigned i=0;i<2;++i){
@@ -3766,24 +3659,13 @@ bool sync_dock_titles(bool enabled) {
     struct Release {~Release(){g_dock_title_busy.clear(std::memory_order_release);}} release;
     if(!g_dart || (!enabled && !g_dock_title_words[0].address))return !enabled;
     if(!g_dock_title_words[0].address) {
-        uint32_t scope=0,size=0;
         std::array<nhk::SourceWordPatch,4> prepared{};size_t next=0;
-        bool compatible=hometweaks::HomeTweaksFindSymbol("DockScope.isInDock",&scope,&size);
-        const char* builders[]={"ShortcutIconWidget._buildTextWidget",
-            "ProgressShortCutIconWidget._buildTextWidget"};
+        bool compatible=ensure_runtime_features()&&g_runtime_features.dock_title.has_value();
         for(size_t builder=0;compatible && builder<2;++builder) {
-            uint32_t va=0,span=0;
-            std::vector<uint32_t> body,getter;
-            compatible=hometweaks::HomeTweaksFindSymbol(builders[builder],&va,&size)
-                && dartscan::function_span(va,&span) && dart_function_words(va,span,body);
-            if(!compatible)break;
-            const auto plan=home_layout::resolve_dock_title(body,va,scope);
-            compatible=plan && plan->gates.size()==2
-                && dart_function_words(plan->hotseat_getter,80,getter)
-                && home_layout::dock_title_hotseat_getter(getter);
-            if(!compatible)break;
-            for(size_t i=0;compatible && i<plan->gates.size();++i) {
-                const auto gate=plan->gates[i];
+            const auto& feature=g_runtime_features.dock_title->builders[builder];
+            const uint32_t va=feature.va;const auto& plan=feature.plan;
+            for(size_t i=0;compatible && i<plan.gates.size();++i) {
+                const auto gate=plan.gates[i];
                 if(gate.offset>UINT32_MAX-va || g_dart->load_base>UINTPTR_MAX-va-gate.offset) {
                     compatible=false;break;
                 }
@@ -3795,7 +3677,7 @@ bool sync_dock_titles(bool enabled) {
                     || source->file_offset!=g_dart->view_begin+*file || (address&3)) {
                     compatible=false;break;
                 }
-                prepared[next++]={address,body[gate.offset/4],gate.replacement,*source};
+                prepared[next++]={address,feature.original[i],gate.replacement,*source};
             }
         }
         if(compatible && next==prepared.size()) {
@@ -4329,7 +4211,7 @@ size_t arm_hooks(std::vector<size_t> &order) {
     if(g_slots[kFolderIconScaleSlot].address&&std::find(order.begin(),order.end(),kFolderIconScaleSlot)==order.end()) {
         order.push_back(kFolderIconScaleSlot);++added;
     }
-    for(size_t i=kFolderAnimScaleSlotBase;i<=kWidgetScaleSlot;++i)
+    for(size_t i=kFolderAnimScaleSlotBase;i<kWidgetScaleSlot+kWidgetScaleSlotCount;++i)
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     for(size_t i=kFolderReturnScaleSlotBase;i<kFolderReturnScaleSlotBase+2;++i)
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
@@ -4581,8 +4463,10 @@ void publish_indicator_dot_delta() {
     __atomic_store_n(&hc_folder_anim_scale_enabled,uint32_t(animation_ready&&hc_folder_anim_scale0_original
         &&hc_folder_anim_scale1_original&&hc_folder_anim_scale2_original
         &&hc_folder_anim_scale3_original&&hc_folder_anim_scale4_original),__ATOMIC_RELEASE);
-    __atomic_store_n(&hc_widget_scale_enabled,uint32_t(nhk::slot_ready(g_slots[kWidgetScaleSlot])
-        &&hc_widget_scale_original),__ATOMIC_RELEASE);
+    bool widget_ready=g_runtime_features.widget&& !g_runtime_features.widget->builders.empty();
+    if(widget_ready)for(size_t i=0;i<g_runtime_features.widget->builders.size();++i)
+        widget_ready&=nhk::slot_ready(g_slots[kWidgetScaleSlot+i])&&hc_widget_scale_originals[i];
+    __atomic_store_n(&hc_widget_scale_enabled,uint32_t(widget_ready),__ATOMIC_RELEASE);
     __atomic_store_n(&hc_folder_icon_scale_enabled,uint32_t(nhk::slot_ready(g_slots[kFolderIconScaleSlot])
         &&hc_folder_icon_scale_original),__ATOMIC_RELEASE);
     const uint32_t live[]={__atomic_load_n(&hc_folder_anim_scale_enabled,__ATOMIC_ACQUIRE),
@@ -4593,6 +4477,18 @@ void publish_indicator_dot_delta() {
         __android_log_print(live[i]?ANDROID_LOG_INFO:ANDROID_LOG_WARN,kTag,
             "feature=%s hooks=%s; requested switches/percentages are reported separately",
             features[i],live[i]?"active":"inactive (see binding/slot diagnostic)");
+    const auto widget_hits=__atomic_load_n(&hc_widget_scale_hits,__ATOMIC_RELAXED);
+    const auto widget_bits=__atomic_load_n(&hc_widget_scale_bits,__ATOMIC_ACQUIRE);
+    const bool widget_observed=widget_bits==0x3ff0000000000000ULL
+        ||__atomic_load_n(&hc_widget_scale_applied_bits,__ATOMIC_ACQUIRE)==widget_bits;
+    if(widget_hits&&widget_observed&&g_widget_scale_last.exchange(widget_bits,std::memory_order_relaxed)!=widget_bits
+        &&g_widget_scale_reports.fetch_add(1,std::memory_order_relaxed)<16) {
+        double factor=1;std::memcpy(&factor,&widget_bits,sizeof(factor));
+        __android_log_print(ANDROID_LOG_INFO,kTag,
+            "widget scale runtime factor=%.4f state=common-observer-wrapper hits=%llu applied=%llu; bounded nursery allocation",
+            factor,static_cast<unsigned long long>(widget_hits),
+            static_cast<unsigned long long>(__atomic_load_n(&hc_widget_scale_applied,__ATOMIC_RELAXED)));
+    }
     __atomic_store_n(&hc_icon_render_enabled,
         uint32_t(nhk::slot_ready(g_slots[kIconRenderSlotBase])&&nhk::slot_ready(g_slots[kIconRenderSlotBase+1])
         &&hc_icon_width_original&&hc_icon_height_original
@@ -5083,6 +4979,10 @@ void *worker(void *) {
         }
     }
 
+    // The worker now owns binding retries, including a Dart image that arrives
+    // later. Close the one-shot loader path while still holding its setup lease;
+    // otherwise a late callback can mutate g_dart/slots alongside the worker.
+    g_loader_prime_finished.store(true, std::memory_order_release);
     g_back_setup_complete.store(true, std::memory_order_release);
     setup_lease.release();
     int iterations = 0;
@@ -5145,6 +5045,20 @@ void *worker(void *) {
             }
         }
         if (iterations % 10 == 0) {
+            // Rust back-region hooks can make locate() succeed before libapp.so
+            // is mapped. If the one-shot loader callback then misses the setup
+            // lease, no Dart binder below can recover by itself. Discover the
+            // image on this existing worker, independently of preference I/O;
+            // ensure_dart_library retains the validated identity/mapping checks.
+            // Never replace the Rust slots or their container during this handoff.
+            if (!g_dart && ensure_dart_library()) {
+                if (!located) located.emplace();
+                located->dart_container_path = g_dart->path;
+                located->dart_view_begin = g_dart->view_begin;
+                located->dart_view_end = g_dart->view_end;
+                __android_log_print(ANDROID_LOG_INFO, kTag,
+                    "layout late Dart image adopted; retrying render/layout bindings; native slots retained");
+            }
             home_layout::Config latest;
             if (home_layout::query_config(latest)) {
                 sync_title_config(latest);
@@ -5722,29 +5636,32 @@ extern "C" uint32_t hc_title_is_new_asset(uint64_t text) {
     return home_title::new_install_asset(text) ? 1U : 0U;
 }
 
-extern "C" uint64_t hc_widget_scale_wrap(uint64_t child,uint64_t thread,uint64_t pool,uint64_t null_value) {
-    uint64_t bits=__atomic_load_n(&hc_widget_scale_bits,__ATOMIC_ACQUIRE);double scale=1;
-    std::memcpy(&scale,&bits,sizeof(scale));
-    home_layout::WidgetScaleResult why;
-    const uint64_t result=home_layout::wrap_scaled_widget(child,thread,pool,null_value,scale,g_widget_scale_layout,&why);
-    const auto hits=__atomic_add_fetch(&hc_widget_scale_hits,uint64_t{1},__ATOMIC_RELAXED);
-    if(result!=child)__atomic_add_fetch(&hc_widget_scale_applied,uint64_t{1},__ATOMIC_RELAXED);
-    const uint64_t state=(bits<<3)|static_cast<unsigned>(why);
-    if(g_widget_scale_last.exchange(state,std::memory_order_relaxed)!=state
-        &&g_widget_scale_reports.fetch_add(1,std::memory_order_relaxed)<16) {
-        uint64_t top=0,end=0;
-        if(thread&&g_widget_scale_layout.usable()) {
-            std::memcpy(&top,reinterpret_cast<const void*>(thread+g_widget_scale_layout.top),8);
-            std::memcpy(&end,reinterpret_cast<const void*>(thread+g_widget_scale_layout.top+8),8);
-        }
-        __android_log_print(result!=child||scale==1.0?ANDROID_LOG_INFO:ANDROID_LOG_WARN,kTag,
-            "widget scale runtime factor=%.4f state=%s hits=%llu applied=%llu top_align=%llu nursery_room=%llu",scale,
-            home_layout::widget_scale_result_name(why),
-            static_cast<unsigned long long>(hits),
-            static_cast<unsigned long long>(__atomic_load_n(&hc_widget_scale_applied,__ATOMIC_RELAXED)),
-            static_cast<unsigned long long>(top&15),static_cast<unsigned long long>(end>top?end-top:0));
+// This callback cannot call Dart or trigger GC. Neither closure nor parent
+// escapes it. The original allocator has already returned on either fast or
+// slow paths; the closure entrypoint/caller pair identifies its actual consumer.
+extern "C" WidgetBuildResult hc_widget_scale_build(uint64_t closure,uint64_t frame,uint64_t caller,
+    uint64_t thread,uint64_t pool,uint64_t null_value) {
+    const auto routing=std::atomic_load_explicit(&g_widget_routing,std::memory_order_acquire);
+    if(!routing)return {closure,0};
+    const auto& feature=routing->feature;
+    const uint64_t bits=__atomic_load_n(&hc_widget_scale_bits,__ATOMIC_ACQUIRE);
+    double scale=1;std::memcpy(&scale,&bits,8);
+    home_layout::WidgetScaleResult why{};
+    const auto routed=home_layout::complete_widget_observer(closure,frame,caller,routing->base,
+        thread,pool,null_value,scale,feature.builders,feature.layout,&why);
+    if(!routed.handled)return routed;
+    __atomic_fetch_add(&hc_widget_scale_hits,uint64_t{1},__ATOMIC_RELAXED);
+    if(why==home_layout::WidgetScaleResult::Applied) {
+        __atomic_fetch_add(&hc_widget_scale_applied,uint64_t{1},__ATOMIC_RELAXED);
+        __atomic_store_n(&hc_widget_scale_applied_bits,bits,__ATOMIC_RELEASE);
     }
-    return result;
+    static std::atomic_uint reasons{0};
+    if(why!=home_layout::WidgetScaleResult::Applied&&why!=home_layout::WidgetScaleResult::Neutral) {
+        const auto bit=uint32_t{1}<<static_cast<unsigned>(why);
+        if(!(reasons.fetch_or(bit,std::memory_order_relaxed)&bit))
+            __android_log_print(ANDROID_LOG_WARN,kTag,"widget scale runtime skipped factor=%.4f reason=%s; original Observer preserved",scale,home_layout::widget_scale_result_name(why));
+    }
+    return routed;
 }
 
 extern "C" uint64_t hc_title_color_clone(uint64_t color, uint64_t thread) {
@@ -5965,7 +5882,7 @@ bool adopt_layout_state() {
     hc_progress_dock_width_hits=hc_progress_dock_height_hits=0;
     hc_folder_icon_scale_enabled=0;hc_folder_icon_scale_original=nullptr;
     hc_folder_anim_scale_enabled=0;hc_widget_scale_enabled=0;
-    hc_widget_scale_hits=hc_widget_scale_applied=0;
+    hc_widget_scale_hits=hc_widget_scale_applied=hc_widget_scale_applied_bits=0;
     g_widget_scale_last.store(UINT64_MAX,std::memory_order_relaxed);
     g_widget_scale_reports.store(0,std::memory_order_relaxed);
     hc_folder_return_scale_enabled=0;hc_folder_return_scale_hits=0;
@@ -5976,7 +5893,8 @@ bool adopt_layout_state() {
     g_scale_request_diagnostic.store(UINT64_MAX,std::memory_order_relaxed);
     hc_folder_anim_scale0_original=hc_folder_anim_scale1_original=hc_folder_anim_scale2_original=nullptr;
     hc_folder_anim_scale3_original=hc_folder_anim_scale4_original=nullptr;
-    hc_widget_scale_original=nullptr;hc_widget_scale_continue=0;g_widget_scale_layout={};
+    std::fill(std::begin(hc_widget_scale_originals),std::end(hc_widget_scale_originals),nullptr);hc_widget_dispatch_entry=0;
+    std::atomic_store_explicit(&g_widget_routing,std::shared_ptr<const WidgetRouting>{},std::memory_order_release);
     for(auto* bits:{&hc_icon_scale_bits,&hc_small_folder_scale_bits,&hc_big_folder_scale_bits,&hc_widget_scale_bits})
         __atomic_store_n(bits,0x3ff0000000000000ULL,__ATOMIC_RELEASE);
     hc_folder_icon_scale_caller=0;
@@ -6135,6 +6053,8 @@ bool adopt_layout_state() {
     g_hook_globals_inited = false;
     init_knob_hooks();
     g_dart.reset();
+    g_runtime_features={};
+    g_runtime_features_scanned=false;
     g_config_capture_va = 0;
     g_dock_capture_va = 0;
     g_config_capture_address = 0;
@@ -6209,6 +6129,8 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
     if (hook == nullptr || g_loader_prime_finished.load(std::memory_order_acquire)) return;
     if (g_loader_priming.test_and_set(std::memory_order_acquire)) return;
     struct ReleasePrime { ~ReleasePrime() { g_loader_priming.clear(std::memory_order_release); } } release;
+    // The worker may have completed the handoff after the first flag read.
+    if (g_loader_prime_finished.load(std::memory_order_acquire)) return;
     /*
      * Everything below runs inside the dlopen callback, on the launcher main thread, with the linker
      * lock held - and the desktop's own start-up is blocked behind it. Mark the thread so the symbol

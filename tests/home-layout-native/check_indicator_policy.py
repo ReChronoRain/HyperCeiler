@@ -10,7 +10,7 @@ def check(hooks, assembly):
     # offset became a named anchor - a dead check is worse than no check, because the suite
     # still reported the feature as covered.
     derived = re.search(
-        r"hc_layout_indicator_build_empty = g_dart->load_base \+ va \+ anchors\.result \+ (\d+);",
+        r"hc_layout_indicator_build_empty\s*=\s*g_dart->load_base\s*\+\s*va\s*\+\s*feature\.result\s*\+\s*(\d+);",
         hooks)
     assert derived, "the empty-widget resume must be derived from the scanned result anchor"
     skip = int(derived.group(1))
@@ -26,15 +26,15 @@ def check(hooks, assembly):
     assert "tbnz w0, #4, 2f" in entry, "Dart false (null+0x30) must select empty"
     empty = re.split(r"(?m)^2:$", entry)[1]; empty = re.split(r"(?m)^1:$", empty)[0]
     assert "dynamic_load x0, x27, hc_indicator_empty_pool" in empty, "empty widget must use the decoded pool root"
-    assert "hc_indicator_empty_pool=home_dynamic::uoff(body[anchors.result/4+3]);" in hooks
+    assert "hc_indicator_empty_pool=feature.empty_pool;" in hooks
     assert empty.index("dynamic_load x0, x27, hc_indicator_empty_pool") < empty.index("br x16")
     assert "g_loader_prime_finished.load(std::memory_order_acquire)" in hooks
     assert "std::find(order.begin(), order.end(), owned_slot)" in hooks
 hooks = (ROOT/"app/src/main/cpp/targets/home/home_layout_hooks.cpp").read_text(encoding="utf-8")
 assembly = (ROOT/"app/src/main/cpp/targets/home/home_layout_dart_arm64.S").read_text(encoding="utf-8")
 check(hooks, assembly)
-for bad_h, bad_a in [(hooks.replace("anchors.result + 16;", "anchors.result + 8;"), assembly),
-                     (hooks.replace("anchors.result + 16;", "va + 0x408;"), assembly),
+for bad_h, bad_a in [(hooks.replace("feature.result+16;", "feature.result+8;"), assembly),
+                     (hooks.replace("feature.result+16;", "va + 0x408;"), assembly),
                      (hooks, assembly.replace("dynamic_load x0, x27, hc_indicator_empty_pool", "nop")),
                      (hooks, assembly.replace("tbnz w0, #4, 2f", "tbz w0, #4, 2f"))]:
     try:
@@ -42,4 +42,4 @@ for bad_h, bad_a in [(hooks.replace("anchors.result + 16;", "anchors.result + 8;
     except AssertionError:
         continue
     raise AssertionError("regression checker accepted a known broken policy")
-print("indicator policy: bank-boundary/pool-replay/Dart-bool/loader-adoption; 3 bad variants rejected PASS")
+print("indicator policy: bank-boundary/pool-replay/Dart-bool/loader-adoption; 4 bad variants rejected PASS")

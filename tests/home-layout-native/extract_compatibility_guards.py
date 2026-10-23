@@ -11,7 +11,7 @@ names = ("bl_target", "capsule_wrapper_layout_compatible",
          "indicator_policy_compatible")
 output = []
 for name in names:
-    match = re.search(r"^bool " + name + r"\([^;{}]+\)\s*\{", source, re.M)
+    match = re.search(r"^(?:\[\[maybe_unused\]\] )?bool " + name + r"\([^;{}]+\)\s*\{", source, re.M)
     if not match:
         raise SystemExit(f"Missing production function: {name}")
     at = match.end()
