@@ -11,6 +11,13 @@ integration regression rejects symbol lookup or symbol-bounded body reads in
 those binders. Addresses, fields, class tags and callees come from the
 current image. ABI opcode/register contracts remain explicit and conservative.
 
+The recents page's eleven controls from card corner radius onward now have a
+separate executable-only producer/consumer/allocator bank; see
+`../recents-layout-os4/README.md` for graph, protocol and validation scope. Its
+24 (8583) / 26 (7751) banks include the live title/background paths found during device testing.
+See that README for confirmed phone effects and the remaining landscape/tablet
+validation limits; offline admission is not counted as visible success.
+
 Other production paths in `home_layout_hooks.cpp` still use named roots and
 `dartscan::function_span` (which uses `HomeTweaksSymbolSpan`). They are not counted
 as completed merely because they validate instructions after the name lookup:

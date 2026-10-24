@@ -9,8 +9,20 @@ import java.util.Map;
 
 /** One authoritative physical-file revision; a null cell is a known missing key. */
 public final class HomeLayoutPrefsSnapshot {
-    public static final int SCHEMA = 2;
+    public static final int SCHEMA = 3;
     private static final String[][] KEYS = {
+        {"integer", "task_view_corners"},
+        {"integer", "task_view_header_height"},
+        {"integer", "task_view_header_horizontal_offset"},
+        {"integer", "home_recent_animation_speed"},
+        {"integer", "home_recent_task_view_height"},
+        {"integer", "task_view_horizontal1"},
+        {"integer", "task_view_horizontal2"},
+        {"integer", "home_recent_vertical_task_view_card_size"},
+        {"integer", "home_recent_text_size"},
+        {"integer", "home_recent_text_color"},
+        {"integer", "home_recent_freeform_background_color"},
+
         {"boolean", "home_gesture_enable"},
         {"boolean", "home_navigation_quick_back"},
         {"integer", "home_gesture_double_tap_action"},

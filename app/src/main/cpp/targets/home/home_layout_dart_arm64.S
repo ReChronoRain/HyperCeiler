@@ -2479,3 +2479,234 @@ hc_dock_title_model_\index\()_entry:
 .endm
 dock_title_model 0
 dock_title_model 1
+
+/* Recents no-GC callback banks. ARM64 Dart uses x15 for its managed stack;
+ * native SP remains 16-byte aligned. Every register/FP control word is saved.
+ * Only decoded, no-call banks may replay through the backend continuation.
+ * Terminal scalar banks replay their proved pool load/division and frame exit
+ * in the callback; no Dart BL or GC return PC is moved into native code. */
+.macro recent_entry index
+.globl hc_recent_\index\()_entry
+.p2align 4
+hc_recent_\index\()_entry:
+    sub sp, sp, #800
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x15, [sp, #112]
+    stp x16, x17, [sp, #128]
+    stp x18, x19, [sp, #144]
+    stp x20, x21, [sp, #160]
+    stp x22, x23, [sp, #176]
+    stp x24, x25, [sp, #192]
+    stp x26, x27, [sp, #208]
+    stp x28, x29, [sp, #224]
+    str x30, [sp, #240]
+    mrs x16, nzcv
+    str x16, [sp, #248]
+    stp q0, q1, [sp, #256]
+    stp q2, q3, [sp, #288]
+    stp q4, q5, [sp, #320]
+    stp q6, q7, [sp, #352]
+    stp q8, q9, [sp, #384]
+    stp q10, q11, [sp, #416]
+    stp q12, q13, [sp, #448]
+    stp q14, q15, [sp, #480]
+    stp q16, q17, [sp, #512]
+    stp q18, q19, [sp, #544]
+    stp q20, q21, [sp, #576]
+    stp q22, q23, [sp, #608]
+    stp q24, q25, [sp, #640]
+    stp q26, q27, [sp, #672]
+    stp q28, q29, [sp, #704]
+    stp q30, q31, [sp, #736]
+    mrs x16, fpcr
+    str x16, [sp, #768]
+    mrs x16, fpsr
+    str x16, [sp, #776]
+    mov x0, sp
+    mov w1, #\index
+    bl hc_recent_body
+    ldp q0, q1, [sp, #256]
+    ldp q2, q3, [sp, #288]
+    ldp q4, q5, [sp, #320]
+    ldp q6, q7, [sp, #352]
+    ldp q8, q9, [sp, #384]
+    ldp q10, q11, [sp, #416]
+    ldp q12, q13, [sp, #448]
+    ldp q14, q15, [sp, #480]
+    ldp q16, q17, [sp, #512]
+    ldp q18, q19, [sp, #544]
+    ldp q20, q21, [sp, #576]
+    ldp q22, q23, [sp, #608]
+    ldp q24, q25, [sp, #640]
+    ldp q26, q27, [sp, #672]
+    ldp q28, q29, [sp, #704]
+    ldp q30, q31, [sp, #736]
+    ldr x16, [sp, #768]
+    msr fpcr, x16
+    ldr x16, [sp, #776]
+    msr fpsr, x16
+    ldr x16, [sp, #248]
+    msr nzcv, x16
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x15, [sp, #112]
+    ldp x16, x17, [sp, #128]
+    ldp x18, x19, [sp, #144]
+    ldp x20, x21, [sp, #160]
+    ldp x22, x23, [sp, #176]
+    ldp x24, x25, [sp, #192]
+    ldp x26, x27, [sp, #208]
+    ldp x28, x29, [sp, #224]
+    ldr x30, [sp, #240]
+    ldr x16, [sp, #784]
+    add sp, sp, #800
+    cbz x16, 1f
+    br x16
+1:  ret
+.endm
+recent_entry 0
+recent_entry 1
+recent_entry 2
+recent_entry 3
+recent_entry 4
+recent_entry 5
+recent_entry 6
+recent_entry 7
+recent_entry 8
+recent_entry 9
+recent_entry 10
+recent_entry 11
+recent_entry 12
+recent_entry 13
+recent_entry 14
+recent_entry 15
+recent_entry 16
+recent_entry 17
+recent_entry 18
+recent_entry 19
+recent_entry 20
+recent_entry 21
+recent_entry 22
+recent_entry 23
+recent_entry 24
+recent_entry 25
+recent_entry 26
+recent_entry 27
+recent_entry 28
+recent_entry 29
+recent_entry 30
+recent_entry 31
+recent_entry 32
+recent_entry 33
+recent_entry 34
+recent_entry 35
+recent_entry 36
+recent_entry 37
+recent_entry 38
+recent_entry 39
+recent_entry 40
+recent_entry 41
+recent_entry 42
+recent_entry 43
+recent_entry 44
+recent_entry 45
+recent_entry 46
+recent_entry 47
+recent_entry 48
+recent_entry 49
+recent_entry 50
+recent_entry 51
+recent_entry 52
+recent_entry 53
+recent_entry 54
+recent_entry 55
+recent_entry 56
+recent_entry 57
+recent_entry 58
+recent_entry 59
+recent_entry 60
+recent_entry 61
+recent_entry 62
+recent_entry 63
+
+.section .data.rel.ro,"aw",%progbits
+.p2align 3
+.globl hc_recent_entries
+hc_recent_entries:
+    .xword hc_recent_0_entry
+    .xword hc_recent_1_entry
+    .xword hc_recent_2_entry
+    .xword hc_recent_3_entry
+    .xword hc_recent_4_entry
+    .xword hc_recent_5_entry
+    .xword hc_recent_6_entry
+    .xword hc_recent_7_entry
+    .xword hc_recent_8_entry
+    .xword hc_recent_9_entry
+    .xword hc_recent_10_entry
+    .xword hc_recent_11_entry
+    .xword hc_recent_12_entry
+    .xword hc_recent_13_entry
+    .xword hc_recent_14_entry
+    .xword hc_recent_15_entry
+    .xword hc_recent_16_entry
+    .xword hc_recent_17_entry
+    .xword hc_recent_18_entry
+    .xword hc_recent_19_entry
+    .xword hc_recent_20_entry
+    .xword hc_recent_21_entry
+    .xword hc_recent_22_entry
+    .xword hc_recent_23_entry
+    .xword hc_recent_24_entry
+    .xword hc_recent_25_entry
+    .xword hc_recent_26_entry
+    .xword hc_recent_27_entry
+    .xword hc_recent_28_entry
+    .xword hc_recent_29_entry
+    .xword hc_recent_30_entry
+    .xword hc_recent_31_entry
+    .xword hc_recent_32_entry
+    .xword hc_recent_33_entry
+    .xword hc_recent_34_entry
+    .xword hc_recent_35_entry
+    .xword hc_recent_36_entry
+    .xword hc_recent_37_entry
+    .xword hc_recent_38_entry
+    .xword hc_recent_39_entry
+    .xword hc_recent_40_entry
+    .xword hc_recent_41_entry
+    .xword hc_recent_42_entry
+    .xword hc_recent_43_entry
+    .xword hc_recent_44_entry
+    .xword hc_recent_45_entry
+    .xword hc_recent_46_entry
+    .xword hc_recent_47_entry
+    .xword hc_recent_48_entry
+    .xword hc_recent_49_entry
+    .xword hc_recent_50_entry
+    .xword hc_recent_51_entry
+    .xword hc_recent_52_entry
+    .xword hc_recent_53_entry
+    .xword hc_recent_54_entry
+    .xword hc_recent_55_entry
+    .xword hc_recent_56_entry
+    .xword hc_recent_57_entry
+    .xword hc_recent_58_entry
+    .xword hc_recent_59_entry
+    .xword hc_recent_60_entry
+    .xword hc_recent_61_entry
+    .xword hc_recent_62_entry
+    .xword hc_recent_63_entry
+
+.text
