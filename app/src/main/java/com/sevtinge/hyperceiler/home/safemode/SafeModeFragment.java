@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.safecrash.SafeModeHandler;
 import com.sevtinge.hyperceiler.utils.AppIconCache;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -86,11 +87,25 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
 
     private void setCheckedState() {
         Set<String> pkgSet = new HashSet<>(CrashScope.getCrashingAliases());
-        mSystemUi.setChecked(isEnabled("systemui", "system_ui_safe_mode_enable", pkgSet));
-        mSettings.setChecked(isEnabled("settings", "settings_safe_mode_enable", pkgSet));
-        mHome.setChecked(isEnabled("home", "home_safe_mode_enable", pkgSet));
-        mSecurityCenter.setChecked(isEnabled("center", "security_center_safe_mode_enable", pkgSet));
-        mDemo.setChecked(isEnabled("demo", "demo_safe_mode_enable", pkgSet));
+        setCheckedSilently(mSystemUi, isEnabled("systemui", "system_ui_safe_mode_enable", pkgSet));
+        setCheckedSilently(mSettings, isEnabled("settings", "settings_safe_mode_enable", pkgSet));
+        setCheckedSilently(mHome, isEnabled("home", "home_safe_mode_enable", pkgSet));
+        setCheckedSilently(mSecurityCenter, isEnabled("center", "security_center_safe_mode_enable", pkgSet));
+        setCheckedSilently(mDemo, isEnabled("demo", "demo_safe_mode_enable", pkgSet));
+    }
+
+    /**
+     * 这里只是回显当前状态，不能把回显结果写回 prefs。
+     * 否则只要打开过本页面，{@code prefs_key_*_safe_mode_enable} 就会被置为 true，
+     * 而安全模式是“属性或 prefs 任一为 true 即生效”，于是解除属性后仍然一直处于安全模式。
+     */
+    private void setCheckedSilently(SwitchPreference preference, boolean checked) {
+        if (preference == null) {
+            return;
+        }
+        preference.setPersistent(false);
+        preference.setChecked(checked);
+        preference.setPersistent(true);
     }
 
     private boolean isEnabled(String alias, String configKey, Set<String> pkgSet) {
@@ -143,32 +158,62 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         }
     }
 
+    private String getAlias(Preference preference) {
+        if (preference == mHome) {
+            return "home";
+        } else if (preference == mSettings) {
+            return "settings";
+        } else if (preference == mSystemUi) {
+            return "systemui";
+        } else if (preference == mSecurityCenter) {
+            return "center";
+        } else if (preference == mDemo) {
+            return "demo";
+        }
+        return null;
+    }
+
+    private String getConfigKey(String alias) {
+        String pkgName = CrashScope.getPackageName(alias);
+        return pkgName == null ? null : CrashScope.getSafeModeConfigKey(pkgName);
+    }
+
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        String key = null;
-        if (preference == mHome) {
-            key = "home";
-        } else if (preference == mSettings) {
-            key = "settings";
-        } else if (preference == mSystemUi) {
-            key = "systemui";
-        } else if (preference == mSecurityCenter) {
-            key = "center";
-        } else if (preference == mDemo) {
-            key = "demo";
+        String alias = getAlias(preference);
+        if (alias == null) {
+            return true;
         }
-        if (key != null) {
-            if ((boolean) o) {
-                SafeModeHandler.updateCrashProp(key);
-            } else {
-                SafeModeHandler.removeCrashProp(key);
+
+        boolean enable = (boolean) o;
+        if (enable) {
+            SafeModeHandler.updateCrashProp(alias);
+        } else {
+            SafeModeHandler.removeCrashProp(alias);
+        }
+        mPkgList = getProp(CrashScope.PROP_SAFE_MODE);
+
+        // 写属性依赖 Root/Su，失败时既不会抛异常也不会有任何提示，
+        // 界面却已经把开关拨过去了，看起来就像“安全模式关不掉”。
+        // 这里回读属性确认结果，写入失败则保持开关原状并提示。
+        boolean applied = CrashScope.getCrashingAliases().contains(alias) == enable;
+        if (!applied) {
+            DialogHelper.showNoRootPermissionDialog(requireContext());
+            return false;
+        }
+
+        if (!enable) {
+            // 关闭时同时清掉 prefs 里的开关，避免属性已清除但仍被判为安全模式
+            String configKey = getConfigKey(alias);
+            if (configKey != null) {
+                PrefsBridge.removeByApp(configKey);
             }
-            mPkgList = getProp(CrashScope.PROP_SAFE_MODE);
-            if (HomePageBannerManager.updateSafeModeCache(requireContext())) {
-                HomePageBannerManager.requestRefresh();
-            } else {
-                HomePageBannerManager.invalidateCache();
-            }
+        }
+
+        if (HomePageBannerManager.updateSafeModeCache(requireContext())) {
+            HomePageBannerManager.requestRefresh();
+        } else {
+            HomePageBannerManager.invalidateCache();
         }
         return true;
     }
