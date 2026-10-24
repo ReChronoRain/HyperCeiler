@@ -25,8 +25,8 @@ pre = (D / 'boundary.cpp').read_text(encoding='utf8')
 header = source('ht_plan.h')
 types = header[header.index('constexpr uint32_t kMaxNoClearSites'):header.index('struct PlanPatch')]
 plan = source('ht_plan.cpp')
-decl = strip(source('image.h')) + '\nnamespace hometweaks { struct FunctionSignature {}; }\n' + strip(source('scanner.h'))
-decl += '\nnamespace hometweaks {\n' + types
+decl = strip(source('image.h')) + '\nnamespace home_layout_engine { struct FunctionSignature {}; }\n' + strip(source('scanner.h'))
+decl += '\nnamespace home_layout_engine {\n' + types
 decl += '\nbool SerializeSites(const LocatedSites&, std::vector<uint8_t>*);\nbool ParseSites(const uint8_t*,size_t,LocatedSites*);\n'
 decl += function(source('image.cpp'), 'bool RangeInImage(') + '\n'
 decl += function(source('scanner.cpp'), 'bool CodeView::ExecutableRangesOk()') + '\n'
@@ -69,7 +69,7 @@ for case in cases:
 entry = source('entry.cpp')
 probe = (D/'entry-probe.cpp').read_text(encoding='utf8')
 probe = probe.replace('// INSERT_PRODUCTION_STATE', function(entry,'struct State')+';')
-methods = function(entry,'bool NeedAcquire(')+'\n'+function(entry,'void AcquireSites(')+'\n'+function(entry,'void HomeTweaksPrepareForLauncherChild(')
+methods = function(entry,'bool NeedAcquire(')+'\n'+function(entry,'void AcquireSites(')+'\n'+function(entry,'void HomeLayoutEnginePrepareForLauncherChild(')
 probe = probe.replace('// INSERT_PRODUCTION_METHODS',methods)
 (run/'entry.cpp').write_text(probe,encoding='utf8')
 entrycmd = [cmd for cmd in records[0]['command']]

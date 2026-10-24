@@ -26,7 +26,7 @@ with tempfile.TemporaryDirectory(prefix='hc-columns-features-') as tmp:
 source=(ROOT/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
 a=source.index('bool bind_dart_columns()');b=source.index('// BOTH fixed-row',a);body=source[a:b]
 assert 'ensure_runtime_features()' in body
-assert 'HomeTweaksFindSymbol' not in body and 'dartscan::' not in body
+assert 'HomeLayoutEngineFindSymbol' not in body and 'dartscan::' not in body
 assert 'policy.resize' not in body and 'save_body.resize' not in body
 assert 'hc_layout_save_field=feature.save_field;' in body
 assert 'hc_dart_columns_frame=shape.frame;' in body

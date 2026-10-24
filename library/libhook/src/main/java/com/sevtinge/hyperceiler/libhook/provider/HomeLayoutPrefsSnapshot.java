@@ -9,8 +9,9 @@ import java.util.Map;
 
 /** One authoritative physical-file revision; a null cell is a known missing key. */
 public final class HomeLayoutPrefsSnapshot {
-    public static final int SCHEMA = 3;
+    public static final int SCHEMA = 4;
     private static final String[][] KEYS = {
+        {"boolean", "home_drawer_hide_search"},
         {"integer", "task_view_corners"},
         {"integer", "task_view_header_height"},
         {"integer", "task_view_header_horizontal_offset"},

@@ -35,7 +35,7 @@ c = r"""
 #include "home_grid_autofit.h"
 std::map<uint32_t,std::vector<uint32_t>> images;
 std::map<std::string,std::pair<uint32_t,uint32_t>> symbols;
-namespace hometweaks {bool HomeTweaksFindSymbol(const char*n,uint32_t*v,uint32_t*z){if(!symbols.count(n))return false;auto p=symbols[n];*v=p.first;*z=p.second;return true;}}
+namespace home_layout_engine {bool HomeLayoutEngineFindSymbol(const char*n,uint32_t*v,uint32_t*z){if(!symbols.count(n))return false;auto p=symbols[n];*v=p.first;*z=p.second;return true;}}
 namespace dartscan {bool body(uint32_t v,std::vector<uint32_t>&b){if(!images.count(v))return false;b=images[v];return true;}}
 struct Dart { uintptr_t load_base=0x100000000; } data;Dart*g_dart=&data;
 struct Slot {uintptr_t address=0;void*replacement=nullptr;void**original=nullptr;int source=0;std::array<uint32_t,4>original_words{};bool registered=false;};

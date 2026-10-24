@@ -16,8 +16,9 @@
 #include <span>
 #include <vector>
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
+// Preserve existing caches across the internal HomeLayoutEngine rename.
 constexpr char kCacheName[] = "hometweaks-sites.bin";
 constexpr char kCacheMagic[4] = {'H', 'T', 'S', '2'};
 constexpr uint32_t kCacheFormat = 2;

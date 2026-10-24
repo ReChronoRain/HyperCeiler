@@ -59,7 +59,7 @@ public final class HomeOS4AdaptationGate {
         } else if (xml == R.xml.home_gesture) {
             disableLeaves(screen, ADAPTED_GESTURE_KEYS);
         } else if (xml == R.xml.home_drawer) {
-            disableLeaves(screen, Set.of());
+            disableLeaves(screen, Set.of("prefs_key_home_drawer_hide_search"));
         }
     }
 

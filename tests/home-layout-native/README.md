@@ -36,7 +36,7 @@ preparation. `run_symbol_reset.sh` isolates the complementary cached-failure
 case: repeated calls in one process must remain cached, while a child reset must
 allow a fresh read. Before clearing `attempted_` in `SymbolIndex::ResetForTest`,
 the second read was permanently blocked. That method is also used by production
-`HomeTweaksPrepareForLauncherChild`, despite its historical test-only name.
+`HomeLayoutEnginePrepareForLauncherChild`, despite its historical test-only name.
 
 The ARM64 trampoline execution harness in `run_host_native_tests.sh` requires an
 ARM64 Linux host. It is explicitly skipped on an x86-64 host. Building the native

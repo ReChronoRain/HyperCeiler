@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
 
 inline uint32_t ReadU32(const uint8_t* p) {

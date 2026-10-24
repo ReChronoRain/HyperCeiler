@@ -25,7 +25,7 @@ pre='''#include <vector>
 #include <fstream>
 #include <iostream>
 #include "a64.h"
-namespace hometweaks {
+namespace home_layout_engine {
 '''+H[H.index('constexpr uint32_t kMaxNoClearSites'):H.index('uint32_t WantedFeatureMask')]+'''
 constexpr uint32_t kColsUnset=0,kFolderColsOrigSmi=8,kFolderColsOffset=0x2638,kFolderColsOfficial=4;
 struct Config{uint32_t folderCols=4;};
@@ -41,7 +41,7 @@ for key in ['void SetWhy(', 'template <typename Fn>', 'bool LocateFeature16(', '
  pre+=fun(key)+ (';\n' if key.startswith('struct') else '\n')
 if not legacy: pre+='constexpr uint32_t kPadGridMin=2,kPadGridMax=32,kPhoneRowsMax=32,kCellCountXOffset=19;\nbool ValidateFeature21Shape(const CodeView&, LocatedSites&){return true;}\n'+fun('bool IsConditionalBranch(')+'\n'+fun('bool ValidateSitesImpl(')+'\n'
 pre+='constexpr uint32_t kSitesPayloadVersion=10;\n'+fun('bool SerializeSites(')+'\n'+fun('bool ParseSites(')+'\n}\n'
-main='''using namespace hometweaks;
+main='''using namespace home_layout_engine;
 int main(int argc,char**argv){std::ifstream f(argv[1],std::ios::binary);uint32_t count;f.read((char*)&count,4);for(uint32_t i=0;i<count;++i){uint32_t v,n;f.read((char*)&v,4);f.read((char*)&n,4);im.segments[im.segmentCount++]={v,v+n,5};for(uint32_t j=0;j<n;j+=4){uint32_t w;f.read((char*)&w,4);words[v+j]=w;}}initVa='''+str(va)+''';initSize='''+str(size)+''';CodeView code;LocatedSites sites;int checks=0;auto ck=[&](bool b){++checks;if(!b){std::cerr<<"FAIL check "<<checks<<"\\n";exit(1);}};
 ck(LocateFeature16(code,&sites));ck(sites.colsReadCount>0);ck(ValidateSitesImpl(code,sites));std::cout<<"DYNAMIC_READERS="<<sites.colsReadCount<<" OFFSET="<<sites.colsOffset<<"\\n";
 auto baseline=words;for(uint32_t cols:{4u,5u,2u,16u}){Config cfg{cols};PlanResult p;DeriveFeature16(code,cfg,sites,&p);ck(p.ok16);for(auto x:p.patches){ck(words[x.va]==x.expect);words[x.va]=x.patch;}for(uint32_t i=0;i<sites.colsReadCount;++i){ck(a64::IsMovz(words[sites.colsReadVa[i]]));ck(a64::MovzImm(words[sites.colsReadVa[i]])==cols*2);}std::vector<uint8_t> bytes;ck(SerializeSites(sites,&bytes));LocatedSites round;ck(ParseSites(bytes.data(),bytes.size(),&round));ck(round.colsReadCount==sites.colsReadCount);ck(round.colsReadWord[0]==sites.colsReadWord[0]);ck(ValidateSitesImpl(code,round));round.colsReadWord[0]^=1u<<10;ck(!ValidateSitesImpl(code,round));ck(words[sites.movzVa]==baseline[sites.movzVa]);ck(words[sites.gateVa]==baseline[sites.gateVa]);}

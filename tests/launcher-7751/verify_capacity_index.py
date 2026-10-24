@@ -15,9 +15,9 @@ code+=r'''
 int main(int argc,char**argv){if(argc!=3)return 2;
 outerFile=read(argv[1]);decoded=read(argv[2]);Elf64_Ehdr h{};memcpy(&h,outerFile.data(),64);uint64_t end=0;
 for(unsigned i=0;i<h.e_phnum;++i){Elf64_Phdr p{};memcpy(&p,outerFile.data()+h.e_phoff+i*sizeof p,sizeof p);if(p.p_type==1)end=std::max(end,p.p_vaddr+p.p_memsz);}
-mapped.resize(end+4096);readable.push_back({uintptr_t(mapped.data()),mapped.size()});hometweaks::Image image{};image.base=uintptr_t(mapped.data());strcpy(image.path,"capacity-fixture.so");
+mapped.resize(end+4096);readable.push_back({uintptr_t(mapped.data()),mapped.size()});home_layout_engine::Image image{};image.base=uintptr_t(mapped.data());strcpy(image.path,"capacity-fixture.so");
 for(unsigned i=0;i<h.e_phnum;++i){Elf64_Phdr p{};memcpy(&p,outerFile.data()+h.e_phoff+i*sizeof p,sizeof p);if(p.p_type==1){memcpy(mapped.data()+p.p_vaddr,outerFile.data()+p.p_offset,p.p_filesz);image.segments[image.segmentCount++]={image.base+p.p_vaddr,image.base+p.p_vaddr+p.p_memsz,p.p_flags};}}
-auto& index=hometweaks::SymbolIndex::Instance();if(!index.EnsureLoaded(image)){std::cout<<"INDEX_ERROR="<<index.status()<<"\n";return 3;}
+auto& index=home_layout_engine::SymbolIndex::Instance();if(!index.EnsureLoaded(image)){std::cout<<"INDEX_ERROR="<<index.status()<<"\n";return 3;}
 unsigned failed=0;for(const char* name:{"HotseatLayerGetxController.calculatePositionX","HotSeatsConstants2.hotseatMaxFixedCount","ProgressShortcutIconGetxController.onInit"}){
 uint32_t va=0,size=0;if(!index.Find(name,&va,&size)){++failed;std::cout<<"MISSING="<<name<<"\n";}else std::cout<<"SELECTED="<<name<<"/"<<va<<"/"<<size<<"\n";}
 std::cout<<"CAPACITY_INDEX checks=3 failed="<<failed<<"\n";return failed?1:0;}

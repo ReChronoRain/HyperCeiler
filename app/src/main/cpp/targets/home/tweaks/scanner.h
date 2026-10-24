@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 class CodeView {
 public:

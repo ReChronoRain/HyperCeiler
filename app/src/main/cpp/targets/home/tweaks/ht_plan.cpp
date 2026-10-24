@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
 
 bool gForceSymbolOnly = false;

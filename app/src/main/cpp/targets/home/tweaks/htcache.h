@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 // Full, leased original file-view content; 0 means incomplete/invalid (never cacheable).
 // This fingerprint is a cache version discriminator, not an authenticity signature.

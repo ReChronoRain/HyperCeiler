@@ -52,6 +52,7 @@ public final class LogcatParserTest {
         assert records.get(2).app();
         assert records.get(2).tag().equals("Provision");
         assert !records.get(3).app();
+        assert records.get(3).tag().equals(HomeLayoutEngineLogNames.TAG);
         assert records.get(4).message().equals("final record");
         assert records.stream().allMatch(record -> record.id() < 0);
         assert records.stream().map(LogcatParser.Entry::id).distinct().count() == records.size();
@@ -66,6 +67,24 @@ public final class LogcatParserTest {
         assert duplicates.equals(parse("boot-a", 0, duplicate + duplicate));
         assert parse("boot-a", 0, "[ 1792394363.079044  1000:126:460 I/HomeTweaks ]\n\nleading blank\n\n")
             .get(0).message().equals("\nleading blank");
+
+        String renamed = "[ 1792394363.079045  1000:126:460 I/HyperCeiler.HomeLayoutEngine ]\nHomeLayoutEngine ready\n\n";
+        var newRecord = parse("boot-a", 0, renamed).get(0);
+        assert newRecord.tag().equals(HomeLayoutEngineLogNames.TAG);
+        assert newRecord.message().equals("HomeLayoutEngine ready");
+        String legacy = "[ 1792394363.079045  1000:126:460 I/HomeTweaks ]\nHomeTweaks 已启动 hometweaks::Config /files/hometweaks.bin\n\n";
+        var oldRecord = parse("boot-a", 0, legacy).get(0);
+        assert oldRecord.tag().equals(HomeLayoutEngineLogNames.TAG);
+        assert oldRecord.message().equals("HomeLayoutEngine 已启动 home_layout_engine::Config /files/home_layout_engine.bin");
+        assert oldRecord.equals(parse("boot-a", 0, legacy).get(0));
+        assert HomeLayoutEngineLogNames.tag("HomeTweaks").equals(HomeLayoutEngineLogNames.TAG);
+        assert HomeLayoutEngineLogNames.text(null) == null;
+        assert HomeLayoutEngineLogNames.tag("Renderer").equals("Renderer");
+
+        var intermediate = parse("boot-a", 0,
+            "[ 1792394363.079045  1000:126:460 I/HyperCeiler.HomePatch ]\nHomePatch home_patch::Config\n\n").get(0);
+        assert intermediate.tag().equals(HomeLayoutEngineLogNames.TAG);
+        assert intermediate.message().equals("HomeLayoutEngine home_layout_engine::Config");
 
         String numericUid = "[ 1792394363.1  10123:125:459 W/HyperCeiler.Raw.Test ]\nnumeric uid";
         assert parse("boot-a", 0, numericUid).get(0).app();

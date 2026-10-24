@@ -21,14 +21,14 @@ def origin(name):
  with A.open('rb') as f:f.seek(i.header_offset+26);a,b=struct.unpack('<HH',f.read(4))
  return i.header_offset+30+a+b
 fresh='FindImageFromMappedApks' in code
-# Compile the actual layout container selector as well. An uninitialized HomeTweaks
+# Compile the actual layout container selector as well. An uninitialized HomeLayoutEngine
 # discovery result models the very early manual-loader case, not a fabricated native owner.
 hooks=(R/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
 a=hooks.index('std::optional<std::string> launcher_apk(');b=hooks.index('\nbool ensure_dart_library()',a)
 selector=hooks[a:b]
 pre+='#include <optional>\n'
-code+='\nnamespace hometweaks {bool HomeTweaksTargetImage(char*,size_t){return false;}}\nusing hometweaks::makedev;\n'+selector
-code+='\nbool discover(const char*lib,hometweaks::Image*out){return hometweaks::'+('FindImageFromMappedApks(lib,out);}' if fresh else 'FindImageFromApkMaps("/com.miui.home-",lib,out);}')
+code+='\nnamespace home_layout_engine {bool HomeLayoutEngineTargetImage(char*,size_t){return false;}}\nusing home_layout_engine::makedev;\n'+selector
+code+='\nbool discover(const char*lib,home_layout_engine::Image*out){return home_layout_engine::'+('FindImageFromMappedApks(lib,out);}' if fresh else 'FindImageFromApkMaps("/com.miui.home-",lib,out);}')
 extra=r'''
 Fixture neutral={"neutral","",NEUTRAL,DART_ORIGIN,4096,0};
 Fixture other={"other","",SECOND,DART_ORIGIN,4096,0};

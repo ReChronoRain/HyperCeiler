@@ -19,7 +19,7 @@ See that README for confirmed phone effects and the remaining landscape/tablet
 validation limits; offline admission is not counted as visible success.
 
 Other production paths in `home_layout_hooks.cpp` still use named roots and
-`dartscan::function_span` (which uses `HomeTweaksSymbolSpan`). They are not counted
+`dartscan::function_span` (which uses `HomeLayoutEngineSymbolSpan`). They are not counted
 as completed merely because they validate instructions after the name lookup:
 
 | Remaining family | Entry points to migrate |

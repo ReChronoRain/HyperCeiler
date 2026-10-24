@@ -16,6 +16,9 @@ with tempfile.TemporaryDirectory(prefix='hc-scalar-features-') as tmp:
     h='static Functions scalar_fixture(){return {\n'
     for row in f['functions']:
         h+='{'+str(row['va'])+',{'+','.join(map(str,row['words']))+'}},\n'
+    h+='};}\n'
+    h+='static Functions scalar_scope_fixture(){return {\n'
+    for row in f['scope_functions']:h+='{'+str(row['va'])+',{'+','.join(map(str,row['words']))+'}},\n'
     h+='};}\nstatic const std::map<std::string,uint32_t> scalar_roots={\n'
     for k,v in f['roots'].items(): h+='{'+json.dumps(k)+','+str(v)+'},\n'
     h+='};\n'

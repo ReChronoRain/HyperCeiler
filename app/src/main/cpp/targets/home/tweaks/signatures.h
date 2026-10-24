@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 struct FunctionSignature {
     const char* name;

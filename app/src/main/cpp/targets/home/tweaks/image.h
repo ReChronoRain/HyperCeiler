@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 struct Segment {
     uintptr_t begin;

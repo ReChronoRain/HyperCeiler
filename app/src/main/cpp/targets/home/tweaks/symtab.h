@@ -4,7 +4,7 @@
 #include "common.h"
 #include "image.h"
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 struct TargetFunction {
     const char* needle;

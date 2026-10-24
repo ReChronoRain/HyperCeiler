@@ -1848,4 +1848,5 @@
     <string name="home_layout_big_folder_scale_title">大文件夹缩放</string>
     <string name="home_layout_widget_scale_title">小组件缩放</string>
     <string name="home_layout_independent_scale_desc">独立调整缩放比例，100% 为原始大小</string>
+    <string name="home_drawer_hide_search">隐藏抽屉搜索框</string>
 </resources>

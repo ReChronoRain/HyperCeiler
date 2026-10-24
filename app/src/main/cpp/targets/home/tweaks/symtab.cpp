@@ -23,7 +23,7 @@ extern "C" {
 #include "xz/xz.h"
 }
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
 
 const TargetFunction kTargets[] = {

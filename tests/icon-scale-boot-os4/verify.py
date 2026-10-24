@@ -46,7 +46,7 @@ for cmd in [[str(zig),'c++','-std=c++20','-I'+str(out),'-I'+str(H),'-I'+str(W/'a
  p=subprocess.run(cmd,capture_output=True,text=True);print(p.stdout+p.stderr,end='')
  if p.returncode and cmd[0]==str(zig):sys.exit(p.returncode)
  total|=p.returncode
-hooks=(H/'home_layout_hooks.cpp').read_text(encoding='utf8');entry=(H/'tweaks/entry.cpp').read_text(encoding='utf8');native=(H/'hyperceiler_home.cpp').read_text(encoding='utf8');new='bool PrimeTweaksConfig(' in entry;render=(H/'home_icon_render.h').exists()
+hooks=(H/'home_layout_hooks.cpp').read_text(encoding='utf8');entry=(H/'tweaks/entry.cpp').read_text(encoding='utf8');native=(H/'hyperceiler_home.cpp').read_text(encoding='utf8');new='bool PrimeLayoutConfig(' in entry;render=(H/'home_icon_render.h').exists()
 prefix=r'''#include "home_layout_config.h"
 #include "tweaks/blob.h"
 #include <atomic>
@@ -59,7 +59,7 @@ prefix=r'''#include "home_layout_config.h"
 #define __android_log_print(...) 0
 constexpr const char*kTag="test";
 home_layout::Config cached;bool snapshot=true,patched=false,applied_before_layout=false;unsigned discover_calls=0;
-namespace hometweaks {
+namespace home_layout_engine {
 struct Image{};
 bool FindImageByName(const char*,Image*){return true;}bool FindImageFromApkMaps(const char*,const char*,Image*){return true;}bool FindImageFromMappedApks(const char*,Image*){return true;}uint64_t ImageIdentity(const Image&){return 1;}uint64_t NowMs(){return 0;}
 bool cacheHit=true;struct SymbolIndex{static SymbolIndex&Instance(){static SymbolIndex s;return s;}bool TryLoadCached(const Image&,uint64_t){return cacheHit;}bool EnsureLoaded(const Image&,int){return true;}};
@@ -67,37 +67,37 @@ struct State{Image image;uint64_t imageId=0;bool identityTried=false;Config conf
 void TryDiscoverImage(){++discover_calls;}bool RefreshConfigLocked(State*s,bool,bool){return s->configLoaded;}void SettleLocked(State*s,bool){patched=s->configLoaded&&s->config.Has(kFeatureIconSize);}
 '''
 prefix+=func(entry,'void FastPatchOnLibraryLoad()')+'\n'
-if new:prefix+=func(entry,'bool PrimeTweaksConfig(')+'\n'
-else:prefix+='bool PrimeTweaksConfig(const Config&){return false;}\n'
-prefix+='void HomeTweaksPrepareForLauncherChild(){}\n'+func(entry,'bool HomeTweaksPrimeCachedSymbols()')+'\nvoid HomeTweaksOnLibraryLoaded(const char*){FastPatchOnLibraryLoad();}void StartHomeTweaks(){}\n}\n'
+if new:prefix+=func(entry,'bool PrimeLayoutConfig(')+'\n'
+else:prefix+='bool PrimeLayoutConfig(const Config&){return false;}\n'
+prefix+='void HomeLayoutEnginePrepareForLauncherChild(){}\n'+func(entry,'bool HomeLayoutEnginePrimeCachedSymbols()')+'\nvoid HomeLayoutEngineOnLibraryLoaded(const char*){FastPatchOnLibraryLoad();}void StartHomeLayoutEngine(){}\n}\n'
 if not new:
- prefix=prefix.replace('void HomeTweaksOnLibraryLoaded(const char*){FastPatchOnLibraryLoad();}', 'void HomeTweaksOnLibraryLoaded(const char*){}')
+ prefix=prefix.replace('void HomeLayoutEngineOnLibraryLoaded(const char*){FastPatchOnLibraryLoad();}', 'void HomeLayoutEngineOnLibraryLoaded(const char*){}')
 prefix+='namespace home_layout {bool query_bootstrap_config(Config&c){if(!snapshot)return false;c=cached;return true;}}\n'
-if new:prefix+=func(hooks,'hometweaks::Config make_tweaks_config(')+'\n'+func(hooks,'void prime_home_tweaks()')+'\n'
-else:prefix+='void prime_home_tweaks(){}\n'
+if new:prefix+=func(hooks,'home_layout_engine::Config make_layout_engine_config(')+'\n'+func(hooks,'void prime_home_layout_engine()')+'\n'
+else:prefix+='void prime_home_layout_engine(){}\n'
 prefix+='''bool is_launcher_process(){return true;}bool is_hyos_spawner_process(){return false;}bool is_library(std::string_view a,const char*b){return a.ends_with(b);}void install_property_hook(){}void home_layout_prepare_for_launcher_child(){}void* g_hook_function=nullptr;void*g_unhook_function=nullptr;
 std::atomic_bool workerReady{false},releaseWorker{false};std::thread simulatedWorker;
 void prime_home_layout_probe(void*,void*){}
-void prime_home_layout_knobs(void*,void*){simulatedWorker=std::thread([]{std::lock_guard<std::mutex> lock(hometweaks::g_workMutex);workerReady=true;while(!releaseWorker.load())std::this_thread::yield();});while(!workerReady.load())std::this_thread::yield();}
+void prime_home_layout_knobs(void*,void*){simulatedWorker=std::thread([]{std::lock_guard<std::mutex> lock(home_layout_engine::g_workMutex);workerReady=true;while(!releaseWorker.load())std::this_thread::yield();});while(!workerReady.load())std::this_thread::yield();}
 void start_home_layout_hooks(const char*,void*,void*){applied_before_layout=patched;}
 '''+func(native,'void on_library_loaded(')+r'''
 int main(){unsigned checks=0,failed=0;auto ok=[&](bool v){++checks;if(!v){++failed;std::cout<<"FAIL_STARTUP="<<checks<<"\n";}};
- cached.tweaks.icon_scale_enabled=true;cached.tweaks.icon_scale_code=0x63;on_library_loaded("libapp.so",nullptr);releaseWorker=true;simulatedWorker.join();ok(applied_before_layout);ok(hometweaks::g_state.config.iconScaleCode==0x63);
- hometweaks::g_state.configLoaded=true;hometweaks::g_state.config.enabled.clear();cached.tweaks.icon_scale_enabled=true;prime_home_tweaks();ok(!hometweaks::g_state.config.Has(hometweaks::kFeatureIconSize));
- hometweaks::g_state.config.iconScaleCode=0x73;prime_home_tweaks();ok(hometweaks::g_state.config.iconScaleCode==0x73);
- hometweaks::g_state.configLoaded=false;snapshot=false;prime_home_tweaks();ok(!hometweaks::g_state.configLoaded);
+ cached.tweaks.icon_scale_enabled=true;cached.tweaks.icon_scale_code=0x63;on_library_loaded("libapp.so",nullptr);releaseWorker=true;simulatedWorker.join();ok(applied_before_layout);ok(home_layout_engine::g_state.config.iconScaleCode==0x63);
+ home_layout_engine::g_state.configLoaded=true;home_layout_engine::g_state.config.enabled.clear();cached.tweaks.icon_scale_enabled=true;prime_home_layout_engine();ok(!home_layout_engine::g_state.config.Has(home_layout_engine::kFeatureIconSize));
+ home_layout_engine::g_state.config.iconScaleCode=0x73;prime_home_layout_engine();ok(home_layout_engine::g_state.config.iconScaleCode==0x73);
+ home_layout_engine::g_state.configLoaded=false;snapshot=false;prime_home_layout_engine();ok(!home_layout_engine::g_state.configLoaded);
 '''
 if new:prefix+=r'''
- snapshot=true;hometweaks::g_state.configLoaded=false;cached.tweaks.icon_scale_enabled=false;workerReady=false;releaseWorker=false;on_library_loaded("libapp.so",nullptr);releaseWorker=true;simulatedWorker.join();ok(!applied_before_layout&&hometweaks::g_state.configLoaded);
- hometweaks::g_workMutex.lock();bool ready=true;auto t0=std::chrono::steady_clock::now();std::thread t([&]{ready=hometweaks::PrimeTweaksConfig(hometweaks::Config{});hometweaks::FastPatchOnLibraryLoad();});t.join();hometweaks::g_workMutex.unlock();ok(!ready);ok(std::chrono::steady_clock::now()-t0<std::chrono::milliseconds(250));
+ snapshot=true;home_layout_engine::g_state.configLoaded=false;cached.tweaks.icon_scale_enabled=false;workerReady=false;releaseWorker=false;on_library_loaded("libapp.so",nullptr);releaseWorker=true;simulatedWorker.join();ok(!applied_before_layout&&home_layout_engine::g_state.configLoaded);
+ home_layout_engine::g_workMutex.lock();bool ready=true;auto t0=std::chrono::steady_clock::now();std::thread t([&]{ready=home_layout_engine::PrimeLayoutConfig(home_layout_engine::Config{});home_layout_engine::FastPatchOnLibraryLoad();});t.join();home_layout_engine::g_workMutex.unlock();ok(!ready);ok(std::chrono::steady_clock::now()-t0<std::chrono::milliseconds(250));
  ok(discover_calls==0);
  // Also cover the bounded first-index-load path rather than only disk cache hit.
- hometweaks::cacheHit=false;hometweaks::g_state.configLoaded=false;cached.tweaks.icon_scale_enabled=true;prime_home_tweaks();patched=false;ok(hometweaks::HomeTweaksPrimeCachedSymbols()&&patched);
+ home_layout_engine::cacheHit=false;home_layout_engine::g_state.configLoaded=false;cached.tweaks.icon_scale_enabled=true;prime_home_layout_engine();patched=false;ok(home_layout_engine::HomeLayoutEnginePrimeCachedSymbols()&&patched);
 '''
 else:prefix+='ok(false);ok(false);ok(false);ok(false);ok(false);\n'
 if render:
  prefix=prefix.replace('ok(applied_before_layout);','ok(!applied_before_layout);')
- prefix=prefix.replace('HomeTweaksPrimeCachedSymbols()&&patched','HomeTweaksPrimeCachedSymbols()&&!patched')
+ prefix=prefix.replace('HomeLayoutEnginePrimeCachedSymbols()&&patched','HomeLayoutEnginePrimeCachedSymbols()&&!patched')
  print('ICON_BOOT_ROUTE=scalar render banks; legacy calculator planner intentionally disabled; actual rendering covered by icon-render ARM/device tests')
 prefix+='std::cout<<"ICON_BOOT_STARTUP="<<checks<<" checks; failed="<<failed<<"; extracted production callback/prime/fast-path, freshness/busy/no-snapshot/disable\\n";return failed?1:0;}\n';prefix=prefix.replace('\\"','"');(out/'startup.cpp').write_text(prefix,encoding='utf8')
 for cmd in [[str(zig),'c++','-std=c++20','-I'+str(out),'-I'+str(H),'-I'+str(W/'app/src/main/cpp/targets/home'),'-I'+str(W/'app/src/main/cpp'),str(out/'startup.cpp'),'-o',str(out/'startup.exe')],[str(out/'startup.exe')]]:

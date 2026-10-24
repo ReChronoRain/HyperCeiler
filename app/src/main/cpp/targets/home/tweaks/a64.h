@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace a64 {
 
 constexpr uint32_t kNop = 0xD503201Fu;

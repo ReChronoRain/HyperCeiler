@@ -10,10 +10,10 @@ def codeview_fixture(root,read_body,global_image=False):
     header='\n'.join(l for l in (p/'scanner.h').read_text(encoding='utf8').splitlines() if not l.startswith(('#include','#pragma')))
     s=(p/'scanner.cpp').read_text(encoding='utf8')
     alias='using Image=::Image;using Segment=::Segment;' if global_image else ''
-    pre='#include <span>\n#include <array>\nnamespace hometweaks {'+alias+'struct FunctionSignature {};}\n'
+    pre='#include <span>\n#include <array>\nnamespace home_layout_engine {'+alias+'struct FunctionSignature {};}\n'
     pre+='namespace nhk { constexpr size_t kMaxExecutableCodeBytes=256u*1024u*1024u;bool safe_read(uintptr_t address,std::span<std::byte> out){'+read_body+'}}\n'
-    pre+=header+'\nnamespace hometweaks {\n'
+    pre+=header+'\nnamespace home_layout_engine {\n'
     for key in ['bool CodeView::ExecutableRangesOk()', 'bool CodeView::RangeOk(', 'bool CodeView::ReadWords(']:pre+=function(s,key)+'\n'
     pre+='}\n'
-    if global_image:pre+='using hometweaks::CodeView;\n'
+    if global_image:pre+='using home_layout_engine::CodeView;\n'
     return pre

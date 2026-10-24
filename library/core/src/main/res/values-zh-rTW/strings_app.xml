@@ -1676,4 +1676,5 @@
     <string name="custom_hook_mode">選擇模式</string>
     <string name="open_source">開源項目</string>
     <string name="close_source">閉源項目</string>
+    <string name="home_drawer_hide_search">隱藏抽屜搜尋框</string>
 </resources>
