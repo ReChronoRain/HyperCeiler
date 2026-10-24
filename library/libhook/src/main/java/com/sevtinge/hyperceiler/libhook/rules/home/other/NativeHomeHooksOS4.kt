@@ -22,7 +22,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import androidx.annotation.Keep
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils
@@ -62,6 +62,25 @@ object NativeHomeHooksOS4 {
      * or missing push leaves the pipeline enabled.
      */
     private external fun nativeSetDockEnabled(enabled: Boolean): Int
+    private external fun nativeSetDesktopTitleSize(sp: Int): Int
+    private external fun nativeSetDrawerTitleSize(sp: Int): Int
+    private external fun nativeSetTitleColor(argb: Int): Int
+
+    /** OS4 title-size injection consumes the physical provider revision, not a stale LSPosed copy. */
+    fun setDesktopTitleSize(sp: Int) {
+        runCatching { nativeSetDesktopTitleSize(sp.coerceIn(0, 20)) }
+            .onFailure { stage("title-size push failed detail=${describe(it)}") }
+    }
+
+    fun setDrawerTitleSize(sp: Int) {
+        runCatching { nativeSetDrawerTitleSize(sp.coerceIn(0, 20)) }
+            .onFailure { stage("drawer-title-size push failed detail=${describe(it)}") }
+    }
+
+    fun setTitleColor(argb: Int) {
+        runCatching { nativeSetTitleColor(argb) }
+            .onFailure { stage("title-color push failed detail=${describe(it)}") }
+    }
 
     /** Unconditional logcat tag: these stages must be readable even when prefs/log level are broken. */
     private const val LOG_TAG = "HyperCeiler.NativeHome"

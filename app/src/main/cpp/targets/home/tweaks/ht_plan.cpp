@@ -3,6 +3,9 @@
 #include "a64.h"
 #include "symtab.h"
 
+#include <algorithm>
+#include <array>
+#include <utility>
 #include <inttypes.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -13,11 +16,11 @@ namespace {
 
 bool gForceSymbolOnly = false;
 
-constexpr uint32_t kFolderColsOffset = 0x2638;
+
 constexpr uint32_t kFolderColsOrigSmi = 8;
 constexpr uint32_t kFolderColsOfficial = kFolderColsOrigSmi / 2u;
 
-constexpr uint32_t kCellCountXOffset = 19;
+
 
 void SetWhy(char* buf, size_t cap, const char* fmt, ...) {
     if (buf == nullptr || cap == 0) return;
@@ -28,19 +31,27 @@ void SetWhy(char* buf, size_t cap, const char* fmt, ...) {
 }
 
 template <typename Fn>
-void ForEachExecWord(const CodeView& code, Fn fn) {
+bool ForEachExecWord(const CodeView& code, Fn fn) {
+    if (!code.ExecutableRangesOk()) return false;
     const Image& img = code.image();
+    std::array<uint32_t, CodeView::kReadChunkWords> scratch;
     for (size_t s = 0; s < img.segmentCount; ++s) {
         const Segment& seg = img.segments[s];
-        if ((seg.flags & 0x1u) == 0) continue;
-        if (seg.end <= seg.begin) continue;
+        if ((seg.flags & 1u) == 0) continue;
         const uint32_t baseVa = static_cast<uint32_t>(seg.begin - img.base);
         const size_t words = (seg.end - seg.begin) / 4;
-        const uint32_t* p = reinterpret_cast<const uint32_t*>(seg.begin);
-        for (size_t i = 0; i < words; ++i) {
-            if (!fn(baseVa + static_cast<uint32_t>(i * 4), p[i])) return;
+        for (size_t offset = 0; offset < words;) {
+            const size_t copied = std::min(CodeView::kReadChunkWords, words - offset);
+            const uint32_t va = baseVa + static_cast<uint32_t>(offset * 4);
+            if (!code.ReadWords(va, scratch.data(), copied)) return false;
+            for (size_t i = 0; i < copied; ++i) {
+                // false means deliberate early stop, NOT a failed read.
+                if (!fn(va + static_cast<uint32_t>(i * 4), scratch[i])) return true;
+            }
+            offset += copied;
         }
     }
+    return true;
 }
 
 bool LocateFunction(const CodeView& code, const char* needle, uint32_t* va, uint32_t* size,
@@ -91,7 +102,7 @@ int CountBlTo(const CodeView& code, uint32_t lo, uint32_t hi, uint32_t target,
     int n = 0;
     for (uint32_t a = lo; a + 4 <= hi; a += 4) {
         uint32_t w = 0;
-        if (!code.Word(a, &w)) break;
+        if (!code.Word(a, &w)) return -1;
         if (!a64::IsBl(w)) continue;
         uint32_t t = 0;
         if (!a64::DecodeBranch(w, a, &t)) continue;
@@ -102,19 +113,28 @@ int CountBlTo(const CodeView& code, uint32_t lo, uint32_t hi, uint32_t target,
     return n;
 }
 
-void FindCallers(const CodeView& code, uint32_t target, std::vector<uint32_t>* out) {
-    ForEachExecWord(code, [&](uint32_t va, uint32_t w) -> bool {
+bool FindCallers(const CodeView& code, uint32_t target, std::vector<uint32_t>* out) {
+    if (out == nullptr) return false;
+    std::vector<uint32_t> found;
+    bool overflow = false;
+    const bool complete = ForEachExecWord(code, [&](uint32_t va, uint32_t w) -> bool {
         if (!a64::IsBl(w)) return true;
         uint32_t t = 0;
-        if (!a64::DecodeBranch(w, va, &t)) return true;
-        if (t == target) out->push_back(va);
+        if (!a64::DecodeBranch(w, va, &t) || t != target) return true;
+        // Bound allocation without treating a truncated call inventory as complete.
+        if (found.size() >= 65536) { overflow = true; return false; }
+        found.push_back(va);
         return true;
     });
+    if (!complete || overflow) return false;
+    *out = std::move(found);
+    return true;
 }
 
 bool HasInbound(const CodeView& code, uint32_t lo, uint32_t hi) {
+    if (lo >= hi) return true;
     bool found = false;
-    ForEachExecWord(code, [&](uint32_t va, uint32_t w) -> bool {
+    const bool complete = ForEachExecWord(code, [&](uint32_t va, uint32_t w) -> bool {
         uint32_t t = 0;
         if (!a64::DecodeBranch(w, va, &t)) return true;
         if (t >= lo && t < hi) {
@@ -123,7 +143,8 @@ bool HasInbound(const CodeView& code, uint32_t lo, uint32_t hi) {
         }
         return true;
     });
-    return found;
+    // An unreadable interval cannot prove the absence of inbound branches.
+    return !complete || found;
 }
 
 int DefReg(uint32_t w) {
@@ -179,7 +200,10 @@ bool LocateFeature9(const CodeView& code, LocatedSites* out) {
         return false;
     }
     std::vector<uint32_t> callers;
-    FindCallers(code, ovVa, &callers);
+    if (!FindCallers(code, ovVa, &callers)) {
+        SetWhy(out->why9, sizeof(out->why9), "调用方扫描不完整（读取失败或候选超限）");
+        return false;
+    }
     if (callers.empty()) {
         SetWhy(out->why9, sizeof(out->why9), "_insertClearButtonOverlay 没有任何调用方");
         return false;
@@ -332,7 +356,8 @@ bool LocateFeature16(const CodeView& code, LocatedSites* out) {
                 if (aa + 4 > windowEnd) break;
                 uint32_t w2 = 0;
                 if (!code.Word(aa, &w2)) break;
-                if ((w2 & 0xFFC00000u) != 0xF9000000u) continue;
+                if ((w2 & 0xFFC00000u) != 0xF9000000u ||
+                    (w2 & 31u) != a64::MovzRd(w)) continue;
                 ++hits;
                 if (hits == 1) {
                     movzVa = a;
@@ -351,31 +376,8 @@ bool LocateFeature16(const CodeView& code, LocatedSites* out) {
             return false;
         }
     } else {
-        ForEachExecWord(code, [&](uint32_t va, uint32_t w) -> bool {
-            if (!a64::IsMovz(w) || a64::MovzImm(w) != kFolderColsOrigSmi) return true;
-            for (int j = 1; j <= 5; ++j) {
-                const uint32_t aa = va + static_cast<uint32_t>(j) * 4;
-                uint32_t w2 = 0;
-                if (!code.Word(aa, &w2)) break;
-                if (!a64::IsStrXUimm(w2, kFolderColsOffset)) continue;
-                ++hits;
-                if (hits == 1) {
-                    movzVa = va;
-                    movzRd = a64::MovzRd(w);
-                    storeVa = aa;
-                    colsOffset = kFolderColsOffset;
-                }
-                break;
-            }
-            return hits < 2;
-        });
-
-        if (hits != 1) {
-            SetWhy(out->why16, sizeof(out->why16),
-                   "列数写入点 `movz #8 → str [x?,#0x%x]` 命中 %d 处（预期 1）",
-                   kFolderColsOffset, hits);
-            return false;
-        }
+        SetWhy(out->why16, sizeof(out->why16), "缺少 GridController.init 动态符号");
+        return false;
     }
 
     uint32_t gateVa = 0;
@@ -397,6 +399,37 @@ bool LocateFeature16(const CodeView& code, LocatedSites* out) {
     out->storeVa = storeVa;
     out->gateVa = gateVa;
     out->colsOffset = colsOffset;
+    // Resolve the static table through the initializer's own base-register load.
+    // Patching only its MOVZ races the first GridController.init. Every inlined
+    // consumer must use the requested Smi even after that field was initialized.
+    uint32_t table = 0, store = 0;
+    if (!code.Word(storeVa - 4, &table) || !code.Word(storeVa, &store) ||
+        (table & 0xffc003e0u) != (0xf9400000u | (26u << 5)) ||
+        (table & 31u) != ((store >> 5) & 31u)) {
+        SetWhy(out->why16, sizeof(out->why16), "列数静态表来源不匹配");
+        return false;
+    }
+    out->colsThreadLoad = table & ~31u;
+    out->colsReadCount = 0;
+    bool overflow = false;
+    uint32_t previous = 0, previousVa = 0;
+    const bool scanned = ForEachExecWord(code, [&](uint32_t va, uint32_t word) -> bool {
+        if (previousVa + 4 == va && (previous & ~31u) == out->colsThreadLoad &&
+            (word & 0xffc00000u) == 0xf9400000u &&
+            ((word >> 10) & 0xfffu) * 8u == colsOffset &&
+            ((word >> 5) & 31u) == (previous & 31u)) {
+            if (out->colsReadCount == 128) { overflow = true; return false; }
+            const uint32_t i = out->colsReadCount++;
+            out->colsReadVa[i] = va;
+            out->colsReadWord[i] = word;
+        }
+        previous = word; previousVa = va;
+        return true;
+    });
+    if (!scanned || overflow || out->colsReadCount == 0) {
+        SetWhy(out->why16, sizeof(out->why16), "列数消费者缺失或超出容量");
+        return false;
+    }
     out->why16[0] = '\0';
     out->ok16 = true;
 
@@ -580,14 +613,29 @@ bool LocateFeature4(const CodeView& code, LocatedSites* out) {
     return true;
 }
 
+// Resolve the column field from the actual final (row,column) argument consumer.
+// Both official layout arms must write this same field; no historical +0x13 fallback.
+static bool PhoneColumnOffset(const CodeView& code,uint32_t va,uint32_t size,uint32_t *offset) {
+    unsigned hits=0;uint32_t found=0;
+    for(uint32_t pc=va;pc+12<=va+size;pc+=4){uint32_t a=0,b=0,c=0;
+        if(!code.Word(pc,&a)||!code.Word(pc+4,&b)||!code.Word(pc+8,&c))return false;
+        if((a&0xffe00fffu)!=0xb8400002u || b!=0xd37ff823u || c!=0xa90009e3u)continue;
+        const uint32_t field=(a>>12)&511;
+        if(field==0 || field>=256 || ((field+1)&3))return false;
+        ++hits;found=field;
+    }
+    if(hits!=1)return false;*offset=found;return true;
+}
+
 bool LocateFeature19(const CodeView& code, LocatedSites* out) {
-    constexpr uint32_t kSlot = 19;
+    uint32_t kSlot=0;
     uint32_t va = 0, size = 0;
     if (!LocateFunction(code, "PhoneRowColHandler.handle", &va, &size, out->why19,
                         sizeof(out->why19))) {
         return false;
     }
 
+    if(!PhoneColumnOffset(code,va,size,&kSlot))return false;
     uint32_t siteVa[kMaxPhoneSites] = {0, 0};
     uint32_t siteRd[kMaxPhoneSites] = {0, 0};
     uint32_t siteImm[kMaxPhoneSites] = {0, 0};
@@ -989,47 +1037,38 @@ void DeriveFeature16(const CodeView& code, const Config& cfg, const LocatedSites
 
     const uint32_t cols = cfg.folderCols;
     const uint32_t wantSmi = cols * 2;
-    uint32_t wantMovz = 0;
-    if (!a64::MakeMovz(s.movzRd, wantSmi, &wantMovz)) {
-        SetWhy(out->why16, sizeof(out->why16), "列数 %u 超出 movz 立即数范围", cols);
-        return;
-    }
-
-    uint32_t cur = 0;
-    if (!code.Word(s.movzVa, &cur)) {
+    // Leave the initializer and device gate untouched: restoring the default
+    // must reveal the original device value, never a previously modified field.
+    if (s.colsReadCount == 0 || s.colsReadCount > 128) {
         Rollback(out, mark);
+        SetWhy(out->why16, sizeof(out->why16), "列数消费者未解析");
         return;
     }
-    if (cur != wantMovz) {
-        out->patches.push_back(
-                {s.movzVa, cur, wantMovz, "文件夹列数字段：写入用户设定的每行应用数"});
-    }
-
-    if (s.gateVa != 0) {
-        uint32_t gw = 0;
-        if (!code.Word(s.gateVa, &gw)) {
+    for (uint32_t i = 0; i < s.colsReadCount; ++i) {
+        uint32_t read = 0, table = 0, replacement = 0;
+        const uint32_t original = s.colsReadWord[i];
+        if (!code.Word(s.colsReadVa[i], &read) ||
+            !code.Word(s.colsReadVa[i] - 4, &table) ||
+            (table & ~31u) != s.colsThreadLoad ||
+            (table & 31u) != ((original >> 5) & 31u) ||
+            !a64::MakeMovz(original & 31u, wantSmi, &replacement) ||
+            (read != original && (!a64::IsMovz(read) ||
+             a64::MovzRd(read) != (original & 31u) ||
+             a64::MovzImm(read) < 2 || a64::MovzImm(read) > 32 ||
+             (a64::MovzImm(read) & 1u)))) {
             Rollback(out, mark);
+            SetWhy(out->why16, sizeof(out->why16), "列数消费者原指令发生变化");
             return;
-        }        if (gw != a64::kNop && gw != 0) {
-            uint32_t wantGate = 0;
-            if (a64::IsBCond(gw) && s.movzVa > s.gateVa &&
-                a64::MakeBCond(s.gateVa, s.movzVa, a64::BCondCond(gw), &wantGate)) {
-                if (gw != wantGate) {
-                    out->patches.push_back(
-                            {s.gateVa, gw, wantGate,
-                             "文件夹列数：设备闸门重定向到列数写入点（三端统一生效，不带平板初始化）"});
-                }
-            } else {
-                out->patches.push_back(
-                        {s.gateVa, gw, a64::kNop, "文件夹列数：移除设备闸门（三端统一生效）"});
-            }
         }
+        if (read != replacement) out->patches.push_back({s.colsReadVa[i], read,
+            replacement, "文件夹列数：动态静态字段消费者使用用户设定值"});
     }
 
     if (cols != kFolderColsOfficial) {
         /*
          * 7695 排查结论：关闭动画的图标错位与正方形修正无关（禁用它后错位依旧）——
-         * 非官方列数本身与桌面的关闭动画冲突，是桌面侧的动画缺陷，记录为已知限制。
+         * 原始动画源坐标使用未约束格宽；home_layout_hooks 的三槽 bank 现在以实际 SliverGrid
+         * 的标量快照修正源坐标，保持 Dart 分配/GC 返回点，不再作为已知限制。
          * 修正恢复启用：它的价值（图标框不纵向拉伸）不受该限制影响。
          */
         if (!s.ok16sq || s.squareSiteVa == 0 || s.squareCalleeVa == 0) {
@@ -1422,7 +1461,7 @@ struct ByteReader {
     }
 };
 
-constexpr uint32_t kSitesPayloadVersion = 9;
+constexpr uint32_t kSitesPayloadVersion = 10;
 
 }
 
@@ -1489,6 +1528,23 @@ bool ValidateSitesImpl(const CodeView& code, LocatedSites& s) {
         }
     }
     if (s.ok16) {
+        if (s.colsReadCount == 0 || s.colsReadCount > 128 ||
+            (s.colsThreadLoad & 0xffc003ffu) != (0xf9400000u | (26u << 5))) return false;
+        for (uint32_t i = 0; i < s.colsReadCount; ++i) {
+            uint32_t table = 0, read = 0;
+            const uint32_t original = s.colsReadWord[i];
+            if ((original & 0xffc00000u) != 0xf9400000u ||
+                ((original >> 10) & 0xfffu) * 8u != s.colsOffset ||
+                !code.Word(s.colsReadVa[i] - 4, &table) ||
+                (table & ~31u) != s.colsThreadLoad ||
+                (table & 31u) != ((original >> 5) & 31u) ||
+                !code.Word(s.colsReadVa[i], &read) ||
+                (read != original && (!a64::IsMovz(read) ||
+                 a64::MovzRd(read) != (original & 31u) ||
+                 a64::MovzImm(read) < 2 || a64::MovzImm(read) > 32 ||
+                 (a64::MovzImm(read) & 1u)))) return false;
+        }
+
         uint32_t mw = 0, sw = 0;
         if (!code.Word(s.movzVa, &mw) || !code.Word(s.storeVa, &sw)) return false;
         if (!a64::IsMovz(mw) || a64::MovzRd(mw) != s.movzRd) return false;
@@ -1496,7 +1552,7 @@ bool ValidateSitesImpl(const CodeView& code, LocatedSites& s) {
         if (imm != kFolderColsOrigSmi) {
             if (imm < 2u || imm > 32u || (imm & 1u) != 0u) return false;
         }
-        if (!a64::IsStrXUimm(sw, s.colsOffset != 0 ? s.colsOffset : kFolderColsOffset))
+        if (!s.colsOffset || !a64::IsStrXUimm(sw, s.colsOffset))
             return false;
         if (s.storeVa <= s.movzVa || s.storeVa - s.movzVa > 20u) return false;
 
@@ -1543,6 +1599,9 @@ bool ValidateSitesImpl(const CodeView& code, LocatedSites& s) {
         }
     }
     if (s.ok19) {
+        uint32_t column=0,owner=0,owner_size=0;
+        if(!LocateFunction(code,"PhoneRowColHandler.handle",&owner,&owner_size,nullptr,0) || owner!=s.phoneVa
+            || !PhoneColumnOffset(code,owner,owner_size,&column))return false;
         uint32_t p0 = 0, p1 = 0;
         if (!code.Word(s.phoneVa, &p0) || !code.Word(s.phoneVa + 4, &p1)) return false;
         if (!a64::IsStpFpLrPre(p0) || !a64::IsMovX29X15(p1)) return false;
@@ -1556,7 +1615,7 @@ bool ValidateSitesImpl(const CodeView& code, LocatedSites& s) {
             if ((imm & 1u) != 0u || imm < 2u || imm > 32u) return false;
             uint32_t rt = 0, rn = 0, slot = 0;
             if (!a64::IsSturW(nxt, &rt, &rn, &slot)) return false;
-            if (rt != s.phoneSiteRd[i] || slot != kCellCountXOffset) return false;
+            if (rt != s.phoneSiteRd[i] || slot != column) return false;
         }
         if (s.ok19r) {
             for (uint32_t i = 0; i < kMaxPhoneRowSites; ++i) {
@@ -1645,6 +1704,23 @@ bool ValidateSites(const CodeView& code, LocatedSites& s) {    if (!s.AnyOk()) r
     }
 
     if (s.ok16) {
+        if (s.colsReadCount == 0 || s.colsReadCount > 128 ||
+            (s.colsThreadLoad & 0xffc003ffu) != (0xf9400000u | (26u << 5))) return false;
+        for (uint32_t i = 0; i < s.colsReadCount; ++i) {
+            uint32_t table = 0, read = 0;
+            const uint32_t original = s.colsReadWord[i];
+            if ((original & 0xffc00000u) != 0xf9400000u ||
+                ((original >> 10) & 0xfffu) * 8u != s.colsOffset ||
+                !code.Word(s.colsReadVa[i] - 4, &table) ||
+                (table & ~31u) != s.colsThreadLoad ||
+                (table & 31u) != ((original >> 5) & 31u) ||
+                !code.Word(s.colsReadVa[i], &read) ||
+                (read != original && (!a64::IsMovz(read) ||
+                 a64::MovzRd(read) != (original & 31u) ||
+                 a64::MovzImm(read) < 2 || a64::MovzImm(read) > 32 ||
+                 (a64::MovzImm(read) & 1u)))) return false;
+        }
+
         uint32_t mw = 0, sw = 0;
         if (!code.Word(s.movzVa, &mw) || !code.Word(s.storeVa, &sw)) return false;
         if (!a64::IsMovz(mw) || a64::MovzRd(mw) != s.movzRd) return false;
@@ -1652,7 +1728,7 @@ bool ValidateSites(const CodeView& code, LocatedSites& s) {    if (!s.AnyOk()) r
         if (imm != kFolderColsOrigSmi) {
             if (imm < 2u || imm > 32u || (imm & 1u) != 0u) return false;
         }
-        if (!a64::IsStrXUimm(sw, s.colsOffset != 0 ? s.colsOffset : kFolderColsOffset))
+        if (!s.colsOffset || !a64::IsStrXUimm(sw, s.colsOffset))
             return false;
         if (s.storeVa <= s.movzVa || s.storeVa - s.movzVa > 20u) return false;
         if (s.gateVa != 0) {
@@ -1698,6 +1774,9 @@ bool ValidateSites(const CodeView& code, LocatedSites& s) {    if (!s.AnyOk()) r
     }
 
     if (s.ok19) {
+        uint32_t column=0,owner=0,owner_size=0;
+        if(!LocateFunction(code,"PhoneRowColHandler.handle",&owner,&owner_size,nullptr,0) || owner!=s.phoneVa
+            || !PhoneColumnOffset(code,owner,owner_size,&column))return false;
         const FunctionSignature* sig = FindSignatureByName("PhoneRowColHandler.handle");
         if (sig == nullptr || !code.MatchSignatureAt(*sig, s.phoneVa)) return false;
         const uint32_t end = s.phoneVa + sig->wordCount * 4;
@@ -1714,7 +1793,7 @@ bool ValidateSites(const CodeView& code, LocatedSites& s) {    if (!s.AnyOk()) r
             uint32_t rt = 0, rn = 0, slot = 0;
             if (!a64::IsSturW(nxt, &rt, &rn, &slot)) return false;
             if (rt != s.phoneSiteRd[i]) return false;
-            if (slot != kCellCountXOffset) return false;
+            if (slot != column) return false;
         }
         if (s.ok19r) {
             for (uint32_t i = 0; i < kMaxPhoneRowSites; ++i) {
@@ -1835,6 +1914,10 @@ void CopyFeature(LocatedSites* dst, const LocatedSites& src, uint32_t num) {
             dst->storeVa = src.storeVa;
             dst->gateVa = src.gateVa;
             dst->colsOffset = src.colsOffset;
+            dst->colsThreadLoad = src.colsThreadLoad;
+            dst->colsReadCount = src.colsReadCount;
+            std::copy_n(src.colsReadVa, 128, dst->colsReadVa);
+            std::copy_n(src.colsReadWord, 128, dst->colsReadWord);
             dst->ok16sq = src.ok16sq;
             dst->squareFuncVa = src.squareFuncVa;
             dst->squareSiteVa = src.squareSiteVa;
@@ -1932,6 +2015,11 @@ bool SerializeSites(const LocatedSites& s, std::vector<uint8_t>* out) {
     w.U32(s.storeVa);
     w.U32(s.gateVa);
     w.U32(s.colsOffset);
+    w.U32(s.colsThreadLoad);
+    w.U32(s.colsReadCount);
+    for (uint32_t i = 0; i < s.colsReadCount && i < 128; ++i) {
+        w.U32(s.colsReadVa[i]); w.U32(s.colsReadWord[i]);
+    }
     w.U32(s.svVa);
     w.U32(s.initVa);
     w.U32(s.bneAt);
@@ -2023,7 +2111,11 @@ bool ParseSites(const uint8_t* data, size_t size, LocatedSites* out) {
     if (!r.U32(&s.movzVa) || !r.U32(&s.movzRd) || !r.U32(&s.storeVa) || !r.U32(&s.gateVa)) {
         return false;
     }
-    if (!r.U32(&s.colsOffset)) return false;
+    if (!r.U32(&s.colsOffset) || !r.U32(&s.colsThreadLoad) ||
+        !r.U32(&s.colsReadCount) || s.colsReadCount > 128) return false;
+    for (uint32_t i = 0; i < s.colsReadCount; ++i) {
+        if (!r.U32(&s.colsReadVa[i]) || !r.U32(&s.colsReadWord[i])) return false;
+    }
     if (!r.U32(&s.svVa) || !r.U32(&s.initVa)) return false;
     if (!r.U32(&s.bneAt) || !r.U32(&s.bneTgt) || !r.U32(&s.tbAt) || !r.U32(&s.tbTgt)) {
         return false;

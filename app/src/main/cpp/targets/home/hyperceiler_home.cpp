@@ -25,13 +25,18 @@
 void resolve_home_layout_targets();
 void start_home_layout_hooks(const char *site, int (*hook)(void *, void *, void **),
     int (*unhook)(void *));
+void prime_home_tweaks();
 void prime_home_layout_probe(int (*hook)(void *, void *, void **), int (*unhook)(void *));
 void home_layout_prepare_for_launcher_child();
 void prime_home_layout_knobs(int (*hook)(void *, void *, void **), int (*unhook)(void *));
+void home_layout_set_desktop_title_size(int sp);
+void home_layout_set_drawer_title_size(int sp);
+void home_layout_set_title_color(int argb);
 // Launcher tweaks runtime (symbol-table / signature located code patches, see targets/home/tweaks).
 namespace hometweaks {
 void StartHomeTweaks();
 void HomeTweaksOnLibraryLoaded(const char *name);
+bool HomeTweaksPrimeCachedSymbols();
 void HomeTweaksPrepareForLauncherChild();
 }
 
@@ -164,8 +169,7 @@ int hooked_system_property_get(const char *name, char *value) {
     const bool managed = hyos_control::active();
     const bool high_models = managed ? hyos_control::feature_enabled(hyos_control::kHighModels)
                                     : g_high_device_level.load(std::memory_order_relaxed);
-    const bool disable_prestart = managed ? hyos_control::feature_enabled(hyos_control::kDisablePrestart)
-                                         : g_disable_prestart.load(std::memory_order_relaxed);
+    const bool disable_prestart = hyperceiler_home_prestart_disabled();
     const bool soft_glass = managed ? hyos_control::feature_enabled(hyos_control::kSoftGlass)
                                    : g_soft_glass.load(std::memory_order_relaxed);
 #else
@@ -282,6 +286,11 @@ void on_library_loaded(const char *name, void *) {
     // site is available and nothing has read the old constants yet. Scoped to the Dart image, since
     // every other library loaded here would otherwise cost a Binder round trip each.
     if (std::string_view(name).ends_with("libapp.so")) {
+        if (launcher) {
+            hometweaks::HomeTweaksPrepareForLauncherChild();
+            prime_home_tweaks();
+            (void)hometweaks::HomeTweaksPrimeCachedSymbols();
+        }
         // Patch before the dart runtime runs: the probe target is called exactly once, at start-up.
         prime_home_layout_probe(g_hook_function, g_unhook_function);
         prime_home_layout_knobs(g_hook_function, g_unhook_function);
@@ -328,6 +337,15 @@ jint native_status() {
 }
 
 }  // namespace
+
+bool hyperceiler_home_prestart_disabled() {
+#ifdef HYPERCEILER_HYOS_BACKEND
+    // Do not let a bootstrap JNI value revive an expired/disabled authorization.
+    return hyos_control::feature_enabled(hyos_control::kDisablePrestart);
+#else
+    return g_disable_prestart.load(std::memory_order_relaxed);
+#endif
+}
 
 void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
                                      bool soft_glass, bool dock_enabled, bool hide_report) {
@@ -395,6 +413,42 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     set_dock_motion_feature_enabled(enabled == JNI_TRUE);
 #endif
+    return native_status();
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetDesktopTitleSize(
+    JNIEnv *, jobject, jint sp) {
+    if (is_launcher_process() && sp >= 0 && sp <= 20) {
+        home_layout_set_desktop_title_size(sp);
+        if (g_hook_function != nullptr) {
+            start_home_layout_hooks("title-size", g_hook_function, g_unhook_function);
+        }
+    }
+    return native_status();
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetDrawerTitleSize(
+    JNIEnv *, jobject, jint sp) {
+    if (is_launcher_process() && sp >= 0 && sp <= 20) {
+        home_layout_set_drawer_title_size(sp);
+        if (g_hook_function != nullptr) {
+            start_home_layout_hooks("drawer-title-size", g_hook_function, g_unhook_function);
+        }
+    }
+    return native_status();
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetTitleColor(
+    JNIEnv *, jobject, jint argb) {
+    if (is_launcher_process()) {
+        home_layout_set_title_color(argb);
+        if (argb != -1 && g_hook_function != nullptr) {
+            start_home_layout_hooks("title-color", g_hook_function, g_unhook_function);
+        }
+    }
     return native_status();
 }
 

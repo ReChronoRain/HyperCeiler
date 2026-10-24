@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
 import androidx.preference.SwitchPreference;
@@ -48,7 +49,7 @@ public class HomeOtherSettings extends DashboardFragment {
     public void initPrefs() {
         if (isMoreHyperOSVersion(3f)) {
             mMoveToMinusOneScreen = findPreference("prefs_key_home_widget_allow_moved_to_minus_one_screen");
-            if (isPad()) setFuncHint(mMoveToMinusOneScreen, 1);
+            if (isPad() && !isHyperOSVersion(4f)) setFuncHint(mMoveToMinusOneScreen, 1);
         }
 
         mWindowedMode = findPreference("prefs_key_home_other_freeform_shortcut_menu");
@@ -56,7 +57,7 @@ public class HomeOtherSettings extends DashboardFragment {
         mHideReportText = findPreference("prefs_key_home_title_hide_report_text");
         mDisablePreLoad = findPreference("prefs_key_home_other_disable_prestart");
 
-        if (isPad()) {
+        if (isPad() && !isHyperOSVersion(4f)) {
             setFuncHint(mWindowedMode, 2);
             setFuncHint(mShareAPK, 1);
             setFuncHint(mHideReportText, 1);
@@ -65,6 +66,7 @@ public class HomeOtherSettings extends DashboardFragment {
 
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
         mEnableMoreSettings.setVisible(isPad() && !isMoreHyperOSVersion(3f));
+        HomeOS4AdaptationGate.apply(getPreferenceScreen(), getPreferenceScreenResId());
     }
 
 }

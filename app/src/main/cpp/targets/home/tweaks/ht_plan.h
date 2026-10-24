@@ -62,6 +62,10 @@ struct LocatedSites {
     uint32_t storeVa = 0;
     uint32_t gateVa = 0;
     uint32_t colsOffset = 0;
+    uint32_t colsThreadLoad = 0;
+    uint32_t colsReadCount = 0;
+    uint32_t colsReadVa[128]{};
+    uint32_t colsReadWord[128]{};
 
     bool ok16sq = false;
     char why16sq[192]{};

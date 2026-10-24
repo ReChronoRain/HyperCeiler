@@ -58,6 +58,12 @@ public class StatusBarActionBootstrap extends BaseHook {
         // CentralSurfacesImpl.start 已在热重载前执行时不会再次回调，直接使用已保存的
         // SystemUI Context 重建 receiver。
         Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+        if (restoredContext == null) {
+            // A newly enabled live gesture may load this rule after CentralSurfaces.start.
+            // The process Application is already attached; no vendor member is guessed.
+            restoredContext = com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FLAG_CURRENT_APP);
+        }
         if (restoredContext != null) {
             registerReceiver(restoredContext);
         }

@@ -1,0 +1,89 @@
+当前：OS4 文件夹关闭末尾坐标 / 已修复本次复现并安装真机通过 / 保留未提交工作区
+BRANCH=codex/os4-dock-icon-align; pulled origin/os4-personal to 51b6f6342470375f394b3fc67ffdde8288b844a3
+CHANGED_FIELD=WorkspaceRenderSnapshot.same_grid; rendered()/geometry() now canonicalize columns/rows/raw_width/raw_height rather than GC-movable GridInfo identity.
+ROOT_CAUSE=live settings reached native animation math before another original RenderBox layout; cloned GridInfo missed identity-only cache, calculated an unrendered destination then snapped to actual workspace.
+NO_NEW_HOOK_POINT=existing five validated Dart original-body instruction windows retained; no Dart heap writes or new Dart calls, Dart8/nativeSP16 retained.
+POWER=no timers/polling/allocations added; fixed eight-entry thread-local scalar cache; diagnostics bounded by existing first-four-hit/first-cache-hit gate.
+PULL_COMMAND=git -c safe.directory=C:/Users/XiaoYe/.codex/worktrees/f0f3/HyperCeiler pull --ff-only --autostash origin os4-personal; EXIT=0; fast-forward; three stash conflicts resolved, no unmerged entries; autostash 44986bf0c retained as backup.
+PULL_PRESERVATION=non-UI/non-repair local contents verified against pre-pull ZIP (LF-normalized); deleted docs retained; moved Rust text has no duplicate resources.
+ARTIFACTS:
+C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\MODIFIED_FILE.zip
+C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\DIFF_FILE.patch
+C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\VERIFICATION.txt
+C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\ROLLBACK.sh
+
+BASELINE_COMMAND=python -X utf8 "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\run.py" baseline
+BASELINE_INPUT=regression.cpp: cloned/moved GridInfo with 4x6, raw 92/100; rendered top=-30, height=85; published top=80, bottom=44. The modified phase also runs four existing workspace/folder/drop suites.
+BASELINE_LITERAL_OUTPUT:
+folder clone/live-margin regression: FAIL (close target uses unrendered settings)
+TEST_EXIT=1
+BASELINE=VERIFIED; EXIT=0
+BASELINE_COMMAND_EXIT=0
+
+MODIFIED_COMMAND=python -X utf8 "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\run.py" modified
+MODIFIED_INPUT=regression.cpp: cloned/moved GridInfo with 4x6, raw 92/100; rendered top=-30, height=85; published top=80, bottom=44. The modified phase also runs four existing workspace/folder/drop suites.
+MODIFIED_LITERAL_OUTPUT:
+folder clone/live-margin regression: PASS (rendered target; GC/clone; latest layout; off; shape isolation)
+TEST_EXIT=0
+workspace geometry: neutral/top/bottom/symmetric-side/combined/extremes/guards/rebuild ok
+workspace frame: grid/occupied/pristine-per-child/hotseat-exclusion ok
+dock horizontal: 1..8-icons/symmetric/signed-extremes/1000-frames/no-heap-or-Y-or-size-writes/guards ok
+TEST_EXIT=0
+folder endpoint regression: PASS (1536 positions; cell and actual preview paths; 1000 rebuilds; heap unchanged)
+TEST_EXIT=0
+folder rendered-frame regression: PASS (bottom-only; occupied; off/on; preview snapshot; grid change; bounded cache; heap unchanged)
+TEST_EXIT=0
+drop-back rendered-frame regression: PASS (rendered x/y; settings race; reset; grid change)
+TEST_EXIT=0
+MODIFIED=VERIFIED; EXIT=0
+MODIFIED_COMMAND_EXIT=0
+
+ROLLBACK_COMMAND=python -X utf8 "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\run.py" rollback
+ROLLBACK_INPUT=regression.cpp: cloned/moved GridInfo with 4x6, raw 92/100; rendered top=-30, height=85; published top=80, bottom=44. The modified phase also runs four existing workspace/folder/drop suites.
+ROLLBACK_LITERAL_OUTPUT:
+ROLLBACK_HASHES=PASS; restored five original files
+folder clone/live-margin regression: FAIL (close target uses unrendered settings)
+TEST_EXIT=1
+ROLLBACK=VERIFIED; EXIT=0
+ROLLBACK_COMMAND_EXIT=0
+
+ROLLBACK_TARGET=C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\rollback-tree
+ROLLBACK_INNER_COMMAND="D:/Git/bin/bash.exe" "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\ROLLBACK.sh" "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\rollback-tree"
+ROLLBACK_RESTORED_STATUS=five original hashes match; regression FAIL/TEST_EXIT=1 restored on independent copy; live workspace hashes remain MODIFIED.
+BUILD_COMMAND=JAVA_HOME=D:\zulu-17; Gradle 9.7.1 :app:assembleRelease --offline --no-daemon --quiet; LITERAL_OUTPUT=GRADLE_EXIT=0; EXIT=0
+APK=C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\app\build\outputs\apk\release\HyperCeiler-2.10.166-20261002-release.apk
+SHA256=04ee9b3f2eb91ef81116a5ef3b5f85b6532217fffd052dce793b710ff3a03f8a
+INSTALL_EXIT=0
+Performing Incremental Install
+
+Performing Streamed Install
+
+Success
+INSTALL_COMMAND=adb -s 192.168.31.52:33509 install -r "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\app\build\outputs\apk\release\HyperCeiler-2.10.166-20261002-release.apk"; INPUT=Release APK above; LITERAL_OUTPUT=Success; EXIT=0; pulled installed APK SHA256 identical.
+COMMAND=adb -s 192.168.31.52:33509 shell su -c "setprop ctl.restart zygote"
+EXIT=0
+APK_READBACK=IDENTICAL; MODULE_ENABLED=1; PATH_CURRENT=1
+DEVICE_COMMAND=python -X utf8 "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\device.py" modified; INPUT=initial rendered top=0/bottom=240, then hot-publish top=110/bottom=164 without restarting launcher; enabled both. Two independent closing paths: BACK and outside tap. LITERAL_OUTPUT:
+RECORDED modified-live PID_STABLE=9584 EXIT=0
+RECORDED modified-outside PID_STABLE=9584 EXIT=0
+EXIT=0
+VIDEO_MEASUREMENT=original frames, same compact YouTube preview: BASELINE=318.827868px, MODIFIED_BACK=1.888968px, MODIFIED_OUTSIDE=1.944463px. Late consecutive max dy; baseline abrupt 318.827868px jump at 2.715644 ->2.724011s. Fixed videos <=1.944463px; launcher PID stable 9584.
+NATIVE_EVIDENCE=kind0 and kind2 render-hit=1, settings delta80/44/0 but selected painted grid inset0/-30 stride92.270/85.123. This confirms new native code used rendered geometry.
+RESTORE_COMMAND=python -X utf8 "C:\Users\XiaoYe\.codex\worktrees\f0f3\HyperCeiler\tests\folder-close-landing\device.py" restore; LITERAL_OUTPUT=RESTORED original four top/bottom settings; EXIT=0; EXIT=0
+RESTORE_READBACK={"prefs_key_home_layout_workspace_padding_top": {"type": "int", "value": "0"}, "prefs_key_home_layout_workspace_padding_bottom": {"type": "int", "value": "240"}, "prefs_key_home_layout_workspace_padding_top_enable": {"type": "boolean", "value": "false"}, "prefs_key_home_layout_workspace_padding_bottom_enable": {"type": "boolean", "value": "false"}}
+VALIDATION_SCOPE=launcher7722 on this phone; demonstrated reported hot-margin close snap repaired, not a claim about every launcher build or folder configuration.
+OTHER_TESTS=check_folder_geometry.py launcher7722 fixture: full129+169 instruction bodies and5 windows PASS; Release resource/Java/native build PASS. Old home-os4-gate runner attempt not counted as PASS: host stub missing upstream getLong/getInt; no production change made to satisfy an outdated stub.
+ORIGINAL_HASHES={
+  "app/src/main/cpp/targets/home/home_workspace_snapshot.h": "f752c0ea246dee938f71cbdc7e356c96c136e57662260039e20c773698142d7b",
+  "app/src/main/cpp/targets/home/home_layout_hooks.cpp": "1d57240ad98c25ab8b3e11ad3f246197a503ddbaa54142925f2ecedb0ec44f85",
+  "tests/home-layout-native/folder_render_snapshot_test.cpp": "eaac020390d3b44e63ec9eb181633619d7db108c665ff9b0ed8d3aa9436626eb",
+  "tests/home-layout-native/drop_render_snapshot_test.cpp": "941858916cc41d3490f8342a8230f7c1cffdced327856dd05db62e09b1f0d867",
+  "tests/home-layout-native/check_folder_geometry.py": "8ed97f7ed5287b941fe6274fd5fb0a730ef00f5f26772732816b509e522a0987"
+}
+MODIFIED_HASHES={
+  "app/src/main/cpp/targets/home/home_workspace_snapshot.h": "6879930d12c14103388a756d76ff9cec6394ed07aa9f905ca4fa11dae53fdd12",
+  "app/src/main/cpp/targets/home/home_layout_hooks.cpp": "7c0fa10c187dac0c00ea099dc67d9550cb8974697a74deaffe84b1015be87347",
+  "tests/home-layout-native/folder_render_snapshot_test.cpp": "fa10dc1161ea366a57d1ec3b179409a203d2cb5e3352675bd2dda063b02c0a94",
+  "tests/home-layout-native/drop_render_snapshot_test.cpp": "8dff0714b9b7310c81ef2dd15df372fdb314b3f0b90e8a83188145f741175e89",
+  "tests/home-layout-native/check_folder_geometry.py": "3fb78f614683a01ab11ad25f8bdea9dba67b52a82eacf8436568278057d7953f"
+}

@@ -17,3 +17,5 @@ void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
                                      bool soft_glass, bool dock_enabled, bool hide_report);
 // Hyos control-worker only, after the one-shot first-layout phase terminates.
 void hyperceiler_home_after_startup();
+// Local authoritative lease check only; no Binder, discovery or Dart call.
+bool hyperceiler_home_prestart_disabled();

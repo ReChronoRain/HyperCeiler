@@ -137,12 +137,26 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 if (!TextUtils.isEmpty(mQuickRestartPackageName)) {
-                    menuInflater.inflate(R.menu.settings_sub_menu, menu);
+                    menuInflater.inflate("com.miui.home".equals(mQuickRestartPackageName)
+                        ? R.menu.home_settings_sub_menu : R.menu.settings_sub_menu, menu);
                 }
             }
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem item) {
+                // The fan action menu does not open XML submenus automatically.
+                if (item.getItemId() == R.id.home_restart_actions
+                    && "com.miui.home".equals(mQuickRestartPackageName)) {
+                    Activity activity = getActivity();
+                    if (activity != null) DialogHelper.showHomeRestartActions(activity);
+                    return true;
+                }
+                if (item.getItemId() == R.id.home_restart_zygote
+                    && "com.miui.home".equals(mQuickRestartPackageName)) {
+                    Activity activity = getActivity();
+                    if (activity != null) DialogHelper.showRestartZygoteDialog(activity);
+                    return true;
+                }
                 if (item.getItemId() == R.id.quick_restart && !TextUtils.isEmpty(mQuickRestartPackageName)) {
                     Activity activity = getActivity();
                     if (activity == null) return true;

@@ -31,7 +31,7 @@ import android.os.Binder;
 import android.os.ParcelFileDescriptor;
 import android.os.Bundle;
 import android.os.SystemProperties;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import androidx.annotation.NonNull;
 
@@ -113,6 +113,9 @@ public class SharedPrefsProvider extends ContentProvider {
                 case "boolean" -> PrefsBridge.putBoolean(parts[1], Boolean.parseBoolean(parts[2]));
                 case "integer" -> PrefsBridge.putInt(parts[1], Integer.parseInt(parts[2]));
                 case "string" -> PrefsBridge.putString(parts[1], parts[2]);
+                case "remove" -> PrefsBridge.remove(parts[1]);
+                case "stringset" -> PrefsBridge.putStringSet(parts[1],
+                    HomeLayoutPrefsSnapshot.decodeTitleRecords(parts[2]));
                 default -> {
                     result.putBoolean("ok", false);
                     result.putString("why", "unknown type " + parts[0]);
@@ -192,6 +195,9 @@ public class SharedPrefsProvider extends ContentProvider {
         }
         if (AUTHORITY.equals(uri.getAuthority()) && "/diagnostics/dock_glass_api".equals(uri.getPath())) {
             return DockGlassDiagnostics.query();
+        }
+        if (AUTHORITY.equals(uri.getAuthority()) && "/home_gestures".equals(uri.getPath())) {
+            return HomeGesturePrefsSnapshot.cursor(prefs);
         }
         if (AUTHORITY.equals(uri.getAuthority()) && "/home_layout".equals(uri.getPath())) {
             return HomeLayoutPrefsSnapshot.cursor(prefs);
@@ -352,7 +358,7 @@ public class SharedPrefsProvider extends ContentProvider {
             if (filename != null) try {
                 afd = getContext().getAssets().openFd(filename);
             } catch (Throwable t) {
-                Log.i("afd", String.valueOf(t));
+                ModuleLog.i("afd", String.valueOf(t));
             }
             return afd;
         } else if (uriMatcher.match(uri) == 6) {

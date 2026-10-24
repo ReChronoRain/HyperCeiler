@@ -4,7 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import java.util.List;
 import java.util.Locale;
@@ -59,7 +59,7 @@ public class Utils {
         }
         ActivityManager.RunningTaskInfo taskInfo = runningTasks.get(0);
         String topActivityClassName = taskInfo.topActivity.getClassName();
-        Log.d(TAG, "getTopActivityClassName: " + topActivityClassName);
+        ModuleLog.d(TAG, "getTopActivityClassName: " + topActivityClassName);
         return topActivityClassName;
     }
 
@@ -69,7 +69,7 @@ public class Utils {
         }
         if (context == null) return false;
         mBlurEffectEnabledCache = HyperMaterialUtils.isEnable() && !LiteUtils.isCommonLiteStrategy() && HyperMaterialUtils.isFeatureEnable(context);
-        Log.d(TAG, "isBlurEffectEnabled: " + mBlurEffectEnabledCache);
+        ModuleLog.d(TAG, "isBlurEffectEnabled: " + mBlurEffectEnabledCache);
         return mBlurEffectEnabledCache;
     }
 }

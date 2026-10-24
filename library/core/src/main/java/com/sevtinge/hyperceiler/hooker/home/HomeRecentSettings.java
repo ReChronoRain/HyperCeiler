@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.sub.SubPickerActivity.ALL_APPS_MODE;
 
@@ -29,8 +30,12 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
+import java.util.Map;
+
+import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class HomeRecentSettings extends DashboardFragment {
@@ -45,6 +50,8 @@ public class HomeRecentSettings extends DashboardFragment {
     SwitchPreference mHideCleanIcon;
     SwitchPreference mNotHideCleanIcon;
     SwitchPreference mFixCardTitlePadding;
+    private static final String HIDE_CLEAR = "prefs_key_home_layout_recents_hide_clear";
+    private static final String DISABLE_CLEAR = "prefs_key_home_layout_recents_no_clear";
 
     @Override
     public int getPreferenceScreenResId() {
@@ -68,7 +75,11 @@ public class HomeRecentSettings extends DashboardFragment {
         mShowMenInfo.setVisible(isPad());
         mFixCardTitlePadding.setVisible(!isPad());
 
-        if (isMoreHyperOSVersion(3f)) {
+        if (isHyperOSVersion(4f)) {
+            // setFuncHint/setPreVisible also erase stored keys and replace descriptions.
+            // OS4's temporary gate must be presentation-only.
+            mUnlockPin.setVisible(false);
+        } else if (isMoreHyperOSVersion(3f)) {
             setFuncHint(mShowLaunch, 1);
             setFuncHint(mHideWorldCirculate, isPad() ? 1 : 2);
             setFuncHint(mHideFreeform, 1);
@@ -85,9 +96,49 @@ public class HomeRecentSettings extends DashboardFragment {
                 }
         );
 
-        mHideCleanIcon.setOnPreferenceChangeListener((preference, o) -> {
-            if (!(boolean) o) {
-                mNotHideCleanIcon.setChecked(false);
+        if (isHyperOSVersion(4f)) {
+            initClearActionForOS4();
+        } else {
+            // Preserve the original switch and dependency behavior on other OS versions.
+            mHideCleanIcon.setOnPreferenceChangeListener((preference, o) -> {
+                if (!(boolean) o) {
+                    mNotHideCleanIcon.setChecked(false);
+                }
+                return true;
+            });
+        }
+        HomeOS4AdaptationGate.apply(getPreferenceScreen(), getPreferenceScreenResId());
+    }
+
+    private void initClearActionForOS4() {
+        mHideCleanIcon.setVisible(false);
+        mNotHideCleanIcon.setVisible(false);
+        DropDownPreference action = findPreference("prefs_key_home_recent_clear_action_os4");
+        action.setVisible(true);
+
+        // Display the existing native flags; no third persisted mode or provider/ABI migration.
+        // If an older installation has both flags on, native behavior already prioritizes disable.
+        Map<String, ?> values = PrefsBridge.getAll();
+        boolean hidden = Boolean.TRUE.equals(values.get(HIDE_CLEAR));
+        boolean disabled = Boolean.TRUE.equals(values.get(DISABLE_CLEAR));
+        action.setValue(disabled ? "2" : hidden ? "1" : "0");
+        action.setOnPreferenceChangeListener((preference, value) -> {
+            if (!(value instanceof String mode)) return false;
+            // Clear the incompatible flag first so a refresh cannot observe two enabled modes.
+            switch (mode) {
+                case "0" -> {
+                    PrefsBridge.putBoolean(HIDE_CLEAR, false);
+                    PrefsBridge.putBoolean(DISABLE_CLEAR, false);
+                }
+                case "1" -> {
+                    PrefsBridge.putBoolean(DISABLE_CLEAR, false);
+                    PrefsBridge.putBoolean(HIDE_CLEAR, true);
+                }
+                case "2" -> {
+                    PrefsBridge.putBoolean(HIDE_CLEAR, false);
+                    PrefsBridge.putBoolean(DISABLE_CLEAR, true);
+                }
+                default -> { return false; }
             }
             return true;
         });

@@ -1,0 +1,11 @@
+{
+  "source_sha256": "451c79322ddcb1e3d3bd48657bda591a4370b1d8843967573f8601c7ee64695c",
+  "rectangle_allocator": {
+    "va": 28296176,
+    "words": [
+      "0xd2846382",
+      "0xf2a01322",
+      "0x14017982"
+    ]
+  }
+}

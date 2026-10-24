@@ -1174,7 +1174,7 @@
     <string name="home_layout">布局</string>
     <string name="home_layout_home_title">主屏幕</string>
     <string name="home_layout_indicator_title">桌面搜索</string>
-    <string name="home_layout_indicator_margin_bottom_desc">调整桌面搜索与屏幕底部的距离</string>
+    <string name="home_layout_indicator_margin_bottom_desc">调整桌面搜索（问小爱）与屏幕底部的距离，指示器也将同步移动</string>
     <string name="home_layout_hotseats_title">底栏</string>
     <string name="home_layout_searchbar_title">搜索框</string>
     <string name="home_layout_searchbar_os4_hint">OS4 请使用「布局 → 桌面搜索」调整搜索胶囊</string>
@@ -1190,7 +1190,7 @@
     <string name="home_layout_workspace_padding_horizontal_desc">主屏幕距离屏幕左右两边边距</string>
     <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
     <string name="home_layout_hotseats_height">高度</string>
-    <string name="home_layout_hotseats_margin_bottom_desc">底栏距离屏幕底部边距</string>
+    <string name="home_layout_hotseats_margin_bottom_desc">底栏图标距离屏幕底部边距</string>
     <string name="home_layout_searchbar_margin_bottom_desc">搜索栏距离屏幕底部边距</string>
     <string name="home_folder">文件夹</string>
     <string name="home_small_folder_title">小文件夹</string>
@@ -1287,7 +1287,6 @@
     <string name="home_title_notif_color">通知角标颜色自定义</string>
     <string name="home_title_notif_color_picker">选择颜色</string>
     <string name="home_title_icon_size">图标大小</string>
-    <string name="home_title_icon_size_moved">HyperOS 4 起图标大小已移至「布局 → 图标缩放」，请前往该处调整。</string>
     <string name="home_recent">最近任务</string>
     <string name="home_recent_animation_speed">动画速度</string>
     <string name="home_recent_unlock_pin">解锁固定应用</string>
@@ -1832,14 +1831,21 @@
     <string name="home_layout_fold_grid_desc">改写折叠屏布局的行列数；手机不受影响</string>
     <string name="home_layout_fold_major_title">折叠屏长边格数</string>
     <string name="home_layout_fold_minor_title">折叠屏短边格数</string>
-    <string name="home_layout_icon_scale_title">图标缩放</string>
+    <string name="home_layout_icon_scale_title">普通图标缩放</string>
     <string name="home_layout_icon_scale_desc">图标大小档位：70 为系统默认大小，往右放大、往左缩小</string>
     <string name="home_layout_recents_hide_clear_title">隐藏最近任务清理键</string>
     <string name="home_layout_recents_hide_clear_desc">隐藏按钮，功能保留</string>
     <string name="home_layout_recents_no_clear_title">关闭最近任务清理键</string>
     <string name="home_layout_recents_no_clear_desc">移除按钮及其功能</string>
+    <string name="home_recent_clear_button">最近任务清理按钮</string>
+    <string name="home_recent_clear_action_hide">隐藏（保留清理功能）</string>
+    <string name="home_recent_clear_action_disable">关闭（移除清理功能）</string>
     <string name="home_layout_folder_cols_title">文件夹列数</string>
     <string name="home_layout_folder_cols_desc">列数取「文件夹」设置页里的那一项</string>
     <string name="home_is_rust_tips">如遇修改当前界面下的参数重启应用后无法生效，请重新启动设备。</string>
     <string name="home_is_rust_no_support">当前 LSPosed 版本不支持 HyperOS Runtime 的Hook。请尝试更新 LSPosed 后重试。</string>
+    <string name="home_layout_small_folder_scale_title">小文件夹缩放</string>
+    <string name="home_layout_big_folder_scale_title">大文件夹缩放</string>
+    <string name="home_layout_widget_scale_title">小组件缩放</string>
+    <string name="home_layout_independent_scale_desc">独立调整缩放比例，100% 为原始大小</string>
 </resources>

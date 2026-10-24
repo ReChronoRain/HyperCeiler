@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.dock
 
 import android.content.Context
-import android.content.ContentProviderClient
 import android.database.Cursor
 import android.database.ContentObserver
 import android.net.Uri
@@ -29,15 +28,13 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.IBinder
 import android.os.SystemClock
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import android.view.SurfaceControl
 import android.view.SurfaceControlViewHost
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import com.sevtinge.hyperceiler.common.utils.prefs.PrefType
-import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver
+import com.sevtinge.hyperceiler.libhook.provider.DockGlassRendererProtocol
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
-import java.util.ArrayList
 import java.util.UUID
 
 /**
@@ -48,13 +45,14 @@ import java.util.UUID
  * "FATAL EXCEPTION IN SYSTEM PROCESS". Every asynchronous entry point therefore goes through
  * [guard], and recoverable failures are turned into a bounded retry instead of an escape.
  */
-internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, private val changed: () -> Unit,
+internal class DockGlassClient(private val rendererBroker: DockGlassRendererBroker, private val changed: () -> Unit,
     /** True while the display is rotated or has only just returned to natural rotation. */
     private val rotationSettling: () -> Boolean = { false },
     /** A retained texture needs only a portrait display, not the new-host settle delay. */
     private val rotationActive: () -> Boolean = { false }) {
     class Ticket(val key: String, val context: Context,
-        val bounds: DockWindowPolicy.Bounds, val dark: Boolean) {
+        val bounds: DockWindowPolicy.Bounds, val dark: Boolean,
+        private val rendererBroker: DockGlassRendererBroker) {
         val id: String = UUID.randomUUID().toString()
 
         /**
@@ -66,6 +64,8 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
 
         @Volatile var lease: DockGlassSurfaceLease? = null
         @Volatile var ready = false
+        /** A departure retired the first readiness loop before this host produced a texture. */
+        @Volatile var readinessSuspended = false
         @Volatile var dead = false
         /** The renderer acknowledged that a ready texture survived a sampling pause. */
         @Volatile var retainedCapture = false
@@ -86,18 +86,13 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         var parcel: SurfaceControlViewHost.SurfacePackage? = null
         var lifetime: IBinder? = null
         var death: IBinder.DeathRecipient? = null
-        var client: ContentProviderClient? = null
+        var renderer: IBinder? = null
         var refreshes = 0
 
         fun request(method: String, args: Bundle? = null): Bundle {
-            // Keep an UNSTABLE reference for the lifetime of the active windowless host,
-            // instead of acquiring/releasing its process around every readiness check.
-            // Renderer death still never makes system_server a stable provider dependent.
-            val activeClient = client ?: context.contentResolver.acquireUnstableContentProviderClient(uri)
-                ?.also { client = it } ?: error("HyperCeiler provider unavailable")
-            // All callers recover/dispose on failure. Let dispose try releasing an
-            // existing live host before closing the reference, even after a failed call.
-            return activeClient.call(method, id, args) ?: Bundle.EMPTY
+            val active = renderer ?: rendererBroker.renderer()?.also { renderer = it }
+                ?: error("SystemUI renderer unavailable")
+            return DockGlassRendererProtocol.call(active, method, id, args)
         }
     }
 
@@ -112,34 +107,8 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         /** The settings key the unlock fly-in style lives under. */
         const val REVEAL_STYLE_KEY = "prefs_key_home_dock_unlock_style"
 
-        /**
-         * Bounds on the geometry snapshot read.
-         *
-         * <p>The knobs are polled by the one-second sweep, so this is deliberately more
-         * aggressive than [STYLE_QUERY_INTERVAL_MS]: a height change has to land on the next
-         * sweep, not up to half a minute later. One cursor carries every value, so the cost is
-         * a single cross-process query rather than one per knob.
-         */
-        const val GEOMETRY_QUERY_INTERVAL_MS = 900L
-
-        /**
-         * The geometry keys and the preference type each one is stored as, matching
-         * {@code SharedPrefsProvider.DOCK_GEOMETRY_KEYS}.
-         *
-         * <p>The names are bare (no {@code PrefsBridge} prefix): [PrefsChangeObserver] builds the
-         * provider URI from them itself, and {@link com.sevtinge.hyperceiler.common.utils.PrefsBridge}
-         * adds the prefix on every other path.
-         */
-        val GEOMETRY_WATCH_KEYS = listOf(
-            "home_dock_bg_custom_enable" to PrefType.Boolean,
-            "home_dock_add_blur" to PrefType.String,
-            "home_dock_bg_color" to PrefType.Integer,
-            "home_dock_bg_height" to PrefType.Integer,
-            "home_dock_bg_margin_horizontal" to PrefType.Integer,
-            "home_dock_bg_margin_bottom" to PrefType.Integer,
-            "home_dock_bg_radius" to PrefType.Integer,
-            "home_other_home_mode" to PrefType.String
-        )
+        // Coalesce slider edits without dropping their final value. No periodic provider poll.
+        const val GEOMETRY_QUERY_INTERVAL_MS = 150L
 
         /**
          * Fallback interval for the style read, now that the provider pushes its changes.
@@ -150,15 +119,6 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
          * notification.
          */
         const val STYLE_QUERY_INTERVAL_MS = 30_000L
-
-        /**
-         * How long a burst of ring entries waits before it is handed to the provider.
-         *
-         * <p>Animations record per frame, so the previous 250 ms debounce turned a gesture into
-         * about four cross-process calls per second, each carrying up to 96 strings. The ring
-         * contents are unchanged - only the flush cadence is - so nothing is lost for diagnosis.
-         */
-        const val DIAGNOSTIC_FLUSH_MS = 1_000L
 
         /**
          * Bound of geometry-stale re-probes after a return.
@@ -203,31 +163,12 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
     /** Dropped by [close], so a hot reload cannot accumulate observer registrations. */
     @Volatile private var styleObserver: ContentObserver? = null
     private val styleRefreshGate = DockRevealStyleRefreshGate(STYLE_QUERY_INTERVAL_MS)
-    /**
-     * One observer per geometry key, also dropped by [close].
-     *
-     * <p>Without these the geometry only moves on the sweep, and the sweep backs off to 8 s while
-     * the desktop is idle - which is exactly when a user is on the settings page and expects a drag
-     * to land immediately. Measured worst case was ~12.9 s before this existed.
-     */
-    private val geometryObservers = ArrayList<PrefsChangeObserver>()
+    private var geometryObserver: ContentObserver? = null
+    private val geometryRefreshGate = DockGeometryRefreshGate(GEOMETRY_QUERY_INTERVAL_MS)
     private val journal = Journal { worker }
 
     private class Journal(private val worker: () -> Handler) {
-        @Volatile private var diagnosticContext: Context? = null
         private val events = ArrayDeque<String>() // IPC worker only; no frame-by-frame history.
-        private var diagnosticFlushScheduled = false
-        private val diagnosticFlush = Runnable {
-            diagnosticFlushScheduled = false
-            flushDiagnostics()
-        }
-
-        fun bind(context: Context) {
-            if (diagnosticContext != null) return
-            diagnosticContext = context
-            worker().post { flushDiagnostics() }
-        }
-
         fun record(event: String) {
             if (isSampledFrameNoise(event)) return
             val message = "wall=${System.currentTimeMillis()} up=${SystemClock.uptimeMillis()} $event".take(512)
@@ -236,10 +177,6 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
             worker().post {
                 if (events.size >= 96) events.removeFirst()
                 events.addLast(message)
-                if (!diagnosticFlushScheduled) {
-                    diagnosticFlushScheduled = true
-                    worker().postDelayed(diagnosticFlush, DIAGNOSTIC_FLUSH_MS)
-                }
             }
         }
 
@@ -269,32 +206,14 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
             return false
         }
 
-        private fun flushDiagnostics() {
-            val context = diagnosticContext ?: return
-            if (events.isEmpty()) return
-            catchingRecoverable({
-                val client = context.contentResolver.acquireUnstableContentProviderClient(uri)
-                    ?: return
-                client.use {
-                    it.call("dock_glass_record", null, Bundle().apply {
-                        putStringArray("events", events.toTypedArray())
-                    }) ?: error("No journal response")
-                }
-                events.clear()
-            })
-            // If boot-time provider acquisition fails, retain the bounded queue for the next event.
-        }
-
         fun finish() {
-            worker().removeCallbacks(diagnosticFlush)
-            flushDiagnostics()
+            events.clear()
         }
     }
 
     fun bindDiagnostics(context: Context) {
         styleContext = context
         if (!closed) {
-            journal.bind(context)
             watchRevealStyle(context)
             watchGeometry(context)
             // Bootstrap the style as well; the caller's pre-bind refresh had no context.
@@ -337,31 +256,25 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
 
     fun record(event: String) { if (!closed) journal.record(event) }
 
-    /**
-     * Follow the geometry keys instead of waiting for the sweep.
-     *
-     * <p>Each key gets its own observer because the provider publishes a per-key URI, so one
-     * observer on [PrefType.Any] would have to filter the notification itself anyway. The
-     * callback does no reading: it clears the throttle and asks for the provider snapshot, which
-     * is what [refreshGeometry] already does for the sweep.
-     */
+    /** Physical notifications must work even when LSPosed's remote snapshot/listener is stale. */
     private fun watchGeometry(context: Context) {
-        if (geometryObservers.isNotEmpty() || closed) return
+        if (geometryObserver != null || closed) return
         catchingRecoverable({
-            for ((key, type) in GEOMETRY_WATCH_KEYS) {
-                geometryObservers.add(object : PrefsChangeObserver(context, Handler(worker.looper),
-                    false, type, key, null) {
-                    override fun onChange(changedType: PrefType, changed: Uri?, name: String?, def: Any?) {
-                        geometryQueryAt = 0L
-                        refreshGeometry()
+            val observer = object : ContentObserver(Handler(worker.looper)) {
+                override fun onChange(selfChange: Boolean, changed: Uri?) {
+                    guard("geometry notification") {
+                        if (selfChange) return@guard
+                        if (changed != null && changed.path != "/pref"
+                            && !DockGeometryRefreshGate.isGeometryKey(changed.lastPathSegment)) return@guard
+                        refreshGeometry(force = true)
                     }
-                })
+                }
             }
-            record("geometry observers registered=${geometryObservers.size}")
+            context.contentResolver.registerContentObserver(Uri.parse("$uri/pref"), true, observer)
+            geometryObserver = observer
+            record("geometry physical observer registered")
         }) {
-            record("geometry observers unavailable=${it.javaClass.simpleName}: " +
-                "${it.message?.take(120)}")
-            geometryObservers.clear()
+            record("geometry observer unavailable=${it.javaClass.simpleName}: ${it.message?.take(120)}")
         }
     }
 
@@ -396,24 +309,25 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
          * was the original defect - and [PrefsBridge.getBoolean] / [PrefsBridge.getString] answer
          * the *settings page's* default for a key the user never touched, which is not the same
          * default this window uses. Filling the cache makes both reads answer from the same
-         * source, and a null field is left out on purpose so an untouched key keeps resolving
-         * its documented default instead of being pinned to a zero.
+         * source. A null field uses this window's explicit default after a successful read,
+         * so deleting a key cannot resurrect a frozen remote value.
          */
         fun applyToHookCache() {
-            customEnable?.let { PrefsBridge.putHookCache("home_dock_bg_custom_enable", it) }
-            addBlur?.let { PrefsBridge.putHookCache("home_dock_add_blur", it.toString()) }
-            bgColor?.let { PrefsBridge.putHookCache("home_dock_bg_color", it) }
-            bgHeight?.let { PrefsBridge.putHookCache("home_dock_bg_height", it) }
-            marginHorizontal?.let { PrefsBridge.putHookCache("home_dock_bg_margin_horizontal", it) }
-            marginBottom?.let { PrefsBridge.putHookCache("home_dock_bg_margin_bottom", it) }
-            bgRadius?.let { PrefsBridge.putHookCache("home_dock_bg_radius", it) }
-            homeMode?.let { PrefsBridge.putHookCache("home_other_home_mode", it.toString()) }
+            // A successful whole snapshot is authoritative, including deleted keys.
+            // Do not let an old hook-cache/remote value resurrect after a reset.
+            PrefsBridge.putHookCache("home_dock_bg_custom_enable", customEnable ?: false)
+            PrefsBridge.putHookCache("home_dock_add_blur", (addBlur ?: 1).toString())
+            PrefsBridge.putHookCache("home_dock_bg_color", bgColor ?: 0)
+            PrefsBridge.putHookCache("home_dock_bg_height", bgHeight ?: 150)
+            PrefsBridge.putHookCache("home_dock_bg_margin_horizontal", marginHorizontal ?: 25)
+            PrefsBridge.putHookCache("home_dock_bg_margin_bottom", marginBottom ?: 15)
+            PrefsBridge.putHookCache("home_dock_bg_radius", bgRadius ?: 30)
+            PrefsBridge.putHookCache("home_other_home_mode", (homeMode ?: 0).toString())
         }
     }
 
     /** Latest geometry read from the provider, or null before the first successful one. */
     @Volatile private var liveGeometry: GeometrySnapshot? = null
-    private var geometryQueryAt = 0L
     /** Last distinct geometry failure, so a per-sweep refusal is logged once, not every second. */
     @Volatile private var geometryFailReason: String? = null
 
@@ -430,39 +344,35 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
      * system_server, not in the launcher. The only thing that recovered it before was rebooting
      * the device, which is why the same build "sometimes" honoured a height change.
      *
-     * <p>All eight values arrive in one cursor, so a sweep costs one cross-process query rather
-     * than eight synchronous Binder round trips through system_server.
+     * <p>All eight values arrive in one cursor on a committed change/new launcher window.
+     * A failed query gets at most three recovery reads; no idle sweep wakes the module app.
      */
-    fun refreshGeometry() {
+    fun refreshGeometry(force: Boolean = false) {
         val context = styleContext ?: return
         if (closed) return
-        val now = SystemClock.uptimeMillis()
-        if (now - geometryQueryAt < GEOMETRY_QUERY_INTERVAL_MS) return
-        geometryQueryAt = now
-        worker.post {
-            guard("geometry query") {
-                catchingRecoverable({
-                    val cursor = context.contentResolver.query(
-                        Uri.parse("$uri/dock_geometry"), null, null, null, null
-                    )
-                    if (cursor == null) {
-                        /*
-                         * A null cursor is the shape that used to leave no trace at all: `?.use`
-                         * would skip the whole block, so neither the success line nor the refusal
-                         * line was ever written and a refusal read as "the provider was never
-                         * asked". The platform's FLAG_ONEWAY message is only a warning - the call
-                         * can still come back empty - so it has to be reported like any other
-                         * refusal instead of being swallowed by null-safe navigation.
-                         */
-                        noteGeometryFailure("null cursor")
-                    } else {
-                        cursor.use(::applyGeometrySnapshot)
-                    }
-                }) {
-                    noteGeometryFailure("${it.javaClass.simpleName}: ${it.message?.take(100)}")
+        val delay = geometryRefreshGate.request(SystemClock.uptimeMillis(), force)
+        if (delay >= 0) queueGeometryRead(context, delay)
+    }
+
+    private fun queueGeometryRead(context: Context, delay: Long) {
+        val posted = worker.postDelayed({
+            if (closed || !geometryRefreshGate.begin(SystemClock.uptimeMillis())) return@postDelayed
+            var success = false
+            try {
+                guard("geometry query") {
+                    catchingRecoverable({
+                        val cursor = context.contentResolver.query(Uri.parse("$uri/dock_geometry"),
+                            null, null, null, null)
+                        if (cursor == null) noteGeometryFailure("null cursor")
+                        else success = cursor.use(::applyGeometrySnapshot)
+                    }) { noteGeometryFailure("${it.javaClass.simpleName}: ${it.message?.take(100)}") }
                 }
+            } finally {
+                val next = geometryRefreshGate.finish(success, SystemClock.uptimeMillis())
+                if (!closed && next >= 0) queueGeometryRead(context, next)
             }
-        }
+        }, delay)
+        if (!posted) geometryRefreshGate.rejected()
     }
 
     /**
@@ -484,11 +394,17 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
      * <p>Split out of [refreshGeometry] so the cursor's lifetime stays inside `use` and the read
      * path needs no early return across the inline catch helper.
      */
-    private fun applyGeometrySnapshot(cursor: Cursor) {
+    private fun applyGeometrySnapshot(cursor: Cursor): Boolean {
         if (!cursor.moveToFirst()) {
             // Reached the provider, but it answered nothing: also a refusal.
             noteGeometryFailure("empty cursor")
-            return
+            return false
+        }
+        val columns = arrayOf("custom_enable", "add_blur", "bg_color", "bg_height",
+            "margin_horizontal", "margin_bottom", "bg_radius", "home_mode")
+        if (!cursor.columnNames.contentEquals(columns)) {
+            noteGeometryFailure("unexpected columns")
+            return false
         }
         // Column order must match SharedPrefsProvider.DOCK_GEOMETRY_COLUMNS.
         val snapshot = GeometrySnapshot(
@@ -501,7 +417,7 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
             bgRadius = cursor.optInt(6),
             homeMode = cursor.optInt(7)
         )
-        if (snapshot == liveGeometry) return
+        if (snapshot == liveGeometry) { geometryFailReason = null; return true }
         liveGeometry = snapshot
         // The provider answered from the settings file, so it is the most trustworthy source this
         // process has. Publishing the same values into PrefsBridge's hook cache is what makes the
@@ -514,9 +430,9 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         record("geometry queried height=${snapshot.bgHeight} " +
             "margin=${snapshot.marginHorizontal} bottom=${snapshot.marginBottom} " +
             "radius=${snapshot.bgRadius} color=${snapshot.bgColor}")
-        // Apply on the next traversal instead of waiting for the sweep, and reset the throttle so
-        // the very next sweep re-reads it too.
+        // Apply on the next traversal. A concurrent edit schedules one coalesced follow-up.
         changed()
+        return true
     }
 
     /** A null column means "the user never set this", as opposed to a stored zero. */
@@ -546,6 +462,7 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
     fun refreshRevealStyle(force: Boolean = false) {
         val context = styleContext ?: return
         if (closed) return
+        if (!force && liveRevealStyle != null) return
         if (!styleRefreshGate.request(SystemClock.uptimeMillis(), force)) return
         val posted = worker.post {
             try {
@@ -571,7 +488,7 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
                 }
             } finally {
                 // A write during IPC must get a follow-up read, not be lost to the fallback limit.
-                if (styleRefreshGate.finish() && !closed) refreshRevealStyle()
+                if (styleRefreshGate.finish() && !closed) refreshRevealStyle(force = true)
             }
         }
         if (!posted) styleRefreshGate.finish()
@@ -602,7 +519,7 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
     }
 
     fun create(context: Context, key: String, bounds: DockWindowPolicy.Bounds, dark: Boolean): Ticket {
-        val ticket = Ticket(key, context, bounds, dark)
+        val ticket = Ticket(key, context, bounds, dark, rendererBroker)
         bindDiagnostics(context)
         worker.post { guard("create") { attemptCreate(ticket) } }
         return ticket
@@ -614,9 +531,8 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         record("glass create id=${ticket.id} attempt=${ticket.gate.getAttempts()}")
         try {
             check(dispose(ticket)) { "Previous glass surface could not be detached" }
-            if (!processGuard.acquire(ticket.context, ticket)) {
-                // The package is mid-replacement: nothing is broken and nothing may be
-                // disposed. Park the generation and retry on the dependency cadence.
+            if (rendererBroker.renderer() == null) {
+                // Wait for SystemUI to register; never start/protect the HyperCeiler process.
                 deferForDependency(ticket)
                 return
             }
@@ -627,7 +543,6 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
                 putBinder("owner", owner)
             }
             val response = ticket.request("dock_glass_create", args)
-            processGuard.setPid(ticket, response.getInt("rendererPid", -1))
             response.classLoader = SurfaceControlViewHost.SurfacePackage::class.java.classLoader
             ticket.parcel = response.getParcelable("surface", SurfaceControlViewHost.SurfacePackage::class.java)
                 ?: error(response.getString("error") ?: "Renderer returned no surface")
@@ -723,6 +638,7 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
                     ticket.ready = attached && status.getBoolean("backgroundReady")
                     if (wasReady != ticket.ready) changed()
                     if (ticket.ready) {
+                        ticket.readinessSuspended = false
                         ticket.gate.markReady()
                         record("glass ready id=${ticket.id} attempt=${ticket.gate.getAttempts()} check=${attempt + 1}")
                         return@guard
@@ -823,6 +739,10 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         val requestEpoch = if (force) ticket.gate.forceRefresh(SystemClock.uptimeMillis())
             else ticket.gate.requestRefresh(SystemClock.uptimeMillis(), retained && rotationActive())
         if (requestEpoch == DockGlassRecoveryGate.REFRESH_DEDUPLICATED) return
+        if (ticket.readinessSuspended) {
+            ticket.readinessSuspended = false
+            record("glass reopening first readiness after visible settle id=${ticket.id}")
+        }
         val requestedAt = SystemClock.uptimeMillis()
         var geometryWaits = 0
         fun resumeProbe() {
@@ -1107,11 +1027,13 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         // to protect against is now handled precisely by the host's geometry gate, which costs
         // a fallback only for the frames that are actually mapped wrong.
         ticket.gate.pauseRefresh()
+        ticket.readinessSuspended = !ticket.ready
     }
 
     fun holdForDeparture(ticket: Ticket) {
         val epoch = ticket.gate.holdForDeparture()
         if (epoch != DockGlassRecoveryGate.REFRESH_DEDUPLICATED) {
+            ticket.readinessSuspended = !ticket.ready
             pauseCapture(ticket, epoch, "before-wallpaper-zoom")
         }
     }
@@ -1197,13 +1119,7 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         scheduleRetry(ticket, outcome, ticket.gate.getRetryDelayMs())
     }
 
-    /**
-     * The HyperCeiler package itself is momentarily unresolvable, typically because it is
-     * being replaced by an in-place upgrade.
-     *
-     * <p>Nothing is disposed and no compatibility budget is consumed: this is an external,
-     * self-healing outage. The retry cadence is capped, so a long outage stays bounded.
-     */
+    /** Await the SystemUI endpoint without consuming the compatibility retry budget. */
     private fun deferForDependency(ticket: Ticket) {
         val outcome = ticket.gate.requestDependencyDefer(closed)
         if (outcome == DockGlassRecoveryGate.Outcome.IGNORED) return
@@ -1250,10 +1166,11 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
             catchingRecoverable({ styleContext?.contentResolver?.unregisterContentObserver(observer) })
         }
         styleObserver = null
-        geometryObservers.forEach { observer ->
+        geometryRefreshGate.close()
+        geometryObserver?.let { observer ->
             catchingRecoverable({ styleContext?.contentResolver?.unregisterContentObserver(observer) })
         }
-        geometryObservers.clear()
+        geometryObserver = null
         if (workerDelegate.isInitialized()) worker.post {
             guard("closing") {
                 journal.record("glass client closing")
@@ -1286,11 +1203,9 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         ticket.parcel = null
         // Do not reacquire/start a renderer merely to release a failed acquisition.
         try {
-            if (ticket.client != null) catchingRecoverable({ ticket.request("dock_glass_release") })
+            if (ticket.renderer != null) catchingRecoverable({ ticket.request("dock_glass_release") })
         } finally {
-            catchingRecoverable({ ticket.client?.close() })
-            ticket.client = null
-            processGuard.release(ticket)
+            ticket.renderer = null
         }
         return true
     }

@@ -6,6 +6,10 @@
 #include "image.h"
 #include "scanner.h"
 #include "symtab.h"
+#include "nativehook/code_word_write.h"
+#include "nativehook/memory_io.h"
+#include <array>
+#include <sys/sysmacros.h>
 
 #include <dlfcn.h>
 #include <fcntl.h>
@@ -33,6 +37,17 @@ namespace {
 
 constexpr const char* kModuleVersion = "2.3";
 
+/*
+ * Debug property switch. Read once on first use and cached: __system_property_get is a cheap
+ * shared-memory read but it is not free, and this is asked on a path that runs on every pass.
+ */
+constexpr const char* kPropConfigBlob = "debug.hyperceiler.hometweaks.blob";
+
+bool DebugPropertyEnabled(const char* name) {
+    char value[PROP_VALUE_MAX] = {};
+    return __system_property_get(name, value) > 0 && value[0] == '1';
+}
+
 const NativeAPIEntries* g_entries = nullptr;
 std::mutex g_wakeMutex;
 std::condition_variable g_wakeCv;
@@ -47,6 +62,8 @@ struct AppliedPatch {
     uintptr_t address;
     uint32_t oldWord;
     uint32_t newWord;
+    bool reverting = false; // A failed restore must never be repaired back to the old override.
+    nhk::WordWriteJournal recovery{};
 };
 
 struct PatchStats {
@@ -62,6 +79,7 @@ struct State {
     Image image{};
     bool imageFound = false;
     uint64_t imageId = 0;
+    bool identityTried = false; // Advisory cache: one full-file attempt per discovered process image.
 
     Config config;
     bool configLoaded = false;
@@ -89,12 +107,13 @@ struct State {
 
     std::vector<AppliedPatch> applied;
     bool repatchNeeded = true;
+    bool restoreBlocked = false;
+    bool writeRetryPending = false;
 
     char imageHow[32]{};
     char siteSource[96]{};
     PlanResult lastPlan;
     PatchStats patchStats;
-    bool statusWritten = false;
 };
 
 State g_state;
@@ -109,9 +128,8 @@ uint64_t NowMs() {
 }
 
 /*
- * Render a count that may legitimately be unset. "0" in the status report or in the load line would
- * read as a setting someone deliberately chose, which is the one thing this value never is
- * (see kColsUnset).
+ * Render a count that may legitimately be unset. "0" in the load line would read as a setting
+ * someone deliberately chose, which is the one thing this value never is (see kColsUnset).
  */
 std::string DescribeCount(uint32_t count) {
     if (count == kColsUnset) return std::string("未设置");
@@ -129,44 +147,76 @@ bool IsLauncherProcess() {
     return strcmp(buf, "com.miui.home") == 0;
 }
 
-int PageProtection(uintptr_t address) {
-    FILE* maps = fopen("/proc/self/maps", "re");
-    if (maps == nullptr) return -1;
-    char line[512];
-    int result = -1;
-    while (fgets(line, sizeof(line), maps) != nullptr) {
-        unsigned long long begin = 0, end = 0;
-        char perms[5] = {0};
-        if (sscanf(line, "%llx-%llx %4s", &begin, &end, perms) != 3) continue;
-        if (address < begin || address >= end) continue;
-        result = (perms[0] == 'r' ? PROT_READ : 0) | (perms[1] == 'w' ? PROT_WRITE : 0) |
-                 (perms[2] == 'x' ? PROT_EXEC : 0);
-        break;
+// Permission changes are journaled separately from whether the instruction landed.
+// Fresh /proc metadata is a bounded identity check, not a lock against concurrent remapping.
+struct CodeWordOps {
+    const Image& image;
+    long PageSize() { return sysconf(_SC_PAGESIZE); }
+    bool Page(uintptr_t address, size_t size, nhk::CodePage& page) {
+        int fd = open("/proc/self/maps", O_RDONLY | O_CLOEXEC);
+        if (fd < 0) return false;
+        try {
+            std::string text; std::array<char,4096> chunk{}; bool good = true;
+            unsigned interruptions = 0;
+            for (;;) {
+                const ssize_t n = read(fd,chunk.data(),chunk.size());
+                if (n < 0 && errno == EINTR && ++interruptions <= 32) continue;
+                if (n < 0) { good = false; break; }
+                if (n == 0) break;
+                if (size_t(n) > chunk.size() || size_t(n) > 2*1024*1024-text.size()) {
+                    good = false; break;
+                }
+                text.append(chunk.data(),size_t(n));
+            }
+            const int closed = close(fd); fd = -1;
+            if (closed != 0) good = false; // close(EINTR) must not be retried
+            return good && nhk::ParseCodePage(text,address,size,page);
+        } catch (...) {
+            if (fd >= 0) (void)close(fd);
+            return false; // Allocation/parsing faults must retain the caller journal, not escape.
+        }
+}
+    bool Accept(const nhk::CodePage& page) {
+        return page.inode && page.inode == image.sourceInode
+            && uint64_t(makedev(page.major,page.minor)) == image.sourceDevice;
     }
-    fclose(maps);
-    return result;
+    bool Read(uintptr_t address, uint32_t& out) {
+        uint32_t value = 0;
+        if (!nhk::safe_read(address,std::as_writable_bytes(std::span(&value,1)))) return false;
+        out = value; return true;
+    }
+    bool Protect(uintptr_t page, size_t size, int protection) {
+        return mprotect(reinterpret_cast<void*>(page),size,protection) == 0;
+    }
+    long Write(uintptr_t address, uint32_t word, uint32_t expected) {
+        // Preserve one aligned atomic instruction change. Kernel byte-copy APIs do not
+        // promise instruction-word atomicity. An unmapping race still requires a lease.
+        return __atomic_compare_exchange_n(reinterpret_cast<uint32_t*>(address),&expected,
+            word,false,__ATOMIC_RELEASE,__ATOMIC_RELAXED) ? 4 : 0;
+    }
+    void Flush(uintptr_t address, size_t size) {
+        __builtin___clear_cache(reinterpret_cast<char*>(address),reinterpret_cast<char*>(address+size));
+    }
+};
+
+nhk::WordWriteResult WriteWord(State* state, uintptr_t address, uint32_t expected,
+    uint32_t word, uint32_t restore) {
+    if (!state) return {};
+    CodeWordOps ops{state->image};
+    return nhk::WriteCodeWord(ops,address,expected,word,restore);
 }
 
-bool WriteWord(uintptr_t address, uint32_t word) {
-    const long pageSize = sysconf(_SC_PAGESIZE);
-    const uintptr_t pageStart = address & ~(static_cast<uintptr_t>(pageSize) - 1);
-    const size_t span = static_cast<size_t>(address - pageStart + 4);
-    int original = PageProtection(address);
-    if (original < 0) original = PROT_READ | PROT_EXEC;
-    if (mprotect(reinterpret_cast<void*>(pageStart), span,
-                 original | PROT_WRITE | PROT_EXEC) != 0) {
-        LOGE("mprotect 失败 地址=%#lx errno=%d", static_cast<unsigned long>(address), errno);
-        return false;
-    }
-    *reinterpret_cast<volatile uint32_t*>(address) = word;
-    __builtin___clear_cache(reinterpret_cast<char*>(address),
-                            reinterpret_cast<char*>(address + 4));
-    mprotect(reinterpret_cast<void*>(pageStart), span, original);
-    return true;
+bool RecoverWrite(State* state, nhk::WordWriteJournal& recovery) {
+    if (!state) return false;
+    CodeWordOps ops{state->image};
+    return nhk::RecoverCodeWord(ops,recovery);
 }
 
-uint32_t ReadWord(uintptr_t address) {
-    return *reinterpret_cast<volatile uint32_t*>(address);
+bool ReadWord(const State* state, uintptr_t address, uint32_t* out) {
+    if (!state || !out || address < state->image.base
+        || address - state->image.base > UINT32_MAX) return false;
+    // CodeView publishes a scalar only after a complete, fault-reporting read.
+    return CodeView(state->image).Word(uint32_t(address - state->image.base), out);
 }
 
 struct FeatureSlot {
@@ -235,7 +285,9 @@ void RefreshProtectedRanges(const std::vector<AppliedPatch>& applied) {
     const long pageSize = sysconf(_SC_PAGESIZE);
     std::lock_guard<std::mutex> lock(g_protectMutex);
     g_protectedRanges.clear();
+    if (pageSize < 4 || (uint64_t(pageSize) & (uint64_t(pageSize) - 1))) return;
     for (const AppliedPatch& p : applied) {
+        if (!p.address || (p.address & 3u) || p.address > UINTPTR_MAX - uintptr_t(pageSize)) continue;
         const uintptr_t begin = p.address & ~(static_cast<uintptr_t>(pageSize) - 1);
         const uintptr_t end = begin + static_cast<uintptr_t>(pageSize);
         g_protectedRanges.emplace_back(begin, end);
@@ -279,17 +331,33 @@ void InstallMadviseGuard() {
     }
 }
 
-void RevertApplied(State* state) {
+bool RevertApplied(State* state) {
+    if (!state) return false;
+    std::vector<AppliedPatch> pending;
+    pending.reserve(state->applied.size());
     for (auto it = state->applied.rbegin(); it != state->applied.rend(); ++it) {
-        const uint32_t current = ReadWord(it->address);
-        if (current == it->newWord && current != it->oldWord) {
-            if (!WriteWord(it->address, it->oldWord)) {
-                LOGW("还原失败 地址=%#lx", static_cast<unsigned long>(it->address));
-            }
+        AppliedPatch patch = *it;
+        patch.reverting = true;
+        if (!RecoverWrite(state,patch.recovery)) { pending.push_back(patch); continue; }
+        uint32_t current = 0;
+        if (!ReadWord(state, patch.address, &current)) {
+            pending.push_back(patch);
+            continue;
+        }
+        if (current == patch.oldWord) continue;
+        if (current != patch.newWord) { pending.push_back(patch); continue; }
+        const auto result = WriteWord(state,patch.address,patch.newWord,patch.oldWord,patch.oldWord);
+        patch.recovery = result.recovery;
+        if (!result.complete || !ReadWord(state, patch.address, &current) || current != patch.oldWord) {
+            // Retain both read faults and write/readback failures. A foreign value
+            // is never overwritten, and no newer plan may mix with this old one.
+            pending.push_back(patch);
         }
     }
-    state->applied.clear();
+    std::reverse(pending.begin(), pending.end());
+    state->applied = std::move(pending);
     RefreshProtectedRanges(state->applied);
+    return state->applied.empty();
 }
 
 /*
@@ -310,23 +378,44 @@ long DecodeMovzSmi(uint32_t word) {
 PatchStats ApplyPatches(State* state, const std::vector<PlanPatch>& patches) {
     PatchStats stats;
     stats.total = patches.size();
+    for (const auto& p : state->applied) {
+        if (p.reverting) { stats.failed = patches.size(); return stats; }
+    }
+    /*
+     * Record an applied slot once. A retry pass re-examines addresses that are already in the
+     * list - the "already in place" branch below is the common case on the second attempt - and
+     * appending unconditionally made `applied` grow without bound, which in turn made every
+     * later RevertApplied/Watchdog pass walk an ever longer list.
+     */
+    auto record = [state](uintptr_t address, uint32_t oldWord, uint32_t newWord) {
+        for (auto& existing : state->applied) {
+            if (existing.address == address) {
+                existing.oldWord = oldWord;
+                existing.newWord = newWord;
+                return;
+            }
+        }
+        state->applied.push_back({address, oldWord, newWord});
+    };
     size_t& written = stats.written;
     size_t& already = stats.already;
     size_t& missing = stats.failed;
     size_t& mismatch = stats.mismatch;
     size_t& outOfRange = stats.outOfRange;
     for (const PlanPatch& p : patches) {
+        if (uintptr_t(p.va) > UINTPTR_MAX - state->image.base) { ++outOfRange; continue; }
         const uintptr_t address = state->image.base + static_cast<uintptr_t>(p.va);
-        if (!RangeInImage(state->image, address, 4)) {
+        if (!CodeView(state->image).InText(p.va)) {
             ++outOfRange;
             LOGW("跳过越界补丁 va=%#x（不在 libapp.so 的映射段内）", p.va);
             continue;
         }
-        const uint32_t current = ReadWord(address);
+        uint32_t current = 0;
+        if (!ReadWord(state, address, &current)) { ++missing; continue; }
         if (current == p.patch) {
             ++already;
             LOGI("补丁已就位 %s：va=%#x，无需改动", p.what != nullptr ? p.what : "?", p.va);
-            state->applied.push_back({address, p.expect, p.patch});
+            record(address, p.expect, p.patch);
             continue;
         }
         if (current != p.expect) {
@@ -335,7 +424,8 @@ PatchStats ApplyPatches(State* state, const std::vector<PlanPatch>& patches) {
                  p.va, current, p.expect);
             continue;
         }
-        if (WriteWord(address, p.patch)) {
+        const auto result = WriteWord(state,address,p.expect,p.patch,p.expect);
+        if (result.complete) {
             ++written;
             const long before = DecodeMovzSmi(p.expect);
             const long after = DecodeMovzSmi(p.patch);
@@ -346,9 +436,25 @@ PatchStats ApplyPatches(State* state, const std::vector<PlanPatch>& patches) {
                 LOGI("补丁 %s：va=%#x %08x → %08x", p.what != nullptr ? p.what : "?", p.va,
                      p.expect, p.patch);
             }
-            state->applied.push_back({address, p.expect, p.patch});
+            record(address, p.expect, p.patch);
         } else {
             ++missing;
+            if (result.recovery.pending()) {
+                // A pending recovery is journal state, not a known-good slot: record it once and
+                // keep the journal that the restore pass needs.
+                bool existing = false;
+                for (auto& slot : state->applied) {
+                    if (slot.address == address) {
+                        slot = {address, p.expect, p.patch, true, result.recovery};
+                        existing = true;
+                        break;
+                    }
+                }
+                if (!existing) {
+                    state->applied.push_back({address,p.expect,p.patch,true,result.recovery});
+                }
+                state->restoreBlocked = true;
+            }
         }
     }
     LOGI("补丁应用完成：新写入 %zu，已就位 %zu，越界跳过 %zu，原值不符跳过 %zu，写入失败 %zu",
@@ -359,11 +465,22 @@ PatchStats ApplyPatches(State* state, const std::vector<PlanPatch>& patches) {
 
 void Watchdog(State* state) {
     size_t repaired = 0;
-    for (const AppliedPatch& p : state->applied) {
-        const uint32_t current = ReadWord(p.address);
+    for (AppliedPatch& p : state->applied) {
+        // A pending restore belongs to the retiring plan, never to repair work.
+        if (p.reverting) continue;
+        uint32_t current = 0;
+        if (!ReadWord(state, p.address, &current)) continue;
         if (current == p.newWord) continue;
         if (current == p.oldWord) {
-            if (WriteWord(p.address, p.newWord)) ++repaired;
+            const auto result = WriteWord(state,p.address,p.oldWord,p.newWord,p.oldWord);
+            if (result.complete) ++repaired;
+            else {
+                state->writeRetryPending = state->repatchNeeded = true;
+                if (result.recovery.pending()) {
+                    p.recovery = result.recovery; p.reverting = true;
+                    state->restoreBlocked = true;
+                }
+            }
         } else {
             LOGW("补丁页被改写 地址=%#lx 现在是 %08x（期望 %08x）",
                  static_cast<unsigned long>(p.address), current, p.newWord);
@@ -382,11 +499,7 @@ void Watchdog(State* state) {
  * correct rather than poison - and the question is asked on every monitor pass.
  */
 bool config_blob_channel_enabled() {
-    static const bool enabled = [] {
-        char value[PROP_VALUE_MAX] = {};
-        return __system_property_get("debug.hyperceiler.hometweaks.blob", value) > 0
-            && value[0] == '1';
-    }();
+    static const bool enabled = [] { return DebugPropertyEnabled(kPropConfigBlob); }();
     return enabled;
 }
 
@@ -474,9 +587,9 @@ bool RefreshConfigLocked(State* state, bool allowBakedFallback, bool fast) {
     return state->configLoaded;
 }
 
-void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted) {
+void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted, bool allowBuild) {
     SymbolIndex& index = SymbolIndex::Instance();
-    if (!index.EnsureLoaded(state->image)) {
+    if (allowBuild ? !index.EnsureLoaded(state->image) : !index.loaded()) {
         LOGW("符号表不可用（%s），只能回退到构建期指纹", index.status());
         return;
     }
@@ -495,7 +608,7 @@ void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted) 
     LOGI("符号定位完成：用时 %llu ms（%s）→ %s", static_cast<unsigned long long>(NowMs() - t0),
          index.status(), DescribeMask(adopted).c_str());
 
-    if (adopted != 0 && (adopted & ~before) != 0) {
+    if (allowBuild && adopted != 0 && (adopted & ~before) != 0) {
         SaveSitesCache(state->imageId, found);
     }
     (void) wanted;
@@ -512,7 +625,12 @@ bool NeedAcquire(const State* state, uint32_t wanted) {
 void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image);
     const uint32_t wanted = WantedFeatureMask(state->config);
     if (wanted == 0) return;
-    if (state->imageId == 0) state->imageId = ImageIdentity(state->image);
+    // A failed identity is a cache miss, not an invitation to hash the whole file
+    // on every settings refresh. Child State reset permits the next image attempt.
+    if (!state->identityTried) {
+        state->identityTried = true;
+        state->imageId = ImageIdentity(state->image);
+    }
 
     if (!state->packTried && NeedAcquire(state, wanted)) {
         state->packTried = true;
@@ -560,7 +678,7 @@ void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image)
     }
 
     if (NeedAcquire(state, wanted)) {
-        AcquireSitesBySymbols(state, code, wanted);
+        AcquireSitesBySymbols(state, code, wanted, allowScan);
     }
 
     if (!allowScan) return;
@@ -622,192 +740,68 @@ std::string DescribePlan(const PlanResult& plan) {
         if (i != 0) s += " ";
         s += "功能";
         s += std::to_string(kFeatureSlots[i].num);
-        s += ok[i] ? "=已生效" : "=未生效";
+        s += ok[i] ? "=计划可应用" : "=计划不可应用";
     }
     return s;
 }
 
-const char* WhyOf(const PlanResult& plan, uint32_t num) {
-    switch (num) {
-        case kFeatureNoClear: return plan.why9;
-        case kFeatureFolderCols: return plan.why16;
-        case kFeatureHideClear: return plan.why18;
-        case kFeaturePadGrid: return plan.why4;
-        case kFeaturePhoneGrid: return plan.why19;
-        case kFeatureFoldGrid: return plan.why20;
-        case kFeatureIconSize: return plan.why21;
-        default: return "";
-    }
-}
-
-std::string JoinEnabled(const Config& cfg) {
-    std::string s;
-    for (uint32_t n : cfg.enabled) {
-        if (!s.empty()) s += ",";
-        s += std::to_string(n);
-    }
-    return s.empty() ? std::string("（一个都没开）") : s;
-}
-
-std::string BuildStatusText(const State* state) {
-    const Config& cfg = state->config;
-    const PlanResult& plan = state->lastPlan;
-    const PatchStats& stats = state->patchStats;
-    char line[640];
-    std::string s;
-
-    s += "HomeTweaks 模块状态 v";
-    s += kModuleVersion;
-    s += "\n";
-
-    time_t now = time(nullptr);
-    struct tm tmv {};
-    localtime_r(&now, &tmv);
-    snprintf(line, sizeof(line), "写入时间: %04d-%02d-%02d %02d:%02d:%02d\n",
-             tmv.tm_year + 1900, tmv.tm_mon + 1, tmv.tm_mday, tmv.tm_hour, tmv.tm_min,
-             tmv.tm_sec);
-    s += line;
-
-    if (state->imageFound) {
-        snprintf(line, sizeof(line), "镜像: 已找到 %s（%s）\n", kTargetLibName,
-                 state->imageHow[0] != '\0' ? state->imageHow : "来源未知");
-        s += line;
-        snprintf(line, sizeof(line), "镜像指纹: %016llx（站点缓存按它索引）\n",
-                 static_cast<unsigned long long>(state->imageId));
-        s += line;
-    } else {
-        s += "镜像: 还没找到 libapp.so（模块可能刚注入，或者桌面根本不是它）\n";
-    }
-
-    if (state->imageFound && state->image.path[0] != '\0') {
-        char apkPath[sizeof(state->image.path)];
-        snprintf(apkPath, sizeof(apkPath), "%s", state->image.path);
-        char* bang = strstr(apkPath, "!/");
-        if (bang != nullptr) *bang = '\0';
-        struct stat st {};
-        if (stat(apkPath, &st) == 0) {
-            snprintf(line, sizeof(line), "桌面 APK: %s（%lld 字节）\n", apkPath,
-                     static_cast<long long>(st.st_size));
-        } else {
-            snprintf(line, sizeof(line), "桌面 APK: %s（stat 失败）\n", apkPath);
-        }
-        s += line;
-    }
-
-    snprintf(line, sizeof(line), "站点来源: 符号表 / 签名（无写死地址）\n");
-    s += line;
-    snprintf(line, sizeof(line), "站点来源: %s\n",
-             state->siteSource[0] != '\0' ? state->siteSource : "（本次还没定位）");
-    s += line;
-    const char* sym = SymbolIndex::Instance().status();
-    snprintf(line, sizeof(line), "运行期符号表: %s\n",
-             (sym != nullptr && sym[0] != '\0') ? sym : "（还没走到这一步）");
-    s += line;
-
-    if (!state->configLoaded) {
-        s += "配置: 还没读到\n";
-    } else if (false) {
-        s += "配置: 读不到任何配置文件，先用写死的默认配置（功能 9 + 16）\n";
-    } else {
-        snprintf(line, sizeof(line), "配置来源: %s\n", state->configPath);
-        s += line;
-    }
-    if (state->configLoaded) {
-        snprintf(line, sizeof(line), "总开关: %s；启用功能: %s\n",
-                 cfg.masterEnabled() ? "开" : "关", JoinEnabled(cfg).c_str());
-        s += line;
-        snprintf(line, sizeof(line),
-                 "数值: 文件夹每行 %s；手机 %s 列 × %u 行（0=自动）；折叠屏 %u×%u；平板 %u×%u；图标 ×%.4g\n",
-                 DescribeCount(cfg.folderCols).c_str(), DescribeCount(cfg.phoneCols).c_str(),
-                 cfg.phoneRows,
-                 cfg.foldMajor, cfg.foldMinor, cfg.padMajor, cfg.padMinor,
-                 IconScaleValueFromCode(cfg.iconScaleCode));
-        s += line;
-    }
-
-    const uint32_t wanted = WantedFeatureMask(cfg);
-    s += "功能状态:\n";
-    for (const FeatureSlot& f : kFeatureSlots) {
-        const bool enabled = cfg.masterEnabled() && (wanted & f.bit) != 0;
-        std::string value;
-        if (!enabled) {
-            value = (f.num == kFeatureHideClear && cfg.masterEnabled() &&
-                     (wanted & kWantNoClear) != 0)
-                    ? "未启用（与功能 9 互斥，同时打开时只应用 9）"
-                    : "未启用";
-        } else if (FeatureOk(state->sites, f.num)) {
-            value = "已生效";
-            if (f.num == kFeatureFolderCols) {
-                value += "（每行 " + std::string(DescribeCount(cfg.folderCols)) + " 个）";
-            } else if (f.num == kFeaturePhoneGrid) {
-                value += "（" + std::string(DescribeCount(cfg.phoneCols)) + " 列 × ";
-                value += (cfg.phoneRows == kPhoneRowsAuto)
-                         ? std::string("官方自动行")
-                         : std::to_string(cfg.phoneRows) + " 行";
-                value += "）";
-                if (cfg.phoneRows != kPhoneRowsAuto && !state->sites.ok19r) {
-                    value += "，但行数那两份落点没定位到（行数仍是官方值）";
-                }
-            } else if (f.num == kFeatureFoldGrid) {
-                value += "（" + std::to_string(cfg.foldMajor) + "×" +
-                         std::to_string(cfg.foldMinor) + "）";
-            } else if (f.num == kFeaturePadGrid) {
-                value += "（" + std::to_string(cfg.padMajor) + "×" +
-                         std::to_string(cfg.padMinor) + "）";
-            } else if (f.num == kFeatureIconSize) {
-                char scale[32];
-                snprintf(scale, sizeof(scale), "%.4g", IconScaleValueFromCode(cfg.iconScaleCode));
-                value += "（×";
-                value += scale;
-                value += "；官方滑块与 Rust 侧 min/max 已失效）";
-            }
-        } else {
-            const char* why = WhyOf(plan, f.num);
-            value = "没生效 —— 定位失败：";
-            value += (why != nullptr && why[0] != '\0') ? why : "原因未记录";
-        }
-        snprintf(line, sizeof(line), "  功能 %u（%s）: %s\n", f.num, f.name, value.c_str());
-        s += line;
-    }
-
-    snprintf(line, sizeof(line),
-             "补丁: 共 %zu 条（新写入 %zu，已就位 %zu，越界 %zu，原值不符 %zu，写入失败 %zu）\n",
-             stats.total, stats.written, stats.already, stats.outOfRange, stats.mismatch,
-             stats.failed);
-    s += line;
-
-    s += "\n说明：功能 4（平板）/ 19（手机）/ 20（折叠屏）是三条互不影响的链路，\n";
-    s += "一台设备只会走其中一条 —— 手上是手机的话，只有「手机桌面网格」那条会真的\n";
-    s += "改到布局。这三项改的是桌面启动时那一次网格初始化，所以必须重启桌面；\n";
-    s += "折叠屏 / 平板还要再清一次「系统桌面」的应用数据才会重算。\n";
-    s += "功能 21（图标大小）三端各有一条独立链路，改的是「图标尺寸 = 基础尺寸 × 用户\n";
-    s += "倍率」那一步里的倍率，所以不管手上是哪种设备都会生效，同样要重启桌面。\n";
-    return s;
-}
-
-void WriteStatusFile(const State* state, bool alsoExternal) {
-    const std::string text = BuildStatusText(state);
-    const uint8_t* data = reinterpret_cast<const uint8_t*>(text.data());
-    if (!WriteWholeFileAtomic(kLocalStatusPath, data, text.size())) {
-        LOGW("状态文件写入失败：%s", kLocalStatusPath);
-    }
-    if (alsoExternal) {
-        WriteWholeFileAtomic(kExternalStatusPath, data, text.size());
-    }
-}
+/*
+ * The status report used to live here: BuildStatusText() rendered a multi-line plain-text summary of
+ * the located sites, the applied patches and the failures, and WriteStatusFile() wrote it to a file
+ * in the launcher's data dir plus a second copy in Downloads.
+ *
+ * It is gone on purpose, along with WhyOf() and JoinEnabled() which existed only to feed it. It was
+ * a diagnostics feature that ran unconditionally on every settle pass, and the Downloads copy alone
+ * was reason enough to remove it:
+ *
+ *   - MediaProvider indexes everything under /sdcard. Every write landed as `hometweaks.status.tmp`
+ *     and was then renamed, so the indexer raced the rename and logged "Database update failed while
+ *     renaming ... .tmp" every single time.
+ *   - HyperOS's gallery cached the path and re-queried it, logging a miss on each pass.
+ *   - It showed up in the user's Downloads, which is not where a module's private bookkeeping
+ *     belongs.
+ *
+ * Nothing ever read either copy back - it was write-only - so the entire feature is gone rather
+ * than gated behind a property. Everything it used to say is already in logcat, which is where a
+ * device that misbehaves is actually diagnosed: LogPlanReasons() below names each failed feature and
+ * its reason, and ApplyPatches() logs every skip and write failure. `logcat -s HomeTweaks` is the
+ * replacement for `cat hometweaks.status`, and it costs no file in any user-visible directory.
+ */
 
 void SettleLocked(State* state, bool allowScan) {
     if (state == nullptr || !state->imageFound || !state->configLoaded) return;
+    if (state->restoreBlocked) state->repatchNeeded = true;
     if (!state->repatchNeeded) {
-        if (!state->statusWritten) {
-            WriteStatusFile(state, allowScan);
-            state->statusWritten = true;
-            state->repatchNeeded = false;
+        /*
+         * The plan is complete and the sites are known, but a previous write failed. Retry the
+         * writes only: no revert, no re-scan. Everything the pass needs is already in state, so
+         * this is a few dozen atomic stores instead of a full image sweep.
+         */
+        if (state->writeRetryPending) {
+            // A write is only retried once no slot is mid-restore: mixing a retry with a
+            // half-finished revert is what the ApplyPatches guard refuses.
+            bool reverting = false;
+            for (const auto& p : state->applied) if (p.reverting) { reverting = true; break; }
+            if (reverting) {
+                state->restoreBlocked = true;
+                state->repatchNeeded = true;
+                return;
+            }
+            const PatchStats retry = ApplyPatches(state, state->lastPlan.patches);
+            state->patchStats = retry;
+            state->writeRetryPending = retry.failed != 0;
+            return;
         }
+        state->repatchNeeded = false;
         return;
     }
 
-    RevertApplied(state);
+    if (!RevertApplied(state)) {
+        state->restoreBlocked = true;
+        state->patchStats.failed = state->applied.size();
+        return;
+    }
+    state->restoreBlocked = false;
     AcquireSites(state, allowScan);
 
     const uint64_t t0 = NowMs();
@@ -819,16 +813,23 @@ void SettleLocked(State* state, bool allowScan) {
 
     const uint32_t wanted = WantedFeatureMask(state->config);
     const uint32_t done = (MaskOf(state->sites) | state->attemptedMask) & wanted;
-    state->repatchNeeded = (done != wanted);
+    /*
+     * A failed write is not the same thing as an unfinished site search, and the two must drive
+     * different work. `done != wanted` means symbols are still missing, so a full re-scan is the
+     * only way forward. `stats.failed != 0` means the addresses are known and the *write* failed
+     * - typically because the target page was still being relocated during boot. Re-scanning the
+     * whole image every pass does not make that write succeed, it only burns the launcher's CPU.
+     * Keep the retry, drop the rescan: `writeRetryPending` schedules another pass but no longer
+     * sets `repatchNeeded` on its own.
+     */
+    state->writeRetryPending = stats.failed != 0;
+    state->repatchNeeded = state->restoreBlocked || (done != wanted);
 
     LOGI("配置落地：共 %zu 条补丁（%s），用时 %llu ms%s",
          plan.patches.size(), DescribePlan(plan).c_str(),
          static_cast<unsigned long long>(NowMs() - t0),
          state->repatchNeeded ? "（尚未全部定位，后台继续）" : "");
     LogPlanReasons(plan, state->config);
-
-    WriteStatusFile(state, allowScan);
-    state->statusWritten = true;
 }
 
 bool TryDiscoverImage() {
@@ -839,8 +840,8 @@ bool TryDiscoverImage() {
 
     if (FindImageByName(kTargetLibName, &image)) {
         how = "dl_iterate_phdr";
-    } else if (FindImageFromApkMaps(kDesktopApkMarker, kTargetLibName, &image)) {
-        how = "maps+apk";
+    } else if (FindImageFromMappedApks(kTargetLibName, &image)) {
+        how = "mapped-ELF-container";
     } else {
         return false;
     }
@@ -857,6 +858,27 @@ bool TryDiscoverImage() {
         DumpImage(image);
     }
     return true;
+}
+
+uint64_t MonitorPeriodMs(const State& state) {
+    /*
+     * The period is a *policy*, and it has exactly two values.
+     *
+     * 1500 ms - the steady cadence. Taken when there is nothing left to do, and equally when
+     *           the runtime is knowingly stuck: a restore that could not complete, or a write
+     *           that keeps failing. Those states are unfinished, but re-attempting them at the
+     *           start-up rate changes nothing. During boot the target image is still being
+     *           relocated, so an unfinished pass cannot converge no matter how often it runs -
+     *           and running it twenty times a second is what starves the launcher main thread of
+     *           g_workMutex and keeps the desktop off the screen. A stuck state is therefore
+     *           retried on the *slow* cadence, not the fast one.
+     * 50 ms   - the start-up / applying cadence. Taken while the image or the configuration is
+     *           still being found, and while a plan is actively being applied. A genuinely
+     *           progressed plan settles in a pass or two, so this stays bounded.
+     */
+    if (state.imageFound && state.configLoaded && !state.repatchNeeded) return 1500;
+    if (state.restoreBlocked || state.writeRetryPending) return 1500;
+    return 50;
 }
 
 void MonitorLoop() {
@@ -899,9 +921,7 @@ void MonitorLoop() {
 
             if (!state->applied.empty()) Watchdog(state);
 
-            if (state->imageFound && state->configLoaded && !state->repatchNeeded) {
-                periodMs = 1500;
-            }
+            periodMs = MonitorPeriodMs(*state);
         }
 
         {
@@ -914,9 +934,11 @@ void MonitorLoop() {
 }
 
 void FastPatchOnLibraryLoad() {
-    TryDiscoverImage();
-
-    std::lock_guard<std::mutex> work(g_workMutex);
+    // PrimeCachedSymbols already publishes the image. A cache/lock miss falls to
+    // the worker; never discover/wait under the Android linker callback lock.
+    if (!g_imageKnown.load(std::memory_order_acquire)) return;
+    std::unique_lock<std::mutex> work(g_workMutex, std::try_to_lock);
+    if (!work.owns_lock()) return;
     State* state = &g_state;
     if (!state->imageFound) return;
     if (!state->applied.empty()) return;
@@ -1043,28 +1065,98 @@ void HomeTweaksPrepareForLauncherChild() {
 }
 
 /**
+ * While true on the calling thread, symbol lookups will not start the (expensive) index build.
+ *
+ * Owned here rather than in the layout module because HomeTweaksFindSymbol is the single choke point
+ * every symbol query goes through, so one flag covers bind_knobs, resolve_grid_fields and the probe.
+ */
+// Cache miss: small output chunks and an explicit deadline; timeout resets unpublished roots.
+// Worker later persists a completed index, never fsync in this bounded loader attempt.
+bool HomeTweaksPrimeCachedSymbols() {
+    Image image{};
+    if (!FindImageByName(kTargetLibName, &image)
+        && !FindImageFromMappedApks(kTargetLibName, &image)) return false;
+    std::unique_lock<std::mutex> work(g_workMutex, std::try_to_lock);
+    if (!work.owns_lock()) return false;
+    if (!g_state.imageFound) {
+        g_state.image = image; g_state.imageFound = true;
+        g_imageKnown.store(true, std::memory_order_release);
+    }
+    if (!g_state.identityTried) {
+        g_state.identityTried = true; g_state.imageId = ImageIdentity(g_state.image);
+    }
+    auto& index = SymbolIndex::Instance();
+    if (index.TryLoadCached(g_state.image, g_state.imageId)) {
+        // Keep index publication and initial source-word writes in ONE critical
+        // section. Otherwise the monitor wins this lock after index publication,
+        // and the loader's later try-lock misses the one-shot icon calculation.
+        if(g_state.configLoaded)SettleLocked(&g_state,false);
+        return true;
+    }
+    const uint64_t start = NowMs();
+    const bool ready = index.EnsureLoaded(g_state.image, 300);
+    LOGI("首次无符号缓存预算解析：ready=%d elapsed=%llu ms（预算300ms）", ready ? 1 : 0,
+        static_cast<unsigned long long>(NowMs() - start));
+    if(ready && g_state.configLoaded)SettleLocked(&g_state,false);
+    return ready;
+}
+
+thread_local bool g_inLoaderCallback = false;
+
+bool InLoaderCallback() { return g_inLoaderCallback; }
+
+void SetInLoaderCallback(bool value) { g_inLoaderCallback = value; }
+
+/**
  * Look a function up by the name the launcher's own symbol table gives it. Reading the address out
  * of the image rather than carrying it across an OTA is the whole point: the name is part of the
  * launcher's build, the address is not.
  */
 bool HomeTweaksFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize) {
     if (name == nullptr || outVa == nullptr || outSize == nullptr) return false;
+    SymbolIndex &index = SymbolIndex::Instance();
+    /*
+     * Inside the dlopen callback the symbol table may not be built yet, and building it here is what
+     * froze the desktop: EnsureLoaded reads the whole .gnu_debugdata out of the 28 MB APK and runs an
+     * xz pass over it, on the thread that holds the linker lock while the launcher is starting. On a
+     * device under I/O pressure that exceeded the 5 s input-dispatch timeout, the launcher ANR'd, was
+     * killed, forked, and did it again - which the user reported as "the layout changes do nothing".
+     *
+     * The loader thread therefore only ever *consumes* an index that is already built. If it is not,
+     * this returns "not found" and the caller does the same thing it does for a genuinely missing
+     * symbol: leaves the site alone. The maintenance worker builds the index on its own thread and
+     * both re-run their binding passes immediately afterwards, so nothing is lost - only moved off
+     * the critical path. EnsureLoaded is idempotent and single-shot (`attempted_`), so a worker that
+     * got there first is not disturbed.
+     */
+    if (InLoaderCallback() && !index.attempted()) return false;
     TryDiscoverImage();
     std::lock_guard<std::mutex> work(g_workMutex);
     if (!g_state.imageFound) return false;
-    SymbolIndex &index = SymbolIndex::Instance();
     if (!index.EnsureLoaded(g_state.image)) return false;
     return index.Find(name, outVa, outSize);
 }
 
 /**
- * Report the launcher image this module resolved.
+ * Distance from `va` to the next symbol in the same table.
  *
- * The layout module's own APK discovery matches a fixed /data directory pattern; the 7654 desktop
- * ships from /product/priv-app/MiuiHome, which that pattern can never match, so its geometry sites
- * and every hook knob lost their image anchor. This hands over the path dl_iterate_phdr actually
- * proved — the same image the symbol table above is read from — instead of a second guess.
+ * Some Dart bodies are reported far shorter than the code that follows them -- on launcher 7722
+ * `LauncherIndicatorState.build` claims 0x58 while its real extent is 0x2b4, which is larger than
+ * the number of named functions in it. Anything that has to look at a whole body therefore has
+ * to walk to where the next name begins, not to the size the table reports, or it stops half way
+ * through the very instructions it is looking for. Returns false when `va` is the last symbol.
  */
+bool HomeTweaksSymbolSpan(uint32_t va, uint32_t *outSpan) {
+    if (va == 0 || outSpan == nullptr) return false;
+    TryDiscoverImage();
+    std::lock_guard<std::mutex> work(g_workMutex);
+    if (!g_state.imageFound) return false;
+    SymbolIndex &index = SymbolIndex::Instance();
+    if (!index.EnsureLoaded(g_state.image)) return false;
+    return index.SpanFrom(va, outSpan);
+}
+
+/** Return the verified image source for diagnostics/bridge callers; never infer an APK from a directory. */
 bool HomeTweaksTargetImage(char *path, size_t cap) {
     if (path == nullptr || cap == 0) return false;
     TryDiscoverImage();
@@ -1083,6 +1175,17 @@ void PushPhoneGrid(uint32_t cols, uint32_t rows) {
     PushTweaksConfig(config);
 }
 
+// A boot snapshot fills only an empty planner. A newer pushed configuration,
+// including explicit disable, must never be overwritten by a stale disk cache.
+bool PrimeTweaksConfig(const Config& config) {
+    std::unique_lock<std::mutex> work(g_workMutex,std::try_to_lock);
+    if(!work.owns_lock())return false;
+    if(g_state.configLoaded)return true;
+    g_state.config=config;g_state.configLoaded=true;g_state.configFromBaked=false;
+    g_state.repatchNeeded=true;g_state.packTried=false;g_state.cacheTried=false;
+    return true;
+}
+
 void PushTweaksConfig(const Config& config) {
     {
         std::lock_guard<std::mutex> work(g_workMutex);
@@ -1090,7 +1193,6 @@ void PushTweaksConfig(const Config& config) {
         g_state.configLoaded = true;
         g_state.configFromBaked = false;
         g_state.repatchNeeded = true;
-        g_state.statusWritten = false;
         g_state.packTried = false;
         g_state.cacheTried = false;
     }

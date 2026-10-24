@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.clock
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.Choreographer
 import android.view.View
@@ -487,25 +489,50 @@ object StatusBarClockNew : BaseHook() {
     }
 
     private class SecondsFrameCallback : Choreographer.FrameCallback {
-        private val choreographer = Choreographer.getInstance()!!
+        // Do NOT touch Choreographer here. `Choreographer.getInstance()` reads the current
+        // thread's Looper and throws IllegalStateException("The current thread must have a
+        // looper!") when there is none. `init()` runs on the LSPosed hooking thread (a plain
+        // Binder thread, no Looper), so a field initializer or a postFrameCallback call at
+        // construction time kills the whole StatusBarClockNew hook on hot reload. Resolve the
+        // Choreographer lazily and always touch it from the main thread.
+        @Volatile
+        private var choreographer: Choreographer? = null
+
+        @Volatile
+        private var scheduled = false
+
         private val clockMap = HashMap<TextView, Method>()
 
+        /**
+         * Bind to the main thread's Choreographer and start the per-second tick.
+         * Safe to call from any thread: the actual work is posted to the main Looper.
+         */
         fun initial(): SecondsFrameCallback {
-            choreographer.postFrameCallback(this)
+            runOnMainThread {
+                val target = Choreographer.getInstance()
+                choreographer = target
+                if (!scheduled) {
+                    scheduled = true
+                    target.postFrameCallback(this)
+                }
+            }
             return this
         }
 
         fun dispose() {
-            choreographer.removeFrameCallback(this)
+            runOnMainThread {
+                scheduled = false
+                choreographer?.removeFrameCallback(this)
+            }
             clockMap.clear()
         }
 
         override fun doFrame(frameTimeNanos: Long) {
+            // FrameCallback is delivered on the main thread, so the Looper is guaranteed here.
+            val target = choreographer ?: return
+
             if (clockMap.isEmpty()) {
-                choreographer.postFrameCallbackDelayed(
-                    this,
-                    1000 - (System.currentTimeMillis() % 1000)
-                )
+                scheduleNext(target)
                 return
             }
 
@@ -520,7 +547,11 @@ object StatusBarClockNew : BaseHook() {
                 }
             }
 
-            choreographer.postFrameCallbackDelayed(
+            scheduleNext(target)
+        }
+
+        private fun scheduleNext(target: Choreographer) {
+            target.postFrameCallbackDelayed(
                 this,
                 1000 - (System.currentTimeMillis() % 1000)
             )
@@ -547,6 +578,26 @@ object StatusBarClockNew : BaseHook() {
                     textView.removeOnAttachStateChangeListener(listener)
                 }
             }
+        }
+
+        /**
+         * Run [block] on the main thread. Falls back to an inline call when the Looper is
+         * already ours; otherwise posts (and falls back to [Choreographer]'s own post path if
+         * the main Looper is not ready yet, which can happen during very early boot).
+         */
+        private fun runOnMainThread(block: () -> Unit) {
+            val mainLooper = Looper.getMainLooper()
+            if (mainLooper == null) {
+                // Main Looper unavailable (extremely early boot): defer via the handler-less
+                // path instead of throwing on this thread.
+                runCatching { block() }
+                return
+            }
+            if (mainLooper == Looper.myLooper()) {
+                block()
+                return
+            }
+            Handler(mainLooper).post { runCatching { block() } }
         }
     }
 }

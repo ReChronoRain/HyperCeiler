@@ -9,7 +9,8 @@ import hyperceiler_test_paths as test_paths
 
 p=argparse.ArgumentParser();p.add_argument('--output',required=True,type=Path);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
 b=Path(__file__).resolve().parent;r=b.parents[1];j=test_paths.JAVA_HOME/'bin'
-prod=[r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'/f for f in ['rules/home/dock/HomeLayoutNativeEndpointOS4.java','provider/HomeLayoutPrefsSnapshot.java','base/FrameworkHookGate.java']]
+prod=[r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'/f for f in ['rules/home/dock/HomeLayoutNativeEndpointOS4.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','base/FrameworkHookGate.java']]
+prod += [r/'library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java']
 tests=['HomeLayoutNativeEndpointOS4Test','HomeLayoutIdleSnapshotTest','HomeLayoutAtomicReloadTest'];old=r/'tests/home-layout-native'
 stubs=list((old/'stubs').rglob('*.java'))+[r/'tests/home-dock-window/stubs/android/os'/f for f in ['Binder.java','IBinder.java','Parcel.java']]
 with tempfile.TemporaryDirectory(prefix='hc-hyos-legacy-layout-') as t:

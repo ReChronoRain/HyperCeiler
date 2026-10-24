@@ -113,6 +113,15 @@
             android:key="prefs_key_always_show_clean_up"
             android:title="@string/home_recent_always_show_clean_up" />
 
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_home_recent_clear_action_os4"
+            android:persistent="false"
+            android:title="@string/home_recent_clear_button"
+            app:entries="@array/home_recent_clear_action_os4"
+            app:entryValues="@array/home_recent_clear_action_os4_values"
+            app:isPreferenceVisible="false" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_recent_remove_icon"

@@ -36,7 +36,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
 import android.os.SystemClock;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import android.view.Choreographer;
 import android.view.Display;
 import android.view.SurfaceControlViewHost;
@@ -185,7 +185,7 @@ final class DockGlassHost {
         } catch (Throwable error) {
             release(id);
             record(id, "failed: " + error.getClass().getSimpleName() + ": " + error.getMessage());
-            Log.w(TAG, "Glass host unavailable; retain compositor fallback", error);
+            ModuleLog.w(TAG, "Glass host unavailable; retain compositor fallback", error);
             result.complete(failure(error));
         }
     }
@@ -290,7 +290,7 @@ final class DockGlassHost {
             release(id);
             record(id, "configuration failed: " + error.getClass().getSimpleName() + ": " + error.getMessage());
             result.completeExceptionally(error);
-            Log.w(TAG, "Native glass configuration failed", error);
+            ModuleLog.w(TAG, "Native glass configuration failed", error);
         }
     }
 
@@ -389,7 +389,7 @@ final class DockGlassHost {
         if (!result.complete(response)) { surface.release(); release(id); return; }
         entry.parcel = surface;
         // ContentProvider serializes the package after call() returns; do not release it here.
-        Log.i(TAG, "Native glass frame committed for Dock host " + id);
+        ModuleLog.i(TAG, "Native glass frame committed for Dock host " + id);
         record(id, "frame committed; awaiting background texture; pipeline=container+glassChild");
     }
 
@@ -540,7 +540,7 @@ final class DockGlassHost {
                     true, expected, readFloatField(root, "mTexScale", 1f));
             entry.backdrop.postInvalidateOnAnimation();
             boolean valid = captureGeometryValid(entry);
-            Log.i(TAG, "glass geometry pinned naturalRot=" + expected + " before=" + before
+            ModuleLog.i(TAG, "glass geometry pinned naturalRot=" + expected + " before=" + before
                     + " valid=" + valid + " " + captureGeometry(entry));
             record(id, "glass geometry pinned naturalRot=" + expected + " before=" + before
                     + " valid=" + valid + " " + captureGeometry(entry));
@@ -564,7 +564,7 @@ final class DockGlassHost {
         Entry entry = entries.get(id);
         if (entry == null) return;
         entry.freshAfterNanos = System.nanoTime() - FRESH_TOLERANCE_NS;
-        Log.i(TAG, "glass capture freshness required id=" + id);
+        ModuleLog.i(TAG, "glass capture freshness required id=" + id);
         record(id, "glass capture freshness required");
     }
 
@@ -699,7 +699,7 @@ final class DockGlassHost {
             result.putBoolean("frozenDrawn", drawn);
             result.putBoolean("retained", retained);
             result.putString("captureGeometry", captureGeometry(entry));
-            Log.i(TAG, "glass capture frozen id=" + id + " drawn=" + drawn + " retained=" + retained);
+            ModuleLog.i(TAG, "glass capture frozen id=" + id + " drawn=" + drawn + " retained=" + retained);
             record(id, "capture frozen; drawn=" + drawn + " retained=" + retained);
         } catch (Exception unsupported) {
             // An optional pause API must not destroy a working host. Rotation will rebuild
@@ -722,10 +722,10 @@ final class DockGlassHost {
         for (long delay : new long[]{80L, 240L}) main.postDelayed(() -> {
             if (entries.get(id) != entry || entry.capturePaused || entry.captureEpoch != epoch) return;
             try {
-                Log.i(TAG, "glass capture sample id=" + id + " afterMs=" + delay
+                ModuleLog.i(TAG, "glass capture sample id=" + id + " afterMs=" + delay
                         + " timestamp=" + backgroundTimestamp(entry) + " " + captureGeometry(entry));
             } catch (Exception unavailable) {
-                Log.i(TAG, "glass capture sample metadata unavailable=" + unavailable.getClass().getSimpleName());
+                ModuleLog.i(TAG, "glass capture sample metadata unavailable=" + unavailable.getClass().getSimpleName());
             }
         }, delay);
         return probe(id);
@@ -796,7 +796,7 @@ final class DockGlassHost {
                     DockGlassPreset.GLASS_ENHANCE_FLAG);
             view.setClipToOutline(false);
         } catch (Exception unsupported) {
-            Log.i(TAG, "Glass clip enhancement unavailable; rounded outline retained");
+            ModuleLog.i(TAG, "Glass clip enhancement unavailable; rounded outline retained");
         }
         invoke(view, "setMiViewMaterialType", DockGlassPreset.MATERIAL_TYPE);
         // The launcher keys its folder-glass token off the wallpaper, not off the UI night
@@ -828,7 +828,7 @@ final class DockGlassHost {
             return colors != null && (colors.getColorHints() & 1) != 0;
         } catch (Throwable error) {
             // No colour hints (or no permission): fall back to the low-light folder glass.
-            Log.i(TAG, "Wallpaper colour hints unavailable; keeping the low-light folder glass");
+            ModuleLog.i(TAG, "Wallpaper colour hints unavailable; keeping the low-light folder glass");
             return false;
         }
     }
@@ -906,7 +906,8 @@ final class DockGlassHost {
             Object original = field.get(root);
             if (!(original instanceof String)) return false;
             String ownPackage = view.getContext().getPackageName();
-            if (!"com.sevtinge.hyperceiler".equals(ownPackage)) return false;
+            if (!"com.sevtinge.hyperceiler".equals(ownPackage)
+                && !"com.android.systemui".equals(ownPackage)) return false;
             // Instance field of OUR windowless ViewRoot only. Never alter static flags,
             // global settings, system properties, or another window's package/filter.
             field.set(root, original + "," + ownPackage);
@@ -928,6 +929,15 @@ final class DockGlassHost {
             }
         }
         return null;
+    }
+
+    void close() {
+        main.post(() -> {
+            for (String id : new java.util.ArrayList<>(entries.keySet())) {
+                try { release(id); }
+                catch (Exception error) { ModuleLog.w(TAG, "Renderer retirement failed", error); }
+            }
+        });
     }
 
     private void release(String id) {

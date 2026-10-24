@@ -312,15 +312,16 @@ class HomeDockWindow : BaseHook() {
     private fun materialSettleActive(): Boolean =
         pendingRevealAt >= 0L && SystemClock.uptimeMillis() - pendingRevealAt <= MATERIAL_SETTLE_MS
     private var commandSamples = 0
-    private val processGuard = DockGlassProcessGuard()
+    private val rendererBroker = DockGlassRendererBroker()
     private val displayListenerRegistered = AtomicBoolean(false)
     private val rotationHookFailureReported = AtomicBoolean(false)
-    private val glassClient = DockGlassClient(processGuard, { requestTraversal() },
+    private val glassClient = DockGlassClient(rendererBroker, { requestTraversal() },
         // New hosts retain the settle guard; a retained source can resume as soon as portrait returns.
         rotationSettling = { layerUpdate.isRotationSettling() },
         rotationActive = { layerUpdate.isDisplayRotated() })
     private val nativeMotionEndpoint = DockNativeMotionEndpoint(
         {
+            requestTraversal() // Editing changes background visibility, not just animation pose.
             if (directMotionAvailable) scheduleAnimationFrame(true) else {
                 requestTraversal()
                 scheduleDirectMotionRecovery()
@@ -437,11 +438,10 @@ class HomeDockWindow : BaseHook() {
 
     override fun init() {
         refreshSettings()
-        glassClient.record("hook init diagnosticVersion=37 enabled=${settings.enabled} mode=${settings.mode}")
+        glassClient.record("hook init diagnosticVersion=38 enabled=${settings.enabled} mode=${settings.mode}")
         glassClient.record("glass capture warmup=positive-alpha-v1 idleWait=retain-producer-v1")
         glassClient.record("glass rotation return=retained-capture-v3 pause=before-wallpaper-zoom resume=pose-committed")
-        runCatching { processGuard.install() }
-            .onFailure { glassClient.record("renderer guard unavailable=${it.javaClass.simpleName}") }
+        glassClient.record("glass renderer=SystemUI appLifetimeIndependent=true noFreezerExemption=true")
         val prefs = PrefsBridge.getSharedPreferences()
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == null || key.contains("home_dock_") || key.endsWith("home_other_home_mode")) {
@@ -460,7 +460,6 @@ class HomeDockWindow : BaseHook() {
             prefs?.unregisterOnSharedPreferenceChangeListener(listener)
             synchronized(layers) { layers.keys.toList().forEach { removeLayer(it) } }
             glassClient.close()
-            processGuard.close()
             service?.getObjectFieldAs<Handler>(WM_HANDLER)?.post {
                 cancelScheduledFrame()
                 runCatching { motionTransaction?.callMethod("close") }
@@ -559,6 +558,24 @@ class HomeDockWindow : BaseHook() {
                         // endpoint can observe the same frame, including the newest hook.
                         if (stopped) return@createBeforeHook
                         val code = param.args[0] as Int
+                        if (code == com.sevtinge.hyperceiler.libhook.provider.DockGlassRendererProtocol.REGISTER) {
+                            val reply = param.args[2] as? Parcel ?: return@createBeforeHook
+                            try {
+                                rendererBroker.receive(param.args[1] as Parcel, reply, param.args[3] as Int)
+                                requestTraversal()
+                            } catch (error: Exception) {
+                                reply.writeException(error)
+                            }
+                            param.result = true
+                            return@createBeforeHook
+                        }
+                        if (code == com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchOS4.TRANSACTION) {
+                            val reply = param.args[2] as? Parcel ?: return@createBeforeHook
+                            com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchOS4.receive(
+                                param.args[1] as Parcel, reply, param.args[3] as Int)
+                            param.result = true
+                            return@createBeforeHook
+                        }
                         val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
                         val hyos = code == HomeLayoutNativeEndpointOS4.HYOS_TRANSACTION_CODE
                         val combined = code == HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE
@@ -638,6 +655,43 @@ class HomeDockWindow : BaseHook() {
                         for (index in 0 until HomeLayoutNativeEndpointOS4.TWEAK_COUNT) {
                             reply.writeInt(if (index < tweaks.size) tweaks[index] else 0)
                         }
+                        val title = result?.title() ?: intArrayOf(12, 12, -1, 0)
+                        for (index in 0 until HomeLayoutNativeEndpointOS4.TITLE_COUNT) {
+                            reply.writeInt(title[index])
+                        }
+                        // UTF-16 units are explicit bounded integers; no native string allocator/GC.
+                        reply.writeInt(0x48435431)
+                        val labels = result?.customTitles() ?: emptyArray<Array<String>>()
+                        reply.writeInt(labels.size)
+                        for (pair in labels) for (text in pair) {
+                            reply.writeInt(text.length)
+                            for (unit in text) reply.writeInt(unit.code)
+                        }
+                        // Optional trailing extension; older native clients ignore it.
+                        reply.writeInt(0x48435731)
+                        reply.writeInt(if (result?.widgetAllowMove() == true) 1 else 0)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.FOLDER_MAGIC)
+                        val folder = result?.folder() ?: IntArray(HomeLayoutNativeEndpointOS4.FOLDER_COUNT)
+                        for (value in folder) reply.writeInt(value)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.BACK_GESTURE_MAGIC)
+                        val backGesture = result?.backGesture() ?: intArrayOf(60, 100)
+                        for (value in backGesture) reply.writeInt(value)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.FOLDER_AUTO_CLOSE_MAGIC)
+                        reply.writeInt(if (result?.folderAutoClose() == true) 1 else 0)
+                        reply.writeInt(0x48434731)
+                        for (value in HomeLayoutNativeEndpointOS4.gestureConfig()) reply.writeInt(value)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.OBJECT_SCALE_MAGIC)
+                        for (value in result?.objectScales() ?: intArrayOf(0, 100, 0, 100, 0, 100))
+                            reply.writeInt(value)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_MAGIC)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_SCHEMA)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_REVISION)
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_CAPABILITIES)
+                        reply.writeInt(android.os.Process.myPid())
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.DOCK_TITLE_MAGIC)
+                        reply.writeInt(if (result?.dockShowTitle() == true) 1 else 0)
+                        HomeLayoutNativeEndpointOS4.writeRecent(reply,
+                            result?.recent() ?: HomeLayoutNativeEndpointOS4.recentDefaults())
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()
@@ -686,6 +740,7 @@ class HomeDockWindow : BaseHook() {
                     // system_server survives a launcher restart. Bypass its old 30 s style limit
                     // once per new window, asynchronously, never query under WMS/layers locks.
                     glassClient.refreshRevealStyle(force = true)
+                    glassClient.refreshGeometry(force = true)
                 }
                 registerDisplayListener()
                 updateLayer(window)
@@ -957,9 +1012,10 @@ class HomeDockWindow : BaseHook() {
             // the compositor fallback covers exactly those frames and the glass returns the
             // moment the geometry catches up - no hide, no rebuild, no timer.
             refreshRotationGate()
-            val visible = windowVisible && !overlayShowing
-            val wasVisible = layer.lastVisible == true
             bindNativeMotion(window, layer)
+            val editing = nativeMotionEndpoint.editing(layer.nativeUid, layer.nativePid)
+            val visible = windowVisible && !overlayShowing && !editing
+            val wasVisible = layer.lastVisible == true
             if (!visible) {
                 layer.motion.finish()
                 layer.clearNativeSample()
@@ -968,7 +1024,15 @@ class HomeDockWindow : BaseHook() {
                 layer.motion.finish()
             }
             val glass = updateGlass(layer, config, bounds, dark, visible)
-            val resumeGlass = visible && glass != null && (layer.lastVisible == false || glass.retainedCapture)
+            // A parameter edit creates a new host. A late departure command can cancel its
+            // first readiness loop AFTER the visibility return; no retained texture exists yet.
+            // Reopen once the existing return animation settles, not on a polling timer.
+            val resumeFirstReadiness = visible && glass?.readinessSuspended == true &&
+                !layer.overview && !layer.nativeApplied &&
+                !layer.motion.isRunning(SystemClock.uptimeMillis()) && !isDisplayRotated()
+            val resumeGlass = visible && glass != null &&
+                (layer.lastVisible == false || glass.retainedCapture || resumeFirstReadiness)
+            if (resumeFirstReadiness) glassClient.releaseDepartureHold(glass!!)
             if (visible && layer.lastVisible == false && glass != null) glassClient.releaseDepartureHold(glass)
             if (!visible && layer.lastVisible == true && glass != null) {
                 // A display rotation hides the launcher behind the foreground app. Freeze the
@@ -1924,6 +1988,15 @@ class HomeDockWindow : BaseHook() {
                     }
                     directRecoveryDelay = 100L
                     if (needsFrame) scheduleAnimationFrame()
+                    else if (layers.any { (window, layer) ->
+                            layer.lastVisible == true && !layer.overview && !layer.overlayHidden &&
+                                layer.glass?.readinessSuspended == true &&
+                                window.callMethod("isVisible") == true
+                        }) {
+                        // The terminal pose has committed. One traversal reopens a cancelled
+                        // first readiness loop; resume clears the latch before posting IPC.
+                        requestTraversal()
+                    }
                 }
             }
         }.onFailure {
@@ -2133,7 +2206,7 @@ class HomeDockWindow : BaseHook() {
      * Whether the launcher's overlay window - the minus-one screen - is currently visible.
      *
      * <p>Read straight from WMS's window map, on the display thread and under the same global
-     * lock as every other traversal write. This is deliberately the only launcher state we read:
+     * lock as every other traversal write. This is the Java-visible overlay state; editing arrives on the separate native scalar lane:
      * OS4's launcher is a Flutter application with no dex at all, so edit mode and the pages
      * themselves live in Dart and no Java hook can reach them, while the overlay is a real
      * WindowState that WMS owns.
@@ -2338,7 +2411,6 @@ class HomeDockWindow : BaseHook() {
             glassClient.record("hook disabled error=${error.javaClass.simpleName}: ${error.message?.take(160)}")
             layers.keys.toList().forEach { removeLayer(it) }
             glassClient.close()
-            processGuard.close()
             XposedLog.e(TAG, LOG_TAG, "WMS dock disabled after an error; system windows left unchanged", error)
         }
     }

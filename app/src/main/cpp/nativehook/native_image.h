@@ -59,12 +59,19 @@ struct ExecutableMapping {
     uint32_t device_major;
     uint32_t device_minor;
     uint64_t inode;
+    // ELF-relative file_offset remains for resolution/load bias. Sources used
+    // by writers must identify the actual backing file (APK entry base included).
+    uint64_t container_offset = 0;
 
     std::optional<CodeSource> source_at(uintptr_t address, size_t bytes) const {
         if (bytes == 0 || address < begin || address >= end || bytes > end - address) return {};
         const uint64_t displacement = address - begin;
         if (add_overflows(file_offset, displacement)) return {};
-        return CodeSource{device_major, device_minor, inode, file_offset + displacement};
+        const uint64_t relative = file_offset + displacement;
+        if (add_overflows(container_offset, relative)) return {};
+        const uint64_t backing = container_offset + relative;
+        if (add_overflows(backing, bytes)) return {};
+        return CodeSource{device_major, device_minor, inode, backing};
     }
 
     bool operator==(const ExecutableMapping &) const = default;
@@ -134,12 +141,14 @@ struct FileMapping {
 /** Parse metadata only. Callers must use a fault-reporting read API for bytes. */
 inline std::vector<FileMapping> parse_file_mappings(std::istream &maps) {
     // A pathological inventory must not be able to grow without bound.
-    constexpr size_t kMaxInventoryLines = 16384;
     std::vector<FileMapping> result;
     result.reserve(256);
     std::string line;
+    size_t lines = 0, bytes = 0;
     while (std::getline(maps, line)) {
-        if (result.size() >= kMaxInventoryLines) break;
+        if (++lines > kMaxFileInventoryLines || line.size() >= kMaxFileInventoryBytes - bytes)
+            return {}; // Never publish a truncated inventory as a complete generation.
+        bytes += line.size() + 1;
         unsigned long long begin = 0;
         unsigned long long end = 0;
         unsigned long long offset = 0;
@@ -224,8 +233,9 @@ inline std::optional<EmbeddedImage> parse_embedded_image(
  *
  * Returns `{data_offset, size}` or nothing. Central directories with more than
  * one candidate, compressed entries, entries using a data descriptor, split
- * archives and ZIP64 are all refused: an ambiguous or unverifiable container
- * must never be guessed at.
+ * archives, encrypted entries and ZIP64 are all refused: an ambiguous or
+ * unverifiable container must never be guessed at. Local and central metadata
+ * must agree; the payload CRC is not recomputed by this location-only helper.
  */
 inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
     const std::string &path, std::string_view entry_suffix) {
@@ -239,6 +249,7 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
     constexpr size_t kCentralHeaderBytes = 46;
     constexpr size_t kLocalHeaderBytes = 30;
     constexpr uint64_t kMaxCentralDirectoryBytes = 32U * 1024U * 1024U;
+    if (entry_suffix.empty() || entry_suffix.find('\0') != std::string_view::npos) return {};
     std::ifstream file(path, std::ios::binary);
     if (!file) return {};
     file.seekg(0, std::ios::end);
@@ -258,8 +269,21 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
     for (size_t at = tail.size() - kEndBytes + 1; at-- > 0;) {
         if (load_le32(tail.data() + at) != kEndOfCentralDirectory) continue;
         if (at + kEndBytes + load_le16(tail.data() + at + 20) != tail.size()) continue;
+        // A legal comment can contain a signature that reaches EOF but has
+        // invalid metadata. Do not let it eclipse the real directory record.
+        const uint16_t count = load_le16(tail.data() + at + 10);
+        const uint32_t bytes = load_le32(tail.data() + at + 12);
+        const uint32_t offset = load_le32(tail.data() + at + 16);
+        const uint64_t absolute = total - tail_bytes + at;
+        if (load_le16(tail.data() + at + 4) != 0
+            || load_le16(tail.data() + at + 6) != 0
+            || load_le16(tail.data() + at + 8) != count
+            || count == 0 || count == kUnknown16 || bytes == kUnknown32
+            || offset == kUnknown32 || bytes > kMaxCentralDirectoryBytes
+            || bytes < uint64_t(count) * kCentralHeaderBytes
+            || offset > absolute || bytes > absolute - offset) continue;
+        if (end_record) return {}; // Two plausible records are not guessed at.
         end_record = at;
-        break;
     }
     if (!end_record) return {};
     const uint16_t disk = load_le16(tail.data() + *end_record + 4);
@@ -267,7 +291,8 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
     const uint16_t entries = load_le16(tail.data() + *end_record + 10);
     const uint32_t directory_bytes = load_le32(tail.data() + *end_record + 12);
     const uint32_t directory_offset = load_le32(tail.data() + *end_record + 16);
-    if (disk != 0 || disk_entries != entries || entries == 0
+    if (disk != 0 || load_le16(tail.data() + *end_record + 6) != 0
+        || disk_entries != entries || entries == 0
         || entries == kUnknown16 || directory_bytes == kUnknown32
         || directory_offset == kUnknown32) return {};
     if (directory_bytes > kMaxCentralDirectoryBytes || directory_offset > total
@@ -292,11 +317,13 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
             || load_le32(directory.data() + at) != kCentralHeader) return {};
         const uint16_t flags = load_le16(directory.data() + at + 8);
         const uint16_t method = load_le16(directory.data() + at + 10);
+        const uint32_t crc = load_le32(directory.data() + at + 16);
         const uint32_t compressed = load_le32(directory.data() + at + 20);
         const uint32_t uncompressed = load_le32(directory.data() + at + 24);
         const uint16_t name_bytes = load_le16(directory.data() + at + 28);
         const uint16_t extra_bytes = load_le16(directory.data() + at + 30);
         const uint16_t comment_bytes = load_le16(directory.data() + at + 32);
+        const uint16_t start_disk = load_le16(directory.data() + at + 34);
         const uint32_t local_offset = load_le32(directory.data() + at + 42);
         if (static_cast<size_t>(name_bytes) + extra_bytes + comment_bytes
             > directory.size() - at - kCentralHeaderBytes) return {};
@@ -304,11 +331,16 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
             reinterpret_cast<const char *>(directory.data() + at + kCentralHeaderBytes),
             name_bytes);
         at += kCentralHeaderBytes + name_bytes + extra_bytes + comment_bytes;
+        if (start_disk != 0) return {};
         if (!entry_matches(name)) continue;
-        // Only an uncompressed, descriptor-free entry is mapped in place.
-        if (method != 0 || (flags & 0x08U) != 0 || compressed != uncompressed
+        // Only an uncompressed, descriptor-free, unencrypted entry maps in place.
+        if (name.empty() || name.find('\0') != std::string_view::npos
+            || method != 0 || (flags & (0x01U | 0x08U | 0x40U | 0x2000U)) != 0
+            || compressed != uncompressed
             || compressed == 0 || compressed == kUnknown32
             || local_offset == kUnknown32) return {};
+        if (local_offset > directory_offset
+            || kLocalHeaderBytes > directory_offset - local_offset) return {};
         std::array<std::byte, kLocalHeaderBytes> local{};
         file.clear();
         file.seekg(static_cast<std::streamoff>(local_offset));
@@ -316,6 +348,11 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
             static_cast<std::streamsize>(local.size()));
         if (static_cast<uint64_t>(file.gcount()) != local.size()
             || load_le32(local.data()) != kLocalHeader) return {};
+        if (load_le16(local.data() + 6) != flags
+            || load_le16(local.data() + 8) != method
+            || load_le32(local.data() + 14) != crc
+            || load_le32(local.data() + 18) != compressed
+            || load_le32(local.data() + 22) != uncompressed) return {};
         // The local header carries its own extra-field length, which does not
         // have to match the central record's.
         const uint16_t local_name = load_le16(local.data() + 26);
@@ -323,10 +360,16 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
         if (local_name != name_bytes) return {};
         const uint64_t data_offset = static_cast<uint64_t>(local_offset)
             + kLocalHeaderBytes + local_name + local_extra;
-        if (data_offset > total || compressed > total - data_offset) return {};
+        if (data_offset > directory_offset
+            || compressed > directory_offset - data_offset) return {};
+        // Same-length names do not prove that the local record owns this entry.
+        std::string local_name_bytes(local_name, '\0');
+        file.read(local_name_bytes.data(), static_cast<std::streamsize>(local_name));
+        if (static_cast<size_t>(file.gcount()) != local_name || local_name_bytes != name) return {};
         if (found) return {};
         found = std::pair<uint64_t, uint64_t>{data_offset, compressed};
     }
+    if (at != directory.size()) return {};
     return found;
 }
 
@@ -335,8 +378,8 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
  *
  * A range is accepted only when its recorded file identity resolves inside the
  * image's own view, so sibling libraries sharing the container file can never
- * contribute code. Offsets are rebased on the view start, keeping
- * [CodeSource::file_offset] stable across reloads of the same image.
+ * contribute code. Resolver offsets are rebased on the view start; CodeSource
+ * retains the backing-file offset so Linux page metadata and writers agree.
  */
 inline std::vector<ExecutableMapping> owned_image_mappings(
     const std::vector<FileMapping> &mappings,
@@ -365,17 +408,36 @@ inline std::vector<ExecutableMapping> owned_image_mappings(
             || length % sizeof(uint32_t) != 0
             || length > kMaxExecutableCodeBytes
             || length > kMaxExecutableCodeBytes - total
-            || result.size() >= kMaxExecutableMappings) return {};
+            || result.size() >= 16384) return {};
         total += static_cast<size_t>(length);
         result.push_back({mapping.begin, mapping.end,
             mapping.file_offset - owner->view_begin, mapping.device_major,
-            mapping.device_minor, mapping.inode});
+            mapping.device_minor, mapping.inode, owner->view_begin});
     }
     std::ranges::sort(result, {}, &ExecutableMapping::begin);
-    for (size_t i = 1; i < result.size(); ++i) {
-        if (result[i - 1].end > result[i].begin) return {};
+    // mprotect/inline patching splits one ELF segment into many RX VMAs.
+    // Count immutable backing runs, not incidental kernel VMA boundaries.
+    std::vector<ExecutableMapping> runs;
+    for (const auto &mapping : result) {
+        if (!runs.empty()) {
+            auto &previous = runs.back();
+            if (previous.end > mapping.begin) return {};
+            const uint64_t length = previous.end - previous.begin;
+            if (previous.end == mapping.begin
+                && previous.device_major == mapping.device_major
+                && previous.device_minor == mapping.device_minor
+                && previous.inode == mapping.inode
+                && previous.container_offset == mapping.container_offset
+                && !add_overflows(previous.file_offset, length)
+                && previous.file_offset + length == mapping.file_offset) {
+                previous.end = mapping.end;
+                continue;
+            }
+        }
+        if (runs.size() >= kMaxExecutableMappings) return {};
+        runs.push_back(mapping);
     }
-    return result;
+    return runs;
 }
 
 /**

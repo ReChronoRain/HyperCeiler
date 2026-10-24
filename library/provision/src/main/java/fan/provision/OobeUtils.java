@@ -27,7 +27,7 @@ import android.content.res.Configuration;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.LayoutDirection;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
@@ -223,7 +223,7 @@ public class OobeUtils {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(context, "ActivityNotFound", Toast.LENGTH_LONG).show();
-            Log.e(TAG, "startActivity ActivityNotFound:", e);
+            ModuleLog.e(TAG, "startActivity ActivityNotFound:", e);
         }
     }
 }

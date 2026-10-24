@@ -3,6 +3,10 @@ import android.database.Cursor;
 import com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot;
 /** Transport only; row/schema/type construction always uses the actual production snapshot class. */
 public class ContentResolver {
+ private static volatile android.database.ContentObserver observer;
+ public void registerContentObserver(android.net.Uri uri,boolean descendants,android.database.ContentObserver value){observer=value;}
+ public void unregisterContentObserver(android.database.ContentObserver value){if(observer==value)observer=null;}
+ public static void signalChange(String uri){var value=observer;if(value!=null)value.onChange(false,android.net.Uri.parse(uri));}
  public static volatile java.util.Map<String,Object> values=java.util.Map.of();
  public static volatile Runnable afterSnapshot=()->{};
  public static volatile String failure="";

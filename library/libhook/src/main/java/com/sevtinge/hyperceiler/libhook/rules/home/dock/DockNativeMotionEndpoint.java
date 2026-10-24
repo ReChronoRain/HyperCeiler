@@ -31,6 +31,8 @@ public final class DockNativeMotionEndpoint {
     // The established recents transaction remains stable across hot reloads.
     public static final int TRANSACTION_CODE = 0x0048434A;
     /** Independent latest-value lane: recents writes can never erase the Hotseat projection. */
+    public static final int EDIT_TRANSACTION_CODE = 0x0048434F;
+    private final DockEditState editState = new DockEditState();
     public static final int AUTO_AIM_TRANSACTION_CODE = 0x0048434B;
     public static final int ACK = 0x48434B32;
     public static final int ACK_REVALIDATE = 0x48434B33;
@@ -82,6 +84,7 @@ public final class DockNativeMotionEndpoint {
 
     public void bindIdentity(int uid, int pid) {
         if (uid < 10000 || pid <= 0) return;
+        boolean editChanged = editState.bind(uid, pid);
         Identity replacement = new Identity(uid, pid);
         Pending early = pending.getAndSet(null);
         State rebound = state.updateAndGet(current -> {
@@ -134,11 +137,11 @@ public final class DockNativeMotionEndpoint {
         boolean aimPromoted = earlyAim != null && earlyAim.sample() != null
                 && aimRebound.sample() == earlyAim.sample();
         if (promoteAutoAimPending(replacement)) aimPromoted = true;
-        if (promoted || aimPromoted) notifyChanged();
+        if (promoted || aimPromoted || editChanged) notifyChanged();
     }
 
     public static boolean handles(int code) {
-        return code == TRANSACTION_CODE || code == AUTO_AIM_TRANSACTION_CODE;
+        return code == TRANSACTION_CODE || code == AUTO_AIM_TRANSACTION_CODE || code == EDIT_TRANSACTION_CODE;
     }
 
     /** Must be called only from IWindowManager.Stub.onTransact while Binder identity is intact. */
@@ -176,6 +179,14 @@ public final class DockNativeMotionEndpoint {
         long packed = data.readLong();
         long entryHits = data.readLong();
         long publishHits = data.readLong();
+        if (code == EDIT_TRANSACTION_CODE) {
+            if (editState.accept(callerUid, callerPid, sequence, timestamp, packed,
+                    entryHits, publishHits, System.nanoTime())) {
+                diagnostic.accept("dock edit state=" + packed + " revision=" + publishHits);
+                notifyChanged();
+            }
+            return ACK;
+        }
         boolean autoAim = (packed & 3L) == DockNativeMotion.SCENE_AUTO_AIM;
         if (code == AUTO_AIM_TRANSACTION_CODE && !autoAim) {
             report(512, "auto aim Binder rejected: non-scene-3 payload");
@@ -427,6 +438,8 @@ public final class DockNativeMotionEndpoint {
             // Health notification is optional; never unwind into WMS.
         }
     }
+
+    public boolean editing(int uid, int pid) { return editState.hidden(uid, pid); }
 
     public DockNativeMotion.Sample latest(int uid, int pid) {
         State current = state.get();

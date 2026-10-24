@@ -8,7 +8,8 @@ import hyperceiler_test_paths as test_paths
 
 p=argparse.ArgumentParser();p.add_argument('--output',required=True,type=Path);p.add_argument('--endpoint-source',type=Path);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
 b=Path(__file__).resolve().parent;r=b.parents[1];j=test_paths.JAVA_HOME/'bin'
-production=[r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'/f for f in ['rules/home/dock/HomeLayoutNativeEndpointOS4.java','provider/HomeLayoutPrefsSnapshot.java','base/FrameworkHookGate.java']]
+production=[r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'/f for f in ['rules/home/dock/HomeLayoutNativeEndpointOS4.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','base/FrameworkHookGate.java']]
+production += [r/'library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java']
 if a.endpoint_source: production[0]=a.endpoint_source
 stubs=[p for p in (r/'tests/home-layout-native/stubs').rglob('*.java') if p.name!='ContentResolver.java']+[r/'tests/home-dock-window/stubs/android/os'/f for f in ['Binder.java','IBinder.java','Parcel.java']]+list((b/'java').rglob('*.java'))
 with tempfile.TemporaryDirectory(prefix='hc-hyos-endpoint-') as t:

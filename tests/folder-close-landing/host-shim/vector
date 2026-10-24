@@ -1,0 +1,21 @@
+#pragma once
+// Freestanding host build (run.py passes -nostdinc++ and links lld/msvcrt directly).
+// home_dart_fields.h takes std::vector<uint32_t> parameters, but the close-landing
+// regression never calls any of those functions - it only exercises
+// home_workspace_snapshot.h, which is pure arithmetic on cstdint types. A real
+// libc++ cannot be used here because it needs the MSVC CRT headers, which are not
+// installed, so this declares just enough of the interface to compile the unused
+// signatures. Nothing in this shim has a definition: if a call site ever did reach
+// it, the link would fail loudly rather than silently produce wrong numbers.
+namespace std {
+template <class T> struct vector {
+    vector() = default;
+    vector(const vector &) = delete;
+    vector &operator=(const vector &) = delete;
+    unsigned long size() const { return 0; }
+    bool empty() const { return true; }
+    const T *data() const { return nullptr; }
+    T *data() { return nullptr; }
+    const T &operator[](unsigned long) const { static T t{}; return t; }
+};
+}

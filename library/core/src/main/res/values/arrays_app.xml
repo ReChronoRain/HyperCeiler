@@ -323,6 +323,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="home_recent_clear_action_os4">
+        <item>@string/array_default</item>
+        <item>@string/home_recent_clear_action_hide</item>
+        <item>@string/home_recent_clear_action_disable</item>
+    </string-array>
+
+    <string-array name="home_recent_clear_action_os4_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="seek_points">
         <item>@string/array_default</item>
         <item>@string/seek_points_roll</item>

@@ -19,6 +19,11 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.other
 
 import android.app.Activity
+import android.content.ContentResolver
+import android.database.ContentObserver
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.content.res.Configuration
 import android.os.Bundle
 import android.provider.Settings
@@ -38,6 +43,71 @@ object HomeSettingsOS4 : BaseHook() {
     override fun init() {
         hookHomeMode()
         hookMemoryInfoSetting()
+        hookTitleSettings()
+    }
+
+    private val titleSizeUri = Uri.parse(
+        "content://com.sevtinge.hyperceiler.provider.sharedprefs/integer/prefs_key_home_title_font_size/12"
+    )
+    private val titleColorUri = Uri.parse(
+        "content://com.sevtinge.hyperceiler.provider.sharedprefs/integer/prefs_key_home_title_title_color/-1"
+    )
+    private val drawerTitleSizeUri = Uri.parse(
+        "content://com.sevtinge.hyperceiler.provider.sharedprefs/integer/prefs_key_home_drawer_title_font_size/12"
+    )
+    private val titleChangesUri = Uri.parse(
+        "content://com.sevtinge.hyperceiler.provider.sharedprefs/pref"
+    )
+    private var titleObserver: ContentObserver? = null
+
+    private fun hookTitleSettings() {
+        Activity::class.java.findMethod {
+            name("onCreate")
+            parameterTypes(Bundle::class.java)
+        }.createBeforeHook { param ->
+            val activity = param.thisObject as Activity
+            if (activity.componentName.className != LAUNCHER_ACTIVITY) return@createBeforeHook
+            val resolver = activity.applicationContext.contentResolver
+            publishTitleSettings(resolver)
+            if (titleObserver != null) return@createBeforeHook
+            val handler = Handler(Looper.getMainLooper())
+            val update = Runnable { publishTitleSettings(resolver) }
+            val observer = object : ContentObserver(handler) {
+                override fun onChange(selfChange: Boolean, uri: Uri?) {
+                    val segment = uri?.lastPathSegment
+                    if (segment != null && segment != "prefs_key_home_title_font_size"
+                        && segment != "home_title_font_size"
+                        && segment != "prefs_key_home_drawer_title_font_size"
+                        && segment != "home_drawer_title_font_size"
+                        && segment != "prefs_key_home_title_title_color"
+                        && segment != "home_title_title_color") return
+                    handler.removeCallbacks(update)
+                    handler.postDelayed(update, 150)
+                }
+            }
+            runCatching {
+                resolver.registerContentObserver(titleChangesUri, true, observer)
+                titleObserver = observer
+            }.onFailure {
+                XposedLog.e(TAG, lpparam.packageName, "OS4 title observer unavailable", it)
+            }
+        }
+    }
+
+    private fun readTitleInt(resolver: ContentResolver, uri: Uri, key: String, fallback: Int): Int =
+        runCatching {
+            resolver.query(uri, null, null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) cursor.getInt(0) else fallback
+            }
+        }.getOrNull() ?: runCatching { PrefsBridge.getInt(key, fallback) }.getOrDefault(fallback)
+
+    private fun publishTitleSettings(resolver: ContentResolver) {
+        val sp = readTitleInt(resolver, titleSizeUri, "home_title_font_size", 12)
+        val drawerSp = readTitleInt(resolver, drawerTitleSizeUri, "home_drawer_title_font_size", 12)
+        val color = readTitleInt(resolver, titleColorUri, "home_title_title_color", -1)
+        NativeHomeHooksOS4.setDesktopTitleSize(sp)
+        NativeHomeHooksOS4.setDrawerTitleSize(drawerSp)
+        NativeHomeHooksOS4.setTitleColor(color)
     }
 
     private fun hookHomeMode() {

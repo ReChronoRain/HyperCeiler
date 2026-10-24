@@ -1,6 +1,9 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 package com.sevtinge.hyperceiler.libhook.rules.home.dock;
 
+import android.content.ContentResolver;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
@@ -45,20 +48,22 @@ public final class HomeLayoutNativeEndpointOS4 {
      * The reliable source is the module app itself: it exposes the very same preferences through
      * its provider, and reading our own file is something it can always do. A background thread
      * pulls those values into a cache so that the launcher's synchronous transaction never waits
-     * on a binder call, and never has to start the module app if it is not running yet.
+     * on a binder call. A refresh can start the module app, so idle refreshes must be sparse.
      */
     private static final String PREFS_AUTHORITY = "com.sevtinge.hyperceiler.provider.sharedprefs";
+    // HCS1 authorization expires after five BOOTTIME seconds, even without a settings write.
+    // Renew on the existing worker; notifications still coalesce slider updates promptly.
     private static final long PREFS_REFRESH_MS = 1500;
+    private static final long INITIAL_RETRY_MS = 1500;
+    private static final long CHANGE_MIN_INTERVAL_NS = 150_000_000L;
     /**
-     * Cap on the refresh period after failed cycles (see refreshFromProvider). Large enough that a
-     * blocked provider costs almost nothing, small enough that a value changed just after an unlock
-     * still lands without the user wondering whether it worked.
+     * Cap on retries after failed cycles. Change notifications provide the prompt path while
+     * this bounded retry also recovers from a provider that was unavailable during an update.
      */
     private static final long MAX_REFRESH_BACKOFF_MS = 30000;
     private static final String TAG = "HyperCeiler.HomeLayoutEndpoint";
-    private static volatile java.util.Map<String, Integer> cachedValues;
-    // These fields publish under refresherLock with the matching numeric revision. They are
-    // deliberately not restored from old-generation cache: Hyos needs a live provider revision.
+    private static volatile java.util.Map<String, Object> cachedValues;
+    // Published with the same provider revision, never restored as live authorization.
     private static String cachedFrameworkReason;
     private static FrameworkHookGate.Fingerprint cachedFrameworkFingerprint;
     private static boolean hyosSnapshotLive;
@@ -69,6 +74,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static Thread refresher;
     private static volatile boolean paused;
     private static long refreshEpoch;
+    private static long notificationVersion;
     private static long refreshTicket;
     private static long combinedEpoch;
     private static long combinedRevision;
@@ -79,9 +85,8 @@ public final class HomeLayoutNativeEndpointOS4 {
     /** Every key this endpoint reads, without the module's own key prefix. */
     private static final String[][] PREF_KEYS = HomeLayoutPrefsSnapshot.specs();
 
-    // A publication sequence, not a SharedPreferences disk commit number. All fields come from
-    // one getAll cursor. The immutable numeric map and private layout never cross reload.
-    private record PublishedSnapshot(java.util.Map<String, Integer> values, String reason,
+    // One immutable provider revision owns both authorization and the decoded layout.
+    private record PublishedSnapshot(java.util.Map<String, Object> values, String reason,
         FrameworkHookGate.Fingerprint framework, Snapshot layout, long epoch, long revision,
         long deadline) { }
 
@@ -91,15 +96,16 @@ public final class HomeLayoutNativeEndpointOS4 {
         @Override public Snapshot layout() { return copyLayout(layout); }
     }
 
-    private static Snapshot emptyLayout() {
-        return new Snapshot(ACK, 0, 0, 0, new int[KNOB_ROWS.length],
-            new int[KNOB_ROWS.length], new int[TWEAK_COUNT]);
-    }
-
     private static Snapshot copyLayout(Snapshot value) {
-        if (value == null) return emptyLayout();
+        if (value == null) return new Snapshot(ACK, 0, 0, 0, new int[KNOB_ROWS.length],
+            new int[KNOB_ROWS.length], new int[TWEAK_COUNT]);
+        final String[][] titles = new String[value.customTitles().length][];
+        for (int i = 0; i < titles.length; ++i) titles[i] = value.customTitles()[i].clone();
         return new Snapshot(value.acknowledgment(), value.gridEnabled(), value.cellX(), value.cellY(),
-            value.knobEnabled().clone(), value.knobDeltaDp().clone(), value.tweaks().clone());
+            value.knobEnabled().clone(), value.knobDeltaDp().clone(), value.tweaks().clone(),
+            value.title().clone(), titles, value.widgetAllowMove(), value.folder().clone(),
+            value.backGesture().clone(), value.folderAutoClose(), value.objectScales().clone(),
+            value.dockShowTitle(), value.recent().clone());
     }
 
     private static CombinedSnapshot unavailableCombined(PublishedSnapshot value) {
@@ -107,15 +113,28 @@ public final class HomeLayoutNativeEndpointOS4 {
             value == null ? 0 : value.revision(), 0, null);
     }
 
-    /** Caller holds refresherLock. Invalidations are publications too. */
+    /** Caller holds refresherLock. Revocation advances the same publication sequence. */
     private static void invalidateCombinedLocked() {
+        hyosSnapshotLive = false;
         if (combinedEpoch == 0) { combinedPublished = null; return; }
         combinedPublished = new PublishedSnapshot(null, null, null, null, combinedEpoch,
             ++combinedRevision, 0);
     }
 
-    /** Start the one background query worker after installing WMS routing, before Home asks. */
     public static void startCombinedPrefetch() { ensureRefresher(); }
+
+    private static boolean isLayoutChange(Uri uri) {
+        if (uri == null) return true; // A broad invalidation must never be dropped.
+        final String path = uri.toString();
+        final int slash = path.lastIndexOf('/');
+        final String segment = path.substring(slash + 1);
+        final String key = segment.startsWith("prefs_key_")
+            ? segment.substring("prefs_key_".length()) : segment;
+        for (String[] spec : PREF_KEYS) {
+            if (spec[1].equals(key)) return true;
+        }
+        return false;
+    }
 
     private static void restoreProviderSnapshot() {
         if (cachedValues != null) return;
@@ -124,10 +143,11 @@ public final class HomeLayoutNativeEndpointOS4 {
             final java.util.Map<?, ?> saved = BaseHook.getHotReloadRuntimeState(
                 RELOAD_CACHE_KEY, java.util.Map.class);
             if (saved == null) return;
-            final java.util.Map<String, Integer> restored = new java.util.HashMap<>();
+            final java.util.Map<String, Object> restored = new java.util.HashMap<>();
             for (java.util.Map.Entry<?, ?> entry : saved.entrySet()) {
                 if (!(entry.getKey() instanceof String key)
-                    || !(entry.getValue() instanceof Integer value)) return;
+                    || !(entry.getValue() instanceof Integer || entry.getValue() instanceof String)) return;
+                Object value = entry.getValue();
                 restored.put(key, value);
             }
             cachedValues = java.util.Collections.unmodifiableMap(restored);
@@ -140,18 +160,77 @@ public final class HomeLayoutNativeEndpointOS4 {
             if (refresher != null || paused) return;
             final long epoch = refreshEpoch;
             refresher = new Thread(() -> {
-                long period = PREFS_REFRESH_MS;
+                ContentResolver resolver = null;
+                ContentObserver observer = null;
+                long retry = INITIAL_RETRY_MS;
+                long lastQueryAtNanos = 0;
                 try {
+                    try {
+                        final android.content.Context context =
+                            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+                        if (context != null) {
+                            resolver = context.getContentResolver();
+                        }
+                        if (resolver != null) {
+                            final ContentObserver candidate = new ContentObserver(null) {
+                                @Override public void onChange(boolean selfChange, Uri uri) {
+                                    if (!isLayoutChange(uri)) return;
+                                    synchronized (refresherLock) {
+                                        ++notificationVersion;
+                                        invalidateCombinedLocked();
+                                        refresherLock.notifyAll();
+                                    }
+                                }
+                            };
+                            resolver.registerContentObserver(Uri.parse(
+                                "content://" + PREFS_AUTHORITY + "/pref"), true, candidate);
+                            observer = candidate;
+                        }
+                    } catch (RuntimeException | Error unavailable) {
+                        // A broken content service must not crash system_server's worker.
+                        // Unobserved systems continue with a bounded five-second fallback.
+                    }
                     for (;;) {
+                        final long beforeQuery;
                         synchronized (refresherLock) {
                             if (paused || refreshEpoch != epoch) return;
+                            // Slider drags may emit dozens of writes per second. Coalesce them
+                            // without delaying the first write or making the UI wait for release.
+                            if (lastQueryAtNanos != 0) {
+                                final long remaining = CHANGE_MIN_INTERVAL_NS
+                                    - (System.nanoTime() - lastQueryAtNanos);
+                                if (remaining > 0) {
+                                    refresherLock.wait(Math.max(1, (remaining + 999_999) / 1_000_000));
+                                    continue;
+                                }
+                            }
+                            beforeQuery = notificationVersion;
                         }
-                        period = refreshFromProvider() ? PREFS_REFRESH_MS
-                            : Math.min(period * 2, MAX_REFRESH_BACKOFF_MS);
-                        try { Thread.sleep(period); }
-                        catch (InterruptedException cancelled) { return; }
+                        final boolean success = refreshFromProvider();
+                        lastQueryAtNanos = System.nanoTime();
+                        final long period;
+                        if (success) {
+                            retry = INITIAL_RETRY_MS;
+                            period = PREFS_REFRESH_MS;
+                        } else {
+                            retry = Math.min(retry * 2, MAX_REFRESH_BACKOFF_MS);
+                            period = retry;
+                        }
+                        synchronized (refresherLock) {
+                            if (paused || refreshEpoch != epoch) return;
+                            // A write during the query needs a new whole-file revision now.
+                            if (notificationVersion != beforeQuery) continue;
+                            refresherLock.wait(period);
+                        }
                     }
+                } catch (InterruptedException cancelled) {
+                    Thread.currentThread().interrupt();
                 } finally {
+                    if (resolver != null && observer != null) {
+                        try { resolver.unregisterContentObserver(observer); }
+                        catch (RuntimeException | Error unavailable) { /* Retiring after provider death. */ }
+                    }
                     synchronized (refresherLock) {
                         if (refresher == Thread.currentThread()) refresher = null;
                     }
@@ -172,6 +251,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             worker = refresher;
             if (worker == null) return true;
             worker.interrupt();
+            refresherLock.notifyAll();
         }
         try { worker.join(500); }
         catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); return false; }
@@ -197,15 +277,17 @@ public final class HomeLayoutNativeEndpointOS4 {
     static boolean refreshFromProvider() {
         final long epoch;
         final long ticket;
+        final long notificationAtQuery;
         synchronized (refresherLock) {
             if (paused) return false;
             epoch = refreshEpoch;
             ticket = ++refreshTicket;
+            notificationAtQuery = notificationVersion;
         }
         // The lease begins BEFORE the provider call. A slow response cannot renew stale data.
         final long started = SystemClock.elapsedRealtimeNanos();
         boolean success;
-        try { success = tryRefreshFromProvider(epoch, ticket, started); }
+        try { success = tryRefreshFromProvider(epoch, ticket, notificationAtQuery, started); }
         catch (RuntimeException | Error unavailable) { success = false; }
         synchronized (refresherLock) {
             if (!success && refreshEpoch == epoch && refreshTicket == ticket) {
@@ -216,18 +298,18 @@ public final class HomeLayoutNativeEndpointOS4 {
         return success;
     }
 
-    private static boolean tryRefreshFromProvider(long epoch, long ticket, long started) {
+    private static boolean tryRefreshFromProvider(long epoch, long ticket, long notificationAtQuery, long started) {
         if (started <= 0 || started > Long.MAX_VALUE - HYOS_MAX_SNAPSHOT_AGE_NANOS) return false;
         if (!ensurePublicationEpoch(epoch, ticket)) return false;
         final ProviderSnapshot source = queryProviderSnapshot();
         if (source == null) return false;
-        final java.util.Map<String, Integer> complete = source.values();
+        final java.util.Map<String, Object> complete = source.values();
         final Snapshot layout = decodeLayout(complete);
         final long deadline = started + HYOS_MAX_SNAPSHOT_AGE_NANOS;
         synchronized (refresherLock) {
             final long now = SystemClock.elapsedRealtimeNanos();
             if (paused || refreshEpoch != epoch || refreshTicket != ticket
-                || now < started || now >= deadline) return false;
+                || notificationVersion != notificationAtQuery || now < started || now >= deadline) return false;
             // Boot-classloader Map/String/Integer only; no endpoint, callback or Thread crosses reload.
             BaseHook.putHotReloadRuntimeState(RELOAD_CACHE_KEY, complete);
             cachedValues = complete;
@@ -259,7 +341,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         return true;
     }
 
-    private record ProviderSnapshot(java.util.Map<String, Integer> values, String reason,
+    private record ProviderSnapshot(java.util.Map<String, Object> values, String reason,
         FrameworkHookGate.Fingerprint framework) { }
 
     private static ProviderSnapshot queryProviderSnapshot() {
@@ -267,7 +349,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
                 com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
         if (context == null) return null;
-        final java.util.Map<String, Integer> values = new java.util.HashMap<>();
+        final java.util.Map<String, Object> values = new java.util.HashMap<>();
         final java.util.Map<String, String> frameworkText = new java.util.HashMap<>();
         long frameworkVersionCode = Long.MIN_VALUE;
         try {
@@ -285,6 +367,11 @@ public final class HomeLayoutNativeEndpointOS4 {
                     if (cursor.isNull(column)) continue;
                     switch (PREF_KEYS[index][0]) {
                         case "text" -> frameworkText.put(key, cursor.getString(column));
+                        case "stringset" -> {
+                            final String packet = cursor.getString(column);
+                            HomeLayoutPrefsSnapshot.decodeTitleRecords(packet);
+                            values.put(key, packet);
+                        }
                         case "long" -> frameworkVersionCode = cursor.getLong(column);
                         default -> values.put(key, cursor.getInt(column));
                     }
@@ -333,7 +420,66 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     public record Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
-        int[] knobEnabled, int[] knobDeltaDp, int[] tweaks) { }
+        int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+        boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales,
+        boolean dockShowTitle, int[] recent) {
+        public Snapshot { recent = recent == null ? null : recent.clone(); }
+        @Override public int[] recent() { return recent == null ? null : recent.clone(); }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose,
+            int[] objectScales, boolean dockShowTitle) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, backGesture, folderAutoClose, objectScales,
+                dockShowTitle, RECENT_DEFAULTS.clone());
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, backGesture, folderAutoClose, objectScales, false);
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, backGesture, folderAutoClose,
+                new int[]{0, 100, 0, 100, 0, 100});
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, backGesture, false);
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, new int[]{60, 100});
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, new int[FOLDER_COUNT]);
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, false);
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                new String[0][]);
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp,
+                tweaks, new int[]{12, 12, -1, 0});
+        }
+    }
 
     @FunctionalInterface
     interface CallerVerifier {
@@ -370,7 +516,7 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     static int readHyosFlags() {
         ensureRefresher();
-        final java.util.Map<String, Integer> values;
+        final java.util.Map<String, Object> values;
         final String frameworkReason;
         final FrameworkHookGate.Fingerprint checkedFramework;
         synchronized (refresherLock) {
@@ -386,7 +532,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         return deriveHyosFlags(values, frameworkReason, checkedFramework);
     }
 
-    private static int deriveHyosFlags(java.util.Map<String, Integer> values, String frameworkReason,
+    private static int deriveHyosFlags(java.util.Map<String, Object> values, String frameworkReason,
         FrameworkHookGate.Fingerprint checkedFramework) {
         if (!readBoolean(values, "allow_hook", false)) return 0;
         if (!FrameworkHookGate.isAllowed(readBoolean(values, "framework_api_allow_hook", true),
@@ -467,6 +613,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static boolean hasValidLayoutShape(Snapshot value) {
         return !(value == null || (value.gridEnabled() != 0 && value.gridEnabled() != 1)
             || value.cellX() < 3 || value.cellX() > 9 || value.cellY() < 4 || value.cellY() > 13
+            || value.knobEnabled() == null || value.knobDeltaDp() == null || value.tweaks() == null
             || value.knobEnabled().length != KNOB_ROWS.length
             || value.knobDeltaDp().length != KNOB_ROWS.length || value.tweaks().length != TWEAK_COUNT);
     }
@@ -513,7 +660,11 @@ public final class HomeLayoutNativeEndpointOS4 {
                     || read.cellY() < 4 || read.cellY() > 13
                     || read.knobEnabled().length != KNOB_ROWS.length
                     || read.knobDeltaDp().length != KNOB_ROWS.length
-                    || read.tweaks().length != TWEAK_COUNT) {
+                    || read.tweaks().length != TWEAK_COUNT
+                    || read.title() == null || read.title().length != TITLE_COUNT
+                    || read.customTitles() == null || read.customTitles().length > 1024
+                    || !validFolder(read.folder()) || !validBackGesture(read.backGesture())
+                    || !validObjectScales(read.objectScales()) || !validRecent(read.recent())) {
                 return denied("snapshot shape is wrong: " + describe(read));
             }
             for (int index = 0; index < KNOB_ROWS.length; ++index) {
@@ -529,13 +680,27 @@ public final class HomeLayoutNativeEndpointOS4 {
                     return denied("tweak " + index + " value=" + value);
                 }
             }
+            if (read.title()[0] < 0 || read.title()[0] > 20
+                || read.title()[1] < 0 || read.title()[1] > 20
+                || read.title()[3] < 0 || read.title()[3] > 1) {
+                return denied("title size out of range");
+            }
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
-                read.knobEnabled(), read.knobDeltaDp(), read.tweaks());
+            read.knobEnabled(), read.knobDeltaDp(), read.tweaks(), read.title(), read.customTitles(),
+            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle(), read.recent().clone());
             final String summary = describe(accepted);
             if (!summary.equals(lastAccepted)) {
                 lastAccepted = summary;
-                android.util.Log.i(TAG, "layout endpoint serving " + summary);
+                com.sevtinge.hyperceiler.common.log.ModuleLog.i(TAG, "layout endpoint serving " + summary);
             }
+            int units = 0;
+            for (String[] pair : accepted.customTitles()) {
+                if (pair == null || pair.length != 2 || pair[0] == null || pair[1] == null
+                    || pair[0].isEmpty() || pair[0].length() > 255
+                    || pair[1].isEmpty() || pair[1].length() > 512) return denied("custom title shape");
+                units += pair[0].length() + pair[1].length();
+            }
+            if (units > 32768) return denied("custom title packet bound");
             return accepted;
         } catch (RuntimeException exception) {
             return denied("reader threw " + exception.getClass().getSimpleName());
@@ -546,7 +711,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static Snapshot denied(String why) {
         if (!why.equals(lastDenied)) {
             lastDenied = why;
-            android.util.Log.w(TAG, "layout endpoint denied: " + why);
+            com.sevtinge.hyperceiler.common.log.ModuleLog.w(TAG, "layout endpoint denied: " + why);
         }
         return new Snapshot(ACK, 0, 0, 0, new int[KNOB_ROWS.length], new int[KNOB_ROWS.length],
             new int[TWEAK_COUNT]);
@@ -554,7 +719,7 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     private static String describe(Snapshot snapshot) {
         if (snapshot == null) return "null";
-        final StringBuilder text = new StringBuilder("grid=").append(snapshot.gridEnabled())
+        final StringBuilder text = new StringBuilder("endpoint_revision=" + ENDPOINT_REVISION + " grid=").append(snapshot.gridEnabled())
             .append(" cell=").append(snapshot.cellX()).append('x').append(snapshot.cellY());
         if (snapshot.knobEnabled() != null && snapshot.knobDeltaDp() != null) {
             text.append(" knobs=[");
@@ -567,6 +732,13 @@ public final class HomeLayoutNativeEndpointOS4 {
             text.append(']');
         }
         if (snapshot.tweaks() != null) text.append(" tweaks=").append(snapshot.tweaks().length);
+        if (snapshot.title() != null) text.append(" title=")
+            .append(java.util.Arrays.toString(snapshot.title()));
+        if (snapshot.customTitles() != null) text.append(" custom_titles=").append(snapshot.customTitles().length);
+        text.append(" folder=").append(java.util.Arrays.toString(snapshot.folder()));
+        text.append(" dock_show_title=").append(snapshot.dockShowTitle());
+        text.append(" recent=").append(java.util.Arrays.toString(snapshot.recent()));
+        text.append(" object_scales=").append(java.util.Arrays.toString(snapshot.objectScales()));
         return text.toString();
     }
 
@@ -583,11 +755,11 @@ public final class HomeLayoutNativeEndpointOS4 {
         ensureRefresher();
         // Capture once: the refresher may publish during this Binder transaction. Mixing an old
         // enable with a new value would otherwise produce a position nobody actually selected.
-        final java.util.Map<String, Integer> values = cachedValues;
+        final java.util.Map<String, Object> values = cachedValues;
         return decodeLayout(values);
     }
 
-    private static Snapshot decodeLayout(java.util.Map<String, Integer> values) {
+    private static Snapshot decodeLayout(java.util.Map<String, Object> values) {
         boolean gridEnabled = readBoolean(values, "home_layout_unlock_grids_new", false);
         int cellX = readInt(values, "home_layout_unlock_grids_cell_x", 4);
         int cellY = readInt(values, "home_layout_unlock_grids_cell_y", 6);
@@ -598,14 +770,31 @@ public final class HomeLayoutNativeEndpointOS4 {
         decodeGeometryKnobs(values, enabled, deltas);
         decodeIndicatorMode(values, enabled, deltas);
         final int[] tweaks = decodeTweaks(values);
-        return new Snapshot(ACK, gridEnabled ? 1 : 0, cellX, cellY, enabled, deltas, tweaks);
+        final int[] title = {
+            readInt(values, "home_title_font_size", 12),
+            readInt(values, "home_drawer_title_font_size", 12),
+            readInt(values, "home_title_title_color", -1),
+            readBoolean(values, "home_title_title_new_install", false) ? 1 : 0
+        };
+        for (int index = 0; index < 2; ++index) {
+            if (title[index] < 0 || title[index] > 20) title[index] = 12;
+        }
+        return new Snapshot(ACK, gridEnabled ? 1 : 0, cellX, cellY, enabled, deltas, tweaks,
+            title, readBoolean(values, "home_title_title_icontitlecustomization_onoff", false)
+                ? HomeLayoutPrefsSnapshot.customTitles(values != null
+                    && values.get("home_title_title_icontitlecustomization") instanceof String packet ? packet : null)
+                : new String[0][],
+            readBoolean(values, "home_widget_allow_moved_to_minus_one_screen", false), readFolder(values), new int[]{
+                boundedBack(readInt(values, "home_navigation_back_area_height", 60), 10, 100, 60),
+                boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values),
+            readBoolean(values, "home_dock_icon_title", false), readRecent(values));
     }
 
-    private static void decodeGeometryKnobs(java.util.Map<String, Integer> values,
+    private static void decodeGeometryKnobs(java.util.Map<String, Object> values,
                                             int[] enabled, int[] deltas) {
         for (int index = 0; index < KNOB_ROWS.length; ++index) {
             // OS4 renders the old search bar as the Indicator capsule. Retired controls remain
-            // visible but disabled in settings; ignore saved values too, so a previously enabled
+            // removed from the OS4 settings page; ignore saved values too, so a previously enabled
             // search-bar tweak cannot keep moving the capsule behind that disabled UI.
             if (index == 6 || index == 7) continue;
             final String key = (String) KNOB_ROWS[index][0];
@@ -620,7 +809,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         }
     }
 
-    private static void decodeIndicatorMode(java.util.Map<String, Integer> values,
+    private static void decodeIndicatorMode(java.util.Map<String, Object> values,
                                            int[] enabled, int[] deltas) {
         // Reuse the two retired search-bar wire columns; no Binder payload/array ABI change.
         final Integer cachedMode = cached(values, "home_other_seek_points");
@@ -631,7 +820,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         deltas[6] = deltas[7] = indicatorMode;
     }
 
-    private static int[] decodeTweaks(java.util.Map<String, Integer> values) {
+    private static int[] decodeTweaks(java.util.Map<String, Object> values) {
         final int[] tweaks = new int[TWEAK_COUNT];
         /* The existing folder-column slider is the single control. Its default keeps the launcher
          * untouched; choosing any other value enables the native patch automatically. */
@@ -640,10 +829,10 @@ public final class HomeLayoutNativeEndpointOS4 {
         tweaks[1] = folderColumns != 3 ? 1 : 0;
         tweaks[2] = readIntInRange(values, "home_layout_pad_major", 8, 2);
         tweaks[3] = readIntInRange(values, "home_layout_pad_minor", 5, 3);
-        tweaks[4] = readBit(values, "home_layout_pad_grid_enable");
+        tweaks[4] = readBoolean(values, "home_layout_pad_grid_enable", false) ? 1 : 0;
         tweaks[5] = readIntInRange(values, "home_layout_fold_major", 8, 5);
         tweaks[6] = readIntInRange(values, "home_layout_fold_minor", 5, 6);
-        tweaks[7] = readBit(values, "home_layout_fold_grid_enable");
+        tweaks[7] = readBoolean(values, "home_layout_fold_grid_enable", false) ? 1 : 0;
         /* Default level 70 = the page's "system default size" level; must match the SeekBar's
          * android:defaultValue and the native kIconScaleCodeDefault (both 0x66 for this level). */
         tweaks[8] = iconScaleCodeFor(readInt(values, "home_layout_icon_scale", 70));
@@ -658,13 +847,118 @@ public final class HomeLayoutNativeEndpointOS4 {
         tweaks[13] = Math.max(30, Math.min(200, readInt(values, "home_animation_open_rate", 100)));
         tweaks[14] = readBit(values, "home_animation_recents_enable");
         tweaks[15] = Math.max(30, Math.min(200, readInt(values, "home_animation_recents_rate", 100)));
-        tweaks[16] = readBit(values, "home_dock_unlock_hotseat");
+        tweaks[16] = readBoolean(values, "home_dock_unlock_hotseat", false) ? 1 : 0;
         return tweaks;
     }
 
-    private static int readBit(java.util.Map<String, Integer> values, String key) {
-        return readBoolean(values, key, false) ? 1 : 0;
+    public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
+    public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
+    public static final int ENDPOINT_REVISION = 20261023;
+    public static final int ENDPOINT_CAPABILITIES = 7; // independent object scales + Dock app titles + recents layout
+
+    public static final int RECENT_MAGIC = 0x48435243;
+    private static final int[] RECENT_DEFAULTS = {20,40,30,100,52,100,100,100,-1,-1,-1};
+    private static final String[] RECENT_KEYS = {"task_view_corners", "task_view_header_height",
+        "task_view_header_horizontal_offset", "home_recent_animation_speed", "home_recent_task_view_height",
+        "task_view_horizontal1", "task_view_horizontal2", "home_recent_vertical_task_view_card_size",
+        "home_recent_text_size", "home_recent_text_color", "home_recent_freeform_background_color"};
+    public static void writeRecent(Parcel reply, int[] values) {
+        final int[] snapshot = values == null ? null : values.clone();
+        if (!validRecent(snapshot)) throw new IllegalArgumentException("invalid recents snapshot");
+        reply.writeInt(RECENT_MAGIC);
+        reply.writeInt(snapshot.length);
+        for (int value : snapshot) reply.writeInt(value);
     }
+    public static int[] recentDefaults() { return RECENT_DEFAULTS.clone(); }
+    private static boolean validRecent(int[] values) {
+        if (values==null || values.length!=RECENT_DEFAULTS.length) return false;
+        final int[] low={0,0,0,10,30,50,50,50,-1}, high={180,150,150,500,70,150,150,150,30};
+        for(int i=0;i<low.length;++i) if(values[i]<low[i] || values[i]>high[i]) return false;
+        return true;
+    }
+    private static int[] readRecent(java.util.Map<String, Object> values) {
+        final int[] result = RECENT_DEFAULTS.clone();
+        final int[] low = {0,0,0,10,30,50,50,50,-1};
+        final int[] high = {180,150,150,500,70,150,150,150,30};
+        for (int i=0;i<result.length;++i) {
+            int value = readInt(values, RECENT_KEYS[i], result[i]);
+            if (i>=low.length || value>=low[i] && value<=high[i]) result[i]=value;
+        }
+        return result;
+    }
+
+    public static final int DOCK_TITLE_MAGIC = 0x48434454;
+    public static final int OBJECT_SCALE_MAGIC = 0x48435331;
+    private static boolean validObjectScales(int[] values) {
+        if (values == null || values.length != 6) return false;
+        for (int i = 0; i < 6; i += 2)
+            if (values[i] < 0 || values[i] > 1 || values[i + 1] < 60 || values[i + 1] > 140) return false;
+        return true;
+    }
+    private static int[] readObjectScales(java.util.Map<String, Object> values) {
+        final String[] kinds = {"small_folder", "big_folder", "widget"};
+        final int[] result = new int[6];
+        for (int i = 0; i < kinds.length; ++i) {
+            final String key = "home_layout_" + kinds[i] + "_scale";
+            result[i * 2] = readBoolean(values, key + "_enable", false) ? 1 : 0;
+            result[i * 2 + 1] = Math.max(60, Math.min(140, readInt(values, key, 100)));
+        }
+        return result;
+    }
+
+    public static final int FOLDER_AUTO_CLOSE_MAGIC = 0x48434641;
+    public static final int BACK_GESTURE_MAGIC = 0x48434231;
+    private static int boundedBack(int value, int low, int high, int def) {
+        return value >= low && value <= high ? value : def;
+    }
+    private static boolean validBackGesture(int[] values) {
+        return values != null && values.length == 2 && values[0] >= 10 && values[0] <= 100
+            && values[1] >= 100 && values[1] <= 400;
+    }
+    public static final int FOLDER_MAGIC = 0x48434631;
+    public static final int FOLDER_COUNT = 7;
+    private static final int[] FOLDER_MAX = {1, 1, 1, 50, 450, 200, 1};
+    private static boolean validFolder(int[] values) {
+        if (values == null || values.length != FOLDER_COUNT) return false;
+        for (int i = 0; i < FOLDER_COUNT; i++)
+            if (values[i] < 0 || values[i] > FOLDER_MAX[i]) return false;
+        return true;
+    }
+    private static int[] readFolder(java.util.Map<String, Object> values) {
+        Integer position = cached(values, "home_folder_title_pos");
+        int alignment = position != null ? position : values != null ? 0
+            : PrefsBridge.getStringAsInt("home_folder_title_pos", 0);
+        int[] folder = {alignment,
+            readBoolean(values, "home_folder_width", false) ? 1 : 0,
+            readBoolean(values, "home_folder_horizontal_padding_enable", false) ? 1 : 0,
+            readInt(values, "home_folder_horizontal_padding", 0),
+            readInt(values, "home_folder_horizontal_padding_pad_h", 0),
+            readInt(values, "home_folder_horizontal_padding_pad_v", 0),
+            com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad() ? 1 : 0};
+        for (int i = 0; i < FOLDER_COUNT; i++)
+            if (folder[i] < 0 || folder[i] > FOLDER_MAX[i]) folder[i] = 0;
+        return folder;
+    }
+
+    /** Uses one complete revision from the existing provider cache, without a second gesture poller. */
+    public static int[] gestureConfig() {
+        final java.util.Map<String, Object> values = cachedValues;
+        int mask=0;
+        String[] actions=com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.ACTIONS;
+        for(int i=0;i<com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.NATIVE_ACTION_COUNT;i++) {
+            int action=readInt(values,actions[i]+"_action",0);
+            if(action>0 && action<=100)mask|=1<<i;
+        }
+        final android.content.Context context=com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+        final android.util.DisplayMetrics dm=context!=null?context.getResources().getDisplayMetrics():null;
+        return new int[]{readBoolean(values,"home_gesture_enable",false)?1:0,
+            readBoolean(values,"home_navigation_quick_back",false)?1:0,mask,
+            dm!=null?Math.max(80,Math.min(1280,dm.densityDpi)):160,
+            dm!=null?Math.max(1,Math.min(32768,dm.widthPixels)):1};
+    }
+
+    public static final int TITLE_COUNT = 4;
 
     /** Number of code-patch feature values, in the order the native side reads them. */
     static final int TWEAK_COUNT = 17;
@@ -725,15 +1019,15 @@ public final class HomeLayoutNativeEndpointOS4 {
      * and every geometry knob silently fell back to the stale LSPosed snapshot, which is why the grid
      * (read through unprefixed keys) worked while the margins did not.
      */
-    private static Integer cached(java.util.Map<String, Integer> values, String key) {
+    private static Integer cached(java.util.Map<String, Object> values, String key) {
         if (values == null) return null;
         final String normalized = key != null && key.startsWith("prefs_key_")
             ? key.substring("prefs_key_".length()) : key;
-        return values.get(normalized);
+        return values.get(normalized) instanceof Integer value ? value : null;
     }
 
     /** Reads a boolean from one provider snapshot; known absence uses the page default. */
-    private static boolean readBoolean(java.util.Map<String, Integer> values, String key, boolean def) {
+    private static boolean readBoolean(java.util.Map<String, Object> values, String key, boolean def) {
         final Integer value = cached(values, key);
         if (value != null) return value != 0;
         if (values != null) return def;
@@ -741,11 +1035,15 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     /** Reads an int from one provider snapshot; LSPosed is only the startup fallback. */
-    private static int readInt(java.util.Map<String, Integer> values, String key, int def) {
+    private static int readInt(java.util.Map<String, Object> values, String key, int def) {
         final Integer value = cached(values, key);
         if (value != null) return value;
         if (values != null) return def;
         return PrefsBridge.getInt(key, def);
+    }
+
+    private static int readBit(java.util.Map<String, Object> values, String key) {
+        return readBoolean(values, key, false) ? 1 : 0;
     }
 
     /**
@@ -757,7 +1055,7 @@ public final class HomeLayoutNativeEndpointOS4 {
      * out-of-range condition the knob rows already treat as "use the default" is resolved here
      * rather than being allowed to take the whole snapshot down.
      */
-    private static int readIntInRange(java.util.Map<String, Integer> values, String key, int def, int index) {
+    private static int readIntInRange(java.util.Map<String, Object> values, String key, int def, int index) {
         final int value = readInt(values, key, def);
         return value < TWEAK_MIN[index] || value > TWEAK_MAX[index] ? def : value;
     }

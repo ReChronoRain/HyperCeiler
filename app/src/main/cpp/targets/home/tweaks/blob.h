@@ -100,11 +100,6 @@ size_t ConfigCandidatePaths(const char** out, size_t maxCount);
 
 constexpr const char* kLocalConfigPath = "/data/user/0/com.miui.home/files/hometweaks.bin";
 
-constexpr const char* kLocalStatusPath = "/data/user/0/com.miui.home/files/hometweaks.status";
-
-constexpr const char* kExternalStatusPath =
-        "/storage/emulated/0/Download/HomeTweaks/hometweaks.status";
-
 size_t SitePackPaths(const char** out, size_t maxCount);
 
 bool LoadConfigBlob(Config* out, std::vector<uint8_t>* bytesOut, char* usedPath, size_t pathCap,
