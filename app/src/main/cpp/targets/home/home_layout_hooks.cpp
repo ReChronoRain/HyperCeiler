@@ -12,6 +12,9 @@
 #include "home_indicator_feature_resolver.h"
 #include "home_widget_move_feature_resolver.h"
 #include "home_recent_render.h"
+#include "home_prestart_feature_resolver.h"
+#include "home_prestart_policy.h"
+#include "native_home_entry.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
 #include "home_back_gesture.h"
@@ -115,6 +118,9 @@ bool dock_motion_screen_active();
  * contracts still require the verified ARM64/Dart ABI; symbol presence alone proves no OTA safety.
  */
 extern "C" {
+void* hc_prestart_original=nullptr;
+void hc_prestart_0_entry();
+void hc_prestart_body(home_layout::recent_render::Registers*,unsigned);
 void* hc_recent_originals[64]{};
 extern void* hc_recent_entries[64];
 void hc_recent_body(home_layout::recent_render::Registers*, unsigned);
@@ -474,7 +480,8 @@ constexpr size_t kDockTitleModelSlotBase = kWidgetScaleSlot + kWidgetScaleSlotCo
 constexpr size_t kFolderReturnScaleSlotBase = kDockTitleModelSlotBase + 2;
 constexpr size_t kRecentSlotBase = kFolderReturnScaleSlotBase + 2;
 constexpr size_t kRecentSlotCount = 64;
-constexpr size_t kSlotCount = kRecentSlotBase + kRecentSlotCount;
+constexpr size_t kPrestartSlot = kRecentSlotBase + kRecentSlotCount;
+constexpr size_t kSlotCount = kPrestartSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -595,6 +602,9 @@ home_layout::BackWindowShape g_back_window_shape{};
 std::atomic_uint64_t g_scale_request_diagnostic{UINT64_MAX};
 std::atomic_int g_dock_title_requested{-1};
 std::shared_ptr<const home_layout::RecentConfig> g_recent_config;
+std::atomic_bool g_prestart_ready{false};
+std::atomic_uint32_t g_prestart_bind_failure{0};
+std::atomic_uint64_t g_prestart_hits{0},g_prestart_blocked{0};
 std::atomic_bool g_recent_ready{false};
 std::atomic_uint32_t g_recent_bind_failure{0};
 std::array<std::atomic_uint64_t,64> g_recent_hits{},g_recent_applied{};
@@ -1249,6 +1259,7 @@ struct DartLibrary {
 
 std::optional<DartLibrary> g_dart;
 struct RuntimeFeatures {
+    std::optional<home_layout::features::prestart::Plan> prestart;
     std::optional<home_layout::features::RecentPlan> recent;
     std::optional<home_layout::features::WidgetMoveFeature> widget_move;
     std::optional<home_layout::features::IndicatorMarginFeature> indicator_margin;
@@ -1427,6 +1438,7 @@ bool ensure_runtime_features() {
         report_layout_image_failure("feature-executable-inventory");return true;
     }
     RuntimeFeatures found;
+    found.prestart=home_layout::features::prestart::resolve(*code);
     const char* recent_failure=nullptr;
     found.recent=home_layout::features::recent::resolve(*code,&recent_failure);
     found.widget_move=home_layout::features::widget_move_feature(*code);
@@ -4189,6 +4201,31 @@ bool bind_dock_edit() {
 #endif
 }
 
+bool bind_prestart() {
+    if(g_slots[kPrestartSlot].address)return true;
+    if(!hyperceiler_home_prestart_disabled())return false;
+    const auto declined=[&](unsigned stage,const char* why){
+        if(g_prestart_bind_failure.exchange(stage,std::memory_order_relaxed)!=stage)
+            __android_log_print(ANDROID_LOG_WARN,kTag,"prestart binding unavailable stage=%u reason=%s; original retained",stage,why);
+        return false;
+    };
+    if(!g_dart)return declined(1,"Dart image not available yet");
+    if(!ensure_runtime_features())return declined(2,"executable inventory unavailable");
+    if(!g_runtime_features.prestart)return declined(3,"process/FRB/property-initializer graph missing or ambiguous");
+    const auto& p=*g_runtime_features.prestart;
+    Slot slot;
+    if(!bind_dart_target(p.entry,slot.address,slot.source,slot.original_words))return declined(4,"verified entry could not be bound");
+    // Only the prologue/argument root is displaced. All Dart calls, catch paths
+    // and their original GC return PCs remain in the original managed body.
+    for(auto w:slot.original_words)if((w&0xfc000000u)==0x94000000u)return declined(5,"entry contains a Dart call");
+    slot.replacement=reinterpret_cast<void*>(hc_prestart_0_entry);slot.original=&hc_prestart_original;
+    g_slots[kPrestartSlot]=slot;g_prestart_bind_failure.store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,
+        "prestart executable graph bound entry=%#x initializer=%#x property=%#x bridge=%#x api=%#x flag=%#x; runtime recognition without private symbols",
+        p.entry,p.initializer,p.property,p.bridge,p.api,p.flag);
+    return true;
+}
+
 bool bind_recent() {
     if(g_slots[kRecentSlotBase].address)return true;
     const auto config=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
@@ -4216,6 +4253,7 @@ bool bind_recent() {
 }
 
 size_t arm_hooks(std::vector<size_t> &order) {
+    (void)bind_prestart();
     (void)bind_recent();
     (void)bind_dock_title_model();
     (void)bind_dart_columns();
@@ -4244,6 +4282,9 @@ size_t arm_hooks(std::vector<size_t> &order) {
             " (first symbol resolved=%d)", g_folder_layout_checked ? 1 : 0);
     (void) bind_gadget_bridge();
     size_t added = 0;
+    if(g_slots[kPrestartSlot].address&&std::find(order.begin(),order.end(),kPrestartSlot)==order.end()){
+        order.push_back(kPrestartSlot);++added;
+    }
     for(size_t i=kRecentSlotBase;i<kRecentSlotBase+kRecentSlotCount;++i)
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     for(unsigned i=0;i<2;++i){const size_t index=kDockTitleModelSlotBase+i;
@@ -4528,6 +4569,7 @@ void publish_indicator_dot_delta() {
     if(recent){recent_ready=!recent->plan.sites.empty();
         for(size_t i=0;i<recent->plan.sites.size();++i)recent_ready&=nhk::slot_ready(g_slots[kRecentSlotBase+i])&&hc_recent_originals[i];}
     g_recent_ready.store(recent_ready,std::memory_order_release);
+    g_prestart_ready.store(nhk::slot_ready(g_slots[kPrestartSlot])&&hc_prestart_original,std::memory_order_release);
     bool widget_ready=g_runtime_features.widget&& !g_runtime_features.widget->builders.empty();
     if(widget_ready)for(size_t i=0;i<g_runtime_features.widget->builders.size();++i)
         widget_ready&=nhk::slot_ready(g_slots[kWidgetScaleSlot+i])&&hc_widget_scale_originals[i];
@@ -4800,6 +4842,7 @@ void *worker(void *) {
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
         || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
         || config.recent.requested()
+        || hyperceiler_home_prestart_disabled()
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
         || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close || config.dock_show_title
@@ -5236,6 +5279,12 @@ void *worker(void *) {
              * decision: dart mapped, gate bits, whether the scan ran, whether it latched a
              * refusal, and whether it bound.
              */
+            if(g_slots[kPrestartSlot].address||hyperceiler_home_prestart_disabled())
+                __android_log_print(ANDROID_LOG_INFO,kTag,
+                    "prestart runtime requested=%d ready=%d hits=%llu blocked=%llu; normal launches and transition cleanup unchanged",
+                    hyperceiler_home_prestart_disabled(),g_prestart_ready.load(std::memory_order_acquire),
+                    static_cast<unsigned long long>(g_prestart_hits.load(std::memory_order_relaxed)),
+                    static_cast<unsigned long long>(g_prestart_blocked.load(std::memory_order_relaxed)));
             if(const auto recent=std::atomic_load_explicit(&g_recent_routing,std::memory_order_acquire)){
                 for(size_t i=0;i<recent->plan.sites.size();++i)
                     __android_log_print(ANDROID_LOG_INFO,kTag,"recents runtime site=%zu setting=%d ready=%d hits=%llu applied=%llu",
@@ -5739,6 +5788,14 @@ extern "C" WidgetBuildResult hc_widget_scale_build(uint64_t closure,uint64_t fra
     return routed;
 }
 
+extern "C" void hc_prestart_body(home_layout::recent_render::Registers* saved,unsigned) {
+    if(!saved)return;
+    g_prestart_hits.fetch_add(1,std::memory_order_relaxed);
+    if(home_prestart::apply(*saved,g_prestart_ready.load(std::memory_order_acquire),
+        hyperceiler_home_prestart_disabled(),reinterpret_cast<uintptr_t>(hc_prestart_original)))
+        g_prestart_blocked.fetch_add(1,std::memory_order_relaxed);
+}
+
 extern "C" void hc_recent_body(home_layout::recent_render::Registers* saved,unsigned index) {
     if(!saved||index>=64)return;
     saved->branch=reinterpret_cast<uintptr_t>(hc_recent_originals[index]);
@@ -6146,6 +6203,10 @@ bool adopt_layout_state() {
     g_hook_globals_inited = false;
     init_knob_hooks();
     g_dart.reset();
+    g_prestart_ready.store(false,std::memory_order_release);
+    g_prestart_bind_failure.store(0,std::memory_order_relaxed);
+    g_prestart_hits.store(0,std::memory_order_relaxed);g_prestart_blocked.store(0,std::memory_order_relaxed);
+    hc_prestart_original=nullptr;
     g_recent_ready.store(false,std::memory_order_release);
     g_recent_bind_failure.store(0,std::memory_order_relaxed);
     std::atomic_store_explicit(&g_recent_config,std::shared_ptr<const home_layout::RecentConfig>{},std::memory_order_release);

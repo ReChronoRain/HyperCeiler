@@ -11,6 +11,13 @@
 #include <cstdio>
 #include <stdexcept>
 #include <functional>
+#ifdef __APPLE__
+// Production clock/thread creation are already fixtures in this host suite.
+// Darwin has no BOOTTIME ID and uses a different pthread naming signature.
+#define CLOCK_BOOTTIME CLOCK_MONOTONIC
+static int fixture_thread_name(pthread_t,const char*){return 0;}
+#define pthread_setname_np fixture_thread_name
+#endif
 static int fixture_clock(clockid_t, timespec *);
 static void *fixture_dlsym(void *,const char *);
 static int fixture_create(pthread_t *,const pthread_attr_t *,void *(*)(void *),void *);
@@ -24,6 +31,9 @@ static int fixture_detach(pthread_t);
 #undef dlsym
 #undef pthread_create
 #undef pthread_detach
+#ifdef __APPLE__
+#undef pthread_setname_np
+#endif
 #define CHECK(x) do{if(!(x))throw std::runtime_error(#x);}while(0)
 namespace fixture {
 struct Gate {
@@ -77,8 +87,8 @@ void run(const char *name,std::function<void()> fn){reset();try{fn();join_worker
 static void *fixture_dlsym(void *,const char *name){CHECK(std::string(name)=="AServiceManager_checkService");return fixture::no_symbol?nullptr:reinterpret_cast<void *>(fixture::service);}
 static int fixture_clock(clockid_t id,timespec *out){CHECK(id==CLOCK_BOOTTIME);if(fixture::bad_clock)return -1;auto n=fixture::now.load();out->tv_sec=n/1'000'000'000LL;out->tv_nsec=n%1'000'000'000LL;return 0;}
 static int fixture_create(pthread_t *worker,const pthread_attr_t *,void *(*fn)(void *),void *arg){CHECK(arg==nullptr);++fixture::workers;
- if(fn==lease_watchdog){++fixture::watchdogs;if(fixture::fail_watchdog)return EAGAIN;*worker=1;return 0;}
- CHECK(fn==control_worker);++fixture::poll_threads;if(fixture::fail_worker)return EAGAIN;*worker=2;std::lock_guard l(fixture::threads_mutex);fixture::threads.emplace_back([]{poll_flags();});return 0;}
+ if(fn==lease_watchdog){++fixture::watchdogs;if(fixture::fail_watchdog)return EAGAIN;*worker=pthread_t{};return 0;}
+ CHECK(fn==control_worker);++fixture::poll_threads;if(fixture::fail_worker)return EAGAIN;*worker=pthread_t{};std::lock_guard l(fixture::threads_mutex);fixture::threads.emplace_back([]{poll_flags();});return 0;}
 static int fixture_detach(pthread_t){++fixture::detaches;return 0;}
 const AIBinder_Class *AIBinder_getClass(AIBinder *b){return b->clazz;}
 const char *AIBinder_Class_getDescriptor(const AIBinder_Class *t){return t->descriptor;}
@@ -208,5 +218,6 @@ run("fault during an in-flight writer defers postphase until it exits",[]{g_star
 #ifdef HC_REAL_CONFIG
 run("actual Hyos config route reads only combined cache and clears disabled layout",[]{CHECK(boot());home_layout::Config value;int count=queries;CHECK(home_layout::query_config(value)&&value.grid_enabled&&value.cell_x==7&&queries==count);flags=0;next_poll();count=queries;CHECK(home_layout::query_config(value)&&!value.grid_enabled&&value.cell_x==4&&queries==count);});
 run("actual Hyos config route never retains stale layout after outage",[]{CHECK(boot());no_service=true;next_poll();home_layout::Config value;value.grid_enabled=true;value.cell_x=9;int count=queries;CHECK(home_layout::query_config(value)&&!value.grid_enabled&&value.cell_x==4&&queries==count);});
+run("actual Hyos loader bootstrap uses the same cache and clears unavailable data",[]{CHECK(boot());home_layout::Config value;int count=queries;CHECK(home_layout::query_bootstrap_config(value)&&value.grid_enabled&&value.cell_x==7&&queries==count);no_service=true;next_poll();count=queries;value.grid_enabled=true;value.cell_x=9;CHECK(!home_layout::query_bootstrap_config(value)&&!value.grid_enabled&&value.cell_x==4&&queries==count);});
 #endif
 std::printf("RESULT passes=%d failures=%d; actual production control and lease functions; worker scheduling/Binder/BOOTTIME clock and startup patch backend are deterministic fixtures\n",pass,fail);return fail?1:0;}

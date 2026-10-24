@@ -169,8 +169,7 @@ int hooked_system_property_get(const char *name, char *value) {
     const bool managed = hyos_control::active();
     const bool high_models = managed ? hyos_control::feature_enabled(hyos_control::kHighModels)
                                     : g_high_device_level.load(std::memory_order_relaxed);
-    const bool disable_prestart = managed ? hyos_control::feature_enabled(hyos_control::kDisablePrestart)
-                                         : g_disable_prestart.load(std::memory_order_relaxed);
+    const bool disable_prestart = hyperceiler_home_prestart_disabled();
     const bool soft_glass = managed ? hyos_control::feature_enabled(hyos_control::kSoftGlass)
                                    : g_soft_glass.load(std::memory_order_relaxed);
 #else
@@ -338,6 +337,15 @@ jint native_status() {
 }
 
 }  // namespace
+
+bool hyperceiler_home_prestart_disabled() {
+#ifdef HYPERCEILER_HYOS_BACKEND
+    // Do not let a bootstrap JNI value revive an expired/disabled authorization.
+    return hyos_control::feature_enabled(hyos_control::kDisablePrestart);
+#else
+    return g_disable_prestart.load(std::memory_order_relaxed);
+#endif
+}
 
 void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
                                      bool soft_glass, bool dock_enabled, bool hide_report) {
