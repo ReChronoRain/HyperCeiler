@@ -128,7 +128,7 @@ status is listed in `../runtime-feature-addressing/AUDIT.md`. This is not a
 repository-wide no-symbol claim.
 
 The older `ht_plan.cpp` feature-21 calculator scanner remains in the tree. The
-active `make_tweaks_config` does not enable that feature: rendering scalar banks
+active `make_layout_engine_config` does not enable that feature: rendering scalar banks
 own ordinary icon scaling. Its boxed-double byte offset7 is a VM ABI contract
 relative to a tagged double, not a saved function address.
 

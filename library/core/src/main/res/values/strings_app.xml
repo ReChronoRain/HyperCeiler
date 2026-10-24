@@ -1888,4 +1888,5 @@
     <string name="home_layout_big_folder_scale_title">Large folder scale</string>
     <string name="home_layout_widget_scale_title">Widget scale</string>
     <string name="home_layout_independent_scale_desc">Adjust independently. 100% keeps the original size.</string>
+    <string name="home_drawer_hide_search">Hide drawer search bar</string>
 </resources>

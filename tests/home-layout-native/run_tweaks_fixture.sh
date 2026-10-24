@@ -2,7 +2,7 @@
 # Read-only test of production Dart symbol lookup and patch planning. No AArch64 is executed.
 set -euo pipefail
 project_dir="$(cd "$(dirname "$0")/../.." && pwd)"
-build_dir="$(mktemp -d -t home-tweaks-tests.XXXXXX)"
+build_dir="$(mktemp -d -t home-layout-engine-tests.XXXXXX)"
 trap 'rm -r "$build_dir"' EXIT
 cpp="$project_dir/app/src/main/cpp"
 tweaks="$cpp/targets/home/tweaks"

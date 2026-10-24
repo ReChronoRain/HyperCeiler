@@ -5,13 +5,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define HT_LOG_TAG "HomeTweaks"
+#define HOME_LAYOUT_ENGINE_LOG_TAG "HyperCeiler.HomeLayoutEngine"
 
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, HT_LOG_TAG, __VA_ARGS__)
-#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, HT_LOG_TAG, __VA_ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, HT_LOG_TAG, __VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, HOME_LAYOUT_ENGINE_LOG_TAG, __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, HOME_LAYOUT_ENGINE_LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, HOME_LAYOUT_ENGINE_LOG_TAG, __VA_ARGS__)
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 struct NativeAPIEntries {
     uint32_t version;

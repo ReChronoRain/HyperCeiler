@@ -52,7 +52,7 @@ constexpr int SHT_SYMTAB=2,SHT_STRTAB=3,SHN_UNDEF=0,STT_FUNC=2,SHF_EXECINSTR=4;
 enum xz_ret{XZ_OK,XZ_STREAM_END,XZ_MEM_ERROR,XZ_UNSUPPORTED_CHECK};
 uint32_t xz_crc32(const unsigned char*,size_t,uint32_t){return 0;}void xz_crc32_init(){}
 bool slowDecode=false;std::vector<uint8_t> outerFile,decoded,mapped;std::vector<std::pair<uintptr_t,size_t>> readable;unsigned fileReads=0;bool faultAll=false;uintptr_t faultAddress=0;
-namespace hometweaks{
+namespace home_layout_engine{
 struct Segment{uintptr_t begin,end;uint32_t flags;};
 struct Image{uintptr_t base=0;char path[512]{};Segment segments[16]{};size_t segmentCount=0;uint64_t apkEntryOffset=0;bool fromApkEntry=false;uint64_t fileViewBytes=0,sourceDevice=0,sourceInode=0;};
 uint64_t ImageIdentity(const Image&){return 123;}
@@ -77,11 +77,11 @@ if (R/'app/src/main/cpp/targets/home/home_workspace_gesture.h').is_file():
  pre='#include \"'+str(R/'app/src/main/cpp/targets/home/home_workspace_gesture.h').replace('\\','/')+'\"\n'+pre
 if (R/'app/src/main/cpp/targets/home/home_workspace_swipe.h').is_file():
  pre='#include "'+str(R/'app/src/main/cpp/targets/home/home_workspace_swipe.h').replace('\\','/')+'"\n'+pre
-pre+=header+'\n'+code+'\nnamespace hometweaks {\n'+fun(I,'bool ReadImageFile(').replace('bool ReadImageFile(','bool audit_read_image_file(')+'\n}\n'
+pre+=header+'\n'+code+'\nnamespace home_layout_engine {\n'+fun(I,'bool ReadImageFile(').replace('bool ReadImageFile(','bool audit_read_image_file(')+'\n}\n'
 pre+=r'''
 std::vector<uint8_t> read(const char*p){std::ifstream f(p,std::ios::binary|std::ios::ate);if(!f)return {};const auto size=f.tellg();std::vector<uint8_t>b(size);f.seekg(0);f.read(reinterpret_cast<char*>(b.data()),b.size());return b;}
 int main(int argc,char**argv){if(argc!=5)return 2;std::string test=argv[1];outerFile=read(argv[2]);decoded=read(argv[3]);auto full=read(argv[4]);
-using namespace hometweaks;Elf64_Ehdr h{};memcpy(&h,full.data(),64);uint64_t end=0;
+using namespace home_layout_engine;Elf64_Ehdr h{};memcpy(&h,full.data(),64);uint64_t end=0;
 for(unsigned i=0;i<h.e_phnum;i++){Elf64_Phdr p{};memcpy(&p,full.data()+h.e_phoff+i*sizeof p,sizeof p);if(p.p_type==1)end=std::max(end,p.p_vaddr+p.p_memsz);}
 mapped.resize(end+4096);readable.push_back({uintptr_t(mapped.data()),mapped.size()});Image image{};image.base=uintptr_t(mapped.data());strcpy(image.path,"fixture.so");
 for(unsigned i=0;i<h.e_phnum;i++){Elf64_Phdr p{};memcpy(&p,full.data()+h.e_phoff+i*sizeof p,sizeof p);if(p.p_type!=1)continue;

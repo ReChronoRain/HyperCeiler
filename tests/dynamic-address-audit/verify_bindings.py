@@ -46,7 +46,7 @@ std::map<uint32_t,std::vector<uint32_t>> images;std::map<uint32_t,uint32_t> span
 std::map<std::string,std::pair<uint32_t,uint32_t>> symbols;
 bool dart_words(uint32_t va,size_t n,std::vector<uint32_t>&out){for(auto it=images.rbegin();it!=images.rend();++it){auto&[v,b]=*it;if(va>=v&&!((va-v)&3)&&(va-v)/4+n<=b.size()){out.assign(b.begin()+(va-v)/4,b.begin()+(va-v)/4+n);return true;}}return false;}
 bool dart_function_words(uint32_t va,uint32_t n,std::vector<uint32_t>&out){return dart_words(va,n/4,out);}
-namespace hometweaks {bool HomeTweaksFindSymbol(const char*n,uint32_t*v,uint32_t*z){auto i=symbols.find(n);if(i==symbols.end())return false;*v=i->second.first;*z=i->second.second;return true;}}
+namespace home_layout_engine {bool HomeLayoutEngineFindSymbol(const char*n,uint32_t*v,uint32_t*z){auto i=symbols.find(n);if(i==symbols.end())return false;*v=i->second.first;*z=i->second.second;return true;}}
 """
 pre+=fun('bool bl_target(uint32_t word, uint32_t pc, uint32_t *target) {')+'\nnamespace dartscan {\nbool function_span(uint32_t va,uint32_t*out){if(!spans.count(va))return false;*out=spans[va];return *out>=4&&*out<=0x4000&&!(*out&3);}\n'
 pre+=fun('bool unique_sequence(')+'\n'

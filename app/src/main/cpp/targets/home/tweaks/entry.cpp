@@ -32,7 +32,7 @@
 #include <string>
 #include <vector>
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
 
 constexpr const char* kModuleVersion = "2.3";
@@ -41,6 +41,7 @@ constexpr const char* kModuleVersion = "2.3";
  * Debug property switch. Read once on first use and cached: __system_property_get is a cheap
  * shared-memory read but it is not free, and this is asked on a path that runs on every pass.
  */
+// Existing debug input contract, independent of the engine/log naming.
 constexpr const char* kPropConfigBlob = "debug.hyperceiler.hometweaks.blob";
 
 bool DebugPropertyEnabled(const char* name) {
@@ -56,7 +57,7 @@ bool g_wakeFlag = false;
 std::atomic<uint32_t> g_loadedCount{0};
 /* The desktop is forked from the spawner, so several entry points ask for a start; only the first
    one may create the monitoring thread. */
-std::atomic<bool> g_tweaksStarted{false};
+std::atomic<bool> g_layoutEngineStarted{false};
 
 struct AppliedPatch {
     uintptr_t address;
@@ -495,7 +496,7 @@ void Watchdog(State* state) {
  * Whether the legacy on-disk configuration channel may be read (see RefreshConfigLocked).
  *
  * Cached in a function-local static on purpose: the answer is a pure function of a system property,
- * so unlike the state HomeTweaksPrepareForLauncherChild resets, inheriting it across the fork is
+ * so unlike the state HomeLayoutEnginePrepareForLauncherChild resets, inheriting it across the fork is
  * correct rather than poison - and the question is asked on every monitor pass.
  */
 bool config_blob_channel_enabled() {
@@ -514,7 +515,7 @@ bool RefreshConfigLocked(State* state, bool allowBakedFallback, bool fast) {
      *
      * It reads eight candidate paths - two of them world-writable, plus /data/local/tmp and /data/adb,
      * the two places a "push this file and restart" guide would tell someone to use - and the values
-     * it finds win over the settings page on every pass, because the push path (PushTweaksConfig) sets
+     * it finds win over the settings page on every pass, because the push path (PushLayoutConfig) sets
      * configLoaded without setting configBytes, so the read below always looks like a change. A file
      * left behind by an older build therefore kept configuring the desktop of a user who had set
      * nothing: that is exactly how a "why is my layout five columns after I open a folder" report is
@@ -569,15 +570,15 @@ bool RefreshConfigLocked(State* state, bool allowBakedFallback, bool fast) {
         }
         if (bytesChanged) {
             state->repatchNeeded = true;
-            LOGI("已加载配置 %s（总开关=%s，功能 %zu 项，文件夹每行 %s 个）[文件通道]",
-                 path, config.masterEnabled() ? "开" : "关", config.enabled.size(),
+            LOGI("已加载桌面配置（总开关=%s，功能 %zu 项，文件夹每行 %s 个）[文件通道]",
+                 config.masterEnabled() ? "开" : "关", config.enabled.size(),
                  DescribeCount(config.folderCols).c_str());
 
             if (strcmp(path, kLocalConfigPath) != 0) {
                 if (MirrorConfigToPath(kLocalConfigPath, bytes.data(), bytes.size(), mtime)) {
-                    LOGI("已把配置镜像到 %s", kLocalConfigPath);
+                    LOGI("已把配置镜像到桌面私有配置文件");
                 } else {
-                    LOGW("配置镜像到 %s 失败，本次仍按已读到的配置生效", kLocalConfigPath);
+                    LOGW("镜像到桌面私有配置文件失败，本次仍按已读到的配置生效");
                 }
             }
         }
@@ -652,7 +653,7 @@ void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image)
             state->attemptedMask |= adopted;
             if (adopted != 0) {
                 AppendSource(state, "站点包");
-                LOGI("站点包命中 %s：%s", packPaths[pi],
+                LOGI("站点包命中（候选 %zu）：%s", pi,
                      DescribeMask(adopted).c_str());
             }
             break;
@@ -754,7 +755,7 @@ std::string DescribePlan(const PlanResult& plan) {
  * a diagnostics feature that ran unconditionally on every settle pass, and the Downloads copy alone
  * was reason enough to remove it:
  *
- *   - MediaProvider indexes everything under /sdcard. Every write landed as `hometweaks.status.tmp`
+ *   - MediaProvider indexes everything under /sdcard. Every write landed as `home_layout_engine.status.tmp`
  *     and was then renamed, so the indexer raced the rename and logged "Database update failed while
  *     renaming ... .tmp" every single time.
  *   - HyperOS's gallery cached the path and re-queried it, logging a miss on each pass.
@@ -764,8 +765,8 @@ std::string DescribePlan(const PlanResult& plan) {
  * Nothing ever read either copy back - it was write-only - so the entire feature is gone rather
  * than gated behind a property. Everything it used to say is already in logcat, which is where a
  * device that misbehaves is actually diagnosed: LogPlanReasons() below names each failed feature and
- * its reason, and ApplyPatches() logs every skip and write failure. `logcat -s HomeTweaks` is the
- * replacement for `cat hometweaks.status`, and it costs no file in any user-visible directory.
+ * its reason, and ApplyPatches() logs every skip and write failure. `logcat -s HyperCeiler.HomeLayoutEngine` is the
+ * replacement for `cat home_layout_engine.status`, and it costs no file in any user-visible directory.
  */
 
 void SettleLocked(State* state, bool allowScan) {
@@ -968,10 +969,10 @@ void OnNativeLibraryLoaded(const char* name, void* ) {
 
 /*
  * The file's implementation lives in an anonymous namespace; the entry points below are the module's
- * own, so they are reopened in hometweaks proper. The anonymous members stay reachable from here
+ * own, so they are reopened in home_layout_engine proper. The anonymous members stay reachable from here
  * because an unnamed namespace is visible throughout the translation unit that contains it.
  */
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
 
 void WakeMonitor() {
@@ -991,28 +992,28 @@ void WakeMonitor() {
  * only process where the target image exists. The configuration is not read from the desktop's data
  * directory here: that file belongs to the desktop's uid and is written by a different process in
  * the upstream design, while this module delivers its values over its own channel - see
- * PushTweaksConfig.
+ * PushLayoutConfig.
  */
-void StartHomeTweaks() {
+void StartHomeLayoutEngine() {
     if (!IsLauncherProcess()) return;
-    if (g_tweaksStarted.exchange(true, std::memory_order_acq_rel)) return;
+    if (g_layoutEngineStarted.exchange(true, std::memory_order_acq_rel)) return;
     pthread_t thread;
     if (pthread_create(&thread, nullptr,
             [](void*) -> void* {
                 // Named for field triage: an unnamed thread in the launcher cannot be attributed
                 // to a component, and this one is a permanent loop.
-                (void)pthread_setname_np(pthread_self(), "hc-home-tweaks");
+                (void)pthread_setname_np(pthread_self(), "hc-home-layout-engine");
                 MonitorLoop();
                 return nullptr;
             },
             nullptr) == 0) {
         pthread_detach(thread);
     } else {
-        LOGE("HomeTweaks：监视线程创建失败");
-        g_tweaksStarted.store(false, std::memory_order_release);
+        LOGE("桌面布局引擎：监视线程创建失败");
+        g_layoutEngineStarted.store(false, std::memory_order_release);
         return;
     }
-    LOGI("HomeTweaks 已启动（目标 %s）", kTargetLibName);
+    LOGI("桌面布局引擎已启动（目标 %s）", kTargetLibName);
     InstallMadviseGuard();
     WakeMonitor();
 }
@@ -1023,11 +1024,11 @@ void StartHomeTweaks() {
  * Every value is taken from the module's configuration channel rather than from a blob on disk, so
  * the plan is rebuilt whenever the page changes something and there is no file to keep in sync.
  */
-void PushTweaksConfig(const Config& config);
+void PushLayoutConfig(const Config& config);
 
 /**
  * The narrow form used by the module's existing channel: the desktop's own grid selection drives
- * feature 19 (the phone grid's columns and rows). Kept separate from PushTweaksConfig so the caller
+ * feature 19 (the phone grid's columns and rows). Kept separate from PushLayoutConfig so the caller
  * does not need the blob types, and so a feature can be wired in one value at a time.
  */
 /**
@@ -1035,7 +1036,7 @@ void PushTweaksConfig(const Config& config);
  * calculation: a patch applied after that point changes the constant but is simply not read again,
  * which is why a plan can report "applied" while the desktop looks untouched.
  */
-void HomeTweaksOnLibraryLoaded(const char* name) {
+void HomeLayoutEngineOnLibraryLoaded(const char* name) {
     OnNativeLibraryLoaded(name, nullptr);
 }
 
@@ -1049,7 +1050,7 @@ void HomeTweaksOnLibraryLoaded(const char* name) {
  * poisoned: they describe the parent's mappings. Called from the child's first specialization
  * signal; the exchange makes repeated calls free.
  */
-void HomeTweaksPrepareForLauncherChild() {
+void HomeLayoutEnginePrepareForLauncherChild() {
     // Deduplicated by pid: a fork changes the pid, so the first specialization signal in the child
     // does the reset exactly once, and every later call in the same process is a no-op instead of
     // starting yet another monitor thread.
@@ -1057,7 +1058,7 @@ void HomeTweaksPrepareForLauncherChild() {
     const pid_t self = getpid();
     if (prepared_pid == self) return;
     prepared_pid = self;
-    if (!g_tweaksStarted.exchange(false, std::memory_order_acq_rel)) return;
+    if (!g_layoutEngineStarted.exchange(false, std::memory_order_acq_rel)) return;
     std::lock_guard<std::mutex> work(g_workMutex);
     g_state = State{};
     g_imageKnown.store(false, std::memory_order_release);
@@ -1067,12 +1068,12 @@ void HomeTweaksPrepareForLauncherChild() {
 /**
  * While true on the calling thread, symbol lookups will not start the (expensive) index build.
  *
- * Owned here rather than in the layout module because HomeTweaksFindSymbol is the single choke point
+ * Owned here rather than in the layout module because HomeLayoutEngineFindSymbol is the single choke point
  * every symbol query goes through, so one flag covers bind_knobs, resolve_grid_fields and the probe.
  */
 // Cache miss: small output chunks and an explicit deadline; timeout resets unpublished roots.
 // Worker later persists a completed index, never fsync in this bounded loader attempt.
-bool HomeTweaksPrimeCachedSymbols() {
+bool HomeLayoutEnginePrimeCachedSymbols() {
     Image image{};
     if (!FindImageByName(kTargetLibName, &image)
         && !FindImageFromMappedApks(kTargetLibName, &image)) return false;
@@ -1112,7 +1113,7 @@ void SetInLoaderCallback(bool value) { g_inLoaderCallback = value; }
  * of the image rather than carrying it across an OTA is the whole point: the name is part of the
  * launcher's build, the address is not.
  */
-bool HomeTweaksFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize) {
+bool HomeLayoutEngineFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize) {
     if (name == nullptr || outVa == nullptr || outSize == nullptr) return false;
     SymbolIndex &index = SymbolIndex::Instance();
     /*
@@ -1146,7 +1147,7 @@ bool HomeTweaksFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize) 
  * to walk to where the next name begins, not to the size the table reports, or it stops half way
  * through the very instructions it is looking for. Returns false when `va` is the last symbol.
  */
-bool HomeTweaksSymbolSpan(uint32_t va, uint32_t *outSpan) {
+bool HomeLayoutEngineSymbolSpan(uint32_t va, uint32_t *outSpan) {
     if (va == 0 || outSpan == nullptr) return false;
     TryDiscoverImage();
     std::lock_guard<std::mutex> work(g_workMutex);
@@ -1157,7 +1158,7 @@ bool HomeTweaksSymbolSpan(uint32_t va, uint32_t *outSpan) {
 }
 
 /** Return the verified image source for diagnostics/bridge callers; never infer an APK from a directory. */
-bool HomeTweaksTargetImage(char *path, size_t cap) {
+bool HomeLayoutEngineTargetImage(char *path, size_t cap) {
     if (path == nullptr || cap == 0) return false;
     TryDiscoverImage();
     std::lock_guard<std::mutex> work(g_workMutex);
@@ -1172,12 +1173,12 @@ void PushPhoneGrid(uint32_t cols, uint32_t rows) {
     config.enabled.push_back(kFeaturePhoneGrid);
     config.phoneCols = cols;
     config.phoneRows = rows;
-    PushTweaksConfig(config);
+    PushLayoutConfig(config);
 }
 
 // A boot snapshot fills only an empty planner. A newer pushed configuration,
 // including explicit disable, must never be overwritten by a stale disk cache.
-bool PrimeTweaksConfig(const Config& config) {
+bool PrimeLayoutConfig(const Config& config) {
     std::unique_lock<std::mutex> work(g_workMutex,std::try_to_lock);
     if(!work.owns_lock())return false;
     if(g_state.configLoaded)return true;
@@ -1186,7 +1187,7 @@ bool PrimeTweaksConfig(const Config& config) {
     return true;
 }
 
-void PushTweaksConfig(const Config& config) {
+void PushLayoutConfig(const Config& config) {
     {
         std::lock_guard<std::mutex> work(g_workMutex);
         g_state.config = config;
@@ -1199,4 +1200,4 @@ void PushTweaksConfig(const Config& config) {
     WakeMonitor();
 }
 
-} // namespace hometweaks
+} // namespace home_layout_engine

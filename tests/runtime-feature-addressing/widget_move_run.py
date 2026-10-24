@@ -26,7 +26,7 @@ with tempfile.TemporaryDirectory(prefix='hc-widget-move-features-') as tmp:
 source=(ROOT/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
 a=source.index('bool sync_widget_move(bool enabled)');b=source.index('bool bind_dock_title_model()',a);body=source[a:b]
 assert 'ensure_runtime_features()' in body
-assert 'HomeTweaksFindSymbol' not in body and 'dartscan::' not in body
+assert 'HomeLayoutEngineFindSymbol' not in body and 'dartscan::' not in body
 assert 'g_runtime_features.widget_move' in body
 header=(ROOT/'app/src/main/cpp/targets/home/home_widget_move.h').read_text()
 assert 'imm9(code[c+1])!=closure' in header and 'imm9(code[p])!=grid' in header

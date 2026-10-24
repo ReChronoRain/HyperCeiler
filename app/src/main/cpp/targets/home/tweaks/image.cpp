@@ -18,7 +18,7 @@
 #include <set>
 #include <string_view>
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
 struct MapRow { nhk::FileMapping map; bool readable; };
 constexpr size_t kMaxApkCandidates = 1024;

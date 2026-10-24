@@ -16,10 +16,10 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
  text_index=elf.section_names['.text'];section=elf.sections[text_index];raw=elf.data[section[4]:section[4]+section[5]]
  code_base,callback,stop,stack,dart_frame=0x100000,0x400000,0x401000,0x608000,0x708000
  checks=0
- for family,index in [('recent',i) for i in (0,1,16,63)]+[('prestart',0)]:
+ for family,index in [('recent',i) for i in (0,1,16,63)]+[('prestart',0),('drawer',0),('drawer',1)]:
   start=next(v for n,s,v in symbols if n==f'hc_{family}_{index}_entry')
   end=next((v for n,s,v in symbols if s==text_index and v>start and n.startswith('hc_') and n.endswith('_entry')),len(raw))
-  for terminal in (False,True):
+  for terminal in ((False,) if family=='drawer' else (False,True)):
    for changed_reg in ((0,1,3,18,29) if family=='recent' else (0,)):
     code=bytearray(raw)
     for sec in elf.sections.values():
@@ -49,6 +49,7 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
      assert int.from_bytes(uc.mem_read(saved+776,8),'little')==0x10
      expected_x[changed_reg]=0xabc00000+changed_reg
      expected_q[3]=(0xaabbcc<<80)|0x112233
+     if family=='drawer' and index==0:uc.mem_write(dart_frame-8,struct.pack('<Q',regs[22]))
      uc.mem_write(saved+changed_reg*8,struct.pack('<Q',expected_x[changed_reg]))
      uc.mem_write(saved+256+3*16,expected_q[3].to_bytes(16,'little'))
      if terminal and family=='prestart':
@@ -62,6 +63,7 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
      uc.reg_write(A.UC_ARM64_REG_NZCV,0xf0000000);uc.reg_write(A.UC_ARM64_REG_FPCR,0);uc.reg_write(A.UC_ARM64_REG_FPSR,0)
     u.hook_add(UC_HOOK_CODE,helper);u.emu_start(code_base+start,stop,count=1000)
     assert len(calls)==1
+    if family=='drawer' and index==0:assert int.from_bytes(u.mem_read(dart_frame-8,8),'little')==regs[22]
     for i,v in expected_x.items():
      if i==16:continue # Backend continuation scratch.
      assert u.reg_read(getattr(A,f'UC_ARM64_REG_X{i}'))==v,(index,terminal,i)
@@ -69,4 +71,4 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
     assert u.reg_read(A.UC_ARM64_REG_SP)==stack and u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
     assert u.reg_read(A.UC_ARM64_REG_FPCR)==0x400000 and u.reg_read(A.UC_ARM64_REG_FPSR)==0x10
     checks+=1
- print(f'recents/prestart ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')
+ print(f'recents/prestart/drawer ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')

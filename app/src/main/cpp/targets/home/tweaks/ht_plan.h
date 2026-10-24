@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <vector>
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 constexpr uint32_t kMaxNoClearSites = 32;
 

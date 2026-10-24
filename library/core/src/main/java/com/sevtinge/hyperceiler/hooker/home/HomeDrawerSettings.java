@@ -33,6 +33,7 @@ public class HomeDrawerSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        findPreference("prefs_key_home_drawer_hide_search").setVisible(isHyperOSVersion(4f));
         if (isHyperOSVersion(4f)) {
             findPreference("prefs_key_home_drawer_blur").setVisible(false);
         } else {

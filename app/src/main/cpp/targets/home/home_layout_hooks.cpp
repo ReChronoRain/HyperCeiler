@@ -14,6 +14,8 @@
 #include "home_recent_render.h"
 #include "home_prestart_feature_resolver.h"
 #include "home_prestart_policy.h"
+#include "home_drawer_feature_resolver.h"
+#include "home_drawer_render.h"
 #include "native_home_entry.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
@@ -57,12 +59,12 @@
 // symbol table, so these are values only - no addresses cross this boundary.
 #include "targets/home/tweaks/blob.h"
 #include "targets/home/tweaks/image.h"
-namespace hometweaks {
-void PushTweaksConfig(const Config &config);
-bool PrimeTweaksConfig(const Config &config);
-bool HomeTweaksFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize);
-bool HomeTweaksSymbolSpan(uint32_t va, uint32_t *outSpan);
-bool HomeTweaksTargetImage(char *path, size_t cap);
+namespace home_layout_engine {
+void PushLayoutConfig(const Config &config);
+bool PrimeLayoutConfig(const Config &config);
+bool HomeLayoutEngineFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize);
+bool HomeLayoutEngineSymbolSpan(uint32_t va, uint32_t *outSpan);
+bool HomeLayoutEngineTargetImage(char *path, size_t cap);
 bool InLoaderCallback();
 void SetInLoaderCallback(bool value);
 }
@@ -103,6 +105,8 @@ bool dock_motion_screen_active();
 #include <unistd.h>
 #include <vector>
 
+void prime_home_layout_first_render_locked();
+
 /*
  * The launcher's geometry values live in shared configuration objects, and Dart AOT inlines a getter
  * as small as `ldur d0, [x0, #imm]` at almost every call site - so the standalone accessor function is
@@ -118,6 +122,9 @@ bool dock_motion_screen_active();
  * contracts still require the verified ARM64/Dart ABI; symbol presence alone proves no OTA safety.
  */
 extern "C" {
+void* hc_drawer_originals[2]{};
+void hc_drawer_0_entry();void hc_drawer_1_entry();
+void hc_drawer_body(home_layout::recent_render::Registers*,unsigned);
 void* hc_prestart_original=nullptr;
 void hc_prestart_0_entry();
 void hc_prestart_body(home_layout::recent_render::Registers*,unsigned);
@@ -191,6 +198,10 @@ int64_t hc_gadget_handler_field=0,hc_gadget_width_field=0,hc_gadget_height_field
     void hc_layout_dart_##name##_entry();
 HC_LAYOUT_KNOBS(HC_DECLARE_KNOB)
 #undef HC_DECLARE_KNOB
+// Immutable executable addresses, published before the getter gate is armed.
+uintptr_t hc_hotseat_margin_callers[32]{};
+uint32_t hc_hotseat_margin_caller_count=0;
+uint64_t hc_hotseat_margin_applied=0,hc_hotseat_margin_shared=0;
 /* Objects captured by the trampolines, and the heap base a compressed pointer is relative to. */
 uint64_t hc_layout_config_object = 0;
 uint64_t hc_layout_dock_object = 0;
@@ -481,7 +492,8 @@ constexpr size_t kFolderReturnScaleSlotBase = kDockTitleModelSlotBase + 2;
 constexpr size_t kRecentSlotBase = kFolderReturnScaleSlotBase + 2;
 constexpr size_t kRecentSlotCount = 64;
 constexpr size_t kPrestartSlot = kRecentSlotBase + kRecentSlotCount;
-constexpr size_t kSlotCount = kPrestartSlot + 1;
+constexpr size_t kDrawerSearchSlot = kPrestartSlot + 1;
+constexpr size_t kSlotCount = kDrawerSearchSlot + 2;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -602,6 +614,11 @@ home_layout::BackWindowShape g_back_window_shape{};
 std::atomic_uint64_t g_scale_request_diagnostic{UINT64_MAX};
 std::atomic_int g_dock_title_requested{-1};
 std::shared_ptr<const home_layout::RecentConfig> g_recent_config;
+std::atomic_bool g_drawer_search_requested{false},g_drawer_search_ready{false};
+std::atomic_int32_t g_drawer_child_frame{0};
+std::atomic_uintptr_t g_drawer_blank_factory{0};
+std::atomic_uint32_t g_drawer_bind_failure{0};
+std::atomic_uint64_t g_drawer_hits{0},g_drawer_applied{0};
 std::atomic_bool g_prestart_ready{false};
 std::atomic_uint32_t g_prestart_bind_failure{0};
 std::atomic_uint64_t g_prestart_hits{0},g_prestart_blocked{0};
@@ -611,6 +628,8 @@ std::array<std::atomic_uint64_t,64> g_recent_hits{},g_recent_applied{};
 std::array<std::atomic_uint32_t,64> g_recent_skips{};
 
 void sync_title_config(const home_layout::Config &config) {
+    if(g_drawer_search_requested.exchange(config.drawer_hide_search,std::memory_order_acq_rel)!=config.drawer_hide_search)
+        __android_log_print(ANDROID_LOG_INFO,kTag,"drawer search request hidden=%d",config.drawer_hide_search);
     const auto previous_recent=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
     if(!previous_recent||*previous_recent!=config.recent){
         std::atomic_store_explicit(&g_recent_config,std::make_shared<const home_layout::RecentConfig>(config.recent),std::memory_order_release);
@@ -633,8 +652,8 @@ void sync_title_config(const home_layout::Config &config) {
             config.object_scales[1].enabled,config.object_scales[1].percent,
             config.object_scales[2].enabled,config.object_scales[2].percent);
     const double icon_scale = config.tweaks.icon_scale_enabled
-        && hometweaks::IconScaleCodeValid(config.tweaks.icon_scale_code)
-        ? hometweaks::IconScaleValueFromCode(config.tweaks.icon_scale_code) : 1.0;
+        && home_layout_engine::IconScaleCodeValid(config.tweaks.icon_scale_code)
+        ? home_layout_engine::IconScaleValueFromCode(config.tweaks.icon_scale_code) : 1.0;
     const auto publish_scale=[](uint64_t* target,double factor){
         uint64_t bits=0;std::memcpy(&bits,&factor,sizeof(bits));
         return __atomic_exchange_n(target,bits,__ATOMIC_ACQ_REL)!=bits;
@@ -1259,6 +1278,7 @@ struct DartLibrary {
 
 std::optional<DartLibrary> g_dart;
 struct RuntimeFeatures {
+    std::optional<home_layout::features::drawer::Plan> drawer;
     std::optional<home_layout::features::prestart::Plan> prestart;
     std::optional<home_layout::features::RecentPlan> recent;
     std::optional<home_layout::features::WidgetMoveFeature> widget_move;
@@ -1292,6 +1312,8 @@ std::shared_ptr<const RecentRouting> g_recent_routing;
 
 
 bool g_runtime_features_scanned=false;
+bool g_first_render_features_scanned=false;
+thread_local bool g_first_render_discovery=false;
 
 void report_layout_image_failure(const char *reason) {
     static std::atomic<const char *> previous{nullptr};
@@ -1309,9 +1331,9 @@ std::optional<std::string> launcher_apk(const std::vector<nhk::FileMapping> &all
     unsigned index=0;
     static std::atomic<const char *> previous[2]{};
     for(const char* name:{"libapp.so","libapp_launcher.so"}) {
-        hometweaks::Image image{};
-        hometweaks::ImageDiscoveryDiagnostic diagnostic;
-        const bool found=hometweaks::FindImageFromMappedApks(name,&image,&diagnostic);
+        home_layout_engine::Image image{};
+        home_layout_engine::ImageDiscoveryDiagnostic diagnostic;
+        const bool found=home_layout_engine::FindImageFromMappedApks(name,&image,&diagnostic);
         if(previous[index++].exchange(diagnostic.reason,std::memory_order_relaxed)!=diagnostic.reason)
             __android_log_print(found?ANDROID_LOG_INFO:ANDROID_LOG_WARN,kTag,
                 "layout image discovery library=%s stage=%s rows=%zu apks=%zu entries=%zu maps=%zu",
@@ -1415,11 +1437,12 @@ bool ensure_dart_library() {
 }
 
 bool ensure_runtime_features() {
-    // Full-code discovery belongs to the existing worker, never to a dlopen
-    // callback holding the linker's lock. The worker/loader setup lease owns
-    // this per-image publication, exactly as it owns g_dart and the hook slots.
-    if(!g_dart||hometweaks::InLoaderCallback())return false;
+    // General discovery belongs to the worker. Only the icon/Dock first-render
+    // dependency subset may run before it under the same setup lease; this
+    // executable-only pass does not decode symbols or enter Binder/dlsym.
+    if(!g_dart||(home_layout_engine::InLoaderCallback()&&!g_first_render_discovery))return false;
     if(g_runtime_features_scanned)return true;
+    if(g_first_render_discovery&&g_first_render_features_scanned)return true;
     const uint64_t length=g_dart->view_end-g_dart->view_begin;
     if(!length||length>kMaxLauncherImageBytes)return false;
     std::ifstream input(g_dart->path,std::ios::binary);
@@ -1437,7 +1460,26 @@ bool ensure_runtime_features() {
         g_runtime_features={};g_runtime_features_scanned=true;
         report_layout_image_failure("feature-executable-inventory");return true;
     }
+    // First-frame dependencies are a small executable-only pass, without any
+    // symbol/XZ lookup, Binder call or waiting on another worker. Delaying these
+    // until the general bank is ready caches stock icon widgets and Dock offsets.
+    if(g_first_render_discovery) {
+        g_runtime_features.icon=home_layout::features::icon_feature(*code);
+        if(g_runtime_features.icon) {
+            const auto& icon=*g_runtime_features.icon;
+            g_runtime_features.desktop=home_layout::features::desktop_icon_feature(*code,icon);
+            if(g_runtime_features.desktop)g_runtime_features.progress=home_layout::features::progress_icon_feature(*code,icon,*g_runtime_features.desktop);
+            g_runtime_features.dock_margin=home_layout::features::layout_scalar_feature(*code,icon.current,true);
+        }
+        if(g_drawer_search_requested.load(std::memory_order_acquire))
+            g_runtime_features.drawer=home_layout::features::drawer::resolve(*code);
+        g_first_render_features_scanned=true;
+        __android_log_print(ANDROID_LOG_INFO,kTag,"first-render executable discovery icon=%d desktop=%d margin=%d drawer=%d; no private-symbol lookup or IPC",
+            bool(g_runtime_features.icon),bool(g_runtime_features.desktop),bool(g_runtime_features.dock_margin),bool(g_runtime_features.drawer));
+        return true;
+    }
     RuntimeFeatures found;
+    found.drawer=home_layout::features::drawer::resolve(*code);
     found.prestart=home_layout::features::prestart::resolve(*code);
     const char* recent_failure=nullptr;
     found.recent=home_layout::features::recent::resolve(*code,&recent_failure);
@@ -1588,7 +1630,7 @@ constexpr uint32_t kMaxScanBytes = 0x4000;
 bool function_span(uint32_t va, uint32_t *out_size) {
     if (va == 0 || out_size == nullptr) return false;
     uint32_t span = 0;
-    if (!hometweaks::HomeTweaksSymbolSpan(va, &span)) return false;
+    if (!home_layout_engine::HomeLayoutEngineSymbolSpan(va, &span)) return false;
     if (span < 4 || span > kMaxScanBytes || (span & 3)) return false;
     *out_size = span;
     return true;
@@ -1644,10 +1686,10 @@ bool body(uint32_t va, std::vector<uint32_t> &words) {
     uint32_t *caller_va, uint32_t *edge_cid = nullptr,hc::indicator::InsetsLayout* layout=nullptr) {
     if (!caller_va) return false;
     uint32_t workspace = 0, deflate = 0, capsule = 0, unused = 0;
-    if (!hometweaks::HomeTweaksFindSymbol("Workspace._createIndicator", &workspace, &unused)
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("Workspace._createIndicator", &workspace, &unused)
         || workspace != workspace_va
-        || !hometweaks::HomeTweaksFindSymbol("_CapsuleIndicatorState.build", &capsule, &unused)
-        || !hometweaks::HomeTweaksFindSymbol("EdgeInsets.deflateRect", &deflate, &unused)) return false;
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("_CapsuleIndicatorState.build", &capsule, &unused)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("EdgeInsets.deflateRect", &deflate, &unused)) return false;
     home_dynamic::Body deflate_body;hc::indicator::InsetsLayout insets;
     if(!dartscan::body(deflate,deflate_body)||!hc::indicator::inset_fields(deflate_body,insets.field))return false;
     // Dart assigns class IDs and isolate slots anew in each AOT image. Decode
@@ -1995,17 +2037,17 @@ void *attempt_finished() {
     return nullptr;
 }
 
-hometweaks::Config make_tweaks_config(const home_layout::Config &values) {
-    hometweaks::Config tweaks;
+home_layout_engine::Config make_layout_engine_config(const home_layout::Config &values) {
+    home_layout_engine::Config tweaks;
     tweaks.flags = 1u; // master on
-    if (values.grid_enabled) tweaks.enabled.push_back(hometweaks::kFeaturePhoneGrid);
-    if (values.tweaks.folder_enabled) tweaks.enabled.push_back(hometweaks::kFeatureFolderCols);
-    if (values.tweaks.pad_enabled) tweaks.enabled.push_back(hometweaks::kFeaturePadGrid);
-    if (values.tweaks.fold_enabled) tweaks.enabled.push_back(hometweaks::kFeatureFoldGrid);
+    if (values.grid_enabled) tweaks.enabled.push_back(home_layout_engine::kFeaturePhoneGrid);
+    if (values.tweaks.folder_enabled) tweaks.enabled.push_back(home_layout_engine::kFeatureFolderCols);
+    if (values.tweaks.pad_enabled) tweaks.enabled.push_back(home_layout_engine::kFeaturePadGrid);
+    if (values.tweaks.fold_enabled) tweaks.enabled.push_back(home_layout_engine::kFeatureFoldGrid);
     // Real render inputs own icon scaling; do not also scale the legacy calculators.
 
-    if (values.tweaks.recents_no_clear) tweaks.enabled.push_back(hometweaks::kFeatureNoClear);
-    if (values.tweaks.recents_hide_clear) tweaks.enabled.push_back(hometweaks::kFeatureHideClear);
+    if (values.tweaks.recents_no_clear) tweaks.enabled.push_back(home_layout_engine::kFeatureNoClear);
+    if (values.tweaks.recents_hide_clear) tweaks.enabled.push_back(home_layout_engine::kFeatureHideClear);
     tweaks.phoneCols = values.cell_x;
     tweaks.phoneRows = values.cell_y;
     tweaks.folderCols = values.tweaks.folder_cols;
@@ -2018,7 +2060,7 @@ hometweaks::Config make_tweaks_config(const home_layout::Config &values) {
 }
 
 void push_tweaks(const home_layout::Config &values) {
-    const auto tweaks=make_tweaks_config(values);
+    const auto tweaks=make_layout_engine_config(values);
     __android_log_print(ANDROID_LOG_INFO, kTag,
         "layout tweaks grid=%d/%dx%d folder=%d/%d pad=%d/%d fold=%d/%d icon=%d noClear=%d "
         "hideClear=%d", values.grid_enabled ? 1 : 0, values.cell_x, values.cell_y,
@@ -2026,7 +2068,7 @@ void push_tweaks(const home_layout::Config &values) {
         values.tweaks.pad_major, values.tweaks.pad_minor, values.tweaks.fold_major,
         values.tweaks.fold_minor, values.tweaks.icon_scale_code,
         values.tweaks.recents_no_clear ? 1 : 0, values.tweaks.recents_hide_clear ? 1 : 0);
-    hometweaks::PushTweaksConfig(tweaks);
+    home_layout_engine::PushLayoutConfig(tweaks);
 }
 
 // ---------------------------------------------------------------------------
@@ -2147,7 +2189,7 @@ struct IndicatorPolicyAnchors { uint32_t gate = 0, result = 0; };
 [[maybe_unused]] bool indicator_policy_compatible(uint32_t va, uint32_t, IndicatorPolicyAnchors *out) {
     if (!out) return false;
     uint32_t editing = 0, unused = 0;
-    if (!hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState.isInEditing", &editing, &unused)) return false;
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("LauncherIndicatorState.isInEditing", &editing, &unused)) return false;
     constexpr uint32_t gate[] = {0xf100041f, 0x540001ec, 0xf85e83a3, 0x362001a3,
         0xf85f83a1, 0xb840f024, 0x8b1c8084, 0xaa0403e1};
     constexpr uint32_t result[] = {0x362000e0, 0xf85e03a0, 0x362000a0,
@@ -2171,10 +2213,10 @@ struct IndicatorPolicyAnchors { uint32_t gate = 0, result = 0; };
     constexpr uint32_t show_pattern[]={0xf85f83a0,0xf81f03a3,0xf841b002,0xeb03005f};
     constexpr uint32_t animate_pattern[]={0x7100103f,0x54000081,0xb846b061,0x8b1c8021,0x14000003,0xb8463061,0x8b1c8021};
     if (!dartscan::body(va,show_body) || !home_dynamic::unique(show_body,show_pattern,4,*patch)
-        || !hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState._animateIndicator", &animate, &unused)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("LauncherIndicatorState._animateIndicator", &animate, &unused)
         || !dartscan::body(animate,animate_body) || !home_dynamic::unique(animate_body,animate_pattern,7,fallback)
-        || !hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState._refreshIndicator", &refresh, &unused)
-        || !hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState._getCurrentIndicatorType", &current_type, &unused)) return false;
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("LauncherIndicatorState._refreshIndicator", &refresh, &unused)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("LauncherIndicatorState._getCurrentIndicatorType", &current_type, &unused)) return false;
     std::vector<uint32_t> code;
     if (!dartscan::body(refresh, code)) return false;
     size_t hits = 0; uint32_t caller = 0;
@@ -2349,7 +2391,7 @@ bool bind_folder_preview() {
     std::array<uint32_t, 11> va{}; std::array<std::vector<uint32_t>, 11> body;
     for (size_t i = 0; i < va.size(); ++i) {
         uint32_t size = 0;
-        if (!hometweaks::HomeTweaksFindSymbol(names[i], &va[i], &size) || !dartscan::body(va[i], body[i])) {
+        if (!home_layout_engine::HomeLayoutEngineFindSymbol(names[i], &va[i], &size) || !dartscan::body(va[i], body[i])) {
             if (!waiting_logged) {
                 __android_log_print(ANDROID_LOG_INFO, kTag,
                     "folder preview admission pending=%s; retry after symbol index readiness", names[i]);
@@ -2365,7 +2407,7 @@ bool bind_folder_preview() {
         // this named owner. Do not hook that named method: admit only the unique
         // original delegate construction + height-call dataflow inside its span.
         uint32_t builder_va=0,size=0;std::vector<uint32_t> builder_body;
-        if(!hometweaks::HomeTweaksFindSymbol("FolderGridView._interruptScrollWhenClosing",&builder_va,&size)
+        if(!home_layout_engine::HomeLayoutEngineFindSymbol("FolderGridView._interruptScrollWhenClosing",&builder_va,&size)
             ||!dartscan::body(builder_va,builder_body))return false;
         if(!home_layout::folder_preview_plan(builder_body,body[1],body[2],body[3],body[4],
                 builder_va,va[5],body[6],body[7],body[8],body[9],body[10],fields)) {
@@ -2378,9 +2420,9 @@ bool bind_folder_preview() {
     g_folder_preview_checked = true;
     // Prove the values captured/re-written came from the named owning calls.
     uint32_t config=0,first=0,cell=0,ignored=0;
-    if(!hometweaks::HomeTweaksFindSymbol("GridController.currentConfig",&config,&ignored)
-        ||!hometweaks::HomeTweaksFindSymbol("FolderGridViewGetxController.getFirstVisibleItemIndex",&first,&ignored)
-        ||!hometweaks::HomeTweaksFindSymbol("FolderClingGetxController.calcPositionForCellX",&cell,&ignored))return false;
+    if(!home_layout_engine::HomeLayoutEngineFindSymbol("GridController.currentConfig",&config,&ignored)
+        ||!home_layout_engine::HomeLayoutEngineFindSymbol("FolderGridViewGetxController.getFirstVisibleItemIndex",&first,&ignored)
+        ||!home_layout_engine::HomeLayoutEngineFindSymbol("FolderClingGetxController.calcPositionForCellX",&cell,&ignored))return false;
     const auto index=fields.destination_site/4,store=fields.destination_store/4,pad=fields.padding_site/4;
     if(!index||!store||!pad||index+4>=body[8].size()
         ||!home_layout::preview_call_to(body[8][index-1],va[8]+uint32_t((index-1)*4),first)
@@ -2388,7 +2430,7 @@ bool bind_folder_preview() {
         ||!home_layout::preview_call_to(body[8][store-1],va[8]+uint32_t((store-1)*4),va[7])
         ||!home_layout::preview_call_to(body[3][pad-1],va[3]+uint32_t((pad-1)*4),config))return false;
     uint32_t translate=0;std::vector<uint32_t> offset_body;
-    if(!hometweaks::HomeTweaksFindSymbol("Offset.translate",&translate,&ignored)
+    if(!home_layout_engine::HomeLayoutEngineFindSymbol("Offset.translate",&translate,&ignored)
         ||!dartscan::body(translate,offset_body))return false;
     uint32_t offset_allocator=0;unsigned allocators=0;
     for(size_t i=0;i+4<offset_body.size();++i)if((offset_body[i]&0xfc000000u)==0x94000000u
@@ -2462,7 +2504,7 @@ bool bind_folder_probe() {
         return false;
     }
     uint32_t va = 0, size = 0;
-    if (!hometweaks::HomeTweaksFindSymbol("FolderAnimController._calcRealIconPos", &va, &size)) return false;
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("FolderAnimController._calcRealIconPos", &va, &size)) return false;
     Slot slot{};
     if (!bind_dart_target(va + fields.probe_site, slot.address, slot.source, slot.original_words)) return false;
     slot.replacement = reinterpret_cast<void *>(hc_folder_probe_0_entry);
@@ -2535,7 +2577,7 @@ bool bind_folder_layout() {
     } retry{now};
     for (size_t i = 0; i < va.size(); ++i) {
         uint32_t size = 0;
-        if (!hometweaks::HomeTweaksFindSymbol(names[i], &va[i], &size)
+        if (!home_layout_engine::HomeLayoutEngineFindSymbol(names[i], &va[i], &size)
             || !dartscan::body(va[i], bodies[i])) {
             __android_log_print(ANDROID_LOG_WARN, kTag,
                 "folder layout admission missing symbol/body=%s (index %zu)", names[i], i);
@@ -2724,17 +2766,17 @@ bool bind_big_folder_size() {
     std::array<std::vector<uint32_t>,5> bodies;
     uint32_t vas[5]{},spans[5]{};
     for(unsigned i=0;i<5;++i){uint32_t ignored=0;
-        if(!hometweaks::HomeTweaksFindSymbol(names[i],&vas[i],&ignored)
+        if(!home_layout_engine::HomeLayoutEngineFindSymbol(names[i],&vas[i],&ignored)
             ||!dartscan::function_span(vas[i],&spans[i])||!dart_function_words(vas[i],spans[i],bodies[i]))return false;
     }
     uint32_t check=0,ignored=0,span=0;std::vector<uint32_t> check_body;
-    if(!hometweaks::HomeTweaksFindSymbol("FolderIconGetxController.checkOrUpdateStrategy",&check,&ignored)
+    if(!home_layout_engine::HomeLayoutEngineFindSymbol("FolderIconGetxController.checkOrUpdateStrategy",&check,&ignored)
         ||!dartscan::function_span(check,&span)||!dart_function_words(check,span,check_body))return false;
     const char* helper_names[]={"BigFolderCommonStrategy._calItemSizeByWidth",
         "BigFolderCommonStrategy._calItemSizeByHeight"};
     std::array<std::vector<uint32_t>,2> helpers;uint32_t helper_vas[2]{};
     for(unsigned i=0;i<2;++i){uint32_t helper_span=0;
-        if(!hometweaks::HomeTweaksFindSymbol(helper_names[i],&helper_vas[i],&ignored)
+        if(!home_layout_engine::HomeLayoutEngineFindSymbol(helper_names[i],&helper_vas[i],&ignored)
             ||!dartscan::function_span(helper_vas[i],&helper_span)
             ||!dart_function_words(helper_vas[i],helper_span,helpers[i]))return false;
     }
@@ -2778,7 +2820,7 @@ void bind_folder_geometry() {
         "RxObjectMixin.value","SwipeController.isRtl","Offset.translate"};
     uint32_t va[8]{};std::array<std::vector<uint32_t>,8> bodies;
     for(unsigned i=0;i<8;++i){uint32_t size=0,span=0;
-        if(!hometweaks::HomeTweaksFindSymbol(names[i],&va[i],&size)
+        if(!home_layout_engine::HomeLayoutEngineFindSymbol(names[i],&va[i],&size)
             ||!dartscan::function_span(va[i],&span)||!dart_function_words(va[i],span,bodies[i]))return;}
     g_folder_geometry_checked=true;
     home_layout::FolderGeometryCalls calls{va[2],va[3],va[4],va[5],va[6]};
@@ -2893,6 +2935,11 @@ size_t bind_knobs() {
                 layout_contract_declined(unsigned(index),20,"linked layout scalar feature missing or ambiguous");continue;
             }
             va=feature->source.target;size=feature->size;
+            if(index==0) {
+                for(size_t i=0;i<feature->margin_callers.size();++i)
+                    hc_hotseat_margin_callers[i]=g_dart->load_base+feature->margin_callers[i];
+                __atomic_store_n(&hc_hotseat_margin_caller_count,uint32_t(feature->margin_callers.size()),__ATOMIC_RELEASE);
+            }
             __android_log_print(ANDROID_LOG_INFO,kTag,"layout scalar feature=%s source=%#x consumer=%#x field=%d payload=%d; executable linkage",
                 index==0?"dock_margin":"folder_row_spacing",va,feature->consumer,feature->source.field,feature->source.payload);
         } else if(feature_geometry) {
@@ -2912,7 +2959,7 @@ size_t bind_knobs() {
         } else if(feature_slide) {
             if(!ensure_runtime_features()||!g_runtime_features.indicator_slide)continue;
             va=g_runtime_features.indicator_slide->owner;size=g_runtime_features.indicator_slide->size;
-        } else if(!hometweaks::HomeTweaksFindSymbol(knob.symbol.c_str(),&va,&size)||size<16)continue;
+        } else if(!home_layout_engine::HomeLayoutEngineFindSymbol(knob.symbol.c_str(),&va,&size)||size<16)continue;
         uint32_t capsule_patch_va = 0, policy_patch_offset = 0, slide_patch_offset = 0;
         if (&knob == &g_knobs[5]) {
             if (knob.symbol == "Workspace._createIndicator") {
@@ -2993,12 +3040,12 @@ size_t bind_knobs() {
 
     if (g_config_capture_va == 0) {
         uint32_t size = 0;
-        hometweaks::HomeTweaksFindSymbol("GridController.currentConfig", &g_config_capture_va,
+        home_layout_engine::HomeLayoutEngineFindSymbol("GridController.currentConfig", &g_config_capture_va,
             &size);
     }
     if (g_dock_capture_va == 0) {
         uint32_t size = 0;
-        hometweaks::HomeTweaksFindSymbol("HotSeatsConstants2._dockGridConfig", &g_dock_capture_va,
+        home_layout_engine::HomeLayoutEngineFindSymbol("HotSeatsConstants2._dockGridConfig", &g_dock_capture_va,
             &size);
     }
     if (g_config_capture_va == 0 || g_dock_capture_va == 0) return 0;
@@ -3008,7 +3055,7 @@ size_t bind_knobs() {
         if (knob.hook_mode || knob.path.load(std::memory_order_relaxed) != 0) continue;
         uint32_t va = 0;
         uint32_t size = 0;
-        if (!hometweaks::HomeTweaksFindSymbol(knob.symbol.c_str(), &va, &size) || size < 16) {
+        if (!home_layout_engine::HomeLayoutEngineFindSymbol(knob.symbol.c_str(), &va, &size) || size < 16) {
             continue;
         }
         std::vector<uint32_t> code;
@@ -3103,10 +3150,10 @@ bool bind_title_color() {
     if (g_title_color.load(std::memory_order_acquire) == -1 || !g_dart) return false;
     uint32_t getter=0, size=0, clone=0, builder=0;
     std::vector<uint32_t> code, allocator, nursery_code;
-    if (!hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget.getTextColor", &getter, &size)
-        || !hometweaks::HomeTweaksFindSymbol("Color.withAlpha", &clone, &size)
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutIconWidget.getTextColor", &getter, &size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("Color.withAlpha", &clone, &size)
         || !dartscan::body(clone, code)
-        || !hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget._buildTextWidget", &builder, &size)) return false;
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutIconWidget._buildTextWidget", &builder, &size)) return false;
     home_dynamic::ColorLayout layout;unsigned hits=0;
     for(size_t i=0;i<code.size();++i) {
         uint32_t factory=0, tag=0, nursery=0;
@@ -3154,9 +3201,9 @@ bool bind_folder_title() {
     if(!g_dart)return false;
     uint32_t builder=0,value=0,font=0,size=0;
     home_dynamic::Body body;home_folder_title::Sites sites;
-    if(!hometweaks::HomeTweaksFindSymbol("FolderIconWidget._buildText",&builder,&size)
-        || !hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value",&value,&size)
-        || !hometweaks::HomeTweaksFindSymbol("GridConfig.getTitleTextSize",&font,&size)
+    if(!home_layout_engine::HomeLayoutEngineFindSymbol("FolderIconWidget._buildText",&builder,&size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("RxObjectMixin.value",&value,&size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("GridConfig.getTitleTextSize",&font,&size)
         || !dartscan::body(builder,body)
         || !home_folder_title::resolve(body,builder,value,font,sites))return false;
     bool added=false;
@@ -3197,11 +3244,11 @@ bool bind_title_custom() {
     if(!g_dart || !__atomic_load_n(&hc_title_custom_enabled,__ATOMIC_ACQUIRE))return false;
     uint32_t component=0,pin=0,package=0,builder=0,prefix=0,size=0,pin_leaf=0;
     std::vector<uint32_t> cb,pb,pk,leaf,body,pr;
-    if(!hometweaks::HomeTweaksFindSymbol("ShortcutInfoModel.getPackageName",&package,&size)
-        || !hometweaks::HomeTweaksFindSymbol("ShortcutInfoModel.getComponentName",&component,&size)
-        || !hometweaks::HomeTweaksFindSymbol("PinShortcutInfoModel.getComponentName",&pin,&size)
-        || !hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget._buildTextWidget",&builder,&size)
-        || !hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget.getPrefixAssetName",&prefix,&size)
+    if(!home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutInfoModel.getPackageName",&package,&size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutInfoModel.getComponentName",&component,&size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("PinShortcutInfoModel.getComponentName",&pin,&size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutIconWidget._buildTextWidget",&builder,&size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutIconWidget.getPrefixAssetName",&prefix,&size)
         || !dartscan::body(package,pk) || !dartscan::body(component,cb) || !dartscan::body(pin,pb)
         || !dartscan::body(builder,body) || !dartscan::body(prefix,pr))return false;
     unsigned calls=0;
@@ -3461,12 +3508,12 @@ bool sync_hotseat_capacity(bool enabled) {
     if (!g_capacity_bound) {
         std::array<nhk::SourceWordPatch,home_layout::kCapacitySiteCount> candidate{};
         uint32_t max_count=0,fixed_count=0,root_size=0;
-        if(!hometweaks::HomeTweaksFindSymbol("DeviceConfig.hotSeatMaxCount",&max_count,&root_size)
-          ||!hometweaks::HomeTweaksFindSymbol("HotSeatsConstants2.hotseatMaxFixedCount",&fixed_count,&root_size))return false;
+        if(!home_layout_engine::HomeLayoutEngineFindSymbol("DeviceConfig.hotSeatMaxCount",&max_count,&root_size)
+          ||!home_layout_engine::HomeLayoutEngineFindSymbol("HotSeatsConstants2.hotseatMaxFixedCount",&fixed_count,&root_size))return false;
         for (int i = 0; i < home_layout::kCapacitySiteCount; ++i) {
             const auto &site = home_layout::kCapacitySites[i];
             uint32_t va = 0, size = 0;std::vector<uint32_t> body;home_layout::CapacityResolved resolved;
-            if (!hometweaks::HomeTweaksFindSymbol(site.symbol, &va, &size)
+            if (!home_layout_engine::HomeLayoutEngineFindSymbol(site.symbol, &va, &size)
               ||!dart_words(va,size/4,body)
               ||!home_layout::capacity_site(body,va,i,max_count,fixed_count,resolved))return false;
             const uint32_t offset=resolved.offset;
@@ -3768,13 +3815,13 @@ bool sync_folder_auto_close(bool enabled) {
     if (!g_auto_close_words[0].address) {
         uint32_t va=0,span=0,close=0,rx=0,registered=0,size=0,animate=0,immediate=0,scroll=0;
         std::vector<uint32_t> body,close_body;
-        if (hometweaks::HomeTweaksFindSymbol(home_layout::kFolderAutoClickSymbol,&va,&size)
-            && hometweaks::HomeTweaksFindSymbol("FolderClingGetxController.handleFolderClingClose",&close,&size)
-            && hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value",&rx,&size)
-            && hometweaks::HomeTweaksFindSymbol("Inst|isRegistered",&registered,&size)
-            && hometweaks::HomeTweaksFindSymbol("FolderClingGetxController._shouldCloseWithAnimation",&animate,&size)
-            && hometweaks::HomeTweaksFindSymbol("FolderClingGetxController.handleFolderClingCloseImmediately",&immediate,&size)
-            && hometweaks::HomeTweaksFindSymbol("FolderGridViewGetxController.scrollNearestRow",&scroll,&size)
+        if (home_layout_engine::HomeLayoutEngineFindSymbol(home_layout::kFolderAutoClickSymbol,&va,&size)
+            && home_layout_engine::HomeLayoutEngineFindSymbol("FolderClingGetxController.handleFolderClingClose",&close,&size)
+            && home_layout_engine::HomeLayoutEngineFindSymbol("RxObjectMixin.value",&rx,&size)
+            && home_layout_engine::HomeLayoutEngineFindSymbol("Inst|isRegistered",&registered,&size)
+            && home_layout_engine::HomeLayoutEngineFindSymbol("FolderClingGetxController._shouldCloseWithAnimation",&animate,&size)
+            && home_layout_engine::HomeLayoutEngineFindSymbol("FolderClingGetxController.handleFolderClingCloseImmediately",&immediate,&size)
+            && home_layout_engine::HomeLayoutEngineFindSymbol("FolderGridViewGetxController.scrollNearestRow",&scroll,&size)
             && dartscan::function_span(va,&span) && dart_function_words(va,span,body)
             && dartscan::body(close,close_body)) {
             const auto offsets=home_layout::resolve_folder_auto_close_immediate(body,va,close,rx,registered,
@@ -3851,7 +3898,7 @@ bool bind_desktop_title() {
     if (!g_dart || (g_title_desktop_sp.load(std::memory_order_acquire) == 12
         && g_title_drawer_sp.load(std::memory_order_acquire) == 12)) return false;
     uint32_t va = 0, size = 0;
-    if (!hometweaks::HomeTweaksFindSymbol("ShortcutIconWidget._buildTextWidget", &va, &size)) return false;
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutIconWidget._buildTextWidget", &va, &size)) return false;
     // Both desktop and modern drawer use this builder. Only the drawer/search creates
     // customShortcutIconConfig (true at +0xb); preserve independent settings at that branch.
     uint32_t custom = 0, custom_size = 0;
@@ -3861,7 +3908,7 @@ bool bind_desktop_title() {
     constexpr uint32_t config_pattern[]={0xb8007001,0x910082c1,0xb800b001};
     constexpr uint32_t font_pattern[]={0xfc443000,0xf85f83a0,0xfc1a83a0,0xb8417001,0x8b1c8021,0xb840b022,0x8b1c8042};
     constexpr uint32_t height_pattern[]={0xb846f001,0x8b1c8021,0xfc427020,0xfc1a03a0};
-    if (!hometweaks::HomeTweaksFindSymbol("ShortcutIconWidgetConfig.customShortcutIconConfig", &custom, &custom_size)
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("ShortcutIconWidgetConfig.customShortcutIconConfig", &custom, &custom_size)
         || !dartscan::body(custom, custom_code) || custom_code.empty() || custom_code[0] != kDartPrologue
         || !home_dynamic::unique(custom_code,config_pattern,3,config_offset)
         || !dartscan::body(va,body) || !home_dynamic::unique(body,font_pattern,7,font_offset)
@@ -3907,7 +3954,7 @@ bool bind_title_hide() {
     uint32_t vas[3]{}, size = 0, caller = 0, caller_size = 0;
     std::vector<uint32_t> words;
     for (unsigned index = 0; index < 3; ++index) {
-        if (!hometweaks::HomeTweaksFindSymbol(names[index], &vas[index], &size)
+        if (!home_layout_engine::HomeLayoutEngineFindSymbol(names[index], &vas[index], &size)
             || !dart_words(vas[index], 4, words)
             || words[0] != kDartPrologue) return false;
     }
@@ -3915,7 +3962,7 @@ bool bind_title_hide() {
     if(!dartscan::body(vas[1],folder_method)||!dartscan::body(vas[2],light_method)
         ||!home_layout::runtime_contract::new_install_methods(folder_method,light_method))
         return layout_contract_declined(4,20,"read-only folder boolean loop or visual child-replacement/void-return feature changed");
-    if (!hometweaks::HomeTweaksFindSymbol("FolderIconGetxController.updateNewInstallNotification", &caller, &caller_size)
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("FolderIconGetxController.updateNewInstallNotification", &caller, &caller_size)
         || !dartscan::body(caller, words)) return false;
     size_t hits = 0; uint32_t return_pc = 0;
     for (size_t i = 0; i < words.size(); ++i) {
@@ -4023,7 +4070,7 @@ bool gadget_scan_anchors(uint32_t serializer,uint32_t serializer_size,uint32_t p
 bool gadget_clone_compatible(uint32_t clone,uint32_t clone_span,uint32_t *cid=nullptr,uint32_t *model_field=nullptr) {
     home_dynamic::Body body,code,category;uint32_t getter=0,size=0;
     if(!dart_function_words(clone,clone_span,body)
-        || !hometweaks::HomeTweaksFindSymbol("GadgetInfoModel.getCategoryId",&getter,&size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("GadgetInfoModel.getCategoryId",&getter,&size)
         || !dartscan::body(getter,category))return false;
     unsigned factories=0,fields=0,types=0;uint32_t found_cid=0,found_field=0,type_field=0;
     for(size_t i=0;i<body.size();++i){uint32_t candidate=0,tag=0;
@@ -4048,11 +4095,11 @@ bool bind_gadget_bridge() {
     uint32_t can = 0, can_size = 0, span_callee = 0, span_size = 0;
     home_layout::GadgetAnchors anchors;
     const bool resolved[] = {
-        hometweaks::HomeTweaksFindSymbol(home_layout::kGadgetSerializer, &va, &size),
-        hometweaks::HomeTweaksFindSymbol(home_layout::kGadgetBundlePut, &put, &put_size),
-        hometweaks::HomeTweaksFindSymbol(home_layout::kWidgetMoveSymbol, &can, &can_size),
-        hometweaks::HomeTweaksFindSymbol(home_layout::kGadgetModel, &clone, &clone_size),
-        hometweaks::HomeTweaksFindSymbol("AssistantDragToPAHandler._isSpanSupportedByPa", &span_callee, &span_size),
+        home_layout_engine::HomeLayoutEngineFindSymbol(home_layout::kGadgetSerializer, &va, &size),
+        home_layout_engine::HomeLayoutEngineFindSymbol(home_layout::kGadgetBundlePut, &put, &put_size),
+        home_layout_engine::HomeLayoutEngineFindSymbol(home_layout::kWidgetMoveSymbol, &can, &can_size),
+        home_layout_engine::HomeLayoutEngineFindSymbol(home_layout::kGadgetModel, &clone, &clone_size),
+        home_layout_engine::HomeLayoutEngineFindSymbol("AssistantDragToPAHandler._isSpanSupportedByPa", &span_callee, &span_size),
     };
     const bool spans = resolved[0] && resolved[2] && dartscan::function_span(va, &size)
         && dartscan::function_span(can, &can_size);
@@ -4125,7 +4172,7 @@ bool bind_workspace_double() {
         "Inst|isRegistered","_DoubleTapGestureDetectorState.isConsideredDoubleTap",
         "_DoubleTapGestureDetectorState._resetState","RxObjectMixin.value"};
     std::array<uint32_t,7> va{};uint32_t size=0;
-    for(size_t i=0;i<va.size();++i)if(!hometweaks::HomeTweaksFindSymbol(names[i],&va[i],&size))return decline(1+i);
+    for(size_t i=0;i<va.size();++i)if(!home_layout_engine::HomeLayoutEngineFindSymbol(names[i],&va[i],&size))return decline(1+i);
     std::vector<uint32_t> policy,down;home_workspace_gesture::DoubleTapSites sites;
     if(!dartscan::body(va[0],policy)||!dartscan::body(va[1],down)
         ||!home_workspace_gesture::resolve(policy,va[0],down,va[1],va[2],va[3],va[4],va[5],va[6],sites))return decline(20);
@@ -4148,8 +4195,8 @@ bool g_workspace_status_bound=false;
 bool bind_workspace_status() {
     if(g_workspace_status_bound)return true;
     uint32_t va=0,can=0,size=0;
-    if(!hometweaks::HomeTweaksFindSymbol("StatusBarSwipeController.onInterceptTouchEvent",&va,&size)
-        ||!hometweaks::HomeTweaksFindSymbol("StatusBarSwipeController.canInterceptTouch",&can,&size))return false;
+    if(!home_layout_engine::HomeLayoutEngineFindSymbol("StatusBarSwipeController.onInterceptTouchEvent",&va,&size)
+        ||!home_layout_engine::HomeLayoutEngineFindSymbol("StatusBarSwipeController.canInterceptTouch",&can,&size))return false;
     std::vector<uint32_t> body;home_workspace_gesture::StatusPolicy c;
     if(!dartscan::body(va,body)||!home_workspace_gesture::status_policy(body,va,can,c))return false;
     std::array<uintptr_t,3> addr{};std::array<nhk::CodeSource,3> src{};std::array<Words,3> words{};
@@ -4165,7 +4212,7 @@ bool bind_workspace_scope() {
     const char* names[]={"_DoubleTapGestureDetectorState._handlePointerDown","WorkspaceGetxController.isDoubleTapLock",
         "_TransformedPointerEvent.timeStamp","SwipeDetector.onPointerMove","SwipeDetector._computeVelocity"};
     std::array<uint32_t,5> va{};uint32_t size=0;
-    for(size_t i=0;i<va.size();++i)if(!hometweaks::HomeTweaksFindSymbol(names[i],&va[i],&size))return false;
+    for(size_t i=0;i<va.size();++i)if(!home_layout_engine::HomeLayoutEngineFindSymbol(names[i],&va[i],&size))return false;
     std::vector<uint32_t> down,stamp,move;home_workspace_gesture::ScopeContract c;
     if(!dartscan::body(va[0],down)||!dartscan::body(va[2],stamp)||!dartscan::body(va[3],move)
         ||!home_workspace_gesture::scope_contract(down,va[0],va[1],stamp,move,va[3],va[4],c))return false;
@@ -4184,9 +4231,9 @@ bool bind_dock_edit() {
     if (g_slots[kDockEditSlot].address) return true;
     uint32_t getter=0, rx=0, update=0, size=0;
     std::vector<uint32_t> gb, rb, ub; home_layout::DockEditFields fields;
-    if (!hometweaks::HomeTweaksFindSymbol("EditModeGetxController.isInNormalEditing", &getter, &size)
-        || !hometweaks::HomeTweaksFindSymbol("RxObjectMixin.value", &rx, &size)
-        || !hometweaks::HomeTweaksFindSymbol("EditModeGetxController._updateGridState", &update, &size)
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol("EditModeGetxController.isInNormalEditing", &getter, &size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("RxObjectMixin.value", &rx, &size)
+        || !home_layout_engine::HomeLayoutEngineFindSymbol("EditModeGetxController._updateGridState", &update, &size)
         || !dartscan::body(getter, gb) || !dartscan::body(rx, rb) || !dartscan::body(update, ub)
         || !home_layout::dock_edit_fields(gb, getter, rb, rx, ub, fields)) return false;
     uintptr_t address=0; nhk::CodeSource source{}; Words words{};
@@ -4199,6 +4246,35 @@ bool bind_dock_edit() {
 #else
     return false;
 #endif
+}
+
+bool bind_drawer_search() {
+    if(g_slots[kDrawerSearchSlot].address)return true;
+    if(!g_drawer_search_requested.load(std::memory_order_acquire))return false;
+    const auto declined=[&](unsigned stage,const char* why){
+        if(g_drawer_bind_failure.exchange(stage,std::memory_order_relaxed)!=stage)
+            __android_log_print(ANDROID_LOG_WARN,kTag,"drawer search binding unavailable stage=%u reason=%s; original retained",stage,why);
+        return false;
+    };
+    if(!g_dart||!ensure_runtime_features())return declined(1,"executable inventory unavailable");
+    if(!g_runtime_features.drawer)return declined(2,"drawer width/capture/owner graph missing or ambiguous");
+    const auto& p=*g_runtime_features.drawer;
+    if(!p.holder)return declined(3,"Finder holder/color-filter/width graph missing or ambiguous");
+    std::array<Slot,2> prepared{};
+    const uint32_t sites[]={p.empty_site,p.holder};
+    void* entries[]={reinterpret_cast<void*>(hc_drawer_0_entry),reinterpret_cast<void*>(hc_drawer_1_entry)};
+    for(unsigned i=0;i<2;++i) {
+        auto& slot=prepared[i];
+        if(!bind_dart_target(sites[i],slot.address,slot.source,slot.original_words))return declined(4+i,"verified consumer could not be bound");
+        for(auto w:slot.original_words)if((w&0xfc000000u)==0x94000000u)return declined(6+i,"replay window contains a Dart call");
+        slot.replacement=entries[i];slot.original=&hc_drawer_originals[i];
+    }
+    g_drawer_child_frame.store(p.child_frame,std::memory_order_release);
+    g_drawer_blank_factory.store(g_dart->load_base+p.blank_factory,std::memory_order_release);
+    for(unsigned i=0;i<2;++i)g_slots[kDrawerSearchSlot+i]=prepared[i];
+    g_drawer_bind_failure.store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"drawer search executable graph bound legacy=%#x finder=%#x empty_factory=%#x color_filter=%#x child_frame=%d",p.empty_site,p.holder,p.blank_factory,p.color,p.child_frame);
+    return true;
 }
 
 bool bind_prestart() {
@@ -4253,6 +4329,7 @@ bool bind_recent() {
 }
 
 size_t arm_hooks(std::vector<size_t> &order) {
+    (void)bind_drawer_search();
     (void)bind_prestart();
     (void)bind_recent();
     (void)bind_dock_title_model();
@@ -4282,6 +4359,8 @@ size_t arm_hooks(std::vector<size_t> &order) {
             " (first symbol resolved=%d)", g_folder_layout_checked ? 1 : 0);
     (void) bind_gadget_bridge();
     size_t added = 0;
+    for(size_t i=kDrawerSearchSlot;i<kDrawerSearchSlot+2;++i)
+        if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     if(g_slots[kPrestartSlot].address&&std::find(order.begin(),order.end(),kPrestartSlot)==order.end()){
         order.push_back(kPrestartSlot);++added;
     }
@@ -4569,6 +4648,7 @@ void publish_indicator_dot_delta() {
     if(recent){recent_ready=!recent->plan.sites.empty();
         for(size_t i=0;i<recent->plan.sites.size();++i)recent_ready&=nhk::slot_ready(g_slots[kRecentSlotBase+i])&&hc_recent_originals[i];}
     g_recent_ready.store(recent_ready,std::memory_order_release);
+    g_drawer_search_ready.store(nhk::slot_ready(g_slots[kDrawerSearchSlot])&&nhk::slot_ready(g_slots[kDrawerSearchSlot+1])&&hc_drawer_originals[0]&&hc_drawer_originals[1],std::memory_order_release);
     g_prestart_ready.store(nhk::slot_ready(g_slots[kPrestartSlot])&&hc_prestart_original,std::memory_order_release);
     bool widget_ready=g_runtime_features.widget&& !g_runtime_features.widget->builders.empty();
     if(widget_ready)for(size_t i=0;i<g_runtime_features.widget->builders.size();++i)
@@ -4841,7 +4921,7 @@ void *worker(void *) {
     const bool any_tweak = config.tweaks.folder_enabled || config.tweaks.pad_enabled
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
         || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
-        || config.recent.requested()
+        || config.recent.requested() || config.drawer_hide_search
         || hyperceiler_home_prestart_disabled()
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
@@ -4862,6 +4942,7 @@ void *worker(void *) {
     publish_animation_rate(config.tweaks);
     push_tweaks(config);
 
+    prime_home_layout_first_render_locked();
     std::optional<Located> located;
     for (int attempt = 0; attempt < 60; ++attempt) {
         located = locate();
@@ -5132,6 +5213,11 @@ void *worker(void *) {
             }
         }
         delay_ms(kPassIntervalMs);
+        // A late libapp mapping can still arrive through the loader/property
+        // callback after the Rust bank was initialized. Share the setup lease
+        // with that first-render pass so neither side replaces live slot state.
+        if(g_loader_priming.test_and_set(std::memory_order_acquire))continue;
+        struct PassLease {~PassLease(){g_loader_priming.clear(std::memory_order_release);}} pass_lease;
         ++iterations;
         /*
          * Probe readout: the passthrough stub records every call into these globals, and this is
@@ -5279,6 +5365,11 @@ void *worker(void *) {
              * decision: dart mapped, gate bits, whether the scan ran, whether it latched a
              * refusal, and whether it bound.
              */
+            if(g_slots[kDrawerSearchSlot].address||g_drawer_search_requested.load(std::memory_order_acquire))
+                __android_log_print(ANDROID_LOG_INFO,kTag,"drawer search runtime hidden=%d ready=%d hits=%llu applied=%llu",
+                    g_drawer_search_requested.load(std::memory_order_acquire),g_drawer_search_ready.load(std::memory_order_acquire),
+                    static_cast<unsigned long long>(g_drawer_hits.load(std::memory_order_relaxed)),
+                    static_cast<unsigned long long>(g_drawer_applied.load(std::memory_order_relaxed)));
             if(g_slots[kPrestartSlot].address||hyperceiler_home_prestart_disabled())
                 __android_log_print(ANDROID_LOG_INFO,kTag,
                     "prestart runtime requested=%d ready=%d hits=%llu blocked=%llu; normal launches and transition cleanup unchanged",
@@ -5361,6 +5452,11 @@ void *worker(void *) {
                 hits += entry;
             }
             if (!hits.empty()) {
+                __android_log_print(ANDROID_LOG_INFO,kTag,
+                    "dock margin scope callers=%u applied=%llu shared_passthrough=%llu",
+                    __atomic_load_n(&hc_hotseat_margin_caller_count,__ATOMIC_ACQUIRE),
+                    static_cast<unsigned long long>(hc_hotseat_margin_applied),
+                    static_cast<unsigned long long>(hc_hotseat_margin_shared));
                 __android_log_print(ANDROID_LOG_INFO, kTag, "layout hook hits%s", hits.c_str());
             }
             // Caller histogram, as image VAs so the offline symbol table can name them.
@@ -5788,6 +5884,17 @@ extern "C" WidgetBuildResult hc_widget_scale_build(uint64_t closure,uint64_t fra
     return routed;
 }
 
+extern "C" void hc_drawer_body(home_layout::recent_render::Registers* saved,unsigned action) {
+    if(!saved||action>=2)return;
+    g_drawer_hits.fetch_add(1,std::memory_order_relaxed);
+    const bool ready=g_drawer_search_ready.load(std::memory_order_acquire),hidden=g_drawer_search_requested.load(std::memory_order_acquire);
+    const auto original=reinterpret_cast<uintptr_t>(hc_drawer_originals[action]);
+    const bool applied=action==0
+        ?home_layout::drawer_render::apply(*saved,ready,hidden,original,g_drawer_child_frame.load(std::memory_order_acquire))
+        :home_layout::drawer_render::finder(*saved,ready,hidden,original,g_drawer_blank_factory.load(std::memory_order_acquire));
+    if(applied)g_drawer_applied.fetch_add(1,std::memory_order_relaxed);
+}
+
 extern "C" void hc_prestart_body(home_layout::recent_render::Registers* saved,unsigned) {
     if(!saved)return;
     g_prestart_hits.fetch_add(1,std::memory_order_relaxed);
@@ -6203,6 +6310,10 @@ bool adopt_layout_state() {
     g_hook_globals_inited = false;
     init_knob_hooks();
     g_dart.reset();
+    g_drawer_search_requested.store(false,std::memory_order_release);g_drawer_search_ready.store(false,std::memory_order_release);
+    g_drawer_bind_failure.store(0,std::memory_order_relaxed);g_drawer_hits.store(0,std::memory_order_relaxed);g_drawer_applied.store(0,std::memory_order_relaxed);
+    hc_drawer_originals[0]=nullptr;hc_drawer_originals[1]=nullptr;g_drawer_child_frame.store(0,std::memory_order_relaxed);
+    g_drawer_blank_factory.store(0,std::memory_order_relaxed);
     g_prestart_ready.store(false,std::memory_order_release);
     g_prestart_bind_failure.store(0,std::memory_order_relaxed);
     g_prestart_hits.store(0,std::memory_order_relaxed);g_prestart_blocked.store(0,std::memory_order_relaxed);
@@ -6215,6 +6326,7 @@ bool adopt_layout_state() {
     std::fill(std::begin(hc_recent_originals),std::end(hc_recent_originals),nullptr);
     g_runtime_features={};
     g_runtime_features_scanned=false;
+    g_first_render_features_scanned=false;
     g_config_capture_va = 0;
     g_dock_capture_va = 0;
     g_config_capture_address = 0;
@@ -6277,12 +6389,69 @@ void home_layout_set_title_color(int argb) {
  */
 // Configuration must reach the source-word planner before the first Dart layout,
 // not merely the hook banks. No Binder, blocking runtime lock, or disk write here.
-void prime_home_tweaks() {
+void prime_home_layout_engine() {
     home_layout::Config config;
     if(!home_layout::query_bootstrap_config(config))return;
-    const bool ready=hometweaks::PrimeTweaksConfig(make_tweaks_config(config));
-    __android_log_print(ANDROID_LOG_INFO,kTag,"layout tweaks bootstrap ready=%d icon=%d code=%d",
+    const bool ready=home_layout_engine::PrimeLayoutConfig(make_layout_engine_config(config));
+    __android_log_print(ANDROID_LOG_INFO,kTag,"layout engine bootstrap ready=%d icon=%d code=%d",
         ready,config.tweaks.icon_scale_enabled,config.tweaks.icon_scale_code);
+}
+
+void prime_home_layout_first_render_locked() {
+    struct DiscoveryScope {~DiscoveryScope(){g_first_render_discovery=false;}} discovery_scope;
+    if(__atomic_load_n(&hc_icon_render_enabled,__ATOMIC_ACQUIRE)
+        &&g_knobs[0].hook_armed&&(!g_drawer_search_requested.load(std::memory_order_acquire)
+            ||g_drawer_search_ready.load(std::memory_order_acquire)))return;
+    init_knob_hooks();
+    if(!ensure_dart_library())return;
+    home_layout::Config config;
+    const bool have_config=home_layout::query_bootstrap_config(config);
+    if(have_config) {
+        sync_title_config(config);
+        g_knobs[0].requested.store(config.knobs[0].enabled,std::memory_order_relaxed);
+        g_knobs[0].delta_dp.store(requested_knob_delta(config.knobs[0]),std::memory_order_relaxed);
+    }
+    g_first_render_discovery=true;
+    if(!ensure_runtime_features())return;
+    (void)bind_icon_render();(void)bind_desktop_icon_render();(void)bind_progress_icon_render();
+    (void)bind_drawer_search();
+    auto& knob=g_knobs[0];
+    if(!knob.hook_address&&g_runtime_features.dock_margin) {
+        const auto& feature=*g_runtime_features.dock_margin;
+        for(size_t i=0;i<feature.margin_callers.size();++i)
+            hc_hotseat_margin_callers[i]=g_dart->load_base+feature.margin_callers[i];
+        __atomic_store_n(&hc_hotseat_margin_caller_count,uint32_t(feature.margin_callers.size()),__ATOMIC_RELEASE);
+        if(bind_dart_target(feature.source.target,knob.hook_address,knob.hook_source,knob.hook_words)) {
+            knob.symbol=kKnobHookSymbols[0];knob.hook_mode=true;
+            knob.getter=feature.source.target;knob.getter_size=feature.size;
+            g_slots[kKnobHookSlotBase]={knob.hook_address,knob.hook_entry,knob.hook_original,knob.hook_source,knob.hook_words};
+        }
+    }
+    std::vector<size_t> order;
+    for(size_t i=kIconRenderSlotBase;i<kIconRenderSlotBase+6;++i)if(g_slots[i].address)order.push_back(i);
+    for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)if(g_slots[i].address)order.push_back(i);
+    if(knob.hook_address)order.push_back(kKnobHookSlotBase);
+    for(size_t i=kDrawerSearchSlot;i<kDrawerSearchSlot+2;++i)if(g_slots[i].address)order.push_back(i);
+    if(!order.empty())(void)nhk::ensure_slots_live(g_slots,slot_host(),order);
+    knob.hook_armed=nhk::slot_ready(g_slots[kKnobHookSlotBase]);
+    (void)publish_hooks();
+    // The normal worker adopts these slots. Never wait for it while the first
+    // icon/Hotseat controller is about to cache its dimensions.
+    // Do not finish the general loader prime: the other layout knobs still
+    // need its bootstrap publication before the worker adopts the bank.
+    static std::atomic_uint32_t previous{UINT32_MAX};
+    const uint32_t state=uint32_t(have_config)|(uint32_t(__atomic_load_n(&hc_icon_render_enabled,__ATOMIC_ACQUIRE))<<1)
+        |(uint32_t(knob.hook_armed)<<2)|(uint32_t(g_drawer_search_ready.load(std::memory_order_acquire))<<3);
+    if(previous.exchange(state,std::memory_order_relaxed)!=state)
+        __android_log_print(ANDROID_LOG_INFO,kTag,"first-render bootstrap config=%d icons=%d dock_margin=%d drawer=%d; single pass, no Binder or sleep",
+            have_config,__atomic_load_n(&hc_icon_render_enabled,__ATOMIC_ACQUIRE),knob.hook_armed,g_drawer_search_ready.load(std::memory_order_acquire));
+}
+
+void prime_home_layout_first_render(HookFunction hook,UnhookFunction unhook) {
+    if(!hook||g_loader_priming.test_and_set(std::memory_order_acquire))return;
+    struct Lease {~Lease(){g_loader_priming.clear(std::memory_order_release);}} lease;
+    g_hook_function=hook;g_unhook_function=unhook;
+    prime_home_layout_first_render_locked();
 }
 
 void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
@@ -6299,8 +6468,8 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
      * device and long enough to trip the 5 s input-dispatch timeout on a busy one.
      */
     struct LoaderScope {
-        LoaderScope() { hometweaks::SetInLoaderCallback(true); }
-        ~LoaderScope() { hometweaks::SetInLoaderCallback(false); }
+        LoaderScope() { home_layout_engine::SetInLoaderCallback(true); }
+        ~LoaderScope() { home_layout_engine::SetInLoaderCallback(false); }
     } loader_scope;
 
     g_hook_function = hook;
@@ -6406,13 +6575,13 @@ void prime_home_layout_probe(HookFunction hook, UnhookFunction unhook) {
     if (g_knobs[2].hook_armed || g_probe_primed) return;
     /*
      * This is a second dlopen-callback entry point, with a symbol lookup of its own
-     * (HomeTweaksFindSymbol at the bottom). It has to carry the same marker as prime_home_layout_knobs
+     * (HomeLayoutEngineFindSymbol at the bottom). It has to carry the same marker as prime_home_layout_knobs
      * or a device with the probe property set would still build the whole symbol index on the
      * launcher main thread - the exact ANR this fix exists to remove.
      */
     struct LoaderScope {
-        LoaderScope() { hometweaks::SetInLoaderCallback(true); }
-        ~LoaderScope() { hometweaks::SetInLoaderCallback(false); }
+        LoaderScope() { home_layout_engine::SetInLoaderCallback(true); }
+        ~LoaderScope() { home_layout_engine::SetInLoaderCallback(false); }
     } loader_scope;
     char probe[PROP_VALUE_MAX] = {};
     if (__system_property_get("debug.hyperceiler.layout.probe_top", probe) <= 0
@@ -6427,7 +6596,7 @@ void prime_home_layout_probe(HookFunction hook, UnhookFunction unhook) {
     g_knobs[2].hook_original = &hc_layout_passthrough_original;
     uint32_t va = 0;
     uint32_t size = 0;
-    if (!hometweaks::HomeTweaksFindSymbol(g_knobs[2].symbol.c_str(), &va, &size) || size < 16) {
+    if (!home_layout_engine::HomeLayoutEngineFindSymbol(g_knobs[2].symbol.c_str(), &va, &size) || size < 16) {
         __android_log_print(ANDROID_LOG_WARN, kTag, "layout probe: symbol not found");
         return;
     }

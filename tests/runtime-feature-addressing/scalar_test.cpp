@@ -33,7 +33,7 @@ int main(int argc,char** argv) {
     }
     for(const auto* key:{"margin_field","margin_payload","row_field","row_payload"})wanted[key]+=8;
     assert(identify(moved,addresses.at(current))==wanted);
-    for(const auto* key:{"current","margin","margin_consumer","screen","screen_helper","row","row_consumer","delegate_allocator"}) {
+    for(const auto* key:{"current","margin","margin_consumer","margin_total","screen","screen_helper","row","row_consumer","delegate_allocator"}) {
         auto broken=fixture;const auto va=scalar_roots.at(key);
         std::erase_if(broken,[&](const auto& f){return f.va==va;});
         const auto found=identify(broken,current);
@@ -52,6 +52,50 @@ int main(int argc,char** argv) {
             broken.push_back(clone);
         }
         assert(!identify(broken,current).count(role));
+    }
+    // The shared source also feeds workspace/search configuration. Such a
+    // caller must never enter the Dock-only admission table, even if it calls
+    // exactly the same validated getter.
+    {
+        auto shared=fixture;
+        auto f=*std::find_if(shared.begin(),shared.end(),[&](const auto& f){return f.va==scalar_roots.at("margin_total");});
+        f.va+=0x1000000;
+        f.words={0xa9bf79fdu,0xaa0f03fdu,0xd10041efu,
+            0x94000000u|(uint32_t((int64_t(expected.at("margin"))-f.va-12)/4)&0x3ffffffu),
+            0xaa1d03efu,0xa8c179fdu,0xd65f03c0u};
+        shared.push_back(f);auto bytes=image(shared);auto code=Code::parse(bytes);assert(code);
+        auto margin=layout_scalar_feature(*code,current,true);assert(margin&&margin->margin_callers.size()==2);
+        assert(std::find(margin->margin_callers.begin(),margin->margin_callers.end(),f.va+16)==margin->margin_callers.end());
+        // More than one title/margin aggregator is ambiguous, never pick first.
+        auto total=*std::find_if(fixture.begin(),fixture.end(),[&](const auto& x){return x.va==scalar_roots.at("margin_total");});
+        const auto old=total.va;total.va+=0x2000000;
+        for(size_t i=0;i<total.words.size();++i){uint32_t to=0;
+            if(home_dynamic::target(total.words[i],old+uint32_t(i*4),to))
+                total.words[i]=0x94000000u|(uint32_t((int64_t(to)-total.va-i*4)/4)&0x3ffffffu);
+        }
+        shared.push_back(total);assert(!identify(shared,current).count("margin"));
+    }
+    {
+        auto scoped=fixture;const auto additions=scalar_scope_fixture();
+        scoped.insert(scoped.end(),additions.begin(),additions.end());
+        auto bytes=image(scoped);auto code=Code::parse(bytes);assert(code);
+        auto margin=layout_scalar_feature(*code,current,true);assert(margin&&margin->margin_callers.size()==6);
+        // Two tests in one hit rectangle must both be admitted, as must the
+        // origin and center helpers. Workspace's same-getter call stays stock.
+        for(size_t n=0;n<additions.size();++n){const auto& f=additions[n];unsigned calls=0;
+            for(size_t i=0;i<f.words.size();++i){uint32_t to=0;
+                if(!home_dynamic::target(f.words[i],f.va+uint32_t(i*4),to)||to!=expected.at("margin"))continue;
+                const auto pc=f.va+uint32_t((i+1)*4);++calls;
+                assert((std::find(margin->margin_callers.begin(),margin->margin_callers.end(),pc)!=margin->margin_callers.end())==(n!=3));
+            }
+            assert(calls==(n==0?2:1));
+        }
+        std::map<uint32_t,uint32_t> mapping;auto moved=relocated(scoped,mapping);bytes=image(moved);code=Code::parse(bytes);assert(code);
+        auto relocated_margin=layout_scalar_feature(*code,mapping.at(current),true);assert(relocated_margin);
+        for(auto pc:margin->margin_callers){
+            const auto owner=std::find_if(scoped.begin(),scoped.end(),[&](const auto& f){return pc>f.va&&pc<=f.va+f.words.size()*4;});assert(owner!=scoped.end());
+            assert(std::find(relocated_margin->margin_callers.begin(),relocated_margin->margin_callers.end(),mapping.at(owner->va)+pc-owner->va)!=relocated_margin->margin_callers.end());
+        }
     }
     // An object-returning screen helper cannot be used as an unboxed margin.
     auto object=fixture;

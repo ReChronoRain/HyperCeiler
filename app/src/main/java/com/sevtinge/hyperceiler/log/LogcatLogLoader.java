@@ -40,7 +40,7 @@ final class LogcatLogLoader {
                 entry.setId(item.id());
                 imported[0]++;
                 if (item.tag().startsWith("HyperCeiler.Home") || item.tag().equals("HyperCeiler.NativeHome")
-                    || item.tag().equals("HyperCeiler.DockNative") || item.tag().equals("HomeTweaks")) imported[1]++;
+                    || item.tag().equals("HyperCeiler.DockNative")) imported[1]++;
                 batch.add(entry);
                 if (batch.size() == 500) {
                     dao.insertImportedLogs(batch);

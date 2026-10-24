@@ -7,7 +7,7 @@
 #include <span>
 #include <string.h>
 
-namespace hometweaks {
+namespace home_layout_engine {
 namespace {
 constexpr size_t kMaxSignatureWords = 4096;
 constexpr size_t kMaxComparisons = 256U * 1024U * 1024U;

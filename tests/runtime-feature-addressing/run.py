@@ -45,8 +45,8 @@ for name in ('bind_icon_render','bind_desktop_icon_render','bind_progress_icon_r
              'bind_drawer_title','bind_dock_title_model','sync_dock_titles'):
     implementation = body(name)
     assert 'ensure_runtime_features()' in implementation, name
-    assert 'HomeTweaksFindSymbol' not in implementation, name
+    assert 'HomeLayoutEngineFindSymbol' not in implementation, name
     assert 'dartscan::body' not in implementation, name
-assert 'hometweaks::InLoaderCallback()' in body('ensure_runtime_features')
+assert 'home_layout_engine::InLoaderCallback()' in body('ensure_runtime_features')
 assert 'g_runtime_features_scanned=false;' in source[source.index('g_dart.reset();'):]
 print('Production integration PASS: twelve binders use only runtime feature contracts; loader guard and image reset retained')

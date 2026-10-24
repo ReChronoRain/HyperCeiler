@@ -4,10 +4,11 @@
 namespace home_layout {
 constexpr int32_t kEndpointDiagnosticsMagic=0x48434431;
 constexpr int32_t kEndpointDiagnosticsSchema=1;
-constexpr int32_t kEndpointRevision=20261023;
+constexpr int32_t kEndpointRevision=20261024;
 constexpr int32_t kIndependentScalesCapability=1;
 constexpr int32_t kDockTitleCapability=2;
 constexpr int32_t kRecentLayoutCapability=4;
+constexpr int32_t kDrawerSearchCapability=8;
 struct EndpointDiagnostics {int32_t schema=0,revision=0,capabilities=0,pid=0;};
 enum class EndpointDiagnosticState { Missing, Valid, Malformed, Unsupported };
 // A trailing diagnostic block cannot invalidate a functional snapshot. Old clients

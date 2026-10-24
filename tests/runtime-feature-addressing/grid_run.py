@@ -27,6 +27,6 @@ source=(ROOT/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
 for name,next_name in [('bool bind_grid_autofit()','// Correlate the folder'),('void resolve_grid_fields(const char *)','home_layout::DropGeometryContract g_drop'),('void bind_drop_geometry()','size_t bind_knobs()')]:
     body=source[source.index(name):source.index(next_name,source.index(name))]
     assert 'ensure_runtime_features()' in body,name
-    assert 'HomeTweaksFindSymbol' not in body and 'dartscan::' not in body,name
+    assert 'HomeLayoutEngineFindSymbol' not in body and 'dartscan::' not in body,name
 assert 'if(feature_geometry)' in source and 'feature.patches[index-2]' in source
 print('Production grid integration PASS: autofit/field/drop binders and three default geometry knobs use runtime descriptors')

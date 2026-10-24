@@ -40,7 +40,7 @@ pre=r'''
 std::map<uint32_t,std::vector<uint32_t>> images;std::map<std::string,std::pair<uint32_t,uint32_t>> symbols;
 bool dart_function_words(uint32_t va,uint32_t n,std::vector<uint32_t>&out){if(!images.count(va)||images[va].size()*4!=n)return false;out=images[va];return true;}
 bool production_accept(const char*,uint32_t,uint32_t);
-namespace hometweaks{bool HomeTweaksFindSymbol(const char*n,uint32_t*v,uint32_t*z){if(!symbols.count(n))return false;auto p=symbols[n];if(!production_accept(n,p.first,p.second))return false;*v=p.first;*z=p.second;return true;}}
+namespace home_layout_engine{bool HomeLayoutEngineFindSymbol(const char*n,uint32_t*v,uint32_t*z){if(!symbols.count(n))return false;auto p=symbols[n];if(!production_accept(n,p.first,p.second))return false;*v=p.first;*z=p.second;return true;}}
 int bl_imm_words(uint32_t w){int n=int(w&0x3ffffff);if(n&0x2000000)n-=0x4000000;return n;}
 '''
 registry_source=(ROOT/'app/src/main/cpp/targets/home/tweaks/symtab.cpp').read_text(encoding='utf8')

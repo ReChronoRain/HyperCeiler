@@ -36,6 +36,6 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-jvm-')as work:
  subprocess.run(['java','-ea','-cp',work,'com.sevtinge.hyperceiler.libhook.rules.home.dock.EndpointTest'],check=True)
 # Actual production binding must consume the runtime plan, never a symbol/name resolver.
 hooks=(ROOT/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text();binding=hooks[hooks.index('bool bind_recent()'):hooks.index('size_t arm_hooks(')]
-assert 'g_runtime_features.recent' in binding and 'HomeTweaksFindSymbol' not in binding and 'dartscan::' not in binding
+assert 'g_runtime_features.recent' in binding and 'HomeLayoutEngineFindSymbol' not in binding and 'dartscan::' not in binding
 writer=(lib/'rules/home/dock/HomeDockWindow.kt').read_text();assert 'HomeLayoutNativeEndpointOS4.writeRecent(reply,' in writer
 print('recents production integration PASS: executable plan, checked all-bank readiness, shared tested wire writer')

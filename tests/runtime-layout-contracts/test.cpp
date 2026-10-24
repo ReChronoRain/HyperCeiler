@@ -16,8 +16,8 @@ bool fixture_body(uint32_t address,home_dynamic::Body& b) {
     for(const auto& [name,at]:addresses)if(address==at){b=images.at(name);return true;}
     return false;
 }
-namespace hometweaks {
-bool HomeTweaksFindSymbol(const char* name,uint32_t* va,uint32_t* size) {
+namespace home_layout_engine {
+bool HomeLayoutEngineFindSymbol(const char* name,uint32_t* va,uint32_t* size) {
     auto at=addresses.find(name);if(at==addresses.end())return false;
     *va=at->second;*size=images.at(name).size()*4;return true;
 }

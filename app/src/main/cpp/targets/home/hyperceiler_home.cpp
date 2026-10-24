@@ -25,19 +25,20 @@
 void resolve_home_layout_targets();
 void start_home_layout_hooks(const char *site, int (*hook)(void *, void *, void **),
     int (*unhook)(void *));
-void prime_home_tweaks();
+void prime_home_layout_engine();
 void prime_home_layout_probe(int (*hook)(void *, void *, void **), int (*unhook)(void *));
 void home_layout_prepare_for_launcher_child();
 void prime_home_layout_knobs(int (*hook)(void *, void *, void **), int (*unhook)(void *));
+void prime_home_layout_first_render(int (*hook)(void *, void *, void **),int (*unhook)(void *));
 void home_layout_set_desktop_title_size(int sp);
 void home_layout_set_drawer_title_size(int sp);
 void home_layout_set_title_color(int argb);
 // Launcher tweaks runtime (symbol-table / signature located code patches, see targets/home/tweaks).
-namespace hometweaks {
-void StartHomeTweaks();
-void HomeTweaksOnLibraryLoaded(const char *name);
-bool HomeTweaksPrimeCachedSymbols();
-void HomeTweaksPrepareForLauncherChild();
+namespace home_layout_engine {
+void StartHomeLayoutEngine();
+void HomeLayoutEngineOnLibraryLoaded(const char *name);
+bool HomeLayoutEnginePrimeCachedSymbols();
+void HomeLayoutEnginePrepareForLauncherChild();
 }
 
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
@@ -156,11 +157,12 @@ int hooked_system_property_get(const char *name, char *value) {
     start_motion_after_specialization();
     if (g_hook_function != nullptr && is_launcher_process()) {
         home_layout_prepare_for_launcher_child();
+        prime_home_layout_first_render(g_hook_function,g_unhook_function);
         start_home_layout_hooks("property", g_hook_function, g_unhook_function);
         // The specialization signal means this is the forked desktop itself, not the spawner that
         // merely shares its cmdline: state inherited across the fork is poison, drop it first.
-        hometweaks::HomeTweaksPrepareForLauncherChild();
-        hometweaks::StartHomeTweaks();
+        home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
+        home_layout_engine::StartHomeLayoutEngine();
     }
 #endif
     // A stalled Binder poll must not keep an old affirmative preference alive.
@@ -212,8 +214,8 @@ void hooked_setprogname(const char *name) {
         start_home_layout_hooks("setprogname", g_hook_function, g_unhook_function);
         if (!is_hyos_spawner_process()) {
             // See the property-hook site: same signal, same fork poisoning, same fix.
-            hometweaks::HomeTweaksPrepareForLauncherChild();
-            hometweaks::StartHomeTweaks();
+            home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
+            home_layout_engine::StartHomeLayoutEngine();
         }
     }
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
@@ -287,14 +289,15 @@ void on_library_loaded(const char *name, void *) {
     // every other library loaded here would otherwise cost a Binder round trip each.
     if (std::string_view(name).ends_with("libapp.so")) {
         if (launcher) {
-            hometweaks::HomeTweaksPrepareForLauncherChild();
-            prime_home_tweaks();
-            (void)hometweaks::HomeTweaksPrimeCachedSymbols();
+            prime_home_layout_first_render(g_hook_function,g_unhook_function);
+            home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
+            prime_home_layout_engine();
+            (void)home_layout_engine::HomeLayoutEnginePrimeCachedSymbols();
         }
         // Patch before the dart runtime runs: the probe target is called exactly once, at start-up.
         prime_home_layout_probe(g_hook_function, g_unhook_function);
         prime_home_layout_knobs(g_hook_function, g_unhook_function);
-        hometweaks::HomeTweaksOnLibraryLoaded(name);
+        home_layout_engine::HomeLayoutEngineOnLibraryLoaded(name);
     }
     const std::string_view library_name(name);
     if ((launcher || is_hyos_spawner_process())
@@ -305,8 +308,8 @@ void on_library_loaded(const char *name, void *) {
         start_home_layout_hooks("library", g_hook_function, g_unhook_function);
     }
     if (launcher) {
-        hometweaks::HomeTweaksPrepareForLauncherChild();
-        hometweaks::StartHomeTweaks();
+        home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
+        home_layout_engine::StartHomeLayoutEngine();
     }
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     // HYOS can map libapp.so outside the normal linker callback path. Any later
@@ -391,8 +394,8 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
     if (is_launcher_process() && g_hook_function != nullptr) {
         home_layout_prepare_for_launcher_child();
         start_home_layout_hooks("configure", g_hook_function, g_unhook_function);
-        hometweaks::HomeTweaksPrepareForLauncherChild();
-        hometweaks::StartHomeTweaks();
+        home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
+        home_layout_engine::StartHomeLayoutEngine();
     }
 #endif
     return native_status();
@@ -473,8 +476,8 @@ NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
         start_home_layout_hooks("native-init", g_hook_function, g_unhook_function);
     }
     if (is_launcher_process()) {
-        hometweaks::HomeTweaksPrepareForLauncherChild();
-        hometweaks::StartHomeTweaks();
+        home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
+        home_layout_engine::StartHomeLayoutEngine();
     }
     if (spawner) install_process_name_hook();
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION

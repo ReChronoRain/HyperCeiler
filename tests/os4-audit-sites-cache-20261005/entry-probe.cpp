@@ -54,9 +54,9 @@ int main(){
  ok(identityCalls==1);ok(scanCalls==1);
  identityCalls=0;identityResult=42;State good;symbolsReady=true;AcquireSites(&good,false);ok(identityCalls==1&&good.imageId==42&&good.sites.ok9);
  for(int i=0;i<3600;++i)AcquireSites(&good,false);ok(identityCalls==1);
- g_state=good;g_tweaksStarted=true;g_imageKnown=true;fakePid=2;HomeTweaksPrepareForLauncherChild();ok(g_state.imageId==0&&!g_imageKnown&&resets==1);
+ g_state=good;g_tweaksStarted=true;g_imageKnown=true;fakePid=2;HomeLayoutEnginePrepareForLauncherChild();ok(g_state.imageId==0&&!g_imageKnown&&resets==1);
  AcquireSites(&g_state,false);ok(identityCalls==2&&g_state.imageId==42);
- HomeTweaksPrepareForLauncherChild();ok(resets==1&&g_state.imageId==42);
+ HomeLayoutEnginePrepareForLauncherChild();ok(resets==1&&g_state.imageId==42);
  std::printf("ENTRY_IDENTITY_RETRY=%d checks; failed=%d; failed identity 3600 refreshes; symbols/scan retained; actual child reset\n",checks,failed);
  return failed?1:0;
 }

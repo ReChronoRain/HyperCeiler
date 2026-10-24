@@ -26,7 +26,7 @@ with tempfile.TemporaryDirectory(prefix='hc-indicator-features-') as tmp:
 source=(ROOT/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
 a=source.index('void bind_indicator_dot_target()');b=source.index('home_layout::GridFieldOffsets g_grid_field',a);body=source[a:b]
 assert 'ensure_runtime_features()' in body
-assert 'HomeTweaksFindSymbol' not in body and 'dartscan::' not in body
+assert 'HomeLayoutEngineFindSymbol' not in body and 'dartscan::' not in body
 assert 'hc_indicator_empty_pool=feature.empty_pool;' in body
 knobs=source[source.index('size_t bind_knobs()'):source.index('// The page-dot companion')]
 assert 'if(feature_margin)' in knobs

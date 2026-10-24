@@ -866,6 +866,33 @@ hc_title_light_entry:
      * Still execute the validated original getter for its original semantics
      * and preserve it verbatim when disabled. No heap fields are overwritten. */
     .ifc \entry,hc_layout_dart_HotseatMargin_entry
+    /* Shared getter also feeds workspace/search configuration. Only runtime-
+     * proved Dock consumers receive the override; all other calls keep D0.
+     * x30 was restored above and is the original Dart caller's return PC. */
+    adrp x9, hc_hotseat_margin_caller_count
+    add x9, x9, :lo12:hc_hotseat_margin_caller_count
+    ldar w10, [x9]
+    cbz w10, 1f
+    adrp x9, hc_hotseat_margin_callers
+    add x9, x9, :lo12:hc_hotseat_margin_callers
+2:
+    ldr x11, [x9], #8
+    cmp x11, x30
+    b.eq 3f
+    subs w10, w10, #1
+    b.ne 2b
+    adrp x9, hc_hotseat_margin_shared
+    add x9, x9, :lo12:hc_hotseat_margin_shared
+    ldr x10, [x9]
+    add x10, x10, #1
+    str x10, [x9]
+    b 1f
+3:
+    adrp x9, hc_hotseat_margin_applied
+    add x9, x9, :lo12:hc_hotseat_margin_applied
+    ldr x10, [x9]
+    add x10, x10, #1
+    str x10, [x9]
     fmov d0, d1
     .else
     fadd d0, d0, d1
@@ -2575,6 +2602,9 @@ hc_\family\()_\index\()_entry:
     br x16
 1:  ret
 .endm
+/* Drawer child is cleared at its last-use root; allocation remains managed. */
+recent_entry 0, drawer
+recent_entry 1, drawer
 /* Process prelaunch uses the same no-GC register ABI, at a complete synchronous
  * void entry. Its terminal route needs no managed-frame reconstruction. */
 recent_entry 0, prestart
