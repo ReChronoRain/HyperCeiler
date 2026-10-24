@@ -2485,10 +2485,10 @@ dock_title_model 1
  * Only decoded, no-call banks may replay through the backend continuation.
  * Terminal scalar banks replay their proved pool load/division and frame exit
  * in the callback; no Dart BL or GC return PC is moved into native code. */
-.macro recent_entry index
-.globl hc_recent_\index\()_entry
+.macro recent_entry index, family=recent
+.globl hc_\family\()_\index\()_entry
 .p2align 4
-hc_recent_\index\()_entry:
+hc_\family\()_\index\()_entry:
     sub sp, sp, #800
     stp x0, x1, [sp, #0]
     stp x2, x3, [sp, #16]
@@ -2530,7 +2530,7 @@ hc_recent_\index\()_entry:
     str x16, [sp, #776]
     mov x0, sp
     mov w1, #\index
-    bl hc_recent_body
+    bl hc_\family\()_body
     ldp q0, q1, [sp, #256]
     ldp q2, q3, [sp, #288]
     ldp q4, q5, [sp, #320]
@@ -2575,6 +2575,9 @@ hc_recent_\index\()_entry:
     br x16
 1:  ret
 .endm
+/* Process prelaunch uses the same no-GC register ABI, at a complete synchronous
+ * void entry. Its terminal route needs no managed-frame reconstruction. */
+recent_entry 0, prestart
 recent_entry 0
 recent_entry 1
 recent_entry 2

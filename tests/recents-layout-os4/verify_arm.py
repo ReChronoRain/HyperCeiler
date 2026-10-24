@@ -16,18 +16,18 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
  text_index=elf.section_names['.text'];section=elf.sections[text_index];raw=elf.data[section[4]:section[4]+section[5]]
  code_base,callback,stop,stack,dart_frame=0x100000,0x400000,0x401000,0x608000,0x708000
  checks=0
- for index in (0,1,16,63):
-  start=next(v for n,s,v in symbols if n==f'hc_recent_{index}_entry')
-  end=next((v for n,s,v in symbols if n==f'hc_recent_{index+1}_entry'),len(raw))
+ for family,index in [('recent',i) for i in (0,1,16,63)]+[('prestart',0)]:
+  start=next(v for n,s,v in symbols if n==f'hc_{family}_{index}_entry')
+  end=next((v for n,s,v in symbols if s==text_index and v>start and n.startswith('hc_') and n.endswith('_entry')),len(raw))
   for terminal in (False,True):
-   for changed_reg in (0,1,3,18,29):
+   for changed_reg in ((0,1,3,18,29) if family=='recent' else (0,)):
     code=bytearray(raw)
     for sec in elf.sections.values():
      if sec[1]!=4 or sec[7]!=text_index:continue
      for at in range(sec[4],sec[4]+sec[5],24):
       off,info,addend=struct.unpack_from('<QQq',elf.data,at)
       if not start<=off<end:continue
-      assert symbols[info>>32][0]=='hc_recent_body' and info&0xffffffff==283
+      assert symbols[info>>32][0]==f'hc_{family}_body' and info&0xffffffff==283
       w=struct.unpack_from('<I',code,off)[0];w=(w&0xfc000000)|(((callback+addend-(code_base+off))//4)&0x3ffffff);struct.pack_into('<I',code,off,w)
     u=Uc(UC_ARCH_ARM64,UC_MODE_ARM)
     for address,size in [(code_base,(len(code)+4095)&~4095),(callback,8192),(0x600000,65536),(0x700000,65536)]:u.mem_map(address,size)
@@ -51,7 +51,9 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
      expected_q[3]=(0xaabbcc<<80)|0x112233
      uc.mem_write(saved+changed_reg*8,struct.pack('<Q',expected_x[changed_reg]))
      uc.mem_write(saved+256+3*16,expected_q[3].to_bytes(16,'little'))
-     if terminal:
+     if terminal and family=='prestart':
+      expected_x[0]=regs[22];uc.mem_write(saved,struct.pack('<Q',regs[22]))
+     elif terminal:
       expected_x.update({15:dart_frame+16,29:0xdeadbeef,30:stop})
       for i in (15,29,30):uc.mem_write(saved+i*8,struct.pack('<Q',expected_x[i]))
      uc.mem_write(saved+784,struct.pack('<Q',0 if terminal else stop))
@@ -67,4 +69,4 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
     assert u.reg_read(A.UC_ARM64_REG_SP)==stack and u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
     assert u.reg_read(A.UC_ARM64_REG_FPCR)==0x400000 and u.reg_read(A.UC_ARM64_REG_FPSR)==0x10
     checks+=1
- print(f'recents ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')
+ print(f'recents/prestart ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')

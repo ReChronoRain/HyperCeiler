@@ -63,6 +63,16 @@ diagnostics. Platform imports such as `AServiceManager_getService`/`madvise` and
 our own assembly globals are ABI linkage, not private launcher hook discovery;
 they are not candidates for replacing with guessed machine-code searches.
 
+Application process prelaunch now has an executable-only linked graph: the
+synchronous nullable-void consumer, its cached flag's boolean-property/await
+initializer, four-argument process bridge, and shared three-/five-field FRB
+tuple allocator. No private symbol, saved RVA, object field or pool displacement
+selects this entry. The intercept allocates nothing and follows the original
+void-return contract; the separate visual pre-start transition is preserved.
+Both captured images, independent relocation, field/frame changes, graph
+refusals and the ARM64 gateway are covered by `../prestart-os4/README.md`.
+Device validation remains NOT_TESTED for this feature.
+
 Rust back regions, windows, gestures and native grid columns already use
 image/log-literal/unwind/instruction relationships. Their runtime semantics are
 separate from this Dart migration. Subsequent device verification and the
