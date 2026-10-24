@@ -6,6 +6,7 @@
 #include "home_gestures_os4.h"
 
 #include "home_layout_knobs.h"
+#include "home_recent_config.h"
 #include "home_title_custom.h"
 #include "home_dock_title.h"
 #include "home_folder_layout.h"
@@ -83,6 +84,7 @@ struct Config {
     TweaksConfig tweaks{};
     FolderLayoutConfig folder{};
     ObjectScales object_scales{};
+    RecentConfig recent{};
     int title_desktop_sp = 12;
     int title_drawer_sp = 12;
     int title_color = -1;

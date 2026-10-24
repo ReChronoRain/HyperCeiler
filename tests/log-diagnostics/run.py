@@ -22,7 +22,7 @@ with tempfile.TemporaryDirectory(prefix='hc-log-diagnostics-') as temp:
     subprocess.run(['javac','-encoding','UTF-8','-d',str(temp/'classes')]+[str(p) for p in sources],check=True)
     subprocess.run(['java','-ea','-cp',str(temp/'classes'),'com.sevtinge.hyperceiler.log.LogSyncDiagnosticsTest'],check=True)
     hooks=(root/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
-    begin=hooks.index('std::array<std::atomic_uint32_t,6> g_scale_bind_failure')
+    begin=re.search(r'std::array<std::atomic_uint32_t,\d+> g_scale_bind_failure',hooks).start()
     end=hooks.index('bool bind_icon_render()',begin)
     (temp/'binding-diagnostic.h').write_text(hooks[begin:end])
     for name in ['bind_folder_animation_scale','bind_widget_scale','bind_folder_icon_scale']:
@@ -34,10 +34,15 @@ with tempfile.TemporaryDirectory(prefix='hc-log-diagnostics-') as temp:
     subprocess.run([str(temp/'native')],check=True)
     java=(root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java').read_text()
     header=(root/'app/src/main/cpp/targets/home/home_endpoint_diagnostics.h').read_text()
-    for j,c in [('ENDPOINT_DIAGNOSTICS_MAGIC','kEndpointDiagnosticsMagic'),('ENDPOINT_DIAGNOSTICS_SCHEMA','kEndpointDiagnosticsSchema'),('ENDPOINT_REVISION','kEndpointRevision'),('ENDPOINT_CAPABILITIES','kIndependentScalesCapability')]:
+    for j,c in [('ENDPOINT_DIAGNOSTICS_MAGIC','kEndpointDiagnosticsMagic'),('ENDPOINT_DIAGNOSTICS_SCHEMA','kEndpointDiagnosticsSchema'),('ENDPOINT_REVISION','kEndpointRevision')]:
         a=int(re.search(j+r'\s*=\s*(0x[0-9a-fA-F]+|\d+)',java)[1],0)
         b=int(re.search(c+r'\s*=\s*(0x[0-9a-fA-F]+|\d+)',header)[1],0)
         assert a==b,(j,c)
+    capabilities=int(re.search(r'ENDPOINT_CAPABILITIES\s*=\s*(\d+)',java)[1])
+    expected=0
+    for key in ('kIndependentScalesCapability','kDockTitleCapability','kRecentLayoutCapability'):
+        expected |= int(re.search(key+r'\s*=\s*(\d+)',header)[1])
+    assert capabilities==expected
 print('endpoint writer/reader revision and capability contract: PASS')
 
 # Execute the exact production shell-copy expression against disposable directories.

@@ -105,7 +105,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             value.knobEnabled().clone(), value.knobDeltaDp().clone(), value.tweaks().clone(),
             value.title().clone(), titles, value.widgetAllowMove(), value.folder().clone(),
             value.backGesture().clone(), value.folderAutoClose(), value.objectScales().clone(),
-            value.dockShowTitle());
+            value.dockShowTitle(), value.recent().clone());
     }
 
     private static CombinedSnapshot unavailableCombined(PublishedSnapshot value) {
@@ -422,7 +422,17 @@ public final class HomeLayoutNativeEndpointOS4 {
     public record Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
         int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
         boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales,
-        boolean dockShowTitle) {
+        boolean dockShowTitle, int[] recent) {
+        public Snapshot { recent = recent == null ? null : recent.clone(); }
+        @Override public int[] recent() { return recent == null ? null : recent.clone(); }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose,
+            int[] objectScales, boolean dockShowTitle) {
+            this(acknowledgment, gridEnabled, cellX, cellY, knobEnabled, knobDeltaDp, tweaks, title,
+                customTitles, widgetAllowMove, folder, backGesture, folderAutoClose, objectScales,
+                dockShowTitle, RECENT_DEFAULTS.clone());
+        }
         public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
             int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
             boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales) {
@@ -654,7 +664,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                     || read.title() == null || read.title().length != TITLE_COUNT
                     || read.customTitles() == null || read.customTitles().length > 1024
                     || !validFolder(read.folder()) || !validBackGesture(read.backGesture())
-                    || !validObjectScales(read.objectScales())) {
+                    || !validObjectScales(read.objectScales()) || !validRecent(read.recent())) {
                 return denied("snapshot shape is wrong: " + describe(read));
             }
             for (int index = 0; index < KNOB_ROWS.length; ++index) {
@@ -677,7 +687,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             }
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
             read.knobEnabled(), read.knobDeltaDp(), read.tweaks(), read.title(), read.customTitles(),
-            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle());
+            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle(), read.recent().clone());
             final String summary = describe(accepted);
             if (!summary.equals(lastAccepted)) {
                 lastAccepted = summary;
@@ -727,6 +737,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         if (snapshot.customTitles() != null) text.append(" custom_titles=").append(snapshot.customTitles().length);
         text.append(" folder=").append(java.util.Arrays.toString(snapshot.folder()));
         text.append(" dock_show_title=").append(snapshot.dockShowTitle());
+        text.append(" recent=").append(java.util.Arrays.toString(snapshot.recent()));
         text.append(" object_scales=").append(java.util.Arrays.toString(snapshot.objectScales()));
         return text.toString();
     }
@@ -776,14 +787,14 @@ public final class HomeLayoutNativeEndpointOS4 {
             readBoolean(values, "home_widget_allow_moved_to_minus_one_screen", false), readFolder(values), new int[]{
                 boundedBack(readInt(values, "home_navigation_back_area_height", 60), 10, 100, 60),
                 boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values),
-            readBoolean(values, "home_dock_icon_title", false));
+            readBoolean(values, "home_dock_icon_title", false), readRecent(values));
     }
 
     private static void decodeGeometryKnobs(java.util.Map<String, Object> values,
                                             int[] enabled, int[] deltas) {
         for (int index = 0; index < KNOB_ROWS.length; ++index) {
             // OS4 renders the old search bar as the Indicator capsule. Retired controls remain
-            // visible but disabled in settings; ignore saved values too, so a previously enabled
+            // removed from the OS4 settings page; ignore saved values too, so a previously enabled
             // search-bar tweak cannot keep moving the capsule behind that disabled UI.
             if (index == 6 || index == 7) continue;
             final String key = (String) KNOB_ROWS[index][0];
@@ -842,8 +853,39 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
     public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
-    public static final int ENDPOINT_REVISION = 20261020;
-    public static final int ENDPOINT_CAPABILITIES = 3; // independent object scales + Dock app titles
+    public static final int ENDPOINT_REVISION = 20261023;
+    public static final int ENDPOINT_CAPABILITIES = 7; // independent object scales + Dock app titles + recents layout
+
+    public static final int RECENT_MAGIC = 0x48435243;
+    private static final int[] RECENT_DEFAULTS = {20,40,30,100,52,100,100,100,-1,-1,-1};
+    private static final String[] RECENT_KEYS = {"task_view_corners", "task_view_header_height",
+        "task_view_header_horizontal_offset", "home_recent_animation_speed", "home_recent_task_view_height",
+        "task_view_horizontal1", "task_view_horizontal2", "home_recent_vertical_task_view_card_size",
+        "home_recent_text_size", "home_recent_text_color", "home_recent_freeform_background_color"};
+    public static void writeRecent(Parcel reply, int[] values) {
+        final int[] snapshot = values == null ? null : values.clone();
+        if (!validRecent(snapshot)) throw new IllegalArgumentException("invalid recents snapshot");
+        reply.writeInt(RECENT_MAGIC);
+        reply.writeInt(snapshot.length);
+        for (int value : snapshot) reply.writeInt(value);
+    }
+    public static int[] recentDefaults() { return RECENT_DEFAULTS.clone(); }
+    private static boolean validRecent(int[] values) {
+        if (values==null || values.length!=RECENT_DEFAULTS.length) return false;
+        final int[] low={0,0,0,10,30,50,50,50,-1}, high={180,150,150,500,70,150,150,150,30};
+        for(int i=0;i<low.length;++i) if(values[i]<low[i] || values[i]>high[i]) return false;
+        return true;
+    }
+    private static int[] readRecent(java.util.Map<String, Object> values) {
+        final int[] result = RECENT_DEFAULTS.clone();
+        final int[] low = {0,0,0,10,30,50,50,50,-1};
+        final int[] high = {180,150,150,500,70,150,150,150,30};
+        for (int i=0;i<result.length;++i) {
+            int value = readInt(values, RECENT_KEYS[i], result[i]);
+            if (i>=low.length || value>=low[i] && value<=high[i]) result[i]=value;
+        }
+        return result;
+    }
 
     public static final int DOCK_TITLE_MAGIC = 0x48434454;
     public static final int OBJECT_SCALE_MAGIC = 0x48435331;

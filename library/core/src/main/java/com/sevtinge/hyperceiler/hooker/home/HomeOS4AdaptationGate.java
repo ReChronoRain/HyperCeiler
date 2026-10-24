@@ -25,7 +25,13 @@ public final class HomeOS4AdaptationGate {
         "prefs_key_home_title_title_new_install", "prefs_key_home_title_title_color",
         "prefs_key_home_title_font_size", "prefs_key_home_drawer_title_font_size");
     // Keep the OS4 clear-button implementation and the framework-backed home-mode setting.
-    private static final Set<String> ADAPTED_RECENT_KEYS = Set.of("prefs_key_home_recent_clear_action_os4");
+    private static final Set<String> ADAPTED_RECENT_KEYS = Set.of(
+        "prefs_key_home_recent_clear_action_os4", "prefs_key_task_view_corners",
+        "prefs_key_task_view_header_height", "prefs_key_task_view_header_horizontal_offset",
+        "prefs_key_home_recent_animation_speed", "prefs_key_home_recent_task_view_height",
+        "prefs_key_task_view_horizontal1", "prefs_key_task_view_horizontal2",
+        "prefs_key_home_recent_vertical_task_view_card_size", "prefs_key_home_recent_text_size",
+        "prefs_key_home_recent_text_color", "prefs_key_home_recent_freeform_background_color");
     private static final Set<String> ADAPTED_OTHER_KEYS = Set.of(
         "prefs_key_home_folder_auto_close", "prefs_key_home_other_home_mode", "prefs_key_home_widget_allow_moved_to_minus_one_screen");
 

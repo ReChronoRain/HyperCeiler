@@ -21,10 +21,10 @@ int main(){unsigned checks=0;auto ok=[&](bool b){++checks;assert(b);};
  for(bool value:{false,true}){Config s;s.dock_show_title=value;s.widget_allow_move=true;s.folder_auto_close=true;s.cell_x=4;s.cell_y=6;
  std::vector<uint8_t> raw;serialize_config(s,raw);Config got;ok(parse_config(raw,got)&&got.dock_show_title==value&&got.widget_allow_move&&got.folder_auto_close);
  for(size_t n=1;n<=8;++n){auto cut=raw;cut.resize(cut.size()-n);ok(!parse_config(cut,got));}
- auto bad=raw;bad[bad.size()-4]=2;ok(!parse_config(bad,got));bad=raw;bad[bad.size()-8]^=1;ok(!parse_config(bad,got));
- auto old=raw;old.resize(old.size()-8);old[4]=14;ok(parse_config(old,got)&&!got.dock_show_title&&got.widget_allow_move&&got.folder_auto_close);
+ auto bad=raw;bad[bad.size()-52-4]=2;ok(!parse_config(bad,got));bad=raw;bad[bad.size()-52-8]^=1;ok(!parse_config(bad,got));
+ auto old=raw;old.resize(old.size()-52);old[4]=15;ok(parse_config(old,got)&&got.dock_show_title==value);old.resize(old.size()-8);old[4]=14;ok(parse_config(old,got)&&!got.dock_show_title&&got.widget_allow_move&&got.folder_auto_close);
  old.resize(old.size()-28);old[4]=13;ok(parse_config(old,got)&&!got.dock_show_title&&got.widget_allow_move&&got.folder_auto_close);
- }printf("dock title cache: %u checks passed (v15 roundtrip, corrupt/truncated, v14/v13 defaults)\n",checks);}
+ }printf("dock title cache: %u checks passed (v16 roundtrip, v15/v14/v13 compatibility, corrupt/truncated)\n",checks);}
 ''')
     run(cxx+['-std=c++20']+includes+[out/'cache.cpp','-o',out/'cache']);run([out/'cache'])
     # Existing Android stubs predate the package rename. Translate only the test

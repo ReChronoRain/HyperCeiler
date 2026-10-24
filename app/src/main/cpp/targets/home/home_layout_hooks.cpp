@@ -11,6 +11,7 @@
 #include "home_columns_feature_resolver.h"
 #include "home_indicator_feature_resolver.h"
 #include "home_widget_move_feature_resolver.h"
+#include "home_recent_render.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
 #include "home_back_gesture.h"
@@ -114,6 +115,9 @@ bool dock_motion_screen_active();
  * contracts still require the verified ARM64/Dart ABI; symbol presence alone proves no OTA safety.
  */
 extern "C" {
+void* hc_recent_originals[64]{};
+extern void* hc_recent_entries[64];
+void hc_recent_body(home_layout::recent_render::Registers*, unsigned);
 void hc_dock_title_model_0_entry();void hc_dock_title_model_1_entry();
 int32_t hc_dock_title_model_fields[2][8]{};
 uintptr_t hc_dock_title_model_continue[2]{};
@@ -468,7 +472,9 @@ constexpr size_t kWidgetScaleSlot = kFolderAnimScaleSlotBase + kFolderAnimScaleS
 constexpr size_t kWidgetScaleSlotCount = 64;
 constexpr size_t kDockTitleModelSlotBase = kWidgetScaleSlot + kWidgetScaleSlotCount;
 constexpr size_t kFolderReturnScaleSlotBase = kDockTitleModelSlotBase + 2;
-constexpr size_t kSlotCount = kFolderReturnScaleSlotBase + 2;
+constexpr size_t kRecentSlotBase = kFolderReturnScaleSlotBase + 2;
+constexpr size_t kRecentSlotCount = 64;
+constexpr size_t kSlotCount = kRecentSlotBase + kRecentSlotCount;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -588,7 +594,20 @@ home_layout::BackWindowShape g_back_window_shape{};
 
 std::atomic_uint64_t g_scale_request_diagnostic{UINT64_MAX};
 std::atomic_int g_dock_title_requested{-1};
+std::shared_ptr<const home_layout::RecentConfig> g_recent_config;
+std::atomic_bool g_recent_ready{false};
+std::atomic_uint32_t g_recent_bind_failure{0};
+std::array<std::atomic_uint64_t,64> g_recent_hits{},g_recent_applied{};
+std::array<std::atomic_uint32_t,64> g_recent_skips{};
+
 void sync_title_config(const home_layout::Config &config) {
+    const auto previous_recent=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
+    if(!previous_recent||*previous_recent!=config.recent){
+        std::atomic_store_explicit(&g_recent_config,std::make_shared<const home_layout::RecentConfig>(config.recent),std::memory_order_release);
+        const auto& v=config.recent.values;
+        __android_log_print(ANDROID_LOG_INFO,kTag,"recents request corner=%d header=%d inset=%d animation=%d height=%d scales=%d/%d/%d text=%d color=%#x freeform=%#x",
+            v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],uint32_t(v[9]),uint32_t(v[10]));
+    }
     if(g_dock_title_requested.exchange(config.dock_show_title, std::memory_order_acq_rel) != config.dock_show_title)
         __android_log_print(ANDROID_LOG_INFO,kTag,"dock title request enabled=%d",config.dock_show_title);
     hc_gestures_config(config.gestures);
@@ -766,11 +785,14 @@ void publish_animation_rate(const home_layout::TweaksConfig &tweaks) {
     const double open_ratio = static_cast<double>(open_percent) / 100.0;
     std::memcpy(&bits, &open_ratio, sizeof(bits));
     __atomic_store_n(&hc_layout_magic_bits, bits, __ATOMIC_RELAXED);
-    const double recents_ratio = static_cast<double>(recents_percent) / 100.0;
+    const auto recent=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
+    const int recent_speed=recent?recent->values[home_layout::RecentConfig::Animation]:100;
+    const double recents_ratio = (tweaks.animation_recents_enabled?static_cast<double>(recents_percent)/100.0:1.0)
+        * static_cast<double>(recent_speed)/100.0;
     std::memcpy(&bits, &recents_ratio, sizeof(bits));
     __atomic_store_n(&hc_layout_animation_ratio_bits, bits, __ATOMIC_RELAXED);
     __atomic_store_n(&hc_layout_animation_ratio_enabled,
-        static_cast<uint8_t>(tweaks.animation_recents_enabled ? 1 : 0), __ATOMIC_RELEASE);
+        static_cast<uint8_t>(tweaks.animation_recents_enabled || recent_speed!=100 ? 1 : 0), __ATOMIC_RELEASE);
     __atomic_store_n(&hc_layout_magic_enabled,
         static_cast<uint8_t>(tweaks.animation_open_enabled ? 1 : 0), __ATOMIC_RELEASE);
 }
@@ -1227,6 +1249,7 @@ struct DartLibrary {
 
 std::optional<DartLibrary> g_dart;
 struct RuntimeFeatures {
+    std::optional<home_layout::features::RecentPlan> recent;
     std::optional<home_layout::features::WidgetMoveFeature> widget_move;
     std::optional<home_layout::features::IndicatorMarginFeature> indicator_margin;
     std::optional<home_layout::features::IndicatorPolicyFeature> indicator_policy;
@@ -1253,6 +1276,9 @@ struct WidgetRouting {
     home_layout::features::WidgetScaleFeature feature;
 };
 std::shared_ptr<const WidgetRouting> g_widget_routing;
+struct RecentRouting {uintptr_t base;home_layout::features::RecentPlan plan;};
+std::shared_ptr<const RecentRouting> g_recent_routing;
+
 
 bool g_runtime_features_scanned=false;
 
@@ -1401,6 +1427,8 @@ bool ensure_runtime_features() {
         report_layout_image_failure("feature-executable-inventory");return true;
     }
     RuntimeFeatures found;
+    const char* recent_failure=nullptr;
+    found.recent=home_layout::features::recent::resolve(*code,&recent_failure);
     found.widget_move=home_layout::features::widget_move_feature(*code);
     found.indicator_margin=home_layout::features::indicator_margin_feature(*code);
     found.indicator_policy=home_layout::features::indicator_policy_feature(*code);
@@ -1427,6 +1455,9 @@ bool ensure_runtime_features() {
     found.magic=home_layout::features::animation_magic_feature(*code);
     found.widget=home_layout::features::widget_scale_feature(*code);
     found.dock_title=home_layout::features::dock_title_feature(*code);
+    __android_log_print(found.recent?ANDROID_LOG_INFO:ANDROID_LOG_WARN,kTag,
+        "recents executable contracts available=%d sites=%zu reason=%s; unique producer/consumer/allocator graph without symbols",
+        bool(found.recent),found.recent?found.recent->sites.size():0,recent_failure?recent_failure:"ready");
     g_runtime_features=std::move(found);
     g_runtime_features_scanned=true;
     __android_log_print(ANDROID_LOG_INFO,kTag,
@@ -1763,7 +1794,7 @@ bool bind_target(const Library &library, uint64_t va, uintptr_t &address,
 
 bool bind_animation_consumer(Located &located) {
     if (located.animation != 0) return true;
-    if (located.animation_owner_va == 0 || !g_dart) return false;
+    if (!g_dart) return false; // The executable Dart producer/API graph is the admission gate.
     /*
      * Prefer the shared ratio entry over the flight-only accessor: the app-open move blends the
      * icon flight with Folme spring, blur and wallpaper timings that all read the same upstream,
@@ -4158,7 +4189,34 @@ bool bind_dock_edit() {
 #endif
 }
 
+bool bind_recent() {
+    if(g_slots[kRecentSlotBase].address)return true;
+    const auto config=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
+    if(!config||!config->requested())return false;
+    const auto declined=[&](unsigned stage,const char* why){
+        if(g_recent_bind_failure.exchange(stage,std::memory_order_relaxed)!=stage)
+            __android_log_print(ANDROID_LOG_WARN,kTag,"recents binding unavailable stage=%u reason=%s; stock retained",stage,why);
+        return false;
+    };
+    if(!g_dart)return declined(1,"Dart image not available yet");
+    if(!ensure_runtime_features())return declined(2,"executable inventory unavailable");
+    if(!g_runtime_features.recent)return declined(3,"see recents executable-contract refusal");
+    const auto& plan=*g_runtime_features.recent;
+    std::array<Slot,64> prepared{};
+    for(size_t i=0;i<plan.sites.size();++i){auto& slot=prepared[i];
+        if(!bind_dart_target(plan.sites[i].va,slot.address,slot.source,slot.original_words))return declined(40+unsigned(i),"validated replay window could not be bound");
+        slot.replacement=hc_recent_entries[i];slot.original=&hc_recent_originals[i];
+    }
+    std::atomic_store_explicit(&g_recent_routing,
+        std::make_shared<const RecentRouting>(RecentRouting{g_dart->load_base,plan}),std::memory_order_release);
+    for(size_t i=0;i<plan.sites.size();++i)g_slots[kRecentSlotBase+i]=prepared[i];
+    g_recent_bind_failure.store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"recents runtime bank bound=%zu; settings=11; no Dart slow allocation or displaced Dart BL",plan.sites.size());
+    return true;
+}
+
 size_t arm_hooks(std::vector<size_t> &order) {
+    (void)bind_recent();
     (void)bind_dock_title_model();
     (void)bind_dart_columns();
     (void) bind_folder_title();
@@ -4186,6 +4244,8 @@ size_t arm_hooks(std::vector<size_t> &order) {
             " (first symbol resolved=%d)", g_folder_layout_checked ? 1 : 0);
     (void) bind_gadget_bridge();
     size_t added = 0;
+    for(size_t i=kRecentSlotBase;i<kRecentSlotBase+kRecentSlotCount;++i)
+        if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     for(unsigned i=0;i<2;++i){const size_t index=kDockTitleModelSlotBase+i;
         if(g_slots[index].address&&std::find(order.begin(),order.end(),index)==order.end()){
             order.push_back(index);++added;
@@ -4463,6 +4523,11 @@ void publish_indicator_dot_delta() {
     __atomic_store_n(&hc_folder_anim_scale_enabled,uint32_t(animation_ready&&hc_folder_anim_scale0_original
         &&hc_folder_anim_scale1_original&&hc_folder_anim_scale2_original
         &&hc_folder_anim_scale3_original&&hc_folder_anim_scale4_original),__ATOMIC_RELEASE);
+    bool recent_ready=false;
+    const auto recent=std::atomic_load_explicit(&g_recent_routing,std::memory_order_acquire);
+    if(recent){recent_ready=!recent->plan.sites.empty();
+        for(size_t i=0;i<recent->plan.sites.size();++i)recent_ready&=nhk::slot_ready(g_slots[kRecentSlotBase+i])&&hc_recent_originals[i];}
+    g_recent_ready.store(recent_ready,std::memory_order_release);
     bool widget_ready=g_runtime_features.widget&& !g_runtime_features.widget->builders.empty();
     if(widget_ready)for(size_t i=0;i<g_runtime_features.widget->builders.size();++i)
         widget_ready&=nhk::slot_ready(g_slots[kWidgetScaleSlot+i])&&hc_widget_scale_originals[i];
@@ -4734,6 +4799,7 @@ void *worker(void *) {
     const bool any_tweak = config.tweaks.folder_enabled || config.tweaks.pad_enabled
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
         || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
+        || config.recent.requested()
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
         || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close || config.dock_show_title
@@ -4861,7 +4927,8 @@ void *worker(void *) {
         }
         bind_knobs();
     }
-    if ((config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled)
+    if ((config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
+        || config.recent.values[home_layout::RecentConfig::Animation]!=100)
         && located) {
         for (int attempt = 0; attempt < 200; ++attempt) {
             if (bind_animation_consumer(*located) && bind_magic_consumer(*located)) break;
@@ -4878,7 +4945,7 @@ void *worker(void *) {
         order.push_back(0);
         order.push_back(1);
     }
-    if (config.tweaks.animation_recents_enabled && located && located->animation != 0) {
+    if ((config.tweaks.animation_recents_enabled || config.recent.values[home_layout::RecentConfig::Animation]!=100) && located && located->animation != 0) {
         if (!g_slots[kAnimationHookSlot].backend_owned) g_slots[kAnimationHookSlot] = {located->animation,
             reinterpret_cast<void *>(hc_layout_animation_ratio_entry),
             &hc_layout_animation_ratio_original, located->animation_source,
@@ -5073,7 +5140,7 @@ void *worker(void *) {
                     g_ready.store(true, std::memory_order_release);
                 }
                 if (located) {
-                    if (latest.tweaks.animation_recents_enabled && !g_animation_hook_armed
+                    if ((latest.tweaks.animation_recents_enabled || latest.recent.values[home_layout::RecentConfig::Animation]!=100) && !g_animation_hook_armed
                         && bind_animation_consumer(*located)) {
                         if (!g_slots[kAnimationHookSlot].backend_owned) g_slots[kAnimationHookSlot] = {located->animation,
                             reinterpret_cast<void *>(hc_layout_animation_ratio_entry),
@@ -5095,6 +5162,7 @@ void *worker(void *) {
                 const bool cell_changed = latest.cell_x != config.cell_x
                     || latest.cell_y != config.cell_y || latest.grid_enabled != config.grid_enabled;
                 const bool knobs_changed = latest.knobs != config.knobs;
+                const bool recent_changed = latest.recent != config.recent;
                 const bool tweaks_changed = latest.tweaks != config.tweaks;
                 config = latest;
                 if (cell_changed) {
@@ -5103,7 +5171,7 @@ void *worker(void *) {
                     g_ready.store(config.grid_enabled && located && located->x != 0
                         && located->y != 0, std::memory_order_release);
                 }
-                if (tweaks_changed) {
+                if (tweaks_changed || recent_changed) {
                     publish_animation_rate(config.tweaks);
                     push_tweaks(config);
 
@@ -5168,6 +5236,13 @@ void *worker(void *) {
              * decision: dart mapped, gate bits, whether the scan ran, whether it latched a
              * refusal, and whether it bound.
              */
+            if(const auto recent=std::atomic_load_explicit(&g_recent_routing,std::memory_order_acquire)){
+                for(size_t i=0;i<recent->plan.sites.size();++i)
+                    __android_log_print(ANDROID_LOG_INFO,kTag,"recents runtime site=%zu setting=%d ready=%d hits=%llu applied=%llu",
+                        i,recent->plan.sites[i].setting,g_recent_ready.load(std::memory_order_acquire),
+                        static_cast<unsigned long long>(g_recent_hits[i].load(std::memory_order_relaxed)),
+                        static_cast<unsigned long long>(g_recent_applied[i].load(std::memory_order_relaxed)));
+            }
             __android_log_print(ANDROID_LOG_INFO, kTag,
                 "folder bank dart=%d req=%#llx gate=%#llx attempted=%d checked=%d bound=%d inner=%d",
                 g_dart ? 1 : 0,
@@ -5664,6 +5739,24 @@ extern "C" WidgetBuildResult hc_widget_scale_build(uint64_t closure,uint64_t fra
     return routed;
 }
 
+extern "C" void hc_recent_body(home_layout::recent_render::Registers* saved,unsigned index) {
+    if(!saved||index>=64)return;
+    saved->branch=reinterpret_cast<uintptr_t>(hc_recent_originals[index]);
+    if(!g_recent_ready.load(std::memory_order_acquire))return;
+    const auto routing=std::atomic_load_explicit(&g_recent_routing,std::memory_order_acquire);
+    const auto config=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
+    if(!routing||!config||index>=routing->plan.sites.size())return;
+    g_recent_hits[index].fetch_add(1,std::memory_order_relaxed);
+    const auto result=home_layout::recent_render::apply(routing->plan,routing->plan.sites[index],*saved,*config,routing->base);
+    using Result=home_layout::recent_render::Result;
+    if(result==Result::Applied)g_recent_applied[index].fetch_add(1,std::memory_order_relaxed);
+    else if(result!=Result::Neutral&&result!=Result::UnknownCaller){
+        const uint32_t bit=1u<<unsigned(result);
+        if(!(g_recent_skips[index].fetch_or(bit,std::memory_order_relaxed)&bit))
+            __android_log_print(ANDROID_LOG_WARN,kTag,"recents runtime skipped site=%u reason=%s; stock retained",index,home_layout::recent_render::reason(result));
+    }
+}
+
 extern "C" uint64_t hc_title_color_clone(uint64_t color, uint64_t thread) {
     const auto result = home_title::clone_color(color, thread,
         g_title_color.load(std::memory_order_acquire), g_title_color_layout);
@@ -6053,6 +6146,12 @@ bool adopt_layout_state() {
     g_hook_globals_inited = false;
     init_knob_hooks();
     g_dart.reset();
+    g_recent_ready.store(false,std::memory_order_release);
+    g_recent_bind_failure.store(0,std::memory_order_relaxed);
+    std::atomic_store_explicit(&g_recent_config,std::shared_ptr<const home_layout::RecentConfig>{},std::memory_order_release);
+    for(unsigned i=0;i<64;++i){g_recent_hits[i]=0;g_recent_applied[i]=0;g_recent_skips[i]=0;}
+    std::atomic_store_explicit(&g_recent_routing,std::shared_ptr<const RecentRouting>{},std::memory_order_release);
+    std::fill(std::begin(hc_recent_originals),std::end(hc_recent_originals),nullptr);
     g_runtime_features={};
     g_runtime_features_scanned=false;
     g_config_capture_va = 0;
