@@ -286,16 +286,23 @@ extern "C" void hc_workspace_scene(void* owner,void* event) {
     home_gestures::Decision decision;
     {
         std::lock_guard guard(lock);
-        // Continue an already cancelled ownership sequence through its terminal
-        // event even if the configuration is disabled in the middle of a swipe.
-        if(api.masked&&workspace_ready&&scene_ready&&scope_contract.down_return) {
+        const bool can_claim=workspace_ready&&scene_ready&&scope_contract.down_return
+            &&(settings.mask&30u);
+        // Readiness controls NEW claims, not delivery of lifecycle events to
+        // an existing recognizer. Otherwise a Down forwarded while unready can
+        // later lose its Move/Up to the previous cancelled sequence on recovery.
+        // Keep draining an owned stream and clear its timestamp interval on the
+        // next Down, even while the source-bank readiness gate is closed.
+        if(!api.masked) {
+            workspace_state.reset();workspace_start=stock_block_start=stock_block_end=0;
+        } else if(can_claim||workspace_state.tracking()||stock_block_start>0) {
             home_workspace_gesture::SwipeSample e;e.action=api.masked(event);e.count=api.pointers(event);
             e.time=api.time(event);e.owner=reinterpret_cast<uintptr_t>(owner);
             if(e.action==0){workspace_start=e.time;stock_block_start=stock_block_end=0;}
             for(int i=0;i<std::min(e.count,2);++i){e.id[i]=api.pointer_id(event,i);e.x[i]=api.x(event,i);e.y[i]=api.y(event,i);}
-            bool editing=false;
+            bool editing=!can_claim;
 #if defined(HYPERCEILER_DOCK_NATIVE_MOTION)
-            editing=(dock_edit_packed.load(std::memory_order_acquire)&1u)!=0;
+            editing|=(dock_edit_packed.load(std::memory_order_acquire)&1u)!=0;
 #endif
             decision=workspace_state.accept(e,settings,editing);
             if(decision.consume){stock_block_start=workspace_start;stock_block_end=e.time;}

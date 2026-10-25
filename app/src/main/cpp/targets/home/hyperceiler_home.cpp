@@ -4,6 +4,7 @@
  */
 
 #include <android/log.h>
+#include "home_process_identity.h"
 #include <dlfcn.h>
 #include <jni.h>
 #include <sys/system_properties.h>
@@ -68,6 +69,7 @@ std::atomic_bool g_high_device_level = false;
 std::atomic_bool g_disable_prestart = false;
 std::atomic_bool g_soft_glass = false;
 std::atomic_bool g_configured = false;
+home_layout::LauncherProcessIdentity g_launcher_identity;
 // 0=not specialized yet, 1=launcher, 2=another app. The spawner's zero state is
 // inherited independently by every child.
 #ifndef HYPERCEILER_HYOS_BACKEND
@@ -82,12 +84,17 @@ SetProcessName g_original_setprogname = nullptr;
 #endif
 
 bool is_launcher_process() {
-    char name[128]{};
-    FILE *file = std::fopen("/proc/self/cmdline", "r");
-    if (file == nullptr) return false;
-    const size_t size = std::fread(name, 1, sizeof(name) - 1, file);
-    std::fclose(file);
-    return size > 0 && std::string_view(name) == "com.miui.home";
+#ifndef HYPERCEILER_HYOS_BACKEND
+    const bool cache_safe=g_process_name_hook_installed.load(std::memory_order_acquire);
+#else
+    constexpr bool cache_safe=false;
+#endif
+    return g_launcher_identity.matches(uint32_t(getpid()),cache_safe,[](char* name,size_t capacity){
+        FILE* file=std::fopen("/proc/self/cmdline","r");
+        if(!file)return size_t{0};
+        const auto size=std::fread(name,1,capacity-1,file);
+        std::fclose(file);return size;
+    });
 }
 
 #ifndef HYPERCEILER_HYOS_BACKEND
@@ -208,7 +215,9 @@ int hooked_system_property_get(const char *name, char *value) {
 
 #ifndef HYPERCEILER_HYOS_BACKEND
 void hooked_setprogname(const char *name) {
+    g_launcher_identity.invalidate();
     if (g_original_setprogname != nullptr) g_original_setprogname(name);
+    g_launcher_identity.invalidate();
     if (name != nullptr && std::string_view(name) == "com.miui.home") {
         home_layout_prepare_for_launcher_child();
         start_home_layout_hooks("setprogname", g_hook_function, g_unhook_function);

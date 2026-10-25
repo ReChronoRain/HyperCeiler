@@ -24,6 +24,8 @@
 #include "home_workspace_gesture.h"
 #include "home_workspace_swipe.h"
 #include "home_title_render.h"
+#include "home_report_feature_resolver.h"
+#include "home_report_render.h"
 #include "home_layout_knobs.h"
 #include "home_workspace_geometry.h"
 #include "home_grid_autofit.h"
@@ -127,6 +129,8 @@ void hc_drawer_0_entry();void hc_drawer_1_entry();
 void hc_drawer_body(home_layout::recent_render::Registers*,unsigned);
 void* hc_prestart_original=nullptr;
 void hc_prestart_0_entry();
+void hc_report_0_entry();
+void* hc_report_original=nullptr;
 void hc_prestart_body(home_layout::recent_render::Registers*,unsigned);
 void* hc_recent_originals[64]{};
 extern void* hc_recent_entries[64];
@@ -493,7 +497,8 @@ constexpr size_t kRecentSlotBase = kFolderReturnScaleSlotBase + 2;
 constexpr size_t kRecentSlotCount = 64;
 constexpr size_t kPrestartSlot = kRecentSlotBase + kRecentSlotCount;
 constexpr size_t kDrawerSearchSlot = kPrestartSlot + 1;
-constexpr size_t kSlotCount = kDrawerSearchSlot + 2;
+constexpr size_t kReportSlot = kDrawerSearchSlot + 2;
+constexpr size_t kSlotCount = kReportSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -502,6 +507,9 @@ Words hc_layout_dart_IndicatorDot_words{};
 using HookFunction = int (*)(void *, void *, void **);
 using UnhookFunction = int (*)(void *);
 
+std::atomic_bool g_report_requested{false},g_report_ready{false};
+std::atomic_uint g_report_bind_failure{0};
+std::atomic_uint64_t g_report_hits{0},g_report_applied{0};
 std::atomic_bool g_started{false};
 /*
  * Field writes into the launcher's live objects are off by default: a wrong path there is a launcher
@@ -651,6 +659,7 @@ void sync_title_config(const home_layout::Config &config) {
             config.object_scales[0].enabled,config.object_scales[0].percent,
             config.object_scales[1].enabled,config.object_scales[1].percent,
             config.object_scales[2].enabled,config.object_scales[2].percent);
+    g_report_requested.store((config.policies&home_layout::kHideReportPolicy)!=0,std::memory_order_release);
     const double icon_scale = config.tweaks.icon_scale_enabled
         && home_layout_engine::IconScaleCodeValid(config.tweaks.icon_scale_code)
         ? home_layout_engine::IconScaleValueFromCode(config.tweaks.icon_scale_code) : 1.0;
@@ -712,6 +721,7 @@ bool g_magic_hook_armed = false;
 std::array<Slot, kSlotCount> g_slots{};
 home_layout::NativeColumns g_native_columns;
 uint64_t g_native_columns_prime_next = 0;
+std::atomic_bool g_native_columns_prime_attempted{false},g_back_prime_attempted{false};
 extern "C" void hc_native_columns_body(std::byte *saved) {
     uint32_t old = 0;
     const auto requested = __atomic_load_n(&hc_native_columns_request, __ATOMIC_ACQUIRE);
@@ -1278,6 +1288,7 @@ struct DartLibrary {
 
 std::optional<DartLibrary> g_dart;
 struct RuntimeFeatures {
+    std::optional<home_layout::features::ReportFeature> report;
     std::optional<home_layout::features::drawer::Plan> drawer;
     std::optional<home_layout::features::prestart::Plan> prestart;
     std::optional<home_layout::features::RecentPlan> recent;
@@ -1313,6 +1324,7 @@ std::shared_ptr<const RecentRouting> g_recent_routing;
 
 bool g_runtime_features_scanned=false;
 bool g_first_render_features_scanned=false;
+std::atomic_bool g_first_render_finished{false};
 thread_local bool g_first_render_discovery=false;
 
 void report_layout_image_failure(const char *reason) {
@@ -1437,7 +1449,7 @@ bool ensure_dart_library() {
 }
 
 bool ensure_runtime_features() {
-    // General discovery belongs to the worker. Only the icon/Dock first-render
+    // General discovery belongs to the worker. Only the first-render geometry
     // dependency subset may run before it under the same setup lease; this
     // executable-only pass does not decode symbols or enter Binder/dlsym.
     if(!g_dart||(home_layout_engine::InLoaderCallback()&&!g_first_render_discovery))return false;
@@ -1470,16 +1482,27 @@ bool ensure_runtime_features() {
             g_runtime_features.desktop=home_layout::features::desktop_icon_feature(*code,icon);
             if(g_runtime_features.desktop)g_runtime_features.progress=home_layout::features::progress_icon_feature(*code,icon,*g_runtime_features.desktop);
             g_runtime_features.dock_margin=home_layout::features::layout_scalar_feature(*code,icon.current,true);
+            home_layout::features::FolderFeatures folders;
+            if(home_layout::features::resolve_folders(*code,icon.current,folders))
+                g_runtime_features.folders=folders;
+            g_runtime_features.close=home_layout::features::folder_close_feature(*code,icon);
+            g_runtime_features.app_return=home_layout::features::folder_return_feature(*code,icon);
         }
+        // Folder dimension objects and Observer widgets are cached during the
+        // same first layout as ordinary icons. A worker-only hook can install
+        // successfully while every already-created object keeps stock sizes.
+        g_runtime_features.widget=home_layout::features::widget_scale_feature(*code);
         if(g_drawer_search_requested.load(std::memory_order_acquire))
             g_runtime_features.drawer=home_layout::features::drawer::resolve(*code);
         g_first_render_features_scanned=true;
-        __android_log_print(ANDROID_LOG_INFO,kTag,"first-render executable discovery icon=%d desktop=%d margin=%d drawer=%d; no private-symbol lookup or IPC",
-            bool(g_runtime_features.icon),bool(g_runtime_features.desktop),bool(g_runtime_features.dock_margin),bool(g_runtime_features.drawer));
+        __android_log_print(ANDROID_LOG_INFO,kTag,"first-render executable discovery icon=%d desktop=%d margin=%d drawer=%d folders=%d widget=%d; no private-symbol lookup or IPC",
+            bool(g_runtime_features.icon),bool(g_runtime_features.desktop),bool(g_runtime_features.dock_margin),bool(g_runtime_features.drawer),
+            bool(g_runtime_features.folders),bool(g_runtime_features.widget));
         return true;
     }
     RuntimeFeatures found;
     found.drawer=home_layout::features::drawer::resolve(*code);
+    found.report=home_layout::features::report_feature(*code);
     found.prestart=home_layout::features::prestart::resolve(*code);
     const char* recent_failure=nullptr;
     found.recent=home_layout::features::recent::resolve(*code,&recent_failure);
@@ -4277,6 +4300,25 @@ bool bind_drawer_search() {
     return true;
 }
 
+bool bind_report() {
+    if(g_slots[kReportSlot].address)return true;
+    if(!g_report_requested.load(std::memory_order_acquire))return false;
+    const auto declined=[&](unsigned stage,const char* reason){
+        if(g_report_bind_failure.exchange(stage,std::memory_order_relaxed)!=stage)
+            __android_log_print(ANDROID_LOG_WARN,kTag,"report hiding binding unavailable stage=%u reason=%s; original retained",stage,reason);
+        return false;
+    };
+    if(!g_dart||!ensure_runtime_features())return declined(1,"executable inventory unavailable");
+    if(!g_runtime_features.report)return declined(2,"application-list/dialog-flag graph missing or ambiguous");
+    const auto& p=*g_runtime_features.report;Slot slot;
+    if(!bind_dart_target(p.entry,slot.address,slot.source,slot.original_words))return declined(3,"verified entry could not be bound");
+    for(auto word:slot.original_words)if((word&0xfc000000u)==0x94000000u)return declined(4,"entry includes managed call");
+    slot.replacement=reinterpret_cast<void*>(hc_report_0_entry);slot.original=&hc_report_original;
+    g_slots[kReportSlot]=slot;g_report_bind_failure.store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"report hiding executable graph bound entry=%#x dialog_consumers=%zu; no private names",p.entry,p.consumers.size());
+    return true;
+}
+
 bool bind_prestart() {
     if(g_slots[kPrestartSlot].address)return true;
     if(!hyperceiler_home_prestart_disabled())return false;
@@ -4329,6 +4371,7 @@ bool bind_recent() {
 }
 
 size_t arm_hooks(std::vector<size_t> &order) {
+    (void)bind_report();
     (void)bind_drawer_search();
     (void)bind_prestart();
     (void)bind_recent();
@@ -4359,6 +4402,9 @@ size_t arm_hooks(std::vector<size_t> &order) {
             " (first symbol resolved=%d)", g_folder_layout_checked ? 1 : 0);
     (void) bind_gadget_bridge();
     size_t added = 0;
+    if(g_slots[kReportSlot].address&&std::find(order.begin(),order.end(),kReportSlot)==order.end()){
+        order.push_back(kReportSlot);++added;
+    }
     for(size_t i=kDrawerSearchSlot;i<kDrawerSearchSlot+2;++i)
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     if(g_slots[kPrestartSlot].address&&std::find(order.begin(),order.end(),kPrestartSlot)==order.end()){
@@ -4650,6 +4696,7 @@ void publish_indicator_dot_delta() {
     g_recent_ready.store(recent_ready,std::memory_order_release);
     g_drawer_search_ready.store(nhk::slot_ready(g_slots[kDrawerSearchSlot])&&nhk::slot_ready(g_slots[kDrawerSearchSlot+1])&&hc_drawer_originals[0]&&hc_drawer_originals[1],std::memory_order_release);
     g_prestart_ready.store(nhk::slot_ready(g_slots[kPrestartSlot])&&hc_prestart_original,std::memory_order_release);
+    g_report_ready.store(nhk::slot_ready(g_slots[kReportSlot])&&hc_report_original,std::memory_order_release);
     bool widget_ready=g_runtime_features.widget&& !g_runtime_features.widget->builders.empty();
     if(widget_ready)for(size_t i=0;i<g_runtime_features.widget->builders.size();++i)
         widget_ready&=nhk::slot_ready(g_slots[kWidgetScaleSlot+i])&&hc_widget_scale_originals[i];
@@ -5383,6 +5430,11 @@ void *worker(void *) {
                         static_cast<unsigned long long>(g_recent_hits[i].load(std::memory_order_relaxed)),
                         static_cast<unsigned long long>(g_recent_applied[i].load(std::memory_order_relaxed)));
             }
+            if(g_report_requested.load(std::memory_order_acquire)||g_report_hits.load(std::memory_order_relaxed))
+                __android_log_print(ANDROID_LOG_INFO,kTag,"report hiding runtime requested=%d ready=%d hits=%llu applied=%llu",
+                    g_report_requested.load(std::memory_order_acquire),g_report_ready.load(std::memory_order_acquire),
+                    static_cast<unsigned long long>(g_report_hits.load(std::memory_order_relaxed)),
+                    static_cast<unsigned long long>(g_report_applied.load(std::memory_order_relaxed)));
             __android_log_print(ANDROID_LOG_INFO, kTag,
                 "folder bank dart=%d req=%#llx gate=%#llx attempted=%d checked=%d bound=%d inner=%d",
                 g_dart ? 1 : 0,
@@ -5895,6 +5947,14 @@ extern "C" void hc_drawer_body(home_layout::recent_render::Registers* saved,unsi
     if(applied)g_drawer_applied.fetch_add(1,std::memory_order_relaxed);
 }
 
+extern "C" void hc_report_body(home_layout::recent_render::Registers* saved,unsigned) {
+    if(!saved)return;
+    g_report_hits.fetch_add(1,std::memory_order_relaxed);
+    if(home_layout::report_render::apply(*saved,g_report_ready.load(std::memory_order_acquire),
+        g_report_requested.load(std::memory_order_acquire),reinterpret_cast<uintptr_t>(hc_report_original)))
+        g_report_applied.fetch_add(1,std::memory_order_relaxed);
+}
+
 extern "C" void hc_prestart_body(home_layout::recent_render::Registers* saved,unsigned) {
     if(!saved)return;
     g_prestart_hits.fetch_add(1,std::memory_order_relaxed);
@@ -6224,6 +6284,8 @@ bool adopt_layout_state() {
     }
     __atomic_store_n(&hc_native_columns_request, 0u, __ATOMIC_RELEASE);
     g_native_columns_prime_next = 0;
+    g_native_columns_prime_attempted.store(false,std::memory_order_release);
+    g_back_prime_attempted.store(false,std::memory_order_release);
     if(!g_slots[kBackWindowSlot].backend_owned){hc_back_window_original=nullptr;g_back_window_update={};g_back_window_shape={};}
     g_back_stock.store(0,std::memory_order_release);g_back_stock_width.store(0,std::memory_order_release);
     g_back_stock_sequence.store(0,std::memory_order_release);g_back_stock_writer.clear(std::memory_order_release);
@@ -6314,6 +6376,10 @@ bool adopt_layout_state() {
     g_drawer_bind_failure.store(0,std::memory_order_relaxed);g_drawer_hits.store(0,std::memory_order_relaxed);g_drawer_applied.store(0,std::memory_order_relaxed);
     hc_drawer_originals[0]=nullptr;hc_drawer_originals[1]=nullptr;g_drawer_child_frame.store(0,std::memory_order_relaxed);
     g_drawer_blank_factory.store(0,std::memory_order_relaxed);
+    g_report_requested.store(false,std::memory_order_release);g_report_ready.store(false,std::memory_order_release);
+    g_report_bind_failure.store(0,std::memory_order_relaxed);
+    g_report_hits.store(0,std::memory_order_relaxed);g_report_applied.store(0,std::memory_order_relaxed);
+    hc_report_original=nullptr;
     g_prestart_ready.store(false,std::memory_order_release);
     g_prestart_bind_failure.store(0,std::memory_order_relaxed);
     g_prestart_hits.store(0,std::memory_order_relaxed);g_prestart_blocked.store(0,std::memory_order_relaxed);
@@ -6327,6 +6393,7 @@ bool adopt_layout_state() {
     g_runtime_features={};
     g_runtime_features_scanned=false;
     g_first_render_features_scanned=false;
+    g_first_render_finished.store(false,std::memory_order_release);
     g_config_capture_va = 0;
     g_dock_capture_va = 0;
     g_config_capture_address = 0;
@@ -6398,22 +6465,36 @@ void prime_home_layout_engine() {
 }
 
 void prime_home_layout_first_render_locked() {
-    struct DiscoveryScope {~DiscoveryScope(){g_first_render_discovery=false;}} discovery_scope;
-    if(__atomic_load_n(&hc_icon_render_enabled,__ATOMIC_ACQUIRE)
-        &&g_knobs[0].hook_armed&&(!g_drawer_search_requested.load(std::memory_order_acquire)
-            ||g_drawer_search_ready.load(std::memory_order_acquire)))return;
+    if(g_first_render_finished.load(std::memory_order_acquire))return;
+    struct DiscoveryScope {
+        bool attempted=false;
+        ~DiscoveryScope(){
+            g_first_render_discovery=false;
+            if(attempted)g_first_render_finished.store(true,std::memory_order_release);
+        }
+    } discovery_scope;
     init_knob_hooks();
     if(!ensure_dart_library())return;
     home_layout::Config config;
     const bool have_config=home_layout::query_bootstrap_config(config);
+    // A busy/missing bootstrap publication is not a disabled configuration.
+    // Keep its existing scalars and leave expensive binding to a later signal.
+    if(!have_config)return;
     if(have_config) {
         sync_title_config(config);
         g_knobs[0].requested.store(config.knobs[0].enabled,std::memory_order_relaxed);
         g_knobs[0].delta_dp.store(requested_knob_delta(config.knobs[0]),std::memory_order_relaxed);
     }
+    // One synchronous attempt per image, independent of optional feature
+    // availability or backend install success. Property reads also arrive in
+    // animation paths; they must not become a full bank-install retry loop.
+    // The existing worker owns recovery/adoption, including partial failures.
+    discovery_scope.attempted=true;
     g_first_render_discovery=true;
     if(!ensure_runtime_features())return;
     (void)bind_icon_render();(void)bind_desktop_icon_render();(void)bind_progress_icon_render();
+    (void)bind_folder_icon_scale();(void)bind_folder_animation_scale();
+    (void)bind_folder_app_return_scale();(void)bind_widget_scale();
     (void)bind_drawer_search();
     auto& knob=g_knobs[0];
     if(!knob.hook_address&&g_runtime_features.dock_margin) {
@@ -6430,6 +6511,13 @@ void prime_home_layout_first_render_locked() {
     std::vector<size_t> order;
     for(size_t i=kIconRenderSlotBase;i<kIconRenderSlotBase+6;++i)if(g_slots[i].address)order.push_back(i);
     for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)if(g_slots[i].address)order.push_back(i);
+    if(g_slots[kFolderIconScaleSlot].address)order.push_back(kFolderIconScaleSlot);
+    for(size_t i=kFolderAnimScaleSlotBase;i<kFolderAnimScaleSlotBase+kFolderAnimScaleSlotCount;++i)
+        if(g_slots[i].address)order.push_back(i);
+    for(size_t i=kFolderReturnScaleSlotBase;i<kFolderReturnScaleSlotBase+2;++i)
+        if(g_slots[i].address)order.push_back(i);
+    for(size_t i=kWidgetScaleSlot;i<kWidgetScaleSlot+kWidgetScaleSlotCount;++i)
+        if(g_slots[i].address)order.push_back(i);
     if(knob.hook_address)order.push_back(kKnobHookSlotBase);
     for(size_t i=kDrawerSearchSlot;i<kDrawerSearchSlot+2;++i)if(g_slots[i].address)order.push_back(i);
     if(!order.empty())(void)nhk::ensure_slots_live(g_slots,slot_host(),order);
@@ -6441,14 +6529,18 @@ void prime_home_layout_first_render_locked() {
     // need its bootstrap publication before the worker adopts the bank.
     static std::atomic_uint32_t previous{UINT32_MAX};
     const uint32_t state=uint32_t(have_config)|(uint32_t(__atomic_load_n(&hc_icon_render_enabled,__ATOMIC_ACQUIRE))<<1)
-        |(uint32_t(knob.hook_armed)<<2)|(uint32_t(g_drawer_search_ready.load(std::memory_order_acquire))<<3);
+        |(uint32_t(knob.hook_armed)<<2)|(uint32_t(g_drawer_search_ready.load(std::memory_order_acquire))<<3)
+        |(__atomic_load_n(&hc_folder_icon_scale_enabled,__ATOMIC_ACQUIRE)<<4)
+        |(__atomic_load_n(&hc_widget_scale_enabled,__ATOMIC_ACQUIRE)<<5);
     if(previous.exchange(state,std::memory_order_relaxed)!=state)
-        __android_log_print(ANDROID_LOG_INFO,kTag,"first-render bootstrap config=%d icons=%d dock_margin=%d drawer=%d; single pass, no Binder or sleep",
-            have_config,__atomic_load_n(&hc_icon_render_enabled,__ATOMIC_ACQUIRE),knob.hook_armed,g_drawer_search_ready.load(std::memory_order_acquire));
+        __android_log_print(ANDROID_LOG_INFO,kTag,"first-render bootstrap config=%d icons=%d dock_margin=%d drawer=%d folders=%d widget=%d; single pass, no Binder or sleep",
+            have_config,__atomic_load_n(&hc_icon_render_enabled,__ATOMIC_ACQUIRE),knob.hook_armed,g_drawer_search_ready.load(std::memory_order_acquire),
+            __atomic_load_n(&hc_folder_icon_scale_enabled,__ATOMIC_ACQUIRE),__atomic_load_n(&hc_widget_scale_enabled,__ATOMIC_ACQUIRE));
 }
 
 void prime_home_layout_first_render(HookFunction hook,UnhookFunction unhook) {
-    if(!hook||g_loader_priming.test_and_set(std::memory_order_acquire))return;
+    if(!hook||g_first_render_finished.load(std::memory_order_acquire)
+        ||g_loader_priming.test_and_set(std::memory_order_acquire))return;
     struct Lease {~Lease(){g_loader_priming.clear(std::memory_order_release);}} lease;
     g_hook_function=hook;g_unhook_function=unhook;
     prime_home_layout_first_render_locked();
@@ -6663,7 +6755,8 @@ void report_start_verdict(const char *site, const char *verdict, bool adopted, i
  */
 void prime_back_regions(HookFunction hook,UnhookFunction unhook){
     if(!hook||gettid()!=getpid()||g_dart_ready.load(std::memory_order_acquire)
-        ||g_back_setup_complete.load(std::memory_order_acquire))return;
+        ||g_back_setup_complete.load(std::memory_order_acquire)
+        ||g_back_prime_attempted.load(std::memory_order_acquire))return;
     if(g_loader_priming.test_and_set(std::memory_order_acquire))return;
     struct Release{~Release(){g_loader_priming.clear(std::memory_order_release);}} release;
     if(g_back_setup_complete.load(std::memory_order_acquire)||g_slots[kBackWindowSlot].backend_owned)return;
@@ -6675,10 +6768,16 @@ void prime_back_regions(HookFunction hook,UnhookFunction unhook){
     const auto all=nhk::parse_file_mappings(maps);const auto path=launcher_apk(all);if(!path)return;
     g_back_prime_stage.store(3,std::memory_order_relaxed);
     const auto rust=open_library(*path,"libapp_launcher.so",all);if(!rust)return;
+    // Once a complete image is readable, decoding/install retries belong to
+    // the worker. An unsupported contract is not a reason to scan per property.
+    g_back_prime_attempted.store(true,std::memory_order_release);
     g_back_prime_stage.store(4,std::memory_order_relaxed);
     const auto core=home_layout::resolve_back_gesture(rust->bytes);
     const auto window=home_layout::resolve_back_window(rust->bytes);
-    if(!core||!window)return;
+    if(!core||!window){
+        __android_log_print(ANDROID_LOG_WARN,kTag,"back pre-init contract unavailable; worker owns further discovery");
+        return;
+    }
     uintptr_t a=0,b=0,c=0;nhk::CodeSource sa{},sb{},sc{};Words wa{},wb{},wc{};
     if(!bind_target(*rust,core->splice,a,sa,wa)||!bind_target(*rust,window->splice,b,sb,wb)
         ||!bind_target(*rust,window->update,c,sc,wc))return;
@@ -6697,7 +6796,9 @@ void prime_back_regions(HookFunction hook,UnhookFunction unhook){
 }
 
 void prime_native_columns(HookFunction hook, UnhookFunction unhook) {
-    if (!hook || gettid()!=getpid() || g_slots[kNativeColumnsSlot].backend_owned) return;
+    if (!hook || gettid()!=getpid() || g_slots[kNativeColumnsSlot].backend_owned
+        ||g_native_columns_prime_attempted.load(std::memory_order_acquire)
+        ||g_back_setup_complete.load(std::memory_order_acquire)) return;
     const uint64_t now=monotonic_ms();
     if(now<g_native_columns_prime_next)return;
     g_native_columns_prime_next=now+200;
@@ -6708,8 +6809,13 @@ void prime_native_columns(HookFunction hook, UnhookFunction unhook) {
     std::ifstream maps("/proc/self/maps");if(!maps)return;
     auto all=nhk::parse_file_mappings(maps);auto path=launcher_apk(all);if(!path)return;
     auto rust=open_library(*path,"libapp_launcher.so",all);if(!rust)return;
-    auto root=home_layout::elf_targets::resolve(rust->bytes);if(!root)return;
-    auto shape=home_layout::resolve_native_columns(rust->bytes,*root);if(!shape)return;
+    g_native_columns_prime_attempted.store(true,std::memory_order_release);
+    auto root=home_layout::elf_targets::resolve(rust->bytes);
+    auto shape=root?home_layout::resolve_native_columns(rust->bytes,*root):std::nullopt;
+    if(!shape){
+        __android_log_print(ANDROID_LOG_WARN,kTag,"native columns pre-init contract unavailable; worker owns further discovery");
+        return;
+    }
     uintptr_t address=0;nhk::CodeSource source{};Words words{};
     if(!bind_target(*rust,shape->splice,address,source,words))return;
     g_hook_function=hook;g_unhook_function=unhook;

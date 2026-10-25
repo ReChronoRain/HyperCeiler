@@ -693,6 +693,7 @@ class HomeDockWindow : BaseHook() {
                         HomeLayoutNativeEndpointOS4.writeRecent(reply,
                             result?.recent() ?: HomeLayoutNativeEndpointOS4.recentDefaults())
                         HomeLayoutNativeEndpointOS4.writeDrawer(reply, result?.drawerHideSearch() ?: false)
+                        HomeLayoutNativeEndpointOS4.writePolicies(reply, result?.policies() ?: 0L)
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()

@@ -2608,6 +2608,8 @@ recent_entry 1, drawer
 /* Process prelaunch uses the same no-GC register ABI, at a complete synchronous
  * void entry. Its terminal route needs no managed-frame reconstruction. */
 recent_entry 0, prestart
+/* Uninstall dialog report eligibility: synchronous Dart bool return. */
+recent_entry 0, report
 recent_entry 0
 recent_entry 1
 recent_entry 2
