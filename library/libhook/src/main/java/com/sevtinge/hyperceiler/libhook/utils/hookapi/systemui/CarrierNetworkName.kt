@@ -44,6 +44,9 @@ object CarrierNetworkName {
     private const val STATE_IN_SERVICE = 0
     private const val CACHE_ENTRY_MILLIS = 60_000L
     private const val CACHE_MAX_ENTRIES = 8
+    private const val METHOD_OPERATOR_ALPHA_LONG = "getOperatorAlphaLong"
+    private const val METHOD_OPERATOR_ALPHA_SHORT = "getOperatorAlphaShort"
+    private const val METHOD_DATA_REG_STATE = "getDataRegState"
 
     private class NameSource(val name: String, val priority: Int)
 
@@ -57,7 +60,11 @@ object CarrierNetworkName {
     /**
      * @param slot 物理卡槽（0 或 1）
      * @return 真实网络名；读不到时返回 null，调用方应保留原始文字
+     *
+     * 取数链路可能因权限、版本或厂商改动直接抛错，必须整体吞掉：
+     * 失败一律"保留原文"，不能影响系统界面渲染。
      */
+    @Suppress("TooGenericExceptionCaught")
     fun resolve(context: Context?, slot: Int): String? {
         if (context == null || slot !in 0..1) return null
         return try {
@@ -69,8 +76,7 @@ object CarrierNetworkName {
         }
     }
 
-    // 这里需要吞掉任何异常：取数失败必须保持"保留原文"的原语义，不能影响系统界面渲染。
-    @Suppress("TooGenericExceptionCaught", "ReturnCount")
+    @Suppress("ReturnCount")
     private fun resolveUncached(context: Context, slot: Int): String? {
         val subscriptionManager = context.getSystemService(SubscriptionManager::class.java)
             ?: return null
@@ -98,7 +104,7 @@ object CarrierNetworkName {
             simOperator,
             serviceState?.state ?: -1,
             // 隐藏 API，只能反射读取；读不到就当作未知，只影响缓存命中。
-            readInt(serviceState, "getDataRegState") ?: -1
+            readInt(serviceState, METHOD_DATA_REG_STATE) ?: -1
         ).joinToString("|")
 
         synchronized(cache) {
@@ -106,7 +112,7 @@ object CarrierNetworkName {
             if (hit != null && System.currentTimeMillis() - hit.at < CACHE_ENTRY_MILLIS) return hit.name
         }
 
-        val name = firstUsableName(collect(serviceState, telephonyManager, subscription))
+        val name = pickHighestPriorityName(collect(serviceState, telephonyManager, subscription))
         synchronized(cache) {
             cache[key] = CacheEntry(key, System.currentTimeMillis(), name)
         }
@@ -129,78 +135,69 @@ object CarrierNetworkName {
         if (serviceState != null) {
             // 注册层名称（优先级 1）依赖隐藏 API，反射失败时 ServiceState 仍可能给出过期/占位文字，
             // 所以只有能确认"已注册"时才收：优先看数据/语音注册状态，读不到再看公开 alpha 是否非空。
-            val registered = isRegistered(serviceState)
-            if (registered) addAll(registrationAlphaNames(serviceState))
-            readString(serviceState, "getOperatorAlphaLong")?.let { add(NameSource(it, if (registered) 2 else 3)) }
-            readString(serviceState, "getOperatorAlphaShort")?.let { add(NameSource(it, if (registered) 2 else 3)) }
+            val registered = isRegisteredToAnyNetwork(serviceState)
+            val alphaPriority = if (registered) 2 else 3
+            if (registered) addAll(readRegistrationAlphaNames(serviceState))
+            readString(serviceState, METHOD_OPERATOR_ALPHA_LONG)?.let { add(NameSource(it, alphaPriority)) }
+            readString(serviceState, METHOD_OPERATOR_ALPHA_SHORT)?.let { add(NameSource(it, alphaPriority)) }
         }
         readString(telephonyManager, "getNetworkOperatorName")?.let { add(NameSource(it, 3)) }
         readString(telephonyManager, "getSimOperatorName")?.let { add(NameSource(it, 4)) }
         readString(subscription, "getCarrierName")?.let { add(NameSource(it, 5)) }
     }
 
-    /**
-     * 是否已注册到网络（语音或数据任一域在服务中）。
-     * 两个状态都读不到时退化为"公开 alpha 名称非空"，与 UE Logo 原实现的判断保持一致。
-     */
-    private fun isRegistered(serviceState: ServiceState): Boolean {
+    // 语音或数据任一域在服务中即视为已注册。两个状态都读不到时退化为"公开 alpha 名称非空"，
+    // 与 UE Logo 原实现的判断保持一致。
+    private fun isRegisteredToAnyNetwork(serviceState: ServiceState): Boolean {
         val voice = readInt(serviceState, "getState")
-        val data = readInt(serviceState, "getDataRegState")
+        val data = readInt(serviceState, METHOD_DATA_REG_STATE)
         if (voice == null && data == null) {
-            return !readString(serviceState, "getOperatorAlphaLong").isNullOrEmpty() ||
-                !readString(serviceState, "getOperatorAlphaShort").isNullOrEmpty()
+            return !readString(serviceState, METHOD_OPERATOR_ALPHA_LONG).isNullOrEmpty() ||
+                !readString(serviceState, METHOD_OPERATOR_ALPHA_SHORT).isNullOrEmpty()
         }
         return voice == STATE_IN_SERVICE || data == STATE_IN_SERVICE
     }
 
-    /**
-     * 数据域（PS）是否可信：只有数据注册状态明确在服务中才读 PS 的注册名称。
-     * getDataRegState 是隐藏 API，反射失败时读不到状态，此时 PS 的名称可能是过期值，不能采用。
-     */
-    private fun dataRegistered(serviceState: ServiceState): Boolean =
-        readInt(serviceState, "getDataRegState") == STATE_IN_SERVICE
-
-    /** ROM 注册层名称：先数据域（PS）再语音域（CS），与控制中心实际展示顺序一致。 */
-    private fun registrationAlphaNames(serviceState: ServiceState): List<NameSource> = buildList {
-        val dataOk = dataRegistered(serviceState)
+    // ROM 注册层名称：先数据域（PS）再语音域（CS），与控制中心实际展示顺序一致。
+    private fun readRegistrationAlphaNames(serviceState: ServiceState): List<NameSource> = buildList {
+        // getDataRegState 是隐藏 API，反射失败时读不到状态，此时 PS 的名称可能是过期值，不能采用。
+        val dataOk = readInt(serviceState, METHOD_DATA_REG_STATE) == STATE_IN_SERVICE
         for (domain in intArrayOf(DOMAIN_PS, DOMAIN_CS)) {
             // PS 名称只在数据注册状态可信时采用，避免反射失败后读到过期值。
             if (domain == DOMAIN_PS && !dataOk) continue
-            val registration = invoke(serviceState, "getNetworkRegistrationInfo", domain, TRANSPORT_WWAN) ?: continue
-            val cellIdentity = invoke(registration, "getCellIdentity") ?: continue
-            readString(cellIdentity, "getOperatorAlphaLong")?.let { add(NameSource(it, 1)) }
-            readString(cellIdentity, "getOperatorAlphaShort")?.let { add(NameSource(it, 1)) }
+            val registration = invokeHiddenApi(serviceState, "getNetworkRegistrationInfo", domain, TRANSPORT_WWAN)
+                ?: continue
+            val cellIdentity = invokeHiddenApi(registration, "getCellIdentity") ?: continue
+            readString(cellIdentity, METHOD_OPERATOR_ALPHA_LONG)?.let { add(NameSource(it, 1)) }
+            readString(cellIdentity, METHOD_OPERATOR_ALPHA_SHORT)?.let { add(NameSource(it, 1)) }
         }
     }
 
-    /**
-     * 按优先级挑第一个可用名称。收集阶段已保证元数据不一致的来源不会被收录，
-     * 这里只负责跳过空值与字面量 "null"。
-     */
-    private fun firstUsableName(sources: List<NameSource>): String? =
+    // 按优先级挑第一个可用名称。收集阶段已保证元数据不一致的来源不会被收录，
+    // 这里只负责跳过空值与字面量 "null"。
+    private fun pickHighestPriorityName(sources: List<NameSource>): String? =
         sources.asSequence().filter { usable(it.name) }.minByOrNull { it.priority }?.name
 
     private fun usable(raw: String?): Boolean {
         val value = raw?.trim().orEmpty()
         return value.isNotEmpty() && "null" != value.lowercase()
     }
-
-    private fun readString(target: Any, method: String): String? =
-        invoke(target, method)?.toString()?.takeIf { it.isNotBlank() }
-
-    private fun readInt(target: Any?, method: String): Int? =
-        if (target == null) null else (invoke(target, method) as? Int)
-
-    /**
-     * 反射调用隐藏 API。查找与重载选择统一交给 [BaseHook.callMethod]（按实参类型择优，
-     * 避免同名重载被静默选错），这里只负责吞掉异常：隐藏 API 可能因权限或版本直接抛错，
-     * 单个来源失败必须降级，不能让整条解析链中断。
-     */
-    private fun invoke(target: Any, method: String, vararg args: Any?): Any? = try {
-        BaseHook.callMethod(target, method, *args)
-    } catch (error: Exception) {
-        null
-    } catch (error: LinkageError) {
-        null
-    }
 }
+
+// 反射调用隐藏 API。查找与重载选择统一交给 [BaseHook.callMethod]（按实参类型择优，
+// 避免同名重载被静默选错），这里只负责吞掉异常：隐藏 API 可能因权限或版本直接抛错，
+// 单个来源失败必须降级，不能让整条解析链中断。
+@Suppress("TooGenericExceptionCaught")
+private fun invokeHiddenApi(target: Any, method: String, vararg args: Any?): Any? = try {
+    BaseHook.callMethod(target, method, *args)
+} catch (error: Exception) {
+    null
+} catch (error: LinkageError) {
+    null
+}
+
+private fun readString(target: Any, method: String): String? =
+    invokeHiddenApi(target, method)?.toString()?.takeIf { it.isNotBlank() }
+
+private fun readInt(target: Any?, method: String): Int? =
+    if (target == null) null else (invokeHiddenApi(target, method) as? Int)
