@@ -154,6 +154,16 @@
             app:entries="@array/system_ui_control_center_hide_operator"
             app:entryValues="@array/system_ui_control_center_hide_operator_value" />
 
+        <Preference
+            android:key="prefs_key_system_ui_control_center_real_network_name_slot1"
+            android:summary="@string/system_ui_control_center_real_network_name_slot1_desc"
+            android:title="@string/system_ui_control_center_real_network_name_slot1" />
+
+        <Preference
+            android:key="prefs_key_system_ui_control_center_real_network_name_slot2"
+            android:summary="@string/system_ui_control_center_real_network_name_slot2_desc"
+            android:title="@string/system_ui_control_center_real_network_name_slot2" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

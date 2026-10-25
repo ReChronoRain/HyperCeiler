@@ -25,7 +25,9 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.CarrierNetworkName
 import io.github.libxposed.api.XposedInterface
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import java.lang.reflect.Method
@@ -42,6 +44,9 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setIntField
 
 /**
  * 控制中心运营商名称自定义；设置变更后重启系统界面。
+ *
+ * 模式 5（真实网络名）在 OS3 与 OS4 两条 call 链上取同一个物理卡槽的注册网络名称，
+ * 取数或调用失败都保持原文，不阻断系统界面的回调。
  */
 object CustomCarrierText : BaseHook() {
     private const val ON_MEASURE = "onMeasure"
@@ -49,6 +54,15 @@ object CustomCarrierText : BaseHook() {
     private const val CARRIER_CALLBACK = "com.android.systemui.controlcenter.shade.ControlCenterCarrierText\$mCarrierTextCallback\$1"
     private const val CARRIER_LAYOUT = "com.android.systemui.controlcenter.shade.MiuiCarrierTextLayout"
     private const val HEADER_CONTROLLER = "com.android.systemui.controlcenter.shade.ControlCenterHeaderController"
+
+    /** 模式 5：显示该卡槽真实注册的网络名称。 */
+    private const val MODE_REAL_NETWORK_NAME = 5
+
+    /** 模式 5 下用户为卡槽 1、卡槽 2 手填的名称，留空表示使用真实注册网络名。 */
+    private val CUSTOM_NAME_KEYS = listOf(
+        "system_ui_control_center_real_network_name_slot1",
+        "system_ui_control_center_real_network_name_slot2"
+    )
 
 
     val getOperator by lazy {
@@ -70,6 +84,7 @@ object CustomCarrierText : BaseHook() {
         when (getOperator) {
             1 -> hideCarrierSeparator()
             2 -> hideCarrierText()
+            MODE_REAL_NETWORK_NAME -> hideCarrierSeparator()
         }
     }
 
@@ -77,7 +92,7 @@ object CustomCarrierText : BaseHook() {
     @Suppress("TooGenericExceptionCaught")
     private fun hookOS4() {
         val mode = PrefsBridge.getStringAsInt("system_ui_control_center_hide_operator", 0)
-        if (mode !in 1..3) return
+        if (mode !in 1..5) return
         val active = AtomicBoolean(false)
         val handles = ArrayList<XposedInterface.HookHandle>()
         try {
@@ -85,10 +100,10 @@ object CustomCarrierText : BaseHook() {
                 requiredClass(CARRIER_CALLBACK),
                 CARRIER_TEXT_CHANGED, Int::class.java, String::class.java, Int::class.java
             )
-            val layout = requiredClass(CARRIER_LAYOUT)
             val additional: Method?
             val views: List<java.lang.reflect.Field>
             if (mode == 1) {
+                val layout = requiredClass(CARRIER_LAYOUT)
                 additional = exactMethod(layout, ON_MEASURE, Int::class.java, Int::class.java)
                 views = listOf(viewField(layout, "carrierSeparatorView"), viewField(layout, "carrierSeparatorText"))
             } else if (mode == 2) {
@@ -112,10 +127,12 @@ object CustomCarrierText : BaseHook() {
                         val text = param.args[1] as? String
                         val slot = param.args[2] as? Int ?: return
                         if (carrierCount !in 0..2 || slot !in 0..1) return
-                        if (mode != 3 && text.isNullOrEmpty()) return
+                        // 模式 5 在无服务时原文就是空串，必须仍然参与替换（取不到名称时保留原文）。
+                        if (mode != 3 && mode != MODE_REAL_NETWORK_NAME && text.isNullOrEmpty()) return
                         param.args[1] = when (mode) {
                             1 -> text!!.replace("  |  ", "").replace(" | ", "")
                             2 -> ""
+                            MODE_REAL_NETWORK_NAME -> realNetworkName(slot) ?: text
                             // Keep one fixed display slot even when only SIM2 is active. The
                             // producer deduplicates each text using a shared carrier count.
                             // A count-dependent display slot can miss the second callback.
@@ -209,9 +226,28 @@ object CustomCarrierText : BaseHook() {
                 null
             }
 
+            // 取不到真实名称时回落到原文，与其它模式的"取不到就保持原样"一致。
+            MODE_REAL_NETWORK_NAME -> realNetworkName(slotId) ?: carrierText
             else -> carrierText
         }
     }
+
+    /**
+     * 模式 5 取数：先看用户为该卡槽手填的名称，留空再取该卡槽真实注册的网络名称。
+     * 取不到 Context 或取数失败都返回 null，由调用方保留 SystemUI 原文。
+     */
+    private fun realNetworkName(callbackSlot: Int): String? {
+        customNetworkName(callbackSlot)?.let { return it }
+        val context = EzXposed.appContextOrNull ?: return null
+        return CarrierNetworkName.resolve(context, callbackSlot)
+    }
+
+    /** 读取用户在设置里为某个卡槽手填的名称；未填写或只有空白都视为没填。 */
+    private fun customNetworkName(slot: Int): String? =
+        CUSTOM_NAME_KEYS.getOrNull(slot)
+            ?.let { key -> PrefsBridge.getString(key, "") }
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() }
 
     // 隐藏分割线
     private fun hideCarrierSeparator() {
