@@ -108,6 +108,7 @@ class SwipeRecognizer {
     float span_=0,dx_=0,dy_=0;
 public:
     void reset(){*this={};}
+    bool tracking()const{return active_;}
     bool authorize(int64_t time,uint64_t revision) {
         if(!active_||rejected_||time!=start_||revision!=revision_)return false;
         allowed_=true;return true;

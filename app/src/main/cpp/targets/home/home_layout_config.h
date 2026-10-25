@@ -8,6 +8,7 @@
 #include "home_layout_knobs.h"
 #include "home_recent_config.h"
 #include "home_drawer_config.h"
+#include "home_policy_config.h"
 #include "home_title_custom.h"
 #include "home_dock_title.h"
 #include "home_folder_layout.h"
@@ -92,6 +93,7 @@ struct Config {
     bool title_hide_new_install = false;
     bool dock_show_title = false;
     bool drawer_hide_search = false;
+    uint64_t policies = 0;
     bool widget_allow_move = false;
     BackGestureConfig back_gesture{};
     home_gestures::Config gestures{};

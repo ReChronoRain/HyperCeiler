@@ -40,7 +40,7 @@ with tempfile.TemporaryDirectory(prefix='hc-log-diagnostics-') as temp:
         assert a==b,(j,c)
     capabilities=int(re.search(r'ENDPOINT_CAPABILITIES\s*=\s*(\d+)',java)[1])
     expected=0
-    for key in ('kIndependentScalesCapability','kDockTitleCapability','kRecentLayoutCapability','kDrawerSearchCapability'):
+    for key in ('kIndependentScalesCapability','kDockTitleCapability','kRecentLayoutCapability','kDrawerSearchCapability','kLayoutPoliciesCapability'):
         expected |= int(re.search(key+r'\s*=\s*(\d+)',header)[1])
     assert capabilities==expected
 print('endpoint writer/reader revision and capability contract: PASS')

@@ -6,6 +6,7 @@
 #include "image.h"
 #include "scanner.h"
 #include "symtab.h"
+#include "../home_clear_feature_resolver.h"
 #include "nativehook/code_word_write.h"
 #include "nativehook/memory_io.h"
 #include <array>
@@ -105,6 +106,10 @@ struct State {
     bool packTried = false;
     bool cacheTried = false;
     bool squareTried = false;
+    bool clearVisibilityTried = false; // Executable proof is never inherited from a site cache.
+    bool clearDisableTried = false;
+    std::vector<std::pair<uint32_t,uint32_t>> clearVisibilityPreimages;
+    std::vector<std::pair<uint32_t,uint32_t>> clearDisablePreimages;
 
     std::vector<AppliedPatch> applied;
     bool repatchNeeded = true;
@@ -588,6 +593,105 @@ bool RefreshConfigLocked(State* state, bool allowBakedFallback, bool fast) {
     return state->configLoaded;
 }
 
+// Migrated features are never re-enabled through old named/fingerprint sites.
+Config LegacyPlannerConfig(const Config& config) {
+    Config legacy=config;
+    std::erase(legacy.enabled,kFeatureHideClear);
+    std::erase(legacy.enabled,kFeatureNoClear);
+    return legacy;
+}
+
+bool ClearPreimagesMatch(const CodeView& live,
+    const std::vector<std::pair<uint32_t,uint32_t>>& originals) {
+    return home_layout::features::clear_patch_preimages_match(originals,
+        [&](uint32_t va,uint32_t& word){return live.Word(va,&word);});
+}
+
+void AcquireClearVisibility(State* state,const CodeView& live,bool allowScan) {
+    if(!state->config.masterEnabled()||!state->config.Has(kFeatureHideClear)||state->config.Has(kFeatureNoClear))return;
+    const auto fail=[&](const char* reason){
+        state->sites.ok18=false;
+        snprintf(state->sites.why18,sizeof(state->sites.why18),"%s",reason);
+        LOGW("feature=recent_hide_clear runtime contract declined: %s; OEM behavior retained",reason);
+    };
+    if(state->clearVisibilityTried) {
+        if(state->sites.ok18&&!ClearPreimagesMatch(live,state->clearVisibilityPreimages))
+            fail("live preimage changed after discovery; refusing to overwrite another patch");
+        return;
+    }
+    if(!allowScan)return;
+    state->clearVisibilityTried=true;
+    state->attemptedMask|=kWantHideClear;
+    state->sites.ok18=false;
+    const auto size=state->image.fileViewBytes;
+    if(!size||size>128u*1024*1024){fail("invalid image extent");return;}
+    std::vector<std::byte> bytes(static_cast<size_t>(size));
+    if(!ReadImageFile(state->image,0,bytes.data(),bytes.size())){fail("verified image read failed");return;}
+    auto code=home_layout::features::Code::parse(bytes);
+    if(!code){fail("executable inventory invalid");return;}
+    auto feature=home_layout::features::clear_visibility_feature(*code);
+    if(!feature){fail("visibility/controller/initializer graph missing or ambiguous");return;}
+    const auto& p=*feature;
+    for(auto va:{p.gate,p.visibility,p.initial_call}) {
+        home_dynamic::Body original;uint32_t word=0;
+        if(!code->prefix(va,1,original)||!live.Word(va,&word)||word!=original[0]) {
+            fail("live patch preimage differs from the verified executable");return;
+        }
+        state->clearVisibilityPreimages.emplace_back(va,word);
+    }
+    auto& out=state->sites;
+    out.svVa=p.sync;out.initVa=p.init;out.bneAt=p.gate;out.bneTgt=p.gate_target;
+    out.tbAt=p.visibility;out.tbTgt=p.hidden_target;out.initBlAt=p.initial_call;out.revTo=p.reverse;
+    out.ok18=true;out.why18[0]='\0';
+    AppendSource(state,"运行时清理按钮图谱");
+    LOGI("feature=recent_hide_clear runtime graph ready sync=%#x init=%#x controller_field=%d; no names/sections/debug evidence",
+        p.sync,p.init,p.controller);
+}
+
+void AcquireClearDisable(State* state,const CodeView& live,bool allowScan) {
+    if(!state->config.masterEnabled()||!state->config.Has(kFeatureNoClear))return;
+    const auto fail=[&](const char* reason){
+        state->sites.ok9=false;
+        snprintf(state->sites.why9,sizeof(state->sites.why9),"%s",reason);
+        LOGW("feature=recent_disable_clear runtime contract declined: %s; OEM behavior retained",reason);
+    };
+    if(state->clearDisableTried) {
+        if(state->sites.ok9&&!ClearPreimagesMatch(live,state->clearDisablePreimages))
+            fail("live preimage changed after discovery; refusing to overwrite another patch");
+        return;
+    }
+    if(!allowScan)return;
+    state->clearDisableTried=true;
+    state->attemptedMask|=kWantNoClear;
+    state->sites.ok9=false;
+    const auto size=state->image.fileViewBytes;
+    if(!size||size>128u*1024*1024){fail("invalid image extent");return;}
+    std::vector<std::byte> bytes(static_cast<size_t>(size));
+    if(!ReadImageFile(state->image,0,bytes.data(),bytes.size())){fail("verified image read failed");return;}
+    auto code=home_layout::features::Code::parse(bytes);
+    if(!code){fail("executable inventory invalid");return;}
+    auto feature=home_layout::features::clear_disable_feature(*code);
+    if(!feature){fail("linked fold/overlay/controller graph missing, ambiguous or unsafe");return;}
+    const auto& p=*feature;
+    std::vector<uint32_t> preimages=p.calls;
+    for(unsigned i=0;i<6;++i)preimages.push_back(p.fold+i*4);
+    for(const auto va:preimages) {
+        home_dynamic::Body original;uint32_t word=0;
+        if(!code->prefix(va,1,original)||!live.Word(va,&word)||word!=original[0]) {
+            fail("live patch preimage differs from the verified executable");return;
+        }
+        state->clearDisablePreimages.emplace_back(va,word);
+    }
+    auto& out=state->sites;
+    out.overlayVa=p.overlay;out.foldVa=p.fold;out.constWord=p.empty_widget;
+    out.noClearCount=uint32_t(p.calls.size());
+    std::copy(p.calls.begin(),p.calls.end(),out.noClearSites);
+    out.ok9=true;out.why9[0]='\0';
+    AppendSource(state,"运行时清理按钮图谱");
+    LOGI("feature=recent_disable_clear runtime graph ready overlay=%#x fold=%#x calls=%zu; dead result and original empty-widget arm verified",
+        p.overlay,p.fold,p.calls.size());
+}
+
 void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted, bool allowBuild) {
     SymbolIndex& index = SymbolIndex::Instance();
     if (allowBuild ? !index.EnsureLoaded(state->image) : !index.loaded()) {
@@ -598,7 +702,7 @@ void AcquireSitesBySymbols(State* state, const CodeView& code, uint32_t wanted, 
     state->squareTried = true;
     const uint64_t t0 = NowMs();
     LocatedSites found = state->sites;
-    LocateSites(code, state->config, &found);
+    LocateSites(code, LegacyPlannerConfig(state->config), &found);
     state->sites = found;
 
     const uint32_t adopted = MaskOf(found);
@@ -624,7 +728,9 @@ bool NeedAcquire(const State* state, uint32_t wanted) {
 }
 
 void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image);
-    const uint32_t wanted = WantedFeatureMask(state->config);
+    AcquireClearVisibility(state,code,allowScan);
+    AcquireClearDisable(state,code,allowScan);
+    const uint32_t wanted = WantedFeatureMask(LegacyPlannerConfig(state->config));
     if (wanted == 0) return;
     // A failed identity is a cache miss, not an invitation to hash the whole file
     // on every settings refresh. Child State reset permits the next image attempt.
@@ -640,6 +746,8 @@ void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image)
         for (size_t pi = 0; pi < packCount; ++pi) {
             LocatedSites pack;
             if (!LoadSitePack(packPaths[pi], &pack)) continue;
+            pack.ok18=false; // Migrated roots require a fresh runtime graph.
+            pack.ok9=false;
             if (!pack.AnyOk()) continue;
             LocatedSites adoptedPack;
             for (const FeatureSlot& f : kFeatureSlots) {
@@ -664,6 +772,8 @@ void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image)
         state->cacheTried = true;
         LocatedSites cached;
         if (LoadSitesCache(state->imageId, &cached)) {
+            cached.ok18=false;
+            cached.ok9=false;
             if (cached.AnyOk() &&
                 (ValidateSites(code, cached) || ValidateSitesShape(code, cached))) {
                 const uint32_t taken = AdoptInto(&state->sites, cached);
@@ -690,7 +800,7 @@ void AcquireSites(State* state, bool allowScan) {    CodeView code(state->image)
     const uint64_t t0 = NowMs();
     LocatedSites found = state->sites;
     const uint32_t beforeScan = MaskOf(found);
-    LocateSites(code, state->config, &found);
+    LocateSites(code, LegacyPlannerConfig(state->config), &found);
     const uint64_t cost = NowMs() - t0;
     state->sites = found;
     state->attemptedMask |= MaskOf(found);

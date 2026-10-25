@@ -168,7 +168,7 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 17;
+constexpr uint32_t kCacheVersion = 18;
 // The first launcher layout can run before credential-encrypted storage unlocks.
 // Bootstrap must survive a device reboot, not only a process restart after unlock.
 constexpr const char *kCacheDir = "/data/user_de/0/com.miui.home/files";
@@ -238,6 +238,7 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(kRecentMagic); put_u32(RecentConfig::Count);
     for(auto value:config.recent.values)put_u32(value);
     put_u32(kDrawerMagic);put_u32(config.drawer_hide_search);
+    put_u32(kPolicyMagic);put_u32(2);put_u32(uint32_t(config.policies));put_u32(uint32_t(config.policies>>32));
 }
 
 bool parse_config(const std::vector<uint8_t> &data, Config &config) {
@@ -246,7 +247,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
     if (version != 4 && version != 5 && version != 6 && version != 7 && version != 8
-        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != kCacheVersion)
+        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != 17 && version != kCacheVersion)
         return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
@@ -349,6 +350,10 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if(version>=17 && !read_drawer_config([&](int32_t& word){
         auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
     },config.drawer_hide_search,false))return false;
+    config.policies=0;
+    if(version>=18&&!read_policy_config([&](int32_t& word){
+        auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
+    },config.policies,false))return false;
     if (version >= 8 && at != data.size()) return false;
     return true;
 }
@@ -536,6 +541,10 @@ static bool query_binder(Config &result) {
     if(valid && has_recent)valid=read_drawer_config([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.drawer_hide_search,true,&has_drawer);
+    bool has_policies=false;
+    if(valid&&has_drawer)valid=read_policy_config([&](int32_t& word){
+        return AParcel_readInt32(output,&word)==STATUS_OK;
+    },candidate.policies,true,&has_policies);
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
         return value >= lo && value <= hi;
@@ -566,11 +575,12 @@ static bool query_binder(Config &result) {
             ||!(endpoint.capabilities&kIndependentScalesCapability)||!has_object_scales
             ||!(endpoint.capabilities&kDockTitleCapability)||!has_dock_title
             ||!(endpoint.capabilities&kRecentLayoutCapability)||!has_recent
-            ||!(endpoint.capabilities&kDrawerSearchCapability)||!has_drawer;
+            ||!(endpoint.capabilities&kDrawerSearchCapability)||!has_drawer
+            ||!(endpoint.capabilities&kLayoutPoliciesCapability)||!has_policies;
         config_diagnostic(1,mismatch?ANDROID_LOG_WARN:ANDROID_LOG_INFO,
-            "ENDPOINT_%s: client_revision=%d server_revision=%d schema=%d capabilities=%#x pid=%d object_scales=%d dock_title=%d recent=%d drawer=%d%s",
+            "ENDPOINT_%s: client_revision=%d server_revision=%d schema=%d capabilities=%#x pid=%d object_scales=%d dock_title=%d recent=%d drawer=%d policies=%d%s",
             mismatch?"MISMATCH":"READY",kEndpointRevision,endpoint.revision,endpoint.schema,endpoint.capabilities,endpoint.pid,
-            has_object_scales,has_dock_title,has_recent,has_drawer,mismatch?"; reboot to reload launcher and system_server from the same module APK":"");
+            has_object_scales,has_dock_title,has_recent,has_drawer,has_policies,mismatch?"; reboot to reload launcher and system_server from the same module APK":"");
     } else {
         config_diagnostic(1,ANDROID_LOG_WARN,
             "ENDPOINT_VERSION_UNKNOWN: client_revision=%d metadata_state=%d schema=%d object_scales=%d dock_title=%d; %s",

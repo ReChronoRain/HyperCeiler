@@ -1,0 +1,691 @@
+{
+  "scope": "Explicit OS4 home adaptation gates; other module/version branches require a separate audit. No UI gate is proof of runtime behavior.",
+  "entries": [
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_icon_size_enable",
+      "title": "图标大小",
+      "status": "replaced_or_legacy_hidden",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_icon_size",
+      "title": "",
+      "status": "replaced_or_legacy_hidden",
+      "dependency": "prefs_key_home_title_icon_size_enable"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_icon_scale_enable",
+      "title": "普通图标缩放",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_icon_scale",
+      "title": "",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": "prefs_key_home_layout_icon_scale_enable"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_small_folder_scale_enable",
+      "title": "小文件夹缩放",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_small_folder_scale",
+      "title": "",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": "prefs_key_home_layout_small_folder_scale_enable"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_big_folder_scale_enable",
+      "title": "大文件夹缩放",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_big_folder_scale",
+      "title": "",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": "prefs_key_home_layout_big_folder_scale_enable"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_widget_scale_enable",
+      "title": "小组件缩放",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_layout_widget_scale",
+      "title": "",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": "prefs_key_home_layout_widget_scale_enable"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_big_icon_corner",
+      "title": "中等图标圆角跟随",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_disable_hide_file",
+      "title": "禁止隐藏 \\\"文件\\\" 图标",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_disable_hide_theme",
+      "title": "禁止隐藏 \\\"主题壁纸\\\" 图标",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_fake_non_default_icon",
+      "title": "伪装为非默认图标",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_download_animation",
+      "title": "下载动画",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_other_icon_mono_chrome",
+      "title": "图标背景色",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_other_icon_monet_color",
+      "title": "使用 Monet 取色",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_other_icon_mono_chrome"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_other_use_edit_color",
+      "title": "使用自定义颜色",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_other_icon_mono_chrome"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_other_your_color_qwq",
+      "title": "编辑颜色",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_other_use_edit_color"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_notif_color",
+      "title": "通知角标颜色自定义",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_notif_color_picker",
+      "title": "选择颜色",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_title_notif_color"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_title_icontitlecustomization_onoff",
+      "title": "自定义应用标题",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_title_icontitlecustomization",
+      "title": "自定义应用标题",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": "prefs_key_home_title_title_icontitlecustomization_onoff"
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_title_new_install",
+      "title": "禁止新安装软件显示指示标",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_title_color",
+      "title": "文本颜色",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_title_font_size",
+      "title": "文本大小 (桌面)",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_title_new",
+      "key": "prefs_key_home_drawer_title_font_size",
+      "title": "文本大小 (抽屉)",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_blur",
+      "title": "背景模糊",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_show_launch",
+      "title": "最近任务视图不隐藏桌面",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_show_launch_size",
+      "title": "桌面缩放大小",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_recent_show_launch"
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_show_launch_alpha",
+      "title": "桌面透明度",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_recent_show_launch"
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_show_memory_info",
+      "title": "展示内存信息",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_show_real_memory",
+      "title": "显示真实使用内存量",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_modify_animation",
+      "title": "修改划卡动画",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_fix_card_title_padding",
+      "title": "修复卡片标题底部间距",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_hide_card",
+      "title": "隐藏后台卡片",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_hide_status_bar_in_task_view",
+      "title": "隐藏状态栏",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_hide_world_circulate",
+      "title": "隐藏投送应用浮窗",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_hide_freeform",
+      "title": "隐藏小窗按钮",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_hide_clean_up",
+      "title": "隐藏清理按钮",
+      "status": "replaced_or_legacy_hidden",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_always_show_clean_up",
+      "title": "无卡片时不隐藏清理图标",
+      "status": "replaced_or_legacy_hidden",
+      "dependency": "prefs_key_home_recent_hide_clean_up"
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_clear_action_os4",
+      "title": "最近任务清理按钮",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_remove_icon",
+      "title": "隐藏图标",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_unlock_pin",
+      "title": "解锁固定应用",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_text",
+      "title": "无后台时显示的文本",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_task_view_corners",
+      "title": "卡片圆角大小",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_task_view_header_height",
+      "title": "应用名称距卡片",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_task_view_header_horizontal_offset",
+      "title": "卡片标题栏水平位置",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_animation_speed",
+      "title": "动画速度",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_task_view_height",
+      "title": "平铺卡片高度",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_task_view_horizontal1",
+      "title": "竖屏平铺卡片大小",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_task_view_horizontal2",
+      "title": "横屏平铺卡片大小",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_vertical_task_view_card_size",
+      "title": "瀑布卡片大小",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_text_size",
+      "title": "卡片文字大小",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_text_color",
+      "title": "卡片文字颜色",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_freeform_background_color",
+      "title": "小窗应用卡片背景颜色",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_widget_all_widget_animation",
+      "title": "强制所有小部件使用动画",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_widget_show_miui_widget",
+      "title": "显示系统小部件",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_widget_allow_moved_to_minus_one_screen",
+      "title": "允许将安卓小部件移动至负一屏",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_big_folder_item_max_count",
+      "title": "真·九宫格",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_folder_auto_close",
+      "title": "自动关闭",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_freeform_shortcut_menu",
+      "title": "小窗模式",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_tasks_shortcut_menu",
+      "title": "多开模式",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_allow_share_apk",
+      "title": "允许分享应用",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_shortcut_remove_restrictions",
+      "title": "解锁快捷菜单数量限制",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_mi_pad_enable_more_setting",
+      "title": "解锁桌面设置更多选项",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_infinite_scroll",
+      "title": "无限滚动",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_disable_prestart",
+      "title": "禁用应用预加载",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_high_models",
+      "title": "强制识别为高端机型",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_title_hide_report_text",
+      "title": "隐藏举报入口",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_home_mode",
+      "title": "桌面模式",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_other_new",
+      "key": "prefs_key_home_other_all_hide_app_activity",
+      "title": "桌面快捷方式管理",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_enable",
+      "title": "启用手势功能",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_navigation_quick_back",
+      "title": "切换上一个应用",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_navigation_predictive_progress",
+      "title": "修复预测性返回进度",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_back_haptic",
+      "title": "返回手势触觉反馈",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_navigation_disable_full_screen_back_gesture",
+      "title": "禁用全屏返回手势",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_navigation_back_area_height",
+      "title": "返回手势区域高度",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_navigation_back_area_width",
+      "title": "返回手势区域宽度",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_double_tap",
+      "title": "双击",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_shake",
+      "title": "摇晃",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_up_swipe",
+      "title": "上滑",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_down_swipe",
+      "title": "下滑",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_navigation_assist_left_slide",
+      "title": "左下角向内滑动",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_navigation_assist_right_slide",
+      "title": "右下角向内滑动",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_up_swipe2",
+      "title": "双指上滑",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_down_swipe2",
+      "title": "双指下滑",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_line_long_press",
+      "title": "手势提示线长按",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_gesture",
+      "key": "prefs_key_home_gesture_line_double_click",
+      "title": "手势提示线双击",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_hide_search",
+      "title": "隐藏抽屉搜索框",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_all",
+      "title": "移除 \\\"全部\\\" 分页",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_editor",
+      "title": "移除 \\\"编辑\\\" 按钮",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_blur",
+      "title": "抽屉模糊",
+      "status": "replaced_or_legacy_hidden",
+      "dependency": null
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_blur_super",
+      "title": "抽屉模糊高级材质",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_blur_super_radius",
+      "title": "圆角",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_drawer_blur_super"
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_drawer_background_blur_degree",
+      "title": "模糊程度",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_drawer_blur_super"
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_blur_super_bg_color",
+      "title": "背景颜色",
+      "status": "ui_gate_unadapted",
+      "dependency": "prefs_key_home_drawer_blur_super"
+    },
+    {
+      "page": "home_drawer",
+      "key": "prefs_key_home_drawer_pinyin",
+      "title": "按拼音顺序排列",
+      "status": "ui_gate_unadapted",
+      "dependency": null
+    }
+  ]
+}
