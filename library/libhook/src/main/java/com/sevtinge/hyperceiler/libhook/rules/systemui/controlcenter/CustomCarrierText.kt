@@ -25,9 +25,8 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.CarrierNetworkName
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileCarrierName
 import io.github.libxposed.api.XposedInterface
-import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import java.lang.reflect.Method
@@ -56,8 +55,6 @@ object CustomCarrierText : BaseHook() {
     private const val HEADER_CONTROLLER = "com.android.systemui.controlcenter.shade.ControlCenterHeaderController"
 
     private const val MODE_REAL_NETWORK_NAME = 5
-    private const val FIRST_SLOT_PREF_KEY = "system_ui_control_center_real_network_name_slot1"
-    private const val SECOND_SLOT_PREF_KEY = "system_ui_control_center_real_network_name_slot2"
 
     val getOperator by lazy {
         PrefsBridge.getStringAsInt("system_ui_control_center_hide_operator", 0)
@@ -126,7 +123,7 @@ object CustomCarrierText : BaseHook() {
                         param.args[1] = when (mode) {
                             1 -> text!!.replace("  |  ", "").replace(" | ", "")
                             2 -> ""
-                            MODE_REAL_NETWORK_NAME -> resolveRealNetworkName(slot) ?: text
+                            MODE_REAL_NETWORK_NAME -> MobileCarrierName.resolve(slot) ?: text
                             // Keep one fixed display slot even when only SIM2 is active. The
                             // producer deduplicates each text using a shared carrier count.
                             // A count-dependent display slot can miss the second callback.
@@ -221,25 +218,9 @@ object CustomCarrierText : BaseHook() {
             }
 
             // 取不到真实名称时回落到原文，与其它模式的"取不到就保持原样"一致。
-            MODE_REAL_NETWORK_NAME -> resolveRealNetworkName(slotId) ?: carrierText
+            MODE_REAL_NETWORK_NAME -> MobileCarrierName.resolve(slotId) ?: carrierText
             else -> carrierText
         }
-    }
-
-    private fun resolveRealNetworkName(slot: Int): String? {
-        // 用户手填的名称优先，留空才读真实注册名称；取不到 Context 或取数失败都返回 null。
-        readCustomNetworkName(slot)?.let { return it }
-        val context = EzXposed.appContextOrNull ?: return null
-        return CarrierNetworkName.resolve(context, slot)
-    }
-
-    private fun readCustomNetworkName(slot: Int): String? {
-        val key = when (slot) {
-            0 -> FIRST_SLOT_PREF_KEY
-            1 -> SECOND_SLOT_PREF_KEY
-            else -> return null
-        }
-        return PrefsBridge.getString(key, "").trim().takeIf { it.isNotEmpty() }
     }
 
     // 隐藏分割线

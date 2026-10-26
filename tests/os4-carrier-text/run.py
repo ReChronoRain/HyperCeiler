@@ -30,8 +30,9 @@ KOTLIN_HOME = test_paths.KOTLIN_HOME
 HOOK_RULES = "library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules"
 HOOK_UTILS = "library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/utils/hookapi"
 RULE = SOURCE / HOOK_RULES / "systemui/controlcenter/CustomCarrierText.kt"
-NETWORK_NAME = SOURCE / HOOK_UTILS / "systemui/CarrierNetworkName.kt"
-SOURCES = [RULE, NETWORK_NAME]
+CARRIER_NAME = SOURCE / HOOK_UTILS / "systemui/MobileCarrierName.kt"
+RESOLVER = SOURCE / HOOK_UTILS / "systemui/CarrierNetworkName.kt"
+SOURCES = [RULE, CARRIER_NAME, RESOLVER]
 
 JARS = ["hook-xposed-102-1.3.0.jar", "core-1.3.0.jar", "api-102.0.0.jar"]
 DEPS = [CACHE / "changed-hooks-compile" / name for name in JARS] + [
@@ -101,11 +102,12 @@ def compile_fixtures(classes: Path, classpath: str) -> None:
     require(result.returncode == 0, "fixture compile failed:\n" + result.stdout + result.stderr)
 
 
-def compile_kotlin(work: Path, classes: Path, body: str) -> None:
-    prod = work / RULE.name
-    prod.write_text(body, encoding="utf-8")
-    helper = work / NETWORK_NAME.name
-    helper.write_text(NETWORK_NAME.read_text(encoding="utf-8"), encoding="utf-8")
+def compile_kotlin(work: Path, classes: Path, bodies: dict) -> None:
+    sources = []
+    for path in SOURCES:
+        copy = work / path.name
+        copy.write_text(bodies[path], encoding="utf-8")
+        sources.append(copy)
     command = [
         JAVA / "java",
         "-cp",
@@ -119,8 +121,7 @@ def compile_kotlin(work: Path, classes: Path, body: str) -> None:
         str(classes) + os.pathsep + os.pathsep.join(map(str, DEPS)),
         "-d",
         classes,
-        prod,
-        helper,
+        *sources,
         BASE / "fixtures/Visible.kt",
     ]
     result = execute(command)
@@ -158,14 +159,17 @@ def run_harness(classpath: str) -> dict:
 def run(out: Path, mutation: str | None = None) -> dict:
     out.mkdir(parents=True, exist_ok=False)
     before = inputs()
-    body = RULE.read_text(encoding="utf-8")
+    bodies = {path: path.read_text(encoding="utf-8") for path in SOURCES}
     if mutation:
-        old, new = MUTANTS[mutation]
+        entry = MUTANTS[mutation]
+        target = entry[2] if len(entry) > 2 else RULE
+        old, new = entry[0], entry[1]
+        body = bodies[target]
         require(
             body.count(old) == 1,
-            f"mutation {mutation} matched {body.count(old)} times, expected 1",
+            f"mutation {mutation} matched {body.count(old)} times in {target.name}, expected 1",
         )
-        body = body.replace(old, new)
+        bodies[target] = body.replace(old, new)
 
     with tempfile.TemporaryDirectory(prefix="hc-carrier-") as temp:
         work = Path(temp)
@@ -175,7 +179,7 @@ def run(out: Path, mutation: str | None = None) -> dict:
         allpath = str(classes) + os.pathsep + classpath
 
         compile_fixtures(classes, classpath)
-        compile_kotlin(work, classes, body)
+        compile_kotlin(work, classes, bodies)
         compile_harness(classes, allpath)
         outcome = run_harness(allpath)
 
@@ -249,36 +253,41 @@ MUTANTS = {
         "if (true) {",
     ),
     "network_name_slot_unchecked": (
-        "MODE_REAL_NETWORK_NAME -> resolveRealNetworkName(slot) ?: text",
-        "MODE_REAL_NETWORK_NAME -> resolveRealNetworkName(0) ?: text",
+        "MODE_REAL_NETWORK_NAME -> MobileCarrierName.resolve(slot) ?: text",
+        "MODE_REAL_NETWORK_NAME -> MobileCarrierName.resolve(0) ?: text",
     ),
     "network_name_overwrites_empty": (
         "if (mode != 3 && mode != MODE_REAL_NETWORK_NAME && text.isNullOrEmpty()) return",
         "if (mode != 3 && text.isNullOrEmpty()) return",
     ),
     "network_name_without_fallback": (
-        "MODE_REAL_NETWORK_NAME -> resolveRealNetworkName(slot) ?: text",
-        "MODE_REAL_NETWORK_NAME -> resolveRealNetworkName(slot) ?: \"\"",
+        "MODE_REAL_NETWORK_NAME -> MobileCarrierName.resolve(slot) ?: text",
+        "MODE_REAL_NETWORK_NAME -> MobileCarrierName.resolve(slot) ?: \"\"",
     ),
     "custom_name_ignored": (
         "PrefsBridge.getString(key, \"\")",
         "\"\"",
+        CARRIER_NAME,
     ),
     "custom_name_not_per_slot": (
         "1 -> SECOND_SLOT_PREF_KEY",
         "1 -> FIRST_SLOT_PREF_KEY",
+        CARRIER_NAME,
     ),
     "custom_name_blank_accepted": (
         ".trim().takeIf { it.isNotEmpty() }",
         ".trim()",
+        CARRIER_NAME,
     ),
     "network_name_resolves_wrong_slot": (
         "return CarrierNetworkName.resolve(context, slot)",
         "return CarrierNetworkName.resolve(context, 0)",
+        CARRIER_NAME,
     ),
     "custom_name_before_network": (
-        "readCustomNetworkName(slot)?.let { return it }",
+        "readCustomName(slot)?.let { return it }",
         "",
+        CARRIER_NAME,
     ),
 }
 
