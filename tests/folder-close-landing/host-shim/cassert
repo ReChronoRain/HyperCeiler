@@ -1,0 +1,8 @@
+#pragma once
+#include <cstdio>
+#include "crt.h"
+// test_fail comes from crt.c (built into crt.obj), not from here: defining it in
+// this shim produced a duplicate symbol at link time. The earlier access violation
+// was not a missing definition - it was a real assert firing on a stale hard-coded
+// grid offset, which this suite now fixes by reading the fields through kFields.
+#define assert(x) ((x)?(void)0:test_fail(__LINE__))

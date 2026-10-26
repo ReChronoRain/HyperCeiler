@@ -1,7 +1,17 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
+#include "home_folder_auto_close.h"
+#include "home_object_scale.h"
+#include "home_back_gesture.h"
+#include "home_gestures_os4.h"
 
 #include "home_layout_knobs.h"
+#include "home_recent_config.h"
+#include "home_drawer_config.h"
+#include "home_policy_config.h"
+#include "home_title_custom.h"
+#include "home_dock_title.h"
+#include "home_folder_layout.h"
 
 #include <array>
 
@@ -74,9 +84,28 @@ struct Config {
      */
     std::array<KnobConfig, HC_LAYOUT_KNOB_COUNT> knobs{};
     TweaksConfig tweaks{};
+    FolderLayoutConfig folder{};
+    ObjectScales object_scales{};
+    RecentConfig recent{};
+    int title_desktop_sp = 12;
+    int title_drawer_sp = 12;
+    int title_color = -1;
+    bool title_hide_new_install = false;
+    bool dock_show_title = false;
+    bool drawer_hide_search = false;
+    uint64_t policies = 0;
+    bool widget_allow_move = false;
+    BackGestureConfig back_gesture{};
+    home_gestures::Config gestures{};
+    bool folder_auto_close = false;
+    std::vector<home_title::CustomTitle> title_custom_labels;
 };
 
-/** Read the module preference snapshot through the authenticated WMS Binder endpoint. */
+/** Loader callback: nonblocking cache-only bootstrap, never Binder/dlsym.
+ * False means unavailable/busy, not an authoritative disabled snapshot. */
+bool query_bootstrap_config(Config &result);
+
+/** Worker only: read the snapshot through the authenticated WMS Binder endpoint. */
 bool query_config(Config &result);
 
 } // namespace home_layout

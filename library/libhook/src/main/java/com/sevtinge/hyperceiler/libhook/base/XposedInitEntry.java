@@ -20,8 +20,9 @@ package com.sevtinge.hyperceiler.libhook.base;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.Ambi
 import com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeLayoutNativeEndpointOS4;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 
 import java.util.HashMap;
@@ -139,6 +141,15 @@ public class XposedInitEntry extends XposedModule {
 
     @Override
     public boolean onHotReloading(@NonNull HotReloadingParam param) {
+        // Reject before capture/cleanup or pausing the live config publisher. On OS4/SDK37,
+        // even an identical APK's resource migration reproduced a later native resource crash.
+        // Keep the old generation intact until normal process startup loads the new APK.
+        if (HotReloadCompatibility.requiresProcessRestart(
+                Build.VERSION.SDK_INT, DeviceHelper.System.isHyperOSVersion(4f))) {
+            ModuleLog.w("HyperCeiler.HotReload", "RESTART_REQUIRED: keeping live hooks/resources intact"
+                + " sdk=" + Build.VERSION.SDK_INT + " process=" + processName);
+            return false;
+        }
         final PackageTarget target = BaseLoad.getTarget();
         final boolean layoutHost = target != null && target.isSystemServer();
         if (layoutHost && !HomeLayoutNativeEndpointOS4.pauseForHotReload()) {
@@ -259,11 +270,11 @@ public class XposedInitEntry extends XposedModule {
         final String name = processName;
         if (name == null || !name.startsWith(LAUNCHER_PACKAGE)) return;
         try {
-            Log.i(LAUNCHER_ENTRY_TAG,
+            ModuleLog.i(LAUNCHER_ENTRY_TAG,
                 "stage=module-entry pkg=" + LAUNCHER_PACKAGE + " process=" + name);
             NativeHomeHooksOS4.INSTANCE.ensureLoadedFromModuleEntry(name, prefsInited);
         } catch (Throwable t) {
-            Log.w(LAUNCHER_ENTRY_TAG, "stage=module-entry probe failed", t);
+            ModuleLog.w(LAUNCHER_ENTRY_TAG, "stage=module-entry probe failed", t);
         }
     }
 

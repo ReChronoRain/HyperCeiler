@@ -3,11 +3,14 @@
 #include "dock_native_resolver.h"
 #include "dock_native_runtime.h"
 #include "nativehook/got_hook_backend.h"
+#include "home_runtime_guard_image.h"
 #include "nativehook/hook_bank.h"
+#include "nativehook/code_patch_io.h"
 #include "nativehook/inline_hook_backend.h"
 #include "nativehook/memory_io.h"
 
 #include <android/log.h>
+#include <dlfcn.h>
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -275,6 +278,7 @@ struct ContainerProbe {
     std::string path;
     uint64_t inode = 0;
     bool zip_done = false;
+    uint64_t zip_retry_at_ns = 0;
     bool embedded_done = false;
     std::optional<dock_motion::LibappContainer> zip;
     std::optional<dock_motion::LibappContainer> embedded;
@@ -351,6 +355,10 @@ std::vector<std::pair<std::string, uint64_t>> probe_candidates(
         if (entry.inode == 0 || entry.writable) continue;
         const std::string_view path = dock_motion::strip_deleted(entry.path);
         if (path.empty() || path.front() != '/') continue;
+        // Ordinary ELF libraries are not Dart snapshots. Previously probing
+        // libhwui/pdfium/GLES etc. filled the candidate cache before libapp
+        // appeared, then copied tens of MB that could never contain our code.
+        if (!path.ends_with(".apk") && !dock_motion::libapp_path(path)) continue;
         const std::string owned(path);
         const auto found = std::ranges::find_if(candidates, [&](const Candidate &candidate) {
             return candidate.inode == entry.inode || candidate.path == owned;
@@ -371,6 +379,7 @@ std::vector<std::pair<std::string, uint64_t>> probe_candidates(
         const bool done = embedded_layer
             ? container_probes[slot].embedded_done : container_probes[slot].zip_done;
         if (done) continue;
+        if (!embedded_layer && container_probes[slot].zip_retry_at_ns > monotonic_now_ns()) continue;
         --budget;
         result.emplace_back(candidate.path, candidate.inode);
     }
@@ -489,9 +498,12 @@ bool collect_containers(const std::vector<dock_motion::FileMapping> &entries,
             const size_t slot = probe_slot(candidate.first, candidate.second);
             if (slot >= container_probes.size()) break;
             auto &probe = container_probes[slot];
-            probe.zip_done = true;
+            const uint64_t now = monotonic_now_ns();
+            probe.zip_retry_at_ns = now > UINT64_MAX - 60000000000ULL
+                ? UINT64_MAX : now + 60000000000ULL;
             const auto entry = dock_motion::zip_stored_libapp(candidate.first);
             if (!entry) continue;
+            probe.zip_done = true;
             probe.zip = dock_motion::LibappContainer{candidate.first,
                 page_down(entry->first), page_up(entry->first + entry->second)};
         }
@@ -621,11 +633,31 @@ std::optional<OwnedRanges> copy_generation_code(
         const size_t length = mapping.end - mapping.begin;
         owned.storage.emplace_back(length / sizeof(uint32_t));
         auto &copy = owned.storage.back();
-        if (!safe_read(mapping.begin, std::as_writable_bytes(std::span(copy)))) return {};
+        // Bounded scan reads avoid a second full-image staging allocation and
+        // preserve all-or-nothing publication of the generation's OwnedRanges.
+        auto bytes = std::as_writable_bytes(std::span(copy));
+        for (size_t offset = 0; offset < bytes.size(); offset += 65536) {
+            const size_t count = std::min<size_t>(65536, bytes.size() - offset);
+            errno = 0;
+            if (!safe_read(mapping.begin + offset, bytes.subspan(offset, count))) {
+                const int observed_errno = errno;
+                const std::string signature = "copy-read|" + std::to_string(mapping.inode) + "|"
+                    + std::to_string(mapping.file_offset) + "|" + std::to_string(observed_errno);
+                if (claim_report(signature)) __android_log_print(ANDROID_LOG_WARN, kTag,
+                    "motion copy read failed inode=%llu file_off=%#llx address=%#llx "
+                    "completed=%zu requested=%zu observed_errno=%d; retry remains armed",
+                    static_cast<unsigned long long>(mapping.inode), static_cast<unsigned long long>(mapping.file_offset),
+                    static_cast<unsigned long long>(mapping.begin + offset), offset, count, observed_errno);
+                return {};
+            }
+        }
         owned.ranges.push_back({mapping.begin, std::span<const uint32_t>(copy)});
     }
     const auto after = current_mappings();
-    if (!after || !mapping_subset(mappings, *after)) return {};
+    if (!after || !mapping_subset(mappings, *after)) {
+        report_resolution(mappings, "copy-inventory-changed");
+        return {};
+    }
     return owned;
 }
 
@@ -803,11 +835,6 @@ HookBank make_bank(size_t index, const ResolvedInstance &instance) {
     return bank;
 }
 
-/** Write raw bytes back into a code page, restoring its original protection afterwards. */
-bool write_code_words(uintptr_t address, const PatchWords &words) {
-    return nhk::write_code_bytes(address, std::as_bytes(std::span(&words, 1)));
-}
-
 // ---------------------------------------------------------------------------
 // Slot lifecycle through the shared NativeHookRuntime.
 //
@@ -824,8 +851,14 @@ nhk::InlineHookHost<kPatchBytes / sizeof(uint32_t)> &slot_host() {
         value.read_slot = [](const HookSlot &slot, PatchWords &words) {
             return stable_read(slot.address, slot.source, words);
         };
-        value.write_words = [](uintptr_t address, const PatchWords &words) {
-            return write_code_words(address, words);
+        value.write_slot = [](HookSlot& slot,const PatchWords& expected,const PatchWords& wanted) {
+            nhk::CodePatchOps<kPatchBytes / sizeof(uint32_t)> ops{slot.address,slot.source};
+            return nhk::WriteCodePatch(ops,slot.address,slot.source,expected,wanted,slot.write_journal);
+        };
+        value.settle_write = [](HookSlot& slot) {
+            auto& journal=slot.write_journal;
+            nhk::CodePatchOps<kPatchBytes / sizeof(uint32_t)> ops{journal.address,journal.source};
+            return nhk::RecoverCodePatch(ops,journal);
         };
         value.hook_install = [](void *target, void *replacement, void **original) {
             const auto &api = nhk::LsposedInlineBackend::instance().entries();
@@ -1162,6 +1195,8 @@ constexpr uint64_t kGuardImageBudgetBytes = 64ULL * 1024ULL * 1024ULL;
 // well-formed image with more than 72 headers.
 constexpr size_t kGuardHeaderBytes = 16 * 1024;
 
+std::atomic<uint64_t> g_madvise_retained{0};
+
 int hyperceiler_guarded_madvise(void *address, size_t length, int advice) {
     const auto real = reinterpret_cast<int (*)(void *, size_t, int)>(
         g_real_madvise.load(std::memory_order_acquire));
@@ -1170,7 +1205,15 @@ int hyperceiler_guarded_madvise(void *address, size_t length, int advice) {
         // report an error rather than acting as an unguarded pass-through.
         return -1;
     }
-    return nhk::guarded_madvise(address, length, advice, real);
+    const uintptr_t begin = reinterpret_cast<uintptr_t>(address);
+    const bool protected_request = advice == 4 && begin && length
+        && !nhk::add_overflows(begin, length) && begin % nhk::host_page_size() == 0
+        && nhk::range_touches_protected_page(begin, length);
+    const int result = nhk::guarded_madvise(address, length, advice, real);
+    if (result == 0 && protected_request && g_madvise_retained.fetch_add(1) == 0)
+        __android_log_print(ANDROID_LOG_INFO, kTag,
+            "madvise guard retained registered code during runtime reclaim");
+    return result;
 }
 
 bool flutter_runtime_path(std::string_view path) {
@@ -1245,12 +1288,33 @@ std::optional<std::pair<uint64_t, uint64_t>> runtime_container_entry(
  * disappears afterwards is repaired by the generation check, which is exactly
  * what it exists for.
  */
+// A dlclosed system preload can leave only a read-only RELRO/tail mapping.
+// Its pathname still matches, but its first byte is NOT an ELF header. Do not
+// let that remnant shadow the live APK-backed runtime for the process lifetime.
+bool runtime_candidate_loaded(const std::vector<nhk::FileMapping> &all,
+    const RuntimeImageTarget &target) {
+    for (const auto &header : all) {
+        if (nhk::strip_deleted(header.path) != target.path
+            || header.file_offset != target.view_begin || header.writable
+            || header.end - header.begin < 16 * 1024) continue;
+        for (const auto &code : all) {
+            if (nhk::strip_deleted(code.path) == target.path && code.executable
+                && code.file_offset >= target.view_begin && code.file_offset < target.view_end
+                && code.device_major == header.device_major
+                && code.device_minor == header.device_minor && code.inode == header.inode)
+                return true;
+        }
+    }
+    return false;
+}
+
 std::optional<RuntimeImageTarget> identify_runtime_image(
     const std::vector<nhk::FileMapping> &all) {
     for (const auto &mapping : all) {
         if (!flutter_runtime_path(mapping.path)) continue;
-        return RuntimeImageTarget{
+        RuntimeImageTarget target{
             std::string(nhk::strip_deleted(mapping.path)), 0, UINT64_MAX};
+        if (runtime_candidate_loaded(all, target)) return target;
     }
     for (const auto &mapping : all) {
         if (mapping.writable || mapping.path.empty() || mapping.path.front() != '/') continue;
@@ -1261,7 +1325,8 @@ std::optional<RuntimeImageTarget> identify_runtime_image(
         const uint64_t begin = page_down(entry->first);
         const uint64_t end = page_up(entry->first + entry->second);
         if (mapping.file_offset < begin || mapping.file_offset >= end) continue;
-        return RuntimeImageTarget{std::string(path), begin, end};
+        RuntimeImageTarget target{std::string(path), begin, end};
+        if (runtime_candidate_loaded(all, target)) return target;
     }
     return std::nullopt;
 }
@@ -1297,7 +1362,7 @@ std::optional<std::vector<nhk::ExecutableMapping>> runtime_mappings(
         if (result.size() >= nhk::kMaxExecutableMappings) return {};
         result.push_back({mapping.begin, mapping.end,
             mapping.file_offset - target.view_begin, mapping.device_major,
-            mapping.device_minor, mapping.inode});
+            mapping.device_minor, mapping.inode, target.view_begin});
     }
     std::ranges::sort(result, {}, &nhk::ExecutableMapping::begin);
     return result;
@@ -1308,7 +1373,21 @@ std::optional<std::vector<nhk::ExecutableMapping>> runtime_mappings(
 // created from - re-identifying would follow the rules to a different answer if
 // a preload copy of the library appeared meanwhile. Cleared together with the
 // hook record; never cleared while a record still exists.
+bool read_runtime_inventory(std::vector<nhk::FileMapping>& all, std::string& text) {
+    std::ifstream input("/proc/self/maps"); if (!input) return false;
+    std::string candidate; std::array<char,4096> chunk{};
+    while (input) {
+        input.read(chunk.data(),chunk.size()); const size_t n=input.gcount();
+        if (n>2*1024*1024-candidate.size()) return false;
+        candidate.append(chunk.data(),n);
+    }
+    if (!input.eof() || input.bad()) return false;
+    std::istringstream parsed(candidate); all=nhk::parse_file_mappings(parsed);
+    text=std::move(candidate); return true;
+}
+
 std::optional<RuntimeImageTarget> g_madvise_target;
+std::vector<home_runtime::ImportBinding> g_madvise_bindings;
 
 /**
  * Drop the guarded-slot record together with the generation it belongs to.
@@ -1320,6 +1399,7 @@ std::optional<RuntimeImageTarget> g_madvise_target;
  */
 void release_madvise_record() {
     g_madvise_hooks.clear();
+    g_madvise_bindings.clear();
     g_madvise_target.reset();
 }
 
@@ -1359,11 +1439,10 @@ void maintain_madvise_guard() {
     // 0 none, 1 remapped, 2 foreign, 3 rearm, 4 residual cleared,
     // 5 residual kept, 6 inventory unavailable.
     static uint32_t logged_outcome = 0;
-    std::ifstream maps("/proc/self/maps");
+    std::vector<nhk::FileMapping> all; std::string maps_text;
     std::optional<std::vector<nhk::ExecutableMapping>> current;
-    if (maps && g_madvise_target) {
-        current = runtime_mappings(nhk::parse_file_mappings(maps), *g_madvise_target);
-    }
+    if (read_runtime_inventory(all,maps_text) && g_madvise_target)
+        current = runtime_mappings(all, *g_madvise_target);
     if (!current) {
         // "Unknown" is not "gone": an unreadable or over-budget scan proves
         // nothing about the library. Postpone the pass and keep the record - the
@@ -1381,6 +1460,15 @@ void maintain_madvise_guard() {
     bool foreign = false;
     bool generation_gone = false;
     bool residual_present = false;
+    for (const auto& bound : g_madvise_bindings) {
+        const auto source = nhk::source_at(*current, bound.plt_address, 16);
+        std::array<uint32_t,4> words{}; std::vector<nhk::ReadRegion> regions;
+        if (!source || *source != bound.plt_source
+            || !safe_read(bound.plt_address,std::as_writable_bytes(std::span(words)))
+            || words != bound.plt_words
+            || !nhk::ParseReadableRanges(maps_text,bound.address,sizeof(void*),regions)
+            || regions != bound.regions) generation_gone = true;
+    }
     for (const auto &hook : g_madvise_hooks) {
         if (!hook.identity_present(*current)) {
             generation_gone = true;
@@ -1516,7 +1604,11 @@ void maybe_install_madvise_guard() {
     if (maintain_tick.fetch_add(1, std::memory_order_relaxed) % 40U == 0U) {
         maintain_madvise_guard();
     }
+    static uint64_t retry_at_ns = 0;
+    static unsigned pending_failures = 0;
+    const uint64_t now_ns = monotonic_now_ns();
     const uint32_t state = madvise_guard_state.load(std::memory_order_acquire);
+    if (state == 0U && now_ns && now_ns < retry_at_ns) return;
     if (state == 1U || state == 2U || state == 4U) return; // Settled (or residual).
     uint32_t expected = 0;
     if (!madvise_guard_state.compare_exchange_strong(expected, 3U,
@@ -1549,16 +1641,17 @@ void maybe_install_madvise_guard() {
         }
     };
     const auto stay_pending = [&](const char *reason) {
+        if (pending_failures < 6) ++pending_failures;
+        const uint64_t delay = std::min<uint64_t>(1ULL << pending_failures, 60) * 1000000000ULL;
+        retry_at_ns = now_ns && now_ns <= UINT64_MAX - delay ? now_ns + delay : 0;
         report_guard_pending(reason, reason);
         madvise_guard_state.store(0U, std::memory_order_release);
     };
 
-    std::ifstream maps("/proc/self/maps");
-    if (!maps) {
-        give_up("cannot read /proc/self/maps");
-        return;
+    std::vector<nhk::FileMapping> all; std::string maps_text;
+    if (!read_runtime_inventory(all,maps_text)) {
+        stay_pending("cannot read runtime inventory"); return;
     }
-    const auto all = nhk::parse_file_mappings(maps);
     // Which image do the recorded GOT slots belong to? With
     // `extractNativeLibs=false` the kernel reports the APK path for the runtime's
     // mappings, so matching on "libhyper_os_flutter.so" alone only ever finds the
@@ -1617,78 +1710,91 @@ void maybe_install_madvise_guard() {
     // The window matters: an APK carries several libraries, so the target's
     // mappings can only be told apart from its neighbours by the byte range its
     // stored entry occupies.
-    const auto view = nhk::image_view_from_segments_in_window(
-        all, target->path, *segments, target->view_begin, target->view_end);
-    if (!view) {
-        stay_pending("runtime mappings do not match its program headers");
-        return;
+    // The live runtime may use shared RELRO at a different address from its
+    // text/data load bias. Read immutable ELF metadata from its exact backing
+    // entry, then follow that exact symbol's live PLT reference and verify its
+    // data VMA. A shared RELRO template alone does not prove a used import.
+    const uint64_t needed = [&] {
+        uint64_t end = 0;
+        for (const auto& segment : *segments)
+            if (segment.type == nhk::elf::kProgramTypeLoad)
+                end = std::max(end, segment.vaddr + segment.memsz);
+        return end;
+    }();
+    if (!needed || needed > kGuardImageBudgetBytes) {
+        give_up("image exceeds the snapshot budget"); return;
     }
-    if (view->needed_vaddr == 0 || view->needed_vaddr > kGuardImageBudgetBytes) {
-        __android_log_print(ANDROID_LOG_WARN, kTag,
-            "madvise guard unavailable: image needs %llu bytes, budget is %llu",
-            static_cast<unsigned long long>(view->needed_vaddr),
-            static_cast<unsigned long long>(kGuardImageBudgetBytes));
-        give_up("image exceeds the snapshot budget");
-        return;
-    }
-
-    // Stage 2: snapshot the image's virtual address range, laid out by address
-    // so the parser can index it by vaddr; gaps stay zero. Every range must
-    // read completely - a half-read snapshot must not be parsed as if it were
-    // the image.
-    static std::vector<std::byte> snapshot;
-    const size_t needed = static_cast<size_t>(view->needed_vaddr);
-    if (snapshot.size() < needed) snapshot.resize(needed);
-    std::fill(snapshot.begin(), snapshot.begin() + static_cast<ptrdiff_t>(needed),
-        std::byte{0});
-    for (const auto &range : view->ranges) {
-        if (range.vaddr >= needed) continue;
-        const uint64_t usable = std::min<uint64_t>(range.bytes, needed - range.vaddr);
-        if (usable == 0) continue;
-        if (!safe_read(range.begin,
-                std::span<std::byte>(snapshot.data() + range.vaddr,
-                    static_cast<size_t>(usable)))) {
-            stay_pending("runtime segment unreadable this pass");
-            return;
+    std::ifstream file(target->path, std::ios::binary);
+    if (!file) { stay_pending("runtime backing file unreadable"); return; }
+    std::vector<std::byte> snapshot(static_cast<size_t>(needed), std::byte{0});
+    for (const auto& segment : *segments) {
+        if (segment.type != nhk::elf::kProgramTypeLoad || !segment.filesz) continue;
+        if (segment.vaddr > needed || segment.filesz > needed - segment.vaddr
+            || nhk::add_overflows(target->view_begin, segment.offset)
+            || target->view_begin + segment.offset > uint64_t(std::numeric_limits<std::streamoff>::max())
+            || target->view_begin + segment.offset >= target->view_end
+            || segment.filesz > target->view_end - (target->view_begin + segment.offset)) {
+            give_up("runtime segment snapshot bounds rejected"); return;
+        }
+        file.seekg(static_cast<std::streamoff>(target->view_begin + segment.offset));
+        for (uint64_t at = 0; at < segment.filesz;) {
+            const size_t count = std::min<uint64_t>(65536, segment.filesz - at);
+            file.read(reinterpret_cast<char*>(snapshot.data() + segment.vaddr + at), count);
+            if (!file) { stay_pending("runtime backing segment incomplete"); return; }
+            at += count;
         }
     }
+    if (snapshot.size() < head.size() || !std::equal(head.begin(), head.end(), snapshot.begin())) {
+        stay_pending("runtime mapped/file headers disagree"); return;
+    }
     const auto image = nhk::elf::ElfImage::make_with_segments(
-        static_cast<uintptr_t>(view->load_base),
-        std::span<const std::byte>(snapshot.data(), needed), *segments);
-    if (!image) {
-        give_up("runtime ELF rejected");
-        return;
+        header_map->begin, std::span<const std::byte>(snapshot), *segments);
+    if (!image) { give_up("runtime backing ELF rejected"); return; }
+    const auto imports = home_runtime::bind_imports(*image, std::span<const std::byte>(snapshot),
+        all, maps_text, *segments, target->path, target->view_begin, target->view_end,
+        *header_map, [](uintptr_t pc, std::array<uint32_t,4>& words) {
+            return safe_read(pc,std::as_writable_bytes(std::span(words)));
+        });
+    if (!imports) { stay_pending("runtime import backing ownership unresolved"); return; }
+    std::vector<nhk::FileMapping> after; std::string after_text;
+    if (!read_runtime_inventory(after,after_text)) {
+        stay_pending("runtime inventory unavailable after snapshot"); return;
     }
-    std::optional<std::vector<nhk::ExecutableMapping>> flutter_after;
-    {
-        std::ifstream fresh("/proc/self/maps");
-        if (fresh) flutter_after = runtime_mappings(nhk::parse_file_mappings(fresh), *target);
-    }
+    const auto flutter_after = runtime_mappings(after,*target);
     if (!flutter_before || flutter_before->empty() || !flutter_after
-        || flutter_after->empty()) {
-        // "Unknown" is not "unchanged": the second scan could not be taken, so
-        // stability cannot be proven either way. Refuse this pass instead of
-        // installing against a snapshot whose counterpart is missing - a later
-        // pass re-reads both sides and settles.
-        stay_pending("runtime inventory unavailable during the snapshot");
-        return;
+        || *flutter_before != *flutter_after) {
+        stay_pending("runtime mappings changed during the snapshot"); return;
     }
-    if (*flutter_before != *flutter_after) {
-        // The library was remapped while being read: the headers and the bytes
-        // may come from different generations.
-        stay_pending("runtime mappings changed during the snapshot");
-        return;
+    for (const auto& bound : imports->bindings) {
+        std::array<uint32_t,4> words{}; std::vector<nhk::ReadRegion> regions;
+        if (!safe_read(bound.plt_address,std::as_writable_bytes(std::span(words)))
+            || words != bound.plt_words
+            || !nhk::ParseReadableRanges(after_text,bound.address,sizeof(void*),regions)
+            || regions != bound.regions) {
+            stay_pending("runtime live import changed during snapshot"); return;
+        }
     }
     nhk::ImageIdentity identity;
     identity.device_major = header_map->device_major;
     identity.device_minor = header_map->device_minor;
     identity.inode = header_map->inode;
-    identity.load_base = view->load_base;
+    identity.load_base = header_map->begin;
 
+    // Preserve the callable existing import chain, including another module's
+    // guard. The exact live PLT proves this is the used import, not a template.
+    for (const auto& bound : imports->bindings) {
+        const void* live = nullptr; std::vector<nhk::ReadRegion> callable;
+        if (!read_pointer_safely(bound.address,live) || !live
+            || live == reinterpret_cast<void*>(hyperceiler_guarded_madvise)
+            || !nhk::ParseReadableRanges(after_text,reinterpret_cast<uintptr_t>(live),4,callable)
+            || callable.size()!=1 || callable[0].permissions[2]!='x') {
+            give_up("runtime madvise forwarding entry is not executable"); return;
+        }
+    }
     std::vector<nhk::GotHook<>> installed;
     std::vector<nhk::GotHook<>> residual;
     bool rollback_clean = true;
-    const bool installed_ok = nhk::install_madvise_guard(*image,
+    const bool installed_ok = nhk::install_madvise_guard(*imports,
         [](uintptr_t slot, const void *&value) {
             return read_pointer_safely(slot, value);
         },
@@ -1714,6 +1820,7 @@ void maybe_install_madvise_guard() {
             // Kept as evidence *and* as the identity later passes validate
             // against - a residue without its generation cannot be repaired.
             g_madvise_target = *target;
+            g_madvise_bindings = imports->bindings;
             madvise_guard_state.store(4U, std::memory_order_release);
             return;
         }
@@ -1724,6 +1831,7 @@ void maybe_install_madvise_guard() {
         return;
     }
     g_madvise_hooks = std::move(installed);
+    g_madvise_bindings = imports->bindings;
     // Bind the record to the exact image generation it was read from: every
     // later maintenance pass validates the slots against this identity.
     g_madvise_target = *target;
@@ -1734,6 +1842,7 @@ void maybe_install_madvise_guard() {
         "madvise guard installed; %zu slot(s) protected from %s window=0x%llx",
         g_madvise_hooks.size(), target->path.c_str(),
         static_cast<unsigned long long>(target->view_begin));
+    pending_failures = 0; retry_at_ns = 0;
     madvise_guard_state.store(1U, std::memory_order_release);
 }
 
@@ -1785,6 +1894,7 @@ void *health_worker(void *) {
     (void)pthread_setname_np(pthread_self(), "hc-dock-health");
     /* Consecutive passes that could not bring a hook bank up; cleared by any healthy pass. */
     unsigned unresolved = 0;
+    unsigned startup_passes = 0;
     for (;;) {
         // With the Dock switched off there is nothing to maintain: skip the pass entirely, which
         // is what makes a disabled Dock cost the launcher nothing at all.
@@ -1808,10 +1918,11 @@ void *health_worker(void *) {
          * can be laid out again.
          */
         (void)refresh_dock_screen_state();
-        if (!dock_motion_screen_active()) {
+        if (!dock_motion_screen_active() && startup_passes >= 3) {
             pause_for(30000000000L);
             continue;
         }
+        if (startup_passes < 3) ++startup_passes;
         const bool healthy = maintain_dock_motion_hooks(false);
         if (healthy) {
             unresolved = 0;

@@ -3,7 +3,7 @@
 
 `libapp.so` is a stripped shared object plus a `.gnu_debugdata` mini-ELF that still carries every
 Dart function's name, address and size. The released module resolves the same names through
-`HomeTweaksFindSymbol` and reads the same instruction words through `dart_words`; this script does
+`HomeLayoutEngineFindSymbol` and reads the same instruction words through `dart_words`; this script does
 those two steps on the host so a hook target can be chosen from evidence instead of from a device
 log. Nothing here is used at run time - it is the "read the image first" half of the protocol.
 

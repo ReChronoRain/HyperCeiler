@@ -190,6 +190,39 @@ int main() {
             "a path with no mappings has no view");
     }
 
+    // Real inline/source patches split a single immutable RX segment into >64 VMAs.
+    {
+        std::vector<nhk::FileMapping> split;
+        for (unsigned i = 0; i < 100; ++i) {
+            nhk::FileMapping m{};
+            m.begin = 0x100000 + i * 4096; m.end = m.begin + 4096;
+            m.file_offset = i * 4096; m.executable = true; m.inode = 12; m.path = "image";
+            split.push_back(m);
+        }
+        const std::vector<nhk::ImageContainer> owners{{"image", 0, 100 * 4096}};
+        auto runs = nhk::owned_image_mappings(split, owners);
+        check(runs.size() == 1, "100 RX VMAs retain one immutable backing run");
+        for (unsigned i = 0; i < 100; ++i) {
+            auto source = nhk::source_at(runs, 0x100000 + i * 4096 + 12, 16);
+            check(source && source->inode == 12 && source->file_offset == i * 4096 + 12,
+                  "every patched page retains the original source offset");
+        }
+        std::reverse(split.begin(), split.end());
+        check(nhk::owned_image_mappings(split, owners).size() == 1, "unordered RX VMAs canonicalize");
+        std::reverse(split.begin(), split.end());
+        split[50].writable = true;
+        check(nhk::owned_image_mappings(split, owners).empty(), "writable executable map still rejects");
+        split[50].writable = false; split[50].inode = 13;
+        check(nhk::owned_image_mappings(split, owners).size() == 3, "replacement inode never merges");
+        split[50].inode = 12; split[50].file_offset += 4;
+        check(nhk::owned_image_mappings(split, owners).size() == 3, "discontinuous backing never merges");
+        split[50].file_offset -= 4; split[50].device_minor = 1;
+        check(nhk::owned_image_mappings(split, owners).size() == 3, "replacement device never merges");
+        split[50].device_minor = 0;
+        for (auto &m : split) m.end -= 4;
+        check(nhk::owned_image_mappings(split, owners).empty(), "over-budget disjoint runs still reject");
+    }
+
     if (failures == 0) std::printf("NativeHookImageViewTest passed\n");
     return failures == 0 ? 0 : 1;
 }

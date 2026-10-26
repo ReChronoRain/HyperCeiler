@@ -18,6 +18,7 @@
 extern "C" {
 // Low two bits carry scene: 0=unrelated, 1=recents, 2=home return.
 // Removing two mantissa bits loses < 1e-15, well below a physical pixel.
+alignas(8) std::atomic<uint64_t> dock_edit_packed{0};
 alignas(8) std::atomic<uint64_t> dock_motion_value{0x3ff0000000000000ULL};
 alignas(8) std::atomic<uint64_t> dock_motion_entry_hits{0};
 alignas(8) std::atomic<uint64_t> dock_motion_publish_hits{0};
@@ -45,6 +46,7 @@ namespace {
 constexpr char kTag[] = "HyperCeiler.DockNative";
 constexpr transaction_code_t kMotionTransaction = 0x0048434A;
 constexpr transaction_code_t kAutoAimTransaction = 0x0048434B;
+constexpr transaction_code_t kEditTransaction = 0x0048434F;
 constexpr transaction_code_t kStateTransaction = 0x0048434D;
 constexpr int32_t kMotionAck = 0x48434B32;
 constexpr int32_t kMotionAckRevalidate = 0x48434B33;
@@ -337,6 +339,7 @@ void run_dock_motion() {
     uint64_t last_auto_aim_publish_hits = 0;
     unsigned auto_aim_reports = 0;
     for (;;) {
+        uint64_t last_edit = 0, last_edit_sent = 0;
         WindowBinderTransport transport;
         Sample sample{};
         const auto initial = transport.connect() && current_sample(sample)
@@ -372,7 +375,7 @@ void run_dock_motion() {
 
         unavailable_reported = false;
         __android_log_print(ANDROID_LOG_INFO, kTag,
-            "motion v33 ready: semantic native scale + independent Hotseat projection reconnect=%u",
+            "motion v36 transport ready (source hooks validated separately) reconnect=%u",
             reconnects);
 
         bool disconnected = false;
@@ -447,7 +450,16 @@ void run_dock_motion() {
                 __android_log_print(ANDROID_LOG_INFO, kTag,
                     "device resume detected; reusing motion Binder transport");
             }
-            if (!dock_motion_feature_active()) {
+            // Default editing policy is independent of motion/reveal preferences.
+            const uint64_t editing = dock_edit_packed.load(std::memory_order_acquire);
+            if (editing != 0 && (editing != last_edit || suspended || mono_ns-last_edit_sent >= kKeepAliveNs)) {
+                Sample edit{sample.sequence,mono_ns,editing & 1,editing >> 1,editing >> 1};
+                if (transport.send(edit,kEditTransaction) == WindowBinderTransport::SendResult::failed) {
+                    disconnected=true; continue;
+                }
+                last_edit=editing; last_edit_sent=mono_ns;
+            }
+            if (!dock_motion_feature_enabled.load(std::memory_order_acquire)) {
                 // Preference off: publish nothing and leave the baselines untouched, so the first
                 // sample after re-enabling looks changed and following resumes immediately. The
                 // transport and the suspend handling above keep running either way.

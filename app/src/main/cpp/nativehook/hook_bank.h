@@ -8,12 +8,15 @@
  * library, another Dart AOT image - drives the same state machine instead of
  * growing a second one.
  *
- * The invariants carried over unchanged (they are what kept the desktop
- * channel crash-free):
+ * Readiness, backend ownership and pending cleanup are separate states:
+ * synchronous readback is required before publishing a new patch. Unknown
+ * bytes remain quarantined instead of being adopted by a later health check.
+ * Key invariants:
  *  - A replacement trampoline ends in `br x16`, where x16 is the continuation
  *    the hook library hands back through an out-parameter. A null
- *    continuation is an unconditional jump to address 0, so a slot is never
- *    left armed without one; every refusal/disarm bumps the guard counter.
+ *    continuation can jump to address 0. Missing continuations refuse readiness
+ *    and trigger checked cleanup. A failing host write can leave physical bytes
+ *    live; the pending record is not a guarantee that execution has stopped.
  *  - A slot whose live words equal the known patch is healthy; live words
  *    equal to the original mean the file-backed page was refilled - safe to
  *    re-arm while generation and continuation still hold; anything else is a
@@ -31,6 +34,8 @@
 #pragma once
 
 #include "native_image.h"
+#include "code_write_lock.h"
+#include "code_patch_write.h"
 #include "nhk_base.h"
 #include "resolver.h"
 
@@ -60,6 +65,13 @@ struct InlineSlot {
     std::array<uint32_t, kPatchWords> patch_words{};
     bool registered = false;
     bool patch_known = false;
+    // Backend ownership is not the same as verified/executable readiness.
+    bool backend_owned = false;
+    bool install_pending = false;
+    bool write_pending = false;
+    bool cleanup_pending = false;
+    bool continuation_pending = false;
+    CodePatchJournal<kPatchWords> write_journal{};
 };
 
 template<size_t kPatchWords>
@@ -97,6 +109,11 @@ struct InlineHookHost {
     void (*on_guard)(const HookEvent &) = nullptr;
     /** Low-rate diagnostics sink (already deduplicated by the caller). */
     void (*on_info)(const HookEvent &) = nullptr;
+    /** Stateful production path; expected words and a persistent per-slot RX/byte journal. */
+    bool (*write_slot)(InlineSlot<kPatchWords>&,const SlotWords<kPatchWords>&,
+        const SlotWords<kPatchWords>&) = nullptr;
+    /** Settle writer-owned obligations BEFORE RX-only stable reads. Paired with write_slot. */
+    bool (*settle_write)(InlineSlot<kPatchWords>&) = nullptr;
 };
 
 enum class SlotOperation { install, restore, disarm, rearm };
@@ -107,222 +124,306 @@ inline bool continuation_exists(const InlineSlot<kPatchWords> &slot) {
     return slot.original != nullptr && *slot.original != nullptr;
 }
 
-/**
- * Install a slot through the backend, refusing to leave a null continuation.
- *
- * On a backend "success" without a continuation, the untouched prologue is
- * written back (the Dart/native function keeps running) and the slot is
- * refused: a silent follow loss is strictly better than a crash.
- */
-template<size_t kPatchWords>
-inline bool install_slot(InlineSlot<kPatchWords> &slot,
-    const InlineHookHost<kPatchWords> &host) {
-    if (slot.registered) return true;
-    if (host.hook_install == nullptr || slot.original == nullptr) {
-        if (host.on_guard != nullptr) {
-            host.on_guard({"motion hook install precondition failed", 0});
-        }
-        return false;
-    }
-    if (host.read_slot == nullptr || host.write_words == nullptr) {
-        if (host.on_guard != nullptr) {
-            host.on_guard({"motion hook install io missing", 0});
-        }
-        return false;
-    }
-    SlotWords<kPatchWords> before{};
-    if (!host.read_slot(slot, before)) return false;
-    if (before != slot.original_words) {
-        if (slot.patch_known) return false;
-        /*
-         * First install, and the live words differ from the file. The Dart runtime relocates pool
-         * references while mapping a snapshot, so the loaded code is the truth about what executes -
-         * adopt it as the prologue the continuation replays. A foreign hook is refused instead: a
-         * live branch-and-link pair at the entry is the shape our own backend and every other inline
-         * hooker leaves behind, and replaying it inside the trampoline would branch to its target
-         * twice. The prologue check the caller already ran guarantees the entry was a plain frame
-         * setup in the file, so anything branchy here is someone else's patch, not loader state.
-         */
-        if ((before[0] & 0xFFE00000u) == 0x58000000u || before[0] == 0xD61F0200u) return false;
-        slot.original_words = before;
-    }
-    // Register the patched range with the page-lifetime policy before the
-    // backend touches it: a trampoline page that a concurrent MADV_DONTNEED can
-    // discard is not a working hook. Failure here refuses the slot.
-    if (host.protect_range != nullptr
-        && !host.protect_range(slot.address, kPatchWords * sizeof(uint32_t))) {
-        if (host.on_guard != nullptr) {
-            host.on_guard({"motion hook refused; patch range cannot be protected", 0});
-        }
-        return false;
-    }
-
-    void *previous = *slot.original;
-    if (host.hook_install(reinterpret_cast<void *>(slot.address), slot.replacement,
-            slot.original) != 0) {
-        if (*slot.original == nullptr) *slot.original = previous;
-        return false;
-    }
-    if (*slot.original == nullptr) {
-        if (host.on_guard != nullptr) {
-            host.on_guard({"motion hook refused; continuation missing; prologue restored", 0});
-        }
-        host.write_words(slot.address, before);
-        *slot.original = previous;
-        return false;
-    }
-    slot.registered = true;
-    SlotWords<kPatchWords> after{};
-    if (host.read_slot(slot, after) && after != slot.original_words) {
-        slot.patch_words = after;
-        slot.patch_known = true;
-    }
-    return true;
+/** A backend callback or failed writer still has state that must not be discarded. */
+template<size_t N>
+inline bool slot_has_pending(const InlineSlot<N> &slot) {
+    return slot.install_pending || slot.write_pending || slot.cleanup_pending
+        || slot.continuation_pending || slot.write_journal.pending();
 }
 
-/**
- * Re-write the exact patch words the backend installed, without involving it.
- *
- * Valid only while the backend still owns the address (the bank is never
- * unhooked for process life) and the continuation exists. This is the
- * fallback that matters most for file-backed code: the page came back from
- * the kernel and the backend refuses to re-arm an address it still owns.
- */
-template<size_t kPatchWords>
-inline bool restore_patch_words(InlineSlot<kPatchWords> &slot,
-    const InlineHookHost<kPatchWords> &host) {
-    if (!slot.patch_known) return false;
-    if (!continuation_exists(slot)) {
-        if (host.on_guard != nullptr) {
-            host.on_guard({"motion hook re-arm skipped; continuation missing", 0});
-        }
-        return false;
-    }
-    // Re-registration is idempotent and covers a slot installed before the
-    // policy existed.
-    if (host.protect_range != nullptr
-        && !host.protect_range(slot.address, kPatchWords * sizeof(uint32_t))) {
-        return false;
-    }
-    if (!host.write_words(slot.address, slot.patch_words)) return false;
-    slot.registered = true;
-    return true;
+template<size_t N>
+inline bool slot_ready(const InlineSlot<N> &slot) {
+    return slot.registered && slot.patch_known && continuation_exists(slot)
+        && !slot_has_pending(slot);
 }
 
-/**
- * Bring every slot of the bank into the armed state.
- *
- * `order` is the feature's installation order (the desktop installs scene
- * hooks before the scale hook so subscribers wake in a valid state). A slot
- * whose words are neither ours nor the original is a foreign edit: left
- * alone, reported through `on_guard`, and reported as unhealthy by the caller
- * - never overwritten.
- */
-template<size_t kTargets, size_t kPatchWords>
-inline bool ensure_slots_live(std::array<InlineSlot<kPatchWords>, kTargets> &slots,
-    const InlineHookHost<kPatchWords> &host,
+// Validate the WHOLE order before invoking any reader/writer/backend. Bounding only
+// the index does not bound the number of entries: repeated indices used to overflow
+// the health pass's fixed arrays. Overlapping patch ranges are not independent slots.
+template<size_t T, size_t N>
+inline bool valid_slot_order(const std::array<InlineSlot<N>, T> &slots,
     std::span<const size_t> order) {
-    for (const size_t index : order) {
-        if (index >= kTargets) return false;
-        auto &slot = slots[index];
-        if (slot.registered) {
-            // A live patch whose continuation vanished would branch to address 0
-            // on the next call. Disarm before anything else.
-            if (!continuation_exists(slot)) {
-                host.write_words(slot.address, slot.original_words);
-                if (host.on_guard != nullptr) {
-                    host.on_guard({"motion hook disarmed; continuation missing", index});
-                }
-                slot.registered = false;
-                slot.patch_known = false;
-                return false;
-            }
-            SlotWords<kPatchWords> observed{};
-            if (host.read_slot == nullptr || !host.read_slot(slot, observed)) return false;
-            if (slot.patch_known && observed == slot.patch_words) continue;
-            if (observed == slot.original_words) {
-                if (host.on_info != nullptr) {
-                    host.on_info({"motion hook patch lost; re-arming", index});
-                }
-                slot.registered = false;
-            } else if (!slot.patch_known) {
-                // A hook that landed after the bank was reported partial: adopt
-                // the live words instead of rewriting them for process life.
-                slot.patch_words = observed;
-                slot.patch_known = true;
-                continue;
-            } else {
-                // Foreign edit between our patch and the original: do not touch.
-                if (host.on_guard != nullptr) {
-                    host.on_guard({"motion hook foreign words; leaving untouched", index});
-                }
-                return false;
-            }
+    static_assert(N > 0 && N <= SIZE_MAX / sizeof(uint32_t));
+    if (order.size() > T) return false;
+    constexpr size_t bytes = N * sizeof(uint32_t);
+    std::array<bool, T> seen{};
+    for (size_t pos = 0; pos < order.size(); ++pos) {
+        const auto index = order[pos];
+        if (index >= T || seen[index]) return false;
+        seen[index] = true;
+        const uintptr_t address = slots[index].address;
+        if ((address & 3u) || address > UINTPTR_MAX - bytes) return false;
+        for (size_t earlier = 0; earlier < pos; ++earlier) {
+            const auto other = slots[order[earlier]].address;
+            if (address < other + bytes && other < address + bytes) return false;
         }
-        if (!install_slot(slot, host) && !restore_patch_words(slot, host)) {
-            if (host.on_info != nullptr) {
-                host.on_info({"motion hook re-arm failed; channel stays down", index});
+    }
+    return true;
+}
+
+/** Legacy hosts still supply their own transaction guarantees; production Dock/layout
+ * use the paired stateful callbacks, never the raw bool-only writer. */
+template<size_t N> bool slot_writer_available(const InlineHookHost<N>& host) {
+    if (host.write_slot || host.settle_write) return host.write_slot && host.settle_write;
+    return host.write_words!=nullptr;
+}
+template<size_t N> bool settle_slot_write(InlineSlot<N>& slot,const InlineHookHost<N>& host) {
+    if (!slot_writer_available(host)) return false;
+    if (!slot.write_journal.pending()) return true;
+    return host.settle_write && host.settle_write(slot) && !slot.write_journal.pending();
+}
+template<size_t N> bool write_slot_words(InlineSlot<N>& slot,const SlotWords<N>& expected,
+    const SlotWords<N>& wanted,const InlineHookHost<N>& host) {
+    if (!settle_slot_write(slot,host)) return false;
+    if (host.write_slot) return host.write_slot(slot,expected,wanted) && !slot.write_journal.pending();
+    return host.write_words && host.write_words(slot.address,wanted);
+}
+
+/** Restore/verify the prologue BEFORE releasing its continuation. Keep every failed
+ * step pending. This does not provide an in-flight trampoline drain or a mapping lease.
+ * The host/backend must still supply those lifetimes and transactional code writes. */
+template<size_t N>
+inline bool recover_slot_cleanup(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
+    if (!slot.cleanup_pending || !host.read_slot || !slot_writer_available(host)) return false;
+    CodeWriteGuard code_write_lock;
+    if (!code_write_lock) return false;
+    if (!settle_slot_write(slot,host)) return false;
+    SlotWords<N> observed{};
+    if (!host.read_slot(slot, observed)) return false;
+    if (observed != slot.original_words) {
+        if (!slot.patch_known || observed != slot.patch_words) return false;
+        if (!write_slot_words(slot,observed,slot.original_words,host)) {
+            slot.write_pending = true;
+            return false;
+        }
+    } else if (slot.write_pending) {
+        // A false writer result may mean bytes changed but permissions did not.
+        // A word-only read cannot discharge that obligation.
+        if (!write_slot_words(slot,observed,slot.original_words,host)) return false;
+    }
+    if (!host.read_slot(slot, observed) || observed != slot.original_words) return false;
+    slot.write_pending = false;
+    if (slot.backend_owned) {
+        if (!host.hook_uninstall
+            || host.hook_uninstall(reinterpret_cast<void *>(slot.address)) != 0) return false;
+        slot.backend_owned = false;
+        if (slot.original) *slot.original = nullptr;
+    }
+    // The backend itself may touch code while removing its record. Never publish
+    // cleanup success on its return code alone, and never unhook twice on a retry.
+    if (!host.read_slot(slot, observed) || observed != slot.original_words) return false;
+    slot.registered = false;
+    slot.patch_known = false;
+    slot.install_pending = false;
+    slot.continuation_pending = false;
+    slot.cleanup_pending = false;
+    return true;
+}
+
+/** Install only the bound preimage; do not call a changed entry "loader relocation".
+ * Unknown post-install bytes are quarantined, not adopted later by a health read. */
+template<size_t N>
+inline bool install_slot(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
+    static_assert(N > 0);
+    if (!host.read_slot || !slot_writer_available(host) || (slot.address & 3u)
+        || slot.address > UINTPTR_MAX - N * sizeof(uint32_t)) return false;
+    CodeWriteGuard code_write_lock;
+    if (!code_write_lock) return false;
+    if (!settle_slot_write(slot,host)) return false;
+    if (slot.cleanup_pending) { (void)recover_slot_cleanup(slot, host); return false; }
+    if (slot.install_pending || slot.write_pending || slot.continuation_pending) return false;
+    if (slot.registered) {
+        SlotWords<N> live{};
+        return slot_ready(slot) && host.read_slot(slot, live) && live == slot.patch_words;
+    }
+    if (!host.hook_install || !slot.original || !slot.replacement) return false;
+    SlotWords<N> before{};
+    if (!host.read_slot(slot, before) || before != slot.original_words) {
+        if (host.on_guard) host.on_guard({"motion hook refused; bound preimage changed", 0});
+        return false;
+    }
+    if (host.protect_range && !host.protect_range(slot.address, N * sizeof(uint32_t))) return false;
+    // The policy callback can fail/change the entry. Recheck before backend work.
+    if (!host.read_slot(slot, before) || before != slot.original_words) return false;
+    void *previous = *slot.original;
+    const int rc = host.hook_install(reinterpret_cast<void *>(slot.address),
+        slot.replacement, slot.original);
+    SlotWords<N> after{};
+    const bool read = host.read_slot(slot, after);
+    if (rc != 0) {
+        const bool output_changed = *slot.original != previous;
+        if (!*slot.original) *slot.original = previous;
+        // Failed callbacks may have touched words or out-parameters. Preserve an
+        // uncertain record; do not blindly reinstall or overwrite a foreign edit.
+        if (output_changed) slot.continuation_pending = true;
+        if (!read || after != before || slot.continuation_pending) slot.install_pending = true;
+        return false;
+    }
+    slot.backend_owned = true;
+    if (!read) {
+        slot.install_pending = true;
+        if (host.on_guard) host.on_guard({"motion hook pending; installed bytes unverified", 0});
+        return false;
+    }
+    if (after == before) {
+        slot.cleanup_pending = true;
+        (void)recover_slot_cleanup(slot, host);
+        return false;
+    }
+    if (slot.patch_known && after != slot.patch_words) {
+        slot.install_pending = true;
+        return false;
+    }
+    // Capture only the synchronous successful backend's readback. A later
+    // unrelated health read is NOT evidence of which patch the backend installed.
+    slot.patch_words = after;
+    slot.patch_known = true;
+    if (!continuation_exists(slot)) {
+        slot.cleanup_pending = true;
+        const bool restored = recover_slot_cleanup(slot, host);
+        if (host.on_guard) host.on_guard({restored
+            ? "motion hook refused; continuation missing; cleanup verified"
+            : "motion hook pending; continuation missing; cleanup incomplete", 0});
+        return false;
+    }
+    slot.registered = true;
+    return true;
+}
+
+/** Re-arm only a known patch over its exact original, or verify our existing patch.
+ * A false writer result remains pending even when its bytes appear to have landed. */
+template<size_t N>
+inline bool restore_patch_words(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
+    if (!slot.patch_known || slot.cleanup_pending || slot.install_pending || slot.continuation_pending
+        || !continuation_exists(slot)
+        || !host.read_slot || !slot_writer_available(host)) return false;
+    CodeWriteGuard code_write_lock;
+    if (!code_write_lock) return false;
+    if (!settle_slot_write(slot,host)) return false;
+    SlotWords<N> observed{};
+    if (!host.read_slot(slot, observed)
+        || (observed != slot.original_words && observed != slot.patch_words)) return false;
+    if (host.protect_range && !host.protect_range(slot.address, N * sizeof(uint32_t))) return false;
+    if (!host.read_slot(slot, observed)
+        || (observed != slot.original_words && observed != slot.patch_words)) return false;
+    if (observed != slot.patch_words || slot.write_pending) {
+        slot.registered = false;
+        slot.write_pending = true;
+        if (!write_slot_words(slot,observed,slot.patch_words,host)) return false;
+        if (!host.read_slot(slot, observed) || observed != slot.patch_words) return false;
+    }
+    slot.write_pending = false;
+    slot.install_pending = false;
+    slot.registered = true;
+    return true;
+}
+
+/** Retry only already-known obligations. An unverified successful install can
+ * retire after the validated entry is original again; unknown bytes are not guessed. */
+template<size_t N>
+inline bool settle_slot_pending(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
+    if (!slot_has_pending(slot)) return true;
+    CodeWriteGuard code_write_lock;
+    if (!code_write_lock) return false;
+    if (!settle_slot_write(slot,host)) return false;
+    if (slot.cleanup_pending) return recover_slot_cleanup(slot, host);
+    if (slot.continuation_pending) return false;
+    if (slot.write_pending) return restore_patch_words(slot, host);
+    if (slot.install_pending) {
+        SlotWords<N> observed{};
+        if (!slot.backend_owned || !host.read_slot || !host.read_slot(slot, observed)
+            || observed != slot.original_words) return false;
+        slot.registered = false;
+        slot.cleanup_pending = true;
+        return recover_slot_cleanup(slot, host);
+    }
+    return true;
+}
+
+/** Bring the selected bank live; unknown/foreign words are never late-adopted. */
+template<size_t T, size_t N>
+inline bool ensure_slots_live(std::array<InlineSlot<N>, T> &slots,
+    const InlineHookHost<N> &host, std::span<const size_t> order) {
+    if (!valid_slot_order(slots, order)) return false;
+    if (order.empty()) return true;
+    if (!host.read_slot || !slot_writer_available(host)) return false;
+    CodeWriteGuard code_write_lock;
+    if (!code_write_lock) return false;
+    for (const auto index : order) {
+        auto &slot = slots[index];
+        if (!settle_slot_write(slot,host)) return false;
+        if (slot.cleanup_pending) { (void)recover_slot_cleanup(slot, host); return false; }
+        if (slot.registered && !continuation_exists(slot)) {
+            slot.backend_owned = true;
+            slot.registered = false;
+            slot.cleanup_pending = true;
+            const bool restored = recover_slot_cleanup(slot, host);
+            if (host.on_guard) host.on_guard({restored
+                ? "motion hook disarmed; cleanup verified"
+                : "motion hook pending; cleanup incomplete", index});
+            return false;
+        }
+        if (slot.registered) {
+            SlotWords<N> observed{};
+            if (!host.read_slot(slot, observed)) return false;
+            if (slot_ready(slot) && observed == slot.patch_words) continue;
+            if (observed != slot.original_words) {
+                if (host.on_guard) host.on_guard({"motion hook foreign or unknown words; leaving untouched", index});
+                return false;
             }
+            slot.registered = false;
+        }
+        // A refilled file-backed page does not remove the backend's record.
+        // Reinstalling an already-known slot can return duplicate-hook failure
+        // and clear/change the continuation out-parameter, poisoning a valid
+        // record before restore gets a chance to run. Preserve the established
+        // continuation and restore ONLY the verified patch over its original.
+        // A failed restore stays pending; it must never fall through to a new
+        // backend installation with uncertain ownership.
+        const bool live = slot.patch_known
+            ? restore_patch_words(slot, host)
+            : install_slot(slot, host);
+        if (!live) {
+            if (host.on_info) host.on_info({"motion hook not verified; channel stays down", index});
             return false;
         }
     }
     return true;
 }
 
-/**
- * Disarm a slot: ask the backend to drop its trampoline, then restore the
- * original prologue so the target runs unmodified again.
- *
- * Ownership is verified first: the live words must be ours (the known patch) or
- * already the untouched prologue. A third party's words mean the slot is no
- * longer ours to restore, and writing over them would destroy someone else's
- * hook - such a slot is refused instead.
- *
- * The write-back is not optional: a backend that only clears its own record
- * would leave the patched instructions in place, and the untouched prologue is
- * the only state every party agrees on. A slot that is already disarmed is a
- * successful no-op, which makes the call idempotent for cleanup paths.
- */
-template<size_t kPatchWords>
-inline bool uninstall_slot(InlineSlot<kPatchWords> &slot,
-    const InlineHookHost<kPatchWords> &host) {
-    if (!slot.registered) return true;
-    if (host.write_words == nullptr || host.read_slot == nullptr) return false;
-    SlotWords<kPatchWords> observed{};
-    if (!host.read_slot(slot, observed)) return false;
-    const bool holds_our_patch = slot.patch_known && observed == slot.patch_words;
-    const bool already_original = observed == slot.original_words;
-    if (!holds_our_patch && !already_original) {
-        if (host.on_guard != nullptr) {
-            host.on_guard({"motion hook uninstall refused; slot is not ours", 0});
-        }
+/** Disarm without freeing a still-reachable continuation before a failed write.
+ * Production currently keeps banks for process life; backend in-flight draining
+ * remains its own contract, not something this word-state machine can prove. */
+template<size_t N>
+inline bool uninstall_slot(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
+    if (!slot.registered && !slot.backend_owned && !slot_has_pending(slot)) return true;
+    CodeWriteGuard code_write_lock;
+    if (!code_write_lock) return false;
+    if (!settle_slot_write(slot,host)) return false;
+    if (!host.read_slot || !slot_writer_available(host)
+        || (slot.continuation_pending && !slot.backend_owned)) return false;
+    SlotWords<N> observed{};
+    if (!host.read_slot(slot, observed)
+        || (observed != slot.original_words && (!slot.patch_known || observed != slot.patch_words))) {
+        if (host.on_guard) host.on_guard({"motion hook uninstall refused; slot is not ours", 0});
         return false;
     }
-    if (host.hook_uninstall != nullptr) {
-        if (host.hook_uninstall(reinterpret_cast<void *>(slot.address)) != 0) return false;
-    } else if (continuation_exists(slot)) {
-        // No backend removal available: the slot cannot be taken back safely
-        // because its trampoline may still be reachable.
-        if (host.on_guard != nullptr) {
-            host.on_guard({"motion hook cannot be uninstalled; backend has no unhook", 0});
-        }
-        return false;
-    }
-    if (!host.write_words(slot.address, slot.original_words)) return false;
+    if (!host.hook_uninstall && (slot.backend_owned || continuation_exists(slot))) return false;
+    // Support an already-recorded bank as well as a freshly installed one.
+    slot.backend_owned = slot.backend_owned || slot.registered || continuation_exists(slot);
     slot.registered = false;
-    slot.patch_known = false;
-    if (slot.original != nullptr) *slot.original = nullptr;
-    return true;
+    slot.cleanup_pending = true;
+    return recover_slot_cleanup(slot, host);
 }
 
 /**
  * Health verification: every slot registered, continuation present, live
- * words equal to the known patch (adopting an unknown-but-live patch once).
+ * words equal to the already verified patch. Health is observational only.
  * `read_all` is the feature's batched validated read; it exists so a healthy
  * steady state costs one inventory round trip, not one per slot.
  */
 template<size_t kTargets, size_t kPatchWords, typename ReadAll>
-inline bool slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> &slots,
+inline bool slots_healthy(const std::array<InlineSlot<kPatchWords>, kTargets> &slots,
     ReadAll read_all) {
     std::array<uintptr_t, kTargets> addresses{};
     std::array<CodeSource, kTargets> sources{};
@@ -330,19 +431,15 @@ inline bool slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> &slots,
     for (size_t i = 0; i < kTargets; ++i) {
         addresses[i] = slots[i].address;
         sources[i] = slots[i].source;
-        if (!slots[i].registered) return false;
-        if (!continuation_exists(slots[i])) return false;
+        if (!slot_ready(slots[i])) return false;
     }
+    std::array<size_t, kTargets> order{};
+    for (size_t i = 0; i < kTargets; ++i) order[i] = i;
+    if (!valid_slot_order(slots, order)) return false;
     if (!read_all(addresses, sources, observed)) return false;
     for (size_t i = 0; i < kTargets; ++i) {
         auto &slot = slots[i];
-        if (!slot.patch_known) {
-            if (observed[i] == slot.original_words) return false;
-            slot.patch_words = observed[i];
-            slot.patch_known = true;
-        } else if (observed[i] != slot.patch_words) {
-            return false;
-        }
+        if (observed[i] != slot.patch_words) return false;
     }
     return true;
 }
@@ -365,8 +462,9 @@ inline bool slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> &slots,
  * repair. See the desktop layout worker for the incident this encodes.
  */
 template<size_t kTargets, size_t kPatchWords, typename ReadAll>
-inline bool ordered_slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> &slots,
+inline bool ordered_slots_healthy(const std::array<InlineSlot<kPatchWords>, kTargets> &slots,
     std::span<const size_t> order, ReadAll read_all) {
+    if (!valid_slot_order(slots, order)) return false;
     std::array<uintptr_t, kTargets> addresses{};
     std::array<CodeSource, kTargets> sources{};
     std::array<SlotWords<kPatchWords>, kTargets> observed{};
@@ -374,7 +472,7 @@ inline bool ordered_slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> 
     for (const size_t index : order) {
         if (index >= kTargets) return false;
         auto &slot = slots[index];
-        if (!slot.registered || !continuation_exists(slot)) return false;
+        if (!slot_ready(slot)) return false;
         addresses[armed] = slot.address;
         sources[armed] = slot.source;
         ++armed;
@@ -389,15 +487,7 @@ inline bool ordered_slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> 
     for (const size_t index : order) {
         auto &slot = slots[index];
         const SlotWords<kPatchWords> &live = observed[cursor++];
-        if (!slot.patch_known) {
-            // A hook that landed after the bank was reported partial: adopt the
-            // live words instead of rewriting them for process life.
-            if (live == slot.original_words) return false;
-            slot.patch_words = live;
-            slot.patch_known = true;
-        } else if (live != slot.patch_words) {
-            return false;
-        }
+        if (live != slot.patch_words) return false;
     }
     return true;
 }

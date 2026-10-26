@@ -23,6 +23,11 @@
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_drawer_hide_search"
+            android:title="@string/home_drawer_hide_search" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_drawer_all"
             android:summary="@string/home_drawer_all_desc"
             android:title="@string/home_drawer_all" />

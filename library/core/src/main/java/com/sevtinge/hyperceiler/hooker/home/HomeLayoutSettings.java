@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
 import androidx.preference.PreferenceCategory;
@@ -49,6 +50,14 @@ public class HomeLayoutSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        if (isHyperOSVersion(4f)) {
+            // OS4's existing native keys now have a single entry on their respective pages.
+            findPreference("prefs_key_home_layout_icon_scale_enable").setVisible(false);
+            findPreference("prefs_key_home_layout_icon_scale").setVisible(false);
+            findPreference("prefs_key_home_layout_recents_hide_clear").setVisible(false);
+            findPreference("prefs_key_home_layout_recents_no_clear").setVisible(false);
+        }
+
         boolean mWidthEnable = getSharedPreferences().getBoolean("prefs_key_home_folder_width", false);
         boolean mPaddingEnable = getSharedPreferences().getBoolean("prefs_key_home_folder_horizontal_padding_enable", false);
 
@@ -69,21 +78,16 @@ public class HomeLayoutSettings extends DashboardFragment {
         indicatorMargin.setMinValue(-300);
 
         if (isPad()) {
-            setPreVisible(mSearch, false);
+            if (isMoreHyperOSVersion(4f)) mSearch.setVisible(false);
+            else setPreVisible(mSearch, false);
             setFuncHint(mLayoutH, 1);
             setFuncHint(mIconLayoutNew, 1);
         }
 
         if (isMoreHyperOSVersion(4f)) {
-            // The OS4 home-screen capsule is controlled by Indicator, not the old search bar.
-            mSearch.setSummary(R.string.home_layout_searchbar_os4_hint);
-            mSearch.setEnabled(false);
-            findPreference("prefs_key_home_layout_searchbar_width_enable")
-                .setSummary(R.string.home_layout_searchbar_os4_hint);
-            findPreference("prefs_key_home_layout_searchbar_width_enable").setEnabled(false);
-            findPreference("prefs_key_home_layout_searchbar_width").setEnabled(false);
-            findPreference("prefs_key_home_layout_searchbar_margin_bottom_enable").setEnabled(false);
-            findPreference("prefs_key_home_layout_searchbar_margin_bottom").setEnabled(false);
+            // The OS4 capsule has its own Indicator controls. Remove the obsolete
+            // search-bar group from this screen without changing persisted choices.
+            getPreferenceScreen().removePreference(mSearch);
         }
 
         BiConsumer<Boolean, Boolean> updateVisibility = (widthEnabled, paddingEnabled) -> {

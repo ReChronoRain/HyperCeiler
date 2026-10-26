@@ -5,7 +5,7 @@
 
 #include <vector>
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 constexpr uint32_t kBlobFormatV2 = 2;
 constexpr uint32_t kBlobFormatV3 = 3;
@@ -98,12 +98,8 @@ bool ParseConfigBlob(const uint8_t* data, size_t size, Config* out);
 
 size_t ConfigCandidatePaths(const char** out, size_t maxCount);
 
+// Legacy on-disk names are an external input contract; keep existing overrides readable.
 constexpr const char* kLocalConfigPath = "/data/user/0/com.miui.home/files/hometweaks.bin";
-
-constexpr const char* kLocalStatusPath = "/data/user/0/com.miui.home/files/hometweaks.status";
-
-constexpr const char* kExternalStatusPath =
-        "/storage/emulated/0/Download/HomeTweaks/hometweaks.status";
 
 size_t SitePackPaths(const char** out, size_t maxCount);
 

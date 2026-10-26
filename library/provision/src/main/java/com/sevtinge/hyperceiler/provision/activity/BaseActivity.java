@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.provision.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -69,7 +69,7 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
                         mFragment.getClass();
                     }
                 } catch (Exception e) {
-                    Log.e("BaseActivity", "ex: " + e.getMessage());
+                    ModuleLog.e("BaseActivity", "ex: " + e.getMessage());
                 }
             }
         }

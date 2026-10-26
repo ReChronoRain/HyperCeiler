@@ -13,15 +13,15 @@
 #include <iterator>
 #include <vector>
 
-namespace hometweaks {
-bool HomeTweaksFindSymbol(const char *name, uint32_t *va, uint32_t *size) {
+namespace home_layout_engine {
+bool HomeLayoutEngineFindSymbol(const char *name, uint32_t *va, uint32_t *size) {
     return SymbolIndex::Instance().Find(name, va, size);
 }
 }
-static const hometweaks::Image *fixture_image = nullptr;
+static const home_layout_engine::Image *fixture_image = nullptr;
 bool dart_words(uint32_t va, size_t count, std::vector<uint32_t> &out) {
     assert(fixture_image);
-    hometweaks::CodeView code(*fixture_image);
+    home_layout_engine::CodeView code(*fixture_image);
     out.resize(count);
     for (size_t i = 0; i < count; ++i) {
         if (!code.Word(va + static_cast<uint32_t>(i * 4), &out[i])) return false;
@@ -31,7 +31,7 @@ bool dart_words(uint32_t va, size_t count, std::vector<uint32_t> &out) {
 #include "production_compatibility_guards.inc"
 
 unsigned check_layout_guards() {
-    auto &index = hometweaks::SymbolIndex::Instance();
+    auto &index = home_layout_engine::SymbolIndex::Instance();
     unsigned failures = 0;
     const auto check = [&](const char *name, auto guard) {
         uint32_t va = 0, size = 0;
@@ -78,13 +78,13 @@ unsigned check_layout_guards() {
 }
 
 void check_known_guard_regressions() {
-    auto &index = hometweaks::SymbolIndex::Instance();
+    auto &index = home_layout_engine::SymbolIndex::Instance();
     const auto address = [&](const char *name, uint32_t offset) {
         uint32_t va = 0, size = 0;
         assert(index.Find(name, &va, &size));
         // Some Dart public symbols are short entry wrappers; production validates
         // a longer owning body separately, so use the same mapped code boundary.
-        assert(hometweaks::RangeInImage(*fixture_image, fixture_image->base + va + offset, 4));
+        assert(home_layout_engine::RangeInImage(*fixture_image, fixture_image->base + va + offset, 4));
         return reinterpret_cast<uint32_t *>(fixture_image->base + va + offset);
     };
     uint32_t dock_va = 0, dock_size = 0, wrapper_va = 0, wrapper_size = 0;
@@ -156,7 +156,7 @@ int main(int argc, char **argv) {
     }
     assert(extent > 0);
     std::vector<std::byte> mapped(extent);
-    hometweaks::Image image{};
+    home_layout_engine::Image image{};
     image.base = reinterpret_cast<uintptr_t>(mapped.data());
     const size_t path_size = strnlen(argv[1], sizeof(image.path));
     if (path_size == sizeof(image.path)) {
@@ -173,33 +173,33 @@ int main(int argc, char **argv) {
             image.base + s.vaddr + s.memsz, s.flags};
     }
     fixture_image = &image;
-    auto &index = hometweaks::SymbolIndex::Instance();
+    auto &index = home_layout_engine::SymbolIndex::Instance();
     const bool loaded = index.EnsureLoaded(image);
     std::printf("symbols: %s\n", index.status());
     assert(loaded);
-    for (size_t i = 0; i < hometweaks::TargetFunctionCount(); ++i) {
-        const auto &target = hometweaks::TargetFunctionAt(i);
+    for (size_t i = 0; i < home_layout_engine::TargetFunctionCount(); ++i) {
+        const auto &target = home_layout_engine::TargetFunctionAt(i);
         uint32_t va = 0, size = 0;
         const bool found = index.Find(target.needle, &va, &size);
         std::printf("symbol %s va=%#x size=%#x %s\n", found ? "PASS" : "MISS", va, size,
             target.fullName);
     }
-    hometweaks::SetForceSymbolOnlyForTest(true);
-    hometweaks::CodeView code(image);
+    home_layout_engine::SetForceSymbolOnlyForTest(true);
+    home_layout_engine::CodeView code(image);
     unsigned failures = 0;
     for (const uint32_t feature : {4u, 9u, 16u, 18u, 19u, 20u, 21u}) {
-        hometweaks::Config config{};
+        home_layout_engine::Config config{};
         config.flags = 1;
         config.enabled = {feature};
         config.folderCols = 5;
         config.phoneCols = 6;
         config.phoneRows = 7;
-        hometweaks::LocatedSites sites{};
-        hometweaks::LocateSites(code, config, &sites);
-        const bool located = hometweaks::FeatureOk(sites, feature);
-        const bool shape = located && hometweaks::ValidateSitesShape(code, sites);
-        hometweaks::PlanResult plan{};
-        if (shape) hometweaks::DerivePatches(code, config, sites, &plan);
+        home_layout_engine::LocatedSites sites{};
+        home_layout_engine::LocateSites(code, config, &sites);
+        const bool located = home_layout_engine::FeatureOk(sites, feature);
+        const bool shape = located && home_layout_engine::ValidateSitesShape(code, sites);
+        home_layout_engine::PlanResult plan{};
+        if (shape) home_layout_engine::DerivePatches(code, config, sites, &plan);
         const char *why = "";
         bool planned = false;
         switch (feature) {

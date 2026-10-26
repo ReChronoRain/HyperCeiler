@@ -150,7 +150,7 @@ int main() {
     std::array<Slot, 1> slots{slot};
     const std::vector<size_t> order{0};
     check(nhk::ensure_slots_live(slots, host, order), "re-arm succeeds after patch loss");
-    check(process.install_calls == static_cast<int>(before) + 1, "re-arm went through the backend");
+    check(process.install_calls == static_cast<int>(before), "known re-arm preserves backend and continuation");
     check(process.live[0] == process.patch_for(0), "patch words live again");
     slot = slots[0];
 

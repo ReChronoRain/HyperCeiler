@@ -7,7 +7,24 @@ public class ContentResolver {
     private static int failureIndex = -1, queries;
     private static String failureMode;
     private static boolean wrongSchema, emptyBatch;
+    private static android.database.ContentObserver observer;
+    private static String observedUri;
+    private static int registrations, unregistrations;
     public static java.util.function.Consumer<String> afterRead;
+    public void registerContentObserver(android.net.Uri uri, boolean descendants,
+        android.database.ContentObserver candidate) {
+        if (!descendants) throw new AssertionError("pref observer must include key descendants");
+        observedUri = uri.toString(); observer = candidate; registrations++;
+    }
+    public void unregisterContentObserver(android.database.ContentObserver candidate) {
+        if (observer == candidate) { observer = null; unregistrations++; }
+    }
+    public static void signalChange(String uri) {
+        if (observer != null && uri.startsWith(observedUri + "/"))
+            observer.onChange(false, android.net.Uri.parse(uri));
+    }
+    public static int registrationCount() { return registrations; }
+    public static int unregistrationCount() { return unregistrations; }
     public static void setSpecs(String[][] value) { specs = value; }
     public static void failAt(int index, String mode) { failureIndex = index; failureMode = mode; queries = 0; }
     public static int queryCount() { return queries; }
@@ -45,11 +62,11 @@ public class ContentResolver {
                     return ((Number)snapshot.get("prefs_key_" + specs[i-1][1])).intValue();
                 }
                 public String getString(int i) {
-                    if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cursor string");
+                    if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cell");
                     return (String)snapshot.get("prefs_key_" + specs[i-1][1]);
                 }
                 public long getLong(int i) {
-                    if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cursor long");
+                    if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cell");
                     return ((Number)snapshot.get("prefs_key_" + specs[i-1][1])).longValue();
                 }
                 public void close() {
@@ -58,7 +75,7 @@ public class ContentResolver {
             };
         }
         final String key = path.substring(path.lastIndexOf('/') + 1);
-        final Object value = ROWS.get(key);
+        final Integer value = ROWS.get(key) instanceof Integer v ? v : null;
         final boolean fail = queries++ == failureIndex;
         if (fail && "query".equals(failureMode)) throw new IllegalStateException("provider frozen");
         if (fail && "null".equals(failureMode)) return null;

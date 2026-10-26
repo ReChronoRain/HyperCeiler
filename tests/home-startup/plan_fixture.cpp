@@ -15,10 +15,10 @@
 #include <set>
 #include <vector>
 
-static const hometweaks::Image *image;
+static const home_layout_engine::Image *image;
 static std::set<std::pair<uint32_t,uint32_t>> ranges;
-namespace hometweaks {
-bool HomeTweaksFindSymbol(const char *name,uint32_t *va,uint32_t *size) {
+namespace home_layout_engine {
+bool HomeLayoutEngineFindSymbol(const char *name,uint32_t *va,uint32_t *size) {
     const bool found=SymbolIndex::Instance().Find(name,va,size);
     if(found) ranges.insert({*va,*size});
     return found;
@@ -27,7 +27,7 @@ bool HomeTweaksFindSymbol(const char *name,uint32_t *va,uint32_t *size) {
 bool dart_words(uint32_t va,size_t count,std::vector<uint32_t>& out) {
     ranges.insert({va,uint32_t(count*4)});
     out.resize(count);
-    hometweaks::CodeView code(*image);
+    home_layout_engine::CodeView code(*image);
     for(size_t i=0;i<count;++i) if(!code.Word(va+4*i,&out[i])) return false;
     return true;
 }
@@ -35,7 +35,7 @@ bool dart_words(uint32_t va,size_t count,std::vector<uint32_t>& out) {
 
 uint32_t find(const char* name) {
     uint32_t va=0,size=0;
-    assert(hometweaks::HomeTweaksFindSymbol(name,&va,&size));
+    assert(home_layout_engine::HomeLayoutEngineFindSymbol(name,&va,&size));
     return va;
 }
 void hook(unsigned index,uint32_t va,uint64_t feature) {
@@ -43,10 +43,10 @@ void hook(unsigned index,uint32_t va,uint64_t feature) {
     std::printf("{\"type\":\"hook\",\"index\":%u,\"va\":%u,\"feature\":%llu}\n",
         index,va,(unsigned long long)feature);
 }
-void variant(uint32_t family,uint32_t key,const hometweaks::Config& cfg,
-             const hometweaks::LocatedSites& sites) {
-    hometweaks::PlanResult plan;
-    hometweaks::DerivePatches(hometweaks::CodeView(*image),cfg,sites,&plan);
+void variant(uint32_t family,uint32_t key,const home_layout_engine::Config& cfg,
+             const home_layout_engine::LocatedSites& sites) {
+    home_layout_engine::PlanResult plan;
+    home_layout_engine::DerivePatches(home_layout_engine::CodeView(*image),cfg,sites,&plan);
     bool ok=false;
     switch(family) {
         case 0:ok=plan.ok19&&plan.ok19r;break;case 1:ok=plan.ok16;break;
@@ -57,7 +57,7 @@ void variant(uint32_t family,uint32_t key,const hometweaks::Config& cfg,
     std::printf("{\"type\":\"variant\",\"family\":%u,\"key\":%u,\"words\":[",family,key);
     bool comma=false;
     for(const auto& p:plan.patches) {
-        uint32_t actual=0;assert(hometweaks::CodeView(*image).Word(p.va,&actual)&&actual==p.expect);
+        uint32_t actual=0;assert(home_layout_engine::CodeView(*image).Word(p.va,&actual)&&actual==p.expect);
         if(comma)std::putchar(',');comma=true;
         std::printf("[%u,%u,%u]",p.va,p.expect,p.patch);
         ranges.insert({p.va>=32?p.va-32:p.va,80});
@@ -73,7 +73,7 @@ int main(int argc,char** argv) {
     uint64_t extent=0;
     for(const auto&s:*segments)if(s.type==1)extent=std::max(extent,s.vaddr+s.memsz);
     assert(extent&&extent<(1u<<28));
-    std::vector<std::byte> mapped(extent);hometweaks::Image img{};
+    std::vector<std::byte> mapped(extent);home_layout_engine::Image img{};
     img.base=reinterpret_cast<uintptr_t>(mapped.data());assert(std::strlen(argv[1])<512);
     std::strcpy(img.path,argv[1]);
     for(const auto&s:*segments)if(s.type==1) {
@@ -81,21 +81,21 @@ int main(int argc,char** argv) {
         std::memcpy(mapped.data()+s.vaddr,bytes.data()+s.offset,s.filesz);
         img.segments[img.segmentCount++]={img.base+s.vaddr,img.base+s.vaddr+s.memsz,s.flags};
     }
-    image=&img;auto& symbols=hometweaks::SymbolIndex::Instance();assert(symbols.EnsureLoaded(img));
-    hometweaks::SetForceSymbolOnlyForTest(true);
+    image=&img;auto& symbols=home_layout_engine::SymbolIndex::Instance();assert(symbols.EnsureLoaded(img));
+    home_layout_engine::SetForceSymbolOnlyForTest(true);
     // Include complete declared bodies for every production planner target;
     // exact additional windows below cover short Dart entry aliases.
-    for(size_t i=0;i<hometweaks::TargetFunctionCount();++i) {
-        const auto&t=hometweaks::TargetFunctionAt(i);uint32_t va=0,size=0;
+    for(size_t i=0;i<home_layout_engine::TargetFunctionCount();++i) {
+        const auto&t=home_layout_engine::TargetFunctionAt(i);uint32_t va=0,size=0;
         if(symbols.Find(t.needle,&va,&size))ranges.insert({va,size});
     }
-    hometweaks::Config all;all.flags=1;all.enabled={4,9,16,18,19,20,21};
+    home_layout_engine::Config all;all.flags=1;all.enabled={4,9,16,18,19,20,21};
     all.folderCols=5;all.phoneCols=6;all.phoneRows=7;
-    hometweaks::LocatedSites sites;
+    home_layout_engine::LocatedSites sites;
     for(unsigned feature:{4u,9u,16u,18u,19u,20u,21u}) {
         auto only=all;only.enabled={feature};
-        hometweaks::LocateSites(hometweaks::CodeView(img),only,&sites);
-        hometweaks::LocateSites(hometweaks::CodeView(img),only,&sites);
+        home_layout_engine::LocateSites(home_layout_engine::CodeView(img),only,&sites);
+        home_layout_engine::LocateSites(home_layout_engine::CodeView(img),only,&sites);
     }
     if(!sites.AllOk()||!sites.ok19r||!sites.ok16sq) {
         std::fprintf(stderr,"sites: 4=%d 9=%d 16=%d 18=%d 19=%d 19r=%d 20=%d 21=%d sq=%d\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
@@ -103,9 +103,9 @@ int main(int argc,char** argv) {
             sites.why4,sites.why9,sites.why16,sites.why18,sites.why19,sites.why19r,sites.why20,sites.why21,sites.why16sq);
         return 3;
     }
-    assert(hometweaks::ValidateSitesShape(hometweaks::CodeView(img),sites));
+    assert(home_layout_engine::ValidateSitesShape(home_layout_engine::CodeView(img),sites));
     for(unsigned family=0;family<7;++family) {
-        hometweaks::Config cfg=all;
+        home_layout_engine::Config cfg=all;
         cfg.enabled={family==0?19u:family==1?16u:family==2?4u:family==3?20u:family==4?21u:family==5?9u:18u};
         if(family==0)for(unsigned x=3;x<=9;++x)for(unsigned y=4;y<=13;++y) {
             cfg.phoneCols=x;cfg.phoneRows=y;variant(family,(x<<8)|y,cfg,sites);
@@ -126,7 +126,7 @@ int main(int argc,char** argv) {
         "GridCellDelegate.performLayout","GridOccupiedCellDelegate.performLayout","HotSeatLayoutDelegate.cellLayout",
         "LauncherIndicatorState._wrapWithAnimation","LauncherIndicatorState._buildScreenIndicator","LauncherIndicatorState._showIndicator"};
     uint32_t va[8]{},sz[8]{};
-    for(unsigned i=0;i<8;++i)assert(hometweaks::HomeTweaksFindSymbol(names[i],&va[i],&sz[i]));
+    for(unsigned i=0;i<8;++i)assert(home_layout_engine::HomeLayoutEngineFindSymbol(names[i],&va[i],&sz[i]));
     uint32_t capsule=0;
     assert(workspace_geometry_code_compatible(va[2],sz[2],false));
     assert(workspace_geometry_code_compatible(va[3],sz[3],true));
@@ -155,7 +155,7 @@ int main(int argc,char** argv) {
     }
     hook(14,find("Utilities.getDefaultGestureAnimMagicSpeed"),1ull<<14);
     for(const auto&s:home_layout::kCapacitySites) {
-        uint32_t f=0,size=0;assert(hometweaks::HomeTweaksFindSymbol(s.symbol,&f,&size)&&size==s.size);
+        uint32_t f=0,size=0;assert(home_layout_engine::HomeLayoutEngineFindSymbol(s.symbol,&f,&size)&&size==s.size);
         assert(dart_words(f+s.offset-12,4,code)&&std::equal(std::begin(s.guard),std::end(s.guard),code.begin()));
         std::printf("{\"type\":\"capacity\",\"va\":%u,\"before\":%u,\"after\":%u}\n",f+s.offset,s.guard[3],s.replacement);
     }

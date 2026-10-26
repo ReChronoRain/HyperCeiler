@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.log.db;
 
 import android.content.Context;
-import android.util.Log;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import androidx.room.Room;
 
@@ -206,11 +206,11 @@ public class LogRepository {
                     task.run();
                 } catch (RuntimeException e) {
                     // AndroidLog is persisted by this repository; logging through it here would enqueue forever.
-                    Log.e(TAG, "Failed to " + operation, e);
+                    ModuleLog.e(TAG, "Failed to " + operation, e);
                 }
             });
         } catch (RuntimeException e) {
-            Log.e(TAG, "Failed to schedule " + operation, e);
+            ModuleLog.e(TAG, "Failed to schedule " + operation, e);
         }
     }
 

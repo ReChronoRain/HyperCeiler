@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-namespace hometweaks {
+namespace home_layout_engine {
 
 struct Segment {
     uintptr_t begin;
@@ -18,11 +18,24 @@ struct Image {
     size_t segmentCount;
     uint64_t apkEntryOffset;
     bool fromApkEntry;
+    // Relative file view: entire bare file or one verified stored APK entry.
+    uint64_t fileViewBytes;
+    uint64_t sourceDevice;
+    uint64_t sourceInode;
 };
 
 bool FindImageByName(const char* basename, Image* out);
 
 bool FindImageFromApkMaps(const char* apkMarker, const char* libName, Image* out);
+
+// Manual HYOS mappings need not be registered with the ordinary linker. Attribute
+// the unique live arm64 entry by its mapped ELF, never an installation directory.
+struct ImageDiscoveryDiagnostic {
+    const char* reason = "not-started";
+    size_t inventoryRows = 0, apkCandidates = 0, entryCandidates = 0, imageMappings = 0;
+};
+bool FindImageFromMappedApks(const char* libName, Image* out,
+    ImageDiscoveryDiagnostic* diagnostic = nullptr);
 
 void DumpLoadedLibraries(int maxEntries);
 void DumpApkMaps(int maxEntries);

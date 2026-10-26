@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
+import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import java.util.ArrayList
