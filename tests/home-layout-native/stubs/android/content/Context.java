@@ -9,4 +9,10 @@ public class Context {
     public ContentResolver getContentResolver() {
         return new ContentResolver();
     }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getSystemService(Class<T> serviceClass) {
+        return android.os.PowerManager.class.equals(serviceClass)
+            ? (T) new android.os.PowerManager() : null;
+    }
 }
