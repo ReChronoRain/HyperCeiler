@@ -32,7 +32,7 @@ public class FixColor extends BaseHook {
     @Override
     public void init() {
         // OS4: 假时钟头迁到 CcFakeStatusBarIcons（ROM DEX 核验：updateHeaderColor()/onDarkChanged(ArrayList, float, int)，
-        // 字段 mTintAreas/mDarkIntensity/mDarkColor；OS3 的 bigTimeColor/mWhiteFraction/mAreas 字段已不存在）
+        // 字段 mTintAreas(OS4)/mArea(OS3)、mDarkIntensity/mDarkColor；OS3 的 NotificationShadeFakeStatusBarClock 路径已不存在）
         Class<?> os4Clock = findClassIfExists("com.android.systemui.controlcenter.header.CcFakeStatusBarIcons");
         if (os4Clock != null) {
             findAndHookMethod(os4Clock, "updateHeaderColor", new IMethodHook() {
@@ -40,13 +40,20 @@ public class FixColor extends BaseHook {
                 public void before(HookParam param) {
                     try {
                         Object self = param.getThisObject();
-                        ArrayList<?> areas = (ArrayList<?>) getObjectField(self, "mTintAreas");
+                        // the tint list is named mTintAreas on OS4 and mArea on OS3 (ROM dexdump)
+                        ArrayList<?> areas;
+                        try {
+                            areas = (ArrayList<?>) getObjectField(self, "mTintAreas");
+                        } catch (Throwable renamed) {
+                            areas = (ArrayList<?>) getObjectField(self, "mArea");
+                        }
                         float darkIntensity = (float) getObjectField(self, "mDarkIntensity");
                         int clockColor = (int) getObjectField(self, "mDarkColor");
                         callMethod(self, "onDarkChanged", areas, darkIntensity, clockColor);
+                        param.setResult(null);
                     } catch (Throwable ignored) {
+                        // one of the fields is missing on this build: let the original method run
                     }
-                    param.setResult(null);
                 }
             });
             return;

@@ -24,10 +24,14 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object DisableThermal : BaseHook() {
     override fun init() {
-        // OS4: com.android.server.power.ThermalManagerService 已随 ROM 重构移除（全索引无 postEventListener 属主）。
-        // 类存在时按原挂点禁热管理；不存在时直接跳过（ThermalObserver.updateTemperature 由 ThermalBrightness 规则覆盖）。
-        val thermalService = findClassIfExists("com.android.server.power.ThermalManagerService") ?: return
-        thermalService.findAllMethods { name("postEventListener") }
+        // OS4: ThermalManagerService 迁到 com.android.server.power.thermal 子包（ROM DEX 核验：
+        // 4.0.0.44/4.0.5.0 只有 thermal 子包，OS3.0.319 只有旧包名）。
+        // 三版都只存在 postEventListenerCurrentTemperaturesLocked(IThermalEventListener, Integer)；
+        // 原先挂的 postEventListener 在任何一版里都不是方法名（ezhook 的 name() 是精确匹配），
+        // 所以旧写法从未真正绑定过任何回调。这里改挂真实存在的名字。
+        val thermalService = findClassIfExists("com.android.server.power.thermal.ThermalManagerService")
+            ?: findClassIfExists("com.android.server.power.ThermalManagerService") ?: return
+        thermalService.findAllMethods { name("postEventListenerCurrentTemperaturesLocked") }
             .createBeforeHooks {
                 it.result = null
             }
