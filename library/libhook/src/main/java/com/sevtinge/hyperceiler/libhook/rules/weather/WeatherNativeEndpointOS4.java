@@ -82,7 +82,7 @@ public final class WeatherNativeEndpointOS4 {
         try {
             android.os.PowerManager manager = powerManager;
             if (manager == null) {
-                final android.content.Context context = ContextUtils.getContextNoError(
+                final Context context = ContextUtils.getContextNoError(
                     ContextUtils.FlAG_ONLY_ANDROID);
                 if (context == null) return true;
                 manager = context.getSystemService(android.os.PowerManager.class);
