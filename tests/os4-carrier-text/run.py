@@ -1,4 +1,5 @@
-"""Carrier-name hook regressions plus source-level mutation controls.
+"""
+Carrier-name hook regressions plus source-level mutation controls.
 
 The production hook sources are compiled against host fixtures and executed by
 the generated harness. Mutations are applied to an in-memory copy only, so the
@@ -12,7 +13,7 @@ import hashlib
 import json
 import os
 import re
-import subprocess
+import subprocess  # nosec B404  # noqa: S404
 import sys
 import tempfile
 from pathlib import Path
