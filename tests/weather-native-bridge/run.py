@@ -9,7 +9,7 @@ import hyperceiler_test_paths as test_paths
 
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--override-dir',type=Path);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
 b=Path(__file__).resolve().parent;root=b.parents[1];src=root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook';j=test_paths.JAVA_HOME/'bin'
-files=[src/x for x in ['provider/WeatherPrefsSnapshot.java','provider/SharedPrefsProvider.java','provider/HomeLayoutPrefsSnapshot.java','base/FrameworkHookGate.java','rules/weather/WeatherNativeEndpointOS4.java','rules/weather/WeatherNativeBridgeOS4.java']]
+files=[src/x for x in ['provider/WeatherPrefsSnapshot.java','provider/SharedPrefsProvider.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','base/FrameworkHookGate.java','rules/weather/WeatherNativeEndpointOS4.java','rules/weather/WeatherNativeBridgeOS4.java']]
 if a.override_dir:files=[a.override_dir/f.name if (a.override_dir/f.name).exists() else f for f in files]
 with tempfile.TemporaryDirectory(prefix='hc-weather-java-') as t:
  cmd=[str(j/'javac'),'--release','21','-encoding','UTF-8','-d',t,*map(str,list((b/'stubs').rglob('*.java'))+files+[b/'WeatherBridgeTest.java'])]

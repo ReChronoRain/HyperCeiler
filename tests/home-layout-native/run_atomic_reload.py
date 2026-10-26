@@ -13,6 +13,8 @@ with tempfile.TemporaryDirectory(prefix='hc-atomic-reload-') as out:
     sources += [root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java', tests/'HomeLayoutAtomicReloadTest.java']
     helper = root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeLayoutPrefsSnapshot.java'
     if helper.exists(): sources.append(helper)
+    gesture = root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeGesturePrefsSnapshot.java'
+    if gesture.exists(): sources.append(gesture)
     gate = root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/base/FrameworkHookGate.java'
     if gate.exists(): sources.append(gate)
     z = subprocess.run([str(test_paths.java_tool('javac')), '-encoding','UTF-8','-d',out]+[str(s) for s in sources], capture_output=True,text=True)
