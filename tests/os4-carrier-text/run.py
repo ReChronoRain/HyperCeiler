@@ -1,10 +1,8 @@
-"""
-Carrier-name hook regressions plus source-level mutation controls.
+"""Carrier-name hook regressions plus source-level mutation controls."""
 
-The production hook sources are compiled against host fixtures and executed by
-the generated harness. Mutations are applied to an in-memory copy only, so the
-working tree is never modified.
-"""
+# The production hook sources are compiled against host fixtures and executed by
+# the generated harness. Mutations are applied to an in-memory copy only, so the
+# working tree is never modified.
 
 from __future__ import annotations
 
