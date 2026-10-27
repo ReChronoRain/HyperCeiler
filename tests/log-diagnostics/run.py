@@ -45,19 +45,22 @@ with tempfile.TemporaryDirectory(prefix='hc-log-diagnostics-') as temp:
     assert capabilities==expected
 print('endpoint writer/reader revision and capability contract: PASS')
 
-# Execute the exact production shell-copy expression against disposable directories.
+# Execute the production shell-copy script against disposable directories.
 # Both cp and chmod failures must produce an explicit diagnostic verdict; empty is valid.
 with tempfile.TemporaryDirectory(prefix='hc-lspd-copy-') as temp:
     temp=Path(temp)
     loader=(root/'app/src/main/java/com/sevtinge/hyperceiler/log/XposedLogLoader.java').read_text()
-    expression=re.search(r'final String captured = ShellUtils.rootExecCmd\((.*?)\)\.trim\(\);',loader,re.S)[1]
+    assert 'private static String runInRootShell(String script)' in loader
+    assert "ShellUtils.rootExecCmd(\"sh -c '" in loader
+    assert "script.replace(\"'\", \"'\\\\''\")" in loader
+    expression=re.search(r'final String captured = runInRootShell\((.*?)\)\.trim\(\);',loader,re.S)[1]
     source=temp/'CopyCommand.java'
     source.write_text('import java.io.File; public class CopyCommand {public static void main(String[] args){String sourceDir=args[0];File targetDir=new File(args[1]);System.out.print('+expression+');}}')
     subprocess.run(['javac','-d',str(temp),str(source)],check=True)
     before=temp/'source logs';after=temp/'destination logs';before.mkdir();after.mkdir()
     command=subprocess.check_output(['java','-cp',str(temp),'CopyCommand',str(before),str(after)],text=True)
     def shell(prefix=''):
-        return subprocess.check_output(['/bin/sh','-c',prefix+command],text=True).strip()
+        return subprocess.check_output(['sh','-c',prefix+command],text=True).strip()
     assert shell()=='HC_LSPD_EMPTY'
     (before/'modules fixture.log').write_text('fixture\n')
     assert shell()=='HC_LSPD_COPY_OK'
