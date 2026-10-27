@@ -23,12 +23,29 @@ public final class WeatherNativeEndpointOS4 {
     public static final int ACK = 0x48575331;
     public static final int REPLY_BYTES = 48;
     private static final long LEASE_NS = 5_000_000_000L;
+    /** Interactive cadence; the card can only show a fresher lease while the panel is drawing. */
+    private static final long ACTIVE_REFRESH_MS = 1500;
+    /**
+     * Cadence while the panel is non-interactive: a cycle is a cross-process query into the module
+     * app, which the platform has most likely reclaimed by then, and a doze card cannot observe the
+     * fresher lease it buys. 30 s is the cap this class already uses for provider failure.
+     */
+    private static final long DOZE_REFRESH_MS = 30000;
+    /**
+     * Idle periods are slept in slices this long so the first interactive cycle, and with it the
+     * first lease the wake can use, starts within a slice of the wake rather than up to
+     * {@link #DOZE_REFRESH_MS} after it. A slice is a local read of this process's own power
+     * service, which is what keeps a 20x reduced idle cadence from costing a stale card at unlock.
+     */
+    private static final long IDLE_SLICE_MS = 1000;
     private static final String PACKAGE = "com.miui.weather2";
     private static final String[][] SPECS = WeatherPrefsSnapshot.specs();
     private static final Object WORKER_LOCK = new Object();
     // One query lane per module classloader, even when a retired provider query ignores interrupt.
     private static Thread worker;
     private static WeatherNativeEndpointOS4 owner;
+    /** This endpoint runs in system_server, so the panel state is read from a local service. */
+    private static volatile android.os.PowerManager powerManager;
     private final Object lock = new Object();
     private final CallerVerifier verifier;
     private volatile boolean retired;
@@ -61,8 +78,53 @@ public final class WeatherNativeEndpointOS4 {
 
     // Owner changes are lifecycle transitions between endpoint instances, irrespective of equality.
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    private static boolean screenInteractive() {
+        try {
+            android.os.PowerManager manager = powerManager;
+            if (manager == null) {
+                final Context context = ContextUtils.getContextNoError(
+                    ContextUtils.FlAG_ONLY_ANDROID);
+                if (context == null) return true;
+                manager = context.getSystemService(android.os.PowerManager.class);
+                if (manager == null) return true;
+                powerManager = manager;
+            }
+            return manager.isInteractive();
+        } catch (RuntimeException | Error unavailable) {
+            return true;
+        }
+    }
+
+    /**
+     * Sleep a period, but in {@link #IDLE_SLICE_MS} slices while the panel is non-interactive, so an
+     * owner change (which interrupts this thread) and the first interactive cycle both take effect on
+     * the next slice rather than after the whole idle period.
+     */
+    private static void sleepWithIdleGate(long delay) throws InterruptedException {
+        if (delay <= IDLE_SLICE_MS || screenInteractive()) {
+            Thread.sleep(delay);
+            return;
+        }
+        long remaining = delay;
+        while (remaining > 0) {
+            Thread.sleep(Math.min(remaining, IDLE_SLICE_MS));
+            if (screenInteractive()) return;
+            remaining -= IDLE_SLICE_MS;
+        }
+    }
+
+    /**
+     * Cadence for the next cycle: the retry ladder is exactly what it was while the panel is
+     * interactive, and doze only raises the floor to {@link #DOZE_REFRESH_MS}.
+     */
+    static long nextDelay(long previousDelay, boolean refreshed, boolean interactive) {
+        final long ladder = refreshed ? ACTIVE_REFRESH_MS
+            : Math.min(Math.max(previousDelay, ACTIVE_REFRESH_MS) * 2, DOZE_REFRESH_MS);
+        return interactive ? ladder : Math.max(ladder, DOZE_REFRESH_MS);
+    }
+
     private static void workerLoop() {
-        long delay = 1500;
+        long delay = ACTIVE_REFRESH_MS;
         try {
             for (;;) {
                 final WeatherNativeEndpointOS4 current;
@@ -71,9 +133,11 @@ public final class WeatherNativeEndpointOS4 {
                     if (current == null) return;
                 }
                 Thread.interrupted();
-                delay = current.refreshFromProvider() ? 1500 : Math.min(delay * 2, 30000);
+                // The failure ladder is unchanged while the panel is interactive; doze only lifts
+                // the floor, and the slice loop below returns early the moment it stops being doze.
+                delay = nextDelay(delay, current.refreshFromProvider(), screenInteractive());
                 synchronized (WORKER_LOCK) { if (owner != current) continue; }
-                try { Thread.sleep(delay); } catch (InterruptedException changedOwner) { }
+                try { sleepWithIdleGate(delay); } catch (InterruptedException changedOwner) { }
             }
         } finally {
             synchronized (WORKER_LOCK) {
