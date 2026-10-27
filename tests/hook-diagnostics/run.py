@@ -4,9 +4,10 @@ import subprocess,tempfile
 R=Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory(prefix='hc-hook-diagnostics-')as temp:
  sources=list((R/'library/common/src/main/java/com/sevtinge/hyperceiler/common/diagnostics').glob('*.java'))
- sources += [R/'app/src/main/java/com/sevtinge/hyperceiler/diagnostics/ElfBuildId.java',Path(__file__).with_name('RulesTest.java'),Path(__file__).with_name('ExportTest.java')]
+ sources += [R/'app/src/main/java/com/sevtinge/hyperceiler/diagnostics/ElfBuildId.java',Path(__file__).with_name('RulesTest.java'),Path(__file__).with_name('SummaryTest.java'),Path(__file__).with_name('ExportTest.java')]
  subprocess.run(['javac','-encoding','UTF-8','-d',temp,*map(str,sources)],check=True)
  subprocess.run(['java','-ea','-cp',temp,'RulesTest'],check=True)
+ subprocess.run(['java','-ea','-cp',temp,'SummaryTest'],check=True)
  subprocess.run(['java','-ea','-cp',temp,'ExportTest'],check=True)
 
 subprocess.run(['python3',str(R/'tests/hook-diagnostics/observer.py')],check=True)

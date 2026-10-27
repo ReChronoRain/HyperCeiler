@@ -76,6 +76,7 @@ public class HomeRecentSettings extends DashboardFragment {
         mFixCardTitlePadding.setVisible(!isPad());
 
         if (isHyperOSVersion(4f)) {
+            mHideRecentCard.setSummary(R.string.home_recent_hide_card_os4_desc);
             // setFuncHint/setPreVisible also erase stored keys and replace descriptions.
             // OS4's temporary gate must be presentation-only.
             mUnlockPin.setVisible(false);

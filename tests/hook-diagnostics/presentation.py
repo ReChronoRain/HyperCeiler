@@ -60,7 +60,17 @@ for directory in ['values','values-zh-rCN']:
 print('Diagnostics UI contract PASS: overview first, both launcher entries, comma-only resource copy')
 
 fragment=(root/'app/src/main/java/com/sevtinge/hyperceiler/diagnostics/HookDiagnosticsFragment.java').read_text()
-assert 'DiagnosticRules.counts(report)' in fragment and 'counts.success()' in fragment
+assert 'assessment.counts()' in fragment and 'counts.success()' in fragment
 assert all(old not in fragment for old in ['最终效果','f.effect()','f.installation()','f.execution()','hook_diagnostics_levels'])
 assert not any(n.get('name','').startswith('hook_diagnostics_levels') for n in ET.parse(root/'app/src/main/res/values/diagnostics.xml').getroot())
 print('Success presentation PASS: shared counts, execution counts as success, layered prompts removed')
+
+# Each overview metric has a distinct section, current data is grouped, history is optional.
+assert 'case 2->"pending";default->"unknown";' in fragment
+assert 'DiagnosticSummary.from(report)' in fragment and 'assessment.features()' in fragment
+assert 'for(var f:report.findings()' not in fragment
+assert 'detail(DiagnosticSummary.Feature' in fragment and 'private void logs(' in fragment
+assert 'private void history()' in fragment and 'history.setVisible(!assessment.history().isEmpty())' in fragment
+assert '.limit(200)' not in fragment
+assert '当前情况' in fragment and '接下来怎么做' in fragment
+print('Feature projection UI PASS: distinct metric destinations, one semantic row per feature, separate history and technical logs')

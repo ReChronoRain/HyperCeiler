@@ -18,6 +18,8 @@ public final class HomeLayoutPrefsSnapshot {
     public static final String DOCK_HORIZONTAL_KEY = "home_layout_hotseats_margin_horizontal";
     public static final String DOCK_HORIZONTAL_VERSION = "hc_dock_horizontal_version";
     public static final String RECENTS_BAR_VERSION = "hc_recents_bar_version";
+    public static final String RECENT_CARDS_KEY = "home_recent_hide_card";
+    public static final String RECENT_CARDS_VERSION = "hc_recent_cards_version";
     private static final String[][] KEYS = {
         {"boolean", "home_drawer_hide_search"},
         {"integer", "task_view_corners"},
@@ -180,6 +182,17 @@ public final class HomeLayoutPrefsSnapshot {
             if (infinite != null && !(infinite instanceof Boolean)) return null;
             extras.putInt(INFINITE_VERSION, 1);
             extras.putInt(INFINITE_KEY, Boolean.TRUE.equals(infinite) ? 1 : 0);
+            // Optional extension, from the SAME getAll revision. A malformed
+            // app selection must not invalidate unrelated launcher settings.
+            Object hiddenCards = values.get("prefs_key_" + RECENT_CARDS_KEY);
+            if (hiddenCards == null || hiddenCards instanceof java.util.Set<?>) {
+                try {
+                    String packet = encodeTitleRecords(hiddenCards == null ? java.util.Set.of()
+                        : (java.util.Set<?>) hiddenCards);
+                    extras.putString(RECENT_CARDS_KEY, packet);
+                    extras.putInt(RECENT_CARDS_VERSION, 1);
+                } catch (IllegalArgumentException invalid) { /* Extension unavailable, stock cards retained. */ }
+            }
             result.setExtras(extras);
             return result;
         } catch (RuntimeException unavailable) { return null; }

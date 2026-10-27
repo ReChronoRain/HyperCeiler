@@ -12,7 +12,7 @@ with tempfile.TemporaryDirectory(prefix='hc-infinite-scroll-')as tmp:
     run(['c++','-std=c++20','-O1','-g','-Wall','-Wextra','-Werror','-fsanitize=address,undefined','-I'+str(cpp),'-I'+str(root/'tests/runtime-feature-addressing'),'-I'+str(out),here/'native_test.cpp','-o',out/'native'])
     run([out/'native']+([args.image]if args.image else[]))
     jdk=Path(os.environ.get('JAVA_HOME','/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home'))/'bin'
-    stubs=[p for p in (root/'tests/home-layout-native/stubs').rglob('*.java')if p.name!='ContentResolver.java']+list((root/'tests/hyos-control/java').rglob('*.java'))
+    stubs=[p for p in (root/'tests/home-layout-native/stubs').rglob('*.java')if p.name not in ('ContentResolver.java','ModuleLog.java')]+list((root/'tests/hyos-control/java').rglob('*.java'))
     stubs += [root/'tests/home-dock-window/stubs/android/os'/f for f in ['Binder.java','IBinder.java','Parcel.java']]
     lib=root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'
     prod=[lib/f for f in ['base/FrameworkHookGate.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','rules/home/dock/HomeLayoutNativeEndpointOS4.java']]

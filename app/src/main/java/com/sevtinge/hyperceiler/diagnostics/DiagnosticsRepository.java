@@ -30,7 +30,7 @@ public final class DiagnosticsRepository {
                     com.sevtinge.hyperceiler.log.LogcatLogLoader.syncHookDiagnostics(context,LogRepository.getInstance().getDao());
                 }
                 callback.accept(analyze());
-            }catch(Exception e){failure.accept("诊断未完成："+e.getClass().getSimpleName()+"。保留原有 Hook 行为，请重新刷新。");}
+            }catch(Exception e){failure.accept("这次诊断没有完成，请点重新诊断，仍失败时到日志页面导出日志反馈");}
             finally{synchronized(this){running=false;}}
         });
     }
