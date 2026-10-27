@@ -185,7 +185,7 @@ public class XposedLogLoader {
         String checkCmd = "[ -d '" + sourceDir + "' ] && echo exists || echo missing";
         final String diagnosticTag = "LogSync.LSPosed." + (LSPD_LOG_DIR.equals(sourceDir) ? "current" : "old");
         final LogDao dao = LogRepository.getInstance().getDao();
-        if (!"exists".equals(ShellUtils.rootExecCmd(checkCmd).trim())) {
+        if (!"exists".equals(runInRootShell(checkCmd).trim())) {
             clearDirectory(targetDir);
             LogSyncDiagnostics.record(dao, diagnosticTag, LSPD_LOG_DIR.equals(sourceDir) ? "W" : "I",
                 "LSPOSED_DIRECTORY_UNAVAILABLE: " + sourceDir
@@ -195,7 +195,7 @@ public class XposedLogLoader {
 
         ensureDirs(targetDir);
         clearDirectory(targetDir);
-        final String captured = ShellUtils.rootExecCmd("set -- '" + sourceDir + "'/*; "
+        final String captured = runInRootShell("set -- '" + sourceDir + "'/*; "
             + "if [ ! -e \"$1\" ]; then echo HC_LSPD_EMPTY; "
             + "elif cp -f '" + sourceDir + "'/* '" + targetDir.getAbsolutePath() + "/' 2>&1 "
             + "&& chmod -R 644 '" + targetDir.getAbsolutePath() + "'/* 2>&1; "
@@ -210,6 +210,10 @@ public class XposedLogLoader {
             return false;
         }
         return true;
+    }
+
+    private static String runInRootShell(String script) {
+        return ShellUtils.rootExecCmd("sh -c '" + script.replace("'", "'\\''") + "'");
     }
 
     private void persistFilteredLogsToDatabase() {
