@@ -77,12 +77,14 @@ object LoggerHealthChecker {
         score += logcatResult.score
         diag.add("logcat=${logcatResult.tag}")
 
+        var lspdDumpResult = CheckResult(0, "NO_ROOT")
+        var lspdHeaderResult = CheckResult(0, "NO_ROOT")
         if (hasRoot) {
-            val lspdDumpResult = checkLspdDumpFiles()
+            lspdDumpResult = checkLspdDumpFiles()
             score += lspdDumpResult.score
             diag.add("lspd_dump=${lspdDumpResult.tag}")
 
-            val lspdHeaderResult = checkLspdPageHeaders()
+            lspdHeaderResult = checkLspdPageHeaders()
             score += lspdHeaderResult.score
             diag.add("lspd_page=${lspdHeaderResult.tag}")
         } else {
@@ -90,8 +92,13 @@ object LoggerHealthChecker {
             diag.add("lspd_page=NO_ROOT")
         }
 
-        if (!hasRoot && "OK" == logcatResult.tag) {
+        // LSPosed 转储文件缺失（文件日志未开启/尚未同步/root 不可用）不代表日志服务异常；
+        // 只要 logcat 管道可用即视为可用（logcat-only 兜底，避免误报 UNHEALTHY 限制功能）。
+        val lspdFilesUnavailable = !hasRoot ||
+            ("NO_FILE" == lspdDumpResult.tag && "NO_FILE" == lspdHeaderResult.tag)
+        if ("OK" == logcatResult.tag && lspdFilesUnavailable) {
             score = score.coerceAtLeast(ALIVE_THRESHOLD)
+            diag.add("floor=LOGCAT_ONLY")
         }
 
         confidence = score.coerceIn(0, 100)
