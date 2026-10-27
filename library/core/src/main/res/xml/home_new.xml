@@ -46,6 +46,12 @@
         app:isPreferenceVisible="false" />
 
     <PreferenceCategory>
+        <Preference
+            android:key="prefs_key_home_diagnostics"
+            android:persistent="false"
+            android:title="@string/home_hook_diagnostics"
+            android:summary="@string/home_hook_diagnostics_summary" />
+
         <com.sevtinge.hyperceiler.prefs.XmlPreference
             android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeGestureSettings"
             android:key="prefs_key_home_gesture"

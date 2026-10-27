@@ -17,13 +17,19 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Called by the existing background refresh/export path, with its existing root access check. */
-final class LogcatLogLoader {
+public final class LogcatLogLoader {
     private static final String PREFS = "logcat_import";
     private static final String SOURCE = "logcat";
 
     private LogcatLogLoader() {}
 
-    static void sync(Context context, LogDao dao) {
+    static void sync(Context context, LogDao dao) { sync(context,dao,false); }
+
+    /** Explicit desktop diagnosis also captures the dedicated tag, so unrelated noisy tags do
+     * not exhaust the general tail before startup evidence can be imported. Still bounded. */
+    public static void syncHookDiagnostics(Context context,LogDao dao) { sync(context,dao,true); }
+
+    private static void sync(Context context, LogDao dao,boolean hookOnly) {
         java.lang.Process reader = null;
         File errors = null;
         try {
@@ -39,6 +45,10 @@ final class LogcatLogLoader {
                 // Stable negative IDs cannot collide with Room's positive auto-generated IDs.
                 entry.setId(item.id());
                 imported[0]++;
+                if(item.tag().equals("HyperCeiler.HookDiagnostics")){
+                    var event=com.sevtinge.hyperceiler.common.diagnostics.DiagnosticEvent.parse(item.message(),SOURCE,item.id());
+                    if(event!=null&&event.packageName().equals("com.miui.home"))imported[1]++;
+                }
                 if (item.tag().startsWith("HyperCeiler.Home") || item.tag().equals("HyperCeiler.NativeHome")
                     || item.tag().equals("HyperCeiler.DockNative")) imported[1]++;
                 batch.add(entry);
@@ -48,7 +58,11 @@ final class LogcatLogLoader {
                 }
             });
             errors = File.createTempFile("logcat-import-", ".err", context.getCacheDir());
-            reader = new ProcessBuilder("su", "-c", "logcat -b all -d -v long -v epoch -v usec -v uid")
+            String since=new java.text.SimpleDateFormat("MM-dd HH:mm:ss.SSS",java.util.Locale.US)
+                .format(new java.util.Date(System.currentTimeMillis()-6L*60*60*1000));
+            String command=hookOnly?"logcat -b all -d -T '"+since+"' -v long -v epoch -v usec -v uid HyperCeiler.HookDiagnostics:I '*:S'"
+                :"logcat -b all -d -t 12000 -v long -v epoch -v usec -v uid";
+            reader = new ProcessBuilder("su", "-c", command)
                 .redirectError(errors).start();
             java.lang.Process running = reader;
             Thread watchdog = new Thread(() -> {
@@ -60,24 +74,32 @@ final class LogcatLogLoader {
             }, "LogcatImportTimeout");
             watchdog.setDaemon(true);
             watchdog.start();
+            boolean budgetReached=false;
             try (BufferedReader lines = new BufferedReader(new InputStreamReader(reader.getInputStream(), StandardCharsets.UTF_8))) {
                 String line;
-                while ((line = lines.readLine()) != null) parser.line(line);
+                int count=0;long chars=0;
+                while ((line = lines.readLine()) != null) {
+                    chars+=line.length();
+                    if(++count>96000||imported[0]>=12000||chars>8L*1024*1024){budgetReached=true;reader.destroyForcibly();break;}
+                    parser.line(line);
+                }
                 parser.finish();
             }
             if (!batch.isEmpty()) dao.insertImportedLogs(batch);
             int status = reader.waitFor();
-            if (status != 0) {
+            if (budgetReached) {
+                LogSyncDiagnostics.record(dao,hookOnly?"LogSync.HookDiagnostics":"LogSync.Logcat","W","LOGCAT_IMPORT_PARTIAL: bounded capture budget reached (12000 records / 8 Mi characters / 20s); absence is not Hook failure.");
+            } else if (status != 0) {
                 String detail;
                 try (var errorStream = new java.io.FileInputStream(errors)) {
                     detail = new String(errorStream.readNBytes(2048), StandardCharsets.UTF_8).trim();
                 }
-                LogSyncDiagnostics.record(dao, "LogSync.Logcat", "E", "LOGCAT_IMPORT_FAILED: exit=" + status
+                LogSyncDiagnostics.record(dao, hookOnly?"LogSync.HookDiagnostics":"LogSync.Logcat", "E", "LOGCAT_IMPORT_FAILED: exit=" + status
                     + " records=" + imported[0] + " stderr=" + detail
                     + ". Check Root/logcat availability; the capture may be incomplete.");
             } else {
-                LogSyncDiagnostics.record(dao, "LogSync.Logcat", "I", "LOGCAT_IMPORT_OK: module log capture completed.");
-                LogSyncDiagnostics.record(dao, "LogSync.HomeCoverage", imported[1] == 0 ? "W" : "I",
+                LogSyncDiagnostics.record(dao, hookOnly?"LogSync.HookDiagnostics":"LogSync.Logcat", "I", "LOGCAT_IMPORT_OK: module log capture completed.");
+                if(!hookOnly||imported[1]>0) LogSyncDiagnostics.record(dao, "LogSync.HomeCoverage", imported[1] == 0 ? "W" : "I",
                     imported[1] == 0 ? "NO_HOME_RECORDS: No launcher-native diagnostics remain in current logcat buffers. "
                         + "Check LSPosed launcher scope, restart the launcher, reproduce and refresh promptly. "
                         + "Startup records may have expired; this alone does not prove that hooks never loaded."
@@ -88,7 +110,7 @@ final class LogcatLogLoader {
             Thread.currentThread().interrupt();
             LogSyncDiagnostics.record(dao, "LogSync.Logcat", "E", "LOGCAT_IMPORT_INTERRUPTED: capture interrupted; refresh again.");
         } catch (Exception error) {
-            LogSyncDiagnostics.record(dao, "LogSync.Logcat", "E", "LOGCAT_IMPORT_FAILED: "
+            LogSyncDiagnostics.record(dao, hookOnly?"LogSync.HookDiagnostics":"LogSync.Logcat", "E", "LOGCAT_IMPORT_FAILED: "
                 + error.getClass().getSimpleName() + ": " + error.getMessage());
         } finally {
             if (reader != null) reader.destroy();

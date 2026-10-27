@@ -1,0 +1,26 @@
+<resources>
+    <string name="hook_diagnostics_title">Home Hook diagnostics</string>
+    <string name="hook_diagnostics_refresh">Run diagnosis again</string>
+    <string name="hook_diagnostics_export">Export report</string>
+    <string name="hook_diagnostics_loading">Analysing local evidence</string>
+    <string name="hook_diagnostics_empty">No usable evidence, this does not mean hooks succeeded or failed, refresh after reproducing the operation</string>
+    <string name="hook_diagnostics_summary">Diagnosis uses current launcher records, executed features count as successful</string>
+    <string name="hook_diagnostics_evidence">Related logs</string>
+    <string name="hook_diagnostics_export_done">Diagnostic report exported</string>
+    <string name="hook_diagnostics_export_failed">Could not export the diagnostic report</string>
+    <string name="hook_diagnostics_scope">System launcher</string>
+    <string name="hook_diagnostics_overview">Overview</string>
+    <string name="hook_diagnostics_environment">Environment and collection</string>
+    <string name="hook_diagnostics_actions">Actions</string>
+    <string name="hook_diagnostics_faults">Problems</string>
+    <string name="hook_diagnostics_pending">Pending or unknown</string>
+    <string name="hook_diagnostics_inactive">Disabled or condition unmet</string>
+    <string name="hook_diagnostics_success">Successful</string>
+    <string name="hook_diagnostics_abnormal">Problems</string>
+    <string name="hook_diagnostics_pending_label">Pending</string>
+    <string name="hook_diagnostics_unknown">Unknown and history</string>
+    <string name="hook_diagnostics_waiting_count">Pending</string>
+    <string name="hook_diagnostics_local_evidence">Local evidence</string>
+    <string name="hook_diagnostics_analysing_badge">Analysing</string>
+    <string name="hook_diagnostics_update_failed_badge">Update failed</string>
+</resources>

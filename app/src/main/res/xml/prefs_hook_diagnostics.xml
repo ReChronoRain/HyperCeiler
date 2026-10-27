@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <com.sevtinge.hyperceiler.diagnostics.DiagnosticsOverviewPreference
+            android:key="diagnostics_summary" android:persistent="false" android:selectable="false"
+            android:title="@string/hook_diagnostics_overview" android:summary="@string/hook_diagnostics_loading" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/hook_diagnostics_scope">
+        <Preference android:key="diagnostics_environment" android:persistent="false"
+            android:title="@string/hook_diagnostics_environment" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/hook_diagnostics_actions">
+        <Preference android:key="diagnostics_refresh" android:persistent="false" android:title="@string/hook_diagnostics_refresh" />
+        <Preference android:key="diagnostics_export" android:persistent="false" android:title="@string/hook_diagnostics_export" />
+    </PreferenceCategory>
+    <PreferenceCategory android:key="diagnostics_faults" android:title="@string/hook_diagnostics_faults" />
+    <PreferenceCategory android:key="diagnostics_executed" android:title="@string/hook_diagnostics_success" />
+    <PreferenceCategory android:key="diagnostics_pending" android:title="@string/hook_diagnostics_pending" />
+    <PreferenceCategory android:key="diagnostics_inactive" android:title="@string/hook_diagnostics_inactive" />
+</PreferenceScreen>

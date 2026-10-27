@@ -133,6 +133,24 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_layout_hotseats_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_hotseats_margin_horizontal_enable"
+            android:summary="@string/home_layout_hotseats_margin_horizontal_desc"
+            android:title="@string/horizontal_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="20"
+            android:dependency="prefs_key_home_layout_hotseats_margin_horizontal_enable"
+            android:key="prefs_key_home_layout_hotseats_margin_horizontal"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValue="20"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="100"
+            app:minValue="0"
+            app:stepValue="1" />
+
         <!-- 底栏高度已下线；其 v3 协议槽位已复用于上面的文件夹行间距。 -->
         <SwitchPreference
             android:defaultValue="false"

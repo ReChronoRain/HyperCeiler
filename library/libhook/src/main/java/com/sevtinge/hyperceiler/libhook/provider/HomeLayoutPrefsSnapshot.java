@@ -4,12 +4,20 @@ package com.sevtinge.hyperceiler.libhook.provider;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.os.Bundle;
 import java.util.HashMap;
 import java.util.Map;
 
 /** One authoritative physical-file revision; a null cell is a known missing key. */
 public final class HomeLayoutPrefsSnapshot {
     public static final int SCHEMA = 4;
+    public static final String INFINITE_KEY = "home_other_infinite_scroll";
+    public static final String INFINITE_VERSION = "hc_infinite_scroll_version";
+    // Optional cursor extras preserve schema 4's exact columns for older clients.
+    public static final String RECENTS_BAR_KEY = "home_recent_hide_status_bar_in_task_view";
+    public static final String DOCK_HORIZONTAL_KEY = "home_layout_hotseats_margin_horizontal";
+    public static final String DOCK_HORIZONTAL_VERSION = "hc_dock_horizontal_version";
+    public static final String RECENTS_BAR_VERSION = "hc_recents_bar_version";
     private static final String[][] KEYS = {
         {"boolean", "home_drawer_hide_search"},
         {"integer", "task_view_corners"},
@@ -152,6 +160,27 @@ public final class HomeLayoutPrefsSnapshot {
                     default -> { return null; }
                 }
             }
+            Object hideBar = values.get("prefs_key_" + RECENTS_BAR_KEY);
+            if (hideBar != null && !(hideBar instanceof Boolean)) return null;
+            Bundle extras = new Bundle();
+            extras.putInt(RECENTS_BAR_VERSION, 1);
+            extras.putInt(RECENTS_BAR_KEY, Boolean.TRUE.equals(hideBar) ? 1 : 0);
+            Object horizontal = values.get("prefs_key_" + DOCK_HORIZONTAL_KEY);
+            Object horizontalEnabled = values.get("prefs_key_" + DOCK_HORIZONTAL_KEY + "_enable");
+            if ((horizontal == null || horizontal instanceof Integer)
+                && (horizontalEnabled == null || horizontalEnabled instanceof Boolean)) {
+                int margin = horizontal instanceof Integer number ? number : 20;
+                if (margin >= 0 && margin <= 100) {
+                    extras.putInt(DOCK_HORIZONTAL_VERSION, 1);
+                    extras.putInt(DOCK_HORIZONTAL_KEY, margin);
+                    extras.putInt(DOCK_HORIZONTAL_KEY + "_enable", Boolean.TRUE.equals(horizontalEnabled) ? 1 : 0);
+                }
+            }
+            Object infinite = values.get("prefs_key_" + INFINITE_KEY);
+            if (infinite != null && !(infinite instanceof Boolean)) return null;
+            extras.putInt(INFINITE_VERSION, 1);
+            extras.putInt(INFINITE_KEY, Boolean.TRUE.equals(infinite) ? 1 : 0);
+            result.setExtras(extras);
             return result;
         } catch (RuntimeException unavailable) { return null; }
     }

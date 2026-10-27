@@ -9,9 +9,11 @@
 constexpr int kTag=0;
 constexpr unsigned kIconRenderSlotBase=0,kProgressIconSlotBase=6,kKnobHookSlotBase=10,kDrawerSearchSlot=11;
 constexpr unsigned kFolderIconScaleSlot=13,kFolderAnimScaleSlotBase=14,kFolderAnimScaleSlotCount=5,kFolderReturnScaleSlotBase=19,kWidgetScaleSlot=21,kWidgetScaleSlotCount=23;
+constexpr unsigned kDockPositionSlotBase=44;
+constexpr unsigned kTitleCustomSlot=46,kCustomTitleDrawerSlot=47;
 constexpr const char* kKnobHookSymbols[]={"test"};
 struct Slot{uintptr_t address=0;void* replacement=nullptr;void** original=nullptr;int source=0,original_words=0;bool ready=false;};
-Slot g_slots[44];
+Slot g_slots[48];
 std::atomic_bool g_drawer_search_requested{false},g_drawer_search_ready{false};
 struct Knob{bool hook_armed=false,hook_mode=false;uintptr_t hook_address=0;void* hook_entry=nullptr;void** hook_original=nullptr;int hook_source=0,hook_words=0;uint32_t getter=0,getter_size=0;const char* symbol=nullptr;std::atomic_bool requested{false};std::atomic_int delta_dp{0};};
 Knob g_knobs[1];
@@ -38,6 +40,8 @@ void bind_folder_icon_scale(){if(folder_graph)g_slots[kFolderIconScaleSlot].addr
 void bind_folder_animation_scale(){if(folder_graph)for(unsigned i=14;i<19;++i)g_slots[i].address=i+100;}
 void bind_folder_app_return_scale(){if(folder_graph)for(unsigned i=19;i<21;++i)g_slots[i].address=i+100;}
 void bind_widget_scale(){if(widget_graph)for(unsigned i=21;i<44;++i)g_slots[i].address=i+100;}
+void bind_dock_position(){if(graph)for(unsigned i=kDockPositionSlotBase;i<kDockPositionSlotBase+2;++i)g_slots[i].address=i+100;}
+void bind_title_custom(){if(graph&&!cached.title_custom_labels.empty()){g_slots[kTitleCustomSlot].address=1000;g_slots[kCustomTitleDrawerSlot].address=1001;}}
 bool bind_dart_target(uint32_t target,uintptr_t& address,int&,int&){address=target;return true;}
 int slot_host(){return 0;}
 namespace nhk{bool ensure_slots_live(Slot* slots,int,const std::vector<size_t>& order){++install_calls;for(auto i:order)slots[i].ready=allow_install;return allow_install;}bool slot_ready(const Slot& slot){return slot.ready;}}

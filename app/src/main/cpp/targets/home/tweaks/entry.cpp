@@ -33,6 +33,8 @@
 #include <string>
 #include <vector>
 
+extern "C" void hc_home_diagnostic_sample();
+
 namespace home_layout_engine {
 namespace {
 
@@ -59,6 +61,7 @@ std::atomic<uint32_t> g_loadedCount{0};
 /* The desktop is forked from the spawner, so several entry points ask for a start; only the first
    one may create the monitoring thread. */
 std::atomic<bool> g_layoutEngineStarted{false};
+std::atomic<pid_t> g_layoutEngineOwner{0};
 
 struct AppliedPatch {
     uintptr_t address;
@@ -983,17 +986,22 @@ uint64_t MonitorPeriodMs(const State& state) {
      *           and running it twenty times a second is what starves the launcher main thread of
      *           g_workMutex and keeps the desktop off the screen. A stuck state is therefore
      *           retried on the *slow* cadence, not the fast one.
-     * 50 ms   - the start-up / applying cadence. Taken while the image or the configuration is
-     *           still being found, and while a plan is actively being applied. A genuinely
-     *           progressed plan settles in a pass or two, so this stays bounded.
+     * 50 ms   - the applying cadence, once the image AND configuration are present.
+     *           Missing prerequisites use 1500 ms too; load/config notifications wake
+     *           the worker without waiting for that fallback deadline.
      */
-    if (state.imageFound && state.configLoaded && !state.repatchNeeded) return 1500;
+    // A missing/unsupported image or absent config may never arrive. Library
+    // notification and pushed config already wake this worker immediately;
+    // there is no reason to poll /proc and take the work mutex at 20 Hz forever.
+    if (!state.imageFound || !state.configLoaded) return 1500;
+    if (!state.repatchNeeded) return 1500;
     if (state.restoreBlocked || state.writeRetryPending) return 1500;
     return 50;
 }
 
 void MonitorLoop() {
     uint64_t nextConfigCheck = 0;
+    uint64_t nextDiagnosticSample = 0;
 
     for (;;) {
         if (!TryDiscoverImage()) {
@@ -1033,6 +1041,15 @@ void MonitorLoop() {
             if (!state->applied.empty()) Watchdog(state);
 
             periodMs = MonitorPeriodMs(*state);
+        }
+
+        // Read existing scalar counters outside both runtime locks. The single
+        // existing monitor owns this at <= once / 5 s, including neutral configs.
+        // No image lookup, Binder, allocation in Dart, new poller or repair.
+        const uint64_t diagnosticNow=NowMs();
+        if(diagnosticNow>=nextDiagnosticSample){
+            nextDiagnosticSample=diagnosticNow+5000;
+            hc_home_diagnostic_sample();
         }
 
         {
@@ -1083,6 +1100,7 @@ void OnNativeLibraryLoaded(const char* name, void* ) {
  * because an unnamed namespace is visible throughout the translation unit that contains it.
  */
 namespace home_layout_engine {
+void HomeLayoutEnginePrepareForLauncherChild();
 namespace {
 
 void WakeMonitor() {
@@ -1105,8 +1123,16 @@ void WakeMonitor() {
  * PushLayoutConfig.
  */
 void StartHomeLayoutEngine() {
+    const auto self=getpid();
+    // Property reads also arrive while gralloc/resources and gesture windows
+    // run on the input thread. Do not reopen /proc once this PID owns a worker.
+    // A child must still perform the original specialization reset after fork.
+    if(g_layoutEngineStarted.load(std::memory_order_acquire)
+        &&g_layoutEngineOwner.load(std::memory_order_acquire)==self)return;
     if (!IsLauncherProcess()) return;
+    HomeLayoutEnginePrepareForLauncherChild();
     if (g_layoutEngineStarted.exchange(true, std::memory_order_acq_rel)) return;
+    g_layoutEngineOwner.store(self,std::memory_order_release);
     pthread_t thread;
     if (pthread_create(&thread, nullptr,
             [](void*) -> void* {
@@ -1236,15 +1262,19 @@ bool HomeLayoutEngineFindSymbol(const char *name, uint32_t *outVa, uint32_t *out
      * The loader thread therefore only ever *consumes* an index that is already built. If it is not,
      * this returns "not found" and the caller does the same thing it does for a genuinely missing
      * symbol: leaves the site alone. The maintenance worker builds the index on its own thread and
-     * both re-run their binding passes immediately afterwards, so nothing is lost - only moved off
-     * the critical path. EnsureLoaded is idempotent and single-shot (`attempted_`), so a worker that
-     * got there first is not disturbed.
+     * the existing maintenance worker retries admission. It may wait for or build the index;
+     * the loader must never do either. All index flags are read under the work mutex.
      */
-    if (InLoaderCallback() && !index.attempted()) return false;
-    TryDiscoverImage();
-    std::lock_guard<std::mutex> work(g_workMutex);
+    const bool loader=InLoaderCallback();
+    if (!loader) TryDiscoverImage();
+    std::unique_lock<std::mutex> work(g_workMutex,std::defer_lock);
+    if (loader) { if (!work.try_lock()) return false; }
+    else work.lock();
     if (!g_state.imageFound) return false;
-    if (!index.EnsureLoaded(g_state.image)) return false;
+    // attempted() is not ready: the background decoder can hold the mutex for
+    // seconds. Do not wait for it, read its flags without the lock, or persist
+    // its cache through EnsureLoaded from a linker callback.
+    if (loader ? !index.loaded() : !index.EnsureLoaded(g_state.image)) return false;
     return index.Find(name, outVa, outSize);
 }
 
@@ -1259,19 +1289,25 @@ bool HomeLayoutEngineFindSymbol(const char *name, uint32_t *outVa, uint32_t *out
  */
 bool HomeLayoutEngineSymbolSpan(uint32_t va, uint32_t *outSpan) {
     if (va == 0 || outSpan == nullptr) return false;
-    TryDiscoverImage();
-    std::lock_guard<std::mutex> work(g_workMutex);
+    const bool loader=InLoaderCallback();
+    if (!loader) TryDiscoverImage();
+    std::unique_lock<std::mutex> work(g_workMutex,std::defer_lock);
+    if (loader) { if (!work.try_lock()) return false; }
+    else work.lock();
     if (!g_state.imageFound) return false;
     SymbolIndex &index = SymbolIndex::Instance();
-    if (!index.EnsureLoaded(g_state.image)) return false;
+    if (loader ? !index.loaded() : !index.EnsureLoaded(g_state.image)) return false;
     return index.SpanFrom(va, outSpan);
 }
 
 /** Return the verified image source for diagnostics/bridge callers; never infer an APK from a directory. */
 bool HomeLayoutEngineTargetImage(char *path, size_t cap) {
     if (path == nullptr || cap == 0) return false;
-    TryDiscoverImage();
-    std::lock_guard<std::mutex> work(g_workMutex);
+    const bool loader=InLoaderCallback();
+    if (!loader) TryDiscoverImage();
+    std::unique_lock<std::mutex> work(g_workMutex,std::defer_lock);
+    if (loader) { if (!work.try_lock()) return false; }
+    else work.lock();
     if (!g_state.imageFound || g_state.image.path[0] == '\0') return false;
     snprintf(path, cap, "%s", g_state.image.path);
     return true;

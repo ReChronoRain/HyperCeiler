@@ -1,0 +1,26 @@
+<resources>
+    <string name="hook_diagnostics_title">桌面智能诊断</string>
+    <string name="hook_diagnostics_refresh">重新诊断</string>
+    <string name="hook_diagnostics_export">导出诊断报告</string>
+    <string name="hook_diagnostics_loading">正在分析本地证据</string>
+    <string name="hook_diagnostics_empty">暂无可用证据，不能据此判断 Hook 成功或失败，请复现操作后重新诊断</string>
+    <string name="hook_diagnostics_summary">根据当前桌面的运行记录诊断，已执行的功能计为成功</string>
+    <string name="hook_diagnostics_evidence">查看关联日志</string>
+    <string name="hook_diagnostics_export_done">诊断报告已导出</string>
+    <string name="hook_diagnostics_export_failed">诊断报告导出失败</string>
+    <string name="hook_diagnostics_scope">系统桌面</string>
+    <string name="hook_diagnostics_overview">诊断概览</string>
+    <string name="hook_diagnostics_environment">环境与采集状态</string>
+    <string name="hook_diagnostics_actions">诊断操作</string>
+    <string name="hook_diagnostics_faults">异常诊断</string>
+    <string name="hook_diagnostics_pending">待检查与未知</string>
+    <string name="hook_diagnostics_inactive">已关闭或条件不满足</string>
+    <string name="hook_diagnostics_success">成功</string>
+    <string name="hook_diagnostics_abnormal">异常</string>
+    <string name="hook_diagnostics_pending_label">待检查</string>
+    <string name="hook_diagnostics_unknown">未知与历史</string>
+    <string name="hook_diagnostics_waiting_count">待采集</string>
+    <string name="hook_diagnostics_local_evidence">本地证据</string>
+    <string name="hook_diagnostics_analysing_badge">分析中</string>
+    <string name="hook_diagnostics_update_failed_badge">更新失败</string>
+</resources>

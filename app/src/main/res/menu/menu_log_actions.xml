@@ -38,5 +38,7 @@
             android:icon="@drawable/ic_function_setting"
             android:showAsAction="always"
             android:title="@string/log_menu_filter" />
+        <item android:id="@+id/menu_hook_diagnostics"
+            android:title="@string/hook_diagnostics_title" android:showAsAction="never" />
     </group>
 </menu>

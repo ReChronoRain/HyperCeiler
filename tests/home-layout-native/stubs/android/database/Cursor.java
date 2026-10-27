@@ -2,6 +2,7 @@ package android.database;
 
 /** Minimal host stub: a cursor the provider path can iterate without an Android runtime. */
 public interface Cursor extends AutoCloseable {
+    default android.os.Bundle getExtras() { return new android.os.Bundle(); }
     boolean moveToFirst();
 
     int getInt(int columnIndex);

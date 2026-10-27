@@ -257,7 +257,7 @@
       "page": "home_recent",
       "key": "prefs_key_home_recent_hide_status_bar_in_task_view",
       "title": "隐藏状态栏",
-      "status": "ui_gate_unadapted",
+      "status": "declared_adapted_requires_evidence",
       "dependency": null
     },
     {
@@ -467,7 +467,7 @@
       "page": "home_other_new",
       "key": "prefs_key_home_other_infinite_scroll",
       "title": "无限滚动",
-      "status": "ui_gate_unadapted",
+      "status": "declared_adapted_requires_evidence",
       "dependency": null
     },
     {

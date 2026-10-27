@@ -6,6 +6,8 @@
 #include "home_gestures_os4.h"
 
 #include "home_layout_knobs.h"
+#include "home_dock_horizontal.h"
+#include "home_infinite_scroll_config.h"
 #include "home_recent_config.h"
 #include "home_drawer_config.h"
 #include "home_policy_config.h"
@@ -93,6 +95,8 @@ struct Config {
     bool title_hide_new_install = false;
     bool dock_show_title = false;
     bool drawer_hide_search = false;
+    int dock_horizontal = 0;
+    bool infinite_scroll = false;
     uint64_t policies = 0;
     bool widget_allow_move = false;
     BackGestureConfig back_gesture{};
