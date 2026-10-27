@@ -16,16 +16,9 @@ public final class DiagnosticRules {
     public record Report(List<Finding> findings,boolean collectionComplete,int malformed,int rejected,String environment) {}
     public record Counts(long success,long abnormal,long pending,long unknown) {}
     public static Counts counts(Report report){
-        long success=0,abnormal=0,pending=0,unknown=0;
-        for(var f:report.findings())switch(f.state()){
-            case ACTIVE->success++;
-            case FAILED,DEGRADED->abnormal++;
-            case INSTALLED,WAITING,INITIALIZING->pending++;
-            case UNKNOWN,STALE->unknown++;
-            default->{}
-        }
-        return new Counts(success,abnormal,pending,unknown);
+        return DiagnosticSummary.from(report).counts();
     }
+
     public static String stateLabel(State state){return switch(state){
         case ACTIVE->"成功";case INSTALLED->"待执行";case FAILED->"明确异常";case DEGRADED->"部分异常";
         case DISABLED->"已关闭";case NOT_APPLICABLE->"条件不满足";case WAITING->"等待操作或依赖";
@@ -158,8 +151,16 @@ public final class DiagnosticRules {
     public static String redact(String text){return SENSITIVE.matcher(AUTH.matcher(DiagnosticEvent.bound(text,2000)).replaceAll("[已脱敏]")).replaceAll("[已脱敏]");}
     public static String reportText(Report report){
         StringBuilder s=new StringBuilder("HyperCeiler Hook Diagnostics v1\n已执行的功能计为成功，明确异常与过期记录单独统计。\n");
-        var counts=counts(report);
-        s.append("成功，").append(counts.success()).append("，异常，").append(counts.abnormal()).append("，待检查，").append(counts.pending()).append("，未知与历史，").append(counts.unknown()).append('\n');
+        var summary=DiagnosticSummary.from(report);
+        var counts=summary.counts();
+        s.append("成功，").append(counts.success()).append("，异常，").append(counts.abnormal()).append("，待检查，").append(counts.pending()).append("，信息不足，").append(counts.unknown()).append('\n');
+        s.append(summary.overview()).append('\n');
+        s.append("上次运行记录，").append(summary.history().size()).append("，不计入当前功能数量\n");
+        for(var feature:summary.features()) {
+            s.append("\n功能，").append(redact(feature.name())).append("，").append(DiagnosticPresentation.label(feature.state()))
+                .append("\n当前情况，").append(feature.explanation()).append("\n下一步，").append(feature.advice()).append('\n');
+        }
+        s.append("\n诊断环境与原始技术记录\n");
         s.append(redact(report.environment())).append("\n采集完整：").append(report.collectionComplete()).append("；格式损坏：").append(report.malformed()).append("；来源校验拒绝：").append(report.rejected()).append('\n');
         for(var f:report.findings()){
             if(s.length()>1024*1024){s.append("\n[报告达到 1 MiB 上限，后续证据未导出]\n");break;}

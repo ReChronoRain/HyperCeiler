@@ -6,7 +6,7 @@ import java.nio.*;
 public class RulesTest {
     static int checks;
     static void check(boolean value,String name){checks++;if(!value)throw new AssertionError(name);}
-    static DiagnosticEvent event(String id,String phase,String code,long time){return new DiagnosticEvent(id,"测试功能","JAVA","com.miui.home","com.miui.home",123,"boot","500","g1","apk-source:build","SDK37",time,phase,phase,code,"evidence","logcat",time);}
+    static DiagnosticEvent event(String id,String phase,String code,long time){return new DiagnosticEvent(id,"测试功能 "+id,"JAVA","com.miui.home","com.miui.home",123,"boot","500","g1","apk-source:build","SDK37",time,phase,phase,code,"evidence","logcat",time);}
     static DiagnosticRules.Environment env(){return new DiagnosticRules.Environment("boot",Map.of(123,"500"),true,5000,true,Set.of("apk-source:build"));}
     static DiagnosticRules.Finding one(DiagnosticEvent...e){return DiagnosticRules.analyze(List.of(e),env(),0,0,"test").findings().get(0);}
     static DiagnosticEvent generation(DiagnosticEvent e,String g,String start){return new DiagnosticEvent(e.hookId(),e.feature(),e.type(),e.packageName(),e.processName(),e.pid(),e.bootId(),start,g,e.moduleVersion(),e.systemVersion(),e.time(),e.phase(),e.stage(),e.code(),e.detail(),e.source(),e.rawId());}
@@ -67,10 +67,10 @@ public class RulesTest {
             event("na","NOT_APPLICABLE","NOT_APPLICABLE",1200),
             generation(event("stale","EXECUTED","EXECUTED",1200),"old","100"),
             event("unknown","UNRECOGNIZED","UNKNOWN",1200)),env(),0,0,"test");
-        check(DiagnosticRules.counts(summaryReport).equals(new DiagnosticRules.Counts(3,2,3,2)),
+        check(DiagnosticRules.counts(summaryReport).equals(new DiagnosticRules.Counts(3,2,3,1)),
             "success is current active only, duplicate and installed records do not double count, faults and disabled excluded");
         var text=DiagnosticRules.reportText(summaryReport);
-        check(text.contains("成功，3，异常，2，待检查，3，未知与历史，2")&&text.contains("[成功]"),"export shares overview counts and success label");
+        check(text.contains("成功，3，异常，2，待检查，3，信息不足，1")&&text.contains("[成功]"),"export shares overview counts and success label");
         check(!text.contains("最终效果")&&!text.contains("分别判定")&&!text.contains("安装:")&&!text.contains("执行:")&&!text.contains("效果:"),"report removes layered prompts");
         check(text.contains("EXECUTED/EXECUTED")&&text.contains("APPLIED/INTERNAL_APPLIED"),"raw lifecycle evidence preserved");
         var uncertainRun=DiagnosticRules.analyze(List.of(ran),unavailable,0,0,"");

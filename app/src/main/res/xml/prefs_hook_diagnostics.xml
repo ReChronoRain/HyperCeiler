@@ -5,16 +5,21 @@
             android:key="diagnostics_summary" android:persistent="false" android:selectable="false"
             android:title="@string/hook_diagnostics_overview" android:summary="@string/hook_diagnostics_loading" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/hook_diagnostics_scope">
+    <PreferenceCategory>
         <Preference android:key="diagnostics_environment" android:persistent="false"
             android:title="@string/hook_diagnostics_environment" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/hook_diagnostics_actions">
-        <Preference android:key="diagnostics_refresh" android:persistent="false" android:title="@string/hook_diagnostics_refresh" />
-        <Preference android:key="diagnostics_export" android:persistent="false" android:title="@string/hook_diagnostics_export" />
+        <Preference android:key="diagnostics_refresh" android:persistent="false" android:title="@string/hook_diagnostics_refresh" android:summary="@string/hook_diagnostics_refresh_hint" />
+        <Preference android:key="diagnostics_export" android:persistent="false" android:title="@string/hook_diagnostics_export" android:summary="@string/hook_diagnostics_export_hint" />
     </PreferenceCategory>
     <PreferenceCategory android:key="diagnostics_faults" android:title="@string/hook_diagnostics_faults" />
-    <PreferenceCategory android:key="diagnostics_executed" android:title="@string/hook_diagnostics_success" />
     <PreferenceCategory android:key="diagnostics_pending" android:title="@string/hook_diagnostics_pending" />
+    <PreferenceCategory android:key="diagnostics_unknown" android:title="@string/hook_diagnostics_unknown" />
+    <PreferenceCategory android:key="diagnostics_executed" android:title="@string/hook_diagnostics_success" />
     <PreferenceCategory android:key="diagnostics_inactive" android:title="@string/hook_diagnostics_inactive" />
+    <PreferenceCategory>
+        <Preference android:key="diagnostics_history" android:persistent="false"
+            android:title="@string/hook_diagnostics_history" />
+    </PreferenceCategory>
 </PreferenceScreen>
