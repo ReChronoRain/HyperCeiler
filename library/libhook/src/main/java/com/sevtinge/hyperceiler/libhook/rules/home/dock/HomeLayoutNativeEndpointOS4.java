@@ -61,6 +61,26 @@ public final class HomeLayoutNativeEndpointOS4 {
      * this bounded retry also recovers from a provider that was unavailable during an update.
      */
     private static final long MAX_REFRESH_BACKOFF_MS = 30000;
+    /**
+     * Cadence while the panel is non-interactive.
+     *
+     * Every cycle costs a cross-process query into the module app, and that app is the one the
+     * platform is most likely to have reclaimed already, so an idle cycle can be a cold start of
+     * another process. A doze panel cannot serve a fresher lease either: the launcher is not
+     * drawing, and {@link #tryReadCombinedSnapshot()} answers the same fallback it would answer for
+     * any other expired lease. 30 s is the cap this class already uses for provider failure, and it
+     * matches {@code HomeDockWindow.SWEEP_DOZE_INTERVAL_MS}, which gates the same cost for the same
+     * reason on this ROM.
+     */
+    private static final long DOZE_REFRESH_MS = 30000;
+    /**
+     * The idle cadence is waited out in slices this long, so that the first interactive cycle starts
+     * - and republishes a live lease - within a slice of the wake instead of up to
+     * {@link #DOZE_REFRESH_MS} after it. A slice is a local read of this process's own power
+     * service; a cycle is a query that can cold start another app, so slicing is what keeps the
+     * reduced cadence from being paid for at every unlock.
+     */
+    private static final long IDLE_SLICE_MS = 1000;
     private static final String TAG = "HyperCeiler.HomeLayoutEndpoint";
     private static volatile java.util.Map<String, Object> cachedValues;
     // Published with the same provider revision, never restored as live authorization.
@@ -71,6 +91,8 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static final long HYOS_MAX_SNAPSHOT_AGE_NANOS = 5_000_000_000L;
     private static volatile String lastDenied;
     private static volatile String lastAccepted;
+    /** This endpoint runs in system_server, so the panel state is read from a local service. */
+    private static volatile android.os.PowerManager powerManager;
     private static Thread refresher;
     private static volatile boolean paused;
     private static long refreshEpoch;
@@ -154,6 +176,59 @@ public final class HomeLayoutNativeEndpointOS4 {
         }
     }
 
+    /**
+     * Whether the panel is interactive. Fail-open on purpose: a context or a service that cannot be
+     * resolved keeps the interactive cadence, so a resolution failure costs queries rather than
+     * silently freezing the published lease for a whole boot.
+     */
+    private static boolean screenInteractive() {
+        try {
+            android.os.PowerManager manager = powerManager;
+            if (manager == null) {
+                final android.content.Context context =
+                    com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                        com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+                if (context == null) return true;
+                manager = context.getSystemService(android.os.PowerManager.class);
+                if (manager == null) return true;
+                powerManager = manager;
+            }
+            return manager.isInteractive();
+        } catch (RuntimeException | Error unavailable) {
+            return true;
+        }
+    }
+
+    /**
+     * How long to wait before the next cycle: unchanged while the panel is interactive, floored at
+     * {@link #DOZE_REFRESH_MS} while it is not. Kept separate from the retry ladder so the two
+     * effects cannot hide each other.
+     */
+    static long idlePeriod(long period, boolean interactive) {
+        return interactive ? period : Math.max(period, DOZE_REFRESH_MS);
+    }
+
+    /**
+     * Wait out one idle period in {@link #IDLE_SLICE_MS} slices. Returns as soon as the panel is
+     * interactive, so the caller's next cycle republishes a lease the wake can use; a settings write
+     * observed during the wait is left to the caller's revision check, which still refreshes
+     * promptly. {@code period} is consumed entirely when the panel stays in doze.
+     */
+    private static boolean idleGateElapsed(long period, long epoch) throws InterruptedException {
+        if (period <= IDLE_SLICE_MS || screenInteractive()) {
+            refresherLock.wait(period);
+            return true;
+        }
+        long remaining = period;
+        while (remaining > 0) {
+            refresherLock.wait(Math.min(remaining, IDLE_SLICE_MS));
+            if (paused || refreshEpoch != epoch) return false;
+            if (screenInteractive()) return true;
+            remaining -= IDLE_SLICE_MS;
+        }
+        return true;
+    }
+
     private static void ensureRefresher() {
         restoreProviderSnapshot();
         synchronized (refresherLock) {
@@ -221,7 +296,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                             if (paused || refreshEpoch != epoch) return;
                             // A write during the query needs a new whole-file revision now.
                             if (notificationVersion != beforeQuery) continue;
-                            refresherLock.wait(period);
+                            idleGateElapsed(idlePeriod(period, screenInteractive()), epoch);
                         }
                     }
                 } catch (InterruptedException cancelled) {

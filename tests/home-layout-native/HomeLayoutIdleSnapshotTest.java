@@ -118,6 +118,18 @@ public final class HomeLayoutIdleSnapshotTest {
             check(HomeLayoutNativeEndpointOS4.readPreferences().knobDeltaDp()[5] == 114, "mixed old enable/new margin within one packet");
             check(HomeLayoutNativeEndpointOS4.readPreferences().knobDeltaDp()[5] == 80, "next packet sees new snapshot");
         });
+        test("doze floor leaves the interactive cadence and the retry cap untouched", () -> {
+            check(HomeLayoutNativeEndpointOS4.idlePeriod(1500, true) == 1500,
+                "interactive cycle slowed by the doze floor");
+            check(HomeLayoutNativeEndpointOS4.idlePeriod(6000, true) == 6000,
+                "interactive retry ladder changed");
+            check(HomeLayoutNativeEndpointOS4.idlePeriod(30000, true) == 30000,
+                "interactive retry cap changed");
+            check(HomeLayoutNativeEndpointOS4.idlePeriod(1500, false) == 30000,
+                "doze cycle not slowed to the idle cadence");
+            check(HomeLayoutNativeEndpointOS4.idlePeriod(30000, false) == 30000,
+                "doze retry exceeded the idle cap");
+        });
         System.out.println("IDLE_SNAPSHOT_TEST: " + passed + " passed; " + failed + " failed");
         if (failed > 0) System.exit(1);
     }
