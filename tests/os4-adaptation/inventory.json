@@ -250,7 +250,7 @@
       "page": "home_recent",
       "key": "prefs_key_home_recent_hide_card",
       "title": "隐藏后台卡片",
-      "status": "ui_gate_unadapted",
+      "status": "declared_adapted_requires_evidence",
       "dependency": null
     },
     {
