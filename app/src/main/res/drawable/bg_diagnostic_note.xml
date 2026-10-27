@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/diagnostic_note_surface" />
+    <corners android:radius="12dp" />
+</shape>

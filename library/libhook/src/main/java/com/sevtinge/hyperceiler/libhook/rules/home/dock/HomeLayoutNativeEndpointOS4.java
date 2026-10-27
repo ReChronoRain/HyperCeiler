@@ -127,7 +127,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             value.knobEnabled().clone(), value.knobDeltaDp().clone(), value.tweaks().clone(),
             value.title().clone(), titles, value.widgetAllowMove(), value.folder().clone(),
             value.backGesture().clone(), value.folderAutoClose(), value.objectScales().clone(),
-            value.dockShowTitle(), value.recent().clone(), value.drawerHideSearch(), value.policies());
+            value.dockShowTitle(), value.recent().clone(), value.drawerHideSearch(), value.policies(), value.dockHorizontalDelta(), value.infiniteScroll());
     }
 
     private static CombinedSnapshot unavailableCombined(PublishedSnapshot value) {
@@ -152,6 +152,10 @@ public final class HomeLayoutNativeEndpointOS4 {
         final String segment = path.substring(slash + 1);
         final String key = segment.startsWith("prefs_key_")
             ? segment.substring("prefs_key_".length()) : segment;
+        if (HomeLayoutPrefsSnapshot.INFINITE_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY.equals(key)
+            || (HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable").equals(key)) return true;
         for (String[] spec : PREF_KEYS) {
             if (spec[1].equals(key)) return true;
         }
@@ -435,6 +439,24 @@ public final class HomeLayoutNativeEndpointOS4 {
                 // Older providers return an empty / one-column cursor for an unknown path.
                 // It must not erase a complete cache, especially while an APK is being replaced.
                 if (!isProviderSchema(cursor)) return null;
+                final android.os.Bundle extras = cursor.getExtras();
+                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_VERSION, 0) == 1) {
+                    int hidden = extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, -1);
+                    if (hidden == 0 || hidden == 1)
+                        values.put(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, hidden);
+                }
+                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_VERSION, 0) == 1) {
+                    int margin = extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY, -1);
+                    int enabled = extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable", -1);
+                    if (margin >= 0 && margin <= 100 && (enabled == 0 || enabled == 1)) {
+                        values.put(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY, margin);
+                        values.put(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable", enabled);
+                    }
+                }
+                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_VERSION, 0) == 1) {
+                    int infinite = extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_KEY, -1);
+                    if (infinite == 0 || infinite == 1) values.put(HomeLayoutPrefsSnapshot.INFINITE_KEY, infinite);
+                }
                 for (int index = 0; index < PREF_KEYS.length; ++index) {
                     final String key = PREF_KEYS[index][1];
                     final int column = index + 1;
@@ -497,8 +519,24 @@ public final class HomeLayoutNativeEndpointOS4 {
     public record Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
         int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
         boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose, int[] objectScales,
-        boolean dockShowTitle, int[] recent, boolean drawerHideSearch, long policies) {
+        boolean dockShowTitle, int[] recent, boolean drawerHideSearch, long policies, int dockHorizontalDelta, boolean infiniteScroll) {
         public Snapshot { recent = recent == null ? null : recent.clone(); }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose,
+            int[] objectScales, boolean dockShowTitle, int[] recent, boolean drawerHideSearch, long policies, int dockHorizontalDelta) {
+            this(acknowledgment,gridEnabled,cellX,cellY,knobEnabled,knobDeltaDp,tweaks,title,
+                customTitles,widgetAllowMove,folder,backGesture,folderAutoClose,objectScales,
+                dockShowTitle,recent,drawerHideSearch,policies,dockHorizontalDelta,false);
+        }
+        public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
+            int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
+            boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose,
+            int[] objectScales, boolean dockShowTitle, int[] recent, boolean drawerHideSearch, long policies) {
+            this(acknowledgment,gridEnabled,cellX,cellY,knobEnabled,knobDeltaDp,tweaks,title,
+                customTitles,widgetAllowMove,folder,backGesture,folderAutoClose,objectScales,
+                dockShowTitle,recent,drawerHideSearch,policies,0);
+        }
         public Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
             int[] knobEnabled, int[] knobDeltaDp, int[] tweaks, int[] title, String[][] customTitles,
             boolean widgetAllowMove, int[] folder, int[] backGesture, boolean folderAutoClose,
@@ -685,6 +723,21 @@ public final class HomeLayoutNativeEndpointOS4 {
             value.deadline(), value.layout());
     }
 
+    /** Same immutable physical-file publication and authorization as combined layout. */
+    public record RecentsBarPreference(boolean available, boolean enabled, long deadline) { }
+    public static RecentsBarPreference recentsBarPreference() {
+        final PublishedSnapshot value = combinedPublished;
+        final long now = SystemClock.elapsedRealtimeNanos();
+        if (!isCombinedLeaseLive(value, now)
+            || !value.values().containsKey(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY))
+            return new RecentsBarPreference(false, false, 0);
+        final int flags = deriveHyosFlags(value.values(), value.reason(), value.framework());
+        if (combinedPublished != value || !isCombinedLeaseLive(value, SystemClock.elapsedRealtimeNanos()))
+            return new RecentsBarPreference(false, false, 0);
+        return new RecentsBarPreference(true, (flags & HYOS_ALLOWED) != 0
+            && readBoolean(value.values(), HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, false), value.deadline());
+    }
+
     private static boolean isCombinedLeaseLive(PublishedSnapshot value, long now) {
         return value != null && !paused && value.values() != null && now > 0
             && now < value.deadline() && value.deadline() - now <= HYOS_MAX_SNAPSHOT_AGE_NANOS;
@@ -778,10 +831,11 @@ public final class HomeLayoutNativeEndpointOS4 {
                 || read.title()[3] < 0 || read.title()[3] > 1) {
                 return denied("title size out of range");
             }
+            if (read.dockHorizontalDelta() < -20 || read.dockHorizontalDelta() > 80) return denied("dock horizontal margin out of range");
             if ((read.policies() & ~1L) != 0) return denied("unsupported layout policy bits");
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
             read.knobEnabled(), read.knobDeltaDp(), read.tweaks(), read.title(), read.customTitles(),
-            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle(), read.recent().clone(), read.drawerHideSearch(), read.policies());
+            read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle(), read.recent().clone(), read.drawerHideSearch(), read.policies(), read.dockHorizontalDelta(), read.infiniteScroll());
             final String summary = describe(accepted);
             if (!summary.equals(lastAccepted)) {
                 lastAccepted = summary;
@@ -831,6 +885,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         if (snapshot.customTitles() != null) text.append(" custom_titles=").append(snapshot.customTitles().length);
         text.append(" folder=").append(java.util.Arrays.toString(snapshot.folder()));
         text.append(" dock_show_title=").append(snapshot.dockShowTitle());
+        text.append(" infinite_scroll=").append(snapshot.infiniteScroll());
         text.append(" drawer_hide_search=").append(snapshot.drawerHideSearch()).append(" policies=").append(snapshot.policies());
         text.append(" recent=").append(java.util.Arrays.toString(snapshot.recent()));
         text.append(" object_scales=").append(java.util.Arrays.toString(snapshot.objectScales()));
@@ -883,7 +938,14 @@ public final class HomeLayoutNativeEndpointOS4 {
                 boundedBack(readInt(values, "home_navigation_back_area_height", 60), 10, 100, 60),
                 boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values),
             readBoolean(values, "home_dock_icon_title", false), readRecent(values), readBoolean(values, "home_drawer_hide_search", false),
-            readBoolean(values, "home_title_hide_report_text", false) ? 1L : 0L);
+            readBoolean(values, "home_title_hide_report_text", false) ? 1L : 0L,
+            readDockHorizontal(values), readBoolean(values, HomeLayoutPrefsSnapshot.INFINITE_KEY, false));
+    }
+
+    private static int readDockHorizontal(java.util.Map<String,Object> values) {
+        final String key = HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY;
+        int margin = readInt(values, key, 20);
+        return readBoolean(values, key + "_enable", false) && margin >= 0 && margin <= 100 ? margin - 20 : 0;
     }
 
     private static void decodeGeometryKnobs(java.util.Map<String, Object> values,
@@ -949,9 +1011,18 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
     public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
-    public static final int ENDPOINT_REVISION = 20261025;
-    public static final int ENDPOINT_CAPABILITIES = 31; // object scales + Dock titles + recents + drawer search + layout policies
+    public static final int ENDPOINT_REVISION = 20261027;
+    public static final int ENDPOINT_CAPABILITIES = 127; // object scales + Dock titles + recents + drawer search + layout policies
 
+    public static final int INFINITE_SCROLL_MAGIC = 0x48434957;
+    public static void writeInfiniteScroll(Parcel reply, boolean enabled) {
+        reply.writeInt(INFINITE_SCROLL_MAGIC);reply.writeInt(enabled ? 1 : 0);
+    }
+    public static final int DOCK_HORIZONTAL_MAGIC = 0x4843484d; // HCHM, optional legacy tail
+    public static void writeDockHorizontal(Parcel reply, int delta) {
+        reply.writeInt(DOCK_HORIZONTAL_MAGIC);reply.writeInt(1);
+        reply.writeInt(delta >= -20 && delta <= 80 ? delta : 0);
+    }
     public static final int POLICY_MAGIC = 0x4843504f;
     public static void writePolicies(Parcel reply, long flags) {
         reply.writeInt(POLICY_MAGIC);reply.writeInt(2);

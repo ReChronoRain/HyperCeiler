@@ -37,6 +37,7 @@ with tempfile.TemporaryDirectory(prefix='hc-layout-first-render-')as work:
 int main(){
     reset();cached.drawer_hide_search=true;cached.tweaks.icon_scale_enabled=true;cached.knobs[0]={true,35};
     prime_home_layout_first_render_locked();
+    assert(g_slots[kDockPositionSlotBase].ready&&g_slots[kDockPositionSlotBase+1].ready);
     assert(g_drawer_search_ready&&hc_icon_render_enabled&&hc_folder_icon_scale_enabled&&hc_widget_scale_enabled&&scale==1.5&&margin==105&&!g_first_render_discovery);
     assert(hc_hotseat_margin_caller_count==2&&hc_hotseat_margin_callers[0]==0x102e&&hc_hotseat_margin_callers[1]==0x1032);
     for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();
@@ -55,8 +56,9 @@ int main(){
     assert(g_first_render_finished&&!hc_icon_render_enabled&&!g_knobs[0].hook_armed&&margin==-1&&install_calls==1);
     // Registered slots survive the bounded main-thread attempt. Recovery can
     // adopt/install the same bank without asking property reads to do the work.
-    allow_install=true;std::vector<size_t> order;for(unsigned i=0;i<44;++i)if(g_slots[i].address)order.push_back(i);
+    allow_install=true;std::vector<size_t> order;for(unsigned i=0;i<48;++i)if(g_slots[i].address)order.push_back(i);
     nhk::ensure_slots_live(g_slots,slot_host(),order);g_knobs[0].hook_armed=nhk::slot_ready(g_slots[10]);publish_hooks();assert(hc_icon_render_enabled&&hc_widget_scale_enabled);
+    assert(g_slots[kDockPositionSlotBase].ready&&g_slots[kDockPositionSlotBase+1].ready);
     reset();have_config=false;scale=1.25;prime_home_layout_first_render_locked();
     assert(!g_first_render_finished&&config_reads==1&&discoveries==0&&install_calls==0&&scale==1.25&&!g_first_render_discovery);
     have_config=true;prime_home_layout_first_render_locked();assert(g_first_render_finished&&hc_icon_render_enabled);
@@ -64,6 +66,9 @@ int main(){
     assert(g_first_render_finished&&discoveries==1&&install_calls==0&&!g_first_render_discovery);
     reset();have_image=false;prime_home_layout_first_render_locked();assert(!g_first_render_finished&&config_reads==0&&install_calls==0);
     have_image=true;prime_home_layout_first_render_locked();assert(g_first_render_finished&&hc_icon_render_enabled);
+    reset();cached.title_custom_labels={{u"com.miui.notes",u"自定义标题"}};
+    prime_home_layout_first_render_locked();assert(g_slots[kTitleCustomSlot].ready&&g_slots[kCustomTitleDrawerSlot].ready);
+    for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();assert(install_calls==1&&discoveries==1);
     std::cout<<"first-render production bootstrap PASS: 500 repeated reads -> 1 install; missing optional graph, failed install/worker adoption, busy config, late image and new generation\n";
 }
 '''

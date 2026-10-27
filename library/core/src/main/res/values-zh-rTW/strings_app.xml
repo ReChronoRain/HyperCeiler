@@ -1081,7 +1081,7 @@
     <string name="home_layout_home_title">主螢幕</string>
     <string name="home_layout_indicator_title">桌面搜尋</string>
     <string name="home_layout_indicator_margin_bottom_desc">調整桌面搜尋與螢幕底部的距離</string>
-    <string name="home_layout_hotseats_title">Dock</string>
+    <string name="home_layout_hotseats_title">底欄圖示</string>
     <string name="home_layout_searchbar_title">搜尋框</string>
     <string name="home_layout_searchbar_width">高度</string>
     <string name="home_layout_seek_points">頁面指示器</string>
@@ -1677,4 +1677,5 @@
     <string name="open_source">開源項目</string>
     <string name="close_source">閉源項目</string>
     <string name="home_drawer_hide_search">隱藏抽屜搜尋框</string>
+    <string name="home_layout_hotseats_margin_horizontal_desc">調整底欄圖示的左右留白，數值越大圖示越靠近中間，重新啟動系統桌面後生效</string>
 </resources>

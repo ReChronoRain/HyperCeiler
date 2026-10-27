@@ -2,6 +2,9 @@ package android.database;
 public final class MatrixCursor implements Cursor {
     private final String[] columns;
     private Object[] row;
+    private android.os.Bundle extras = new android.os.Bundle();
+    public void setExtras(android.os.Bundle value) { extras=value; }
+    public android.os.Bundle getExtras() { return extras; }
     public MatrixCursor(String[] columns) { this.columns = columns.clone(); }
     public RowBuilder newRow() { row = new Object[columns.length]; return new RowBuilder(); }
     public final class RowBuilder {

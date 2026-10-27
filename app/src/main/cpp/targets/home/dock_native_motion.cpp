@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
+#include "home_recent_statusbar.h"
 #include <android/log.h>
 #include <android/binder_ibinder.h>
 #include <android/binder_parcel.h>
@@ -54,6 +55,7 @@ constexpr int32_t kStateAck = 0x48435331;
 constexpr char kWindowDescriptor[] = "android.view.IWindowManager";
 std::atomic<uint64_t> motion_sequence{0};
 std::atomic<uint64_t> auto_aim_sequence{0};
+std::atomic<uint64_t> bar_sequence{0};
 
 void retry_delay() {
     timespec delay{0, 500000000};
@@ -189,6 +191,27 @@ public:
         if (!replied) return SendResult::failed;
         if (acknowledgment == kMotionAckRevalidate) return SendResult::revalidate;
         return acknowledgment == kMotionAck ? SendResult::acknowledged : SendResult::failed;
+    }
+
+    // Optional independent lane. Unknown/old server replies disable only this feature.
+    bool send_recents_bar(const Sample& sample) {
+        AParcel *input=nullptr, *output=nullptr;
+        if(AIBinder_prepareTransaction(window_,&input)!=STATUS_OK || !input) return false;
+        if(AParcel_writeInt64(input,sample.sequence)!=STATUS_OK
+            || AParcel_writeInt64(input,sample.uptime_ns)!=STATUS_OK
+            || AParcel_writeInt64(input,sample.value)!=STATUS_OK
+            || AParcel_writeInt64(input,sample.entry_hits)!=STATUS_OK
+            || AParcel_writeInt64(input,sample.publish_hits)!=STATUS_OK) { AParcel_delete(input); return false; }
+        const auto status=AIBinder_transact(window_,0x00484354,&input,&output,0);
+        int32_t ack=0,available=0,enabled=0;
+        const bool ok=status==STATUS_OK && output
+            && AParcel_readInt32(output,&ack)==STATUS_OK && ack==0x48435231
+            && AParcel_readInt32(output,&available)==STATUS_OK && (available==0||available==1)
+            && AParcel_readInt32(output,&enabled)==STATUS_OK && (enabled==0||enabled==1)
+            && (available!=0||enabled==0);
+        if(output) AParcel_delete(output);
+        home_recent_bar::configure(ok && available && enabled);
+        return ok;
     }
 
 private:
@@ -340,6 +363,7 @@ void run_dock_motion() {
     unsigned auto_aim_reports = 0;
     for (;;) {
         uint64_t last_edit = 0, last_edit_sent = 0;
+        uint64_t last_bar=UINT64_MAX,last_bar_sent=0;
         WindowBinderTransport transport;
         Sample sample{};
         const auto initial = transport.connect() && current_sample(sample)
@@ -458,6 +482,15 @@ void run_dock_motion() {
                     disconnected=true; continue;
                 }
                 last_edit=editing; last_edit_sent=mono_ns;
+            }
+            const auto bar=home_recent_bar::packed();
+            if (bar!=last_bar || suspended || mono_ns-last_bar_sent>=2000000000ULL) {
+                Sample status{++bar_sequence,mono_ns,bar&15,bar>>4,bar>>4};
+                (void)transport.send_recents_bar(status);
+                // Keep the existing drawable/doze gate authoritative even with glass off.
+                // A scene event wakes this worker immediately; no per-frame or UI-thread IPC.
+                if (home_recent_bar::requested()) (void)refresh_dock_screen_state();
+                last_bar=bar;last_bar_sent=mono_ns;
             }
             if (!dock_motion_feature_enabled.load(std::memory_order_acquire)) {
                 // Preference off: publish nothing and leave the baselines untouched, so the first

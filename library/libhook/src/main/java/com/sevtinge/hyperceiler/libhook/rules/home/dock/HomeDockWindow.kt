@@ -334,6 +334,7 @@ class HomeDockWindow : BaseHook() {
         },
         glassClient::record)
     private val nativeMotionReply = ThreadLocal<Int>()
+    private val recentsStatusBar = HomeRecentsStatusBarOS4(glassClient::record)
     private val layoutEndpoint = HomeLayoutNativeEndpointOS4()
     private val layoutReply = ThreadLocal<HomeLayoutNativeEndpointOS4.Snapshot>()
     private val combinedReply = ThreadLocal<HomeLayoutNativeEndpointOS4.CombinedSnapshot>()
@@ -457,6 +458,7 @@ class HomeDockWindow : BaseHook() {
         prefs?.registerOnSharedPreferenceChangeListener(listener)
         registerHotReloadCleanup {
             stopped = true
+            recentsStatusBar.close()
             prefs?.unregisterOnSharedPreferenceChangeListener(listener)
             synchronized(layers) { layers.keys.toList().forEach { removeLayer(it) } }
             glassClient.close()
@@ -539,10 +541,14 @@ class HomeDockWindow : BaseHook() {
         private val attrsField = windowClass.getDeclaredField("mAttrs").apply { isAccessible = true }
 
         fun install() {
+            recentsStatusBar.install(windowClass)
             windowClass.getDeclaredMethod("prepareSurfaces").apply { isAccessible = true }
                 .createAfterHook { param -> runCatching { prepareWindow(param.thisObject) }.onFailure { notePrepareFailure(it) } }
             windowClass.getDeclaredMethod("removeImmediately").apply { isAccessible = true }
-                .createBeforeHook { param -> synchronized(layers) { removeLayer(param.thisObject) } }
+                .createBeforeHook { param ->
+                    recentsStatusBar.removed(param.thisObject)
+                    synchronized(layers) { removeLayer(param.thisObject) }
+                }
             installNativeMotionTransaction()
             installWallpaper()
         }
@@ -558,6 +564,12 @@ class HomeDockWindow : BaseHook() {
                         // endpoint can observe the same frame, including the newest hook.
                         if (stopped) return@createBeforeHook
                         val code = param.args[0] as Int
+                        if (code == HomeRecentsStatusBarOS4.TRANSACTION) {
+                            val reply = param.args[2] as? Parcel ?: return@createBeforeHook
+                            recentsStatusBar.receive(param.args[1] as Parcel, reply, param.args[3] as Int)
+                            param.result = true
+                            return@createBeforeHook
+                        }
                         if (code == com.sevtinge.hyperceiler.libhook.provider.DockGlassRendererProtocol.REGISTER) {
                             val reply = param.args[2] as? Parcel ?: return@createBeforeHook
                             try {
@@ -694,6 +706,8 @@ class HomeDockWindow : BaseHook() {
                             result?.recent() ?: HomeLayoutNativeEndpointOS4.recentDefaults())
                         HomeLayoutNativeEndpointOS4.writeDrawer(reply, result?.drawerHideSearch() ?: false)
                         HomeLayoutNativeEndpointOS4.writePolicies(reply, result?.policies() ?: 0L)
+                        HomeLayoutNativeEndpointOS4.writeDockHorizontal(reply, result?.dockHorizontalDelta() ?: 0)
+                        HomeLayoutNativeEndpointOS4.writeInfiniteScroll(reply, result?.infiniteScroll() ?: false)
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()
@@ -727,6 +741,7 @@ class HomeDockWindow : BaseHook() {
                 }
                 if (!isLauncher(window, attrs)) return
                 service = window.getObjectFieldAs<Any>("mWmService")
+                recentsStatusBar.bind(window, service!!)
                 // Unconditional on purpose: this is the *bootstrap* for the provider channel, so
                 // gating it on settings.enabled would deadlock. settings.enabled is itself only
                 // trustworthy once the provider has answered (see refreshSettings()), and the

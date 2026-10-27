@@ -1,0 +1,4 @@
+<resources>
+    <string name="home_hook_diagnostics">智能诊断</string>
+    <string name="home_hook_diagnostics_summary">查看系统桌面各项功能的诊断状态与证据</string>
+</resources>

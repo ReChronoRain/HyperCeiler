@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+    <fan.cardview.HyperCardView
+        style="@style/DiagnosticOverviewCard"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp" android:layout_marginVertical="4dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="20dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <ImageView android:layout_width="36dp" android:layout_height="36dp"
+                    android:padding="8dp" android:src="@drawable/ic_navigation_home"
+                    android:tint="@color/diagnostic_accent" android:background="@drawable/bg_diagnostic_icon"
+                    android:importantForAccessibility="no" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp"
+                    android:layout_marginEnd="8dp">
+                    <TextView android:id="@android:id/title" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/hook_diagnostics_overview" android:textSize="18sp"
+                        android:fontFamily="@string/miuix_font_style_misans_demibold_font_family"
+                        android:textColor="?itemViewTitleTextColor" android:accessibilityHeading="true" android:includeFontPadding="false" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/hook_diagnostics_scope" android:textSize="12sp" android:layout_marginTop="3dp"
+                        android:textColor="?itemViewSummaryTextColor" android:includeFontPadding="false" />
+                </LinearLayout>
+                <TextView android:id="@+id/diagnostic_overview_badge" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:maxWidth="96dp" android:textSize="11sp" android:paddingHorizontal="10dp" android:paddingVertical="5dp"
+                    android:text="@string/hook_diagnostics_local_evidence" android:textColor="@color/diagnostic_accent"
+                    android:background="@drawable/bg_diagnostic_badge" android:includeFontPadding="false" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:baselineAligned="false" android:layout_marginTop="20dp">
+                <LinearLayout android:id="@+id/diagnostic_verified_group"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:minHeight="64dp" android:layout_weight="1"
+                    android:orientation="vertical" android:gravity="center" android:paddingHorizontal="2dp"
+                    android:background="?android:attr/selectableItemBackground" android:importantForAccessibility="yes">
+                    <TextView android:id="@+id/diagnostic_verified" style="@style/DiagnosticOverviewNumber"
+                        android:textColor="@color/diagnostic_verified" />
+                    <TextView style="@style/DiagnosticOverviewLabel" android:text="@string/hook_diagnostics_success" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/diagnostic_abnormal_group"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:minHeight="64dp" android:layout_weight="1"
+                    android:orientation="vertical" android:gravity="center" android:paddingHorizontal="2dp"
+                    android:background="?android:attr/selectableItemBackground" android:importantForAccessibility="yes">
+                    <TextView android:id="@+id/diagnostic_abnormal" style="@style/DiagnosticOverviewNumber"
+                        android:textColor="@color/diagnostic_abnormal" />
+                    <TextView style="@style/DiagnosticOverviewLabel" android:text="@string/hook_diagnostics_abnormal" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/diagnostic_pending_group"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:minHeight="64dp" android:layout_weight="1"
+                    android:orientation="vertical" android:gravity="center" android:paddingHorizontal="2dp"
+                    android:background="?android:attr/selectableItemBackground" android:importantForAccessibility="yes">
+                    <TextView android:id="@+id/diagnostic_pending" style="@style/DiagnosticOverviewNumber"
+                        android:textColor="@color/diagnostic_accent" />
+                    <TextView style="@style/DiagnosticOverviewLabel" android:text="@string/hook_diagnostics_pending_label" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/diagnostic_unknown_group"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:minHeight="64dp" android:layout_weight="1"
+                    android:orientation="vertical" android:gravity="center" android:paddingHorizontal="2dp"
+                    android:background="?android:attr/selectableItemBackground" android:importantForAccessibility="yes">
+                    <TextView android:id="@+id/diagnostic_unknown" style="@style/DiagnosticOverviewNumber"
+                        android:textColor="@color/diagnostic_muted" />
+                    <TextView style="@style/DiagnosticOverviewLabel" android:text="@string/hook_diagnostics_unknown" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView android:id="@android:id/summary" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" android:padding="12dp" android:textSize="12sp" android:lineSpacingExtra="2dp"
+                android:includeFontPadding="false" android:textColor="?itemViewSummaryTextColor"
+                android:background="@drawable/bg_diagnostic_note" />
+        </LinearLayout>
+    </fan.cardview.HyperCardView>
+</FrameLayout>

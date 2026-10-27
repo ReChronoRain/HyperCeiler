@@ -79,6 +79,7 @@ option(HYPERCEILER_DOCK_NATIVE_MOTION "Dynamically resolve OS4 native recents an
 if(HYPERCEILER_DOCK_NATIVE_MOTION)
     target_sources(HyperCeilerNative PRIVATE
         targets/home/dock_native_hooks.cpp
+        targets/home/home_recent_statusbar.cpp
         targets/home/dock_native_motion.cpp
         targets/home/dock_native_motion_arm64.S)
     target_compile_definitions(HyperCeilerNative PRIVATE HYPERCEILER_DOCK_NATIVE_MOTION=1)

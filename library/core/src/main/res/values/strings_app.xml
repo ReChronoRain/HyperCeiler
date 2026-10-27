@@ -1225,7 +1225,7 @@
     <string name="home_layout_home_title">Home screen</string>
     <string name="home_layout_indicator_title">Desktop search</string>
     <string name="home_layout_indicator_margin_bottom_desc">Adjust the distance between desktop search and the bottom of the screen.</string>
-    <string name="home_layout_hotseats_title">Dock</string>
+    <string name="home_layout_hotseats_title">Dock icons</string>
     <string name="home_layout_searchbar_title">Search bar</string>
     <string name="home_layout_searchbar_os4_hint">On OS4, adjust the search capsule under Layout → Desktop search.</string>
     <string name="home_layout_searchbar_width">Height</string>
@@ -1889,4 +1889,5 @@
     <string name="home_layout_widget_scale_title">Widget scale</string>
     <string name="home_layout_independent_scale_desc">Adjust independently. 100% keeps the original size.</string>
     <string name="home_drawer_hide_search">Hide drawer search bar</string>
+    <string name="home_layout_hotseats_margin_horizontal_desc">Adjust the horizontal spacing of dock icons, larger values bring icons closer to the center, restart the launcher to apply</string>
 </resources>
