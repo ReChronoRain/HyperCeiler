@@ -40,5 +40,21 @@ fun main(){
  Binder.setCallingIdentityForTest(10123,21);seq=0;rev=0;c(send(9)==1);c(replacement.getRequestedVisibleTypes()==14)
  p.close();wm.mH.drain();c(replacement.getRequestedVisibleTypes()==15);c(dc.policy.appliedTypes==15)
  c(send(9)==0)
+ val hooks=io.github.lingqiqi5211.ezhooktool.xposed.dsl.Hooks
+ c(hooks.primitiveResubmissions==0)
+ val before=hooks.originals
+ repeat(1000){c(replacement.isRequestedVisible(1));c(replacement.isRequestedVisible(2))}
+ c(hooks.originals-before==2000)
+ c(hooks.primitiveResubmissions==0)
+ // Negative oracle: the actual dependency's previous InvocationContext route must
+ // hit the boxed-primitive rejection, while the new observer preserves that error.
+ val primitive=WindowState::class.java.getDeclaredMethod("isRequestedVisible",Int::class.javaPrimitiveType)
+ val callbacks=hooks.hooks.getValue(primitive)
+ callbacks.add(fixture.LegacyForwarding.after{})
+ var rejected=false
+ try{replacement.isRequestedVisible(1)}catch(e:IllegalArgumentException){rejected=e.message=="primitive argument resubmitted as boxed value"}
+ finally{callbacks.removeAt(callbacks.lastIndex)}
+ c(rejected);c(hooks.primitiveResubmissions==1)
+ c(replacement.isRequestedVisible(1))
  println("recents bar WMS lifecycle $checks checks passed, simulated WMS and hook dispatch")
 }

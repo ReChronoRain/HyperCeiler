@@ -7,7 +7,10 @@ import android.os.IBinder
 import android.os.Parcel
 import android.os.SystemClock
 import android.view.WindowInsets
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.base.OriginalArgumentsHook
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.util.concurrent.atomic.AtomicBoolean
@@ -78,15 +81,24 @@ internal class HomeRecentsStatusBarOS4(private val record: (String) -> Unit) {
             }
             check(changed.size == 1) { "requested-types notification unavailable or ambiguous" }
             requestedChanged = changed.single().apply { isAccessible = true }
-            method(type, "getRequestedVisibleTypes", Int::class.javaPrimitiveType!!).createAfterHook { param ->
+            observeAfter(method(type, "getRequestedVisibleTypes", Int::class.javaPrimitiveType!!)) { param ->
                 if (param.thisObject === window && shouldHide()) param.result = (param.result as Int) and STATUS.inv()
             }
-            method(type, "isRequestedVisible", Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!).createAfterHook { param ->
+            observeAfter(method(type, "isRequestedVisible", Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!)) { param ->
                 if (param.thisObject === window && param.args[0] == STATUS && shouldHide()) param.result = false
             }
             ready = true
             record("recents status bar window policy installed, native execution and visible effect require separate evidence")
         } catch (error: Throwable) { fail(error) }
+    }
+    private fun observeAfter(method: Method, callback: (HookParam) -> Unit) {
+        // Do not re-submit untouched primitive arguments through proceedWith.
+        // Preserve the original WMS call and its exception, then filter its result only.
+        BaseHook.chain(method, OriginalArgumentsHook.of(object : IMethodHook {
+            override fun after(param: HookParam) {
+                if (param.throwable == null) callback(param)
+            }
+        }))
     }
     fun bind(target: Any, wm: Any) {
         if (!ready || stopped) return

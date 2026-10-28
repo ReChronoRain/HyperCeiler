@@ -9,7 +9,7 @@ jdk=Path(os.environ.get('JAVA_HOME','/opt/homebrew/opt/openjdk@25/libexec/openjd
 def run(args): subprocess.run([str(x) for x in args],check=True)
 with tempfile.TemporaryDirectory(prefix='hc-recents-bar-') as directory:
     out=Path(directory)
-    sources=list((tests/'home-layout-native/stubs').rglob('*.java'))+list((tests/'home-dock-window/stubs').rglob('*.java'))
+    sources=[p for tree in ['home-layout-native/stubs','home-dock-window/stubs'] for p in (tests/tree).rglob('*.java') if p.name!='ModuleLog.java']
     sources += [lib/x for x in ['base/FrameworkHookGate.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','rules/home/dock/HomeLayoutNativeEndpointOS4.java','rules/home/dock/HomeRecentsBarState.java']]
     sources += [root/'library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java']
     sources += [Path(__file__).with_name('StateTest.java'),Path(__file__).with_name('PreferenceTest.java')]
