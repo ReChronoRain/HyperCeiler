@@ -60,6 +60,11 @@ object LoggerHealthChecker {
 
     private const val LOGCAT_READ_DELAY_MS = 150L
     private const val MAX_RETRIES = 3
+
+    // 检查项标签：提取为常量，避免同一字符串字面量在文件内重复出现
+    private const val TAG_OK = "OK"
+    private const val TAG_NO_FILE = "NO_FILE"
+    private const val TAG_NO_ROOT = "NO_ROOT"
     private val PAGE_MARKER_REGEX = Regex("^----part \\d+ start----$")
 
     /**
@@ -77,12 +82,14 @@ object LoggerHealthChecker {
         score += logcatResult.score
         diag.add("logcat=${logcatResult.tag}")
 
+        var lspdDumpResult = CheckResult(0, TAG_NO_ROOT)
+        var lspdHeaderResult = CheckResult(0, TAG_NO_ROOT)
         if (hasRoot) {
-            val lspdDumpResult = checkLspdDumpFiles()
+            lspdDumpResult = checkLspdDumpFiles()
             score += lspdDumpResult.score
             diag.add("lspd_dump=${lspdDumpResult.tag}")
 
-            val lspdHeaderResult = checkLspdPageHeaders()
+            lspdHeaderResult = checkLspdPageHeaders()
             score += lspdHeaderResult.score
             diag.add("lspd_page=${lspdHeaderResult.tag}")
         } else {
@@ -90,8 +97,13 @@ object LoggerHealthChecker {
             diag.add("lspd_page=NO_ROOT")
         }
 
-        if (!hasRoot && "OK" == logcatResult.tag) {
+        // LSPosed 转储文件缺失（文件日志未开启/尚未同步/root 不可用）不代表日志服务异常；
+        // 只要 logcat 管道可用即视为可用（logcat-only 兜底，避免误报 UNHEALTHY 限制功能）。
+        val lspdFilesUnavailable = !hasRoot ||
+            (TAG_NO_FILE == lspdDumpResult.tag && TAG_NO_FILE == lspdHeaderResult.tag)
+        if (TAG_OK == logcatResult.tag && lspdFilesUnavailable) {
             score = score.coerceAtLeast(ALIVE_THRESHOLD)
+            diag.add("floor=LOGCAT_ONLY")
         }
 
         confidence = score.coerceIn(0, 100)
@@ -141,7 +153,7 @@ object LoggerHealthChecker {
             try {
                 Thread.sleep(LOGCAT_READ_DELAY_MS * (attempt + 1))
                 if (readLogcatForToken(token)) {
-                    return CheckResult(WEIGHT_LOGCAT, "OK")
+                    return CheckResult(WEIGHT_LOGCAT, TAG_OK)
                 }
             } catch (_: InterruptedException) {
                 Thread.currentThread().interrupt()
@@ -171,22 +183,22 @@ object LoggerHealthChecker {
         val dumpFiles = findCurrentLspdLogCandidates()
 
         if (dumpFiles.isEmpty()) {
-            return CheckResult(0, "NO_FILE")
+            return CheckResult(0, TAG_NO_FILE)
         }
         if (dumpFiles.all { it.length() < MIN_DUMP_FILE_SIZE_BYTES }) {
             return CheckResult(WEIGHT_LSPD_DUMP / 4, "TOO_SMALL")
         }
-        return CheckResult(WEIGHT_LSPD_DUMP, "OK")
+        return CheckResult(WEIGHT_LSPD_DUMP, TAG_OK)
     }
 
     private fun checkLspdPageHeaders(): CheckResult {
         val dumpFiles = findCurrentLspdLogCandidates()
         if (dumpFiles.isEmpty()) {
-            return CheckResult(0, "NO_FILE")
+            return CheckResult(0, TAG_NO_FILE)
         }
         val invalidFile = dumpFiles.firstOrNull { !hasValidPageMarkerHeader(it) }
         return if (invalidFile == null) {
-            CheckResult(WEIGHT_LSPD_PAGE_HEADER, "OK")
+            CheckResult(WEIGHT_LSPD_PAGE_HEADER, TAG_OK)
         } else {
             CheckResult(WEIGHT_LSPD_PAGE_HEADER / 2, "BAD_HEADER")
         }
