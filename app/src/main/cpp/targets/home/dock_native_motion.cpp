@@ -210,12 +210,20 @@ public:
             && AParcel_readInt32(output,&enabled)==STATUS_OK && (enabled==0||enabled==1)
             && (available!=0||enabled==0);
         if(output) AParcel_delete(output);
+        const unsigned reply_state = ok ? 1u + unsigned(available) * 2u + unsigned(enabled) * 4u : 0u;
+        if (reply_state != recents_reply_state_) {
+            recents_reply_state_ = reply_state;
+            __android_log_print(ANDROID_LOG_INFO, kTag,
+                "recents status bar endpoint replied=%d available=%d enabled=%d",
+                ok, ok ? available : 0, ok ? enabled : 0);
+        }
         home_recent_bar::configure(ok && available && enabled);
         return ok;
     }
 
 private:
     AIBinder *window_ = nullptr;
+    unsigned recents_reply_state_ = ~0u;
 };
 } // namespace
 

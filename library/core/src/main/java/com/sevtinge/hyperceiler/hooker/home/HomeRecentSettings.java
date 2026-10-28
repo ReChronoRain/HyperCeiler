@@ -71,6 +71,11 @@ public class HomeRecentSettings extends DashboardFragment {
         mNotHideCleanIcon = findPreference("prefs_key_always_show_clean_up");
         mFixCardTitlePadding = findPreference("prefs_key_home_recent_fix_card_title_padding");
 
+        // Both switches are read while the launcher builds a card header, so an already built
+        // card keeps its old header until it is rebuilt. Re-entering the recents view rebuilds
+        // the cards, which is why the summaries ask for that instead of a launcher restart.
+        SwitchPreference hideText = findPreference("prefs_key_home_recent_hide_text");
+        hideText.setVisible(isHyperOSVersion(4f));
         mTaskViewHeight.setVisible(isPad());
         mShowMenInfo.setVisible(isPad());
         mFixCardTitlePadding.setVisible(!isPad());

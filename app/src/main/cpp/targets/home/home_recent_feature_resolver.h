@@ -3,6 +3,7 @@
 #include "home_feature_code.h"
 #include "home_title_render.h"
 #include "home_recent_config.h"
+#include "home_custom_title_feature.h"
 #include <set>
 namespace home_layout::features {
 namespace recent {
@@ -35,10 +36,13 @@ inline bool pattern(const Body& b,const uint32_t* words,size_t n,uint32_t& out) 
         if(match){++hits;selected=i*4;}}
     if(hits!=1)return false;out=uint32_t(selected);return true;
 }
-enum class Action {Scalar,FrameScalar,PoolReturn,ScaleReturn,Style,FrameStyle,Freeform,ScalarReturn,FreeformColor};
+enum class Action {Scalar,FrameScalar,PoolReturn,ScaleReturn,Style,FrameStyle,Freeform,ScalarReturn,FreeformColor,HideIconReturn,IconChild,CornerFrame,CornerSurface};
 struct Site {
     uint32_t va=0;Action action{};int setting=0;unsigned reg=0;
     int32_t frame=0;uint32_t pool=0;bool multiply=false;
+    unsigned text_object=32; // Fresh Text object, not a persistent Dart reference.
+    bool compressed_icon=false;
+    int32_t selector_frame=0;
 };
 struct Plan {
     std::vector<Site> sites;
@@ -48,6 +52,11 @@ struct Plan {
     uint32_t title_pool=0,text_allocator=0,header_content=0,metrics_owner=0;
     uint32_t style_tag=0,style_size=0,style_top=0,style_end=0,double_tag=0;
     int32_t style_font=0,style_color=0,text_style=0,double_field=0;
+    int32_t text_data=0,string_length=0;
+    uint32_t empty_string_pool=0,empty_widget_pool=0,inline_header=0;
+    uint32_t string_one_cid=0,string_two_cid=0,text_tag=0;
+    bool hide_icon_ready=false,hide_text_ready=false,corner_animation_ready=false;
+    uint32_t radius_factory=0,border_factory=0;
 };
 inline bool add(Plan& p,const Function& f,size_t i,Action action,int setting,unsigned reg=0,
     int32_t frame=0,uint32_t pool=0,bool multiply=false) {
@@ -253,7 +262,16 @@ inline bool radius_graph(const auto& code,Plan& p) {
         if(builder)return false;builder=f.va;
     }
     if(!builder)return false;
-    Body bb;code.body(*builder,bb);if(!add(p,Function{*builder,bb},0,Action::Scalar,RecentConfig::Corners,0))return false;
+    Body bb;code.body(*builder,bb);
+    uint32_t circle_at=0;
+    if(pattern(bb,circle,std::size(circle),circle_at)&&circle_at>=12){
+        const size_t a=circle_at/4;
+        if(ldd(bb[a-2],29,0)&&stx(bb[a-1],29,0)){
+            (void)target(bb[a-3],*builder+uint32_t((a-3)*4),p.radius_factory);
+            (void)target(bb[a+2],*builder+uint32_t((a+2)*4),p.border_factory);
+        }
+    }
+    if(!add(p,Function{*builder,bb},0,Action::Scalar,RecentConfig::Corners,0))return false;
     // One thumbnail builder computes a common corner scalar before all of its
     // card-mode branches and calls that exact rounded-corner factory twice.
     bool thumbnail=false,animated=false;
@@ -305,6 +323,104 @@ inline bool radius_graph(const auto& code,Plan& p) {
     return source&&current;
 }
 
+// Flight-card radii have their own target and in-flight lerp, bypassing
+// thumbnail/steady-state getters. Link BOTH owners through the original stack
+// radius producer, typed Radius/BorderRadius factories, mode discriminator and
+// Tween end store. Preserve screen-radius beginnings and original interpolation.
+inline bool corner_animation_graph(const auto& code,Plan& p) {
+    if(!p.radius_factory||!p.border_factory||!p.stack_fraction)return false;
+    std::optional<Function> update,creator;uint32_t stack=0;size_t update_site=0,creator_site=0;
+    int32_t target_frame=0,mode_frame=0;uint32_t mode_pool=0,tween_factory=0;
+    constexpr uint32_t inflight[]={0x94000000,0x4ea01c03,0x14000002,0x1e669003,
+        0xfc5c83a0,0xfc5d83a2,0xfc5d03a1,0x1e610864,0x1e621881,0xfc1d03a1,
+        0x94000000,0xfc5d03a0,0xf81e83a0,0xfc007000,0xfc00f000,0x94000000,
+        0xaa0003e4,0xf85e83a0,0xf81e03a4,0xb8007080,0xb800b080,0xb800f080,0xb8013080};
+    for(const auto& f:code.functions()){const auto& b=f.words;uint32_t at=0,source=0,radius=0,border=0;
+        if(!frame_size(b)||!pattern(b,inflight,std::size(inflight),at))continue;const size_t i=at/4;
+        if(!target(b[i],f.va+at,source)||!target(b[i+10],f.va+at+40,radius)||radius!=p.radius_factory
+            ||!target(b[i+15],f.va+at+60,border)||border!=p.border_factory
+            ||imm9(b[i+9])!=imm9(b[i+11])||imm9(b[i+12])!=imm9(b[i+17]))continue;
+        Body helper;uint32_t tail=0,ratio=0;
+        constexpr uint32_t stack_tail[]={0x94000000,0xfc5f03a1,0x1e600822,0x1e67d003,
+            0x1e612060,0x5400006b,0x1e669000,0x14000003,0x4e62f461,0x4ea11c20,
+            0xaa1d03ef,0xa8c179fd,0xd65f03c0};
+        if(!code.body(source,helper)||!pattern(helper,stack_tail,std::size(stack_tail),tail)
+            ||!target(helper[tail/4],source+tail,ratio)||ratio!=p.stack_fraction)continue;
+        if(update)return false;update=f;update_site=i+4;stack=source;
+    }
+    if(!update)return false;
+    for(const auto& f:code.functions()){const auto& b=f.words;if(!frame_size(b))continue;
+        // The SAME enum arm calls the proved stacked source, the other arm
+        // selects stock 20; target local later becomes Tween.end, not begin.
+        for(size_t i=3;i+8<b.size();++i){uint32_t source=0;
+            if(!pooladd(b[i-3],16)||!ux(b[i-2],16,16)||b[i-1]!=0x6b10001fu
+                ||(b[i]&0xff00001fu)!=0x54000001u||!ldx(b[i+1],29,0)
+                ||!target(b[i+2],f.va+uint32_t((i+2)*4),source)||source!=stack)continue;
+            // The enum compared in w0 was just restored from its entry root.
+            if(i<6||!ldx(b[i-6],29,0)||!frame_slot(b,imm9(b[i-6])))continue;
+            const auto enum_frame=imm9(b[i-6]);const auto pool=pooloff(b[i-3],b[i-2]);
+            constexpr uint32_t choose[]={0x1e669001,0xfc5d83a0,0xf85e83a0,0xfc1c83a1,
+                0x94000000,0xaa0003e2,0xfc5d83a0,0x1e641001,0xf81f83a2,0x1e610802};
+            uint32_t chosen=0;if(!pattern(b,choose,std::size(choose),chosen))continue;
+            const size_t c=chosen/4;const auto frame=imm9(b[c+3]);
+            if(!frame_slot(b,frame)||frame==enum_frame||imm9(b[c+1])!=imm9(b[c+6]))continue;
+            const int64_t default_at=int64_t(i)+(int32_t(b[i]<<8)>>13);
+            if(default_at!=int64_t(c))continue;
+            bool end=false;
+            for(size_t j=c+10;j+8<b.size();++j){
+                if(!ldd(b[j],29,0)||imm9(b[j])!=frame||!std_(b[j+1],29,1)
+                    ||(b[j+2]&0xfc000000u)!=0x94000000u||b[j+3]!=0xaa0003e2u
+                    ||!ldd(b[j+4],29,0)||!stx(b[j+5],29,2)||!std_(b[j+6],2,0)
+                    ||!ldd(b[j+7],29,0)||imm9(b[j+7])!=frame||!std_(b[j+8],2,0)
+                    ||imm9(b[j+8])!=imm9(b[j+6])+8)continue;
+                uint32_t factory=0;
+                if(!target(b[j+2],f.va+uint32_t((j+2)*4),factory))continue;
+                if(end)return false;end=true;tween_factory=factory;
+            }
+            if(!end)continue;if(creator)return false;creator=f;creator_site=c+6;
+            target_frame=frame;mode_frame=enum_frame;mode_pool=pool;
+        }
+    }
+    if(!creator||!p.width_selector||!tween_factory)return false;
+    std::optional<Function> surface;size_t surface_site=0;int32_t surface_frame=0;
+    constexpr uint32_t window_target[]={0x94000000,0x4ea01c01,0x14000002,0x1e669001,
+        0xfc5983a0,0xf85f83a1,0xfc1903a1,0x94000000,0x4ea01c01,0xfc5903a0,
+        0x1e611802,0xfc5983a1,0x1e610843,0xf85f83a1,0xfc1883a3,
+        0x94000000,0x4ea01c01,0xfc5903a0,0x1e611802,0xfc1803a2};
+    for(const auto& f:code.functions()){const auto& b=f.words;uint32_t at=0,source=0,width1=0,width2=0;
+        if(!frame_size(b)||!pattern(b,window_target,std::size(window_target),at))continue;const size_t i=at/4;
+        if(!target(b[i],f.va+at,source)||source!=stack
+            ||!target(b[i+7],f.va+at+28,width1)||width1!=p.width_selector
+            ||!target(b[i+15],f.va+at+60,width2)||width2!=width1
+            ||imm9(b[i+4])!=imm9(b[i+11])||imm9(b[i+5])!=imm9(b[i+13])
+            ||imm9(b[i+6])!=imm9(b[i+9])||imm9(b[i+6])!=imm9(b[i+17]))continue;
+        // The two outputs are physical and logical corner targets. Each must
+        // become the end of four fresh scalar tweens from the SAME allocator
+        // as the linked Flutter card, never the screen-radius begin values.
+        const int32_t ends[]={imm9(b[i+14]),imm9(b[i+19])};unsigned count[2]{};
+        if(ends[0]==ends[1]||!frame_slot(b,ends[0])||!frame_slot(b,ends[1]))continue;
+        for(size_t j=i+20;j+1<b.size();++j){
+            if(!ldd(b[j],29,0)||!std_(b[j+1],rn(b[j+1]),0)||j<5)continue;
+            const auto object=rn(b[j+1]);int kind=imm9(b[j])==ends[0]?0:imm9(b[j])==ends[1]?1:-1;
+            if(kind<0||!std_(b[j-1],object,0)||imm9(b[j+1])!=imm9(b[j-1])+8)continue;
+            bool fresh=false;
+            for(size_t k=j-5;k<j-1;++k){uint32_t factory=0;
+                if(target(b[k],f.va+uint32_t(k*4),factory)&&factory==tween_factory
+                    &&(object==0||(k+1<j&&b[k+1]==(0xaa0003e0u|object))))fresh=true;
+            }
+            if(fresh)++count[kind];
+        }
+        if(count[0]!=4||count[1]!=4)continue;
+        if(surface)return false;surface=f;surface_site=i+8;surface_frame=imm9(b[i+6]);
+    }
+    if(!surface)return false;Body helper;code.body(stack,helper);Plan next=p;
+    if(!add(next,*update,update_site,Action::Scalar,RecentConfig::Corners,3)
+        ||!add(next,*creator,creator_site,Action::CornerFrame,RecentConfig::Corners,0,target_frame,mode_pool))return false;
+    next.sites.back().selector_frame=mode_frame;
+    if(!add(next,Function{stack,helper},0,Action::ScalarReturn,RecentConfig::Corners)
+        ||!add(next,*surface,surface_site,Action::CornerSurface,RecentConfig::Corners,0,surface_frame))return false;
+    p=std::move(next);return true;
+}
 inline bool header_graph(const auto& code,Plan& p) {
     std::optional<uint32_t> text_allocator;std::optional<Function> content;
     for(const auto& f:code.functions()){const auto& b=f.words;uint32_t at=0;
@@ -331,7 +447,7 @@ inline bool header_graph(const auto& code,Plan& p) {
         p.style_tag=tag_value;p.style_size=((tag_value>>8)&15)*16;p.style_top=top;p.style_end=end;
         p.double_tag=double_tag;p.double_field=imm9(b[j+10]);p.style_font=imm9(b[j+11]);p.style_color=imm9(b[a+13]);
         if(!add(p,f,site+3,Action::FrameStyle,RecentConfig::TextSize,0,imm9(b[site+3])))return false;
-        p.text_style=imm9(b[site+4]);
+        p.text_style=imm9(b[site+4]);p.text_data=imm9(b[site+2]);p.sites.back().text_object=1;
     }
     if(!text_allocator)return false;
     // Simple task titles use a shared const TextStyle; clone that style at its
@@ -342,13 +458,14 @@ inline bool header_graph(const auto& code,Plan& p) {
         if(b.size()<23||!frame_size(b)||!ldw(b[3],1,0)||b[4]!=0x8b1c8000u
             ||b[5]!=0x6b16001fu||b[6]!=0x54000041u||!ux(b[7],27,0)
             ||!stx(b[8],29,0)||!ldx(b[10],29,1)||imm9(b[8])!=imm9(b[10])
-            ||!mem(b[11],0xb8000000u,0,1)||!pooladd(b[12],1)||!ux(b[13],1,1)
+            ||!mem(b[11],0xb8000000u,0,1)||imm9(b[11])!=p.text_data||!pooladd(b[12],1)||!ux(b[13],1,1)
             ||!mem(b[14],0xb8000000u,0,1)||imm9(b[14])!=p.text_style
             ||!pooladd(b[15],1)||!ux(b[16],1,1)||!mem(b[17],0xb8000000u,0,1)
             ||b[18]!=0xd2800041u||!mem(b[19],0xb8000000u,0,1)||!epi(b,20))continue;
         uint32_t text=0;if(!target(b[9],f.va+36,text)||text!=*text_allocator)continue;
         if(simple||!add(p,f,14,Action::Style,RecentConfig::TextSize,1))return false;simple=true;
         p.title_pool=pooloff(b[12],b[13]);p.text_allocator=text;
+        p.empty_string_pool=uoff(b[7]);p.sites.back().text_object=0;
     }
     return simple;
 }
@@ -426,7 +543,8 @@ inline bool inline_headers(const auto& code,Plan& p) {
         for(size_t i=5;i+7<b.size();++i){
             const auto reg=rd(b[i]);const auto object=rn(b[i+2]);
             if(!pooladd(b[i],reg)||!ux(b[i+1],reg,reg)||pooloff(b[i],b[i+1])!=p.title_pool
-                ||!mem(b[i+2],0xb8000000u,object,reg)||imm9(b[i+2])!=p.text_style)continue;
+                ||!mem(b[i+2],0xb8000000u,object,reg)||imm9(b[i+2])!=p.text_style
+                ||!mem(b[i-1],0xb8000000u,object,rd(b[i-1]))||imm9(b[i-1])!=p.text_data)continue;
             bool fresh=false;
             for(size_t j=i-5;j<i;++j){uint32_t to=0;
                 if(target(b[j],f.va+uint32_t(j*4),to)&&to==p.text_allocator
@@ -434,10 +552,146 @@ inline bool inline_headers(const auto& code,Plan& p) {
             if(fresh)stores.emplace_back(i+2,reg);
         }
         if(stores.empty())continue;
-        if(owner||stores.size()!=3)return false;owner=true;
-        for(auto [site,reg]:stores)if(!add(p,f,site,Action::Style,RecentConfig::TextSize,reg))return false;
+        if(owner||stores.size()!=3)return false;owner=true;p.inline_header=f.va;
+        for(auto [site,reg]:stores){
+            if(!add(p,f,site,Action::Style,RecentConfig::TextSize,reg))return false;
+            p.sites.back().text_object=rn(b[site]);
+        }
     }
     return owner;
+}
+// Independent optional header contracts. Their absence never disables numeric
+// recents controls on older launchers. All pool slots/fields come from THIS
+// image; no name, RVA, class ID or pool index serves as a feature identity.
+inline bool header_text_contract(const auto& code,Plan& p) {
+    uint32_t one_cid=0,two_cid=0;int32_t length=0;unsigned found=0;
+    for(const auto& f:code.functions())for(size_t i=0;i+29<=f.words.size();++i){
+        if(f.words[i]!=0xf94001e2u||f.words[i+1]!=0x93407c42u)continue;
+        Body b(f.words.begin()+i,f.words.end());uint32_t tag_value=0;int32_t top=0,end=0,len=0;bool one=false;
+        if(!features::string_allocator(b,tag_value,top,end,len,one))continue;
+        if(uint32_t(top)!=p.style_top||uint32_t(end)!=p.style_end||(found&&length!=len))return false;
+        auto& cid=one?one_cid:two_cid;if(cid)return false;cid=tag_value>>12;length=len;++found;
+    }
+    uint32_t text_tag=0,top=0,end=0;
+    if(found!=2||one_cid==two_cid||!p.empty_string_pool
+        ||!allocator(code,p.text_allocator,text_tag,top,end)||!field(p.text_data)
+        ||p.text_data==p.text_style||uint32_t(p.text_data+5)>((text_tag>>8)&15)*16)return false;
+    p.text_tag=text_tag;p.string_length=length;p.string_one_cid=one_cid;p.string_two_cid=two_cid;
+    return true;
+}
+// The live header receives a LIST OF ALREADY BUILT ICON WIDGETS, not always
+// RowHeaderIcon widgets. Its cached children bypass both standalone builders.
+// Prove index-zero/index-one and dynamic-index reads of that SAME collection
+// inside the title-proved owner. Replace only the last-use child register,
+// preserving list identity, bounds checks, spacers, locks and title children.
+inline bool header_live_icons(const Body& b,const Function& owner,Plan& p) {
+    uint32_t backing=0,data=0;int32_t saved_array=0;unsigned first=0,second=0,loop=0;
+    const auto decompress=[](uint32_t w,unsigned reg){return w==(0x8b1c8000u|(reg<<5)|reg);};
+    const auto bounds=[](uint32_t w){return (w&0xff00001fu)==0x54000002u;}; // Original unsigned bounds/throw edge.
+    for(size_t i=3;i+7<b.size();++i){
+        if(b[i-3]!=0xd2800001u||b[i-2]!=0xeb00003fu||!bounds(b[i-1])
+            ||!ldw(b[i],rn(b[i]),0)||!decompress(b[i+1],0))continue;
+        size_t j=i+2;int32_t array_frame=0;
+        if(stx(b[j],29,0)){array_frame=imm9(b[j]);++j;}
+        const auto reg=rd(b[j]);
+        if(!ldw(b[j],0,reg)||!decompress(b[j+1],reg)||!stx(b[j+2],29,reg)
+            ||!frame_slot(b,imm9(b[j+2]))||!field(imm9(b[i]))||!field(imm9(b[j])))continue;
+        if(first&&(backing!=uint32_t(imm9(b[i]))||data!=uint32_t(imm9(b[j]))))return false;
+        backing=imm9(b[i]);data=imm9(b[j]);if(array_frame){if(saved_array)return false;saved_array=array_frame;}
+        if(!add(p,owner,j+2,Action::IconChild,RecentConfig::HideIcon,reg))return false;++first;
+    }
+    if(first!=2||!frame_slot(b,saved_array))return false;
+    for(size_t i=4;i+5<b.size();++i){const auto reg=rd(b[i]);
+        if(b[i-4]!=0xd2800021u||b[i-3]!=0xeb00003fu||!bounds(b[i-2])
+            ||!ldx(b[i-1],29,0)||imm9(b[i-1])!=saved_array
+            ||!ldw(b[i],0,reg)||uint32_t(imm9(b[i]))!=data+4
+            ||!decompress(b[i+1],reg)||!stx(b[i+2],29,reg)||!frame_slot(b,imm9(b[i+2])))continue;
+        // The following allocation call prevents a four-word post-decode
+        // window. Admit its original compressed register BEFORE ADD heapbase.
+        if(!add(p,owner,i+1,Action::IconChild,RecentConfig::HideIcon,reg))return false;
+        p.sites.back().compressed_icon=true;++second;
+    }
+    for(size_t i=6;i+7<b.size();++i){const auto list=rn(b[i]);
+        if(!ldw(b[i-6],list,0)||b[i-5]!=0x93417c01u||b[i-4]!=0xaa0103e0u
+            ||b[i-3]!=0xaa0203e1u||b[i-2]!=0xeb00003fu||!bounds(b[i-1])
+            ||!ldw(b[i],list,0)||uint32_t(imm9(b[i]))!=backing||!decompress(b[i+1],0)
+            ||b[i+2]!=0x8b020810u)continue; // Original array[index * compressed-reference width].
+        const auto reg=rd(b[i+3]);
+        if(!ldw(b[i+3],16,reg)||uint32_t(imm9(b[i+3]))!=data||!decompress(b[i+4],reg)
+            ||!stx(b[i+5],29,reg)||!frame_slot(b,imm9(b[i+5])))continue;
+        if(!add(p,owner,i+5,Action::IconChild,RecentConfig::HideIcon,reg))return false;++loop;
+    }
+    return second==1&&loop==1;
+}
+inline bool header_icon_contract(const auto& code,Plan& p) {
+    Body header;if(!code.body(p.inline_header,header))return false;
+    // The real icon-layout owner's no-tasks branch returns the stock empty
+    // widget. Require the length load, immediate CBNZ and complete return.
+    uint32_t empty=0;unsigned empty_hits=0;
+    for(size_t i=1;i+4<header.size();++i){const auto reg=rd(header[i-1]);
+        if(!ldw(header[i-1],rn(header[i-1]),reg)||!field(imm9(header[i-1]))
+            ||header[i]!=(0x350000a0u|reg)||!ux(header[i+1],27,0)||!epi(header,i+2))continue;
+        empty=uoff(header[i+1]);++empty_hits;
+    }
+    if(empty_hits!=1)return false;
+    std::optional<Function> cached,simple;
+    for(const auto& f:code.functions()){const auto& b=f.words;
+        // Cached icon build, after the original keep-alive superclass call.
+        // The nullable cache fallback must be that SAME stock empty widget.
+        if(b.size()==18&&frame_size(b)&&b[3]==0xaa0103e3u&&b[4]==0xaa0203e0u
+            &&stx(b[5],29,1)&&ldx(b[7],29,1)&&imm9(b[5])==imm9(b[7])
+            &&ldw(b[8],1,2)&&field(imm9(b[8]))&&b[9]==0x8b1c8042u
+            &&b[10]==0x6b16005fu&&b[11]==0x54000061u&&ux(b[12],27,0)
+            &&uoff(b[12])==empty&&b[13]==0x14000002u&&b[14]==0xaa0203e0u&&epi(b,15)){
+            uint32_t mixin=0;Body m;
+            if(target(b[6],f.va+24,mixin)&&code.body(mixin,m)&&m.size()==12
+                &&m[0]==0xa9bf79fdu&&m[1]==0xaa0f03fdu&&ldw(m[2],1,0)
+                &&field(imm9(m[2]))&&imm9(m[2])!=imm9(b[8])&&m[3]==0x8b1c8000u
+                &&m[4]==0x6b16001fu&&m[5]==0x54000041u&&(m[6]&0xfc000000u)==0x94000000u
+                &&pooladd(m[7],0)&&ux(m[8],0,0)&&epi(m,9)){
+                if(cached)return false;cached=f;
+            }
+        }
+        // Stateless transition icon: a fresh image receives the same model,
+        // equal width/height, manager and key, then badge and keyed-subtree
+        // constructors wrap that exact child. Frame offsets are decoded.
+        if(!frame_size(b)||b.size()<70)continue;
+        bool image=false,wrapper=false;
+        for(size_t i=1;i+13<b.size();++i){
+            uint32_t factory=0,tag_value=0,top=0,end=0;
+            if(b[i]==0xaa0003e1u&&ldx(b[i+1],29,0)&&mem(b[i+2],0xb8000000u,1,0)
+                &&ldd(b[i+3],29,0)&&std_(b[i+4],1,0)&&std_(b[i+5],1,0)
+                &&imm9(b[i+5])==imm9(b[i+4])+8&&ldx(b[i+6],29,2)&&mem(b[i+7],0xb8000000u,1,2)
+                &&ldx(b[i+8],29,2)&&mem(b[i+9],0xb8000000u,1,2)
+                &&ldw(b[i+10],0,2)&&b[i+11]==0x8b1c8042u&&ldx(b[i+12],2,3)
+                &&target(b[i-1],f.va+uint32_t((i-1)*4),factory)
+                &&allocator(code,factory,tag_value,top,end)&&top==p.style_top&&end==p.style_end){
+                // Distinct model, manager, key fields within this allocator.
+                const auto size=((tag_value>>8)&15)*16;
+                const int32_t fields[]={imm9(b[i+2]),imm9(b[i+7]),imm9(b[i+9])};
+                std::set<int32_t> unique(fields,fields+3);
+                if(unique.size()==3&&*unique.begin()>=7&&uint32_t(*unique.rbegin()+5)<=size
+                    &&uint32_t(imm9(b[i+5])+9)<=size)image=true;
+            }
+            if(b[i]==0xaa0003e1u&&ldx(b[i+1],29,0)&&stx(b[i+2],29,1)
+                &&ldw(b[i+3],0,2)&&b[i+4]==0x8b1c8042u&&stx(b[i+5],29,2)
+                &&(b[i-1]&0xfc000000u)==0x94000000u
+                &&target(b[i+6],f.va+uint32_t((i+6)*4),factory)
+                &&allocator(code,factory,tag_value,top,end)&&ldx(b[i+7],29,1)
+                &&imm9(b[i+7])==imm9(b[i+5])&&mem(b[i+8],0xb8000000u,0,1)
+                &&ldx(b[i+9],29,1)&&imm9(b[i+9])==imm9(b[i+2])
+                &&mem(b[i+10],0xb8000000u,0,1)&&imm9(b[i+10])!=imm9(b[i+8])&&epi(b,i+11))wrapper=true;
+        }
+        if(image&&wrapper){if(simple)return false;simple=f;}
+    }
+    if(!cached||!simple)return false;
+    // Commit both paths atomically. Entry-return routes do not allocate or
+    // execute a managed call from the native frame. Disabled routes replay.
+    Plan next=p;
+    if(!add(next,*cached,7,Action::HideIconReturn,RecentConfig::HideIcon,0,1)
+        ||!add(next,*simple,0,Action::HideIconReturn,RecentConfig::HideIcon))return false;
+    if(!header_live_icons(header,Function{p.inline_header,header},next))return false;
+    next.empty_widget_pool=empty;p=std::move(next);return true;
 }
 inline bool background_graph(const auto& code,Plan& p) {
     std::optional<Function> found;
@@ -543,6 +797,9 @@ inline std::optional<Plan> resolve(const auto& code,const char** failure=nullptr
     if(!background_graph(code,p))return failed("nullable freeform/theme background getter missing/ambiguous");
     if(!freeform_content(code,p))return failed("freeform mode predicate/background/clipped-container chain missing/ambiguous");
     if(!height_consumers(code,p))return failed("inlined header-height consumer cannot bind a safe window");
+    p.corner_animation_ready=corner_animation_graph(code,p);
+    p.hide_text_ready=header_text_contract(code,p);
+    p.hide_icon_ready=header_icon_contract(code,p);
     if(p.sites.empty()||p.sites.size()>64||p.style_size<40||p.style_size>256
         ||p.color.top!=p.style_top||p.color.end!=p.style_end
         ||!field(p.style_font)||!field(p.style_color)||p.style_font==p.style_color

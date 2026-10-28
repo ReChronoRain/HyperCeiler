@@ -708,6 +708,7 @@ class HomeDockWindow : BaseHook() {
                         HomeLayoutNativeEndpointOS4.writePolicies(reply, result?.policies() ?: 0L)
                         HomeLayoutNativeEndpointOS4.writeDockHorizontal(reply, result?.dockHorizontalDelta() ?: 0)
                         HomeLayoutNativeEndpointOS4.writeInfiniteScroll(reply, result?.infiniteScroll() ?: false)
+                        HomeLayoutNativeEndpointOS4.writeRecentHeader(reply, result?.recent() ?: HomeLayoutNativeEndpointOS4.recentDefaults())
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()
