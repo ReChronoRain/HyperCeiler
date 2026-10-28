@@ -17,8 +17,9 @@ metadata reader. It checks per-feature/stage deduplication, old snapshots, missi
 malformed and future metadata, capability presence, and Java/native constants. The production
 shell-copy method is compiled from the Java source and run in disposable directories for
 empty/success/cp-failure/chmod-failure cases. The capture path tries direct root, `/proc/1/root`,
-and both common `nsenter`
-syntaxes; a failed staged capture leaves the previous app-local copy intact.
+and both common `nsenter` syntaxes, and accepts both `modules_*.log`/`verbose_*.log` and legacy
+`modules.log`/`verbose.log` names. Health checks accept both raw LSPosed timestamp headers and
+HyperCeiler export page markers. A failed staged capture leaves the previous app-local copy intact.
 
 In the built-in **Xposed** log tab, refresh with the level/tag filters set to All:
 

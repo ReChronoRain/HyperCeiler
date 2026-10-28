@@ -59,8 +59,8 @@ public class XposedLogLoader {
     private static final String LSPD_LOG_SUBDIR = "log";
     private static final String LSPD_LOG_OLD_SUBDIR = "log.old";
     private static final String FILTERED_MODULE = "Xposed";
-    private static final String MODULES_LOG_PREFIX = "modules_";
-    private static final String VERBOSE_LOG_PREFIX = "verbose_";
+    private static final String MODULES_LOG_PREFIX = "modules";
+    private static final String VERBOSE_LOG_PREFIX = "verbose";
 
     private static final String HYPERCEILER_TAG = "HyperCeiler";
     private static final int MAX_ENTRY_MESSAGE_LENGTH = 32 * 1024;
@@ -103,12 +103,12 @@ public class XposedLogLoader {
             + "if [ ! -d \"$SOURCE\" ]; then echo HC_LSPD_SOURCE_UNAVAILABLE; exit "
             + LSPD_SOURCE_UNAVAILABLE + "; fi\n"
             + "rm -rf \"$STAGE\"\n"
-            + "mkdir -p \"$TARGET\" \"$STAGE\" || { echo HC_LSPD_STAGE_FAILED; exit "
+            + "mkdir -p \"$TARGET\" \"$STAGE\" || { rm -rf \"$STAGE\"; echo HC_LSPD_STAGE_FAILED; exit "
             + LSPD_STAGE_FAILED + "; }\n"
             + "found=0\n"
-            + "for file in \"$SOURCE\"/modules_*.log \"$SOURCE\"/verbose_*.log; do\n"
+            + "for file in \"$SOURCE\"/modules*.log \"$SOURCE\"/verbose*.log; do\n"
             + "  [ -f \"$file\" ] || continue\n"
-            + "  cp -f \"$file\" \"$STAGE/\" || { echo HC_LSPD_COPY_FAILED; exit "
+            + "  cp -f \"$file\" \"$STAGE/\" || { rm -rf \"$STAGE\"; echo HC_LSPD_COPY_FAILED; exit "
             + LSPD_COPY_FAILED + "; }\n"
             + "  found=1\n"
             + "done\n"
@@ -117,19 +117,20 @@ public class XposedLogLoader {
             + "  echo HC_LSPD_EMPTY\n"
             + "  exit " + LSPD_EMPTY + "\n"
             + "fi\n"
-            + "chmod 644 \"$STAGE\"/* || { echo HC_LSPD_CHMOD_FAILED; exit "
+            + "chmod 644 \"$STAGE\"/* || { rm -rf \"$STAGE\"; echo HC_LSPD_CHMOD_FAILED; exit "
             + LSPD_CHMOD_FAILED + "; }\n"
             + "BACKUP=\"${TARGET}.hc-backup-$$\"\n"
             + "rm -rf \"$BACKUP\"\n"
-            + "if [ -d \"$TARGET\" ]; then mv \"$TARGET\" \"$BACKUP\" || { echo HC_LSPD_REPLACE_FAILED; exit "
+            + "if [ -d \"$TARGET\" ]; then mv \"$TARGET\" \"$BACKUP\" || { rm -rf \"$STAGE\"; "
+            + "echo HC_LSPD_REPLACE_FAILED; exit "
             + LSPD_REPLACE_FAILED + "; }; fi\n"
             + "mkdir -p \"$TARGET\" || { [ -d \"$BACKUP\" ] && mv \"$BACKUP\" \"$TARGET\"; "
-            + "echo HC_LSPD_REPLACE_FAILED; exit " + LSPD_REPLACE_FAILED + "; }\n"
+            + "rm -rf \"$STAGE\"; echo HC_LSPD_REPLACE_FAILED; exit " + LSPD_REPLACE_FAILED + "; }\n"
             + "for file in \"$STAGE\"/*; do\n"
             + "  [ -f \"$file\" ] || continue\n"
             + "  mv -f \"$file\" \"$TARGET/\" || { rm -rf \"$TARGET\"; "
             + "[ -d \"$BACKUP\" ] && mv \"$BACKUP\" \"$TARGET\"; "
-            + "echo HC_LSPD_REPLACE_FAILED; exit " + LSPD_REPLACE_FAILED + "; }\n"
+            + "rm -rf \"$STAGE\"; echo HC_LSPD_REPLACE_FAILED; exit " + LSPD_REPLACE_FAILED + "; }\n"
             + "done\n"
             + "rm -rf \"$BACKUP\" \"$STAGE\"\n"
             + "echo HC_LSPD_COPY_OK\n"

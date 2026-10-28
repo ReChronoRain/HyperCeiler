@@ -20,9 +20,6 @@ package com.sevtinge.hyperceiler.common.log
 
 import android.os.Process.myPid
 import android.util.Log
-import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.ALIVE_THRESHOLD
-import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.confidence
-import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.diagSummary
 import com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission
 import com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd
 import java.io.BufferedReader
@@ -61,6 +58,9 @@ object LoggerHealthChecker {
     private const val LOGCAT_READ_DELAY_MS = 150L
     private const val MAX_RETRIES = 3
     private val PAGE_MARKER_REGEX = Regex("^----part \\d+ start----$")
+    private val LSPD_ENTRY_REGEX = Regex(
+        "^\\[\\s*\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}(?:\\s|\\])"
+    )
 
     /**
      * 执行所有检查，更新 [confidence] 和 [diagSummary]。
@@ -184,7 +184,7 @@ object LoggerHealthChecker {
         if (dumpFiles.isEmpty()) {
             return CheckResult(0, "NO_FILE")
         }
-        val invalidFile = dumpFiles.firstOrNull { !hasValidPageMarkerHeader(it) }
+        val invalidFile = dumpFiles.firstOrNull { !hasValidLogHeader(it) }
         return if (invalidFile == null) {
             CheckResult(WEIGHT_LSPD_PAGE_HEADER, "OK")
         } else {
@@ -197,13 +197,15 @@ object LoggerHealthChecker {
         return findLogCandidates(File(logBase, "lspd/log"))
     }
 
-    private fun hasValidPageMarkerHeader(file: File): Boolean {
+    private fun hasValidLogHeader(file: File): Boolean {
         return try {
             file.bufferedReader().use { reader ->
                 val firstNonBlankLine = reader.lineSequence()
-                    .map { it.trim() }
+                    .map { it.trim().removePrefix("\uFEFF") }
                     .firstOrNull { it.isNotEmpty() }
-                firstNonBlankLine != null && PAGE_MARKER_REGEX.matches(firstNonBlankLine)
+                firstNonBlankLine != null &&
+                    (PAGE_MARKER_REGEX.matches(firstNonBlankLine) ||
+                        LSPD_ENTRY_REGEX.containsMatchIn(firstNonBlankLine))
             }
         } catch (_: Exception) {
             false
@@ -213,7 +215,7 @@ object LoggerHealthChecker {
     private fun findLogCandidates(dir: File): List<File> {
         if (!dir.exists()) return emptyList()
         return dir.listFiles { _, name ->
-            (name.startsWith("modules_") || name.startsWith("verbose_")) && name.endsWith(".log")
+            (name.startsWith("modules") || name.startsWith("verbose")) && name.endsWith(".log")
         }?.sortedBy { it.name } ?: emptyList()
     }
 
