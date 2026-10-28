@@ -54,6 +54,19 @@ public class UnPrivacyWatermark extends BaseHook {
                 }
             });
         } else {
+            // OS4: 水印逻辑迁到 MiuiExtraPhoto（ROM DEX 核验：PrivacyWatermarkUtils.drawWatermark(Canvas, String, int, int, int)
+            // + 静态 getInitialPaint()，签名与旧 Helper 完全一致）
+            Class<?> os4WatermarkUtils = findClassIfExists("com.miui.extraphoto.docphoto.PrivacyWatermarkUtils");
+            if (os4WatermarkUtils != null) {
+                findAndHookMethod(os4WatermarkUtils, "drawWatermark", Canvas.class, String.class, int.class, int.class, int.class, new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        drawWatermark((Canvas) param.getArgs()[0], (String) param.getArgs()[1], (int) param.getArgs()[2], (int) param.getArgs()[3], (int) param.getArgs()[4], true);
+                        param.setResult(null);
+                    }
+                });
+                return;
+            }
             findAndHookMethod("com.miui.gallery.privacywatermark.PrivacyWatermarkActivity", "setWordMaxLength", int.class, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
@@ -91,7 +104,12 @@ public class UnPrivacyWatermark extends BaseHook {
         }
         float min = Math.min(mWidth, mHeight) * 0.02037037f;
         float f2 = 7.0f * min;
-        Paint initialPaint = (Paint) callStaticMethod(findClass(is ? "com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper" : "com.miui.gallery.privacywatermark.PrivacyWatermarkHelper"), "getInitialPaint");
+        // OS4 兼容：getInitialPaint 迁到 PrivacyWatermarkUtils（ROM DEX 核验），取不到再走旧路径
+        Class<?> initialPaintProvider = findClassIfExists("com.miui.extraphoto.docphoto.PrivacyWatermarkUtils");
+        if (initialPaintProvider == null) {
+            initialPaintProvider = findClass(is ? "com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper" : "com.miui.gallery.privacywatermark.PrivacyWatermarkHelper");
+        }
+        Paint initialPaint = (Paint) callStaticMethod(initialPaintProvider, "getInitialPaint");
         Rect rect = new Rect();
         initialPaint.setTextSize(min);
         initialPaint.getTextBounds(text, 0, text.length(), rect);
