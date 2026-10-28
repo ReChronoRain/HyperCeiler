@@ -74,19 +74,25 @@ with tempfile.TemporaryDirectory(prefix='hc-lspd-copy-') as temp:
     assert 'clearDirectory(targetDir);' in loader
     (before/'modules_fixture name.log').write_text('modules\n',encoding='utf-8')
     (before/'verbose_fixture name.log').write_text('verbose\n',encoding='utf-8')
+    (before/'modules.log').write_text('legacy modules\n',encoding='utf-8')
+    (before/'verbose.log').write_text('legacy verbose\n',encoding='utf-8')
     (before/'unrelated.txt').write_text('ignored\n',encoding='utf-8')
     (before/'nested').mkdir()
     (before/'nested'/'modules_nested.log').write_text('ignored\n',encoding='utf-8')
     code,verdict=run_copy()
     assert (code,verdict)==(0,'HC_LSPD_COPY_OK')
-    assert sorted(p.name for p in after.iterdir())==['modules_fixture name.log','verbose_fixture name.log']
+    assert sorted(p.name for p in after.iterdir())==[
+        'modules.log','modules_fixture name.log','verbose.log','verbose_fixture name.log'
+    ]
     reset_target()
     code,verdict=run_copy('cp() { echo copy-denied >&2; return 13; }; ')
     assert (code,verdict)==(24,'HC_LSPD_COPY_FAILED')
     assert (after/'previous.log').read_text(encoding='utf-8')=='previous\n'
+    assert not list(temp.glob('destination logs.hc-*'))
     code,verdict=run_copy('chmod() { echo chmod-denied >&2; return 13; }; ')
     assert (code,verdict)==(25,'HC_LSPD_CHMOD_FAILED')
     assert (after/'previous.log').read_text(encoding='utf-8')=='previous\n'
+    assert not list(temp.glob('destination logs.hc-*'))
     before=temp/'missing source'
     code,verdict=run_copy()
     assert (code,verdict)==(20,'HC_LSPD_SOURCE_UNAVAILABLE')
@@ -95,4 +101,7 @@ with tempfile.TemporaryDirectory(prefix='hc-lspd-copy-') as temp:
     assert 'if (copyLspdLogs()) persistFilteredLogsToDatabase();' in loader
     for access in ('DIRECT','PROC_ROOT','NSENTER_MOUNT','NSENTER_TARGET'):
         assert access in loader,access
+    health=(root/'library/common/src/main/java/com/sevtinge/hyperceiler/common/log/LoggerHealthChecker.kt').read_text(encoding='utf-8')
+    assert 'PAGE_MARKER_REGEX.matches(firstNonBlankLine)' in health
+    assert 'LSPD_ENTRY_REGEX.containsMatchIn(firstNonBlankLine)' in health
 print('LSPosed capture compatibility: PASS (direct/proc-root/nsenter strategies; empty/success/copy denied/chmod denied/source unavailable; failed staging retains target)')
