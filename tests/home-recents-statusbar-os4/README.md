@@ -20,4 +20,8 @@ JAVA_HOME=/path/to/jdk python3 tests/home-startup-snapshot/run_java.py --output 
 
 `run.py` 覆盖原生重定位和拒绝场景、身份及租约、生产偏好发布。`run_policy.py` 编译真实 Kotlin 策略，模拟 WMS 类型、Handler 和 Hook 分发，覆盖进入退出、横屏与独立场景位、其他应用、锁屏、窗口不可见、开关、过期、进程切换和热重载清理。
 
+2026 年 10 月 28 日补充参数转发回归，WMS 与安装边界仍为夹具，但回调执行使用实际 EzHookTool 1.3.0 和 libxposed API 102 类库。旧 DSL 的 InvocationContext 会把未修改的 int 参数也通过 proceedWith 重新提交，在模拟框架拒绝装箱替换的边界上复现 IllegalArgumentException。生产窗口 getter 现改用 OriginalArgumentsHook，未改参数走原始 proceed，原始异常保持不变，只有成功返回后才筛选状态栏可见性结果。
+
+策略回归 2094 项通过，含 2000 次整数参数查询不重新传参、原方法调用次数及旧路径负向对照。源身份和租约 49 项、偏好发布 107 项、合成重定位与单份 8584 Rust 镜像解析共 302 项通过。本次未修改原生 resolver 或 HCT 协议。既有 runner 排除重复 ModuleLog 夹具，继续编译生产 ModuleLog。
+
 这些测试不能替代手机上的注入、状态栏像素和手势验收。2026 年 10 月 26 日读取了桌面 8584 真机窗口与 services.jar，只读检查确认正常最近任务与桌面共用 Launcher 主窗口，没有安装、修改设置或重启。需要安装本版本并重启以加载 system_server 策略，再验证开关两态、竖横屏、返回应用、通知栏临时展开、锁屏解锁及桌面重启。安装成功、原生执行、Insets 消费和最终画面需分别确认。
