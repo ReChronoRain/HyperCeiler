@@ -17,14 +17,14 @@ with tempfile.TemporaryDirectory(prefix='hc-log-diagnostics-') as temp:
     }
     sources=[]
     for name,text in stubs.items():
-        p=temp/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text);sources.append(p)
+        p=temp/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text,encoding='utf-8');sources.append(p)
     sources += [root/'app/src/main/java/com/sevtinge/hyperceiler/log/LogSyncDiagnostics.java',Path(__file__).with_name('LogSyncDiagnosticsTest.java')]
     subprocess.run(['javac','-encoding','UTF-8','-d',str(temp/'classes')]+[str(p) for p in sources],check=True)
     subprocess.run(['java','-ea','-cp',str(temp/'classes'),'com.sevtinge.hyperceiler.log.LogSyncDiagnosticsTest'],check=True)
-    hooks=(root/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
+    hooks=(root/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text(encoding='utf-8')
     begin=re.search(r'std::array<std::atomic_uint32_t,\d+> g_scale_bind_failure',hooks).start()
     end=hooks.index('bool bind_icon_render()',begin)
-    (temp/'binding-diagnostic.h').write_text(hooks[begin:end])
+    (temp/'binding-diagnostic.h').write_text(hooks[begin:end],encoding='utf-8')
     for name in ['bind_folder_animation_scale','bind_widget_scale','bind_folder_icon_scale']:
         begin=hooks.index('bool '+name+'()');end=hooks.index('\nbool ',begin+6)
         body=hooks[begin:end]
@@ -32,8 +32,8 @@ with tempfile.TemporaryDirectory(prefix='hc-log-diagnostics-') as temp:
         assert 'scale_bind_failure' in body,name
     subprocess.run(['c++','-std=c++20','-Wall','-Wextra','-Werror','-I'+str(root/'app/src/main/cpp'),'-I'+str(temp),str(Path(__file__).with_name('native.cpp')),'-o',str(temp/'native')],check=True)
     subprocess.run([str(temp/'native')],check=True)
-    java=(root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java').read_text()
-    header=(root/'app/src/main/cpp/targets/home/home_endpoint_diagnostics.h').read_text()
+    java=(root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java').read_text(encoding='utf-8')
+    header=(root/'app/src/main/cpp/targets/home/home_endpoint_diagnostics.h').read_text(encoding='utf-8')
     for j,c in [('ENDPOINT_DIAGNOSTICS_MAGIC','kEndpointDiagnosticsMagic'),('ENDPOINT_DIAGNOSTICS_SCHEMA','kEndpointDiagnosticsSchema'),('ENDPOINT_REVISION','kEndpointRevision')]:
         a=int(re.search(j+r'\s*=\s*(0x[0-9a-fA-F]+|\d+)',java)[1],0)
         b=int(re.search(c+r'\s*=\s*(0x[0-9a-fA-F]+|\d+)',header)[1],0)
@@ -45,27 +45,54 @@ with tempfile.TemporaryDirectory(prefix='hc-log-diagnostics-') as temp:
     assert capabilities==expected
 print('endpoint writer/reader revision and capability contract: PASS')
 
-# Execute the production shell-copy script against disposable directories.
-# Both cp and chmod failures must produce an explicit diagnostic verdict; empty is valid.
+# Execute the production LSPosed copy script against disposable directories.
+# Copy/chmod failures must be explicit and must retain the previous target contents.
 with tempfile.TemporaryDirectory(prefix='hc-lspd-copy-') as temp:
     temp=Path(temp)
-    loader=(root/'app/src/main/java/com/sevtinge/hyperceiler/log/XposedLogLoader.java').read_text()
-    assert 'private static String runInRootShell(String script)' in loader
-    assert "ShellUtils.rootExecCmd(\"sh -c '" in loader
-    assert "script.replace(\"'\", \"'\\\\''\")" in loader
-    expression=re.search(r'final String captured = runInRootShell\((.*?)\)\.trim\(\);',loader,re.S)[1]
+    loader=(root/'app/src/main/java/com/sevtinge/hyperceiler/log/XposedLogLoader.java').read_text(encoding='utf-8')
+    constants='\n'.join(re.findall(r'    private static final int LSPD_[A-Z_]+ = \d+;',loader))
+    script_method=re.search(r'    static String buildLspdCopyScript\(.*?\n    \}',loader,re.S)[0]
+    quote_method=re.search(r'    private static String shellQuote\(.*?\n    \}',loader,re.S)[0]
     source=temp/'CopyCommand.java'
-    source.write_text('import java.io.File; public class CopyCommand {public static void main(String[] args){String sourceDir=args[0];File targetDir=new File(args[1]);System.out.print('+expression+');}}')
+    source.write_text('public class CopyCommand {\n'+constants+'\n'+script_method+'\n'+quote_method+
+        '\npublic static void main(String[] args){System.out.print(buildLspdCopyScript(args[0],args[1]));}}',encoding='utf-8')
     subprocess.run(['javac','-d',str(temp),str(source)],check=True)
-    before=temp/'source logs';after=temp/'destination logs';before.mkdir();after.mkdir()
-    command=subprocess.check_output(['java','-cp',str(temp),'CopyCommand',str(before),str(after)],text=True)
-    def shell(prefix=''):
-        return subprocess.check_output(['sh','-c',prefix+command],text=True).strip()
-    assert shell()=='HC_LSPD_EMPTY'
-    (before/'modules fixture.log').write_text('fixture\n')
-    assert shell()=='HC_LSPD_COPY_OK'
-    assert (after/'modules fixture.log').read_text()=='fixture\n'
-    assert shell('cp() { echo copy-denied >&2; return 13; }; ').endswith('HC_LSPD_COPY_FAILED')
-    assert shell('chmod() { echo chmod-denied >&2; return 13; }; ').endswith('HC_LSPD_COPY_FAILED')
+    before=temp/"source ' logs";after=temp/'destination logs';before.mkdir();after.mkdir()
+    def run_copy(prefix=''):
+        command=subprocess.check_output(['java','-cp',str(temp),'CopyCommand',str(before),str(after)],text=True)
+        result=subprocess.run(['/bin/sh','-c',prefix+command],text=True,capture_output=True)
+        lines=result.stdout.strip().splitlines()
+        return result.returncode,lines[-1] if lines else ''
+    def reset_target():
+        for child in after.iterdir():
+            child.unlink()
+        (after/'previous.log').write_text('previous\n',encoding='utf-8')
+    reset_target()
+    code,verdict=run_copy()
+    assert (code,verdict)==(21,'HC_LSPD_EMPTY')
+    assert (after/'previous.log').read_text(encoding='utf-8')=='previous\n'
+    assert 'clearDirectory(targetDir);' in loader
+    (before/'modules_fixture name.log').write_text('modules\n',encoding='utf-8')
+    (before/'verbose_fixture name.log').write_text('verbose\n',encoding='utf-8')
+    (before/'unrelated.txt').write_text('ignored\n',encoding='utf-8')
+    (before/'nested').mkdir()
+    (before/'nested'/'modules_nested.log').write_text('ignored\n',encoding='utf-8')
+    code,verdict=run_copy()
+    assert (code,verdict)==(0,'HC_LSPD_COPY_OK')
+    assert sorted(p.name for p in after.iterdir())==['modules_fixture name.log','verbose_fixture name.log']
+    reset_target()
+    code,verdict=run_copy('cp() { echo copy-denied >&2; return 13; }; ')
+    assert (code,verdict)==(24,'HC_LSPD_COPY_FAILED')
+    assert (after/'previous.log').read_text(encoding='utf-8')=='previous\n'
+    code,verdict=run_copy('chmod() { echo chmod-denied >&2; return 13; }; ')
+    assert (code,verdict)==(25,'HC_LSPD_CHMOD_FAILED')
+    assert (after/'previous.log').read_text(encoding='utf-8')=='previous\n'
+    before=temp/'missing source'
+    code,verdict=run_copy()
+    assert (code,verdict)==(20,'HC_LSPD_SOURCE_UNAVAILABLE')
+    assert (after/'previous.log').read_text(encoding='utf-8')=='previous\n'
+    assert 'ShellUtils.execRootCommand(command)' in loader
     assert 'if (copyLspdLogs()) persistFilteredLogsToDatabase();' in loader
-print('LSPosed capture verdicts: PASS (empty/success/copy denied/chmod denied; failed captures retain previous DB logs)')
+    for access in ('DIRECT','PROC_ROOT','NSENTER_MOUNT','NSENTER_TARGET'):
+        assert access in loader,access
+print('LSPosed capture compatibility: PASS (direct/proc-root/nsenter strategies; empty/success/copy denied/chmod denied/source unavailable; failed staging retains target)')

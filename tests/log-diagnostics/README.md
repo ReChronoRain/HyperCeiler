@@ -14,9 +14,11 @@ fallback without recursion, and diagnostic records surviving refresh/export SQL.
 
 The C++ fixture uses the production binding-failure reporter and trailing endpoint
 metadata reader. It checks per-feature/stage deduplication, old snapshots, missing,
-malformed and future metadata, capability presence, and Java/native constants.
-The original shell-copy expression is compiled from the production Java source
-and run in disposable directories for empty/success/cp-failure/chmod-failure cases.
+malformed and future metadata, capability presence, and Java/native constants. The production
+shell-copy method is compiled from the Java source and run in disposable directories for
+empty/success/cp-failure/chmod-failure cases. The capture path tries direct root, `/proc/1/root`,
+and both common `nsenter`
+syntaxes; a failed staged capture leaves the previous app-local copy intact.
 
 In the built-in **Xposed** log tab, refresh with the level/tag filters set to All:
 
@@ -24,8 +26,8 @@ In the built-in **Xposed** log tab, refresh with the level/tag filters set to Al
 - `LogSync.Logcat`: collection success, command exit + bounded stderr, interruption or exception.
 - `LogSync.HomeCoverage`: whether launcher-native records remain in the current buffers;
   absence does not prove that hooks never ran.
-- `LogSync.LSPosed.*`: missing/empty directories and copy/chmod failures; failed captures
-  preserve the previous database logs.
+- `LogSync.LSPosed.*`: the successful access strategy, missing/empty directories and copy/chmod
+  failures; failed staged captures preserve the previous database logs.
 - `LSPosed.ModuleLoad`: APK open/parse failures from verbose logs, including their
   original severity and stack. These are scanned even when modules logs exist;
   ordinary module records are not imported twice.

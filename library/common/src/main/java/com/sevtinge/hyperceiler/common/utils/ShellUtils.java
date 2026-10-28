@@ -328,5 +328,42 @@ public class ShellUtils {
         }
         return out;
     }
+
+    /**
+     * Execute a command directly in a root shell without imposing a mount namespace.
+     * Use this when the caller needs to try several namespace strategies by itself.
+     */
+    public static CommandResult execRootCommand(String cmd) {
+        if (!isSafeCommand(cmd)) {
+            return new CommandResult(-1, "Cannot exec this command: Dangerous operation", null);
+        }
+
+        int result = -1;
+        StringBuilder output = new StringBuilder();
+        Process process = null;
+        try {
+            ProcessBuilder builder = new ProcessBuilder("su", "-c", cmd);
+            builder.redirectErrorStream(true);
+            process = builder.start();
+            try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line).append('\n');
+                }
+            }
+            result = process.waitFor();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            output.append(e);
+        } catch (IOException e) {
+            output.append(e);
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
+        }
+        return new CommandResult(result, output.toString(), null);
+    }
 }
 
