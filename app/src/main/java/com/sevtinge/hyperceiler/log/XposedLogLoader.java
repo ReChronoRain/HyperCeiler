@@ -46,6 +46,13 @@ public class XposedLogLoader {
 
     private static final String LSPD_LOG_DIR = "/data/adb/lspd/log";
     private static final String LSPD_LOG_OLD_DIR = "/data/adb/lspd/log.old";
+    private static final String PROC_ROOT_PREFIX = "/proc/1/root";
+    private static final int LSPD_SOURCE_UNAVAILABLE = 20;
+    private static final int LSPD_EMPTY = 21;
+    private static final int LSPD_STAGE_FAILED = 22;
+    private static final int LSPD_COPY_FAILED = 24;
+    private static final int LSPD_CHMOD_FAILED = 25;
+    private static final int LSPD_REPLACE_FAILED = 26;
 
     private static final String APP_LOG_BASE_DIR = "log";
     private static final String LSPD_COPY_DIR = "lspd";
@@ -71,12 +78,63 @@ public class XposedLogLoader {
 
     private static volatile XposedLogLoader sInstance;
     private static volatile boolean sSyncDeferredUntilNextLaunch;
+    private volatile LspdSourceAccess mPreferredSourceAccess;
+
+    private static String buildLspdCopyCommand(LspdSourceAccess access, String sourceDir, File targetDir) {
+        String script = buildLspdCopyScript(sourceDir, targetDir.getAbsolutePath());
+        return switch (access) {
+            case DIRECT, PROC_ROOT -> script;
+            case NSENTER_MOUNT -> "nsenter --mount=/proc/1/ns/mnt -- /system/bin/sh -c "
+                + shellQuote(script);
+            case NSENTER_TARGET -> "nsenter -t 1 -m /system/bin/sh -c " + shellQuote(script);
+        };
+    }
 
     private final Context mContext;
     private final File mAppLogBaseDir;
     private final File mLspdCopyBaseDir;
     private final File mLspdLogDir;
     private final File mLspdLogOldDir;
+
+    static String buildLspdCopyScript(String sourceDir, String targetDir) {
+        return "SOURCE=" + shellQuote(sourceDir) + "\n"
+            + "TARGET=" + shellQuote(targetDir) + "\n"
+            + "STAGE=\"${TARGET}.hc-copy-$$\"\n"
+            + "if [ ! -d \"$SOURCE\" ]; then echo HC_LSPD_SOURCE_UNAVAILABLE; exit "
+            + LSPD_SOURCE_UNAVAILABLE + "; fi\n"
+            + "rm -rf \"$STAGE\"\n"
+            + "mkdir -p \"$TARGET\" \"$STAGE\" || { echo HC_LSPD_STAGE_FAILED; exit "
+            + LSPD_STAGE_FAILED + "; }\n"
+            + "found=0\n"
+            + "for file in \"$SOURCE\"/modules_*.log \"$SOURCE\"/verbose_*.log; do\n"
+            + "  [ -f \"$file\" ] || continue\n"
+            + "  cp -f \"$file\" \"$STAGE/\" || { echo HC_LSPD_COPY_FAILED; exit "
+            + LSPD_COPY_FAILED + "; }\n"
+            + "  found=1\n"
+            + "done\n"
+            + "if [ \"$found\" -eq 0 ]; then\n"
+            + "  rm -rf \"$STAGE\"\n"
+            + "  echo HC_LSPD_EMPTY\n"
+            + "  exit " + LSPD_EMPTY + "\n"
+            + "fi\n"
+            + "chmod 644 \"$STAGE\"/* || { echo HC_LSPD_CHMOD_FAILED; exit "
+            + LSPD_CHMOD_FAILED + "; }\n"
+            + "BACKUP=\"${TARGET}.hc-backup-$$\"\n"
+            + "rm -rf \"$BACKUP\"\n"
+            + "if [ -d \"$TARGET\" ]; then mv \"$TARGET\" \"$BACKUP\" || { echo HC_LSPD_REPLACE_FAILED; exit "
+            + LSPD_REPLACE_FAILED + "; }; fi\n"
+            + "mkdir -p \"$TARGET\" || { [ -d \"$BACKUP\" ] && mv \"$BACKUP\" \"$TARGET\"; "
+            + "echo HC_LSPD_REPLACE_FAILED; exit " + LSPD_REPLACE_FAILED + "; }\n"
+            + "for file in \"$STAGE\"/*; do\n"
+            + "  [ -f \"$file\" ] || continue\n"
+            + "  mv -f \"$file\" \"$TARGET/\" || { rm -rf \"$TARGET\"; "
+            + "[ -d \"$BACKUP\" ] && mv \"$BACKUP\" \"$TARGET\"; "
+            + "echo HC_LSPD_REPLACE_FAILED; exit " + LSPD_REPLACE_FAILED + "; }\n"
+            + "done\n"
+            + "rm -rf \"$BACKUP\" \"$STAGE\"\n"
+            + "echo HC_LSPD_COPY_OK\n"
+            + "exit 0\n";
+    }
 
     private XposedLogLoader(Context context) {
         mContext = context.getApplicationContext();
@@ -175,45 +233,119 @@ public class XposedLogLoader {
         );
     }
 
-    private boolean copyLspdLogs() {
-        final boolean current = copyLspdDirectory(LSPD_LOG_DIR, mLspdLogDir);
-        final boolean old = copyLspdDirectory(LSPD_LOG_OLD_DIR, mLspdLogOldDir);
-        return current && old;
+    private static String shellQuote(String value) {
+        return "'" + value.replace("'", "'\\''") + "'";
     }
 
-    private boolean copyLspdDirectory(String sourceDir, File targetDir) {
-        String checkCmd = "[ -d '" + sourceDir + "' ] && echo exists || echo missing";
+    private static String commandDetail(ShellUtils.CommandResult result) {
+        StringBuilder detail = new StringBuilder();
+        if (result.successMsg != null) {
+            detail.append(result.successMsg);
+        }
+        if (result.errorMsg != null) {
+            if (detail.length() > 0) {
+                detail.append(' ');
+            }
+            detail.append(result.errorMsg);
+        }
+        String text = detail.toString().replace('\r', ' ').replace('\n', ' ').trim();
+        return text.length() <= 2048 ? text : text.substring(0, 2048);
+    }
+
+    private static String detailSuffix(String detail) {
+        return detail.isEmpty() ? "" : " detail=" + detail;
+    }
+
+    private boolean copyLspdLogs() {
+        final LspdCopyStatus current = copyLspdDirectory(LSPD_LOG_DIR, mLspdLogDir);
+        // The old log directory is optional. A missing or failed old capture must not
+        // prevent the current capture from being persisted.
+        copyLspdDirectory(LSPD_LOG_OLD_DIR, mLspdLogOldDir);
+        return current == LspdCopyStatus.COPIED || current == LspdCopyStatus.EMPTY;
+    }
+
+    private LspdCopyStatus copyLspdDirectory(String sourceDir, File targetDir) {
         final String diagnosticTag = "LogSync.LSPosed." + (LSPD_LOG_DIR.equals(sourceDir) ? "current" : "old");
         final LogDao dao = LogRepository.getInstance().getDao();
-        if (!"exists".equals(runInRootShell(checkCmd).trim())) {
-            clearDirectory(targetDir);
-            LogSyncDiagnostics.record(dao, diagnosticTag, LSPD_LOG_DIR.equals(sourceDir) ? "W" : "I",
-                "LSPOSED_DIRECTORY_UNAVAILABLE: " + sourceDir
-                    + "; framework log location may differ or logging may be disabled. Native logcat collection runs separately.");
-            return true;
+        final List<String> attemptDetails = new ArrayList<>();
+        boolean sawEmptyDirectory = false;
+        boolean sawFailure = false;
+
+        for (LspdSourceAccess access : getSourceAccessOrder()) {
+            final String actualSource = access == LspdSourceAccess.PROC_ROOT
+                ? PROC_ROOT_PREFIX + sourceDir
+                : sourceDir;
+            final String command = buildLspdCopyCommand(access, actualSource, targetDir);
+            final ShellUtils.CommandResult result = ShellUtils.execRootCommand(command);
+            final String detail = commandDetail(result);
+
+            if (result.result == 0) {
+                mPreferredSourceAccess = access;
+                LogSyncDiagnostics.record(dao, diagnosticTag, "I",
+                    "LSPOSED_COPY_OK: " + sourceDir + " via=" + access.id + detailSuffix(detail));
+                return LspdCopyStatus.COPIED;
+            }
+            if (result.result == LSPD_EMPTY) {
+                sawEmptyDirectory = true;
+                continue;
+            }
+            if (result.result != LSPD_SOURCE_UNAVAILABLE) {
+                sawFailure = true;
+            }
+            attemptDetails.add(access.id + "=" + result.result + detailSuffix(detail));
         }
 
-        ensureDirs(targetDir);
-        clearDirectory(targetDir);
-        final String captured = runInRootShell("set -- '" + sourceDir + "'/*; "
-            + "if [ ! -e \"$1\" ]; then echo HC_LSPD_EMPTY; "
-            + "elif cp -f '" + sourceDir + "'/* '" + targetDir.getAbsolutePath() + "/' 2>&1 "
-            + "&& chmod -R 644 '" + targetDir.getAbsolutePath() + "'/* 2>&1; "
-            + "then echo HC_LSPD_COPY_OK; else echo HC_LSPD_COPY_FAILED; fi").trim();
-        if (captured.endsWith("HC_LSPD_COPY_OK")) {
-            LogSyncDiagnostics.record(dao, diagnosticTag, "I", "LSPOSED_COPY_OK: " + sourceDir);
-        } else if (captured.endsWith("HC_LSPD_EMPTY")) {
-            LogSyncDiagnostics.record(dao, diagnosticTag, "I", "LSPOSED_DIRECTORY_EMPTY: " + sourceDir);
-        } else {
-            LogSyncDiagnostics.record(dao, diagnosticTag, "E", "LSPOSED_COPY_FAILED: " + sourceDir + " detail="
-                + captured.substring(0, Math.min(captured.length(), 2048)));
-            return false;
+        final String attempts = String.join(", ", attemptDetails);
+        if (sawFailure) {
+            LogSyncDiagnostics.record(dao, diagnosticTag, "E",
+                "LSPOSED_COPY_FAILED: " + sourceDir + " attempts=" + attempts);
+            return LspdCopyStatus.FAILED;
         }
-        return true;
+        if (sawEmptyDirectory) {
+            clearDirectory(targetDir);
+            LogSyncDiagnostics.record(dao, diagnosticTag, "I",
+                "LSPOSED_DIRECTORY_EMPTY: " + sourceDir + " attempts=" + attempts);
+            return LspdCopyStatus.EMPTY;
+        }
+        LogSyncDiagnostics.record(dao, diagnosticTag, LSPD_LOG_DIR.equals(sourceDir) ? "W" : "I",
+            "LSPOSED_DIRECTORY_UNAVAILABLE: " + sourceDir + " attempts=" + attempts
+                + "; framework log location may differ or logging may be disabled. "
+                + "Native logcat collection runs separately.");
+        return LspdCopyStatus.UNAVAILABLE;
     }
 
-    private static String runInRootShell(String script) {
-        return ShellUtils.rootExecCmd("sh -c '" + script.replace("'", "'\\''") + "'");
+    private List<LspdSourceAccess> getSourceAccessOrder() {
+        List<LspdSourceAccess> accesses = new ArrayList<>(LspdSourceAccess.values().length);
+        LspdSourceAccess preferred = mPreferredSourceAccess;
+        if (preferred != null) {
+            accesses.add(preferred);
+        }
+        for (LspdSourceAccess access : LspdSourceAccess.values()) {
+            if (access != preferred) {
+                accesses.add(access);
+            }
+        }
+        return accesses;
+    }
+
+    private enum LspdCopyStatus {
+        COPIED,
+        EMPTY,
+        UNAVAILABLE,
+        FAILED
+    }
+
+    private enum LspdSourceAccess {
+        DIRECT("direct"),
+        PROC_ROOT("proc_root"),
+        NSENTER_MOUNT("nsenter_mount"),
+        NSENTER_TARGET("nsenter_target");
+
+        private final String id;
+
+        LspdSourceAccess(String id) {
+            this.id = id;
+        }
     }
 
     private void persistFilteredLogsToDatabase() {
