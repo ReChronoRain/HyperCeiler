@@ -7,8 +7,19 @@ import tempfile
 
 root = Path(__file__).resolve().parents[2]
 parser = root / 'app/src/main/java/com/sevtinge/hyperceiler/log/LogcatParser.java'
+
+# Device runtimes can provide a newer Java language level than their Core Library.
+# Keep these desktop-Java conveniences out of production sources.
+for production_root in (root / 'app/src/main', root / 'library'):
+    for source in [*production_root.rglob('*.java'), *production_root.rglob('*.kt')]:
+        text = source.read_text(encoding='utf-8')
+        assert 'Files.readString(' not in text, source
+        assert '.readNBytes(' not in text, source
+
 with tempfile.TemporaryDirectory(prefix='hc-logcat-test-') as temp:
-    subprocess.run(['javac', '-d', temp, str(parser), str(parser.with_name('HomeLayoutEngineLogNames.java')), str(Path(__file__).with_name('LogcatParserTest.java'))], check=True)
+    subprocess.run(['javac', '-encoding', 'UTF-8', '-d', temp, str(parser),
+                    str(parser.with_name('HomeLayoutEngineLogNames.java')),
+                    str(Path(__file__).with_name('LogcatParserTest.java'))], check=True)
     subprocess.run(['java', '-ea', '-cp', temp, 'com.sevtinge.hyperceiler.log.LogcatParserTest'], check=True)
 
 # Compile the real Room model; only annotation declarations are host stubs.

@@ -9,9 +9,9 @@ import com.sevtinge.hyperceiler.log.db.LogEntry;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -70,7 +70,11 @@ final class LogcatLogLoader {
             if (status != 0) {
                 String detail;
                 try (var errorStream = new java.io.FileInputStream(errors)) {
-                    detail = new String(errorStream.readNBytes(2048), StandardCharsets.UTF_8).trim();
+                    byte[] buffer = new byte[2048];
+                    int length = errorStream.read(buffer);
+                    detail = length <= 0
+                        ? ""
+                        : new String(buffer, 0, length, StandardCharsets.UTF_8).trim();
                 }
                 LogSyncDiagnostics.record(dao, "LogSync.Logcat", "E", "LOGCAT_IMPORT_FAILED: exit=" + status
                     + " records=" + imported[0] + " stderr=" + detail
@@ -102,10 +106,15 @@ final class LogcatLogLoader {
     }
 
     private static String bootId(Context context) {
-        try {
-            return Files.readString(new File("/proc/sys/kernel/random/boot_id").toPath()).trim();
-        } catch (Exception unavailable) {
-            return "boot-" + android.provider.Settings.Global.getInt(context.getContentResolver(), android.provider.Settings.Global.BOOT_COUNT, 0);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+            new FileInputStream("/proc/sys/kernel/random/boot_id"), StandardCharsets.UTF_8))) {
+            String id = reader.readLine();
+            if (id != null && !id.trim().isEmpty()) {
+                return id.trim();
+            }
+        } catch (Exception ignored) {
         }
+        return "boot-" + android.provider.Settings.Global.getInt(
+            context.getContentResolver(), android.provider.Settings.Global.BOOT_COUNT, 0);
     }
 }
