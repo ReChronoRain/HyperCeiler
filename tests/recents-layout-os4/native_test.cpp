@@ -16,8 +16,8 @@ std::cerr<<"sites="<<debug.sites.size()<<"\n";
 int main(int argc,char**argv){
     (void)&relocated; // The shared helper uses 8 KiB spacing; these larger owners need 64 KiB.
     const auto fixture=recent_fixture();const auto p=resolve(fixture);
-    assert(p.sites.size()==expected_sites.size());
-    for(size_t i=0;i<p.sites.size();++i)assert(p.sites[i].va==expected_sites[i]);
+    assert(p.sites.size()==expected_sites.size()+(p.corner_animation_ready?4:0));
+    for(auto va:expected_sites)assert(std::any_of(p.sites.begin(),p.sites.end(),[&](auto&s){return s.va==va;}));
     std::map<uint32_t,uint32_t> addresses;
     for(size_t i=0;i<fixture.size();++i)addresses[fixture[i].va]=0x05000000u+uint32_t((fixture.size()-i)*0x10000);
     // Code inventory splits a leaf predicate at its interior boxing prologue.
@@ -88,6 +88,7 @@ int main(int argc,char**argv){
         if(s.action==Action::Style)r.x[s.reg]=src;
         if(s.action==Action::FrameStyle)store<uint64_t>(fp+s.frame,src);
         if(s.action==Action::FreeformColor)r.x[0]=r.x[22]+0x20;
+        if(s.action==Action::CornerFrame){store<uint64_t>(pp+s.pool,0x12345679);store<uint64_t>(fp+s.selector_frame,0x23456789);}
         auto result=apply(p,s,r,selected,base);assert(result==Result::Applied);++cases;
         if(s.action==Action::PoolReturn){assert(r.d(0)==.5*selected.values[s.setting]/100);assert(r.branch==0&&r.x[15]==fp+16&&r.x[29]==previous);}
         else if(s.action==Action::ScaleReturn){assert(r.d(0)==(103./104.)*.8);assert(r.x[30]==base+p.fraction_returns[0]);}
@@ -99,7 +100,7 @@ int main(int argc,char**argv){
             assert(load<uint64_t>(src-1)==p.style_tag&&load<uint32_t>(src+p.style_font)==0);
         }else if(s.action==Action::Freeform){assert(r.branch==0&&r.x[0]==top+1);assert(load<uint64_t>(top)==p.color.tag);}
         else if(s.action==Action::FreeformColor){assert(r.branch==0xbeef&&r.x[s.reg]==top+1);}
-        else if(s.action==Action::FrameScalar)assert(load<double>(fp+s.frame)==selected.values[s.setting]);
+        else if(s.action==Action::FrameScalar||s.action==Action::CornerFrame||s.action==Action::CornerSurface)assert(load<double>(fp+s.frame)==selected.values[s.setting]);
         else assert(r.d(s.reg)==(s.setting==RecentConfig::TaskHeight?selected.values[s.setting]/100.0:selected.values[s.setting]));
     }
     // The live freeform color path must preserve ordinary full-screen cards
@@ -145,7 +146,11 @@ int main(int argc,char**argv){
     Registers foreign{};foreign.x[29]=fp;foreign.branch=0xbeef;store<uint64_t>(fp+8,0xdeadbeef);
     assert(apply(p,dynamic,foreign,selected,base)==Result::UnknownCaller&&foreign.branch==0xbeef);
     if(argc>1){std::ifstream in(argv[1],std::ios::binary);std::vector<char>raw((std::istreambuf_iterator<char>(in)),{});
-        auto full=Code::parse(std::as_bytes(std::span(raw)));assert(full);auto found=recent::resolve(*full);assert(found&&found->sites.size()==p.sites.size());
+        auto full=Code::parse(std::as_bytes(std::span(raw)));assert(full);auto found=recent::resolve(*full);assert(found);
+        // Optional header witnesses are intentionally absent from the older
+        // numeric-only fixture. A full image may add its six icon banks.
+        auto numeric=found->sites;numeric.erase(std::remove_if(numeric.begin(),numeric.end(),[](auto&s){return s.action==Action::HideIconReturn||s.action==Action::IconChild;}),numeric.end());
+        assert(numeric.size()==p.sites.size()+(found->corner_animation_ready?4:0)-(p.corner_animation_ready?4:0));
         auto anonymous=image(full->functions());auto stripped=Code::parse(anonymous);assert(stripped&&recent::resolve(*stripped));}
     std::cout<<"recents runtime graph and rendering PASS: "<<p.sites.size()<<" banks, "<<cases<<" execution/allocation cases; two heap alignments, unknown callers, graph relocation/ambiguity/missing links\n";
 }

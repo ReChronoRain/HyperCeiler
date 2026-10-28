@@ -11,6 +11,10 @@ import java.util.Map;
 /** One authoritative physical-file revision; a null cell is a known missing key. */
 public final class HomeLayoutPrefsSnapshot {
     public static final int SCHEMA = 4;
+    public static final String RECENT_ICON_KEY = "home_recent_remove_icon";
+    public static final String RECENT_TEXT_KEY = "home_recent_hide_text";
+    public static final String RECENT_HEADER_VERSION = "hc_recent_header_version";
+    public static final String RECENT_HEADER_FLAGS = "hc_recent_header_flags";
     public static final String INFINITE_KEY = "home_other_infinite_scroll";
     public static final String INFINITE_VERSION = "hc_infinite_scroll_version";
     // Optional cursor extras preserve schema 4's exact columns for older clients.
@@ -192,6 +196,14 @@ public final class HomeLayoutPrefsSnapshot {
                     extras.putString(RECENT_CARDS_KEY, packet);
                     extras.putInt(RECENT_CARDS_VERSION, 1);
                 } catch (IllegalArgumentException invalid) { /* Extension unavailable, stock cards retained. */ }
+            }
+            Object hideIcon = values.get("prefs_key_" + RECENT_ICON_KEY);
+            Object hideText = values.get("prefs_key_" + RECENT_TEXT_KEY);
+            if ((hideIcon == null || hideIcon instanceof Boolean)
+                && (hideText == null || hideText instanceof Boolean)) {
+                extras.putInt(RECENT_HEADER_VERSION, 1);
+                extras.putInt(RECENT_HEADER_FLAGS, (Boolean.TRUE.equals(hideIcon) ? 1 : 0)
+                    | (Boolean.TRUE.equals(hideText) ? 2 : 0));
             }
             result.setExtras(extras);
             return result;

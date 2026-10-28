@@ -26,6 +26,7 @@ public final class HomeOS4AdaptationGate {
         "prefs_key_home_title_font_size", "prefs_key_home_drawer_title_font_size");
     // Keep the OS4 clear-button implementation and the framework-backed home-mode setting.
     private static final Set<String> ADAPTED_RECENT_KEYS = Set.of(
+        "prefs_key_home_recent_remove_icon", "prefs_key_home_recent_hide_text",
         "prefs_key_home_recent_hide_card",
         "prefs_key_home_recent_hide_status_bar_in_task_view",
         "prefs_key_home_recent_clear_action_os4", "prefs_key_task_view_corners",

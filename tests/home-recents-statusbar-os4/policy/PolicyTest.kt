@@ -8,6 +8,8 @@ fun main(){
  val logs=mutableListOf<String>();val p=HomeRecentsStatusBarOS4{logs.add(it)}
  p.install(WindowState::class.java);p.bind(home,wm);wm.mH.drain()
  c(logs.any{it.contains("installed")});c(home.getRequestedVisibleTypes()==15)
+ c(com.sevtinge.hyperceiler.libhook.base.BaseHook.deoptimized.map{it.name}.toSet()==
+  setOf("getStatusControlTargetInner","getStatusControlTarget","updateBarControlTarget"))
  Binder.setCallingIdentityForTest(10123,20)
  var seq=0L;var rev=0L
  fun send(mask:Long,revision:Long=++rev,flags:Int=0,descriptor:String="android.view.IWindowManager",trailing:Boolean=false):Int {
@@ -16,9 +18,14 @@ fun main(){
   p.receive(input,out,flags);wm.mH.drain();out.setDataPosition(0);c(out.readInt()==HomeRecentsStatusBarOS4.ACK);val available=out.readInt();val enabled=out.readInt();c(enabled==0||available==1);c(out.dataAvail()==0);return enabled
  }
  c(send(9)==1);c(home.getRequestedVisibleTypes()==14);c(!home.isRequestedVisible(1));c(home.isRequestedVisible(2));c(home.types==15);c(dc.policy.appliedTypes==14)
+ c(dc.policy.statusOwner=="platform-hiding");c(!dc.policy.statusSurfaceVisible);c(dc.policy.forcedTypes==0)
+ c(!dc.policy.areTypesForciblyHidden(2));c(!dc.policy.areTypesForciblyHidden(3))
+ val other=DisplayContent();c(!other.policy.areTypesForciblyHidden(1))
  c(send(8)==1);c(home.getRequestedVisibleTypes()==15);c(dc.policy.appliedTypes==15)
+ c(dc.policy.statusOwner=="client");c(dc.policy.statusSurfaceVisible)
  c(send(10)==1);c(home.getRequestedVisibleTypes()==14)
  dc.mCurrentFocus=app;c(home.getRequestedVisibleTypes()==15);c(app.getRequestedVisibleTypes()==15)
+ c(!dc.policy.areTypesForciblyHidden(1))
  dc.mCurrentFocus=home;wm.locked=true;c(home.getRequestedVisibleTypes()==15);wm.locked=false;c(home.getRequestedVisibleTypes()==14)
  home.shown=false;c(home.getRequestedVisibleTypes()==15);home.shown=true
  val current=rev;c(send(8,current)==0);c(home.getRequestedVisibleTypes()==14) // same-revision mismatch rejected
@@ -28,6 +35,7 @@ fun main(){
  Binder.setCallingIdentityForTest(10124,20);c(send(8)==0);c(home.getRequestedVisibleTypes()==14);Binder.setCallingIdentityForTest(10123,20)
  HomeLayoutNativeEndpointOS4.pref=HomeLayoutNativeEndpointOS4.RecentsBarPreference(true,false,Long.MAX_VALUE)
  c(send(9)==0);c(home.getRequestedVisibleTypes()==15);c(dc.policy.appliedTypes==15)
+ c(dc.policy.statusOwner=="client");c(dc.policy.statusSurfaceVisible)
  HomeLayoutNativeEndpointOS4.pref=HomeLayoutNativeEndpointOS4.RecentsBarPreference(true,true,SystemClock.elapsedRealtimeNanos()+100_000_000)
  c(send(12)==1);c(home.getRequestedVisibleTypes()==14)
  val prefDeadline=HomeLayoutNativeEndpointOS4.pref.deadline();SystemClock.source=java.util.function.LongSupplier{prefDeadline}
@@ -39,6 +47,7 @@ fun main(){
  c(send(9)==0);c(replacement.getRequestedVisibleTypes()==15)
  Binder.setCallingIdentityForTest(10123,21);seq=0;rev=0;c(send(9)==1);c(replacement.getRequestedVisibleTypes()==14)
  p.close();wm.mH.drain();c(replacement.getRequestedVisibleTypes()==15);c(dc.policy.appliedTypes==15)
+ c(dc.policy.statusOwner=="client");c(dc.policy.statusSurfaceVisible);c(!dc.policy.areTypesForciblyHidden(1))
  c(send(9)==0)
  val hooks=io.github.lingqiqi5211.ezhooktool.xposed.dsl.Hooks
  c(hooks.primitiveResubmissions==0)

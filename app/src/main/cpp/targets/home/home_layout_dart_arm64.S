@@ -2009,6 +2009,24 @@ hc_dock_edit_entry:
     add sp, sp, #704
 .endm
 
+/* Observe only after the original compressed state store and write barrier.
+ * The current frame roots are read synchronously, no Dart call/allocation is made.
+ * Tail replay preserves the original continuation and its GC stack-map PCs. */
+.globl hc_recent_dart_state_entry
+.p2align 4
+hc_recent_dart_state_entry:
+    dart_save
+    workspace_native_save
+    mov x0, x29
+    mov x1, x26
+    mov x2, x27
+    bl hc_recent_dart_state_observe
+    workspace_native_restore
+    dart_restore
+    adrp x16, hc_recent_dart_state_original
+    ldr x16, [x16, :lo12:hc_recent_dart_state_original]
+    br x16
+
 /* Workspace original double-tap policy. Only the stock preference predicate
  * changes; all mode/overlay/edit/scroll guards continue in the original body. */
 .globl hc_workspace_double_policy_entry
@@ -2319,6 +2337,10 @@ hc_widget_scale_entry:
 .p2align 4
 hc_dart_columns_entry:
     dart_save
+    adrp x9, hc_dart_columns_hits
+    ldr x10, [x9, :lo12:hc_dart_columns_hits]
+    add x10, x10, #1
+    str x10, [x9, :lo12:hc_dart_columns_hits]
     adrp x9, hc_dart_columns_ready
     add x9, x9, :lo12:hc_dart_columns_ready
     ldar w9, [x9]
@@ -2351,6 +2373,10 @@ hc_dart_columns_entry:
     b.hi 2f
     lsl w3, w9, #1
 2:
+    adrp x9, hc_dart_columns_applied
+    ldr x10, [x9, :lo12:hc_dart_columns_applied]
+    add x10, x10, #1
+    str x10, [x9, :lo12:hc_dart_columns_applied]
     dart_restore
     stp x3, x2, [x15]
     dynamic_load x1, x29, hc_dart_columns_frame

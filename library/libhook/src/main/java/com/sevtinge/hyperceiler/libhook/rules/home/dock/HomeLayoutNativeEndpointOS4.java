@@ -152,7 +152,9 @@ public final class HomeLayoutNativeEndpointOS4 {
         final String segment = path.substring(slash + 1);
         final String key = segment.startsWith("prefs_key_")
             ? segment.substring("prefs_key_".length()) : segment;
-        if (HomeLayoutPrefsSnapshot.INFINITE_KEY.equals(key)
+        if (HomeLayoutPrefsSnapshot.RECENT_ICON_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.INFINITE_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY.equals(key)
             || (HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable").equals(key)) return true;
@@ -456,6 +458,13 @@ public final class HomeLayoutNativeEndpointOS4 {
                 if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_VERSION, 0) == 1) {
                     int infinite = extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_KEY, -1);
                     if (infinite == 0 || infinite == 1) values.put(HomeLayoutPrefsSnapshot.INFINITE_KEY, infinite);
+                }
+                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.RECENT_HEADER_VERSION, 0) == 1) {
+                    int flags = extras.getInt(HomeLayoutPrefsSnapshot.RECENT_HEADER_FLAGS, -1);
+                    if (flags >= 0 && (flags & ~3) == 0) {
+                        values.put(HomeLayoutPrefsSnapshot.RECENT_ICON_KEY, flags & 1);
+                        values.put(HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY, (flags >> 1) & 1);
+                    }
                 }
                 for (int index = 0; index < PREF_KEYS.length; ++index) {
                     final String key = PREF_KEYS[index][1];
@@ -1035,7 +1044,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     public static final int RECENT_MAGIC = 0x48435243;
-    private static final int[] RECENT_DEFAULTS = {20,40,30,100,52,100,100,100,-1,-1,-1};
+    private static final int[] RECENT_DEFAULTS = {20,40,30,100,52,100,100,100,-1,-1,-1,0,0};
     private static final String[] RECENT_KEYS = {"task_view_corners", "task_view_header_height",
         "task_view_header_horizontal_offset", "home_recent_animation_speed", "home_recent_task_view_height",
         "task_view_horizontal1", "task_view_horizontal2", "home_recent_vertical_task_view_card_size",
@@ -1044,24 +1053,33 @@ public final class HomeLayoutNativeEndpointOS4 {
         final int[] snapshot = values == null ? null : values.clone();
         if (!validRecent(snapshot)) throw new IllegalArgumentException("invalid recents snapshot");
         reply.writeInt(RECENT_MAGIC);
-        reply.writeInt(snapshot.length);
-        for (int value : snapshot) reply.writeInt(value);
+        reply.writeInt(11); // HCRC v1 is unchanged for old native clients.
+        for (int i=0;i<11;++i) reply.writeInt(snapshot[i]);
+    }
+    public static final int RECENT_HEADER_MAGIC = 0x48435248;
+    public static void writeRecentHeader(Parcel reply, int[] values) {
+        final int[] snapshot = values == null ? null : values.clone();
+        if (!validRecent(snapshot)) throw new IllegalArgumentException("invalid recents header snapshot");
+        reply.writeInt(RECENT_HEADER_MAGIC);
+        reply.writeInt(snapshot[11] | (snapshot[12] << 1));
     }
     public static int[] recentDefaults() { return RECENT_DEFAULTS.clone(); }
     private static boolean validRecent(int[] values) {
         if (values==null || values.length!=RECENT_DEFAULTS.length) return false;
         final int[] low={0,0,0,10,30,50,50,50,-1}, high={180,150,150,500,70,150,150,150,30};
         for(int i=0;i<low.length;++i) if(values[i]<low[i] || values[i]>high[i]) return false;
-        return true;
+        return values[11]>=0 && values[11]<=1 && values[12]>=0 && values[12]<=1;
     }
     private static int[] readRecent(java.util.Map<String, Object> values) {
         final int[] result = RECENT_DEFAULTS.clone();
         final int[] low = {0,0,0,10,30,50,50,50,-1};
         final int[] high = {180,150,150,500,70,150,150,150,30};
-        for (int i=0;i<result.length;++i) {
+        for (int i=0;i<RECENT_KEYS.length;++i) {
             int value = readInt(values, RECENT_KEYS[i], result[i]);
             if (i>=low.length || value>=low[i] && value<=high[i]) result[i]=value;
         }
+        result[11] = readBit(values, HomeLayoutPrefsSnapshot.RECENT_ICON_KEY);
+        result[12] = readBit(values, HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY);
         return result;
     }
 

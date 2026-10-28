@@ -25,7 +25,7 @@ class tags, sizes, fields, pool roles and nursery offsets come from those actual
 producers, consumers and allocators. Missing or ambiguous core graphs decline
 the bank and retain OEM behavior. No Dart allocator or GC call/return PC is patched.
 
-The shipping native callback captures one immutable 11-value preference revision
+The shipping native callback captures one immutable 13-value preference revision
 per call. Style and color replacements allocate only from the proved bounded
 nursery fast path, admit both 0 and 8 modulo 16 tops, never retain a movable Dart
 pointer, and never call the Dart GC slow allocator. Shared const styles/colors
@@ -42,7 +42,7 @@ producer; its original 10..500 range is retained, without changing HCS1's fixed
 188-byte authorization reply or any Rust initialization protocol.
 
 HCRC v1 is an optional 52-byte HCL4 tail: magic, count 11, then the values in
-`RecentConfig::Index` order. The provider schema advances to 3. The writer and
+`RecentConfig::Index` order. The provider schema remains 4, header switches use optional cursor extras. The writer and
 reader reject partial/wrong-count/out-of-range packets, while old endpoints
 produce neutral defaults. Cache v16 includes the same extension; v15/v14 remain
 readable. The endpoint revision/capability diagnostic identifies an old running
@@ -95,3 +95,93 @@ this does not count as a successful visual landscape test. Real landscape and
 tablet checks, and exhaustive animation timing/transition checks, remain needed. After a launcher
 restart, wait for bank readiness and re-enter recents before comparing a cached
 header; an early first frame is not sufficient evidence of a rendering failure.
+
+
+## OS4 header visibility, 2026-10-28
+
+The existing Hide icon switch now targets the Dart header rather than the old
+Android TaskViewHeader. An OS4-only Hide text switch independently removes app
+names from card headers. Neither switch changes lock badges, card menus or
+thumbnail content. Production selection uses executable instructions and linked
+constructor/consumer contracts, without private names, saved addresses or CIDs.
+The fixed ARM64 Dart code-generator shapes are compatibility bounds, not a
+promise to support every launcher version.
+
+The cached icon returns the header owner's original empty widget after
+its keep-alive superclass call, unwinding its original managed frame. The
+stateless transition icon returns that same current-pool widget at entry. Both
+paths must match uniquely before either is published. Title hiding writes the
+canonical empty String into the data field of the five already proved fresh
+Text constructors. String CIDs/length, Text CID/data, frame and pool offsets
+come from the current image's original allocators and stores. No shared const
+object is mutated, no Dart call/GC or new allocation is used by visibility-only
+requests, and no movable reference is retained. Missing or ambiguous optional
+header contracts retain stock headers without disabling numeric card controls.
+
+HCRC v1 stays exactly 52 bytes and HCS1 stays 188 bytes. HCRH v1 appends two
+int32 words after the existing infinite-scroll tail, magic 0x48435248 and flags
+bit 0 hide icon, bit 1 hide text. Unknown bits and partial packets are rejected.
+An absent old-server tail defaults only those two switches off. Provider extras
+are version 1 and come from the same getAll snapshot as the unchanged schema-4
+columns. Both booleans live in the same immutable 13-value recent array, whose
+first 11 elements retain HCRC order. Cache v21 adds the identical final trailer
+and continues reading v20 and earlier caches. A new system_server class requires
+a system reboot after installing, launcher restart alone cannot add this tail.
+
+```sh
+python3 tests/recents-layout-os4/run_header.py
+```
+
+Captured 8583 and 8584 executable-only fixtures exercise discovery and rendering
+under ASan/UBSan, all four switch combinations, managed-frame returns, original
+routes, fresh Text class and empty String validation, zero visibility allocation,
+font customization at both heap alignments, relocated functions/calls and pool
+slots, ambiguity and missing families. Existing numeric recents regressions,
+wire/cache migration, exact schema, immutable/concurrent publication, preference
+observer invalidation, absent extras and ARM64 gateway tests also pass.
+The cache regression previously assumed a stale tail size and the JVM runner
+included ModuleLog twice, both test harness problems were reproduced and fixed.
+
+The initial build matched two standalone icon builders, but real 8584 cards
+reuse a list of prebuilt icon Widgets and never executed those builders. The
+live path now proves the bounded index-zero/index-one/dynamic-index reads of
+that list inside the already title-proved owner. Only last-use child registers
+are replaced, leaving the list, spacers, titles and lock children intact. One
+window runs before the original heap-base ADD, so it writes a compressed
+reference only after validating the current heap base. Its four extra sites
+and the standalone pair publish as one optional family.
+
+Device validation on 8584 confirmed all four combinations with matching native
+HCRH flags, screenshots and actual live-icon applications. The latest two
+switches were both true and were restored true, all other preferences matched
+exactly. No exhaustive split-card, tablet, landscape or interrupted-transition
+coverage is claimed. Header regression is 55 ASan/UBSan cases per fixture.
+
+
+## Entering-recents corner continuity, 2026-10-28
+
+Steady thumbnails already used the requested radius, but the Flutter flight
+lerp and the real app-window flight had independent stock-20 targets. New
+optional discovery links their shared stacked-radius producer back to the
+proved width dispatcher, original Radius/BorderRadius allocators, and scalar
+Tween allocator. It verifies four physical and four logical Tween end stores
+on the app-window side. The requested radius is applied before the original
+width fraction and display-density arithmetic, preserving screen-radius begin
+values, asymmetric screen corners, scaling, progress and interpolation. No
+surface-wide override, shared-object write, Dart call or native allocation is
+introduced. A missing or ambiguous family publishes none of its four sites.
+The same snapshot feeds these targets and the stable thumbnail radius.
+
+```sh
+python3 tests/recents-layout-os4/run_flight.py
+```
+
+37 ASan/UBSan cases per 8583/8584 fixture cover plain/stacked target routing,
+neutral/zero/max values, original screen-begin registers, stack scale retention,
+relocated owners/allocators, moved frame locals and missing/ambiguous/changed
+semantic contracts. Numeric regressions now exercise 30 banks/91 cases (7751)
+and 28 banks/87 cases (8583); complete 8584 discovery has 34 sites with optional
+icons and both flight representations. No fixed address or private symbol is
+used by production discovery. The final Release builds and verifies its
+signature, device validation details and remaining limits are recorded locally
+under root handover/ and /tmp/hc-recent-header-live-20261028.

@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_recent_statusbar.h"
 #include "home_recent_statusbar_resolver.h"
+#include "home_recent_dart_scene.h"
 #include "nativehook/android_diagnostics.h"
 #include "nativehook/hook_bank.h"
 #include "nativehook/code_patch_io.h"
@@ -15,6 +16,10 @@
 #include <time.h>
 
 extern "C" int dock_motion_event;
+extern "C" {
+void* hc_recent_dart_state_original=nullptr;
+void hc_recent_dart_state_entry();
+}
 namespace home_recent_bar {
 namespace {
 using Words=std::array<uint32_t,4>;using Slot=nhk::InlineSlot<4>;
@@ -26,7 +31,22 @@ std::condition_variable wake;
 std::atomic<uint64_t> wake_revision{0};
 std::array<std::atomic<uintptr_t>,3> flags{};
 std::array<void*,3> originals{};
-std::array<Slot,3> slots{};
+std::array<Slot,4> slots{};
+dart_scene::Plan dart_plan{};
+std::atomic_bool dart_contract{false};
+// One coherent native scalar, low bits known/active, higher bits read status.
+std::atomic<unsigned> dart_observation{0};
+std::atomic<uint64_t> dart_hits{0};
+std::string dart_path;
+uint64_t dart_begin=0,dart_end=0;
+bool dart_attempted=false;
+unsigned last_dart_report=~0u;
+const char* last_phase=nullptr;
+void phase(const char* message){
+    if(last_phase&&std::strcmp(last_phase,message)==0)return;
+    last_phase=message;
+    __android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeLayout","recents status bar bank %s",message);
+}
 std::string path;
 uint64_t view_begin=0,view_end=0,last_generation=0,next_discovery=0;
 unsigned discoveries=0;
@@ -51,7 +71,7 @@ void snapshot() noexcept {
             mask|=unsigned(value)<<i;
         }
         if (!enabled.load(std::memory_order_acquire) || !bank_ready.load(std::memory_order_acquire)) { publish(0); return; }
-        mask|=8;
+        mask=dart_scene::compose(mask,dart_observation.load(std::memory_order_acquire));
     }
     publish(mask);
 }
@@ -68,7 +88,7 @@ template<unsigned I> void observe(uint8_t value){
 std::optional<std::vector<nhk::ExecutableMapping>> inventory(){
     std::ifstream maps("/proc/self/maps");if(!maps)return {};
     auto all=nhk::parse_file_mappings(maps);
-    auto owned=nhk::owned_image_mappings(all,std::vector<nhk::ImageContainer>{{path,view_begin,view_end}});
+    auto owned=nhk::owned_image_mappings(all,std::vector<nhk::ImageContainer>{{path,view_begin,view_end},{dart_path,dart_begin,dart_end}});
     if(owned.empty())return {};return owned;
 }
 bool stable(const Slot& slot,Words& words){
@@ -130,10 +150,47 @@ bool discover(){
         prepared[i]={address,replacements[i],&originals[i],*source,words};prepared_flags[i]=found->base+t.flag;
     }
     path=found->path;view_begin=found->begin;view_end=found->end;
-    slots=prepared;
+    for(unsigned i=0;i<3;++i)slots[i]=prepared[i];
     for(unsigned i=0;i<3;++i) flags[i].store(prepared_flags[i],std::memory_order_release);
     return true;
 }
+bool discover_dart(){
+    std::ifstream maps("/proc/self/maps");if(!maps)return false;
+    const auto all=nhk::parse_file_mappings(maps);
+    std::set<std::string> candidates;
+    for(const auto& m:all)if(m.path.ends_with(".apk")||m.path.ends_with("/libapp.so"))candidates.insert(m.path);
+    if(candidates.size()>64)return false;
+    struct Found {std::string path;uint64_t begin,end,base;dart_scene::Plan plan;Slot slot;};
+    std::optional<Found> found;
+    for(const auto& name:candidates){
+        uint64_t begin=0,size=0;
+        if(name.ends_with(".apk")){auto entry=nhk::zip_stored_entry(name,"libapp.so");if(!entry)continue;begin=entry->first;size=entry->second;}
+        std::ifstream file(name,std::ios::binary|std::ios::ate);if(!file)continue;
+        if(!size)size=uint64_t(file.tellg());
+        if(!size||size>64*1024*1024||begin>UINT64_MAX-size)continue;
+        std::vector<std::byte> bytes(size);file.seekg(begin);file.read(reinterpret_cast<char*>(bytes.data()),bytes.size());
+        if(size_t(file.gcount())!=bytes.size())continue;
+        auto segments=nhk::elf::parse_program_segments(bytes);if(!segments)continue;
+        auto view=nhk::image_view_from_segments_in_window(all,name,*segments,begin,begin+size);if(!view)continue;
+        dart_attempted=true;
+        auto code=home_layout::features::Code::parse(bytes);auto plan=code?dart_scene::resolve(*code):std::nullopt;
+        if(!plan||view->load_base>UINTPTR_MAX-plan->observe){
+            nhk::android_diagnostics::emit("home.recents.flutter-scene",kFeature,"NATIVE_INLINE","WAITING","SCENE_RESOLVE","RUNTIME_CONTRACT_UNAVAILABLE","dart-scene","Flutter overview getter/window predicate/committed state writer is not uniquely verified; stock status bar retained");
+            return false;
+        }
+        const auto address=uintptr_t(view->load_base+plan->observe);
+        auto owned=nhk::owned_image_mappings(all,std::vector<nhk::ImageContainer>{{name,begin,begin+size}});
+        auto source=nhk::source_at(owned,address,sizeof(Words));if(!source)return false;
+        auto words=dart_scene::replay_words(*code,*plan);if(!words)return false;
+        if(found)return false;
+        Slot slot{address,reinterpret_cast<void*>(hc_recent_dart_state_entry),&hc_recent_dart_state_original,*source,*words};
+        found=Found{name,begin,begin+size,view->load_base,*plan,slot};
+    }
+    if(!found)return false;
+    dart_path=found->path;dart_begin=found->begin;dart_end=found->end;dart_plan=found->plan;
+    slots[3]=found->slot;dart_contract.store(true,std::memory_order_release);return true;
+}
+
 }
 bool requested() noexcept { return enabled.load(std::memory_order_acquire); }
 void configure(bool value) noexcept {
@@ -160,20 +217,41 @@ void maintain(Hook hook,Unhook unhook,Protect protect) noexcept {
         if(!slots[0].address){
             if(attempted||discoveries>=16||now<next_discovery)return;
             ++discoveries;next_discovery=now+500000000;
-            if(!discover())return;
+            if(!discover()){phase(attempted?"Rust scene contract rejected":"waiting for mapped Rust scene image");return;}
         }
-        const std::vector<size_t> order{0,1,2};
+        if(!slots[3].address){
+            if(dart_attempted||discoveries>=16||now<next_discovery)return;
+            ++discoveries;next_discovery=now+500000000;
+            if(!discover_dart()){phase(dart_attempted?"Flutter scene contract rejected":"waiting for mapped Flutter scene image");return;}
+        }
+        const std::vector<size_t> order{0,1,2,3};
         if(!last_generation||now-last_generation>=30000000000ULL){
             last_generation=now;auto inv=inventory();bool valid=bool(inv);
             if(inv)for(const auto& s:slots){std::array<uintptr_t,1>a{s.address};std::array<nhk::CodeSource,1>e{s.source};valid&=nhk::mapping_state(*inv,a,e,16)==nhk::MappingState::same;}
-            if(!valid){bank_ready=false;publish(0);retired=true;return;}
+            if(!valid){bank_ready=false;publish(0);retired=true;phase("runtime source generation changed, stock status bar retained");return;}
         }
         const bool healthy=nhk::ordered_slots_healthy(slots,order,[](auto addresses,auto,auto observed){
             for(size_t i=0;i<addresses.size();++i)if(!nhk::safe_read(addresses[i],std::as_writable_bytes(observed.subspan(i,1))))return false;return true;});
         const bool live=healthy||(nhk::ensure_slots_live(slots,host(),order)
             &&nhk::ordered_slots_healthy(slots,order,[](auto a,auto,auto w){for(size_t i=0;i<a.size();++i)if(!nhk::safe_read(a[i],std::as_writable_bytes(w.subspan(i,1))))return false;return true;}));
         bank_ready.store(live,std::memory_order_release);snapshot();
+        phase(live?"four scene sites verified live":"scene patch installation pending");
         nhk::android_diagnostics::counter("home.recents.statusbar",kFeature,hits.load(std::memory_order_relaxed));
+        nhk::android_diagnostics::counter("home.recents.flutter-scene",kFeature,dart_hits.load(std::memory_order_relaxed));
+        const auto report=dart_observation.load(std::memory_order_acquire);
+        if(last_dart_report!=report){last_dart_report=report;
+            __android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeLayout","recents Flutter scene observed=%u active=%u reason=%s",(report>>1)&1,report&1,dart_scene::read_reason(dart_scene::ReadResult(report>>2)));}
+
     }catch(...){bank_ready=false;publish(0);}
 }
+extern "C" void hc_recent_dart_state_observe(uint64_t frame,uint64_t thread,uint64_t pool) noexcept {
+    if(!dart_contract.load(std::memory_order_acquire)||!bank_ready.load(std::memory_order_acquire))return;
+    const auto value=dart_scene::sample(dart_plan,frame,thread,pool,[](uint64_t at,auto& out){
+        return nhk::safe_read(uintptr_t(at),std::as_writable_bytes(std::span(&out,1)));});
+    const unsigned observation=unsigned(value.result)*4+(value.result==dart_scene::ReadResult::Ready?2u+unsigned(value.active):0u);
+    dart_observation.store(observation,std::memory_order_release);
+    if(value.result==dart_scene::ReadResult::Ready)dart_hits.fetch_add(1,std::memory_order_relaxed);
+    if(enabled.load(std::memory_order_acquire))snapshot();
+}
+
 }

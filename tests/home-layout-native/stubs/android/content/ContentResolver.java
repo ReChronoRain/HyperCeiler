@@ -4,6 +4,7 @@ package android.content;
 public class ContentResolver {
     private static final java.util.Map<String, Object> ROWS = new java.util.HashMap<>();
     public static boolean recentsExtras = false;
+    public static boolean recentHeaderExtras = false;
     private static String[][] specs = new String[0][];
     private static int failureIndex = -1, queries;
     private static String failureMode;
@@ -51,6 +52,13 @@ public class ContentResolver {
                         b.putInt("hc_recents_bar_version",1);
                         Object v=snapshot.get("prefs_key_home_recent_hide_status_bar_in_task_view");
                         b.putInt("home_recent_hide_status_bar_in_task_view",v instanceof Number n?n.intValue():0);
+                    }
+                    if(recentHeaderExtras) {
+                        b.putInt("hc_recent_header_version",1);
+                        Object icon=snapshot.get("prefs_key_home_recent_remove_icon");
+                        Object text=snapshot.get("prefs_key_home_recent_hide_text");
+                        b.putInt("hc_recent_header_flags", (icon instanceof Number n?n.intValue():0)
+                            | ((text instanceof Number n?n.intValue():0)<<1));
                     }
                     return b;
                 }

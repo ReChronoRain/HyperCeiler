@@ -81,12 +81,36 @@ internal class HomeRecentsStatusBarOS4(private val record: (String) -> Unit) {
             }
             check(changed.size == 1) { "requested-types notification unavailable or ambiguous" }
             requestedChanged = changed.single().apply { isAccessible = true }
+            val forciblyHidden = method(policy, "areTypesForciblyHidden", Boolean::class.javaPrimitiveType!!,
+                Int::class.javaPrimitiveType!!)
+            val controlTarget = Class.forName("com.android.server.wm.InsetsControlTarget", false, type.classLoader)
+            val controlCallers = listOf(
+                method(policy, "getStatusControlTargetInner", controlTarget, type, Boolean::class.javaPrimitiveType!!),
+                method(policy, "getStatusControlTarget", controlTarget, type, Boolean::class.javaPrimitiveType!!, IntArray::class.java),
+                method(policy, "updateBarControlTarget", Void.TYPE, type))
             observeAfter(method(type, "getRequestedVisibleTypes", Int::class.javaPrimitiveType!!)) { param ->
                 if (param.thisObject === window && shouldHide()) param.result = (param.result as Int) and STATUS.inv()
             }
             observeAfter(method(type, "isRequestedVisible", Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!)) { param ->
                 if (param.thisObject === window && param.args[0] == STATUS && shouldHide()) param.result = false
             }
+            observeAfter(forciblyHidden) { param ->
+                if (param.args[0] == STATUS && shouldHide() && runCatching {
+                        val target = window ?: return@runCatching false
+                        val dc = display.invoke(target) ?: return@runCatching false
+                        insetsPolicy.invoke(dc) === param.thisObject
+                    }.getOrDefault(false)) param.result = true
+            }
+            // A client may keep its insets leash shown despite the filtered request.
+            // The platform's forced-hidden route transfers only status-bar control
+            // to its original hiding target, which drives the surface animation.
+            // No forced-types field is changed, normal focus/transient policy still
+            // runs first, and lease expiry/exit restores the original control target.
+            // These tiny predicates may be AOT-inlined into the target selection
+            // chain. Invalidate just those three callers once at installation,
+            // otherwise the source can be hidden while the client keeps its leash.
+            val deoptimized = controlCallers.count { BaseHook.deoptimize(it) }
+            record("recents status bar control callers deoptimized=$deoptimized/${controlCallers.size}")
             ready = true
             record("recents status bar window policy installed, native execution and visible effect require separate evidence")
         } catch (error: Throwable) { fail(error) }
