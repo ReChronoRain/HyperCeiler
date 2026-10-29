@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_recent_haptic_category">Card vibration</string>
+    <string name="home_recent_card_close_haptic">Swipe-up close vibration</string>
+    <string name="home_recent_card_close_haptic_summary">Vibrate once when an upward swipe is accepted to close a card, shares the scrolling vibration type and strength</string>
+    <string name="home_recent_card_haptic">Card scroll vibration</string>
+    <string name="home_recent_card_haptic_summary">Vibrate once for each card crossed while scrolling</string>
+    <string name="home_recent_card_haptic_type">Vibration type</string>
+    <string name="home_recent_card_haptic_preview_unavailable">Vibration preview is unavailable</string>
+    <string name="home_recent_card_haptic_strength">Vibration strength</string>
+    <string name="home_recent_card_haptic_strength_summary">Available strength control depends on the device motor</string>
+    <string-array name="home_recent_card_haptic_types"><item>Tick</item><item>Click</item><item>Thud</item><item>Double click</item></string-array>
+    <string-array name="home_recent_card_haptic_values"><item>0</item><item>1</item><item>2</item><item>3</item></string-array>
+</resources>

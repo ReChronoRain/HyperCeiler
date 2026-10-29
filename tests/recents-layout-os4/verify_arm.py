@@ -16,10 +16,12 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
  text_index=elf.section_names['.text'];section=elf.sections[text_index];raw=elf.data[section[4]:section[4]+section[5]]
  code_base,callback,stop,stack,dart_frame=0x100000,0x400000,0x401000,0x608000,0x708000
  checks=0
- for family,index in [('recent',i) for i in (0,1,16,63)]+[('prestart',0),('drawer',0),('drawer',1),('report',0)]:
+ for family,index in [('recent',i) for i in (0,1,16,63)]+[('prestart',0),('drawer',0),('drawer',1),('report',0),('shortcuts',0)]+[('recentshaptic',i) for i in range(7)]:
   start=next(v for n,s,v in symbols if n==f'hc_{family}_{index}_entry')
   end=next((v for n,s,v in symbols if s==text_index and v>start and n.startswith('hc_') and n.endswith('_entry')),len(raw))
   for terminal in ((False,) if family=='drawer' else (False,True)):
+   haptic_disabled=terminal and family=='recentshaptic'
+   if family=='recentshaptic':terminal=False
    for changed_reg in ((0,1,3,18,29) if family=='recent' else (0,)):
     code=bytearray(raw)
     for sec in elf.sections.values():
@@ -27,11 +29,23 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
      for at in range(sec[4],sec[4]+sec[5],24):
       off,info,addend=struct.unpack_from('<QQq',elf.data,at)
       if not start<=off<end:continue
-      assert symbols[info>>32][0]==f'hc_{family}_body' and info&0xffffffff==283
-      w=struct.unpack_from('<I',code,off)[0];w=(w&0xfc000000)|(((callback+addend-(code_base+off))//4)&0x3ffffff);struct.pack_into('<I',code,off,w)
+      name=symbols[info>>32][0];kind=info&0xffffffff;w=struct.unpack_from('<I',code,off)[0]
+      if kind==283:
+       assert name==f'hc_{family}_body'
+       w=(w&0xfc000000)|(((callback+addend-(code_base+off))//4)&0x3ffffff)
+      else:
+       target={'hc_recents_haptic_gate':0x420000,'hc_recentshaptic_originals':0x421000}[name]+addend
+       if kind==275:
+        delta=((target&~4095)-((code_base+off)&~4095))//4096
+        w=(w&~((3<<29)|(0x7ffff<<5)))|((delta&3)<<29)|(((delta>>2)&0x7ffff)<<5)
+       elif kind==277:w=(w&~(4095<<10))|((target&4095)<<10)
+       else:raise AssertionError((name,kind))
+      struct.pack_into('<I',code,off,w)
     u=Uc(UC_ARCH_ARM64,UC_MODE_ARM)
-    for address,size in [(code_base,(len(code)+4095)&~4095),(callback,8192),(0x600000,65536),(0x700000,65536)]:u.mem_map(address,size)
+    for address,size in [(code_base,(len(code)+4095)&~4095),(callback,8192),(0x420000,8192),(0x600000,65536),(0x700000,65536)]:u.mem_map(address,size)
     u.mem_write(code_base,bytes(code));u.mem_write(callback,struct.pack('<I',0xd65f03c0))
+    u.mem_write(0x420000,struct.pack('<I',int(not haptic_disabled)))
+    u.mem_write(0x421000,struct.pack('<7Q',*([stop]*7)))
     regs={i:0x123000+i*32 for i in range(31)};regs.update({15:dart_frame-128,29:dart_frame,30:stop})
     q={i:(i+1)<<80|0x76540000+i for i in range(32)}
     for i,v in regs.items():u.reg_write(getattr(A,f'UC_ARM64_REG_X{i}'),v)
@@ -42,7 +56,9 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
      if address!=callback:return
      calls.append(1);saved=uc.reg_read(A.UC_ARM64_REG_X0);kind=uc.reg_read(A.UC_ARM64_REG_X1)
      assert kind==index and saved==stack-800 and saved%16==0
-     for i,v in regs.items():assert int.from_bytes(uc.mem_read(saved+i*8,8),'little')==v
+     for i,v in regs.items():
+      if family=='recentshaptic' and i==16:continue
+      assert int.from_bytes(uc.mem_read(saved+i*8,8),'little')==v
      for i,v in q.items():assert int.from_bytes(uc.mem_read(saved+256+i*16,16),'little')==v
      assert int.from_bytes(uc.mem_read(saved+248,8),'little')==0xa0000000
      assert int.from_bytes(uc.mem_read(saved+768,8),'little')==0x400000
@@ -56,6 +72,8 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
       expected_x[0]=regs[22];uc.mem_write(saved,struct.pack('<Q',regs[22]))
      elif terminal and family=='report':
       expected_x[0]=regs[22]+0x30;uc.mem_write(saved,struct.pack('<Q',expected_x[0]))
+     elif terminal and family=='shortcuts':
+      expected_x[0]=regs[22]+0x20;uc.mem_write(saved,struct.pack('<Q',expected_x[0]))
      elif terminal:
       expected_x.update({15:dart_frame+16,29:0xdeadbeef,30:stop})
       for i in (15,29,30):uc.mem_write(saved+i*8,struct.pack('<Q',expected_x[i]))
@@ -64,7 +82,7 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
      for i in range(32):uc.reg_write(getattr(A,f'UC_ARM64_REG_Q{i}'),0xbbb000+i)
      uc.reg_write(A.UC_ARM64_REG_NZCV,0xf0000000);uc.reg_write(A.UC_ARM64_REG_FPCR,0);uc.reg_write(A.UC_ARM64_REG_FPSR,0)
     u.hook_add(UC_HOOK_CODE,helper);u.emu_start(code_base+start,stop,count=1000)
-    assert len(calls)==1
+    assert len(calls)==int(not haptic_disabled)
     if family=='drawer' and index==0:assert int.from_bytes(u.mem_read(dart_frame-8,8),'little')==regs[22]
     for i,v in expected_x.items():
      if i==16:continue # Backend continuation scratch.
@@ -73,4 +91,4 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
     assert u.reg_read(A.UC_ARM64_REG_SP)==stack and u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
     assert u.reg_read(A.UC_ARM64_REG_FPCR)==0x400000 and u.reg_read(A.UC_ARM64_REG_FPSR)==0x10
     checks+=1
- print(f'recents/prestart/drawer/report ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')
+ print(f'recents/prestart/drawer/report/shortcuts/haptic ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')

@@ -106,4 +106,7 @@
     <string name="home_restart_launcher">Restart launcher</string>
     <string name="home_restart_zygote">Restart Zygote</string>
     <string name="home_restart_zygote_confirm">Restart the Android runtime now? Apps will close and the phone will return to the lock screen.</string>
+    <string name="home_recent_hide_text">Hide text</string>
+    <string name="home_recent_remove_icon_summary">Hide app icons in recent task card headers; takes effect after restarting the launcher</string>
+    <string name="home_recent_hide_text_summary">Hide app names in recent task card headers; takes effect after restarting the launcher</string>
 </resources>

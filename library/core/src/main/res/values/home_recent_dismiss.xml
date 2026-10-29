@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_recent_modify_animation_summary">When swiping a recent task card upward to close it, keep its size and opacity and slide it straight off the screen, turn off to restore the system animation</string>
+</resources>

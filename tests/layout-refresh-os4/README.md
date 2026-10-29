@@ -128,3 +128,36 @@ On the connected 8584 device, 70→110 moved the phone icon from Y=2211 to Y=208
 (122 physical pixels), while the unobscured search text remained Y=2155..2186.
 Extreme values can intentionally overlap the independent search pill; the slider
 does not automatically relocate the pill to avoid that overlap.
+
+
+## Grid first-consumer regression, 2026-10-28
+
+
+网格、缩放、抽屉等一次性首轮消费者必须在原始构建之前安装。后台日志的 ready 不能证明首轮已调用。`run.py` 编译实际首屏生产函数，覆盖缺失配置与镜像、可选功能失败、后台接管，以及 500 次重复调用仍只扫描和安装一次。
+
+2026 年 10 月 28 日修复解锁布局，首屏扫描和安装遗漏了 columns/autofit。新增启用时的依赖扫描、列参数与持久化保护、两处高度自适应 Hook。旧版生产函数负向对照返回失败，新版在首个消费者之前就绪，配置关闭不扫描该功能，可选契约缺失和安装失败不影响图标等功能。
+
+```sh
+python3 tests/layout-refresh-os4/run.py --image8584 /path/to/libapp.so
+python3 tests/runtime-feature-addressing/columns_run.py
+python3 tests/runtime-feature-addressing/grid_run.py
+python3 tests/home-render-performance/property_path.py
+python3 tests/runtime-feature-addressing/verify_columns_arm.py /path/to/android-ndk
+```
+
+ARM64 runner 需要 unicorn 和 capstone，执行实际汇编入口，覆盖命中计数和旁路、寄存器、状态标志与持久化保护，共 858 个场景 55902 项检查。首屏夹具模拟构建和安装边界，不能替代完整 Dart 或真机效果。
+
+真机 8584 两次进程启动确认 grid/autofit 在首轮之前就绪，均命中并应用 27 次，实际 GridConfig 为 5×7，画面验证通过。192 条图标及组件的位置记录与备份一致，数据库按新网格迁移文件名。其他行列组合及版本不据此宣称已通过真机验收。
+
+
+## Workspace margin first-consumer regression, 2026-10-28
+
+用户开启顶部150，底部240，水平100时没有效果。首屏依赖扫描与安装漏掉工作区几何，且首屏只发布了 Dock 的单项参数。后台安装时原 RenderBox 计算已完成。现在启用任意工作区边距时，以同一个 Code 清单识别已验证的 geometry 生产者和消费者，仅提前绑定普通与占位两条工作区路径，原始 Dock 和指示器绑定仍独立。
+
+首屏发布八项规范化标量，关闭的项清零。两处补丁字与来源均验证后才发布几何元数据，安装后再打开门控，普通和占位两条必须同时就绪。没有调用通用 bind_knobs，避免把其余符号，文件夹和指示器发现带入加载回调。没有修改边距算术或放宽帧和字段校验。
+
+生产首屏函数及实际新 binder 的夹具回归覆盖三项各自开启，关闭，缺失几何契约，第二补丁绑定失败和安装失败，500次后仍只有一次扫描和安装。运行时网格寻址回归，ASan/UBSan 工作区及组件帧回归，10000次冷/热渲染线程属性读取性能检查通过。
+
+8584 真机逐项截图与原生几何对照通过，120/120/80 对应 origin=91.779,120，stride=52.270,60.123，关闭顶部后 originY=0，height stride=80.123，再关闭底部 height stride=100.123，水平关闭后回到原左右位置。Dock，搜索胶囊保持独立。普通路径最初的 valid=0 可以是共享的一行 Dock 被 rows<2 正确拒绝，不应据此放宽校验，占位工作区实际 valid=1。
+
+最新 Release 签名和完整构建通过，已安装，SHA256 ebc24897bf33d7ced172c2fc485b006d83a3211ab8e59d10cfb8e1008117a912。三个原开关与150/240/100恢复，整个模块偏好与测试前完全相同，无拖动，无新增进程崩溃。本轮真机为竖屏，未覆盖其他桌面版本和横屏完整交互。

@@ -43,6 +43,7 @@ public class LogRepository {
     private static volatile LogRepository sInstance;
 
     private final LogDao mLogDao;
+    private final com.sevtinge.hyperceiler.diagnostics.DiagnosticDao mDiagnosticDao;
     private final Context mAppContext;
     // 专用线程池，处理数据库的写入和删除，避免阻塞主线程
     private final ExecutorService mIoExecutor;
@@ -62,10 +63,12 @@ public class LogRepository {
                 LogDatabase.class,
                 DATABASE_NAME
             )
+            .addMigrations(LogDatabase.DIAGNOSTICS_MIGRATION)
             .fallbackToDestructiveMigration() // 版本升级时如果字段不匹配，直接重建表
             .build();
 
         mLogDao = db.logDao();
+        mDiagnosticDao = db.diagnosticDao();
         mAppContext = appContext;
         mIoExecutor = Executors.newSingleThreadExecutor(r -> {
             Thread t = new Thread(r, "LogDbThread");
@@ -97,6 +100,8 @@ public class LogRepository {
     /**
      * 获取 DAO 接口
      */
+    public com.sevtinge.hyperceiler.diagnostics.DiagnosticDao getDiagnosticDao() { return mDiagnosticDao; }
+
     public LogDao getDao() {
         return mLogDao;
     }
@@ -120,7 +125,7 @@ public class LogRepository {
      * 异步清空所有日志
      */
     public void clearAllLogs() {
-        executeIo("clear all logs", mLogDao::clearAll);
+        executeIo("clear all logs", () -> { mLogDao.clearAll(); mDiagnosticDao.clear(); });
     }
 
     /**

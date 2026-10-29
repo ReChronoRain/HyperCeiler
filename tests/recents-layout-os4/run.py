@@ -31,6 +31,7 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-cache-')as work:
 with tempfile.TemporaryDirectory(prefix='hc-recents-jvm-')as work:
  lib=ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'
  sources=list((ROOT/'tests/home-layout-native/stubs').rglob('*.java'))+list((ROOT/'tests/home-dock-window/stubs').rglob('*.java'))
+ sources = [p for p in sources if p.name != 'ModuleLog.java']
  sources += [lib/'provider/HomeLayoutPrefsSnapshot.java',lib/'provider/HomeGesturePrefsSnapshot.java',lib/'base/FrameworkHookGate.java',lib/'rules/home/dock/HomeLayoutNativeEndpointOS4.java',ROOT/'library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java',HERE/'EndpointTest.java']
  subprocess.run(['javac','-encoding','UTF-8','-d',work]+list(map(str,sources)),check=True)
  subprocess.run(['java','-ea','-cp',work,'com.sevtinge.hyperceiler.libhook.rules.home.dock.EndpointTest'],check=True)

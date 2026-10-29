@@ -16,7 +16,7 @@ public class ContentResolver {
   if(!uri.toString().equals("content://com.sevtinge.hyperceiler.provider.sharedprefs/home_layout"))throw new AssertionError("wrong URI");queries.incrementAndGet();
   if(failure.equals("query"))throw new IllegalStateException("provider unavailable");if(failure.equals("null"))return null;
   final Cursor delegate=cursor();if(delegate==null)return null;final String mode=failure;
-  return new Cursor(){public boolean moveToFirst(){return !mode.equals("empty")&&delegate.moveToFirst();}public int getColumnCount(){return delegate.getColumnCount()+(mode.equals("columns")?1:0);}
+  return new Cursor(){public android.os.Bundle getExtras(){return delegate.getExtras();}public boolean moveToFirst(){return !mode.equals("empty")&&delegate.moveToFirst();}public int getColumnCount(){return delegate.getColumnCount()+(mode.equals("columns")?1:0);}
    public String getColumnName(int i){return mode.equals("columnName")&&i==2?"wrong_key":delegate.getColumnName(i);}public boolean isNull(int i){return mode.equals("nullSchema")&&i==0||delegate.isNull(i);}
    public int getInt(int i){if(i==0&&mode.equals("schema1"))return 1;if(mode.equals("read")&&i>0)throw new IllegalStateException("bad cell");return delegate.getInt(i);}
    public long getLong(int i){if(mode.equals("read"))throw new IllegalStateException("bad cell");return delegate.getLong(i);}

@@ -1,0 +1,32 @@
+<resources>
+    <style name="DiagnosticOverviewCard" parent="HyperCardView.DayNight.NoShadow">
+        <item name="cardBackgroundColor">@color/my_card_bg_color</item>
+        <item name="cardCornerRadius">24dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+    </style>
+    <style name="DiagnosticOverviewNumber">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@string/miuix_font_style_misans_demibold_font_family</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMinTextSize">16sp</item>
+        <item name="android:autoSizeMaxTextSize">28sp</item>
+        <item name="android:autoSizeStepGranularity">1sp</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+    <style name="DiagnosticOverviewLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">?itemViewSummaryTextColor</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+</resources>

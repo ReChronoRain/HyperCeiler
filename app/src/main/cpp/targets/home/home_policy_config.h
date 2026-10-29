@@ -4,7 +4,8 @@
 namespace home_layout {
 constexpr int32_t kPolicyMagic=0x4843504f; // HCPO, two 32-bit words, low word first.
 constexpr uint64_t kHideReportPolicy=1;
-constexpr uint64_t kSupportedPolicies=kHideReportPolicy;
+constexpr uint64_t kDismissAnimationPolicy=2;
+constexpr uint64_t kSupportedPolicies=kHideReportPolicy|kDismissAnimationPolicy;
 template<class Read> bool read_policy_config(Read read,uint64_t& flags,bool optional=true,bool* present=nullptr) {
     flags=0;if(present)*present=false;int32_t magic=0,count=0,lo=0,hi=0;
     if(!read(magic))return optional;

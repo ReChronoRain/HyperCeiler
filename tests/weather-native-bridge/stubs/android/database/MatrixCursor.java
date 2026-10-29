@@ -1,6 +1,10 @@
 package android.database;
 import java.util.*;
 public class MatrixCursor implements Cursor {
+ private android.os.Bundle extras=new android.os.Bundle();
+ public void setExtras(android.os.Bundle value){extras=value;}
+ public android.os.Bundle getExtras(){return extras;}
+ public void addRow(Object[] values){if(values.length!=columns.length)throw new IllegalArgumentException();rows.add(values.clone());}
  public String[] columns; public List<Object[]> rows=new ArrayList<>(); public int pos; public Runnable onRead=()->{},onClose=()->{};
  public MatrixCursor(String[] c){columns=c.clone();} public class RowBuilder {Object[] r; int i;RowBuilder(Object[] r){this.r=r;}public RowBuilder add(Object v){r[i++]=v;return this;}public RowBuilder add(String n,Object v){return add(v);}}
  public RowBuilder newRow(){Object[] r=new Object[columns.length];rows.add(r);return new RowBuilder(r);}

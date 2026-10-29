@@ -406,88 +406,6 @@ hc_folder_title_scale4_entry:
 
 /* Original caption is replaced only in the drawing local. Root the private UTF16 string
  * at the original stack-map slot before resuming the untouched allocation BL. */
-.globl hc_title_custom_entry
-.p2align 4
-hc_title_custom_entry:
-    dynamic_load x2, x29, hc_title_custom_widget_frame
-    dynamic_load w3, x2, hc_title_custom_label_field
-    add x3, x3, x28, lsl #32
-    dart_save
-    adrp x9, hc_title_custom_enabled
-    add x9, x9, :lo12:hc_title_custom_enabled
-    ldar w9, [x9]
-    cbz w9, 12f
-    sub sp, sp, #704
-    stp x0, x1, [sp, #0]
-    stp x2, x3, [sp, #16]
-    stp x4, x5, [sp, #32]
-    stp x6, x7, [sp, #48]
-    stp x8, x9, [sp, #64]
-    stp x10, x11, [sp, #80]
-    stp x12, x13, [sp, #96]
-    stp x14, x18, [sp, #112]
-    stp x15, x30, [sp, #128]
-    stp q0, q1, [sp, #160]
-    stp q2, q3, [sp, #192]
-    stp q4, q5, [sp, #224]
-    stp q6, q7, [sp, #256]
-    stp q8, q9, [sp, #288]
-    stp q10, q11, [sp, #320]
-    stp q12, q13, [sp, #352]
-    stp q14, q15, [sp, #384]
-    stp q16, q17, [sp, #416]
-    stp q18, q19, [sp, #448]
-    stp q20, q21, [sp, #480]
-    stp q22, q23, [sp, #512]
-    stp q24, q25, [sp, #544]
-    stp q26, q27, [sp, #576]
-    stp q28, q29, [sp, #608]
-    stp q30, q31, [sp, #640]
-    mov x0, x3
-    dynamic_offset hc_title_custom_model_field
-    ldr w1, [x2, x17]
-    add x1, x1, x28, lsl #32
-    mov x2, x28
-    mov x3, x26
-    mov x4, x21
-    mov x5, x22
-    mov w6, #0
-    bl hc_title_custom_label
-    str x0, [sp, #24]
-    ldp q0, q1, [sp, #160]
-    ldp q2, q3, [sp, #192]
-    ldp q4, q5, [sp, #224]
-    ldp q6, q7, [sp, #256]
-    ldp q8, q9, [sp, #288]
-    ldp q10, q11, [sp, #320]
-    ldp q12, q13, [sp, #352]
-    ldp q14, q15, [sp, #384]
-    ldp q16, q17, [sp, #416]
-    ldp q18, q19, [sp, #448]
-    ldp q20, q21, [sp, #480]
-    ldp q22, q23, [sp, #512]
-    ldp q24, q25, [sp, #544]
-    ldp q26, q27, [sp, #576]
-    ldp q28, q29, [sp, #608]
-    ldp q30, q31, [sp, #640]
-    ldp x0, x1, [sp, #0]
-    ldp x2, x3, [sp, #16]
-    ldp x4, x5, [sp, #32]
-    ldp x6, x7, [sp, #48]
-    ldp x8, x9, [sp, #64]
-    ldp x10, x11, [sp, #80]
-    ldp x12, x13, [sp, #96]
-    ldp x14, x18, [sp, #112]
-    ldp x15, x30, [sp, #128]
-    add sp, sp, #704
-12:
-    dart_restore
-    dynamic_store x3, x29, hc_title_custom_label_frame
-    adrp x16, hc_title_custom_continue
-    add x16, x16, :lo12:hc_title_custom_continue
-    ldr x16, [x16]
-    br x16
-
 /* AppIcon.build keeps its original getter call. Replace its following no-call window only;
  * every other caller keeps the launcher value, and GC never sees a foreign Dart return PC. */
 .globl hc_drawer_title_entry
@@ -928,8 +846,13 @@ HC_LAYOUT_KNOBS(HC_ASM_KNOB)
     ldr x10, [x9]
     add x10, x10, #1
     str x10, [x9]
+    .if \occupied == 2
+    adrp x9, hc_layout_dock_horizontal_enabled
+    add x9, x9, :lo12:hc_layout_dock_horizontal_enabled
+    .else
     adrp x9, hc_layout_dart_\slot\()_enabled
     add x9, x9, :lo12:hc_layout_dart_\slot\()_enabled
+    .endif
     ldarb w10, [x9] // Acquire the release-published scalar/gate pair.
     cbz w10, 1f
     sub sp, sp, #704
@@ -2086,6 +2009,24 @@ hc_dock_edit_entry:
     add sp, sp, #704
 .endm
 
+/* Observe only after the original compressed state store and write barrier.
+ * The current frame roots are read synchronously, no Dart call/allocation is made.
+ * Tail replay preserves the original continuation and its GC stack-map PCs. */
+.globl hc_recent_dart_state_entry
+.p2align 4
+hc_recent_dart_state_entry:
+    dart_save
+    workspace_native_save
+    mov x0, x29
+    mov x1, x26
+    mov x2, x27
+    bl hc_recent_dart_state_observe
+    workspace_native_restore
+    dart_restore
+    adrp x16, hc_recent_dart_state_original
+    ldr x16, [x16, :lo12:hc_recent_dart_state_original]
+    br x16
+
 /* Workspace original double-tap policy. Only the stock preference predicate
  * changes; all mode/overlay/edit/scroll guards continue in the original body. */
 .globl hc_workspace_double_policy_entry
@@ -2297,6 +2238,61 @@ icon_render_bank hc_folder_anim_scale4_entry, d0, hc_folder_anim_scale4_original
 icon_render_bank hc_folder_return_width_entry, d0, hc_folder_return_width_original, hc_folder_return_scale_hits, hc_folder_return_scale_enabled
 icon_render_bank hc_folder_return_height_entry, d0, hc_folder_return_height_original, hc_folder_return_scale_hits, hc_folder_return_scale_enabled
 
+/* Closed large-folder app landing: the original helper mixes a strategy's
+ * scaled origin with an unrelated cached square length. The caller-guarded
+ * origin entry observes its live PreviewItemInfo and copies only two doubles
+ * to bounded native thread-local state. It never keeps a Dart object pointer,
+ * adds a Dart root/frame slot, moves an original BL/GC PC or allocates in Dart.
+ * x2/FP/LR and the scalar consumers' SIMD roles are proven Dart ABI contracts;
+ * fields, frame operands, caller identity and continuations come from this image. */
+.globl hc_folder_preview_capture_entry
+.p2align 4
+hc_folder_preview_capture_entry:
+    dart_save
+    adrp x9, hc_folder_preview_caller
+    ldr x9, [x9, :lo12:hc_folder_preview_caller]
+    cmp x30, x9
+    b.ne 1f
+    workspace_native_save
+    mov x0, x29
+    dynamic_load x1, x2, hc_folder_preview_width_field
+    dynamic_load x2, x2, hc_folder_preview_height_field
+    bl hc_folder_preview_capture
+    workspace_native_restore
+1:
+    dart_restore
+    adrp x16, hc_folder_preview_originals
+    ldr x16, [x16, :lo12:hc_folder_preview_originals]
+    br x16
+
+.macro folder_preview_dimension name, source, height, origin, endpoint, position, result, resume
+.globl \name
+.p2align 4
+\name:
+    // Stock fallback is loaded first and preserved in Q0's native save slot.
+    dynamic_load d0, \source, hc_folder_preview_boxed_field
+    dart_save
+    workspace_native_save
+    mov x0, x29
+    mov x1, #\height
+    bl hc_folder_preview_take
+    cbz x1, 1f
+    str x0, [sp, #160]
+1:
+    workspace_native_restore
+    dart_restore
+    // Replay the remaining original noncalling arithmetic with its decoded
+    // frame operands. Only D0's length changes; the Rect allocator stays stock.
+    dynamic_load \position, x29, \origin
+    fadd \result, \position, d0
+    dynamic_store \result, x29, \endpoint
+    adrp x16, \resume
+    ldr x16, [x16, :lo12:\resume]
+    br x16
+.endm
+folder_preview_dimension hc_folder_preview_width_entry, x0, 0, hc_folder_preview_x_frame, hc_folder_preview_right_frame, d1, d2, hc_folder_preview_width_resume
+folder_preview_dimension hc_folder_preview_height_entry, x1, 1, hc_folder_preview_y_frame, hc_folder_preview_bottom_frame, d3, d4, hc_folder_preview_height_resume
+
 /* Verified two-capture Observer callers, after the original AllocateClosure
  * returned. This covers both VM allocation paths without moving a GC PC or
  * patching the allocator. Replay the original publication first. Only the real
@@ -2341,6 +2337,10 @@ hc_widget_scale_entry:
 .p2align 4
 hc_dart_columns_entry:
     dart_save
+    adrp x9, hc_dart_columns_hits
+    ldr x10, [x9, :lo12:hc_dart_columns_hits]
+    add x10, x10, #1
+    str x10, [x9, :lo12:hc_dart_columns_hits]
     adrp x9, hc_dart_columns_ready
     add x9, x9, :lo12:hc_dart_columns_ready
     ldar w9, [x9]
@@ -2373,6 +2373,10 @@ hc_dart_columns_entry:
     b.hi 2f
     lsl w3, w9, #1
 2:
+    adrp x9, hc_dart_columns_applied
+    ldr x10, [x9, :lo12:hc_dart_columns_applied]
+    add x10, x10, #1
+    str x10, [x9, :lo12:hc_dart_columns_applied]
     dart_restore
     stp x3, x2, [x15]
     dynamic_load x1, x29, hc_dart_columns_frame
@@ -2516,6 +2520,54 @@ dock_title_model 1
 .globl hc_\family\()_\index\()_entry
 .p2align 4
 hc_\family\()_\index\()_entry:
+    .ifc \family,recentshaptic
+    adrp x16, hc_recents_haptic_gate
+    add x16, x16, :lo12:hc_recents_haptic_gate
+    ldar w16, [x16]
+    cbnz w16, 8f
+    adrp x16, hc_recentshaptic_originals
+    add x16, x16, :lo12:hc_recentshaptic_originals
+    ldr x16, [x16, #(\index * 8)]
+    br x16
+8:
+    .endif
+    .ifc \family,customtitle
+    adrp x16, hc_title_custom_enabled
+    add x16, x16, :lo12:hc_title_custom_enabled
+    ldar w17, [x16]
+    cbnz w17, 7f
+    adrp x16, hc_customtitle_originals
+    add x16, x16, :lo12:hc_customtitle_originals
+    ldr x16, [x16, #(\index * 8)]
+    br x16
+7:
+    .endif
+    .ifc \family,infinite
+    // Native scratch registers x16/x17 are ABI temporary. No NZCV changes,
+    // native C frame, discovery, or IPC for unavailable or unrelated springs.
+    adrp x16, hc_infinite_enabled
+    add x16, x16, :lo12:hc_infinite_enabled
+    ldarb w17, [x16]
+    cbz w17, 8f
+    .if \index == 1
+    adrp x16, hc_infinite_spring_callers
+    add x16, x16, :lo12:hc_infinite_spring_callers
+    .irp offset,0,8,16,24,32,40,48,56
+    ldr x17, [x16, #\offset]
+    eor x17, x17, x30
+    cbz x17, 9f
+    .endr
+    b 8f
+    .else
+    b 9f
+    .endif
+8:
+    adrp x16, hc_infinite_originals
+    add x16, x16, :lo12:hc_infinite_originals
+    ldr x16, [x16, #(\index * 8)]
+    br x16
+9:
+    .endif
     sub sp, sp, #800
     stp x0, x1, [sp, #0]
     stp x2, x3, [sp, #16]
@@ -2610,6 +2662,20 @@ recent_entry 1, drawer
 recent_entry 0, prestart
 /* Uninstall dialog report eligibility: synchronous Dart bool return. */
 recent_entry 0, report
+/* Shortcut list predicate, before entering a managed Dart frame. */
+recent_entry 0, shortcuts
+recent_entry 0, recentshaptic
+recent_entry 1, recentshaptic
+recent_entry 2, recentshaptic
+recent_entry 3, recentshaptic
+recent_entry 4, recentshaptic
+recent_entry 5, recentshaptic
+recent_entry 6, recentshaptic
+
+recent_entry 0, customtitle
+recent_entry 1, customtitle
+recent_entry 0, infinite
+recent_entry 1, infinite
 recent_entry 0
 recent_entry 1
 recent_entry 2
@@ -2745,3 +2811,78 @@ hc_recent_entries:
     .xword hc_recent_63_entry
 
 .text
+
+.macro dock_position_splice name, arm
+.globl \name
+.p2align 4
+\name:
+    dart_save
+    adrp x9, hc_dock_position_enabled
+    add x9, x9, :lo12:hc_dock_position_enabled
+    ldarb w10, [x9] // Acquire the release-published scalar/gate pair.
+    cbz w10, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x29
+    add x1, sp, #160 // Saved Q0 through Q31, no Dart pointers retained.
+    mov x2, #\arm
+    bl hc_layout_dock_position
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+1:
+    dart_restore
+    adrp x16, hc_dock_position_originals
+    add x16, x16, :lo12:hc_dock_position_originals
+    ldr x16, [x16, #(\arm * 8)]
+    br x16
+.endm
+dock_position_splice hc_dock_position0_entry, 0
+dock_position_splice hc_dock_position1_entry, 1

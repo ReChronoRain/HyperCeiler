@@ -1175,7 +1175,7 @@
     <string name="home_layout_home_title">主屏幕</string>
     <string name="home_layout_indicator_title">桌面搜索</string>
     <string name="home_layout_indicator_margin_bottom_desc">调整桌面搜索（问小爱）与屏幕底部的距离，指示器也将同步移动</string>
-    <string name="home_layout_hotseats_title">底栏</string>
+    <string name="home_layout_hotseats_title">底栏图标</string>
     <string name="home_layout_searchbar_title">搜索框</string>
     <string name="home_layout_searchbar_os4_hint">OS4 请使用「布局 → 桌面搜索」调整搜索胶囊</string>
     <string name="home_layout_searchbar_width">宽度</string>
@@ -1832,7 +1832,7 @@
     <string name="home_layout_fold_major_title">折叠屏长边格数</string>
     <string name="home_layout_fold_minor_title">折叠屏短边格数</string>
     <string name="home_layout_icon_scale_title">普通图标缩放</string>
-    <string name="home_layout_icon_scale_desc">图标大小档位：70 为系统默认大小，往右放大、往左缩小</string>
+    <string name="home_layout_icon_scale_desc">往右放大，往左缩小</string>
     <string name="home_layout_recents_hide_clear_title">隐藏最近任务清理键</string>
     <string name="home_layout_recents_hide_clear_desc">隐藏按钮，功能保留</string>
     <string name="home_layout_recents_no_clear_title">关闭最近任务清理键</string>
@@ -1849,4 +1849,5 @@
     <string name="home_layout_widget_scale_title">小组件缩放</string>
     <string name="home_layout_independent_scale_desc">独立调整缩放比例，100% 为原始大小</string>
     <string name="home_drawer_hide_search">隐藏抽屉搜索框</string>
+    <string name="home_layout_hotseats_margin_horizontal_desc">调整底栏图标的左右留白，数值越大图标越靠近中间，重启系统桌面后生效</string>
 </resources>

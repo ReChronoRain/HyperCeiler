@@ -167,6 +167,10 @@
             android:theme="@style/CrashTheme"
             android:exported="true" />
 
+        <activity android:name=".diagnostics.HookDiagnosticsActivity"
+            android:exported="false" android:label="@string/hook_diagnostics_title"
+            android:theme="@style/LogViewerTheme" />
+
         <activity
             android:name=".log.LogViewerActivity"
             android:exported="false"

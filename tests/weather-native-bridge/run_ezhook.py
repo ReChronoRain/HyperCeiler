@@ -8,7 +8,7 @@ import hyperceiler_test_paths as test_paths
 
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
 b=Path(__file__).resolve().parent;root=b.parents[1];cache=test_paths.BUILD_CACHE;j=test_paths.JAVA_HOME / 'bin';src=root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'
-files=[src/x for x in ['provider/WeatherPrefsSnapshot.java','provider/SharedPrefsProvider.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','base/FrameworkHookGate.java','rules/weather/WeatherNativeEndpointOS4.java','rules/weather/WeatherNativeBridgeOS4.java']]
+files=[src/x for x in ['provider/WeatherPrefsSnapshot.java','provider/SharedPrefsProvider.java','provider/HomeRecentsHapticPrefs.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','base/FrameworkHookGate.java','rules/weather/WeatherNativeEndpointOS4.java','rules/weather/WeatherNativeBridgeOS4.java']]
 deps=[cache/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','api-102.0.0.jar']]+list((cache/'gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.10').rglob('*.jar'));cp=os.pathsep.join(map(str,deps));stubs=[f for f in (b/'stubs').rglob('*.java')if f.name not in ['IMethodHook.java','HookParam.java']]
 with tempfile.TemporaryDirectory(prefix='weather-ezhook-')as t:
  cmd=[str(j/'javac'),'--release','21','-cp',cp,'-d',t,*map(str,stubs+files+[b/'EzHookCallbackTest.java'])];z=subprocess.run(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True);(a.output/'build.txt').write_text(z.stdout)

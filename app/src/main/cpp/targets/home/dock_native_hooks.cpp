@@ -1,3 +1,4 @@
+#include "nativehook/android_diagnostics.h"
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "dock_native_layout.h"
 #include "dock_native_resolver.h"
@@ -8,6 +9,7 @@
 #include "nativehook/code_patch_io.h"
 #include "nativehook/inline_hook_backend.h"
 #include "nativehook/memory_io.h"
+#include "home_recent_statusbar.h"
 
 #include <android/log.h>
 #include <dlfcn.h>
@@ -832,6 +834,9 @@ HookBank make_bank(size_t index, const ResolvedInstance &instance) {
             *instance.unlock_original_words};
         bank.unlock_available = true;
     }
+    const char* ids[]={"home.dock.motion.scale","home.dock.motion.animate","home.dock.motion.set"};
+    for(size_t i=0;i<bank.slots.size();++i)bank.slots[i].diagnostic_id=ids[i];
+    bank.unlock_slots[0].diagnostic_id="home.dock.motion.unlock";
     return bank;
 }
 
@@ -872,6 +877,10 @@ nhk::InlineHookHost<kPatchBytes / sizeof(uint32_t)> &slot_host() {
         };
         value.protect_range = [](uintptr_t address, size_t bytes) {
             return protect_patch_range(address, bytes);
+        };
+        value.on_diagnostic=[](const nhk::DiagnosticEvent& event){
+            size_t index=event.file_offset; // image-relative evidence; does not dereference a target
+            nhk::android_diagnostics::bank("home.dock.motion",index,event,"Dock 动画跟随");
         };
         value.on_guard = [](const nhk::HookEvent &event) {
             dock_motion_guard_events.fetch_add(1, std::memory_order_relaxed);
@@ -1184,6 +1193,7 @@ std::atomic<void *> g_real_madvise{nullptr};
 // Install record, so the guard can be re-verified against the live slots
 // instead of being assumed healthy for process life.
 std::vector<nhk::GotHook<>> g_madvise_hooks;
+uint64_t g_madvise_diagnostic_epoch=0;
 
 // Explicit budget: a snapshot larger than this is refused outright rather than
 // silently truncated. An image whose tables sit above the first few megabytes
@@ -1495,6 +1505,7 @@ void maintain_madvise_guard() {
         // through it), and let the next install pass discover the new one.
         if (logged_outcome != 1) {
             logged_outcome = 1;
+            nhk::android_diagnostics::emit("home.dock.madvise","Dock 页保护","NATIVE_GOT","GENERATION_CHANGED","IMAGE_GENERATION","GENERATION_CHANGED",std::to_string(g_madvise_diagnostic_epoch),"Existing maintenance proved that the recorded image generation disappeared; no old address written");
             __android_log_print(ANDROID_LOG_INFO, kTag,
                 "madvise guard generation changed; rediscovering the runtime image");
         }
@@ -1560,6 +1571,7 @@ void maintain_madvise_guard() {
         // leave it alone, keep the forward target, and stop trying.
         if (logged_outcome != 2) {
             logged_outcome = 2;
+            nhk::android_diagnostics::emit("home.dock.madvise","Dock 页保护","NATIVE_GOT","DEGRADED","GOT_HEALTH","FOREIGN_MODIFICATION",std::to_string(g_madvise_diagnostic_epoch),"Existing GOT health check observed third-party takeover; original policy retained");
             __android_log_print(ANDROID_LOG_WARN, kTag,
                 "madvise guard slot taken over by a third party; leaving it alone");
         }
@@ -1571,6 +1583,7 @@ void maintain_madvise_guard() {
         // a fresh install pass is safe again.
         if (logged_outcome != 3) {
             logged_outcome = 3;
+            nhk::android_diagnostics::emit("home.dock.madvise","Dock 页保护","NATIVE_GOT","DEGRADED","GOT_HEALTH","HOOK_LOST",std::to_string(g_madvise_diagnostic_epoch),"Existing GOT health check observed original pointers; existing recovery policy retained");
             __android_log_print(ANDROID_LOG_INFO, kTag,
                 "madvise guard slots returned to original; re-arming");
         }
@@ -1843,6 +1856,7 @@ void maybe_install_madvise_guard() {
         g_madvise_hooks.size(), target->path.c_str(),
         static_cast<unsigned long long>(target->view_begin));
     pending_failures = 0; retry_at_ns = 0;
+    nhk::android_diagnostics::emit("home.dock.madvise","Dock 页保护","NATIVE_GOT","INSTALLED","GOT_INSTALL","INSTALL_OK",std::to_string(++g_madvise_diagnostic_epoch),"Existing GOT installer verified installation; execution/effect unverified");
     madvise_guard_state.store(1U, std::memory_order_release);
 }
 
@@ -1896,11 +1910,18 @@ void *health_worker(void *) {
     unsigned unresolved = 0;
     unsigned startup_passes = 0;
     for (;;) {
-        // With the Dock switched off there is nothing to maintain: skip the pass entirely, which
-        // is what makes a disabled Dock cost the launcher nothing at all.
+        const auto recent_revision=home_recent_bar::maintenance_revision();
+        // Independent of the glass preference, on the existing health worker.
+        home_recent_bar::maintain(hook_function,unhook_function,protect_patch_range);
+        // Glass off skips motion discovery/repair. Independently registered
+        // layout code pages still require the existing lifetime guard.
         if (!dock_motion_feature_active()) {
+            // Layout source-word patches also use this lifetime guard. Glass off
+            // must not leave their registered pages exposed to Flutter discard.
+            if (nhk::protected_page_count()->load(std::memory_order_acquire)>0)
+                maybe_install_madvise_guard();
             unresolved = 0;
-            pause_for(5000000000L);
+            home_recent_bar::wait_for_maintenance(5000000000L,recent_revision);
             continue;
         }
         /*
@@ -1919,7 +1940,7 @@ void *health_worker(void *) {
          */
         (void)refresh_dock_screen_state();
         if (!dock_motion_screen_active() && startup_passes >= 3) {
-            pause_for(30000000000L);
+            home_recent_bar::wait_for_maintenance(30000000000L,recent_revision);
             continue;
         }
         if (startup_passes < 3) ++startup_passes;
@@ -1929,7 +1950,7 @@ void *health_worker(void *) {
             // 1 s in the steady state. The pass itself is a handful of word reads (A1/A3), so the
             // cadence is no longer what the loop costs - it only bounds how long a kernel-restored
             // patch can stay missing.
-            pause_for(1000000000L);
+            home_recent_bar::wait_for_maintenance(1000000000L,recent_revision);
             continue;
         }
         /*
@@ -1938,7 +1959,7 @@ void *health_worker(void *) {
          * unmatched launcher build costs a scan per minute instead of thirty.
          */
         if (unresolved < 1000U) ++unresolved;
-        pause_for(unresolved_retry_delay(unresolved));
+        home_recent_bar::wait_for_maintenance(unresolved_retry_delay(unresolved),recent_revision);
     }
 }
 

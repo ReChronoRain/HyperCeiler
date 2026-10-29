@@ -108,9 +108,11 @@ public class XposedInitEntry extends XposedModule {
      */
     private void initializeRuntime(@NonNull ModuleLoadedParam param, boolean initializeEzXposed) {
         processName = param.getProcessName();
+        try { HookDiagnostics.bootstrap(processName,getModuleApplicationInfo().sourceDir); } catch (Throwable ignored) { /* observation only */ }
         try {
             initPrefs();
         } catch (Throwable t) {
+            HookDiagnostics.failure("module.preferences","PREFERENCES",t);
             XposedLog.w(TAG, processName,
                 "Failed to initialize prefs during module bootstrap; will retry before target hook initialization.", t);
         }
@@ -148,6 +150,16 @@ public class XposedInitEntry extends XposedModule {
                 Build.VERSION.SDK_INT, DeviceHelper.System.isHyperOSVersion(4f))) {
             ModuleLog.w("HyperCeiler.HotReload", "RESTART_REQUIRED: keeping live hooks/resources intact"
                 + " sdk=" + Build.VERSION.SDK_INT + " process=" + processName);
+            return false;
+        }
+        // Native hooks and permanent workers have no generation-retirement API.
+        // The synchronous module-entry probe claims native loading before the
+        // framework can request this transition. Reject before Java cleanup on
+        // other SDKs too; keep the live generation until normal process restart.
+        if (processName != null && processName.startsWith(LAUNCHER_PACKAGE)
+                && NativeHomeHooksOS4.INSTANCE.hasNativeLoadStarted()) {
+            ModuleLog.w("HyperCeiler.HotReload", "HOT_RELOAD_DEFERRED: launcher native runtime retained"
+                + " process=" + processName + " automatic_restart=false");
             return false;
         }
         final PackageTarget target = BaseLoad.getTarget();
@@ -221,6 +233,7 @@ public class XposedInitEntry extends XposedModule {
         // API 102 不会为热重载自动重放 onModuleLoaded；这里重建新 generation 的运行时并注册
         // onTargetReady。重复调用保持幂等，避免重复注册回调。
         initializeRuntime(param, true);
+        HookDiagnostics.deferred(true);
         BaseLoad.beginHotReloadVerification();
         try {
             AutomaticHotReloadResult result = EzXposed.restoreHotReloadedAutomatically(
@@ -241,6 +254,7 @@ public class XposedInitEntry extends XposedModule {
                     + " old physical hook(s) atomically replaced, " + result.getRemovedOldHookCount()
                     + " obsolete physical hook(s) removed.");
         } catch (Throwable t) {
+            HookDiagnostics.failure("module.hot_reload","HOT_RELOAD",t);
             XposedLog.e(TAG, processName, "Hot reload re-init failed", t);
             if (t instanceof RuntimeException runtimeException) {
                 throw runtimeException;
@@ -250,6 +264,7 @@ public class XposedInitEntry extends XposedModule {
             }
             throw new IllegalStateException("Hot reload re-init failed", t);
         } finally {
+            HookDiagnostics.deferred(false);
             BaseLoad.endHotReloadVerification();
         }
     }
@@ -307,6 +322,7 @@ public class XposedInitEntry extends XposedModule {
         if (target == null) {
             throw new IllegalStateException("Target state is unavailable before hook initialization");
         }
+        HookDiagnostics.event("module.target","目标进程初始化","INITIALIZING","TARGET_READY","TARGET_READY",target.getPackageName());
         BaseLoad.beginHookInitialization();
         final boolean retryingPrefs = !prefsInited;
         try {
@@ -315,6 +331,7 @@ public class XposedInitEntry extends XposedModule {
             // does not replay a failed generation, so do not defer this to a background task.
             initPrefs();
         } catch (Throwable t) {
+            HookDiagnostics.failure("module.preferences","PREFERENCES",t);
             BaseLoad.recordHookInitializationFailure("PrefsBridge", t);
             BaseLoad.recordHotReloadInitializationFailure("PrefsBridge", t);
             throw new IllegalStateException("Remote preferences remain unavailable at target-ready", t);
@@ -484,11 +501,13 @@ public class XposedInitEntry extends XposedModule {
                 getRemotePreferences(PrefsBridge.REMOTE_PREFS_GROUP), "Remote preferences are unavailable"));
             LogStatusManager.syncLogLevelFromPrefs();
             prefsInited = true;
+            HookDiagnostics.event("module.preferences","模块配置","INITIALIZED","PREFERENCES","CONFIG_READY","Remote preferences initialized");
         }
     }
 
     private boolean prepareHookLoad(String packageName) {
         if (!isHookEnabled()) {
+            HookDiagnostics.event("module.target","目标进程初始化","DISABLED","CONFIGURATION","MODULE_DISABLED","Hook loading disabled by existing app state");
             XposedLog.w(TAG, packageName, "Skip loading hooks because hook loading is disabled by app state.");
             return true;
         }

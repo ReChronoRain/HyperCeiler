@@ -44,7 +44,8 @@ template <typename T> inline void workspace_write(uintptr_t p, intptr_t off, T v
 // Heap fields and Dart frame slots come from verified owning consumers.
 inline bool inset_workspace_frame(uintptr_t fp, uint64_t heap, bool occupied,
     const GridFieldOffsets *field, double top, double bottom, double side, double *out,
-    WorkspaceRenderSnapshot *rendered = nullptr, const home_dynamic::GeometryFrame *layout = nullptr) {
+    WorkspaceRenderSnapshot *rendered = nullptr, const home_dynamic::GeometryFrame *layout = nullptr,
+    double base_height = 0) {
     if (!layout || !layout->usable() || field == nullptr || field->columns <= 0 || field->rows <= 0) return false;
     uintptr_t grid = workspace_read<uintptr_t>(fp, layout->grid);
     if (occupied) {
@@ -58,8 +59,17 @@ inline bool inset_workspace_frame(uintptr_t fp, uint64_t heap, bool occupied,
     if (occupied && (field->cell_width <= 0 || field->cell_height <= 0)) return false;
     const double cell_width = occupied ? workspace_read<double>(grid, field->cell_width)
                                        : workspace_read<double>(fp, layout->width);
-    const double cell_height = occupied ? workspace_read<double>(grid, field->cell_height)
-                                        : workspace_read<double>(fp, layout->height);
+    double cell_height = occupied ? workspace_read<double>(grid, field->cell_height)
+                                  : workspace_read<double>(fp, layout->height);
+    /*
+     * The launcher hands the workspace a shorter box while the long-press sheet owns the bottom
+     * of the screen. Subtracting the configured bottom inset from that temporary height shrinks
+     * every cell and lifts the whole grid, then the sheet closes and it drops back. The inset was
+     * calibrated against the resting height, so keep using it while the box is temporarily
+     * shorter; a real box change (rotation) also changes the width and refreshes the baseline.
+     */
+    if (!occupied && base_height > 1 && cell_height > 1 && cell_height < base_height * 0.9)
+        cell_height = base_height;
     double g[] = {
         workspace_read<double>(fp, layout->x),
         occupied ? 0 : workspace_read<double>(fp, layout->y),

@@ -1,0 +1,30 @@
+<resources>
+    <string name="hook_diagnostics_title">Launcher diagnostics</string>
+    <string name="hook_diagnostics_refresh">Run diagnosis again</string>
+    <string name="hook_diagnostics_export">Export report</string>
+    <string name="hook_diagnostics_loading">Reading launcher activity records</string>
+    <string name="hook_diagnostics_empty">No current feature results yet, check preparation, use the feature on your launcher, then run diagnosis again</string>
+    <string name="hook_diagnostics_summary">Use the feature on your launcher, then run diagnosis again, each feature is counted once</string>
+    <string name="hook_diagnostics_evidence">Diagnostic logs</string>
+    <string name="hook_diagnostics_export_done">Diagnostic report exported</string>
+    <string name="hook_diagnostics_export_failed">Could not export the diagnostic report</string>
+    <string name="hook_diagnostics_scope">System launcher</string>
+    <string name="hook_diagnostics_overview">Overview</string>
+    <string name="hook_diagnostics_environment">Before checking</string>
+    <string name="hook_diagnostics_actions">Check and report</string>
+    <string name="hook_diagnostics_faults">Needs attention</string>
+    <string name="hook_diagnostics_pending">Use the feature then check</string>
+    <string name="hook_diagnostics_inactive">Disabled or not checked</string>
+    <string name="hook_diagnostics_success">Normal</string>
+    <string name="hook_diagnostics_abnormal">Attention</string>
+    <string name="hook_diagnostics_pending_label">Pending</string>
+    <string name="hook_diagnostics_unknown">Not enough information</string>
+    <string name="hook_diagnostics_waiting_count">Pending</string>
+    <string name="hook_diagnostics_local_evidence">Current results</string>
+    <string name="hook_diagnostics_analysing_badge">Analysing</string>
+    <string name="hook_diagnostics_update_failed_badge">Update incomplete</string>
+    <string name="hook_diagnostics_technical">Technical diagnostic logs</string>
+    <string name="hook_diagnostics_history">Previous session records</string>
+    <string name="hook_diagnostics_refresh_hint">Use the feature first, then read the latest activity records</string>
+    <string name="hook_diagnostics_export_hint">Send the report and steps to reproduce when reporting a problem</string>
+</resources>

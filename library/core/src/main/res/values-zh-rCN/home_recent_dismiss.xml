@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_recent_modify_animation_summary">向上划走最近任务卡片时，保持卡片大小和不透明度，让卡片直接向上移出屏幕，关闭后恢复系统默认效果</string>
+</resources>

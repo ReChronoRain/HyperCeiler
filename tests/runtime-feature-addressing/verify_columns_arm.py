@@ -20,7 +20,7 @@ for at in range(ss[4],ss[4]+ss[5],24):
 ix=e.section_names['.text'];ts=e.sections[ix];code=bytearray(e.data[ts[4]:ts[4]+ts[5]]);start=next(v for n,s,v,z in sy if n=='hc_dart_columns_entry');base=0x100000;data=0x300000;stock=0x400000;end=0x401000
 region_stop=next(v for n,s,v,z in sy if n=='hc_layout_save_entry')
 region_end=next(i.address+4 for i in Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN).disasm(bytes(code[region_stop:]),region_stop) if i.mnemonic=='ret')
-globs={n:data+i*8 for i,n in enumerate(['hc_native_columns_request','hc_dart_columns_frame','hc_dart_columns_continue','hc_dart_columns_original','hc_grid_autofit_requested','hc_dart_columns_ready','hc_grid_persist_original','hc_grid_transient_seen','hc_layout_save_original','hc_layout_save_field'])}
+globs={n:data+i*8 for i,n in enumerate(['hc_native_columns_request','hc_dart_columns_frame','hc_dart_columns_continue','hc_dart_columns_original','hc_grid_autofit_requested','hc_dart_columns_ready','hc_grid_persist_original','hc_grid_transient_seen','hc_layout_save_original','hc_layout_save_field','hc_dart_columns_hits','hc_dart_columns_applied'])}
 for sec in e.sections.values():
  if sec[1]!=4 or sec[7]!=ix:continue
  for at in range(sec[4],sec[4]+sec[5],24):
@@ -58,6 +58,7 @@ for requested in [0,1|(1<<8),1|(4<<8),1|(5<<8),1|(6<<8),1|(8<<8),1,1|(9<<8),5<<8
       if pc in [end,stock+16]:seen.append(pc);uc.emu_stop()
      u.hook_add(UC_HOOK_CODE,step);u.emu_start(base+start,end+4,count=150)
      custom=bool(ready) and bool(requested&1) and row==-1 and 1<=(requested>>8)<=8;col=(requested>>8)*2 if custom else 8;rowTag=((rowRequest>>8)*2 if custom and rowRequest&1 and 2<=(rowRequest>>8)<=16 else row*2)&U64
+     ck(struct.unpack('<Q',u.mem_read(globs['hc_dart_columns_hits'],8))[0]==1);ck(struct.unpack('<Q',u.mem_read(globs['hc_dart_columns_applied'],8))[0]==int(custom))
      ck(seen==[end if custom else stock+16]);ck(u.reg_read(A.UC_ARM64_REG_X2)==col);ck(u.reg_read(A.UC_ARM64_REG_X1)==0x60b001);ck(u.reg_read(A.UC_ARM64_REG_X3)==rowTag)
      ck(bytes(u.mem_read(r[15],16))==struct.pack('<QQ',rowTag,col))
      for i,v in r.items():

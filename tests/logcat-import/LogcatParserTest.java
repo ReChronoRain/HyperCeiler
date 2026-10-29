@@ -91,6 +91,11 @@ public final class LogcatParserTest {
         assert parse("boot-a", 0, numericUid).get(0).timestamp() == 1792394363100L;
         assert parse("boot-a", 1792394363099L, numericUid).size() == 1;
         assert parse("boot-a", 0, duplicate + "x".repeat(100000)).get(0).message().length() <= 32768;
+        String nestedTag=duplicate+"[ 1792394363.079050  10126:14374:6702 I/AiCrEngine[other.app] ]\nprivate-body@example.com\n\n";
+        assert parse("boot-a",0,nestedTag).size()==1;
+        assert parse("boot-a",0,nestedTag).get(0).message().equals("repeat");
+        String corruptHeader=duplicate+"[ 1792394363.079050  unknown/header-format\nprivate-other-app-token\n";
+        assert !parse("boot-a",0,corruptHeader).get(0).message().contains("private");
         System.out.println("Logcat import parser: PASS (native/Java, app/module, multiline, filtering, stable IDs, repeats, reboot, clear, bounds)");
     }
 }

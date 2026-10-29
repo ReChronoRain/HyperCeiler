@@ -85,4 +85,7 @@
     <string name="home_restart_launcher">重启桌面</string>
     <string name="home_restart_zygote">重启 Zygote</string>
     <string name="home_restart_zygote_confirm">确定立即重启 Android 运行时吗？应用会关闭，手机将暂时回到锁屏。</string>
+    <string name="home_recent_hide_text">隐藏文本</string>
+    <string name="home_recent_remove_icon_summary">隐藏最近任务卡片上的应用图标，重启桌面稍等片刻后生效</string>
+    <string name="home_recent_hide_text_summary">隐藏最近任务卡片上的应用名称，重启桌面稍等片刻后生效</string>
 </resources>

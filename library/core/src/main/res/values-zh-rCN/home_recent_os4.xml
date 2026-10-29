@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_recent_hide_card_os4_desc">隐藏所选应用的后台卡片\n需要系统界面作用域\n分屏组合中包含所选应用时隐藏整张组合卡片</string>
+</resources>

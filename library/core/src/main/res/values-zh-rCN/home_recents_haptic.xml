@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_recent_haptic_category">卡片振动</string>
+    <string name="home_recent_card_close_haptic">卡片关闭振动自定义</string>
+    <string name="home_recent_card_close_haptic_summary">关闭一张卡片时振动一次</string>
+    <string name="home_recent_card_haptic">卡片滑动振动</string>
+    <string name="home_recent_card_haptic_summary">滑过每张卡片时振动一次</string>
+    <string name="home_recent_card_haptic_type">振动类型</string>
+    <string name="home_recent_card_haptic_preview_unavailable">暂时无法播放振动预览</string>
+    <string name="home_recent_card_haptic_strength">振动强度</string>
+    <string name="home_recent_card_haptic_strength_summary">实际可调强度取决于设备马达的支持情况</string>
+    <string-array name="home_recent_card_haptic_types"><item>轻点</item><item>点击</item><item>重击</item><item>双击</item></string-array>
+</resources>

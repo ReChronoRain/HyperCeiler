@@ -107,7 +107,7 @@ public final class HomeQuickSwitchOS4 {
         return top!=null&&top.getPackageName().equals(home.activityInfo.packageName)
             &&top.getClassName().equals(home.activityInfo.targetActivity!=null?home.activityInfo.targetActivity:home.activityInfo.name);
     }
-    private static boolean isLauncher(Context context, int uid, int pid) throws Exception {
+    public static boolean isLauncher(Context context, int uid, int pid) throws Exception {
         if (uid < 10000 || pid <= 0) return false;
         return packageProcess(context,uid,pid,"com.miui.home");
     }

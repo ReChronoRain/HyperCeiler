@@ -138,6 +138,8 @@ public class SystemUIV extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeHideRecentCardsOS4(),
+            isHyperOSVersion(4f));
         initHook(new com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeExtraGesturesOS4(),
             isHyperOSVersion(4f));
         initHook(new com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchSystemUIOS4(),

@@ -11,6 +11,8 @@ public final class Uri {
     public static Uri parse(String value) {
         return new Uri(value);
     }
+    public static Uri withAppendedPath(Uri base, String path) { return parse(base.value+"/"+path); }
+    public String getLastPathSegment() { return value.substring(value.lastIndexOf('/')+1); }
 
     @Override
     public String toString() {

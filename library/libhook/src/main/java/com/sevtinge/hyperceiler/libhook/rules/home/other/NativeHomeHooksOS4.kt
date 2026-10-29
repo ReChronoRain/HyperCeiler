@@ -92,6 +92,10 @@ object NativeHomeHooksOS4 {
     private const val PACKAGE = "com.sevtinge.hyperceiler"
 
     private val loadStarted = AtomicBoolean()
+    /** Claimed synchronously by the module-entry probe, never cleared in this process.
+     * A load failure may already have registered native hooks before JNI setup failed. */
+    fun hasNativeLoadStarted(): Boolean = loadStarted.get()
+
     private val diagnosticsStarted = AtomicBoolean()
     private val dockWatchStarted = AtomicBoolean()
     @Volatile private var libraryLoaded = false

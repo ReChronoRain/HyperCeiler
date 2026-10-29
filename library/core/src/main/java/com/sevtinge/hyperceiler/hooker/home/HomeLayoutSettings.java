@@ -50,6 +50,8 @@ public class HomeLayoutSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        findPreference("prefs_key_home_layout_hotseats_margin_horizontal_enable").setVisible(isHyperOSVersion(4f));
+        findPreference("prefs_key_home_layout_hotseats_margin_horizontal").setVisible(isHyperOSVersion(4f));
         if (isHyperOSVersion(4f)) {
             // OS4's existing native keys now have a single entry on their respective pages.
             findPreference("prefs_key_home_layout_icon_scale_enable").setVisible(false);

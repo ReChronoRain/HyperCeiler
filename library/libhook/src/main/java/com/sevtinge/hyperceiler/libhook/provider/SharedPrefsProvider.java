@@ -199,6 +199,9 @@ public class SharedPrefsProvider extends ContentProvider {
         if (AUTHORITY.equals(uri.getAuthority()) && "/home_gestures".equals(uri.getPath())) {
             return HomeGesturePrefsSnapshot.cursor(prefs);
         }
+        if (AUTHORITY.equals(uri.getAuthority()) && "/home_recents_haptic".equals(uri.getPath())) {
+            return HomeRecentsHapticPrefs.cursor(prefs);
+        }
         if (AUTHORITY.equals(uri.getAuthority()) && "/home_layout".equals(uri.getPath())) {
             return HomeLayoutPrefsSnapshot.cursor(prefs);
         }

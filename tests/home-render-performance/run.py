@@ -10,6 +10,7 @@ with tempfile.TemporaryDirectory(prefix='hc-render-perf-')as work:
 # This compiles the actual shipping bootstrap body against a counted slot host,
 # including optional-missing, backend-failure, busy-config and late-image cases.
 subprocess.run(['python3',str(ROOT/'tests/layout-refresh-os4/run.py')],check=True)
+subprocess.run(['python3',str(HERE/'property_path.py')],check=True)
 
 source=(ROOT/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
 def body(name):
@@ -22,3 +23,7 @@ with tempfile.TemporaryDirectory(prefix='hc-native-primer-perf-')as work:
  src.write_text((HERE/'native_primers.inc').read_text()+body('void prime_native_columns(HookFunction hook, UnhookFunction unhook)')+'\n'+body('void prime_back_regions(HookFunction hook,UnhookFunction unhook)')+(HERE/'native_primers_test.inc').read_text())
  subprocess.run(['c++','-std=c++20','-O2','-I'+str(ROOT/'app/src/main/cpp'),str(src),'-o',str(binary)],check=True)
  subprocess.run([str(binary)],check=True)
+
+# Unsupported images, loader lock contention and native generation retirement.
+for regression in ("loader_lookup.py", "binding_retry.py", "hot_reload.py"):
+ subprocess.run(["python3",str(HERE/regression)],check=True)

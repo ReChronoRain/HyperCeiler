@@ -31,12 +31,17 @@ def function(name):
         depth+=(hooks[end]=='{')-(hooks[end]=='}');end+=1
     return hooks[at:end]
 bootstrap=function('void prime_home_layout_first_render_locked()')
+early=function('bool ensure_runtime_features()')
+early=early[early.index('if(g_first_render_discovery) {'):early.index('RuntimeFeatures found;')]
+assert 'columns_feature(*code' in early and 'grid_autofit_feature(*code)' in early
+assert 'grid_geometry_feature(*code)' in early
 assert 'query_config(' not in bootstrap and 'delay_ms(' not in bootstrap and 'HomeLayoutEngineFindSymbol' not in bootstrap
 with tempfile.TemporaryDirectory(prefix='hc-layout-first-render-')as work:
-    out=Path(work);src=(HERE/'bootstrap_test.inc').read_text()+bootstrap+r'''
+    out=Path(work);src=(HERE/'bootstrap_test.inc').read_text()+function('void bind_workspace_geometry_first_render()')+bootstrap+r'''
 int main(){
     reset();cached.drawer_hide_search=true;cached.tweaks.icon_scale_enabled=true;cached.knobs[0]={true,35};
     prime_home_layout_first_render_locked();
+    assert(g_slots[kDockPositionSlotBase].ready&&g_slots[kDockPositionSlotBase+1].ready);
     assert(g_drawer_search_ready&&hc_icon_render_enabled&&hc_folder_icon_scale_enabled&&hc_widget_scale_enabled&&scale==1.5&&margin==105&&!g_first_render_discovery);
     assert(hc_hotseat_margin_caller_count==2&&hc_hotseat_margin_callers[0]==0x102e&&hc_hotseat_margin_callers[1]==0x1032);
     for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();
@@ -55,8 +60,9 @@ int main(){
     assert(g_first_render_finished&&!hc_icon_render_enabled&&!g_knobs[0].hook_armed&&margin==-1&&install_calls==1);
     // Registered slots survive the bounded main-thread attempt. Recovery can
     // adopt/install the same bank without asking property reads to do the work.
-    allow_install=true;std::vector<size_t> order;for(unsigned i=0;i<44;++i)if(g_slots[i].address)order.push_back(i);
-    nhk::ensure_slots_live(g_slots,slot_host(),order);g_knobs[0].hook_armed=nhk::slot_ready(g_slots[10]);publish_hooks();assert(hc_icon_render_enabled&&hc_widget_scale_enabled);
+    allow_install=true;std::vector<size_t> order;for(unsigned i=0;i<std::size(g_slots);++i)if(g_slots[i].address)order.push_back(i);
+    nhk::ensure_slots_live(g_slots,slot_host(),order);g_knobs[0].hook_armed=nhk::slot_ready(g_slots[kKnobHookSlotBase]);publish_hooks();assert(hc_icon_render_enabled&&hc_widget_scale_enabled);
+    assert(g_slots[kDockPositionSlotBase].ready&&g_slots[kDockPositionSlotBase+1].ready);
     reset();have_config=false;scale=1.25;prime_home_layout_first_render_locked();
     assert(!g_first_render_finished&&config_reads==1&&discoveries==0&&install_calls==0&&scale==1.25&&!g_first_render_discovery);
     have_config=true;prime_home_layout_first_render_locked();assert(g_first_render_finished&&hc_icon_render_enabled);
@@ -64,7 +70,48 @@ int main(){
     assert(g_first_render_finished&&discoveries==1&&install_calls==0&&!g_first_render_discovery);
     reset();have_image=false;prime_home_layout_first_render_locked();assert(!g_first_render_finished&&config_reads==0&&install_calls==0);
     have_image=true;prime_home_layout_first_render_locked();assert(g_first_render_finished&&hc_icon_render_enabled);
-    std::cout<<"first-render production bootstrap PASS: 500 repeated reads -> 1 install; missing optional graph, failed install/worker adoption, busy config, late image and new generation\n";
+    // Model the one-time consumer before the worker can install anything.
+    // Both persistence guards must be live before forwarding transient counts.
+    reset();cached.grid_enabled=true;cached.cell_x=5;cached.cell_y=7;
+    prime_home_layout_first_render_locked();
+    assert(hc_dart_columns_ready&&hc_grid_autofit_ready&&grid_bind_calls==2);
+    const unsigned first_columns=hc_dart_columns_ready?cached.cell_x:4;
+    const unsigned first_rows=hc_grid_autofit_ready?cached.cell_y:6;
+    assert(first_columns==5&&first_rows==7);
+    for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();
+    assert(grid_bind_calls==2&&install_calls==1&&discoveries==1);
+    reset();prime_home_layout_first_render_locked();assert(grid_bind_calls==0&&!hc_dart_columns_ready);
+    reset();cached.grid_enabled=true;columns_graph=false;prime_home_layout_first_render_locked();
+    assert(!hc_dart_columns_ready&&hc_grid_autofit_ready&&hc_icon_render_enabled);
+    reset();cached.grid_enabled=true;autofit_graph=false;prime_home_layout_first_render_locked();
+    assert(hc_dart_columns_ready&&!hc_grid_autofit_ready&&hc_icon_render_enabled);
+    reset();cached.grid_enabled=true;allow_install=false;prime_home_layout_first_render_locked();
+    assert(!hc_dart_columns_ready&&!hc_grid_autofit_ready);
+    // First ordinary and occupied consumers see all three independent requests,
+    // including when custom row/column counts are disabled.
+    for(unsigned index=2;index<=4;++index){
+        reset();cached.knobs[index]={true,int(20+index)};
+        prime_home_layout_first_render_locked();
+        for(unsigned i=2;i<=3;++i){assert(g_knobs[i].hook_armed);assert(g_slots[kKnobHookSlotBase+i].ready);}
+        assert(g_knobs[index].delta_dp==int(20+index));
+        assert(g_geometry_frame[0]==10&&g_geometry_frame[1]==20);
+        assert(g_knobs[2].hook_address==104&&g_knobs[3].hook_address==208);
+        assert(!g_slots[kKnobHookSlotBase+4].address); // Dock is a separate control.
+        for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();
+        assert(discoveries==1&&install_calls==1&&config_reads==1);
+    }
+    reset();cached.knobs[2]={false,120};prime_home_layout_first_render_locked();
+    assert(!g_runtime_features.geometry&&!g_knobs[2].hook_armed&&g_knobs[2].delta_dp==0);
+    reset();cached.knobs[4]={true,80};geometry_graph=false;prime_home_layout_first_render_locked();
+    assert(!g_knobs[2].hook_armed&&!g_knobs[3].hook_armed&&hc_icon_render_enabled);
+    reset();cached.knobs[2]={true,120};geometry_bind=false;prime_home_layout_first_render_locked();
+    assert(!g_knobs[2].hook_address&&!g_knobs[3].hook_address); // Complete metadata admission.
+    reset();cached.knobs[3]={true,120};allow_install=false;prime_home_layout_first_render_locked();
+    assert(!g_knobs[2].hook_armed&&!g_knobs[3].hook_armed);
+    reset();cached.title_custom_labels={{u"com.miui.notes",u"自定义标题"}};
+    prime_home_layout_first_render_locked();assert(g_slots[kTitleCustomSlot].ready&&g_slots[kCustomTitleDrawerSlot].ready);
+    for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();assert(install_calls==1&&discoveries==1);
+    std::cout<<"first-render production bootstrap PASS: 500 repeated reads -> 1 install; missing optional graph, failed install/worker adoption, busy config, late image, grid first consumer/persistence bank and new generation\n";
 }
 '''
     (out/'bootstrap.cpp').write_text(src)

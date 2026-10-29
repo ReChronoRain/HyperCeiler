@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_recent_hide_card_os4_desc">Hide selected apps from Recents\nRequires the System UI scope\nA split-screen group containing a selected app is hidden as one card</string>
+</resources>

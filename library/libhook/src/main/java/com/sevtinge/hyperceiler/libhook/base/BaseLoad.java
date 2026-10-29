@@ -282,7 +282,8 @@ public abstract class BaseLoad {
     }
 
     private void initHookInternal(BaseHook hook, boolean shouldInit) {
-        if (hook == null || !shouldInit) return;
+        if (hook == null) return;
+        if (!shouldInit) { HookDiagnostics.lifecycle(hook,"NOT_APPLICABLE","CONDITION","CONDITION_NOT_MET"); return; }
         if (!markHookClassInitialized(hook)) return;
         if (hook.useDexKit() && !isSystemServer()) {
             prepareDexKitSession(hook.TAG);
@@ -342,12 +343,14 @@ public abstract class BaseLoad {
         for (DexKitInitResult result : results) {
             if (result.error != null) {
                 XposedLog.e(result.hook.TAG, getPackageName(), "Skip hook because initDexKit failed", result.error);
+                HookDiagnostics.failure(result.hook.getClass().getName(),"DEXKIT",result.error);
                 recordHookInitializationFailure(result.hook.TAG, result.error);
                 recordHotReloadInitializationFailure(result.hook.TAG, result.error);
                 continue;
             }
             if (!result.shouldInit) {
                 XposedLog.w(result.hook.TAG, getPackageName(), "Skip hook because initDexKit returned false");
+                HookDiagnostics.lifecycle(result.hook,"WAITING","DEXKIT","DEXKIT_DECLINED");
                 continue;
             }
             try {
@@ -359,6 +362,7 @@ public abstract class BaseLoad {
     }
 
     private DexKitInitResult runDexKitInit(BaseHook hook) {
+        HookDiagnostics.lifecycle(hook,"INITIALIZING","DEXKIT","DEXKIT_BEGIN");
         hook.setDexKitInitInProgress(true);
         try {
             return new DexKitInitResult(hook, hook.initDexKit(), null);
@@ -370,11 +374,14 @@ public abstract class BaseLoad {
     }
 
     private void runHookInit(BaseHook hook) {
-        hook.init();
-        XposedLog.i(hook.TAG, getPackageName(), "Hook Success");
+        HookDiagnostics.lifecycle(hook,"INITIALIZING","INITIALIZATION","INIT_BEGIN");
+        try (var observationScope=HookDiagnostics.scope(hook)) { hook.init(); }
+        HookDiagnostics.lifecycle(hook,"INITIALIZED","INITIALIZATION","INIT_COMPLETE");
+        XposedLog.i(hook.TAG, getPackageName(), "Hook initialization completed; installation/execution/effect require separate evidence");
     }
 
     private void logHookFailure(BaseHook hook, Throwable t) {
+        if (hook != null) HookDiagnostics.failure(hook.getClass().getName(),"INITIALIZATION",t);
         StringWriter sw = new StringWriter();
         t.printStackTrace(new PrintWriter(sw));
         XposedLog.e(hook.TAG, getPackageName(), "Hook Failed: " + sw);
