@@ -15,6 +15,8 @@ public final class HomeLayoutPrefsSnapshot {
     public static final String RECENT_TEXT_KEY = "home_recent_hide_text";
     public static final String RECENT_HEADER_VERSION = "hc_recent_header_version";
     public static final String RECENT_HEADER_FLAGS = "hc_recent_header_flags";
+    public static final String DISMISS_KEY = "home_recent_modify_animation";
+    public static final String DISMISS_VERSION = "hc_recent_dismiss_version";
     public static final String INFINITE_KEY = "home_other_infinite_scroll";
     public static final String INFINITE_VERSION = "hc_infinite_scroll_version";
     // Optional cursor extras preserve schema 4's exact columns for older clients.
@@ -169,6 +171,11 @@ public final class HomeLayoutPrefsSnapshot {
             Object hideBar = values.get("prefs_key_" + RECENTS_BAR_KEY);
             if (hideBar != null && !(hideBar instanceof Boolean)) return null;
             Bundle extras = new Bundle();
+            Object dismiss = values.get("prefs_key_" + DISMISS_KEY);
+            if (dismiss == null || dismiss instanceof Boolean) {
+                extras.putInt(DISMISS_VERSION, 1);
+                extras.putInt(DISMISS_KEY, Boolean.TRUE.equals(dismiss) ? 1 : 0);
+            }
             extras.putInt(RECENTS_BAR_VERSION, 1);
             extras.putInt(RECENTS_BAR_KEY, Boolean.TRUE.equals(hideBar) ? 1 : 0);
             Object horizontal = values.get("prefs_key_" + DOCK_HORIZONTAL_KEY);

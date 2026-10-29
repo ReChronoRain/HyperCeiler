@@ -3,6 +3,8 @@
 #include "home_feature_code.h"
 #include "home_title_render.h"
 #include "home_recent_config.h"
+#include "home_recent_dismiss.h"
+#include "home_recents_close_haptic.h"
 #include "home_custom_title_feature.h"
 #include <set>
 namespace home_layout::features {
@@ -36,7 +38,7 @@ inline bool pattern(const Body& b,const uint32_t* words,size_t n,uint32_t& out) 
         if(match){++hits;selected=i*4;}}
     if(hits!=1)return false;out=uint32_t(selected);return true;
 }
-enum class Action {Scalar,FrameScalar,PoolReturn,ScaleReturn,Style,FrameStyle,Freeform,ScalarReturn,FreeformColor,HideIconReturn,IconChild,CornerFrame,CornerSurface};
+enum class Action {Scalar,FrameScalar,PoolReturn,ScaleReturn,Style,FrameStyle,Freeform,ScalarReturn,FreeformColor,HideIconReturn,IconChild,CornerFrame,CornerSurface,DismissPlain,DismissStack,DismissScale,DismissOpacity,CloseHaptic,CloseStockHaptic};
 struct Site {
     uint32_t va=0;Action action{};int setting=0;unsigned reg=0;
     int32_t frame=0;uint32_t pool=0;bool multiply=false;
@@ -57,6 +59,8 @@ struct Plan {
     uint32_t string_one_cid=0,string_two_cid=0,text_tag=0;
     bool hide_icon_ready=false,hide_text_ready=false,corner_animation_ready=false;
     uint32_t radius_factory=0,border_factory=0;
+    std::optional<dismiss::Plan> dismiss;
+    std::optional<close_haptic::Plan> close_haptic;
 };
 inline bool add(Plan& p,const Function& f,size_t i,Action action,int setting,unsigned reg=0,
     int32_t frame=0,uint32_t pool=0,bool multiply=false) {
@@ -782,6 +786,26 @@ inline bool height_consumers(const auto& code,Plan& p) {
     }
     return true;
 }
+inline void dismiss_graph(const auto& code,Plan& p) {
+    const auto plan=dismiss::resolve(code);if(!plan)return;
+    Plan next=p;
+    for(const auto& entry:std::array<std::pair<uint32_t,Action>,4>{{
+        {plan->plain,Action::DismissPlain},{plan->stack,Action::DismissStack},{plan->scale_input,Action::DismissScale},{plan->opacity_input,Action::DismissOpacity}}}) {
+        const auto owner=std::find_if(code.functions().begin(),code.functions().end(),[&](const auto& f){return entry.first>=f.va&&entry.first<f.va+f.words.size()*4;});
+        if(owner==code.functions().end()||!add(next,*owner,(entry.first-owner->va)/4,entry.second,RecentConfig::DismissAnimation))return;
+    }
+    next.dismiss=plan;p=std::move(next);
+}
+inline void close_haptic_graph(const auto& code,Plan& p) {
+    const auto plan=close_haptic::resolve(code);if(!plan)return;
+    Plan next=p;
+    for(const auto& entry:std::array<std::pair<uint32_t,Action>,2>{{
+        {plan->commit,Action::CloseHaptic},{plan->stock,Action::CloseStockHaptic}}}){
+        const auto owner=std::find_if(code.functions().begin(),code.functions().end(),[&](const auto& f){return entry.first>=f.va&&entry.first<f.va+f.words.size()*4;});
+        if(owner==code.functions().end()||!add(next,*owner,(entry.first-owner->va)/4,entry.second,RecentConfig::CloseHaptic))return;
+    }
+    next.close_haptic=plan;p=std::move(next);
+}
 inline std::optional<Plan> resolve(const auto& code,const char** failure=nullptr) {
     Plan p;if(failure)*failure="object layout bounds or overlapping patch windows";
     const auto failed=[&](const char* why){if(failure)*failure=why;return std::optional<Plan>{};};
@@ -797,6 +821,8 @@ inline std::optional<Plan> resolve(const auto& code,const char** failure=nullptr
     if(!background_graph(code,p))return failed("nullable freeform/theme background getter missing/ambiguous");
     if(!freeform_content(code,p))return failed("freeform mode predicate/background/clipped-container chain missing/ambiguous");
     if(!height_consumers(code,p))return failed("inlined header-height consumer cannot bind a safe window");
+    dismiss_graph(code,p);
+    close_haptic_graph(code,p);
     p.corner_animation_ready=corner_animation_graph(code,p);
     p.hide_text_ready=header_text_contract(code,p);
     p.hide_icon_ready=header_icon_contract(code,p);

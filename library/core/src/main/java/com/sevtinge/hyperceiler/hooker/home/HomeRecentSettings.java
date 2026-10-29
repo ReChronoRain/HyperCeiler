@@ -24,6 +24,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isM
 import static com.sevtinge.hyperceiler.sub.SubPickerActivity.ALL_APPS_MODE;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
@@ -31,6 +32,7 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeRecentsHapticOS4;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import java.util.Map;
@@ -60,6 +62,29 @@ public class HomeRecentSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        findPreference("home_recent_haptic_category").setVisible(isHyperOSVersion(4f));
+        DropDownPreference hapticType = findPreference("prefs_key_home_recent_card_haptic_type");
+        hapticType.setOnPreferenceChangeListener((preference, value) -> {
+            int type = Integer.parseInt((String) value);
+            int strength = PrefsBridge.getInt("home_recent_card_haptic_strength", 50);
+            if (!HomeRecentsHapticOS4.perform(requireContext().getApplicationContext(), type, strength, 1)) {
+                Toast.makeText(requireContext(), R.string.home_recent_card_haptic_preview_unavailable, Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
+        SwitchPreference scrollHaptic = findPreference("prefs_key_home_recent_card_haptic");
+        SwitchPreference closeHaptic = findPreference("prefs_key_home_recent_card_close_haptic");
+        Preference hapticStrength = findPreference("prefs_key_home_recent_card_haptic_strength");
+        hapticType.setEnabled(scrollHaptic.isChecked() || closeHaptic.isChecked());
+        hapticStrength.setEnabled(scrollHaptic.isChecked() || closeHaptic.isChecked());
+        scrollHaptic.setOnPreferenceChangeListener((preference, value) -> {
+            boolean enabled = (Boolean) value || closeHaptic.isChecked();
+            hapticType.setEnabled(enabled);hapticStrength.setEnabled(enabled);return true;
+        });
+        closeHaptic.setOnPreferenceChangeListener((preference, value) -> {
+            boolean enabled = (Boolean) value || scrollHaptic.isChecked();
+            hapticType.setEnabled(enabled);hapticStrength.setEnabled(enabled);return true;
+        });
         mShowLaunch = findPreference("prefs_key_home_recent_show_launch");
         mHideWorldCirculate = findPreference("prefs_key_home_recent_hide_world_circulate");
         mHideFreeform = findPreference("prefs_key_home_recent_hide_freeform");

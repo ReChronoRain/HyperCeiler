@@ -152,7 +152,8 @@ public final class HomeLayoutNativeEndpointOS4 {
         final String segment = path.substring(slash + 1);
         final String key = segment.startsWith("prefs_key_")
             ? segment.substring("prefs_key_".length()) : segment;
-        if (HomeLayoutPrefsSnapshot.RECENT_ICON_KEY.equals(key)
+        if (HomeLayoutPrefsSnapshot.DISMISS_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.RECENT_ICON_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.INFINITE_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY.equals(key)
@@ -442,6 +443,10 @@ public final class HomeLayoutNativeEndpointOS4 {
                 // It must not erase a complete cache, especially while an APK is being replaced.
                 if (!isProviderSchema(cursor)) return null;
                 final android.os.Bundle extras = cursor.getExtras();
+                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_VERSION, 0) == 1) {
+                    int dismiss = extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_KEY, -1);
+                    if (dismiss == 0 || dismiss == 1) values.put(HomeLayoutPrefsSnapshot.DISMISS_KEY, dismiss);
+                }
                 if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_VERSION, 0) == 1) {
                     int hidden = extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, -1);
                     if (hidden == 0 || hidden == 1)
@@ -841,7 +846,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                 return denied("title size out of range");
             }
             if (read.dockHorizontalDelta() < -20 || read.dockHorizontalDelta() > 80) return denied("dock horizontal margin out of range");
-            if ((read.policies() & ~1L) != 0) return denied("unsupported layout policy bits");
+            if ((read.policies() & ~3L) != 0) return denied("unsupported layout policy bits");
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
             read.knobEnabled(), read.knobDeltaDp(), read.tweaks(), read.title(), read.customTitles(),
             read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle(), read.recent().clone(), read.drawerHideSearch(), read.policies(), read.dockHorizontalDelta(), read.infiniteScroll());
@@ -947,7 +952,8 @@ public final class HomeLayoutNativeEndpointOS4 {
                 boundedBack(readInt(values, "home_navigation_back_area_height", 60), 10, 100, 60),
                 boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values),
             readBoolean(values, "home_dock_icon_title", false), readRecent(values), readBoolean(values, "home_drawer_hide_search", false),
-            readBoolean(values, "home_title_hide_report_text", false) ? 1L : 0L,
+            (readBoolean(values, "home_title_hide_report_text", false) ? 1L : 0L)
+                | (readBoolean(values, HomeLayoutPrefsSnapshot.DISMISS_KEY, false) ? 2L : 0L),
             readDockHorizontal(values), readBoolean(values, HomeLayoutPrefsSnapshot.INFINITE_KEY, false));
     }
 
@@ -1020,7 +1026,7 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
     public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
-    public static final int ENDPOINT_REVISION = 20261027;
+    public static final int ENDPOINT_REVISION = 20261028;
     public static final int ENDPOINT_CAPABILITIES = 127; // object scales + Dock titles + recents + drawer search + layout policies
 
     public static final int INFINITE_SCROLL_MAGIC = 0x48434957;

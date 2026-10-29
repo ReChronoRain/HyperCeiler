@@ -39,6 +39,7 @@ target_sources(HyperCeilerNative PRIVATE targets/home/home_layout_targets.cpp)
 target_sources(HyperCeilerNative PRIVATE targets/home/home_layout_config.cpp
     targets/home/home_layout_hooks.cpp
     targets/home/home_gestures_os4.cpp
+    targets/home/home_recents_haptic_runtime.cpp
     targets/home/home_layout_dart_arm64.S
     targets/home/home_back_gesture_arm64.S)
 

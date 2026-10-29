@@ -9,10 +9,13 @@ public class EndpointTest {
         // Real provider extras use the SAME getAll revision and retain the
         // exact schema-4 column vector, including absent and malformed data.
         var prefs = new HashMap<String,Object>();
+        prefs.put("prefs_key_home_recent_modify_animation",true);
         prefs.put("prefs_key_home_recent_remove_icon",true);
         prefs.put("prefs_key_home_recent_hide_text",false);
         var cursor = com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.cursor(() -> prefs);
         check(cursor != null && cursor.getExtras().getInt("hc_recent_header_flags",-1)==1);
+        check(cursor.getExtras().getInt("hc_recent_dismiss_version",0)==1
+            && cursor.getExtras().getInt("home_recent_modify_animation",-1)==1);
         check(cursor.getColumnCount()==com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.specs().length+1);
         prefs.put("prefs_key_home_recent_hide_text",true);
         check(cursor.getExtras().getInt("hc_recent_header_flags",-1)==1);
@@ -24,6 +27,7 @@ public class EndpointTest {
         var worker=HomeLayoutNativeEndpointOS4.class.getDeclaredField("refresher");worker.setAccessible(true);worker.set(null,new Thread());
         ContentResolver.setSpecs(com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.specs());
         ContentResolver.recentHeaderExtras=true;
+        ContentResolver.recentDismissExtras=true;
         ContentResolver.setRows(Map.of());check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
         check(Arrays.equals(HomeLayoutNativeEndpointOS4.readPreferences().recent(),HomeLayoutNativeEndpointOS4.recentDefaults()));
         String[] keys={"task_view_corners","task_view_header_height","task_view_header_horizontal_offset","home_recent_animation_speed","home_recent_task_view_height","task_view_horizontal1","task_view_horizontal2","home_recent_vertical_task_view_card_size","home_recent_text_size","home_recent_text_color","home_recent_freeform_background_color"};
@@ -38,6 +42,12 @@ public class EndpointTest {
         check(policyReply.readInt()==HomeLayoutNativeEndpointOS4.POLICY_MAGIC&&policyReply.readInt()==2&&policyReply.readInt()==1&&policyReply.readInt()==0&&policyReply.dataAvail()==0);
         var drawerReply=new Parcel("");HomeLayoutNativeEndpointOS4.writeDrawer(drawerReply,first.drawerHideSearch());check(drawerReply.dataSize()==8);drawerReply.setDataPosition(0);
         check(drawerReply.readInt()==HomeLayoutNativeEndpointOS4.DRAWER_MAGIC&&drawerReply.readInt()==1&&drawerReply.dataAvail()==0);
+        rows.put("prefs_key_home_recent_modify_animation",1);
+        ContentResolver.setRows(rows);check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
+        check(HomeLayoutNativeEndpointOS4.readPreferences().policies()==3&&first.policies()==1);
+        rows.remove("prefs_key_home_recent_modify_animation");
+        ContentResolver.setRows(rows);check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
+        check(HomeLayoutNativeEndpointOS4.readPreferences().policies()==1);
         // New revisions never mutate older snapshots, including exposed arrays.
         int[] exposed=first.recent();exposed[0]=99;check(first.recent()[0]==42);
         rows.put("prefs_key_task_view_corners",64);ContentResolver.setRows(rows);check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
@@ -71,6 +81,7 @@ public class EndpointTest {
         producer.join();if(failure.get()!=null)throw new AssertionError(failure.get());
         var relevant=HomeLayoutNativeEndpointOS4.class.getDeclaredMethod("isLayoutChange",android.net.Uri.class);
         relevant.setAccessible(true);
+        check((boolean)relevant.invoke(null,android.net.Uri.parse("content://test/prefs_key_home_recent_modify_animation")));
         check((boolean)relevant.invoke(null,android.net.Uri.parse("content://test/prefs_key_home_recent_remove_icon")));
         check((boolean)relevant.invoke(null,android.net.Uri.parse("content://test/prefs_key_home_recent_hide_text")));
         ContentResolver.recentHeaderExtras=false;

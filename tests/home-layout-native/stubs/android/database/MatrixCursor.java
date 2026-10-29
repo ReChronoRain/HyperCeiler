@@ -6,6 +6,7 @@ public final class MatrixCursor implements Cursor {
     public void setExtras(android.os.Bundle value) { extras=value; }
     public android.os.Bundle getExtras() { return extras; }
     public MatrixCursor(String[] columns) { this.columns = columns.clone(); }
+    public void addRow(Object[] values) { if(values.length!=columns.length)throw new IllegalArgumentException();row=values.clone(); }
     public RowBuilder newRow() { row = new Object[columns.length]; return new RowBuilder(); }
     public final class RowBuilder {
         private int index;
