@@ -1,0 +1,8 @@
+<resources>
+    <color name="diagnostic_accent">#8FB8FF</color>
+    <color name="diagnostic_verified">#83CDA6</color>
+    <color name="diagnostic_abnormal">#EDB17D</color>
+    <color name="diagnostic_muted">#A5AEBC</color>
+    <color name="diagnostic_accent_surface">#253047</color>
+    <color name="diagnostic_note_surface">#292B30</color>
+</resources>

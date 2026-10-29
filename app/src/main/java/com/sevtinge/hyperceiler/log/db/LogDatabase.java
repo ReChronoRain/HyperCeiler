@@ -21,7 +21,14 @@ package com.sevtinge.hyperceiler.log.db;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {LogEntry.class}, version = 2, exportSchema = false)
+@Database(entities = {LogEntry.class, com.sevtinge.hyperceiler.diagnostics.DiagnosticSnapshotEntity.class}, version = 3, exportSchema = false)
 public abstract class LogDatabase extends RoomDatabase {
     public abstract LogDao logDao();
+    public abstract com.sevtinge.hyperceiler.diagnostics.DiagnosticDao diagnosticDao();
+    public static final androidx.room.migration.Migration DIAGNOSTICS_MIGRATION =
+        new androidx.room.migration.Migration(2,3) {
+            @Override public void migrate(androidx.sqlite.db.SupportSQLiteDatabase db) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS hook_diagnostics (fingerprint TEXT NOT NULL PRIMARY KEY, timestamp INTEGER NOT NULL, report TEXT NOT NULL)");
+            }
+        };
 }

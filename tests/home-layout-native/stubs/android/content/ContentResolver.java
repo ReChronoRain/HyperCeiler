@@ -3,6 +3,9 @@ package android.content;
 /** Legacy per-key and atomic single-row provider fixtures; no Android/device dependency. */
 public class ContentResolver {
     private static final java.util.Map<String, Object> ROWS = new java.util.HashMap<>();
+    public static boolean recentsExtras = false;
+    public static boolean recentHeaderExtras = false;
+    public static boolean recentDismissExtras = false;
     private static String[][] specs = new String[0][];
     private static int failureIndex = -1, queries;
     private static String failureMode;
@@ -44,6 +47,27 @@ public class ContentResolver {
             if (failureIndex == 0 && "null".equals(failureMode)) return null;
             final var snapshot = new java.util.HashMap<>(ROWS);
             return new android.database.Cursor() {
+                public android.os.Bundle getExtras() {
+                    android.os.Bundle b = new android.os.Bundle();
+                    if(recentsExtras) {
+                        b.putInt("hc_recents_bar_version",1);
+                        Object v=snapshot.get("prefs_key_home_recent_hide_status_bar_in_task_view");
+                        b.putInt("home_recent_hide_status_bar_in_task_view",v instanceof Number n?n.intValue():0);
+                    }
+                    if(recentDismissExtras) {
+                        b.putInt("hc_recent_dismiss_version",1);
+                        Object dismiss=snapshot.get("prefs_key_home_recent_modify_animation");
+                        b.putInt("home_recent_modify_animation",dismiss instanceof Number n?n.intValue():0);
+                    }
+                    if(recentHeaderExtras) {
+                        b.putInt("hc_recent_header_version",1);
+                        Object icon=snapshot.get("prefs_key_home_recent_remove_icon");
+                        Object text=snapshot.get("prefs_key_home_recent_hide_text");
+                        b.putInt("hc_recent_header_flags", (icon instanceof Number n?n.intValue():0)
+                            | ((text instanceof Number n?n.intValue():0)<<1));
+                    }
+                    return b;
+                }
                 public int getColumnCount() { return specs.length + 1; }
                 public String getColumnName(int i) { return i == 0 ? "schema" : specs[i-1][1]; }
                 public boolean moveToFirst() { return !emptyBatch; }

@@ -15,6 +15,17 @@ static_assert(sizeof(Registers)==800&&offsetof(Registers,q)==256&&offsetof(Regis
 template<class T>T load(uintptr_t address){T value;std::memcpy(&value,reinterpret_cast<const void*>(address),sizeof(T));return value;}
 template<class T>void store(uintptr_t address,T value){std::memcpy(reinterpret_cast<void*>(address),&value,sizeof(T));}
 enum class Result {Neutral,Applied,UnknownCaller,WrongClass,InvalidHeap,NoSpace};
+/*
+ * Last visibility write, for device triage only. A text site can report Applied while the
+ * header still shows, so the caller needs the object it actually touched and the value the
+ * data field held before the store. Filled on this thread, read by the hook wrapper.
+ */
+struct VisibilityTrace {
+    uintptr_t object=0;
+    uint32_t before=0,after=0,empty=0;
+    bool text=false;
+};
+inline thread_local VisibilityTrace g_visibility_trace{};
 inline const char* reason(Result value){switch(value){
     case Result::WrongClass:return "style class differs from the verified allocator";
     case Result::InvalidHeap:return "nursery metadata or word alignment invalid";
@@ -66,7 +77,60 @@ inline Result apply(const Plan& p,const Site& site,Registers& r,const RecentConf
     const auto setting=site.setting;
     const auto selected=c.values[setting];
     const bool terminal=site.action==Action::ScaleReturn||site.action==Action::PoolReturn;
+    if(site.action==Action::DismissPlain||site.action==Action::DismissStack
+        ||site.action==Action::DismissScale||site.action==Action::DismissOpacity){
+        if(!selected||!p.dismiss)return result;
+        const auto& d=*p.dismiss;
+        if(site.action==Action::DismissScale){
+            // Translation/normalisation already consumed the original progress.
+            // This local's only remaining reader boxes Matrix4.scale's argument.
+            store<double>(r.x[29]+d.scale_frame,1);return Result::Applied;
+        }
+        if(site.action==Action::DismissOpacity){r.d(0,1);return Result::Applied;}
+        const auto object=r.x[1];if(object<4096||(object&7)!=1)return Result::WrongClass;
+        const double offset=site.action==Action::DismissStack?r.d(2):load<double>(r.x[29]+d.offset_frame);
+        if(!std::isfinite(offset)||offset>=0)return result;
+        // Preserve the exact system translation/friction, including the handoff
+        // to its release/cancel spring. Changing it or forcing another enum arm
+        // makes existing controller values jump between incompatible units.
+        store<double>(object+d.scale,1);
+        if(site.action==Action::DismissStack)r.d(1,1);
+        else r.d(0,1);
+        return Result::Applied;
+    }
+    if(site.action==Action::IconChild){
+        if(!selected||!p.hide_icon_ready)return result;
+        const auto empty=load<uintptr_t>(r.x[27]+p.empty_widget_pool);
+        if(!(empty&1)||empty==r.x[22])return Result::WrongClass;
+        g_visibility_trace={empty,uint32_t(site.reg),0,uint32_t(empty),false};
+        if(site.compressed_icon){
+            if(uintptr_t(uint32_t(empty))+(r.x[28]<<32)!=empty)return Result::WrongClass;
+            r.x[site.reg]=uint32_t(empty);
+        }else r.x[site.reg]=empty;
+        return Result::Applied;
+    }
+    if(site.action==Action::HideIconReturn){
+        if(!selected||!p.hide_icon_ready)return result;
+        const auto empty=load<uintptr_t>(r.x[27]+p.empty_widget_pool);
+        if(!(empty&1)||empty==r.x[22])return Result::WrongClass;
+        r.x[0]=empty;if(site.frame)return_frame(r);else r.branch=0;return Result::Applied;
+    }
     if(site.action==Action::Style||site.action==Action::FrameStyle){
+        if(c.values[RecentConfig::HideText]&&p.hide_text_ready&&site.text_object<31){
+            const auto empty=load<uintptr_t>(r.x[27]+p.empty_string_pool);
+            const auto cid=(empty&1)?(load<uint64_t>(empty-1)>>12)&0xfffff:0;
+            if((cid==p.string_one_cid||cid==p.string_two_cid)
+                &&load<uint32_t>(empty+p.string_length)==0){
+                // Original constructor is still building this fresh Text. The
+                // canonical old-space String needs no generational barrier.
+                const auto text=r.x[site.text_object];
+                if(!(text&1)||((load<uint64_t>(text-1)>>12)&0xfffff)!=(p.text_tag>>12))return Result::WrongClass;
+                const uint32_t before=load<uint32_t>(text+p.text_data);
+                store<uint32_t>(text+p.text_data,uint32_t(empty));
+                g_visibility_trace={text,before,uint32_t(empty),uint32_t(empty),true};
+                result=Result::Applied;
+            }else return Result::WrongClass;
+        }
         if(c.values[RecentConfig::TextSize]==-1&&c.values[RecentConfig::TextColor]==-1)return result;
         const auto old=site.action==Action::Style?r.x[site.reg]:load<uint64_t>(r.x[29]+site.frame);
         const auto value=style(old,r.x[26],r.x[27],c,p,result);
@@ -98,6 +162,12 @@ inline Result apply(const Plan& p,const Site& site,Registers& r,const RecentConf
         r.d(0,(numerator/denominator)*(double(c.values[kind])/100),true);return_frame(r);return Result::Applied;
     }
     if(selected==RecentConfig{}.values[setting])return result;
+    if(site.action==Action::CornerFrame){
+        // Stack mode already applies the configured scalar before its original
+        // card-layout scale. Only replace the plain mode's constant target.
+        if(load<uintptr_t>(r.x[29]+site.selector_frame)==load<uintptr_t>(r.x[27]+site.pool))return result;
+        store<double>(r.x[29]+site.frame,selected);return Result::Applied;
+    }
     if(site.action==Action::ScalarReturn){r.d(0,selected,true);r.branch=0;return Result::Applied;}
     double value=selected;
     if(setting==RecentConfig::TaskHeight)value/=100;
@@ -106,7 +176,7 @@ inline Result apply(const Plan& p,const Site& site,Registers& r,const RecentConf
         r.x[17]=r.x[27]+site.frame;r.d(0,value,true);return_frame(r);return Result::Applied;
     }
     if(terminal)return result;
-    if(site.action==Action::FrameScalar)store<double>(r.x[29]+site.frame,value);
+    if(site.action==Action::FrameScalar||site.action==Action::CornerSurface)store<double>(r.x[29]+site.frame,value);
     else r.d(site.reg,value);
     return Result::Applied;
 }

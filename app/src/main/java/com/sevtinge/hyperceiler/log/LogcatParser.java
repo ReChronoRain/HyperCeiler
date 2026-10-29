@@ -13,7 +13,8 @@ import java.util.regex.Pattern;
 /** Streaming parser for logcat's long,epoch,usec,uid format; never retains other apps' records. */
 final class LogcatParser {
     private static final Pattern HEADER = Pattern.compile(
-        "^\\[\\s*(\\d+)\\.(\\d{1,9})\\s+(?:(\\S+):)?\\s*(\\d+):\\s*(\\d+)\\s+([VDIWEFAS])/([^\\]]*?)\\s*\\]$");
+        "^\\[\\s*(\\d+)\\.(\\d{1,9})\\s+(?:(\\S+):)?\\s*(\\d+):\\s*(\\d+)\\s+([VDIWEFAS])/(.*?)\\s*\\]$");
+    private static final Pattern HEADER_BOUNDARY = Pattern.compile("^\\[\\s*\\d+\\.\\d+\\s+.*");
     private static final int MAX_MESSAGE = 32 * 1024;
 
     record Entry(long id, long timestamp, String level, String tag, String message, String processIds, boolean app) {}
@@ -42,6 +43,10 @@ final class LogcatParser {
             String tag = next.group(7).trim();
             if ((tag.startsWith("HyperCeiler") || HomeLayoutEngineLogNames.isLegacyTag(tag))
                 && !tag.startsWith("HyperCeiler.App.")) current = next;
+        } else if (HEADER_BOUNDARY.matcher(line).matches()) {
+            // Unknown header format is still a record boundary. Never attach another
+            // app's body to the previous module record when its tag/header is unusual.
+            finish();
         } else if (current != null && message.length() < MAX_MESSAGE && !line.startsWith("--------- ")) {
             if (hasMessageLine) message.append('\n');
             hasMessageLine = true;

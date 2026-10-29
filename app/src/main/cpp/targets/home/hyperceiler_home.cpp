@@ -1,3 +1,4 @@
+#include "nativehook/android_diagnostics.h"
 /*
  * This file is part of HyperCeiler.
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -31,6 +32,7 @@ void prime_home_layout_probe(int (*hook)(void *, void *, void **), int (*unhook)
 void home_layout_prepare_for_launcher_child();
 void prime_home_layout_knobs(int (*hook)(void *, void *, void **), int (*unhook)(void *));
 void prime_home_layout_first_render(int (*hook)(void *, void *, void **),int (*unhook)(void *));
+void prime_home_layout_first_render_from_property(int (*hook)(void *, void *, void **),int (*unhook)(void *));
 void home_layout_set_desktop_title_size(int sp);
 void home_layout_set_drawer_title_size(int sp);
 void home_layout_set_title_color(int argb);
@@ -159,17 +161,29 @@ int copy_property_value(char *destination, std::string_view value) {
 
 int hooked_system_property_get(const char *name, char *value) {
 #ifndef HYPERCEILER_HYOS_BACKEND
-    // HYOS maps its AOT libapp outside the ordinary linker callback path. The
-    // inherited property hook is the earliest reliable post-specialization signal.
-    start_motion_after_specialization();
-    if (g_hook_function != nullptr && is_launcher_process()) {
-        home_layout_prepare_for_launcher_child();
-        prime_home_layout_first_render(g_hook_function,g_unhook_function);
-        start_home_layout_hooks("property", g_hook_function, g_unhook_function);
-        // The specialization signal means this is the forked desktop itself, not the spawner that
-        // merely shares its cmdline: state inherited across the fork is poison, drop it first.
-        home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
-        home_layout_engine::StartHomeLayoutEngine();
+    // Impeller/gralloc also read properties on raster/background threads. Even
+    // a single cold fallback can read maps/APKs, allocate or install a backend
+    // there while the platform thread waits for a surface. Only the platform
+    // main thread may use the property startup signal. native_init, setprogname
+    // and genuine loader callbacks retain their own earlier startup paths.
+    // Nested/background queries must still receive all scalar overrides below.
+    static thread_local bool preparing=false;
+    if(!preparing&&gettid()==getpid()) {
+        struct Preparing {
+            bool& flag;
+            explicit Preparing(bool& value):flag(value){flag=true;}
+            ~Preparing(){flag=false;}
+        } preparation(preparing);
+        // HYOS maps its AOT libapp outside the ordinary linker callback path.
+        // The inherited property hook supplies a post-specialization signal.
+        start_motion_after_specialization();
+        if (g_hook_function != nullptr && is_launcher_process()) {
+            home_layout_prepare_for_launcher_child();
+            prime_home_layout_first_render_from_property(g_hook_function,g_unhook_function);
+            start_home_layout_hooks("property", g_hook_function, g_unhook_function);
+            home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
+            home_layout_engine::StartHomeLayoutEngine();
+        }
     }
 #endif
     // A stalled Binder poll must not keep an old affirmative preference alive.
@@ -467,8 +481,9 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" [[gnu::visibility("default")]] [[gnu::used]]
 NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
     if (entries == nullptr || entries->hook_func == nullptr) return nullptr;
-    // A specialized Rust child retains /proc/self/exe=hyos_spawner. Its process
-    // identity is already Home; do not install the parent setprogname observer.
+    nhk::android_diagnostics::emit("module.native","Native 模块入口","NATIVE_INLINE","PROCESS_STARTED","MODULE_ENTRY","NATIVE_ENTRY","entry","native_init executed; Java injection and feature effect are separate evidence");
+    // A specialized Rust child retains /proc/self/exe=hyos_spawner. Distinguish
+    // its launcher identity from the parent before selecting startup behavior.
     const bool spawner = is_hyos_spawner_process() && !is_launcher_process();
     __android_log_print(ANDROID_LOG_INFO, kLogTag,
         "native v34 hook API version=%u unhook=%d hyosSpawner=%d launcher=%d",
@@ -488,7 +503,10 @@ NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
         home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
         home_layout_engine::StartHomeLayoutEngine();
     }
-    if (spawner) install_process_name_hook();
+    // Direct injection into an already-specialized launcher needs the same
+    // rename observer; otherwise identity caching stays disabled forever and
+    // every property query reads /proc/self/cmdline on the caller's thread.
+    if (spawner || is_launcher_process()) install_process_name_hook();
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     // In the normal path the spawner does not contain libapp.so. Starting here
     // would spend the entire retry budget before a launcher child is forked.

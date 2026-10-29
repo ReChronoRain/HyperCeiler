@@ -20,6 +20,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/home_recent"
     app:quick_restart="com.miui.home">
+    <PreferenceCategory android:key="home_recent_haptic_category" android:title="@string/home_recent_haptic_category">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_card_haptic"
+            android:title="@string/home_recent_card_haptic"
+            android:summary="@string/home_recent_card_haptic_summary" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_card_close_haptic"
+            android:title="@string/home_recent_card_close_haptic"
+            android:summary="@string/home_recent_card_close_haptic_summary" />
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_home_recent_card_haptic_type"
+            android:title="@string/home_recent_card_haptic_type"
+            app:entries="@array/home_recent_card_haptic_types"
+            app:entryValues="@array/home_recent_card_haptic_values" />
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_recent_card_haptic_strength"
+            android:title="@string/home_recent_card_haptic_strength"
+            android:summary="@string/home_recent_card_haptic_strength_summary"
+            app:defaultValue="50"
+            app:minValue="10"
+            app:maxValue="100"
+            app:stepValue="1"
+            app:format="%s%%"
+            app:showSeekBarValue="true" />
+    </PreferenceCategory>
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -71,7 +99,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_recent_modify_animation"
-            android:title="@string/home_recent_modify_animation" />
+            android:title="@string/home_recent_modify_animation"
+            android:summary="@string/home_recent_modify_animation_summary" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -125,7 +154,14 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_recent_remove_icon"
+            android:summary="@string/home_recent_remove_icon_summary"
             android:title="@string/home_recent_remove_icon" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_hide_text"
+            android:title="@string/home_recent_hide_text"
+            android:summary="@string/home_recent_hide_text_summary" />
 
         <SwitchPreference
             android:defaultValue="false"
