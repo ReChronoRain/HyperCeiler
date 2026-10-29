@@ -2520,6 +2520,17 @@ dock_title_model 1
 .globl hc_\family\()_\index\()_entry
 .p2align 4
 hc_\family\()_\index\()_entry:
+    .ifc \family,recentshaptic
+    adrp x16, hc_recents_haptic_gate
+    add x16, x16, :lo12:hc_recents_haptic_gate
+    ldar w16, [x16]
+    cbnz w16, 8f
+    adrp x16, hc_recentshaptic_originals
+    add x16, x16, :lo12:hc_recentshaptic_originals
+    ldr x16, [x16, #(\index * 8)]
+    br x16
+8:
+    .endif
     .ifc \family,customtitle
     adrp x16, hc_title_custom_enabled
     add x16, x16, :lo12:hc_title_custom_enabled
@@ -2651,6 +2662,16 @@ recent_entry 1, drawer
 recent_entry 0, prestart
 /* Uninstall dialog report eligibility: synchronous Dart bool return. */
 recent_entry 0, report
+/* Shortcut list predicate, before entering a managed Dart frame. */
+recent_entry 0, shortcuts
+recent_entry 0, recentshaptic
+recent_entry 1, recentshaptic
+recent_entry 2, recentshaptic
+recent_entry 3, recentshaptic
+recent_entry 4, recentshaptic
+recent_entry 5, recentshaptic
+recent_entry 6, recentshaptic
+
 recent_entry 0, customtitle
 recent_entry 1, customtitle
 recent_entry 0, infinite

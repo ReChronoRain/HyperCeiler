@@ -192,6 +192,34 @@
     },
     {
       "page": "home_recent",
+      "key": "prefs_key_home_recent_card_haptic",
+      "title": "@string/home_recent_card_haptic",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_card_close_haptic",
+      "title": "@string/home_recent_card_close_haptic",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_card_haptic_type",
+      "title": "@string/home_recent_card_haptic_type",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_card_haptic_strength",
+      "title": "@string/home_recent_card_haptic_strength",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
       "key": "prefs_key_home_recent_blur",
       "title": "背景模糊",
       "status": "ui_gate_unadapted",
@@ -236,7 +264,7 @@
       "page": "home_recent",
       "key": "prefs_key_home_recent_modify_animation",
       "title": "修改划卡动画",
-      "status": "ui_gate_unadapted",
+      "status": "declared_adapted_requires_evidence",
       "dependency": null
     },
     {
@@ -299,7 +327,14 @@
       "page": "home_recent",
       "key": "prefs_key_home_recent_remove_icon",
       "title": "隐藏图标",
-      "status": "ui_gate_unadapted",
+      "status": "declared_adapted_requires_evidence",
+      "dependency": null
+    },
+    {
+      "page": "home_recent",
+      "key": "prefs_key_home_recent_hide_text",
+      "title": "隐藏文本",
+      "status": "declared_adapted_requires_evidence",
       "dependency": null
     },
     {
@@ -502,7 +537,7 @@
       "page": "home_other_new",
       "key": "prefs_key_home_other_all_hide_app_activity",
       "title": "桌面快捷方式管理",
-      "status": "ui_gate_unadapted",
+      "status": "declared_adapted_requires_evidence",
       "dependency": null
     },
     {

@@ -34,6 +34,8 @@ extern "C" void hc_home_diagnostic_sample();
 #include "home_title_render.h"
 #include "home_report_feature_resolver.h"
 #include "home_report_render.h"
+#include "home_shortcut_management.h"
+#include "home_recents_haptic_runtime.h"
 #include "home_layout_knobs.h"
 #include "home_workspace_geometry.h"
 #include "home_grid_autofit.h"
@@ -140,6 +142,11 @@ void* hc_prestart_original=nullptr;
 void hc_prestart_0_entry();
 void hc_report_0_entry();
 void* hc_report_original=nullptr;
+void hc_shortcuts_0_entry();
+void* hc_shortcuts_original=nullptr;
+void* hc_recentshaptic_originals[7]{};
+void hc_recentshaptic_0_entry();void hc_recentshaptic_1_entry();void hc_recentshaptic_2_entry();
+void hc_recentshaptic_3_entry();void hc_recentshaptic_4_entry();void hc_recentshaptic_5_entry();void hc_recentshaptic_6_entry();
 void hc_prestart_body(home_layout::recent_render::Registers*,unsigned);
 void* hc_recent_originals[64]{};
 extern void* hc_recent_entries[64];
@@ -528,7 +535,9 @@ constexpr size_t kFolderPreviewReturnSlotBase = kReportSlot + 1;
 constexpr size_t kDockPositionSlotBase = kFolderPreviewReturnSlotBase + 3;
 constexpr size_t kInfiniteSlotBase = kDockPositionSlotBase + 2;
 constexpr size_t kCustomTitleDrawerSlot = kInfiniteSlotBase + 2;
-constexpr size_t kSlotCount = kCustomTitleDrawerSlot + 1;
+constexpr size_t kShortcutManagementSlot = kCustomTitleDrawerSlot + 1;
+constexpr size_t kRecentsHapticSlotBase = kShortcutManagementSlot + 1;
+constexpr size_t kSlotCount = kRecentsHapticSlotBase + 7;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -538,6 +547,11 @@ using HookFunction = int (*)(void *, void *, void **);
 using UnhookFunction = int (*)(void *);
 
 std::atomic_bool g_report_requested{false},g_report_ready{false};
+std::atomic_bool g_shortcuts_ready{false};
+std::shared_ptr<const home_layout::haptic::Plan> g_recents_haptic_routing;
+std::atomic_uint g_recents_haptic_bind_failure{0};
+std::atomic_uint g_shortcuts_bind_failure{0};
+std::atomic_uint64_t g_shortcuts_hits{0},g_shortcuts_applied{0};
 std::atomic_bool g_infinite_requested{false},g_infinite_ready{false};
 std::atomic_uint g_infinite_bind_failure{0};
 std::atomic_uint64_t g_infinite_hits{0},g_infinite_armed{0},g_infinite_applied{0};
@@ -689,12 +703,14 @@ void sync_title_config(const home_layout::Config &config) {
         __android_log_print(ANDROID_LOG_INFO,kTag,"dock icons horizontal margin delta=%d baseline=20 independent_workspace=1",dock_horizontal);
     if(g_drawer_search_requested.exchange(config.drawer_hide_search,std::memory_order_acq_rel)!=config.drawer_hide_search)
         __android_log_print(ANDROID_LOG_INFO,kTag,"drawer search request hidden=%d",config.drawer_hide_search);
+    auto recent=config.recent;
+    recent.values[home_layout::RecentConfig::DismissAnimation]=(config.policies&home_layout::kDismissAnimationPolicy)!=0;
     const auto previous_recent=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
-    if(!previous_recent||*previous_recent!=config.recent){
-        std::atomic_store_explicit(&g_recent_config,std::make_shared<const home_layout::RecentConfig>(config.recent),std::memory_order_release);
-        const auto& v=config.recent.values;
-        __android_log_print(ANDROID_LOG_INFO,kTag,"recents request corner=%d header=%d inset=%d animation=%d height=%d scales=%d/%d/%d text=%d color=%#x freeform=%#x hide_icon=%d hide_text=%d",
-            v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],uint32_t(v[9]),uint32_t(v[10]),v[11],v[12]);
+    if(!previous_recent||*previous_recent!=recent){
+        std::atomic_store_explicit(&g_recent_config,std::make_shared<const home_layout::RecentConfig>(recent),std::memory_order_release);
+        const auto& v=recent.values;
+        __android_log_print(ANDROID_LOG_INFO,kTag,"recents request corner=%d header=%d inset=%d animation=%d height=%d scales=%d/%d/%d text=%d color=%#x freeform=%#x hide_icon=%d hide_text=%d dismiss_translation=%d",
+            v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],uint32_t(v[9]),uint32_t(v[10]),v[11],v[12],v[13]);
     }
     if(g_dock_title_requested.exchange(config.dock_show_title, std::memory_order_acq_rel) != config.dock_show_title)
         __android_log_print(ANDROID_LOG_INFO,kTag,"dock title request enabled=%d",config.dock_show_title);
@@ -1348,6 +1364,8 @@ struct DartLibrary {
 std::optional<DartLibrary> g_dart;
 struct RuntimeFeatures {
     std::optional<home_layout::features::ReportFeature> report;
+    std::optional<home_layout::features::shortcuts::Plan> shortcuts;
+    std::optional<home_layout::haptic::Plan> recents_haptic;
     std::optional<home_layout::features::drawer::Plan> drawer;
     std::optional<home_layout::features::prestart::Plan> prestart;
     std::optional<home_layout::features::RecentPlan> recent;
@@ -1446,13 +1464,15 @@ const char* diagnostic_feature(size_t slot) {
         if(site.action==Action::ScaleReturn)return "最近任务横向与纵向卡片缩放";
         static constexpr const char* names[]={"最近任务卡片圆角大小","最近任务卡片标题高度","最近任务卡片标题偏移",
             "最近任务卡片动画速度","最近任务卡片高度","最近任务横向竖屏卡片缩放","最近任务横向横屏卡片缩放",
-            "最近任务纵向卡片缩放","最近任务卡片文字大小","最近任务卡片文字颜色","最近任务小窗按钮背景颜色","最近任务隐藏图标","最近任务隐藏文本"};
+            "最近任务纵向卡片缩放","最近任务卡片文字大小","最近任务卡片文字颜色","最近任务小窗按钮背景颜色","最近任务隐藏图标","最近任务隐藏文本","最近任务划卡移除动画","最近任务上滑关闭卡片振动"};
         if(site.setting>=0&&size_t(site.setting)<std::size(names))return names[site.setting];
         return "最近任务卡片参数项目未知";
     }
     if(slot==kPrestartSlot)return "禁止应用预加载";
     if(slot>=kDrawerSearchSlot&&slot<kDrawerSearchSlot+2)return "隐藏抽屉搜索框";
     if(slot==kReportSlot)return "隐藏桌面信息上报提示";
+    if(slot==kShortcutManagementSlot)return "桌面快捷方式管理";
+    if(slot>=kRecentsHapticSlotBase&&slot<kRecentsHapticSlotBase+7)return "最近任务卡片滑动振动";
     if(slot>=kFolderPreviewReturnSlotBase&&slot<kFolderPreviewReturnSlotBase+3)return "大文件夹预览归位动画";
     return "用途未知的原生挂钩";
 }
@@ -1659,6 +1679,8 @@ bool ensure_runtime_features() {
     RuntimeFeatures found;
     found.drawer=home_layout::features::drawer::resolve(*code);
     found.report=home_layout::features::report_feature(*code);
+    found.shortcuts=home_layout::features::shortcuts::resolve(*code);
+    found.recents_haptic=home_layout::haptic::resolve(*code);
     found.prestart=home_layout::features::prestart::resolve(*code);
     const char* recent_failure=nullptr;
     found.recent=home_layout::features::recent::resolve(*code,&recent_failure);
@@ -4576,6 +4598,51 @@ bool bind_drawer_search() {
     return true;
 }
 
+bool bind_recents_haptic() {
+    if(g_slots[kRecentsHapticSlotBase].address)return true;
+    if(!hc_recents_haptic_scroll_enabled())return false;
+    const auto declined=[&](unsigned stage,const char* reason){
+        if(g_recents_haptic_bind_failure.exchange(stage,std::memory_order_relaxed)!=stage)
+            __android_log_print(ANDROID_LOG_WARN,kTag,"recents card haptic unavailable stage=%u reason=%s; original scroll retained",stage,reason);
+        return false;
+    };
+    if(!g_dart||!ensure_runtime_features())return declined(1,"executable inventory unavailable");
+    if(!g_runtime_features.recents_haptic)return declined(2,"notification/metrics/card-extent graph missing or ambiguous");
+    const auto& p=*g_runtime_features.recents_haptic;
+    const std::array<void*,7> entries={reinterpret_cast<void*>(hc_recentshaptic_0_entry),reinterpret_cast<void*>(hc_recentshaptic_1_entry),
+        reinterpret_cast<void*>(hc_recentshaptic_2_entry),reinterpret_cast<void*>(hc_recentshaptic_3_entry),reinterpret_cast<void*>(hc_recentshaptic_4_entry),
+        reinterpret_cast<void*>(hc_recentshaptic_5_entry),reinterpret_cast<void*>(hc_recentshaptic_6_entry)};
+    std::array<Slot,7> prepared{};
+    for(size_t i=0;i<prepared.size();++i){auto& slot=prepared[i];
+        if(!bind_dart_target(p.sites[i],slot.address,slot.source,slot.original_words))return declined(10+unsigned(i),"verified no-call window unavailable");
+        for(auto w:slot.original_words)if((w&0xfc000000u)==0x94000000u)return declined(20+unsigned(i),"managed call in replay window");
+        slot.replacement=entries[i];slot.original=&hc_recentshaptic_originals[i];
+    }
+    std::atomic_store_explicit(&g_recents_haptic_routing,std::make_shared<const home_layout::haptic::Plan>(p),std::memory_order_release);
+    for(size_t i=0;i<prepared.size();++i)g_slots[kRecentsHapticSlotBase+i]=prepared[i];
+    g_recents_haptic_bind_failure.store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"recents card haptic executable graph bound sites=7 notification_cids=%u/%u/%u; grid/linear/stack extents decoded, no fixed addresses or private symbols",p.start_cid,p.update_cid,p.end_cid);
+    return true;
+}
+
+bool bind_shortcut_management() {
+    if(g_slots[kShortcutManagementSlot].address)return true;
+    const auto declined=[&](unsigned stage,const char* reason){
+        if(g_shortcuts_bind_failure.exchange(stage,std::memory_order_relaxed)!=stage)
+            __android_log_print(ANDROID_LOG_WARN,kTag,"shortcut management unavailable stage=%u reason=%s; original retained",stage,reason);
+        return false;
+    };
+    if(!g_dart||!ensure_runtime_features())return declined(1,"executable inventory unavailable");
+    if(!g_runtime_features.shortcuts)return declined(2,"metadata/region/list-loader graph missing or ambiguous");
+    const auto& p=*g_runtime_features.shortcuts;Slot slot;
+    if(!bind_dart_target(p.entry,slot.address,slot.source,slot.original_words))return declined(3,"verified entry could not be bound");
+    for(auto word:slot.original_words)if((word&0xfc000000u)==0x94000000u)return declined(4,"entry includes managed call");
+    slot.replacement=reinterpret_cast<void*>(hc_shortcuts_0_entry);slot.original=&hc_shortcuts_original;
+    g_slots[kShortcutManagementSlot]=slot;g_shortcuts_bind_failure.store(0,std::memory_order_relaxed);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"shortcut management executable graph bound entry=%#x metadata_filter=%#x loader=%#x; only management list eligibility changed, no private symbols",p.entry,p.eligibility,p.loader);
+    return true;
+}
+
 bool bind_report() {
     if(g_slots[kReportSlot].address)return true;
     if(!g_report_requested.load(std::memory_order_acquire))return false;
@@ -4651,7 +4718,7 @@ bool bind_prestart() {
 bool bind_recent() {
     if(g_slots[kRecentSlotBase].address)return true;
     const auto config=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
-    if(!config||!config->requested())return false;
+    if(!config||(!config->requested()&&!hc_recents_close_haptic_enabled()))return false;
     const auto declined=[&](unsigned stage,const char* why){
         if(g_recent_bind_failure.exchange(stage,std::memory_order_relaxed)!=stage)
             __android_log_print(ANDROID_LOG_WARN,kTag,"recents binding unavailable stage=%u reason=%s; stock retained",stage,why);
@@ -4661,6 +4728,10 @@ bool bind_recent() {
     if(!ensure_runtime_features())return declined(2,"executable inventory unavailable");
     if(!g_runtime_features.recent)return declined(3,"see recents executable-contract refusal");
     const auto& plan=*g_runtime_features.recent;
+    if(hc_recents_close_haptic_enabled()&&!plan.close_haptic)
+        __android_log_print(ANDROID_LOG_WARN,kTag,"close haptic manual vertical-drag graph unavailable; stock feedback retained");
+    if(config->values[home_layout::RecentConfig::DismissAnimation]&&!plan.dismiss)
+        __android_log_print(ANDROID_LOG_WARN,kTag,"recents dismiss animation graph unavailable; stock transform retained");
     if((config->values[home_layout::RecentConfig::HideIcon]&&!plan.hide_icon_ready)
         ||(config->values[home_layout::RecentConfig::HideText]&&!plan.hide_text_ready))
         __android_log_print(ANDROID_LOG_WARN,kTag,"recents header contract unavailable hide_icon_ready=%d hide_text_ready=%d; unsupported header paths retain stock, no retry loop",plan.hide_icon_ready,plan.hide_text_ready);
@@ -4679,13 +4750,16 @@ bool bind_recent() {
             __android_log_print(ANDROID_LOG_INFO,kTag,"recents header site=%zu va=%#x action=%u reg=%u text_object=%u compressed=%d text_data=%d text_tag=%#x empty_widget_pool=%#x empty_string_pool=%#x",
                 i,site.va,unsigned(site.action),site.reg,site.text_object,site.compressed_icon,plan.text_data,plan.text_tag,plan.empty_widget_pool,plan.empty_string_pool);
     }
-    __android_log_print(ANDROID_LOG_INFO,kTag,"recents runtime bank bound=%zu; settings=13 hide_icon_ready=%d hide_text_ready=%d corner_animation_ready=%d; no Dart slow allocation or displaced Dart BL",plan.sites.size(),plan.hide_icon_ready,plan.hide_text_ready,plan.corner_animation_ready);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"recents runtime bank bound=%zu; settings=15 dismiss_ready=%d hide_icon_ready=%d hide_text_ready=%d corner_animation_ready=%d; no Dart slow allocation or displaced Dart BL",plan.sites.size(),bool(plan.dismiss),plan.hide_icon_ready,plan.hide_text_ready,plan.corner_animation_ready);
     return true;
 }
 
 size_t arm_hooks(std::vector<size_t> &order) {
+    if(hc_recents_haptic_changed())g_aux_bind_retry.reset();
     if(g_aux_bind_retry.due(monotonic_ms())) {
         (void)bind_report();
+        (void)bind_shortcut_management();
+        (void)bind_recents_haptic();
         (void)bind_drawer_search();
         (void)bind_prestart();
         (void)bind_infinite_scroll();
@@ -4718,6 +4792,11 @@ size_t arm_hooks(std::vector<size_t> &order) {
         (void) bind_gadget_bridge();
     }
     size_t added = 0;
+    for(size_t i=kRecentsHapticSlotBase;i<kRecentsHapticSlotBase+7;++i)
+        if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
+    if(g_slots[kShortcutManagementSlot].address&&std::find(order.begin(),order.end(),kShortcutManagementSlot)==order.end()){
+        order.push_back(kShortcutManagementSlot);++added;
+    }
     if(g_slots[kReportSlot].address&&std::find(order.begin(),order.end(),kReportSlot)==order.end()){
         order.push_back(kReportSlot);++added;
     }
@@ -5037,9 +5116,14 @@ void publish_indicator_dot_delta() {
     if(recent){recent_ready=!recent->plan.sites.empty();
         for(size_t i=0;i<recent->plan.sites.size();++i)recent_ready&=nhk::slot_ready(g_slots[kRecentSlotBase+i])&&hc_recent_originals[i];}
     g_recent_ready.store(recent_ready,std::memory_order_release);
+    hc_recents_close_haptic_ready(recent_ready&&recent&&bool(recent->plan.close_haptic));
     g_drawer_search_ready.store(nhk::slot_ready(g_slots[kDrawerSearchSlot])&&nhk::slot_ready(g_slots[kDrawerSearchSlot+1])&&hc_drawer_originals[0]&&hc_drawer_originals[1],std::memory_order_release);
     g_prestart_ready.store(nhk::slot_ready(g_slots[kPrestartSlot])&&hc_prestart_original,std::memory_order_release);
     g_report_ready.store(nhk::slot_ready(g_slots[kReportSlot])&&hc_report_original,std::memory_order_release);
+    g_shortcuts_ready.store(nhk::slot_ready(g_slots[kShortcutManagementSlot])&&hc_shortcuts_original,std::memory_order_release);
+    bool haptic_ready=true;
+    for(size_t i=0;i<7;++i)haptic_ready&=nhk::slot_ready(g_slots[kRecentsHapticSlotBase+i])&&hc_recentshaptic_originals[i];
+    hc_recents_haptic_ready(haptic_ready);
     bool widget_ready=g_runtime_features.widget&& !g_runtime_features.widget->builders.empty();
     if(widget_ready)for(size_t i=0;i<g_runtime_features.widget->builders.size();++i)
         widget_ready&=nhk::slot_ready(g_slots[kWidgetScaleSlot+i])&&hc_widget_scale_originals[i];
@@ -5237,6 +5321,7 @@ void *worker(void *) {
         if (home_layout::query_config(config)) { queried = true; break; }
         delay_ms(100);
     }
+    hc_recents_haptic_refresh();
     if (queried) {
         sync_title_config(config);
         if(!config.dock_show_title)(void)sync_dock_titles(false);
@@ -5316,8 +5401,8 @@ void *worker(void *) {
     const bool any_tweak = config.tweaks.folder_enabled || config.tweaks.pad_enabled
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
         || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
-        || config.recent.requested() || config.drawer_hide_search || config.dock_horizontal!=0 || config.infinite_scroll
-        || hyperceiler_home_prestart_disabled()
+        || config.recent.requested() || (config.policies&home_layout::kDismissAnimationPolicy) || config.drawer_hide_search || config.dock_horizontal!=0 || config.infinite_scroll
+        || hyperceiler_home_prestart_disabled() || hc_recents_haptic_enabled()
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
         || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close || config.dock_show_title
@@ -5613,6 +5698,7 @@ void *worker(void *) {
         if(g_loader_priming.test_and_set(std::memory_order_acquire))continue;
         struct PassLease {~PassLease(){g_loader_priming.clear(std::memory_order_release);}} pass_lease;
         ++iterations;
+        hc_recents_haptic_refresh();
         /*
          * Probe readout: the passthrough stub records every call into these globals, and this is
          * where they get printed. The caller is reported as an image-relative address so it can be
@@ -5826,6 +5912,26 @@ void *worker(void *) {
                     static_cast<unsigned long long>(g_infinite_applied.load(std::memory_order_relaxed)),
                     home_layout::infinite_scroll::release_reason(trace.reason),trace.caller,trace.minimum,trace.maximum,trace.pixels,trace.viewport,trace.velocity);
             }
+            if(hc_recents_haptic_enabled()){
+                const auto haptic=hc_recents_haptic_counters();
+                __android_log_print(ANDROID_LOG_INFO,kTag,"recents card haptic runtime ready=%u samples=%llu queued=%llu delivered=%llu dropped=%llu",
+                    __atomic_load_n(&hc_recents_haptic_gate,__ATOMIC_ACQUIRE),
+                    static_cast<unsigned long long>(haptic.samples),static_cast<unsigned long long>(haptic.queued),
+                    static_cast<unsigned long long>(haptic.delivered),static_cast<unsigned long long>(haptic.dropped));
+                __android_log_print(ANDROID_LOG_INFO,kTag,"recents close haptic active=%d queued=%llu delivered=%llu dropped=%llu",hc_recents_close_haptic_active(),
+                    static_cast<unsigned long long>(haptic.close_queued),static_cast<unsigned long long>(haptic.close_delivered),static_cast<unsigned long long>(haptic.close_dropped));
+                for(size_t i=0;i<haptic.lanes.size();++i){const auto& lane=haptic.lanes[i];
+                    if(lane.starts||lane.updates||lane.ends||lane.programmatic||lane.extents)
+                        __android_log_print(ANDROID_LOG_INFO,kTag,"recents card haptic lane=%zu start=%llu update=%llu end=%llu programmatic=%llu extents=%llu pixels=%.3f stride=%.3f",
+                            i,static_cast<unsigned long long>(lane.starts),static_cast<unsigned long long>(lane.updates),static_cast<unsigned long long>(lane.ends),
+                            static_cast<unsigned long long>(lane.programmatic),static_cast<unsigned long long>(lane.extents),lane.pixels,lane.extent);
+                }
+            }
+            if(g_slots[kShortcutManagementSlot].address||g_shortcuts_bind_failure.load(std::memory_order_relaxed))
+                __android_log_print(ANDROID_LOG_INFO,kTag,"shortcut management runtime ready=%d hits=%llu applied=%llu",
+                    g_shortcuts_ready.load(std::memory_order_acquire),
+                    static_cast<unsigned long long>(g_shortcuts_hits.load(std::memory_order_relaxed)),
+                    static_cast<unsigned long long>(g_shortcuts_applied.load(std::memory_order_relaxed)));
             if(g_report_requested.load(std::memory_order_acquire)||g_report_hits.load(std::memory_order_relaxed))
                 __android_log_print(ANDROID_LOG_INFO,kTag,"report hiding runtime requested=%d ready=%d hits=%llu applied=%llu",
                     g_report_requested.load(std::memory_order_acquire),g_report_ready.load(std::memory_order_acquire),
@@ -6421,6 +6527,10 @@ extern "C" void hc_home_diagnostic_sample() {
     nhk::android_diagnostics::counter("home.folder.preview_return","文件夹预览归位",__atomic_load_n(&hc_folder_preview_return_hits,__ATOMIC_RELAXED),__atomic_load_n(&hc_folder_preview_return_hits,__ATOMIC_RELAXED));
     nhk::android_diagnostics::counter("home.drawer.search","隐藏抽屉搜索框",g_drawer_hits.load(std::memory_order_relaxed),g_drawer_applied.load(std::memory_order_relaxed));
     nhk::android_diagnostics::counter("home.infinite_scroll","桌面无限滚动",g_infinite_hits.load(std::memory_order_relaxed),g_infinite_applied.load(std::memory_order_relaxed));
+    const auto haptic=hc_recents_haptic_counters();
+    nhk::android_diagnostics::counter("home.recents.haptic","最近任务卡片滑动振动",haptic.samples,haptic.delivered);
+    nhk::android_diagnostics::counter("home.recents.close_haptic","最近任务上滑关闭卡片振动",haptic.close_queued,haptic.close_delivered);
+    nhk::android_diagnostics::counter("home.shortcuts","桌面快捷方式管理",g_shortcuts_hits.load(std::memory_order_relaxed),g_shortcuts_applied.load(std::memory_order_relaxed));
     nhk::android_diagnostics::counter("home.prestart","禁止应用预加载",g_prestart_hits.load(std::memory_order_relaxed),g_prestart_blocked.load(std::memory_order_relaxed));
 }
 
@@ -6433,6 +6543,27 @@ extern "C" void hc_drawer_body(home_layout::recent_render::Registers* saved,unsi
         ?home_layout::drawer_render::apply(*saved,ready,hidden,original,g_drawer_child_frame.load(std::memory_order_acquire))
         :home_layout::drawer_render::finder(*saved,ready,hidden,original,g_drawer_blank_factory.load(std::memory_order_acquire));
     if(applied)g_drawer_applied.fetch_add(1,std::memory_order_relaxed);
+}
+
+extern "C" void hc_recentshaptic_body(home_layout::recent_render::Registers* saved,unsigned action) {
+    if(!saved||action>=7)return;
+    saved->branch=reinterpret_cast<uintptr_t>(hc_recentshaptic_originals[action]);
+    if(!__atomic_load_n(&hc_recents_haptic_gate,__ATOMIC_ACQUIRE))return;
+    const auto plan=std::atomic_load_explicit(&g_recents_haptic_routing,std::memory_order_acquire);
+    if(!plan)return;
+    // All reads are of this synchronous callback's borrowed Dart arguments and
+    // the exact fields its original consumer reads. No managed call/GC occurs,
+    // and no pointer survives this callback. No maps, syscalls or Binder reads.
+    const auto read=[](uintptr_t at,void* out,size_t size){if(!at||at>UINTPTR_MAX-size)return false;
+        std::memcpy(out,reinterpret_cast<const void*>(at),size);return true;};
+    hc_recents_haptic_observe(home_layout::haptic::observe(*saved,*plan,action,read));
+}
+
+extern "C" void hc_shortcuts_body(home_layout::recent_render::Registers* saved,unsigned) {
+    if(!saved)return;
+    g_shortcuts_hits.fetch_add(1,std::memory_order_relaxed);
+    if(home_layout::features::shortcuts::apply(*saved,g_shortcuts_ready.load(std::memory_order_acquire),
+        reinterpret_cast<uintptr_t>(hc_shortcuts_original)))g_shortcuts_applied.fetch_add(1,std::memory_order_relaxed);
 }
 
 extern "C" void hc_report_body(home_layout::recent_render::Registers* saved,unsigned) {
@@ -6485,6 +6616,16 @@ extern "C" void hc_recent_body(home_layout::recent_render::Registers* saved,unsi
     const auto config=std::atomic_load_explicit(&g_recent_config,std::memory_order_acquire);
     if(!routing||!config||index>=routing->plan.sites.size())return;
     g_recent_hits[index].fetch_add(1,std::memory_order_relaxed);
+    using Action=home_layout::features::recent::Action;
+    const auto action=routing->plan.sites[index].action;
+    if(action==Action::CloseHaptic||action==Action::CloseStockHaptic){
+        if(hc_recents_close_haptic_active()&&routing->plan.close_haptic){
+            if(action==Action::CloseHaptic)hc_recents_close_haptic_commit();
+            else saved->branch=routing->base+routing->plan.close_haptic->after_stock;
+            g_recent_applied[index].fetch_add(1,std::memory_order_relaxed);
+        }
+        return;
+    }
     const auto result=home_layout::recent_render::apply(routing->plan,routing->plan.sites[index],*saved,*config,routing->base);
     using Result=home_layout::recent_render::Result;
     if(result==Result::Applied)g_recent_applied[index].fetch_add(1,std::memory_order_relaxed);
@@ -6972,6 +7113,15 @@ bool adopt_layout_state() {
     g_report_bind_failure.store(0,std::memory_order_relaxed);
     g_report_hits.store(0,std::memory_order_relaxed);g_report_applied.store(0,std::memory_order_relaxed);
     hc_report_original=nullptr;
+    g_shortcuts_ready.store(false,std::memory_order_release);
+    g_shortcuts_bind_failure.store(0,std::memory_order_relaxed);
+    g_shortcuts_hits.store(0,std::memory_order_relaxed);g_shortcuts_applied.store(0,std::memory_order_relaxed);
+    hc_shortcuts_original=nullptr;
+    hc_recents_haptic_ready(false);
+    hc_recents_close_haptic_ready(false);
+    g_recents_haptic_bind_failure.store(0,std::memory_order_relaxed);
+    std::atomic_store_explicit(&g_recents_haptic_routing,std::shared_ptr<const home_layout::haptic::Plan>{},std::memory_order_release);
+    for(auto& original:hc_recentshaptic_originals)original=nullptr;
     g_prestart_ready.store(false,std::memory_order_release);
     g_prestart_bind_failure.store(0,std::memory_order_relaxed);
     g_prestart_hits.store(0,std::memory_order_relaxed);g_prestart_blocked.store(0,std::memory_order_relaxed);

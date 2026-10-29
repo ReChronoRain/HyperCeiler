@@ -581,6 +581,15 @@ class HomeDockWindow : BaseHook() {
                             param.result = true
                             return@createBeforeHook
                         }
+                        if (code == com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeRecentsHapticEndpointOS4.TRANSACTION ||
+                            code == com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeRecentsHapticEndpointOS4.TRANSACTION_V2) {
+                            val reply = param.args[2] as? Parcel ?: return@createBeforeHook
+                            com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeRecentsHapticEndpointOS4.receive(
+                                param.args[1] as Parcel, reply, param.args[3] as Int,
+                                code == com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeRecentsHapticEndpointOS4.TRANSACTION_V2)
+                            param.result = true
+                            return@createBeforeHook
+                        }
                         if (code == com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchOS4.TRANSACTION) {
                             val reply = param.args[2] as? Parcel ?: return@createBeforeHook
                             com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchOS4.receive(

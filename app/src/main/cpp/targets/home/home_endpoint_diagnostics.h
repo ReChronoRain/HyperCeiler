@@ -4,7 +4,7 @@
 namespace home_layout {
 constexpr int32_t kEndpointDiagnosticsMagic=0x48434431;
 constexpr int32_t kEndpointDiagnosticsSchema=1;
-constexpr int32_t kEndpointRevision=20261027;
+constexpr int32_t kEndpointRevision=20261028;
 constexpr int32_t kIndependentScalesCapability=1;
 constexpr int32_t kDockTitleCapability=2;
 constexpr int32_t kRecentLayoutCapability=4;

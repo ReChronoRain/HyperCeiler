@@ -1,0 +1,256 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+#pragma once
+#include "home_feature_code.h"
+#include "home_dynamic_layout.h"
+#include <optional>
+
+namespace home_layout::haptic {
+struct Plan {
+    std::array<uint32_t,7> sites{}; // Four scoped notifications, grid/list/stack extent sources.
+    uint32_t begin=0,end=0,start_cid=0,update_cid=0,end_cid=0,double_cid=0;
+    uint32_t item=0,single=0,padding=0,inverse=0,start_producer=0,start_factory=0;
+    int32_t depth=0,metrics=0,pixels=0,payload=0,axis=0,spacing=0,stack_extent=0,drag_details=0;
+    uint32_t horizontal_pool=0;
+};
+namespace shapes {
+// ARM64 Dart code-generator/register and local branch contracts. Every image
+// address, pool/static displacement, field, stack slot and class ID is decoded.
+// A matched instruction shape alone is insufficient: resolve proves the linked
+// notification, metrics, layout calculator and inverse-index relationships.
+inline uint32_t mask(uint32_t w) {
+    if((w&0xfc000000u)==0x94000000u)return 0xfc000000u;
+    if((w&0x3b200c00u)==0x38000000u)return 0xffe00fffu;
+    if((w&0x3b000000u)==0x39000000u)return 0xffc003ffu;
+    if((w&0xffc003e0u)==0x91400360u||(w&0xffc003e0u)==0x91400340u)return 0xffc003ffu;
+    if((w&0xffc003ffu)==0xd10001efu||(w&0xffc003ffu)==0xd100001eu)return 0xffc003ffu;
+    if((w&0xff800000u)==0xd2800000u||(w&0xff800000u)==0xf2800000u
+        ||(w&0xff800000u)==0x92800000u)return 0xffe0001fu;
+    return 0xffffffffu;
+}
+template<size_t N> bool matches(const home_dynamic::Body& b,const uint32_t (&shape)[N]) {
+    if(b.size()!=N)return false;
+    for(size_t i=0;i<N;++i)if((b[i]&mask(b[i]))!=shape[i])return false;
+    for(auto w:b)if((w&0x3b200c00u)==0x38000000u){
+        const auto off=home_dynamic::imm9(w);const auto base=home_dynamic::rn(w);
+        if(base==29){if(!home_dynamic::frame_slot(b,off))return false;}
+        else if(base!=15&&off!=-1&&!home_dynamic::field(off))return false;
+    }
+    return true;
+}
+inline constexpr uint32_t start_producer[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xaa0103e2u,0xf80003a1u,0xb8400043u,0x8b1c8063u,0xf80003a3u,
+    0x6b16007fu,0x54000980u,0xf8400040u,0xd34c7c00u,0xaa0203e1u,0xd100001eu,0xf87e7abeu,0xd63f03c0u,
+    0xaa0003e2u,0xf84003a0u,0xf80003a2u,0xb8400001u,0x8b1c8021u,0xb8400020u,0x8b1c8000u,0xaa0003e1u,
+    0x94000000u,0xaa0003e1u,0xf84003a0u,0xf80003a1u,0xf8400002u,0xd34c7c42u,0x92800011u,0x8b110050u,
+    0xf100061fu,0x540000a9u,0x92800011u,0x8b110050u,0xf100061fu,0x54000188u,0xf84003a0u,0x94000000u,
+    0xf84003a3u,0xb8000003u,0xf84003a4u,0xb8000004u,0xf800001fu,0xaa0003e1u,0xaa0403e2u,0x94000000u,
+    0x14000021u,0xf84003a3u,0xaa0103e4u,0xb8400001u,0x8b1c8021u,0x6b16003fu,0x54000400u,0xb8400025u,
+    0x8b1c80a5u,0xaa0503e0u,0xf80003a5u,0xaa1603e2u,0xaa1603e1u,0xd2800004u,0x36000060u,0xf8400004u,
+    0xd34c7c84u,0xd2800011u,0xeb11009fu,0x54000080u,0xf9400368u,0xf9400363u,0x94000000u,0x94000000u,
+    0xaa0003e1u,0xf84003a0u,0xb8000020u,0xf84003a0u,0xb8000020u,0xf84003a2u,0xb8000022u,0xf800003fu,
+    0x94000000u,0xaa1603e0u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0x94000000u,0x94000000u,
+};
+inline constexpr uint32_t begin[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xb8400080u,0xb8400082u,0x8b1c8042u,0x91400370u,0xf9400210u,
+    0x6b10005fu,0x540000e1u,0xb8400082u,0x8b1c8042u,0x4b020003u,0x8b23cba0u,0xf9400000u,0x14000002u,
+    0x910082c0u,0xf80003a0u,0xb8400022u,0x8b1c8042u,0x372000a2u,0xaa1603e0u,0xaa1d03efu,0xa8c179fdu,
+    0xd65f03c0u,0x910082c3u,0xb8000023u,0xb8000020u,0xb8400022u,0x8b1c8042u,0xaa0203e1u,0xf9400362u,
+    0x94000000u,0xf84003a0u,0x37200100u,0x910082c1u,0xd2800002u,0xf9400364u,0x94000000u,0xd2800001u,
+    0xf9400364u,0x94000000u,0xaa1603e0u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,
+};
+inline constexpr uint32_t end[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xaa0103e0u,0xf80003a1u,0xb8400001u,0x8b1c8021u,0x362000a1u,
+    0xaa1603e0u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0x9100c2c2u,0xb8000002u,0xb8400001u,0x8b1c8021u,
+    0x94000000u,0xf84003a0u,0xb8400001u,0x8b1c8021u,0x37200121u,0x9100c2c1u,0xb8000001u,0xd2800002u,
+    0xf9400364u,0x94000000u,0xd2800001u,0xf9400364u,0x94000000u,0xaa1603e0u,0xaa1d03efu,0xa8c179fdu,
+    0xd65f03c0u,
+};
+inline constexpr uint32_t phone[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xf80003a1u,0xf80003a2u,0xf8400040u,0xb40000a0u,0x9100c2c0u,
+    0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000061u,
+    0xf9400362u,0x94000000u,0x91400370u,0xf9400210u,0xf90001f0u,0xf9400364u,0x94000000u,0xaa0003e1u,
+    0xf84003a0u,0xf80003a1u,0xf8400002u,0xd34c7c42u,0xf80003a2u,0xd2800011u,0xeb11005fu,0x54000181u,
+    0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000081u,0x91400362u,0xf9400042u,0x94000000u,
+    0xaa0003e1u,0xf9400364u,0x94000000u,0xf84003a0u,0xd2800011u,0xeb11001fu,0x54000161u,0xf9400340u,
+    0xf9400000u,0xf9400370u,0x6b10001fu,0x54000081u,0x91400362u,0xf9400042u,0x94000000u,0xaa0003e1u,
+    0x94000000u,0xf84003a0u,0xd2800011u,0xeb11001fu,0x54000ec1u,0xf84003a0u,0xf84003a2u,0xb8400001u,
+    0x8b1c8021u,0xb8400020u,0x8b1c8000u,0xf80003a0u,0x6b16001fu,0x54000e20u,0xaa0203e1u,0x94000000u,
+    0xf84003a0u,0xd2800011u,0xb8716801u,0x8b1c8021u,0xf84003a2u,0xfc400041u,0xfc0003a1u,0xfc400022u,
+    0x1e623823u,0xa9460743u,0x91004063u,0xeb03003fu,0x54000c69u,0xf9000343u,0xd1003c63u,0xd2800001u,
+    0xf2a00001u,0xf8000061u,0xfc000060u,0xa9460b41u,0x91004021u,0xeb01005fu,0x54000c49u,0xf9000341u,
+    0xd1003c21u,0xd2800002u,0xf2a00002u,0xf8000022u,0xfc000023u,0xf9400362u,0x94000000u,0xf80003a0u,
+    0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000061u,0xf9400362u,0x94000000u,0xb8400001u,
+    0x8b1c8021u,0x94000000u,0x372000e0u,0xf84003a0u,0xd2800011u,0xb8716801u,0x8b1c8021u,0xf84003a2u,
+    0x94000000u,0xf84003a0u,0xb8400001u,0x8b1c8021u,0x6b16003fu,0x540001a0u,0xb8400022u,0x8b1c8042u,
+    0xaa0203e1u,0x94000000u,0x6b16001fu,0x540000e0u,0xf84003a0u,0xd2800011u,0xb8716801u,0x8b1c8021u,
+    0xf84003a2u,0x94000000u,0xf84003a0u,0xfc4003a0u,0xb8400001u,0x8b1c8021u,0xf9400370u,0x6b10003fu,
+    0x540006e0u,0xfc400021u,0x1e614022u,0x1e602040u,0x5400024du,0xb8400001u,0x8b1c8021u,0x372001a1u,
+    0xb8400001u,0x8b1c8021u,0x36200101u,0xf84003a1u,0x9100c2c2u,0x94000000u,0x94000000u,0xf84003a0u,
+    0x910082c2u,0xb8000002u,0x9100c2c0u,0x14000010u,0x910082c2u,0x14000002u,0x910082c2u,0xb8400001u,
+    0x8b1c8021u,0x372000e1u,0xf84003a1u,0x94000000u,0xf84003a1u,0x9100c2c0u,0xb8000020u,0x14000004u,
+    0x9100c2c0u,0x14000002u,0x9100c2c0u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0x94000000u,0xadbf0de1u,
+    0x3c9f0de0u,0xf81f8de0u,0x94000000u,0xaa0003e3u,0xf84085e0u,0x3cc105e0u,0xacc10de1u,0x17ffff9bu,
+    0xadbf0de1u,0xa9bf0de0u,0x94000000u,0xaa0003e1u,0xa8c10de0u,0xacc10de1u,0x17ffff9eu,0x91400369u,
+    0xf9400129u,0x94000000u,
+};
+inline constexpr uint32_t pad[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xf80003a1u,0xf80003a2u,0xf8400040u,0xb40000a0u,0x9100c2c0u,
+    0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000061u,
+    0xf9400362u,0x94000000u,0x91400370u,0xf9400210u,0xf90001f0u,0xf9400364u,0x94000000u,0xf84003a2u,
+    0xf8400041u,0xd34c7c21u,0xd2800011u,0xeb11003fu,0x540001a1u,0xf9400340u,0xf9400000u,0xf9400370u,
+    0x6b10001fu,0x54000081u,0x91400362u,0xf9400042u,0x94000000u,0xaa0003e1u,0xf9400364u,0x94000000u,
+    0x14000015u,0xd2800011u,0xeb11003fu,0x54000181u,0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,
+    0x54000081u,0x91400362u,0xf9400042u,0x94000000u,0xaa0003e1u,0x94000000u,0x14000007u,0xd2800011u,
+    0xeb11003fu,0x54000081u,0xf84003a1u,0xaa0003e3u,0x94000000u,0x9100c2c0u,0xaa1d03efu,0xa8c179fdu,
+    0xd65f03c0u,
+};
+inline constexpr uint32_t linear[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xf8400040u,0xd34c7c00u,0xf80003a0u,0xd2800011u,0xeb11001fu,
+    0x540001e1u,0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000081u,0x91400362u,0xf9400042u,
+    0x94000000u,0x9100c2d0u,0xf90001f0u,0xaa0003e1u,0x91400364u,0xf9400084u,0x94000000u,0xf84003a0u,
+    0xd2800011u,0xeb11001fu,0x54000161u,0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000081u,
+    0x91400362u,0xf9400042u,0x94000000u,0xaa0003e1u,0x94000000u,0x9100c2c0u,0xaa1d03efu,0xa8c179fdu,
+    0xd65f03c0u,
+};
+inline constexpr uint32_t stack[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xf8400040u,0xd34c7c00u,0xf80003a0u,0xd2800011u,0xeb11001fu,
+    0x54000181u,0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000081u,0x91400362u,0xf9400042u,
+    0x94000000u,0xaa0003e1u,0xf9400364u,0x94000000u,0xf84003a0u,0xd2800011u,0xeb11001fu,0x54000161u,
+    0xf9400340u,0xf9400000u,0xf9400370u,0x6b10001fu,0x54000081u,0x91400362u,0xf9400042u,0x94000000u,
+    0xaa0003e1u,0x94000000u,0x9100c2c0u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,
+};
+inline constexpr uint32_t grid[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xf8400060u,0xb8400061u,0x8b1c8021u,0xb4000de0u,0x9ac00c44u,
+    0xb4000ea0u,0x9ac00c46u,0x9b0088c5u,0xeb1f00bfu,0x54000f4bu,0xf9400370u,0x6b10003fu,0x540005a1u,
+    0xb8400060u,0x8b1c8000u,0xb8400061u,0x8b1c8021u,0xd27c0022u,0x6b00005fu,0x54000201u,0xb8400060u,
+    0x8b1c8000u,0xfc400002u,0xfc400063u,0x1e633844u,0x91000481u,0x9e620022u,0x1e610843u,0x1e633882u,
+    0xfc400063u,0x9e620084u,0x1e630885u,0x1e653843u,0x4ea31c62u,0x1400000bu,0xb8400060u,0x8b1c8000u,
+    0xfc400002u,0xfc400063u,0x1e632844u,0xfc400062u,0x1e622823u,0x9e620082u,0x1e630845u,0x1e652882u,
+    0xfc400003u,0xfc400064u,0x1e642865u,0xfc400063u,0x1e632804u,0x9e6200a3u,0x1e640866u,0x1e6628a3u,
+    0x4ea31c7fu,0x4ea21c43u,0x4ebf1fe2u,0x14000028u,0xb8400060u,0x8b1c8000u,0x37200200u,0xb8400060u,
+    0x8b1c8000u,0xfc400002u,0xfc400063u,0x1e633844u,0x910004a1u,0x9e620022u,0x1e610843u,0x1e633882u,
+    0xfc400063u,0x9e6200a4u,0x1e630885u,0x1e653843u,0x4ea31c62u,0x1400000bu,0xb8400060u,0x8b1c8000u,
+    0xfc400002u,0xfc400063u,0x1e632844u,0xfc400062u,0x1e622823u,0x9e6200a2u,0x1e630845u,0x1e652882u,
+    0xfc400003u,0xfc400064u,0x1e642865u,0xfc400063u,0x1e632804u,0x9e620083u,0x1e640866u,0x1e6628a3u,
+    0x4ea31c7fu,0x4ea21c43u,0x4ebf1fe2u,0xfc0003a3u,0xfc0003a2u,0x1e612864u,0xfc0003a4u,0x1e602841u,
+    0xfc0003a1u,0x94000000u,0xfc4003a0u,0xfc000000u,0xfc4003a0u,0xfc000000u,0xfc4003a0u,0xfc000000u,
+    0xfc4003a0u,0xfc000000u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0xadbf05e0u,0xa9bf0de2u,0xa9bf05e0u,
+    0xf9400345u,0xd2800004u,0xf940035eu,0xd63f03c0u,0xd4200000u,0xadbf05e0u,0xa9bf11e3u,0xa9bf09e1u,
+    0xf81f8de0u,0xf9400345u,0xd2800004u,0xf940035eu,0xd63f03c0u,0xd4200000u,0xeb1f001fu,0xcb0000a6u,
+    0x8b0000a5u,0x9a85b0c5u,0x17ffff83u,
+};
+inline constexpr uint32_t item[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xaa0203e0u,0xaa0303e2u,0xb8400043u,0x8b1c8063u,0xfc400060u,0xfc400061u,
+    0x1e613802u,0xfc400060u,0xfc400061u,0x1e613803u,0xf8400043u,0xf100047fu,0x540000e1u,0x4ea31c60u,
+    0x4ea21c41u,0x94000000u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0x4ea31c60u,0x4ea21c41u,0xaa0203e3u,
+    0xaa0003e2u,0x94000000u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,
+};
+inline constexpr uint32_t single[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xb8400040u,0x8b1c8000u,0xfc400002u,0xfc400043u,0x1e632844u,
+    0xfc0003a4u,0xfc400002u,0xfc400043u,0x1e632845u,0xfc0003a5u,0x1e612882u,0xfc0003a2u,0x1e6028a1u,
+    0xfc0003a1u,0x94000000u,0xfc4003a0u,0xfc000000u,0xfc4003a0u,0xfc000000u,0xfc4003a0u,0xfc000000u,
+    0xfc4003a0u,0xfc000000u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,
+};
+inline constexpr uint32_t extent[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xaa0103e0u,0xf80003a1u,0xb8400001u,0x8b1c8021u,0xf9400370u,
+    0x6b10003fu,0x54000340u,0xb8400022u,0x8b1c8042u,0x93417c41u,0x36000042u,0xf8400041u,0xf100043fu,
+    0x54000061u,0x910082c2u,0x14000005u,0xf1000c3fu,0x910082d0u,0x9100c2d1u,0x9a910202u,0xaa0003e1u,
+    0x94000000u,0xf84003a1u,0xfc0003a0u,0x94000000u,0x1e601001u,0x1e610802u,0xfc4003a1u,0x1e622820u,
+    0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0x91400369u,0xf9400129u,0x94000000u,
+};
+inline constexpr uint32_t padding[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0xaa0103e0u,0xf80003a1u,0xb8400001u,0x8b1c8021u,0xf9400370u,
+    0x6b10003fu,0x54000600u,0x94000000u,0x362000a0u,0x1e63d000u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,
+    0xf84003a0u,0xb8400001u,0x8b1c8021u,0xb8400002u,0x8b1c8042u,0x6b16005fu,0x540004c0u,0x94000000u,
+    0xaa0003e1u,0xf84003a0u,0xf80003a1u,0xb8400002u,0x8b1c8042u,0xb8400040u,0x8b1c8000u,0x93417c02u,
+    0x36000040u,0xf8400002u,0xf100045fu,0x54000060u,0xf1000c5fu,0x54000081u,0x94000000u,0xaa0003e1u,
+    0x14000003u,0x94000000u,0xaa0003e1u,0xf84003a2u,0xf8400020u,0xd34c7c00u,0xd100001eu,0xf87e7abeu,
+    0xd63f03c0u,0xf84003a0u,0xfc400001u,0x1e610802u,0x1e601001u,0x1e611840u,0xaa1d03efu,0xa8c179fdu,
+    0xd65f03c0u,0x91400369u,0xf9400129u,0x94000000u,0x94000000u,
+};
+inline constexpr uint32_t index[]={
+    0xa9bf79fdu,0xaa0f03fdu,0xd10001efu,0x1e614001u,0xfc400020u,0x1e601822u,0x1e622040u,0x540005e6u,
+    0x9e700043u,0x935efc70u,0xeb83fe1fu,0x54000561u,0xd37ff863u,0xf80003a3u,0xb8400020u,0x8b1c8000u,
+    0xb8400004u,0x8b1c8084u,0xf80003a4u,0x6b16009fu,0x540005a0u,0xaa0403e0u,0xaa1603e2u,0xaa1603e1u,
+    0xf8400004u,0xd34c7c84u,0xd2800011u,0xeb11009fu,0x540000c0u,0x91400368u,0xf9400108u,0x91400363u,
+    0xf9400063u,0x94000000u,0xf84003a0u,0xb8400001u,0x8b1c8021u,0xf8400022u,0x937f7840u,0xeb80045fu,
+    0x54000060u,0x94000000u,0xf8000002u,0xf84003a1u,0xaa0003e3u,0xd2800002u,0x94000000u,0x93417c01u,
+    0x36000040u,0xf8400001u,0xaa0103e0u,0xaa1d03efu,0xa8c179fdu,0xd65f03c0u,0x3c9f0de2u,0xf81f8de1u,
+    0x1e604040u,0xd2800000u,0xf940037eu,0xf84003deu,0xd63f03c0u,0xaa0003e3u,0xf84085e1u,0x3cc105e2u,
+    0x17ffffcdu,0x94000000u,
+};
+inline constexpr uint32_t inverse[]={
+    0xcb0203e0u,0xfc400021u,0x9e620002u,0x1e610840u,0xd65f03c0u,
+};
+} // namespace shapes
+
+inline std::optional<Plan> resolve(const features::Code& code) {
+    using namespace home_dynamic;
+    const auto unique=[&](const auto& shape)->const features::Function* {
+        const features::Function* found=nullptr;
+        for(const auto& f:code.functions())if(shapes::matches(f.words,shape)){
+            if(found)return nullptr;found=&f;
+        }
+        return found;
+    };
+    const auto phone=unique(shapes::phone),pad=unique(shapes::pad),linear=unique(shapes::linear),stack=unique(shapes::stack);
+    const auto grid=unique(shapes::grid),item=unique(shapes::item),single=unique(shapes::single);
+    const auto extent=unique(shapes::extent),padding=unique(shapes::padding);
+    const auto index=unique(shapes::index),inverse=unique(shapes::inverse);
+    const auto start_producer=unique(shapes::start_producer);
+    if(!phone||!pad||!linear||!stack||!grid||!item||!single||!extent||!padding||!index||!inverse||!start_producer)return {};
+    const auto call=[](const features::Function& f,size_t i){uint32_t to=0;
+        return target(f.words[i],f.va+uint32_t(i*4),to)?to:0;};
+    Plan p;
+    p.sites={phone->va,pad->va,linear->va,stack->va,grid->va,extent->va+31*4,index->va};
+    p.begin=call(*phone,42);p.end=call(*phone,56);
+    Body begin,end;
+    if(!code.body(p.begin,begin)||!code.body(p.end,end)||!shapes::matches(begin,shapes::begin)||!shapes::matches(end,shapes::end)
+        ||imm9(begin[18])!=imm9(begin[26])||imm9(end[5])!=imm9(end[13])||imm9(begin[18])!=imm9(end[5]))return {};
+    if(!p.begin||!p.end||p.begin==p.end||call(*pad,39)!=p.begin||call(*pad,53)!=p.end
+        ||call(*linear,22)!=p.begin||call(*linear,36)!=p.end||call(*stack,19)!=p.begin||call(*stack,33)!=p.end
+        ||call(*item,25)!=grid->va||call(*item,17)!=single->va||call(*extent,27)!=padding->va)return {};
+    p.item=item->va;p.single=single->va;p.padding=padding->va;p.inverse=inverse->va;
+    const auto classes=[](const Body& b){std::vector<uint32_t> out;
+        for(size_t i=0;i+2<b.size();++i)if(movz(b[i],17)&&(b[i+1]&0xfffffc1fu)==0xeb11001fu
+            &&(b[i+2]&0xff00001fu)==0x54000001u)out.push_back(zimm(b[i]));
+        return out;
+    };
+    const auto ids=classes(phone->words);
+    if(ids.size()!=3||classes(pad->words)!=ids
+        ||classes(linear->words)!=std::vector<uint32_t>{ids[0],ids[1]}
+        ||classes(stack->words)!=std::vector<uint32_t>{ids[0],ids[1]}
+        ||ids[0]==ids[1]||ids[1]==ids[2]||ids[0]==ids[2])return {};
+    p.start_cid=ids[0];p.end_cid=ids[1];p.update_cid=ids[2];
+    const auto& b=phone->words;
+    p.depth=imm9(b[5]);p.metrics=imm9(b[63]);p.pixels=imm9(b[65]);p.payload=imm9(b[77]);
+    p.start_producer=start_producer->va;p.start_factory=call(*start_producer,39);
+    Body factory;uint32_t start_tag=0;
+    if(!p.start_factory||p.start_factory!=call(*start_producer,71)||!code.prefix(p.start_factory,3,factory)
+        ||!tag(factory,start_tag)||(factory[2]&0xfc000000u)!=0x14000000u||(start_tag>>12)!=p.start_cid)return {};
+    p.drag_details=imm9(start_producer->words[74]);
+    const uint32_t notification_size=((start_tag>>8)&15)*16;
+    if(!field(p.drag_details)||p.drag_details==p.metrics||p.drag_details==p.depth
+        ||uint32_t(p.drag_details+5)>notification_size||p.metrics!=imm9(start_producer->words[76])
+        ||p.depth!=imm9(start_producer->words[79]))return {};
+    // The notification's boxed pixel double is produced by the same verified
+    // Double allocator/store layout used twice by this actual consumer.
+    const uint32_t tag=zimm(b[87])|(zimm(b[88])<<16),other=zimm(b[97])|(zimm(b[98])<<16);
+    p.double_cid=tag>>12;
+    if(!tag||tag!=other||((tag>>8)&15)!=1||p.payload+9>16||p.payload!=imm9(b[90])||p.payload!=imm9(b[100])
+        ||p.depth!=imm9(pad->words[5])||!field(p.depth)||!field(p.metrics)||!field(p.pixels)||!field(p.payload))return {};
+    p.axis=imm9(grid->words[4]);p.horizontal_pool=uoff(grid->words[13]);p.spacing=imm9(grid->words[43]);
+    p.stack_extent=imm9(index->words[4]);
+    if(!field(p.axis)||!field(p.spacing)||!field(p.stack_extent)
+        ||p.spacing!=imm9(grid->words[32])||p.spacing!=imm9(grid->words[91])||p.stack_extent!=imm9(inverse->words[1])
+        ||!p.horizontal_pool)return {};
+    unsigned callers=0;
+    for(const auto& f:code.functions()){
+        unsigned edges=0;
+        for(size_t i=0;i<f.words.size();++i)edges+=call(f,i)==index->va;
+        if(edges){if(edges!=2||!frame_size(f.words))return {};if(++callers!=1)return {};}
+    }
+    if(callers!=1)return {};
+    return p;
+}
+} // namespace home_layout::haptic

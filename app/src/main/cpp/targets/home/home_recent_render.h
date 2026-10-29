@@ -77,6 +77,27 @@ inline Result apply(const Plan& p,const Site& site,Registers& r,const RecentConf
     const auto setting=site.setting;
     const auto selected=c.values[setting];
     const bool terminal=site.action==Action::ScaleReturn||site.action==Action::PoolReturn;
+    if(site.action==Action::DismissPlain||site.action==Action::DismissStack
+        ||site.action==Action::DismissScale||site.action==Action::DismissOpacity){
+        if(!selected||!p.dismiss)return result;
+        const auto& d=*p.dismiss;
+        if(site.action==Action::DismissScale){
+            // Translation/normalisation already consumed the original progress.
+            // This local's only remaining reader boxes Matrix4.scale's argument.
+            store<double>(r.x[29]+d.scale_frame,1);return Result::Applied;
+        }
+        if(site.action==Action::DismissOpacity){r.d(0,1);return Result::Applied;}
+        const auto object=r.x[1];if(object<4096||(object&7)!=1)return Result::WrongClass;
+        const double offset=site.action==Action::DismissStack?r.d(2):load<double>(r.x[29]+d.offset_frame);
+        if(!std::isfinite(offset)||offset>=0)return result;
+        // Preserve the exact system translation/friction, including the handoff
+        // to its release/cancel spring. Changing it or forcing another enum arm
+        // makes existing controller values jump between incompatible units.
+        store<double>(object+d.scale,1);
+        if(site.action==Action::DismissStack)r.d(1,1);
+        else r.d(0,1);
+        return Result::Applied;
+    }
     if(site.action==Action::IconChild){
         if(!selected||!p.hide_icon_ready)return result;
         const auto empty=load<uintptr_t>(r.x[27]+p.empty_widget_pool);
