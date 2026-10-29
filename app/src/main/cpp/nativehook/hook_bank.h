@@ -38,6 +38,7 @@
 #include "code_patch_write.h"
 #include "nhk_base.h"
 #include "resolver.h"
+#include "diagnostics.h"
 
 #include <array>
 #include <cstdint>
@@ -72,6 +73,8 @@ struct InlineSlot {
     bool cleanup_pending = false;
     bool continuation_pending = false;
     CodePatchJournal<kPatchWords> write_journal{};
+    const char* diagnostic_id=nullptr;
+    uint32_t diagnostic_code=UINT32_MAX; // Observation only; not a readiness or ownership gate.
 };
 
 template<size_t kPatchWords>
@@ -114,7 +117,17 @@ struct InlineHookHost {
         const SlotWords<kPatchWords>&) = nullptr;
     /** Settle writer-owned obligations BEFORE RX-only stable reads. Paired with write_slot. */
     bool (*settle_write)(InlineSlot<kPatchWords>&) = nullptr;
+    DiagnosticSink on_diagnostic=nullptr;
 };
+
+// Deduplicated transitions only; no callback-path database or memory scan.
+template<size_t N> inline void diagnose(InlineSlot<N>& slot,const InlineHookHost<N>& host,
+    DiagnosticCode code,const char* detail) noexcept {
+    if(!host.on_diagnostic||slot.diagnostic_code==static_cast<uint32_t>(code))return;
+    slot.diagnostic_code=static_cast<uint32_t>(code);
+    try {host.on_diagnostic({code,slot.address,slot.source.inode,slot.source.file_offset,detail,slot.diagnostic_id});}
+    catch(...) {} // Diagnostic consumers cannot change the hook transaction.
+}
 
 enum class SlotOperation { install, restore, disarm, rearm };
 
@@ -239,10 +252,13 @@ inline bool install_slot(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
     if (!host.hook_install || !slot.original || !slot.replacement) return false;
     SlotWords<N> before{};
     if (!host.read_slot(slot, before) || before != slot.original_words) {
+        diagnose(slot,host,DiagnosticCode::validation_failed,"Bound preimage changed; original safety gate retained");
         if (host.on_guard) host.on_guard({"motion hook refused; bound preimage changed", 0});
         return false;
     }
-    if (host.protect_range && !host.protect_range(slot.address, N * sizeof(uint32_t))) return false;
+    if (host.protect_range && !host.protect_range(slot.address, N * sizeof(uint32_t))) {
+        diagnose(slot,host,DiagnosticCode::protection_failed,"Page protection registration refused");return false;
+    }
     // The policy callback can fail/change the entry. Recheck before backend work.
     if (!host.read_slot(slot, before) || before != slot.original_words) return false;
     void *previous = *slot.original;
@@ -251,6 +267,7 @@ inline bool install_slot(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
     SlotWords<N> after{};
     const bool read = host.read_slot(slot, after);
     if (rc != 0) {
+        diagnose(slot,host,DiagnosticCode::install_failed,"Inline backend returned nonzero; original recovery retained");
         const bool output_changed = *slot.original != previous;
         if (!*slot.original) *slot.original = previous;
         // Failed callbacks may have touched words or out-parameters. Preserve an
@@ -279,6 +296,7 @@ inline bool install_slot(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
     slot.patch_words = after;
     slot.patch_known = true;
     if (!continuation_exists(slot)) {
+        diagnose(slot,host,DiagnosticCode::continuation_invalid,"Backend continuation is null");
         slot.cleanup_pending = true;
         const bool restored = recover_slot_cleanup(slot, host);
         if (host.on_guard) host.on_guard({restored
@@ -287,6 +305,7 @@ inline bool install_slot(InlineSlot<N> &slot, const InlineHookHost<N> &host) {
         return false;
     }
     slot.registered = true;
+    diagnose(slot,host,DiagnosticCode::installed,"Installed words read back and continuation present; execution/effect unverified");
     return true;
 }
 
@@ -303,7 +322,9 @@ inline bool restore_patch_words(InlineSlot<N> &slot, const InlineHookHost<N> &ho
     SlotWords<N> observed{};
     if (!host.read_slot(slot, observed)
         || (observed != slot.original_words && observed != slot.patch_words)) return false;
-    if (host.protect_range && !host.protect_range(slot.address, N * sizeof(uint32_t))) return false;
+    if (host.protect_range && !host.protect_range(slot.address, N * sizeof(uint32_t))) {
+        diagnose(slot,host,DiagnosticCode::protection_failed,"Page protection registration refused");return false;
+    }
     if (!host.read_slot(slot, observed)
         || (observed != slot.original_words && observed != slot.patch_words)) return false;
     if (observed != slot.patch_words || slot.write_pending) {
@@ -368,9 +389,11 @@ inline bool ensure_slots_live(std::array<InlineSlot<N>, T> &slots,
             if (!host.read_slot(slot, observed)) return false;
             if (slot_ready(slot) && observed == slot.patch_words) continue;
             if (observed != slot.original_words) {
+                diagnose(slot,host,DiagnosticCode::foreign_modification,"Unknown live words; not overwritten");
                 if (host.on_guard) host.on_guard({"motion hook foreign or unknown words; leaving untouched", index});
                 return false;
             }
+            diagnose(slot,host,DiagnosticCode::hook_lost,"Previously verified patch now equals original; existing re-arm policy decides recovery");
             slot.registered = false;
         }
         // A refilled file-backed page does not remove the backend's record.
@@ -380,9 +403,11 @@ inline bool ensure_slots_live(std::array<InlineSlot<N>, T> &slots,
         // continuation and restore ONLY the verified patch over its original.
         // A failed restore stays pending; it must never fall through to a new
         // backend installation with uncertain ownership.
+        const bool rearming=slot.patch_known;
         const bool live = slot.patch_known
             ? restore_patch_words(slot, host)
             : install_slot(slot, host);
+        if (live) diagnose(slot,host,rearming?DiagnosticCode::rearmed:DiagnosticCode::installed,"Existing bank verified installation/re-arm; execution/effect unverified");
         if (!live) {
             if (host.on_info) host.on_info({"motion hook not verified; channel stays down", index});
             return false;

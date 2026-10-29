@@ -1054,7 +1054,7 @@
     <string name="home_layout_home_title">主熒幕</string>
     <string name="home_layout_indicator_title">桌面搜尋</string>
     <string name="home_layout_indicator_margin_bottom_desc">調整桌面搜尋與熒幕底部的距離</string>
-    <string name="home_layout_hotseats_title">底欄</string>
+    <string name="home_layout_hotseats_title">底欄圖示</string>
     <string name="home_layout_searchbar_title">搜索框</string>
     <string name="home_layout_searchbar_width">寬度</string>
     <string name="home_layout_seek_points">頁面指示器</string>
@@ -1743,4 +1743,5 @@
     <string name="miui_package_installer_disable_cloud_check">阻斷雲端配置下發</string>
     <string name="miui_package_installer_disable_cloud_check_desc">攔截應用程式安裝時的雲端配置請求並偽造空響應，可提升載入速度並繞過離線環境下的安裝限制同彈窗</string>
     <string name="system_framework_bypass_force_mi_appstore_desc">避免無詢問直接跳轉小米應用程式商店，同時允許選擇第三方應用程式商店</string>
+    <string name="home_layout_hotseats_margin_horizontal_desc">調整底欄圖示的左右留白，數值越大圖示越靠近中間，重新啟動系統桌面後生效</string>
 </resources>

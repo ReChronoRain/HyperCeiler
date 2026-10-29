@@ -1,0 +1,4 @@
+<resources>
+    <string name="home_hook_diagnostics">Smart diagnostics</string>
+    <string name="home_hook_diagnostics_summary">Check the status and evidence for launcher features</string>
+</resources>
