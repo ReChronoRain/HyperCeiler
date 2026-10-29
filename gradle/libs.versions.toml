@@ -21,7 +21,7 @@ miuix = "1.0.13.0"
 # Xposed & Hooks
 xposed-api = "102.0.0"
 xposed-service = "102.0.0"
-dexkit = "2.2.0"
+dexkit = "2.3.0"
 ezhooktool = "1.3.0"
 hiddenapibypass = "6.1"
 

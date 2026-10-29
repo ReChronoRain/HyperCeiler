@@ -22,11 +22,13 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.cloudservice.CloudList;
+import com.sevtinge.hyperceiler.libhook.rules.cloudservice.RestoreGallerySync;
 
 @HookBase(targetPackage = "com.miui.cloudservice")
 public class CloudService extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new CloudList(), PrefsBridge.getBoolean("micloud_service_list"));
+        initHook(new RestoreGallerySync(), PrefsBridge.getStringAsInt("gallery_backup_server", 0) == 1);
     }
 }
