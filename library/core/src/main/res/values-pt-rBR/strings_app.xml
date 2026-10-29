@@ -853,6 +853,7 @@
     <string name="system_settings_novelty_haptic_title">Desbloquear nova versão da página de retorno tátil</string>
     <string name="system_settings_novelty_haptic_desc">Apenas para dispositivos com Sons e Retorno tátil - Página de retorno tátil</string>
     <string name="system_settings_unlock_google_header">Desbloquear entrada do Google</string>
+    <string name="system_settings_hide_xiaomi_account">Ocultar conta Xiaomi</string>
     <string name="system_settings_unlock_ui_mode">Desbloquear otimizações de layout dos apps</string>
     <string name="system_settings_usb_mode">Ocultar janela pop-up ao conectar-se ao USB</string>
     <string name="system_settings_usb_mode_choose">Configuração USB padrão</string>
