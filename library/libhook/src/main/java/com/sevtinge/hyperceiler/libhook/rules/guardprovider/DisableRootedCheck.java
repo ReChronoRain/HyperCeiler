@@ -26,6 +26,8 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 禁用环境检查（系统安全组件 / com.miui.guardprovider）。
@@ -38,11 +40,17 @@ import java.lang.reflect.Method;
  * 需要注意 AutoDensity 那处的检测结果保存在 {@code static final boolean}，
  * 反射写入会抛 {@code IllegalAccessException}，{@code <clinit>} 又不被反射暴露，
  * 因此这里不处理它。
+ * <p>
+ * 旧世代（3.0.x 及更早）仍是 {@code "/system/bin/"} 加一堆 boolean 检测方法的形态，
+ * 该锚点保留为新锚点落空后的回退，两条路径互斥。
  */
 public class DisableRootedCheck extends BaseHook {
 
-    /** 检测 Magisk 等 root 管理器是否已安装的方法。 */
+    /** 检测 Magisk 等 root 管理器是否已安装的方法（3.1.4 及以后）。 */
     private Method mRootManagerCheckMethod;
+
+    /** 旧世代：su / test-keys 等一组返回 boolean 的检测方法。 */
+    private List<Method> mLegacyCheckMethods = Collections.emptyList();
 
     @Override
     protected boolean useDexKit() {
@@ -58,7 +66,16 @@ public class DisableRootedCheck extends BaseHook {
             )).singleOrNull());
 
         if (mRootManagerCheckMethod == null) {
-            XposedLog.w(TAG, getPackageName(), "root manager check anchor is missing, skip");
+            // 旧世代回退：su 路径与 Build.TAGS 检测是独立的 boolean 方法。
+            mLegacyCheckMethods = optionalMemberList("RootCheckLegacy", bridge -> bridge.findMethod(FindMethod.create()
+                .matcher(MethodMatcher.create()
+                    .usingStrings("/system/bin/")
+                    .returnType(boolean.class)
+                )));
+        }
+
+        if (mRootManagerCheckMethod == null && mLegacyCheckMethods.isEmpty()) {
+            XposedLog.w(TAG, getPackageName(), "root check anchors are missing, skip");
             return false;
         }
         return true;
@@ -66,7 +83,14 @@ public class DisableRootedCheck extends BaseHook {
 
     @Override
     public void init() {
-        XposedLog.d(TAG, getPackageName(), "Hooking root manager check: " + mRootManagerCheckMethod);
-        hookMethod(mRootManagerCheckMethod, returnConstant(false));
+        if (mRootManagerCheckMethod != null) {
+            XposedLog.d(TAG, getPackageName(), "Hooking root manager check: " + mRootManagerCheckMethod);
+            hookMethod(mRootManagerCheckMethod, returnConstant(false));
+        }
+
+        for (Method method : mLegacyCheckMethods) {
+            XposedLog.d(TAG, getPackageName(), "Hooking legacy root check: " + method);
+            hookMethod(method, returnConstant(false));
+        }
     }
 }
