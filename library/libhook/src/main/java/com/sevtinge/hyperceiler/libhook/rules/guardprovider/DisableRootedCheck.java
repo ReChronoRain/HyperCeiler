@@ -101,8 +101,7 @@ public class DisableRootedCheck extends BaseHook {
                 continue;
             }
             try {
-                field.setAccessible(true);
-                field.setBoolean(null, false);
+                setStaticBooleanField(clazz, field.getName(), false);
                 XposedLog.d(TAG, getPackageName(), "Root flag neutralized: " + field.getName());
             } catch (Throwable t) {
                 XposedLog.w(TAG, getPackageName(), "Failed to neutralize root flag " + field.getName(), t);
