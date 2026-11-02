@@ -21,8 +21,11 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getFloatField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
@@ -40,6 +43,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 object StartCollpasedColumnPress {
+    private const val TAG = "StartCollpasedColumnPress"
+
+    /**
+     * 展开/收起触摸那个合成 lambda 的方法名。编译器给它的编号会随版本漂移：
+     * 音量插件在 OS3 上叫 lambda$processExpandTouch$1，在 OS4（4.0.0.44 / 4.0.5.0）
+     * 上叫 lambda$processExpandTouch$2。写死编号会让这条 hook 在其中一边找不到目标，
+     * 而 findMethod 找不到时抛异常，会被 loadClassLoaders 的 runCatching 整个吞掉，
+     * 连带本 loader 里后面的 hook 一起不生效。所以这里只按结构特征找：
+     * 名字前缀 lambda$processExpandTouch$ + 无参 + void 返回（三套固件实测均为唯一命中）。
+     */
+    private const val EXPAND_TOUCH_LAMBDA_PREFIX = "lambda\$processExpandTouch\$"
+
     fun initLoaderHook(classLoader: ClassLoader) {
         val miuiVolumeDialogView by lazy {
             loadClass("com.android.systemui.miui.volume.MiuiVolumeDialogView", classLoader)
@@ -93,9 +108,7 @@ object StartCollpasedColumnPress {
                     }
                 }
 
-        miuiVolumeDialogMotion.findMethod { name($$"lambda$processExpandTouch$1") }.createBeforeHook {
-                    it.thisObject.setObjectField("mIsExpandButton",true)
-                }
+        hookProcessExpandTouchLambda(miuiVolumeDialogMotion)
         miuiVolumeSeekBar.findMethod { name("onTouchEvent"); parameterTypes(MotionEvent::class.java) }.createAfterHook {
                 val mSeekBarOnclickListener = it.thisObject.getObjectField("mSeekBarOnclickListener")
                 val mSeekBarAnimListener = it.thisObject.getObjectField("mSeekBarAnimListener")!!
@@ -138,5 +151,35 @@ object StartCollpasedColumnPress {
                 }
             }
 
+    }
+
+    /**
+     * 按结构特征定位“展开/收起触摸”那个合成 lambda 并挂前置 hook。
+     * 编号在不同固件上会漂：OS3 = lambda$processExpandTouch$1，
+     * OS4（4.0.0.44 / 4.0.5.0）= lambda$processExpandTouch$2，
+     * 三套固件里“前缀 + 无参 + void”均为唯一命中。
+     */
+    private fun hookProcessExpandTouchLambda(hostClass: Class<*>?) {
+        if (hostClass == null) {
+            return
+        }
+        var hooked = 0
+        for (method in hostClass.declaredMethods) {
+            if (method.name.startsWith(EXPAND_TOUCH_LAMBDA_PREFIX)
+                && method.parameterTypes.isEmpty()
+                && method.returnType == Void.TYPE
+            ) {
+                BaseHook.hookMethod(method, object : IMethodHook {
+                    override fun before(param: HookParam) {
+                        val owner = param.thisObject ?: return
+                        BaseHook.setBooleanField(owner, "mIsExpandButton", true)
+                    }
+                })
+                hooked++
+            }
+        }
+        if (hooked == 0) {
+            XposedLog.d(TAG, "can't find processExpandTouch lambda in " + hostClass.name)
+        }
     }
 }
