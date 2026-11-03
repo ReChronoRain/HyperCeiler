@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include "nativehook/native_image.h"
 #include "nativehook/memory_read.h"
+#include "nativehook/code_word_write.h"
 
 static std::string mapsText;
 static std::map<uintptr_t,std::vector<std::byte>> headers;
@@ -63,8 +64,8 @@ int main(int argc,char**argv){
             <<" r-xp 0 01:01 123 "<<dir<<"/other-"<<std::dec<<i<<".apk\n";
         return out.str();
     };
-    hometweaks::Image image{};hometweaks::ImageDiscoveryDiagnostic diagnostic;
-    auto discover=[&]{return hometweaks::FindImageFromMappedApks("libapp.so",&image,&diagnostic);};
+    home_layout_engine::Image image{};home_layout_engine::ImageDiscoveryDiagnostic diagnostic;
+    auto discover=[&]{return home_layout_engine::FindImageFromMappedApks("libapp.so",&image,&diagnostic);};
     auto reset=[&]{fault=false;mapsText=rows(apk,base,false);image={};image.base=0x55;};
     reset();check(discover()&&image.base==base,"minimal verified image");
     reset();mapsText=rows(apk,base,true);
@@ -117,6 +118,24 @@ int main(int argc,char**argv){
     check(!discover()&&std::string(diagnostic.reason)=="maps-byte-budget","oversized map bytes rejected");
     std::istringstream tooLong(mapsText+"\n");
     check(nhk::parse_file_mappings(tooLong).empty(),"shared parser rejects oversized input");
+    // HyperOS 4 field case: once a padded ELF segment is split (our own inline hook on libc's
+    // __system_property_get does that), the kernel can report a zero-length padding row at the
+    // cut. It maps nothing and must not invalidate an otherwise complete inventory.
+    reset();mapsText="7000000000-7000000000 ---p 00000000 00:00 0                              [page size compat]\n"+mapsText;
+    check(discover()&&image.base==base,"zero-length page-size-compat row does not reject the snapshot");
+    reset();mapsText=rows(apk,base,true);
+    {
+        std::ostringstream cut;
+        cut<<std::hex<<base+2*page<<'-'<<base+2*page<<" ---p 00000000 00:00 0 [page size compat]\n";
+        mapsText.insert(mapsText.find('\n',mapsText.find('\n')+1)+1,cut.str());
+    }
+    check(discover()&&image.base==base&&image.segmentCount==3,"zero-length row between split code rows still coalesces");
+    readable.clear();
+    check(nhk::ParseReadableRanges(mapsText,base+2*page-16,32,readable)&&readable.size()==2,
+        "safe-read fallback spans a zero-length row");
+    nhk::CodePage code{};
+    check(nhk::ParseCodePage(mapsText,base+2*page,4,code)&&code.begin==base+2*page,
+        "code-page lookup ignores a zero-length row");
     reset();
     std::cout<<"HYOS_IMAGE_INVENTORY page="<<page<<" checks="<<count<<" failed="<<failed<<'\n';
     return failed?1:0;

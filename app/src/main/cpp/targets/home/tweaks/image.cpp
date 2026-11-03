@@ -52,9 +52,19 @@ bool MapSnapshot(std::vector<MapRow>& rows, ImageDiscoveryDiagnostic* diagnostic
         unsigned long long b=0,e=0,off=0,ino=0;unsigned maj=0,min=0;char perms[5]{};int at=0;
         if(sscanf(line.c_str(),"%llx-%llx %4s %llx %x:%x %llu %n",&b,&e,perms,&off,&maj,&min,&ino,&at)!=7
             ||at<=0||size_t(at)>line.size())return fail("maps-malformed");
-        if(b>=e||e>UINTPTR_MAX||strlen(perms)!=4
+        if(b>e||e>UINTPTR_MAX||strlen(perms)!=4
             ||(perms[0]!='r'&&perms[0]!='-')||(perms[1]!='w'&&perms[1]!='-')
             ||(perms[2]!='x'&&perms[2]!='-')||(perms[3]!='p'&&perms[3]!='s'))return fail("maps-permissions");
+        /*
+         * A zero-length row is legitimate kernel output, not corruption. Kernels with ELF
+         * page-size compatibility report segment padding as "[page size compat]" rows, and once
+         * a padded segment is split - e.g. our own inline hook on libc's __system_property_get
+         * changes the protection of one code page - the padding row at the cut can be
+         * `X-X ---p 00000000 00:00 0 [page size compat]`. It maps no bytes. Rejecting the whole
+         * snapshot for it made discovery fail forever ("maps-permissions"), which kept the
+         * monitor rescanning the image every 50 ms for the life of the launcher.
+         */
+        if(b==e)continue;
         std::string path=line.substr(size_t(at));
         if(path.empty()||path[0]!='/')continue;
         rows.push_back({{uintptr_t(b),uintptr_t(e),off,maj,min,ino,perms[2]=='x',perms[1]=='w',path},perms[0]=='r'});
