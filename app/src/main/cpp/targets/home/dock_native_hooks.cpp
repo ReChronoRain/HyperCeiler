@@ -1264,10 +1264,10 @@ struct RuntimeContainerProbe {
 };
 
 constexpr size_t kRuntimeContainerProbeLimit = 8;
-// Only ever touched with `hook_mutex` held: the guard install and maintenance
-// passes are both driven from the single maintenance worker. Probing an APK
-// reads its tail and central directory, so the answer is cached for the process
-// lifetime instead of once per pass.
+// Only ever touched with `madvise_guard_mutex` held: the dock maintenance
+// path and the layout-side check-and-register path both converge there before
+// touching this cache. Probing an APK reads its tail and central directory, so
+// the answer is cached for the process lifetime instead of once per pass.
 std::vector<RuntimeContainerProbe> runtime_container_probes;
 
 /** Stored `libhyper_os_flutter.so` entry of a container, probed at most once. */
