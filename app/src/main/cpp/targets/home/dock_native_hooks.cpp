@@ -88,15 +88,20 @@ extern std::atomic<uint64_t> dock_motion_active_callbacks;
 extern std::atomic<uint32_t> dock_motion_subscribed;
 }
 
+// Translation-unit boundary for the layout host. Registration and readiness
+// are one operation under the guard lock, so a concurrent guard maintenance
+// pass cannot revoke the guard between the check and the page registration.
+bool home_madvise_protect_range(uintptr_t address, size_t bytes);
+
 namespace {
 constexpr char kTag[] = "HyperCeiler.DockNative";
+// Defined after the maintenance loop; the loop calls it once per pass.
+void maybe_install_madvise_guard();
 constexpr size_t kTargetCount = 3;
 constexpr size_t kPatchBytes = 4 * sizeof(uint32_t);
 constexpr unsigned kInventorySettlingScans = 3;
 constexpr unsigned kScanCooldownChecks = 4;
 
-// Defined after the maintenance loop; the loop calls it once per pass.
-void maybe_install_madvise_guard();
 // Defined with the page-lifetime policy; used by the slot host as protect_range.
 bool protect_patch_range(uintptr_t address, size_t bytes);
 // Bounded retries for the page-lifetime guard before it reports unavailable.
@@ -1186,6 +1191,10 @@ bool maintain_dock_motion_hooks_impl(bool force) {
 //                      is kept published and no further install is attempted
 std::atomic<uint32_t> madvise_guard_state{0};
 std::atomic<uint32_t> madvise_guard_attempts{0};
+// The health and layout workers may both ask for protection. This mutex spans
+// that check and the protected-page table publication; without it, guard
+// maintenance could revoke state 1 after the check but before registration.
+std::mutex madvise_guard_mutex;
 // Published before the GOT slot can reach the replacement; the hook reads it
 // with acquire semantics. Never cleared while a replacement may still be
 // reachable - clearing it would turn the runtime's own madvise into a failure.
@@ -1424,15 +1433,7 @@ bool read_pointer_safely(uintptr_t slot, const void *&value) {
  * between must be registered, and a full table refuses the range.
  */
 bool protect_patch_range(uintptr_t address, size_t bytes) {
-    if (bytes == 0 || nhk::add_overflows(address, bytes)) return false;
-    const uint64_t page = host_page_size();
-    const uintptr_t first = static_cast<uintptr_t>(page_down(address));
-    const uintptr_t last = static_cast<uintptr_t>(page_down(address + bytes - 1));
-    for (uintptr_t current = first; current <= last; current += page) {
-        if (!nhk::add_protected_page(current)) return false;
-        if (current > UINTPTR_MAX - page) break; // Defensive: no wrap-around loop.
-    }
-    return true;
+    return home_madvise_protect_range(address, bytes);
 }
 
 /**
@@ -1610,7 +1611,7 @@ void report_guard_pending(const std::string &key, const std::string &detail) {
         "madvise guard pending: %s", detail.c_str());
 }
 
-void maybe_install_madvise_guard() {
+void maybe_install_madvise_guard_locked() {
     // The generation check walks /proc/self/maps, which is not free. The guard settles once and
     // is re-checked every ~40 passes (tens of seconds) instead of every fourth pass.
     static std::atomic<uint32_t> maintain_tick{0};
@@ -1645,7 +1646,7 @@ void maybe_install_madvise_guard() {
         const uint32_t attempt = madvise_guard_attempts.fetch_add(1) + 1;
         if (attempt >= kMadviseGuardMaxAttempts) {
             __android_log_print(ANDROID_LOG_WARN, kTag,
-                "madvise guard unavailable after %u attempts: %s (fail-open)",
+                "madvise guard unavailable after %u attempts: %s; protected hooks remain stock",
                 attempt, reason);
             madvise_guard_state.store(2U, std::memory_order_release);
         } else {
@@ -1860,6 +1861,11 @@ void maybe_install_madvise_guard() {
     madvise_guard_state.store(1U, std::memory_order_release);
 }
 
+void maybe_install_madvise_guard() {
+    std::lock_guard guard(madvise_guard_mutex);
+    maybe_install_madvise_guard_locked();
+}
+
 bool maintain_dock_motion_hooks(bool force) noexcept {
     try {
         const bool healthy = maintain_dock_motion_hooks_impl(force);
@@ -1910,16 +1916,16 @@ void *health_worker(void *) {
     unsigned unresolved = 0;
     unsigned startup_passes = 0;
     for (;;) {
+        // The page-lifetime policy must be settled before either the recents
+        // bank or a layout registration can publish a patch range. This remains
+        // independent of the glass preference.
+        maybe_install_madvise_guard();
         const auto recent_revision=home_recent_bar::maintenance_revision();
         // Independent of the glass preference, on the existing health worker.
         home_recent_bar::maintain(hook_function,unhook_function,protect_patch_range);
-        // Glass off skips motion discovery/repair. Independently registered
-        // layout code pages still require the existing lifetime guard.
+        // Glass off skips motion discovery/repair. The guard call above still
+        // covers independently registered layout code pages.
         if (!dock_motion_feature_active()) {
-            // Layout source-word patches also use this lifetime guard. Glass off
-            // must not leave their registered pages exposed to Flutter discard.
-            if (nhk::protected_page_count()->load(std::memory_order_acquire)>0)
-                maybe_install_madvise_guard();
             unresolved = 0;
             home_recent_bar::wait_for_maintenance(5000000000L,recent_revision);
             continue;
@@ -2033,4 +2039,22 @@ void start_dock_native_motion(Hook hook, Unhook unhook) {
         started.store(false, std::memory_order_release);
         __android_log_print(ANDROID_LOG_WARN, kTag, "motion worker unavailable");
     }
+}
+// Cross-translation-unit check-and-register operation used by the layout host.
+// The layout worker can reach its first protect_range before the dock health
+// worker gets a turn, so drive one installation pass here. Only state 1
+// authorizes registration; pending/unavailable/residual leave the patch stock.
+bool home_madvise_protect_range(uintptr_t address, size_t bytes) {
+    if (bytes == 0 || nhk::add_overflows(address, bytes)) return false;
+    std::lock_guard guard(madvise_guard_mutex);
+    maybe_install_madvise_guard_locked();
+    if (madvise_guard_state.load(std::memory_order_acquire) != 1U) return false;
+    const uint64_t page = host_page_size();
+    const uintptr_t first = static_cast<uintptr_t>(page_down(address));
+    const uintptr_t last = static_cast<uintptr_t>(page_down(address + bytes - 1));
+    for (uintptr_t current = first; current <= last; current += page) {
+        if (!nhk::add_protected_page(current)) return false;
+        if (current > UINTPTR_MAX - page) break; // Defensive: no wrap-around loop.
+    }
+    return true;
 }

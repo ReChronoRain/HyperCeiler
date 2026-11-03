@@ -96,6 +96,9 @@ void SetInLoaderCallback(bool value);
 #if defined(HYPERCEILER_DOCK_NATIVE_MOTION)
 bool refresh_dock_screen_state();
 bool dock_motion_screen_active();
+// The dock translation unit owns the madvise guard used by every launcher
+// code patch. It checks readiness and registers the range atomically.
+bool home_madvise_protect_range(uintptr_t address, size_t bytes);
 #endif
 
 #include <algorithm>
@@ -1232,15 +1235,15 @@ nhk::InlineHookHost<kPatchWords> &slot_host() {
         // existing guard must protect layout/title sites too, not only Dock.
         // Register before the backend exposes any branch; no extra idle polls.
         value.protect_range = [](uintptr_t address, size_t bytes) {
-            if (!bytes || nhk::add_overflows(address, bytes)) return false;
-            const uint64_t page = nhk::host_page_size();
-            const uintptr_t first = nhk::page_down(address);
-            const uintptr_t last = nhk::page_down(address + bytes - 1);
-            for (uintptr_t current = first; current <= last; current += page) {
-                if (!nhk::add_protected_page(current)) return false;
-                if (current > UINTPTR_MAX - page) break;
-            }
-            return true;
+#ifdef HYPERCEILER_DOCK_NATIVE_MOTION
+            // The dock health worker owns the madvise guard. Ask it to settle
+            // first; a pending/unavailable/residual guard must leave the
+            // layout patch stock rather than register an effective no-op page.
+            return home_madvise_protect_range(address, bytes);
+#else
+            (void)address; (void)bytes;
+            return false;
+#endif
         };
         value.on_diagnostic=[](const nhk::DiagnosticEvent& event){
             size_t index=0;for(;index<g_slots.size();++index)if(g_slots[index].address==event.address)break;
