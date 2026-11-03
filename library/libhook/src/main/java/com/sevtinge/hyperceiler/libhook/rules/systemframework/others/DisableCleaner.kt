@@ -78,8 +78,8 @@ object DisableCleaner : BaseHook() {
         methodName: String,
         callback: (HookParam) -> Unit
     ) {
-        // Class resolution stays inside the guard: loading a class can throw a
-        // linkage error (e.g. NoClassDefFoundError) rather than return null.
+        // findClassIfExists() returns null for missing or unlinkable classes;
+        // anything else it throws must not abort the remaining hooks either.
         try {
             val clazz = findClassIfExists(className)
             if (clazz == null) {
