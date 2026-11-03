@@ -174,6 +174,27 @@ public class RotationButton extends BaseHook {
         hookRotateSuggestionClick();
     }
 
+    /** 把方向建议改写成当前屏幕方向对应的值；拿不到上下文或方向未知就不动，交给原方法 */
+    private void applyForcedOrientation(HookParam param, @Nullable Object owner) {
+        if (owner == null) {
+            return;
+        }
+        Context lightContext = resolveContext(owner, "mLightContext");
+        if (lightContext == null) {
+            return;
+        }
+        int intValue = switch (getScreenOrientation(lightContext)) {
+            case 0 -> 1;
+            case 1 -> 0;
+            default -> -1;
+        };
+        if (intValue == -1) {
+            XposedLog.e(TAG, "Unknown parameters, unable to continue execution, execute the original method!");
+            return;
+        }
+        param.setResult(intValue);
+    }
+
     /**
      * 方向建议按钮的取值来自一个 lambda。编译器可能把它内联回宿主类（形如 lambda$new$N），
      * 也可能脱糖成独立的 $$ExternalSyntheticLambdaN 类，两种形态的编号都会随版本漂移，
@@ -183,86 +204,70 @@ public class RotationButton extends BaseHook {
         IMethodHook forceOrientation = new IMethodHook() {
             @Override
             public void before(HookParam param) {
+                if (enable) {
+                    applyForcedOrientation(param, param.getThisObject());
+                }
+            }
+        };
+        for (String candidate : NAV_BAR_VIEW_CANDIDATES) {
+            if (hookOrientationFrom(candidate, forceOrientation)) {
+                break;
+            }
+        }
+    }
+
+    /** 在单个候选类上依次试内联与脱糖两种形态，挂上了返回 true */
+    private boolean hookOrientationFrom(String candidate, IMethodHook forceOrientation) {
+        Class<?> viewClass = findClassIfExists(candidate);
+        if (viewClass == null) {
+            return false;
+        }
+        if (hookInlineOrientation(viewClass, forceOrientation)) {
+            return true;
+        }
+        // 形态二：脱糖成独立类。三条结构特征同时成立才算命中：
+        //   ① 实现 java.util.function.Supplier（接口是编译器写死的，最稳）
+        //   ② 有且只有一个无参 get()
+        //   ③ 捕获字段里有一个的类型正是宿主类本身
+        // 在 44 与 405 的 dexdump 上，NavigationBarView 的 4 个脱糖类里
+        // 只有 1 个满足（其余是 Consumer / Runnable），所以不存在挑错对象的可能。
+        DesugaredLambda supplier = findDesugaredLambda(viewClass,
+            java.util.function.Supplier.class, "get", new Class<?>[0]);
+        if (supplier == null) {
+            return false;
+        }
+        hookMethod(supplier.method, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
                 if (!enable) {
                     return;
                 }
-                Context lightContext = resolveContext(param.getThisObject(), "mLightContext");
-                if (lightContext == null) {
-                    return;
-                }
-                Integer intValue = switch (getScreenOrientation(lightContext)) {
-                    case 0 -> 1;
-                    case 1 -> 0;
-                    default -> -1;
-                };
-                if (intValue == -1) {
-                    XposedLog.e(TAG, "Unknown parameters, unable to continue execution, execute the original method!");
-                    return;
-                }
-                param.setResult(intValue);
+                applyForcedOrientation(param, getObjectField(param.getThisObject(), supplier.capturedField));
             }
-        };
+        });
+        return true;
+    }
 
-        // 形态一：lambda 仍留在宿主类里，特征是没有参数、返回 int 的合成方法
-        for (String candidate : NAV_BAR_VIEW_CANDIDATES) {
-            Class<?> viewClass = findClassIfExists(candidate);
-            if (viewClass == null) {
-                continue;
+    /**
+     * 形态一：lambda 仍留在宿主类里。特征是合成方法名带 lambda$ 前缀（不猜编号，避免误挂普通 getter），
+     * 无参数，返回 int。返回类型既可能是原始 int，也可能是装箱后的 Integer / Object，只认 int 会漏。
+     */
+    private boolean hookInlineOrientation(Class<?> viewClass, IMethodHook forceOrientation) {
+        boolean hooked = false;
+        for (Method method : viewClass.getDeclaredMethods()) {
+            if (isInlineOrientationSupplier(method)) {
+                hookMethod(method, forceOrientation);
+                hooked = true;
             }
-            boolean hooked = false;
-            for (Method method : viewClass.getDeclaredMethods()) {
-                // 内联形态下 lambda 的返回类型既可能是原始类型 int，也可能是装箱后的 Integer / Object，
-                // 只认 int 会漏，所以三种都收
-                Class<?> returnType = method.getReturnType();
-                if (method.getParameterTypes().length == 0
-                        && (returnType == int.class
-                            || returnType == Integer.class
-                            || returnType == Object.class)
-                        // 不猜编号：名字带 lambda$ 前缀才算内联 lambda，避免误挂普通 getter
-                        && method.getName().startsWith("lambda$")) {
-                    hookMethod(method, forceOrientation);
-                    hooked = true;
-                }
-            }
-            if (hooked) {
-                return;
-            }
-            // 形态二：脱糖成独立类。三条结构特征同时成立才算命中：
-            //   ① 实现 java.util.function.Supplier（接口是编译器写死的，最稳）
-            //   ② 有且只有一个无参 get()
-            //   ③ 捕获字段里有一个的类型正是宿主类本身
-            // 在 44 与 405 的 dexdump 上，NavigationBarView 的 4 个脱糖类里
-            // 只有 1 个满足（其余是 Consumer / Runnable），所以不存在挑错对象的可能。
-            DesugaredLambda supplier = findDesugaredLambda(viewClass,
-                java.util.function.Supplier.class, "get", new Class<?>[0]);
-            if (supplier == null) {
-                continue;
-            }
-            hookMethod(supplier.method, new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    Object owner = getObjectField(param.getThisObject(), supplier.capturedField);
-                    if (owner == null) {
-                        return;
-                    }
-                    Context lightContext = resolveContext(owner, "mLightContext");
-                    if (lightContext == null) {
-                        return;
-                    }
-                    Integer intValue = switch (getScreenOrientation(lightContext)) {
-                        case 0 -> 1;
-                        case 1 -> 0;
-                        default -> -1;
-                    };
-                    if (intValue == -1) {
-                        XposedLog.e(TAG, "Unknown parameters, unable to continue execution, execute the original method!");
-                        return;
-                    }
-                    param.setResult(intValue);
-                }
-            });
-            return;
         }
+        return hooked;
+    }
+
+    private static boolean isInlineOrientationSupplier(Method method) {
+        Class<?> returnType = method.getReturnType();
+        return method.getParameterTypes().length == 0
+                && (returnType == int.class || returnType == Integer.class || returnType == Object.class)
+                && method.getName().startsWith("lambda$");
     }
 
     /**
@@ -274,7 +279,6 @@ public class RotationButton extends BaseHook {
         if (controllerClass == null) {
             return;
         }
-
         IMethodHook afterClick = new IMethodHook() {
             @Override
             public void after(HookParam param) {
@@ -283,23 +287,35 @@ public class RotationButton extends BaseHook {
                 }
             }
         };
+        if (!hookInlineClickCallbacks(controllerClass, afterClick)) {
+            hookDesugaredClickCallback(controllerClass);
+        }
+    }
 
+    /** 真实方法形态：名字前缀加“首参是 View”两条就够，其余参数表各版本不一，不写死 */
+    private boolean hookInlineClickCallbacks(Class<?> controllerClass, IMethodHook afterClick) {
         boolean hooked = false;
         for (Method method : controllerClass.getDeclaredMethods()) {
-            if (method.getName().startsWith("onRotateSuggestionClick")
-                    && method.getParameterTypes().length > 0
-                    && method.getParameterTypes()[0] == View.class) {
+            if (isRotateSuggestionClick(method)) {
                 hookMethod(method, afterClick);
                 hooked = true;
             }
         }
-        if (hooked) {
-            return;
-        }
+        return hooked;
+    }
 
-        // 点进去时 R8 已经把 onRotateSuggestionClick 整个内联掉了（44 与 405 的 dexdump
-        // 里都没有这个方法名，只在脱糖类的日志字符串里留下 "RotationButtonController#onRotateSuggestionClick"），
-        // 所以真正要挂的是那个实现 View.OnClickListener、且捕获了控制器实例的类。
+    private static boolean isRotateSuggestionClick(Method method) {
+        return method.getName().startsWith("onRotateSuggestionClick")
+                && method.getParameterTypes().length > 0
+                && method.getParameterTypes()[0] == View.class;
+    }
+
+    /**
+     * 点进去时 R8 已经把 onRotateSuggestionClick 整个内联掉了（44 与 405 的 dexdump
+     * 里都没有这个方法名，只在脱糖类的日志字符串里留下 "RotationButtonController#onRotateSuggestionClick"），
+     * 所以真正要挂的是那个实现 View.OnClickListener、且捕获了控制器实例的类。
+     */
+    private void hookDesugaredClickCallback(Class<?> controllerClass) {
         DesugaredLambda click = findDesugaredLambda(controllerClass,
             View.OnClickListener.class, "onClick", new Class<?>[]{View.class});
         if (click == null) {
@@ -348,38 +364,65 @@ public class RotationButton extends BaseHook {
         DesugaredLambda matched = null;
         int hits = 0;
         for (int index = 0; index < MAX_LAMBDA_INDEX; index++) {
-            Class<?> lambdaClass;
-            try {
-                lambdaClass = Class.forName(ownerName + DESUGARED_PREFIX + index, false, classLoader);
-            } catch (Throwable ignored) {
-                continue;
-            }
-            if (functionalInterface != null && !functionalInterface.isAssignableFrom(lambdaClass)) {
-                continue;
-            }
-            Method target = null;
-            for (Method method : lambdaClass.getDeclaredMethods()) {
-                if (method.getName().equals(methodName)
-                        && Arrays.equals(method.getParameterTypes(), paramTypes)) {
-                    target = method;
+            DesugaredLambda candidate = matchDesugaredLambda(
+                ownerName + DESUGARED_PREFIX + index, ownerClass, classLoader,
+                functionalInterface, methodName, paramTypes);
+            if (candidate != null) {
+                hits++;
+                if (matched == null) {
+                    matched = candidate;
                 }
-            }
-            if (target == null) {
-                continue;
-            }
-            // 捕获字段不保证叫 f$0，按类型找出持有宿主实例的那个
-            String capturedFieldName = findCapturedField(lambdaClass, ownerClass);
-            if (capturedFieldName == null) {
-                continue;
-            }
-            hits++;
-            if (matched == null) {
-                matched = new DesugaredLambda(lambdaClass, target, capturedFieldName);
             }
         }
         if (matched != null && hits > 1) {
             XposedLog.w(TAG, "结构匹配到 " + hits + " 个脱糖类，取用 " + matched.clazz.getName()
                 + "（请复核这个版本上是否真有多个同形 lambda）");
+        }
+        return matched;
+    }
+
+    /** 单个编号的判定：四条结构特征全对上才算命中，否则按“这个编号不是目标”返回 null */
+    @Nullable
+    private DesugaredLambda matchDesugaredLambda(String lambdaName, Class<?> ownerClass, ClassLoader classLoader,
+                                                 @Nullable Class<?> functionalInterface,
+                                                 String methodName, Class<?>[] paramTypes) {
+        Class<?> lambdaClass = loadClassQuietly(lambdaName, classLoader);
+        if (lambdaClass == null) {
+            return null;
+        }
+        if (functionalInterface != null && !functionalInterface.isAssignableFrom(lambdaClass)) {
+            return null;
+        }
+        Method target = findMethodBySignature(lambdaClass, methodName, paramTypes);
+        if (target == null) {
+            return null;
+        }
+        String capturedFieldName = findCapturedField(lambdaClass, ownerClass);
+        if (capturedFieldName == null) {
+            return null;
+        }
+        return new DesugaredLambda(lambdaClass, target, capturedFieldName);
+    }
+
+    /** 绝大多数编号本来就不存在，取不到就当没有，不算错误 */
+    @Nullable
+    private static Class<?> loadClassQuietly(String className, ClassLoader classLoader) {
+        try {
+            return classLoader.loadClass(className);
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
+
+    /** 按方法名加完整参数表比对，不认编号也不认参数个数的先后 */
+    @Nullable
+    private static Method findMethodBySignature(Class<?> clazz, String methodName, Class<?>[] paramTypes) {
+        Method matched = null;
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.getName().equals(methodName)
+                    && Arrays.equals(method.getParameterTypes(), paramTypes)) {
+                matched = method;
+            }
         }
         return matched;
     }
