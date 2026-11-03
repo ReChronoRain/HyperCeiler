@@ -230,9 +230,14 @@ inline std::optional<Targets> resolve(std::span<const std::byte> bytes) {
     std::optional<uint64_t> x;
     for (const auto &[before_site, target] : getter_calls) {
         if (before_site >= *height_call || *height_call - before_site > 512) continue;
-        const bool after = std::any_of(getter_calls.begin(), getter_calls.end(),
-            [&](const auto &call) { return call.second == target
-                && call.first > *height_call && call.first - *height_call <= 512; });
+        bool after = false;
+        for (const auto &call : getter_calls) {
+            if (call.second == target && call.first > *height_call
+                && call.first - *height_call <= 512) {
+                after = true;
+                break;
+            }
+        }
         if (!after) continue;
         if (x && *x != target) return {};
         x = target;
