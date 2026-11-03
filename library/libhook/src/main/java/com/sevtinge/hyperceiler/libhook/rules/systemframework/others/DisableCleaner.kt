@@ -78,13 +78,15 @@ object DisableCleaner : BaseHook() {
         methodName: String,
         callback: (HookParam) -> Unit
     ) {
-        val clazz = findClassIfExists(className)
-        if (clazz == null) {
-            XposedLog.w(TAG, packageName, "Skip $className.$methodName: class not found")
-            return
-        }
-
+        // Class resolution stays inside the guard: loading a class can throw a
+        // linkage error (e.g. NoClassDefFoundError) rather than return null.
         try {
+            val clazz = findClassIfExists(className)
+            if (clazz == null) {
+                XposedLog.w(TAG, packageName, "Skip $className.$methodName: class not found")
+                return
+            }
+
             val methods = clazz.findAllMethods { name(methodName) }
             if (methods.isEmpty()) {
                 XposedLog.w(TAG, packageName, "Skip $className.$methodName: method not found")
