@@ -64,7 +64,7 @@ imported C 函数的调用，用 caller-specific PLT/GOT hook，而不是全局 
 | 规则 | 落实处 |
 |---|---|
 | 0 候选失败，1 候选继续验证，多候选默认失败 | `resolve()` 的 `candidate_count`；`unique_slot()` |
-| 多候选必须结构化消歧，诊断文本不算证明 | `evidence_acceptable()`（要求 `candidate_count == 1`，或 ≥2 时 `disambiguators` 非空） |
+| 只有一个候选才可安装；诊断消歧不构成证明 | `evidence_acceptable()` 仅接受 `candidate_count == 1`；`disambiguators` 只用于日志 |
 | 禁止「取第一个像的」 | `GotHook` 安装要求所有 slot 指向同一 original |
 | 损坏/截断 ELF 不得越界 | `ElfImage` 全程 `in_image`/`contains` 校验；**校验失败的表在解析期即被禁用**（清指针），查询期再验一次 |
 | hash 链不得成为无限循环 | GNU 链按表容量设预算，SYSV 链按 `nchain` 设预算 |
