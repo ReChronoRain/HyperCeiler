@@ -462,17 +462,27 @@ public class RotationButton extends BaseHook {
             }
         }
         for (Class<?> clazz = host.getClass(); clazz != null && clazz != Object.class; clazz = clazz.getSuperclass()) {
-            for (Field field : clazz.getDeclaredFields()) {
-                if (Modifier.isStatic(field.getModifiers()) || !Context.class.isAssignableFrom(field.getType())) {
-                    continue;
+            Context found = firstContextField(host, clazz);
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
+    }
+
+    /** 按声明顺序取本类第一个非静态的 Context 字段；取不到返回 null，由调用方继续往父类找 */
+    @Nullable
+    private Context firstContextField(Object host, Class<?> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+            if (Modifier.isStatic(field.getModifiers()) || !Context.class.isAssignableFrom(field.getType())) {
+                continue;
+            }
+            try {
+                if (getObjectField(host, field.getName()) instanceof Context context) {
+                    return context;
                 }
-                try {
-                    field.setAccessible(true);
-                    if (field.get(host) instanceof Context context) {
-                        return context;
-                    }
-                } catch (Throwable ignored) {
-                }
+            } catch (Throwable ignored) {
+                // 反射层读不到就当这个字段不可用，继续找下一个
             }
         }
         return null;
