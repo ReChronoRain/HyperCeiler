@@ -72,7 +72,7 @@ object RotationButtonB : BaseHook() {
             }
         }
 
-        val navigationBarClass = findFirstClass(*NAV_BAR_CANDIDATES)
+        val navigationBarClass = findFirstClass(NAV_BAR_CANDIDATES)
         if (navigationBarClass != null) {
             hookAllConstructors(navigationBarClass, object : IMethodHook {
                 override fun after(param: HookParam) {
@@ -227,7 +227,10 @@ object RotationButtonB : BaseHook() {
      * 点完之后把建议按钮状态置为 (true, false)。三个基线上该重载都是 (boolean, boolean)；
      * 万一哪个版本只剩别的重载，退回单参再试，两种都没有才记错误，绝不抛出去。
      */
+    @Suppress("TooGenericExceptionCaught")
     private fun showRotateSuggestion(controller: Any) {
+        // callMethod 不声明受检异常，但反射链路仍会抛 NoSuchMethodError / NoSuchFieldError（Error 族），
+        // 所以这里必须兜住 Throwable：收窄成 Exception 恰好会漏掉「重载被改名或删除」这种漂移。
         try {
             BaseHook.callMethod(controller, "setRotateSuggestionButtonState", true, false)
         } catch (ignored: Throwable) {
@@ -304,7 +307,10 @@ object RotationButtonB : BaseHook() {
      * 注册单个挂钩点：这个版本上没有目标时只记一条日志并跳过它，
      * 不打断同一规则里的其它挂钩。
      */
+    @Suppress("TooGenericExceptionCaught")
     private inline fun tryHook(what: String, register: () -> Unit) {
+        // 目标缺失时 ezhooktool 抛 RuntimeException 族，Xposed 侧还可能抛 LinkageError；
+        // 两类都只该跳过当前这个挂点，不能打断同一规则里的其余挂钩。
         try {
             register()
         } catch (e: Throwable) {
@@ -329,29 +335,44 @@ object RotationButtonB : BaseHook() {
                 // 字段不存在时反射层会抛异常，按"没有这个字段"处理
             }
         }
+        return findContextByFieldType(host)
+    }
+
+    private fun findContextByFieldType(host: Any): Context? {
+        // 沿类层级自下而上找第一个 Context 类型的实例字段；只按类型，字段名改成什么都不影响
         var clazz: Class<*>? = host.javaClass
         while (clazz != null && clazz != Any::class.java) {
-            for (field in clazz.declaredFields) {
-                if (Modifier.isStatic(field.modifiers)
-                    || !Context::class.java.isAssignableFrom(field.type)
-                ) {
-                    continue
-                }
-                try {
-                    field.isAccessible = true
-                    val value = field.get(host)
-                    if (value is Context) {
-                        return value
-                    }
-                } catch (ignored: Throwable) {
-                }
+            val context = readContextFromDeclaredFields(clazz, host)
+            if (context != null) {
+                return context
             }
             clazz = clazz.superclass
         }
         return null
     }
 
-    private fun findFirstClass(vararg candidateNames: String): Class<*>? {
+    private fun readContextFromDeclaredFields(clazz: Class<*>, host: Any): Context? {
+        // 单个类里按声明顺序取 Context 字段；读不动的字段按"不是 Context"处理，继续下一个
+        for (field in clazz.declaredFields) {
+            if (Modifier.isStatic(field.modifiers)
+                || !Context::class.java.isAssignableFrom(field.type)
+            ) {
+                continue
+            }
+            val value = try {
+                field.isAccessible = true
+                field.get(host)
+            } catch (ignored: Throwable) {
+                null
+            }
+            if (value is Context) {
+                return value
+            }
+        }
+        return null
+    }
+
+    private fun findFirstClass(candidateNames: Array<String>): Class<*>? {
         for (name in candidateNames) {
             val clazz = findClassIfExists(name)
             if (clazz != null) {
