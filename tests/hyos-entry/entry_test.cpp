@@ -75,7 +75,14 @@ void fixture(){
  put(hyos_guard::kEntryWindowVa,hyos_guard::kEntryCallWords);
  entry_words=hyos_guard::kHomeEntryWords;symbol_result=entry_words.data();
 }
+bool normal_reader(const char *,char *value,std::size_t capacity){
+ assert(capacity>=1);value[0]='\0';return true;
+}
+bool blocked_reader(const char *,char *value,std::size_t capacity){
+ assert(capacity>=6);std::memcpy(value,"home",5);return true;
+}
 void reset(){
+ nhk::home_safe_mode::set_reader_for_test(&normal_reader);nhk::home_safe_mode::set_pid_for_test(3001);
  lifetime_loads=lifetime_children=0;lifetime_weather=false;lifetime_name.clear();
  starts=records=calls=hooks=unhooks=registrations=0;registration_result=ZN_SUCCESS;
  recents_prepares=closed=0;recents_base=0;g_home_recents_handle=nullptr;
@@ -191,6 +198,16 @@ int main(){using namespace test;
  run("failed loader does not capture a lifetime image",[]{module_loaded(nullptr,&api);failed_load=true;errno=EACCES;assert(hooked_dlopen("/system_ext/lib64/libhyper_os_flutter.so",0,caller())==nullptr);assert(hooked_android_dlopen("/system_ext/lib64/libhyper_os_flutter.so",0,nullptr,caller())==nullptr);assert(lifetime_loads==0&&errno==EACCES);});
  run("specialization routes only exact Weather main to lifetime early window",[]{module_loaded(nullptr,&api);specialize("com.miui.weather2","com.miui.weather2");assert(lifetime_children==1&&lifetime_weather&&starts==0&&weather_starts==0);});
  run("Home and other descendants close capture without Weather installation",[]{module_loaded(nullptr,&api);specialize();assert(lifetime_children==1&&!lifetime_weather);specialize("com.miui.weather2","com.miui.weather2:widget");assert(lifetime_children==2&&!lifetime_weather);module->onAppSpecialized(nullptr);assert(lifetime_children==3&&!lifetime_weather);});
+ run("safe mode blocks HYOS registration before hooks",[]{
+ nhk::home_safe_mode::set_reader_for_test(&blocked_reader);nhk::home_safe_mode::set_pid_for_test(3002);
+ module_loaded(nullptr,&api);assert(hooks==0&&unhooks==0&&registrations==0&&module==nullptr&&!g_registered);
+});
+ run("safe mode sampled after setup prevents Home arm start and record",[]{
+ setup();assert(lookup()==wrapper()&&g_app_entry==entry_words.data());
+ nhk::home_safe_mode::set_reader_for_test(&blocked_reader);nhk::home_safe_mode::set_pid_for_test(3003);
+ assert(hc_hyos_prepare_app_entry(base()+hyos_guard::kEntryReturnVa)==symbol_result);
+ assert(starts==0&&records==0&&recents_prepares==0&&!g_startup_armed);
+});
  run("API4 registers Hyos1 after all three caller-preserving hooks",[]{module_loaded(nullptr,&api);assert(module&&module->target_api_version==1&&zn_module.target_api_version==4&&hooks==3);});
  run("null API inert",[]{module_loaded(nullptr,nullptr);assert(hooks==0);});
  run("missing runtime or hook API inert",[]{api.getRuntime=nullptr;module_loaded(nullptr,&api);api.getRuntime=get_runtime;api.inlineHook=nullptr;module_loaded(nullptr,&api);api.inlineHook=hook;api.inlineUnhook=nullptr;module_loaded(nullptr,&api);assert(hooks==0);});

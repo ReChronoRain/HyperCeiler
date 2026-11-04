@@ -7,6 +7,7 @@
 #include "scanner.h"
 #include "symtab.h"
 #include "../home_clear_feature_resolver.h"
+#include "nativehook/safe_mode.h"
 #include "nativehook/code_word_write.h"
 #include "nativehook/memory_io.h"
 #include <array>
@@ -1123,6 +1124,7 @@ void WakeMonitor() {
  * PushLayoutConfig.
  */
 void StartHomeLayoutEngine() {
+    if (nhk::home_safe_mode::decision().blocked) return;
     const auto self=getpid();
     // Property reads also arrive while gralloc/resources and gesture windows
     // run on the input thread. Do not reopen /proc once this PID owns a worker.
@@ -1173,6 +1175,7 @@ void PushLayoutConfig(const Config& config);
  * which is why a plan can report "applied" while the desktop looks untouched.
  */
 void HomeLayoutEngineOnLibraryLoaded(const char* name) {
+    if (nhk::home_safe_mode::decision().blocked) return;
     OnNativeLibraryLoaded(name, nullptr);
 }
 
@@ -1187,6 +1190,7 @@ void HomeLayoutEngineOnLibraryLoaded(const char* name) {
  * signal; the exchange makes repeated calls free.
  */
 void HomeLayoutEnginePrepareForLauncherChild() {
+    if (nhk::home_safe_mode::decision().blocked) return;
     // Deduplicated by pid: a fork changes the pid, so the first specialization signal in the child
     // does the reset exactly once, and every later call in the same process is a no-op instead of
     // starting yet another monitor thread.

@@ -28,6 +28,7 @@ enum class InstallStatus {
     UnsupportedBody,
     UnreadableBody,
     ConflictingTarget,
+    SafeModeBlocked,
     HookFailed,
     MissingOriginalRolledBack,
     RollbackFailed,        // Terminal: do not attempt to install over a broken detour.

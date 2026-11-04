@@ -32,7 +32,7 @@ def execute(label,cmd,want_success=True):
  if not passed:raise RuntimeError(label+' failed: '+(result.stdout+result.stderr)[-3000:])
  return result
 binary=out/'snapshot-test'
-execute('build',[compiler,*flags,here/'snapshot_test.cpp','-o',binary])
+execute('build',[compiler,*flags,here/'snapshot_test.cpp',cpp/'nativehook/safe_mode.cpp',cpp/'nativehook/native_log.cpp','-o',binary])
 result=execute('execute',[*runner,binary]);print(result.stdout[-300:])
 mutations=[
  ('stale-mutex','&& boundary_read(base + kMutexVa, second.data(), sizeof(second))','&& (second = first, true)'),
@@ -51,10 +51,10 @@ if a.mutations:
    assert old in original,name
    changed=original.replace(old,new);(prod/'hyos_entry.cpp').write_text(changed)
    b=out/(name+'-test')
-   execute(name+'-build',[compiler,*flags,testdir/'snapshot_test.cpp','-o',b])
+   execute(name+'-build',[compiler,*flags,testdir/'snapshot_test.cpp',cpp/'nativehook/safe_mode.cpp',cpp/'nativehook/native_log.cpp','-o',b])
    execute(name+'-rejected',[*runner,b],False)
 files=[hyos/'hyos_entry.cpp',hyos/'hyos_snapshot_guard.h',hyos/'hyos_startup_reason.h',here/'extract_snapshot_guard.py',here/'snapshot_test.cpp',here/'entry_test.cpp',Path(__file__)]
-files += [cpp/'targets/home/recents_runtime.h', hyos/'hyos_snapshot.h']
+files += [cpp/'targets/home/recents_runtime.h', hyos/'hyos_snapshot.h', cpp/'nativehook/safe_mode.cpp', cpp/'nativehook/safe_mode.h', cpp/'nativehook/native_log.cpp', cpp/'nativehook/native_log.h']
 files+=list((cpp/'targets/weather').glob('*.h'))
 report=dict(status='PASS',checks=checks,tests=32,guard_bit_mutations_rejected=60192,
  mutations_rejected=len(mutations) if a.mutations else 0,

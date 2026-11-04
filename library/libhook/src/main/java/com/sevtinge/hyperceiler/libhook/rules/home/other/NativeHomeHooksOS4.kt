@@ -25,6 +25,7 @@ import android.os.SystemClock
 import com.sevtinge.hyperceiler.common.log.ModuleLog as Log
 import androidx.annotation.Keep
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -93,11 +94,21 @@ object NativeHomeHooksOS4 {
     private const val DOCK_ENABLED_STORAGE_KEY = "prefs_key_$DOCK_ENABLED_KEY"
     private const val LIBRARY_FILE = "libHyperCeilerNative.so"
     private const val PACKAGE = "com.sevtinge.hyperceiler"
+    private const val LAUNCHER_PACKAGE = "com.miui.home"
 
+    private val loadGate = Any()
     private val loadStarted = AtomicBoolean()
+    private val nativeLoadPending = AtomicBoolean()
+    private val nativeLoadBlocked = AtomicBoolean()
+
     /** Claimed synchronously by the module-entry probe, never cleared in this process.
      * A load failure may already have registered native hooks before JNI setup failed. */
     fun hasNativeLoadStarted(): Boolean = loadStarted.get()
+
+    /** True only while a preload was deliberately deferred and no attempt has been claimed. */
+    fun hasPendingNativeRecovery(): Boolean = synchronized(loadGate) {
+        nativeLoadPending.get() && !loadStarted.get() && !nativeLoadBlocked.get()
+    }
 
     private val diagnosticsStarted = AtomicBoolean()
     private val dockWatchStarted = AtomicBoolean()
@@ -132,22 +143,49 @@ object NativeHomeHooksOS4 {
      */
     @JvmOverloads
     fun ensureLoadedFromModuleEntry(processName: String?, preferencesReady: Boolean = true) {
-        // A handle can already exist when a later bootstrap read (for example log level) fails.
-        // Preserve the entry's explicit initialization result rather than inferring readiness
-        // only from whether SharedPreferences is non-null.
-        if (!preferencesReady) preferencesRecoveryPending.set(true)
-        ensureLoaded("moduleEntry", processName)
+        synchronized(loadGate) {
+            if (nativeLoadBlocked.get()) {
+                stage("native load skipped source=moduleEntry blocked=true")
+                return
+            }
+            if (!preferencesReady) {
+                // Do not claim loadStarted here. A failed probe must keep stock behavior and
+                // leave one later recovery slot after the module preferences are initialized.
+                nativeLoadPending.set(true)
+                stage("native load deferred source=moduleEntry preferencesReady=false")
+                return
+            }
+            ensureLoadedLocked("moduleEntry", processName)
+        }
     }
 
     private fun ensureLoaded(source: String, processName: String? = null) {
-        stage("probe begin source=$source process=${processName ?: "unknown"}")
-        if (!loadStarted.compareAndSet(false, true)) {
-            stage("probe skipped source=$source alreadyLoaded=true")
-            // A rule-side call is behind the entry's normal hook gates. It can finish a
-            // previously deferred preference/listener recovery without reloading the library.
-            if (source == "homeRule") onPreferencesReadyAfterRetry()
+        synchronized(loadGate) {
+            if (source == "homeRule" && loadStarted.get()) {
+                // A rule-side call is behind the entry's normal hook gates. It can finish a
+                // previously deferred preference/listener recovery without reloading the library.
+                onPreferencesReadyAfterRetryLocked()
+                return
+            }
+            ensureLoadedLocked(source, processName)
+        }
+    }
+
+    /** Caller owns [loadGate]. */
+    private fun ensureLoadedLocked(source: String, processName: String? = null) {
+        if (nativeLoadBlocked.get()) {
+            nativeLoadPending.set(false)
+            stage("probe skipped source=$source blocked=true")
             return
         }
+        if (!nativeLoadAllowedLocked(source)) return
+        if (!loadStarted.compareAndSet(false, true)) {
+            nativeLoadPending.set(false)
+            stage("probe skipped source=$source alreadyLoaded=true")
+            return
+        }
+        nativeLoadPending.set(false)
+        stage("probe begin source=$source process=${processName ?: "unknown"}")
 
         var initialStatus = 0
         var failure: Throwable? = null
@@ -188,10 +226,27 @@ object NativeHomeHooksOS4 {
         startDiagnostics(initialStatus, failure)
     }
 
-    /** Called only after a failed bootstrap preference bind recovers and entry gates pass. */
+    /**
+     * Called by the module entry after preferences became available. An unclaimed preload is
+     * allowed exactly one attempt; a library that already loaded may still repair its initial
+     * bootstrap configuration. Safe mode or an uncertain gate permanently blocks this process.
+     */
     fun onPreferencesReadyAfterRetry() {
+        synchronized(loadGate) {
+            onPreferencesReadyAfterRetryLocked()
+        }
+    }
+
+    /** Caller owns [loadGate]. */
+    private fun onPreferencesReadyAfterRetryLocked() {
+        if (nativeLoadBlocked.get()) return
+        if (!loadStarted.get()) {
+            if (!nativeLoadPending.get()) return
+            ensureLoadedLocked("moduleEntryRecovery")
+            return
+        }
         if (!libraryLoaded || !preferencesRecoveryPending.get()) return
-        if (PrefsBridge.getSharedPreferences() == null) return
+        if (!preferencesAvailableLocked("preferences recovery")) return
         if (!preferencesRecoveryRunning.compareAndSet(false, true)) return
         try {
             // A concurrent caller may have observed pending=true before the previous recovery
@@ -215,6 +270,56 @@ object NativeHomeHooksOS4 {
         } finally {
             preferencesRecoveryRunning.set(false)
         }
+    }
+
+    private fun preferencesAvailableLocked(source: String): Boolean {
+        val available = try {
+            PrefsBridge.getSharedPreferences() != null
+        } catch (t: Throwable) {
+            blockNativeLoadLocked("$source preferences exception=${describe(t)}")
+            return false
+        }
+        if (!available) {
+            nativeLoadPending.set(true)
+            stage("native load deferred source=$source preferencesReady=false")
+        }
+        return available
+    }
+
+    /**
+     * Safe mode is checked immediately before the one and only native load attempt. A true
+     * preference/property, an exception, or an unreadable state is sticky for this process.
+     */
+    private fun nativeLoadAllowedLocked(source: String): Boolean {
+        if (!preferencesAvailableLocked(source)) return false
+        val prefSafeMode = try {
+            PrefsBridge.getBoolean("home_safe_mode_enable")
+        } catch (t: Throwable) {
+            blockNativeLoadLocked("$source safe-mode preference exception=${describe(t)}")
+            return false
+        }
+        if (prefSafeMode) {
+            blockNativeLoadLocked("$source safe-mode preference=true")
+            return false
+        }
+        val propSafeMode = try {
+            CrashScope.isPackageInSafeModeProp(LAUNCHER_PACKAGE)
+        } catch (t: Throwable) {
+            blockNativeLoadLocked("$source safe-mode property exception=${describe(t)}")
+            return false
+        }
+        if (propSafeMode) {
+            blockNativeLoadLocked("$source safe-mode property=true")
+            return false
+        }
+        return true
+    }
+
+    private fun blockNativeLoadLocked(reason: String) {
+        nativeLoadBlocked.set(true)
+        nativeLoadPending.set(false)
+        preferencesRecoveryPending.set(false)
+        stage("native load blocked reason=$reason")
     }
 
     /**

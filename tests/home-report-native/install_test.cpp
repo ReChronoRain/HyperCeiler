@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_report_guard.h"
 #include "targets/home/home_report_hooks.h"
+#include "nativehook/safe_mode.h"
 
 #include <array>
 #include <cassert>
@@ -19,6 +20,7 @@ struct Row { const char *name; void *address; size_t size; };
 std::vector<Row> rows;
 int hooks = 0, unhooks = 0, hook_result = 0, unhook_result = 0;
 bool publish_original = true;
+const char *g_safe_value = "";
 void original() {}
 void enumerate(void *, home_report::SymbolVisitor visit, void *data) {
     for (const auto &row : rows) {
@@ -34,7 +36,16 @@ int hook(void *, void *replacement, void **saved) {
 }
 int unhook(void *) { ++unhooks; return unhook_result; }
 
+bool normal_reader(const char *, char *value, std::size_t capacity) {
+    const std::size_t length = std::strlen(g_safe_value);
+    assert(length < capacity);
+    std::memcpy(value, g_safe_value, length + 1);
+    return true;
+}
+
 int main(int argc, char **argv) {
+    nhk::home_safe_mode::set_reader_for_test(&normal_reader);
+    nhk::home_safe_mode::set_pid_for_test(2001);
     assert(argc == 3);
     alignas(4) std::array<std::byte, home_report::kBodyBytes> bytes{};
     std::ifstream input(argv[2], std::ios::binary);
@@ -116,6 +127,12 @@ int main(int argc, char **argv) {
         assert(call() == InstallStatus::Installed);
         rows[0].address = bytes.data()+4;
         assert(call() == InstallStatus::ConflictingTarget && hooks == 1);
+    } else if (scenario == "safe_mode_blocked") {
+        g_safe_value = "home";
+        nhk::home_safe_mode::reset_for_test();
+        const auto result = call();
+        assert(result == InstallStatus::SafeModeBlocked);
+        assert(hooks == 0 && unhooks == 0 && !home_report::enabled());
     } else if (scenario == "concurrent_install") {
         std::array<InstallStatus, 16> results{};
         std::vector<std::thread> threads;

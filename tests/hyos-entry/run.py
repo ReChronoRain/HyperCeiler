@@ -25,14 +25,16 @@ inputs += [root / 'app/src/main/cpp' / path for path in (
     'targets/hyos/hyos_startup_reason.h', 'targets/weather/weather_binding.h',
     'targets/weather/weather_guard.generated.h', 'targets/weather/weather_device_level.h',
     'targets/weather/weather_snapshot.h', 'targets/weather/weather_card_lifetime.h', 'targets/weather/weather_runtime.h',
-    'nativehook/memory_io.h', 'nativehook/nhk_base.h')]
+    'nativehook/memory_io.h', 'nativehook/nhk_base.h', 'nativehook/safe_mode.cpp',
+    'nativehook/safe_mode.h', 'nativehook/native_log.cpp', 'nativehook/native_log.h')]
 hashes = {str(path.resolve()): hashlib.sha256(path.read_bytes()).hexdigest() for path in inputs}
 with tempfile.TemporaryDirectory(prefix='hc-hyos-entry-') as tmp:
     binary = Path(tmp) / 'test'
     command = ['g++', '-std=c++20', '-Wall', '-Wextra', '-Werror', '-pthread',
                     '-I' + str(args.sdk.resolve()), '-I' + str(base / 'stubs'),
                     '-I' + str(base.parents[1] / 'app/src/main/cpp'),
-                    str(base / 'entry_test.cpp'), '-o', str(binary)]
+                    str(base / 'entry_test.cpp'), str(root / 'app/src/main/cpp/nativehook/safe_mode.cpp'),
+                    str(root / 'app/src/main/cpp/nativehook/native_log.cpp'), '-o', str(binary)]
     build = subprocess.run(command, capture_output=True, text=True)
     if args.output: (args.output / 'build.txt').write_text(build.stdout + build.stderr)
     if build.returncode: raise RuntimeError(build.stderr)

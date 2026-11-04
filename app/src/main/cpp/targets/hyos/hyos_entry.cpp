@@ -9,6 +9,8 @@
 #include "targets/weather/weather_card_lifetime.h"
 #include "targets/home/recents_runtime.h"
 #include "nativehook/memory_io.h"
+#include "nativehook/native_log.h"
+#include "nativehook/safe_mode.h"
 #include <android/dlext.h>
 #include <android/log.h>
 #include <dlfcn.h>
@@ -24,7 +26,7 @@
 extern "C" void hc_hyos_app_entry();
 
 namespace {
-constexpr char kTag[] = "HyperCeiler.HyosEntry";
+constexpr char kLogTag[] = "HyperCeiler.HyosEntry";
 // The loader ABIs carry the original caller explicitly. Public dlopen/dlsym
 // trampolines substitute our caller PC and change linker namespaces.
 using Dlopen = void *(*)(const char *, int, const void *);
@@ -349,7 +351,7 @@ bool install_loader(void *target, void *replacement, void **original) {
     const int result = g_api->inlineHook(target, replacement, original);
     if (result == ZN_SUCCESS && *original != nullptr) return true;
     if (result == ZN_SUCCESS && g_api->inlineUnhook(target) != ZN_SUCCESS) {
-        __android_log_print(ANDROID_LOG_ERROR, kTag,
+        __android_log_print(ANDROID_LOG_ERROR, kLogTag,
             "FATAL backend contract violation: missing continuation and rollback failed");
     }
     return false;
@@ -371,6 +373,14 @@ void module_loaded(void *, const ZygiskNextAPI *api) {
     if (runtime == nullptr || runtime->type != ZN_RUNTIME_HYOS
         || runtime->api_version < ZYGISK_NEXT_HYOS_API_VERSION
         || runtime->registerModule == nullptr) return;
+    const auto safety = nhk::home_safe_mode::decision();
+    if (safety.blocked) {
+        nhk::native_log::writef(nhk::native_log::Level::warn, kLogTag,
+            "Hyos module registration suppressed by safe mode state=%s",
+            nhk::home_safe_mode::state_name(safety.state));
+        nhk::native_log::flush();
+        return;
+    }
     g_api = api;
     // Installed before the spawner's main/fork/thread activity. They remain
     // pass-through until this process receives an exact Home specialization.
@@ -383,21 +393,32 @@ void module_loaded(void *, const ZygiskNextAPI *api) {
     const bool symbol = install_loader(loader_symbol,
         reinterpret_cast<void *>(hooked_dlsym), reinterpret_cast<void **>(&g_dlsym));
     if (!plain || !android || !symbol) {
-        __android_log_print(ANDROID_LOG_ERROR, kTag,
+        __android_log_print(ANDROID_LOG_ERROR, kLogTag,
             "Hyos registration refused: dlopen=%d android=%d dlsym=%d", plain, android, symbol);
         return;
     }
     const bool registered = runtime->registerModule(&kHyosModule) == ZN_SUCCESS;
     g_registered.store(registered, std::memory_order_release);
-    __android_log_print(registered ? ANDROID_LOG_INFO : ANDROID_LOG_ERROR, kTag,
+    __android_log_print(registered ? ANDROID_LOG_INFO : ANDROID_LOG_ERROR, kLogTag,
         "Hyos API 1 registration=%d; waiting for verified Home or Weather app_entry_point", registered);
 }
 } // namespace
 
 extern "C" void *hc_hyos_prepare_app_entry(uintptr_t caller) {
+    const auto home_safety = nhk::home_safe_mode::decision();
     void *target = g_app_entry.load(std::memory_order_acquire);
+    if (home_safety.blocked) {
+        static std::atomic_bool suppressed{false};
+        if (!suppressed.exchange(true, std::memory_order_acq_rel)) {
+            nhk::native_log::writef(nhk::native_log::Level::warn, kLogTag,
+                "Home native entry suppressed by safe mode state=%s",
+                nhk::home_safe_mode::state_name(home_safety.state));
+        }
+        return g_app_entry.load(std::memory_order_acquire);
+    }
     const uintptr_t base = g_runtime_base.load(std::memory_order_acquire);
-    if (target != nullptr && home_child() && base <= UINTPTR_MAX - hyos_guard::kEntryReturnVa
+    if (target != nullptr && home_child() && !nhk::home_safe_mode::decision().blocked
+        && base <= UINTPTR_MAX - hyos_guard::kEntryReturnVa
         && caller == base + hyos_guard::kEntryReturnVa && verified_runtime(base)) {
         g_startup_armed.store(true, std::memory_order_release);
         hyperceiler_hyos_record_home_library("libapp_launcher.so");
@@ -407,11 +428,11 @@ extern "C" void *hc_hyos_prepare_app_entry(uintptr_t caller) {
             const bool recents = home_recents::prepare_before_entry(address - hyos_guard::kHomeEntryVa,
                 hyos_control::read_snapshot, pin_home_recents_image);
             const auto status = home_recents::status();
-            __android_log_print(ANDROID_LOG_INFO, kTag,
+            __android_log_print(ANDROID_LOG_INFO, kLogTag,
                 "Recents pre-entry installed=%d phase=%u error=%u owned=%d",
                 recents, static_cast<unsigned>(status.phase), static_cast<unsigned>(status.error), status.owned);
         }
-        __android_log_print(ready ? ANDROID_LOG_INFO : ANDROID_LOG_WARN, kTag,
+        __android_log_print(ready ? ANDROID_LOG_INFO : ANDROID_LOG_WARN, kLogTag,
             "verified Home app entry; initial preferences ready=%d (bounded wait)", ready);
     }
     if (target != nullptr && weather_child() && base <= UINTPTR_MAX - hyos_guard::kEntryReturnVa
@@ -422,7 +443,7 @@ extern "C" void *hc_hyos_prepare_app_entry(uintptr_t caller) {
             // Only an already-prepared card operation arms the first-snapshot
             // path. Existing level/material observations remain independent.
             g_startup_armed.store(weather_runtime::card_startup_pending(), std::memory_order_release);
-            __android_log_print(ready ? ANDROID_LOG_INFO : ANDROID_LOG_WARN, kTag,
+            __android_log_print(ready ? ANDROID_LOG_INFO : ANDROID_LOG_WARN, kLogTag,
                 "verified Weather app entry; startup result=%d (bounded wait)", ready);
         }
     }

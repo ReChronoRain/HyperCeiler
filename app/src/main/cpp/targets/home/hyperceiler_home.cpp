@@ -1,5 +1,6 @@
 #include "nativehook/android_diagnostics.h"
 #include "nativehook/native_log.h"
+#include "nativehook/safe_mode.h"
 /*
  * This file is part of HyperCeiler.
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -100,8 +101,11 @@ bool is_launcher_process() {
     });
 }
 
+bool native_installation_blocked();
+
 #ifndef HYPERCEILER_HYOS_BACKEND
 void start_motion_after_specialization() {
+    if (native_installation_blocked()) return;
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     const int kind = g_process_kind.load(std::memory_order_acquire);
     // A launcher child re-asserts the start on every later signal. setprogname can run
@@ -153,6 +157,10 @@ bool is_prestart_property(std::string_view name) {
         name == "persist.sys.launch_response_optimization.enable";
 }
 
+bool native_installation_blocked() {
+    return nhk::home_safe_mode::decision().blocked;
+}
+
 int copy_property_value(char *destination, std::string_view value) {
     if (destination == nullptr) return 0;
     const size_t length = value.copy(destination, PROP_VALUE_MAX - 1);
@@ -161,6 +169,8 @@ int copy_property_value(char *destination, std::string_view value) {
 }
 
 int hooked_system_property_get(const char *name, char *value) {
+    if (native_installation_blocked()) return g_original_system_property_get == nullptr
+        ? 0 : g_original_system_property_get(name, value);
 #ifndef HYPERCEILER_HYOS_BACKEND
     // Impeller/gralloc also read properties on raster/background threads. Even
     // a single cold fallback can read maps/APKs, allocate or install a backend
@@ -230,6 +240,10 @@ int hooked_system_property_get(const char *name, char *value) {
 
 #ifndef HYPERCEILER_HYOS_BACKEND
 void hooked_setprogname(const char *name) {
+    if (native_installation_blocked()) {
+        if (g_original_setprogname != nullptr) g_original_setprogname(name);
+        return;
+    }
     g_launcher_identity.invalidate();
     if (g_original_setprogname != nullptr) g_original_setprogname(name);
     g_launcher_identity.invalidate();
@@ -257,7 +271,7 @@ void hooked_setprogname(const char *name) {
 }
 
 void install_process_name_hook() {
-    if (g_hook_function == nullptr ||
+    if (native_installation_blocked() || g_hook_function == nullptr ||
         g_process_name_hook_installed.exchange(true, std::memory_order_acq_rel)) {
         return;
     }
@@ -275,7 +289,7 @@ void install_process_name_hook() {
 #endif
 
 void install_property_hook() {
-    if (g_hook_function == nullptr ||
+    if (native_installation_blocked() || g_hook_function == nullptr ||
         g_property_hook_installed.exchange(true, std::memory_order_acq_rel)) {
         return;
     }
@@ -294,7 +308,7 @@ void install_property_hook() {
 }
 
 void on_library_loaded(const char *name, void *) {
-    if (name == nullptr) return;
+    if (name == nullptr || native_installation_blocked()) return;
     const bool launcher = is_launcher_process();
 #ifdef HYPERCEILER_HYOS_BACKEND
     // Loader notifications are drained by the control worker. The exact Dart
@@ -366,6 +380,7 @@ jint native_status() {
 }  // namespace
 
 bool hyperceiler_home_prestart_disabled() {
+    if (native_installation_blocked()) return false;
 #ifdef HYPERCEILER_HYOS_BACKEND
     // Do not let a bootstrap JNI value revive an expired/disabled authorization.
     return hyos_control::feature_enabled(hyos_control::kDisablePrestart);
@@ -376,6 +391,7 @@ bool hyperceiler_home_prestart_disabled() {
 
 void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
                                      bool soft_glass, bool dock_enabled, bool hide_report) {
+    if (native_installation_blocked()) return;
     g_high_device_level.store(high_models, std::memory_order_relaxed);
     g_disable_prestart.store(disable_prestart, std::memory_order_relaxed);
     g_soft_glass.store(soft_glass, std::memory_order_relaxed);
@@ -394,6 +410,7 @@ void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
 
 #ifdef HYPERCEILER_HYOS_BACKEND
 void hyperceiler_home_after_startup() {
+    if (native_installation_blocked()) return;
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     if (hyos_control::feature_enabled(hyos_control::kDock))
         start_dock_native_motion(g_hook_function, g_unhook_function);
@@ -405,6 +422,7 @@ extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeConfigure(
     JNIEnv *, jobject, jboolean high_device_level, jboolean disable_prestart,
     jboolean soft_glass) {
+    if (native_installation_blocked()) return native_status();
     g_high_device_level.store(high_device_level == JNI_TRUE, std::memory_order_relaxed);
     g_disable_prestart.store(disable_prestart == JNI_TRUE, std::memory_order_relaxed);
     g_soft_glass.store(soft_glass == JNI_TRUE, std::memory_order_relaxed);
@@ -444,6 +462,7 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetDockEnabled(
     JNIEnv *, jobject, jboolean enabled) {
+    if (native_installation_blocked()) return native_status();
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     set_dock_motion_feature_enabled(enabled == JNI_TRUE);
 #endif
@@ -453,6 +472,7 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetDesktopTitleSize(
     JNIEnv *, jobject, jint sp) {
+    if (native_installation_blocked()) return native_status();
     if (is_launcher_process() && sp >= 0 && sp <= 20) {
         home_layout_set_desktop_title_size(sp);
         if (g_hook_function != nullptr) {
@@ -465,6 +485,7 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetDrawerTitleSize(
     JNIEnv *, jobject, jint sp) {
+    if (native_installation_blocked()) return native_status();
     if (is_launcher_process() && sp >= 0 && sp <= 20) {
         home_layout_set_drawer_title_size(sp);
         if (g_hook_function != nullptr) {
@@ -477,6 +498,7 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetTitleColor(
     JNIEnv *, jobject, jint argb) {
+    if (native_installation_blocked()) return native_status();
     if (is_launcher_process()) {
         home_layout_set_title_color(argb);
         if (argb != -1 && g_hook_function != nullptr) {
@@ -489,6 +511,18 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" [[gnu::visibility("default")]] [[gnu::used]]
 NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
     if (entries == nullptr || entries->hook_func == nullptr) return nullptr;
+    const auto safety = nhk::home_safe_mode::decision();
+    if (safety.blocked) {
+        nhk::native_log::writef(nhk::native_log::Level::warn, kLogTag,
+            "native hooks suppressed by safe mode state=%s",
+            nhk::home_safe_mode::state_name(safety.state));
+#ifdef HYPERCEILER_HYOS_BACKEND
+        // No Java bridge exists in the companion; flush through the existing
+        // logcat fallback so this one diagnostic is not lost in the buffer.
+        nhk::native_log::flush();
+#endif
+        return nullptr;
+    }
     nhk::android_diagnostics::emit("module.native","Native 模块入口","NATIVE_INLINE","PROCESS_STARTED","MODULE_ENTRY","NATIVE_ENTRY","entry","native_init executed; Java injection and feature effect are separate evidence");
     // A specialized Rust child retains /proc/self/exe=hyos_spawner. Distinguish
     // its launcher identity from the parent before selecting startup behavior.

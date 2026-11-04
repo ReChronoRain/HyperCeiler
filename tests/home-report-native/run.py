@@ -28,7 +28,7 @@ SCENARIOS = ['guard', 'not_loaded_then_retry', 'invalid_runtime', 'unreadable',
              'wrong_size', 'unaligned', 'mutated_body', 'wrong_name', 'duplicate_address',
              'duplicate_size', 'duplicate_same', 'failure_then_retry',
              'missing_original_then_retry', 'rollback_failure_terminal',
-             'idempotence_and_switch', 'conflicting_image', 'concurrent_install']
+             'idempotence_and_switch', 'conflicting_image', 'concurrent_install', 'safe_mode_blocked']
 
 
 def main():
@@ -69,7 +69,7 @@ def main():
         if result.stdout: print(result.stdout.strip())
     common=['-std=c++20','-O2','-Wall','-Wextra','-Werror','-pthread','-I'+str(CPP)]
     host=out/'install_test'
-    run('host-build',['g++',*common,HERE/'install_test.cpp',HOME/'home_report_hooks.cpp','-o',host])
+    run('host-build',['g++',*common,HERE/'install_test.cpp',HOME/'home_report_hooks.cpp',CPP/'nativehook/safe_mode.cpp','-o',host])
     for scenario in SCENARIOS:run('host-'+scenario,[host,scenario,fixture])
     if not args.skip_arm64:
         compiler=RUNTIME/'usr/bin/aarch64-linux-gnu-g++-13'
@@ -78,7 +78,7 @@ def main():
         compiler_env['LD_LIBRARY_PATH']=str(RUNTIME/'usr/lib/x86_64-linux-gnu')+(
             ':'+compiler_env['LD_LIBRARY_PATH'] if compiler_env.get('LD_LIBRARY_PATH') else '')
         run('arm64-build',[compiler,'--sysroot='+str(RUNTIME),*common,'-static',
-             HERE/'arm64_test.cpp',HERE/'arm64_probe.S',HOME/'home_report_hooks.cpp',
+             HERE/'arm64_test.cpp',HERE/'arm64_probe.S',HOME/'home_report_hooks.cpp',CPP/'nativehook/safe_mode.cpp',
              HOME/'home_report_dart_arm64.S','-o',binary],env=compiler_env)
         run('arm64-execute',[RUNTIME/'usr/bin/qemu-aarch64-static',binary,fixture])
     sources=[HOME/('home_report_'+suffix) for suffix in ['guard.h','hooks.h','hooks.cpp','dart_arm64.S']]

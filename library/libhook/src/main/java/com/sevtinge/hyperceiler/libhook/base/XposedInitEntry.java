@@ -337,7 +337,10 @@ public class XposedInitEntry extends XposedModule {
             throw new IllegalStateException("Remote preferences remain unavailable at target-ready", t);
         }
         if (!prepareHookLoad(target.getPackageName())) {
-            if (retryingPrefs && processName != null && processName.startsWith(LAUNCHER_PACKAGE)) {
+            // Preferences are now known to be initialized. Let the launcher recovery slot decide
+            // internally whether a deferred load or bootstrap-config repair is still pending; this
+            // must not depend on whether bootstrap itself observed `prefsInited`.
+            if (processName != null && processName.startsWith(LAUNCHER_PACKAGE)) {
                 NativeHomeHooksOS4.INSTANCE.onPreferencesReadyAfterRetry();
             }
             attachHookLogLevelObserver(target.isSystemServer());

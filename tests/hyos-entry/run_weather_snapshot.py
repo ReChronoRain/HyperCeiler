@@ -33,7 +33,7 @@ def main():
     inputs = [HERE/n for n in ['run_weather_snapshot.py','weather_snapshot_test.cpp','snapshot_test.cpp','entry_test.cpp']]
     inputs += [HYOS/n for n in ['hyos_entry.cpp','hyos_entry.h','hyos_control.h','hyos_runtime_guard.h','hyos_snapshot_guard.h','hyos_startup_reason.h']]
     inputs += [CPP/'targets/weather'/n for n in ['weather_runtime.h','weather_guard.generated.h','weather_binding.h','weather_device_level.h','weather_snapshot.h','weather_card_lifetime.h']]
-    inputs += [CPP/'nativehook'/n for n in ['memory_io.h','nhk_base.h']]
+    inputs += [CPP/'nativehook'/n for n in ['memory_io.h','nhk_base.h','safe_mode.cpp','safe_mode.h','native_log.cpp','native_log.h']]
     inputs += [a.sdk.resolve()/'zygisk_next_api.h'] + sorted((HERE/'stubs').rglob('*.h'))
     inputs += [CPP/'targets/home/recents_runtime.h', HYOS/'hyos_snapshot.h']
     before = {str(p):SHA(p) for p in inputs}
@@ -56,7 +56,7 @@ def main():
         commands.append(dict(name=name,argv=list(map(str,argv)),exit_code=r.returncode))
         return r
 
-    built = run('build',[compiler,*flags,HERE/'weather_snapshot_test.cpp','-o',out/'observer-test'])
+    built = run('build',[compiler,*flags,HERE/'weather_snapshot_test.cpp',CPP/'nativehook/safe_mode.cpp',CPP/'nativehook/native_log.cpp','-o',out/'observer-test'])
     assert built.returncode==0,built.stdout+built.stderr
     result = run('positive',[*runner,out/'observer-test'])
     m = re.search(r'(\d+)/(\d+) PASS; Weather card actual observer',result.stdout)
@@ -87,7 +87,7 @@ def main():
                 changed=original.replace(old,new)
                 (prod/'hyos_entry.cpp').write_text(changed)
                 binary=out/(name+'-test')
-                built=run(name+'-build',[compiler,*flags,testdir/'weather_snapshot_test.cpp','-o',binary])
+                built=run(name+'-build',[compiler,*flags,testdir/'weather_snapshot_test.cpp',CPP/'nativehook/safe_mode.cpp',CPP/'nativehook/native_log.cpp','-o',binary])
                 assert built.returncode==0,built.stdout+built.stderr
                 result=run(name+'-rejected',[*runner,binary])
                 detected=result.returncode!=0 and ('Assertion' in result.stderr or 'Assertion' in result.stdout)

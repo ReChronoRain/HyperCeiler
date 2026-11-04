@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_report_guard.h"
 #include "targets/home/home_report_hooks.h"
+#include "nativehook/safe_mode.h"
 
 #include <array>
 #include <cassert>
@@ -24,8 +25,16 @@ struct DartCall {
 void call_dart_report_fixture(DartCall *call);
 }
 
+bool normal_reader(const char *, char *value, std::size_t capacity) {
+    assert(capacity >= 1);
+    value[0] = '\0';
+    return true;
+}
+
 int main(int argc, char **argv) {
     assert(argc==2);
+    nhk::home_safe_mode::set_reader_for_test(&normal_reader);
+    nhk::home_safe_mode::set_pid_for_test(2002);
     std::array<std::byte, home_report::kBodyBytes> body{};
     std::ifstream input(argv[1], std::ios::binary);
     input.read(reinterpret_cast<char *>(body.data()), body.size());

@@ -6,6 +6,8 @@
 #include "targets/home/home_report_guard.h"
 #include "nativehook/elf_image.h"
 #include "nativehook/memory_io.h"
+#include "nativehook/native_log.h"
+#include "nativehook/safe_mode.h"
 #include <zygisk_next_api.h>
 #include <android/log.h>
 #include <array>
@@ -13,7 +15,7 @@
 #include <vector>
 
 namespace {
-constexpr char kTag[] = "HyperCeiler.HomeReport";
+constexpr char kLogTag[] = "HyperCeiler.HomeReport";
 bool g_installed = false; // The single control worker owns discovery/installation.
 int g_last_status = -1;
 struct Context {
@@ -69,7 +71,8 @@ void enumerate(void *opaque, home_report::SymbolVisitor visitor, void *data) {
 } // namespace
 
 void hyperceiler_hyos_retry_home_report(const ZygiskNextAPI *api) {
-    if (g_installed || !hyos_control::feature_enabled(hyos_control::kHideReport)
+    if (g_installed || nhk::home_safe_mode::decision().blocked
+        || !hyos_control::feature_enabled(hyos_control::kHideReport)
         || api == nullptr || api->newSymbolResolver == nullptr || api->freeSymbolResolver == nullptr
         || api->getBaseAddress == nullptr || api->forEachSymbols == nullptr
         || api->inlineHook == nullptr || api->inlineUnhook == nullptr) return;
@@ -78,7 +81,7 @@ void hyperceiler_hyos_retry_home_report(const ZygiskNextAPI *api) {
     Context context{api, resolver, reinterpret_cast<uintptr_t>(api->getBaseAddress(resolver)), {}};
     if (!verified_image(context.base, context.segments)) {
         api->freeSymbolResolver(resolver);
-        if (g_last_status != -2) __android_log_print(ANDROID_LOG_WARN, kTag,
+        if (g_last_status != -2) nhk::native_log::writef(nhk::native_log::Level::warn, kLogTag,
             "declined: loaded Dart image identity/header does not match supplied Home 7719");
         g_last_status = -2;
         return;
@@ -90,7 +93,7 @@ void hyperceiler_hyos_retry_home_report(const ZygiskNextAPI *api) {
     const auto result = home_report::install({&context, enumerate, api->inlineHook, api->inlineUnhook});
     api->freeSymbolResolver(resolver);
     const auto status = static_cast<int>(result.status);
-    if (status != g_last_status) __android_log_print(ANDROID_LOG_INFO, kTag,
+    if (status != g_last_status) nhk::native_log::writef(nhk::native_log::Level::info, kLogTag,
         "guarded report predicate=%s", home_report::status_name(result.status));
     g_last_status = status;
     g_installed = result.status == home_report::InstallStatus::Installed
