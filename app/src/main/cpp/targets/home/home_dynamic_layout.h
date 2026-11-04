@@ -44,12 +44,12 @@ inline bool receiver_slot(const Body& b,unsigned reg,int32_t& out) {
         if((b[i]&0xfc000000u)==0x94000000u||(b[i]&0xfffffc1fu)==0xd63f0000u)break;
         if(stx(b[i],29,reg)&&frame_slot(b,imm9(b[i]))){found=imm9(b[i]);++hits;}
     }
-    if(hits!=1)return false;out=found;return true;
+    if(hits!=1){return false;}out=found;return true;
 }
 inline bool target(uint32_t w,uint32_t pc,uint32_t &out){
     if((w&0xfc000000u)!=0x94000000u)return false;
     int64_t v=static_cast<int32_t>(w<<6)>>6;v=pc+v*4;
-    if(v<4 || v>UINT32_MAX || (v&3))return false;out=static_cast<uint32_t>(v);return true;
+    if(v<4 || v>UINT32_MAX || (v&3)){return false;}out=static_cast<uint32_t>(v);return true;
 }
 // Opcode/register ABI contracts are fixed. All image-specific operands are outputs;
 // callers additionally verify producer/consumer and unique owning-function relationships.
@@ -62,11 +62,11 @@ inline uint32_t operand_mask(uint32_t w) {
     return 0xffffffffu;
 }
 inline bool unique(const Body&b,const uint32_t*p,size_t n,uint32_t &at){
-    if(!n || b.size()<n)return false;unsigned hits=0;uint32_t candidate=0;
+    if(!n || b.size()<n){return false;}unsigned hits=0;uint32_t candidate=0;
     for(size_t i=0;i+n<=b.size();++i){bool same=true;
         for(size_t j=0;j<n;++j){auto mask=operand_mask(p[j]);if((b[i+j]&mask)!=(p[j]&mask)){same=false;break;}}
         if(same){++hits;candidate=static_cast<uint32_t>(i*4);}}
-    if(hits!=1)return false;at=candidate;return true;
+    if(hits!=1){return false;}at=candidate;return true;
 }
 struct ColorLayout {uint32_t tag=0,size=0,top=0,end=0;std::array<int32_t,4> channels{};
     bool usable()const{return tag && size>=40 && size<=256 && top && end==top+8;}};
@@ -76,12 +76,12 @@ inline bool color_fields(const Body&b,uint32_t tag_value,ColorLayout &out){
     // withAlpha writes alpha first, followed by the three converted getter channels.
     // Every store must be a bounded unboxed double field of the same fresh receiver.
     for(auto word:b)if((word&0xffe00fe0u)==0xfc000000u){
-        if(count==4)return false;int32_t off=imm9(word);
+        if(count==4){return false;}int32_t off=imm9(word);
         if(off<=0 || ((off+1)&7) || static_cast<uint32_t>(off+9)>next.size)return false;
         for(size_t j=0;j<count;++j)if(next.channels[j]==off)return false;
         next.channels[count++]=off;
     }
-    if(count!=4 || (tag_value>>12)==0)return false;out=next;return true;
+    if(count!=4 || (tag_value>>12)==0){return false;}out=next;return true;
 }
 struct ModelLayout {int32_t dispatch=0,flag=0,intent=0,component=0,package=0,component_package=0,pin_name=0;uint32_t flag_mask=0;
     bool usable()const{return dispatch>0 && field(flag) && field(intent) && field(component) && field(package) && field(component_package) && field(pin_name) && flag_mask;}};
@@ -144,7 +144,7 @@ inline bool workspace_frame(const Body&b,bool occupied,GeometryFrame &out,uint32
             || imm9(b[mul/4+5])!=f.out_width || imm9(b[mul/4+10])!=f.out_height)return false;
         f.out_width=f.width;f.out_height=f.height;patch=at+56;
     }
-    if(!f.usable())return false;out=f;return true;
+    if(!f.usable()){return false;}out=f;return true;
 }
 inline bool hotseat_frame(const Body&b,GeometryFrame &out,uint32_t &patch) {
     if(b.size()<4)return false;
@@ -162,7 +162,7 @@ inline bool hotseat_frame(const Body&b,GeometryFrame &out,uint32_t &patch) {
     unsigned producers=0;
     for(size_t i=0;i+4<b.size();++i)if(ldw(b[i],3,0) && b[i+1]==0x8b1c8000u && ldd(b[i+2],0,3)
         && std_(b[i+3],29,3) && imm9(b[i+3])==f.x && (b[i+4]&0xfc000000u)==0x94000000u)++producers;
-    if(producers!=1 || !f.usable(true))return false;out=f;patch=at;return true;
+    if(producers!=1 || !f.usable(true)){return false;}out=f;patch=at;return true;
 }
 
 }

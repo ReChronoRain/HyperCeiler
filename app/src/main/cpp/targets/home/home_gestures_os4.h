@@ -116,7 +116,7 @@ inline std::optional<Targets> resolve(std::span<const std::byte> bytes) {
             std::array<uint32_t,4>w{};for(unsigned j=0;j<4;++j)w[j]=*image->word(pc+4*j);
             auto got=nhk::arm64::decode_plt_got(w,0,pc);if(!got)continue;
             for(unsigned i=0;i<slots.size();++i)if(*got==slots[i]) {
-                if(t.imports[i])return {};t.imports[i]=pc;
+                if(t.imports[i]){return {};}t.imports[i]=pc;
             }
         }
     for(auto p:t.imports)if(!p)return {};
@@ -186,7 +186,7 @@ inline std::optional<Targets> resolve(std::span<const std::byte> bytes) {
                     &&(*image->word(pc-8)&0xffc003ffu)==0x91000280u)borrowed=true;
             }
             if(!self||!event||!action||!pointers||!borrowed||drop)continue;
-            if(t.scene&&t.scene!=f->begin)return {};t.scene=f->begin;
+            if(t.scene&&t.scene!=f->begin){return {};}t.scene=f->begin;
         }
     }
     t.home=h->begin;t.back=dispatch->begin;return t;

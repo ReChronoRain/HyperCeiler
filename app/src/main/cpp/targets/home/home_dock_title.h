@@ -65,7 +65,7 @@ inline std::optional<DockTitlePlan> resolve_dock_title(std::span<const uint32_t>
                 ||b[j-2]!=0xaa0003e1u||!ldx(b[j-1],29,0)
                 ||!target(b[j-3],va+uint32_t((j-3)*4),allocator)
                 ||!stx(b[j-4],29,0)||imm9(b[j-4])!=imm9(b[j-1]))continue;
-            if(alpha)return {};alpha=j*4;
+            if(alpha){return {};}alpha=j*4;
         }
         if(!alpha||i<8||!ldx(b[i-8],29,0)||!slot(imm9(b[i-8])))return {};
         const size_t a=*alpha/4;
