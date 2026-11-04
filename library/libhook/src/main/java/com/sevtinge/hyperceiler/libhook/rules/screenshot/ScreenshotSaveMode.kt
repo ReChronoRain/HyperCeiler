@@ -22,6 +22,10 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 
+/**
+ * Screenshot saving mode hook.
+ * Controls whether the original screenshot is retained when edited (Keep both vs Replace screenshot).
+ */
 object ScreenshotSaveMode : BaseHook() {
 
     override fun init() {
