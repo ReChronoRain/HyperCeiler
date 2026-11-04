@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoEditor;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoPost;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.LongerTrashbinTime;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.UnPrivacyWatermark;
+import com.sevtinge.hyperceiler.libhook.rules.screenshot.ScreenshotSaveMode;
 
 @HookBase(targetPackage = "com.miui.gallery")
 public class Gallery extends BaseLoad {
@@ -51,5 +52,6 @@ public class Gallery extends BaseLoad {
         initHook(new EnableOcr(), PrefsBridge.getBoolean("gallery_enable_ocr"));
         initHook(new EnableOcrForm(), PrefsBridge.getBoolean("gallery_enable_ocr_form"));
         initHook(new ChangeBackupServer(), PrefsBridge.getStringAsInt("gallery_backup_server", 0) != 0);
+        initHook(ScreenshotSaveMode.INSTANCE, PrefsBridge.getBoolean("screenshot_save_mode_keep_both"));
     }
 }
