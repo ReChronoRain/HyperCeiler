@@ -10,7 +10,6 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.barfollow;
 import android.os.Build;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.SurfaceControl;
 import android.window.TransitionInfo;
 
@@ -107,8 +106,8 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
     private volatile boolean nativeBarWindowActive;
     private final RecentsBarFollowController recentsBars = new RecentsBarFollowController(
             (message, failure) -> {
-                if (failure == null) moduleLog(Log.INFO, TAG, "RecentsBarFollow: " + message);
-                else moduleLog(Log.WARN, TAG, "RecentsBarFollow: " + message, failure);
+                if (failure == null) moduleLog(LOG_INFO, TAG, "RecentsBarFollow: " + message);
+                else moduleLog(LOG_WARN, TAG, "RecentsBarFollow: " + message, failure);
             });
 
     protected void hookRecentsBarFollow(ClassLoader loader, Set<String> present) {
@@ -154,24 +153,24 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     .intercept(this::stateRecentsBarFollow));
             try { hookRecentsBarReuse(loader, controller, present); }
             catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "Recents bar reuse handoff unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "Recents bar reuse handoff unavailable", failure);
             }
             try { hookShadeBarEvents(loader, present); }
             catch (ReflectiveOperationException | RuntimeException failure) {
-                moduleLog(Log.WARN, TAG, "App bar task event hooks unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "App bar task event hooks unavailable", failure);
             }
             hookAppBarViewRole(loader, present);
             try { hookHomeBarReady(loader, present); }
             catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "Home status-bar startup recovery unavailable; retaining existing activation", failure);
+                moduleLog(LOG_WARN, TAG, "Home status-bar startup recovery unavailable; retaining existing activation", failure);
             }
             hookBarFolmeProbe(loader, present);
             inspectNativeBarContentContracts(loader);
             barHooksReady = true;
             ensureBarFollowPreferenceListener(loader);
-            moduleLog(Log.INFO, TAG, "OS4 recents bar visual hooks ready; activation follows preference");
+            moduleLog(LOG_INFO, TAG, "OS4 recents bar visual hooks ready; activation follows preference");
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "Recents bar hooks unavailable; preserving native bars", failure);
+            moduleLog(LOG_WARN, TAG, "Recents bar hooks unavailable; preserving native bars", failure);
         }
     }
 
@@ -229,7 +228,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         synchronized (recentsOpenLock) { recentsOpenHooksActive = true; }
         try { hookRecentsBarTargets(loader, controller, present); }
         catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "Recents accepted-target observation unavailable; preserving original task path", failure);
+            moduleLog(LOG_WARN, TAG, "Recents accepted-target observation unavailable; preserving original task path", failure);
         }
     }
 
@@ -462,7 +461,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 if (launchFromHome && Boolean.FALSE.equals(readField(controller, "mWillFinishToHome")))
                     observeRecentsOpenDirection(controller, false);
             } catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "Native Recents OPEN binding unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "Native Recents OPEN binding unavailable", failure);
             }
         }
     }
@@ -507,7 +506,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     pendingRecentsOpenFinish = current;
                 }
             } catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "Native Recents completion proof unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "Native Recents completion proof unavailable", failure);
             }
         }
         Object result;
@@ -525,7 +524,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 attempt.completedToApp();
                 completed = attempt;
                 pendingRecentsOpenFinish = null;
-                moduleLog(Log.INFO, TAG, "Native Recents OPEN completed to its original task"
+                moduleLog(LOG_INFO, TAG, "Native Recents OPEN completed to its original task"
                         + ", task=" + attempt.session.taskId);
             }
         }
@@ -539,11 +538,11 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     try {
                         if (isRecentsOpenCompletionCurrentOnOwner(receipt)) notifyRecentsOpenCompleted(receipt);
                     } catch (Throwable failure) {
-                        moduleLog(Log.WARN, TAG, "Recents OPEN completion notification retired", failure);
+                        moduleLog(LOG_WARN, TAG, "Recents OPEN completion notification retired", failure);
                     }
                 }});
             } catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "Recents OPEN idle progress handoff unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "Recents OPEN idle progress handoff unavailable", failure);
             }
         }
         return result;
@@ -593,7 +592,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         if (!changeMap.isEmpty() && (changeMap.size() != 1
                 || !changeMap.containsKey(container)
                 || !isExpectedRecentsHomeFinishChange(changeMap.get(container), transaction, homeToken))) return false;
-        moduleLog(Log.INFO, TAG, "Verified native OPEN finish restoring only its closing Home"
+        moduleLog(LOG_INFO, TAG, "Verified native OPEN finish restoring only its closing Home"
                 + ", task=" + session.taskId + ", transition=" + shortObject(session.transition));
         return true;
     }
@@ -638,10 +637,10 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             doNotPipRecentsFinishChange = expected;
         }
         if (matchesRecentsFinishChange(change, doNotPipRecentsFinishChange)) {
-            moduleLog(Log.INFO, TAG, "Verified native closing Home do-not-PiP finish change");
+            moduleLog(LOG_INFO, TAG, "Verified native closing Home do-not-PiP finish change");
             return true;
         }
-        moduleLog(Log.INFO, TAG, "Rejected unexpected native Home finish change");
+        moduleLog(LOG_INFO, TAG, "Rejected unexpected native Home finish change");
         return false;
     }
 
@@ -666,7 +665,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                         && isRecentsOpenAttemptCurrentOnOwner(current)
                         && finishesRecentsTaskToTop(chain.getArg(1), current.session.taskToken)) attempt = current;
             } catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "Native Recents pending finish proof unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "Native Recents pending finish proof unavailable", failure);
             }
         }
         Object result = chain.proceed();
@@ -674,7 +673,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             if (attempt != null && attempt == recentsOpenAttempt
                     && attempt.session == recentsOpenGeneration && result instanceof IBinder
                     && attempt.bindPendingFinish(handler, result))
-                moduleLog(Log.INFO, TAG, "Bound native Recents OPEN finish transaction"
+                moduleLog(LOG_INFO, TAG, "Bound native Recents OPEN finish transaction"
                         + ", task=" + attempt.session.taskId + ", token=" + shortObject(result));
         }
         return result;
@@ -689,7 +688,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                         || Boolean.TRUE.equals(chain.getArg(1)))) invalidateRecentsOpen();
             } catch (Throwable failure) {
                 invalidateRecentsOpen();
-                moduleLog(Log.WARN, TAG, "Native Recents finish consumption identity unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "Native Recents finish consumption identity unavailable", failure);
             }
         }
         return chain.proceed();
@@ -737,11 +736,11 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     invalidateRecentsOpen();
                     return;
                 }
-                moduleLog(Log.INFO, TAG, "Native Recents task-reuse OPEN active"
+                moduleLog(LOG_INFO, TAG, "Native Recents task-reuse OPEN active"
                         + ", task=" + session.taskId + ", transition=" + shortObject(session.transition));
             } catch (Throwable failure) {
                 invalidateRecentsOpen();
-                moduleLog(Log.WARN, TAG, "Native Recents OPEN direction unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "Native Recents OPEN direction unavailable", failure);
             }
         }
     }
@@ -763,7 +762,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                         captured = RecentsBarNativeTarget.capture(session, controller,
                                 (java.util.List<?>) chain.getArg(0), (TransitionInfo) chain.getArg(1));
                 } catch (Throwable failure) {
-                    moduleLog(Log.WARN, TAG, "RecentsBarTarget: native target capture unavailable", failure);
+                    moduleLog(LOG_WARN, TAG, "RecentsBarTarget: native target capture unavailable", failure);
                 }
             }
         }
@@ -780,7 +779,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 RecentsBarReuseSession.Target target = captured == null ? null
                         : new RecentsBarReuseSession.Target(captured.task, captured.taskId, captured);
                 boolean accepted = session.acceptTarget(update, target);
-                moduleLog(Log.INFO, TAG, "RecentsBarTarget: accepted=" + accepted
+                moduleLog(LOG_INFO, TAG, "RecentsBarTarget: accepted=" + accepted
                         + " task=" + (captured == null ? -1 : captured.taskId)
                         + " merge=" + ((TransitionInfo) chain.getArg(1)).getDebugId()
                         + (accepted ? "" : " " + describeBarReuseTasks(controller)));
@@ -789,7 +788,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 if (accepted && session.awaitingAppShow()) deliverAcceptedAppBar(session, "targets");
             } catch (Throwable failure) {
                 session.acceptTarget(update, null);
-                moduleLog(Log.WARN, TAG, "RecentsBarTarget: native target publication unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "RecentsBarTarget: native target publication unavailable", failure);
             }
         }
         return result;
@@ -809,7 +808,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         if (!session.consumeTarget(controller, token, readField(controller, "mInfo"), session.callback,
                 target, proof.task, !Boolean.FALSE.equals(readField(controller, "mWillFinishToHome")), live)) return false;
         invokeAnyMethod(session.original, "onGestureStateUpdated", new Object[]{7});
-        moduleLog(Log.INFO, TAG, "RecentsBarTarget: App show task=" + target.taskId
+        moduleLog(LOG_INFO, TAG, "RecentsBarTarget: App show task=" + target.taskId
                 + " merge=" + proof.mergeId + " source=" + source);
         return true;
     }
@@ -826,16 +825,16 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 Object task = singleBarReuseTask(controller);
                 boolean live = liveBarReuseController(owner, controller, token);
                 if (task == null || !live) {
-                    moduleLog(Log.INFO, TAG, "RecentsBarReuse: start ineligible task=" + (task != null)
+                    moduleLog(LOG_INFO, TAG, "RecentsBarReuse: start ineligible task=" + (task != null)
                             + " live=" + live + " token=" + token + " " + describeBarReuseTasks(controller));
                     return;
                 }
                 int taskId = ((android.app.ActivityManager.RunningTaskInfo) readField(task, "mTaskInfo")).taskId;
                 barReuseSession = new RecentsBarReuseSession(owner, controller, token, suppliedInfo,
                         null, null, null, task, taskId);
-                moduleLog(Log.INFO, TAG, "RecentsBarReuse: awaiting authenticated start task=" + taskId + " token=" + token);
+                moduleLog(LOG_INFO, TAG, "RecentsBarReuse: awaiting authenticated start task=" + taskId + " token=" + token);
             } catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "RecentsBarReuse: start binding unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "RecentsBarReuse: start binding unavailable", failure);
             }
         }
     }
@@ -896,7 +895,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                             invokeAnyMethod(session.original, "onGestureStateUpdated", new Object[]{7});
                             delivered = true;
                         } else if (!delivered && !toHome) {
-                            moduleLog(Log.INFO, TAG, "RecentsBarReuse: rejected live=" + live
+                            moduleLog(LOG_INFO, TAG, "RecentsBarReuse: rejected live=" + live
                                     + " taskPresent=" + (currentTask != null)
                                     + " sameTask=" + (currentTask == session.task)
                                     + " sameTransition=" + (token == session.transition)
@@ -905,12 +904,12 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                         }
                     }
                 }
-                moduleLog(Log.INFO, TAG, "RecentsBarReuse: direction toHome=" + toHome
+                moduleLog(LOG_INFO, TAG, "RecentsBarReuse: direction toHome=" + toHome
                         + " appOpenDelivered=" + delivered + " bound=" + (session != null)
                         + " task=" + (session == null ? -1 : session.taskId));
             } catch (Throwable failure) {
                 if (session != null) session.close();
-                moduleLog(Log.WARN, TAG, "RecentsBarReuse: preserving native direction without handoff", failure);
+                moduleLog(LOG_WARN, TAG, "RecentsBarReuse: preserving native direction without handoff", failure);
             }
         }
         return result;
@@ -963,7 +962,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         } finally { systemUiDexResolutionInFlight.decrementAndGet(); }
         if (!present.contains(BAR_HOME_BOUND)) recordHookHandle(hook(bind).setId(BAR_HOME_BOUND)
                 .intercept(this::homeBarBound));
-        moduleLog(Log.INFO, TAG, "Native Home status-bar bind readiness hook ready");
+        moduleLog(LOG_INFO, TAG, "Native Home status-bar bind readiness hook ready");
     }
 
     private void hookAppBarViewRole(ClassLoader loader, Set<String> present) throws ReflectiveOperationException {
@@ -1085,15 +1084,15 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 && barFeatureState.enabled()) {
             try { AppBarModeBinding.settlePendingTintBeforeUpdate(chain.getThisObject()); }
             catch (ReflectiveOperationException failure) {
-                moduleLog(Log.WARN, TAG, "App pending tint reconciliation unavailable", failure);
+                moduleLog(LOG_WARN, TAG, "App pending tint reconciliation unavailable", failure);
             }
         }
         Object result = chain.proceed();
         try {
             String diagnostic = AppBarModeBinding.nativeAppearanceDiagnostic(chain.getThisObject());
-            if (diagnostic != null) moduleLog(Log.INFO, TAG, "BarAppearance native App update " + diagnostic);
+            if (diagnostic != null) moduleLog(LOG_INFO, TAG, "BarAppearance native App update " + diagnostic);
         } catch (ReflectiveOperationException | RuntimeException failure) {
-            moduleLog(Log.WARN, TAG, "App native appearance diagnostic unavailable", failure);
+            moduleLog(LOG_WARN, TAG, "App native appearance diagnostic unavailable", failure);
         }
         return result;
     }
@@ -1118,7 +1117,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         } catch (Throwable failure) {
             if (!barFollowPreferenceFailureLogged) {
                 barFollowPreferenceFailureLogged = true;
-                moduleLog(Log.WARN, TAG, "Status-bar following preference unavailable; preserving native bars", failure);
+                moduleLog(LOG_WARN, TAG, "Status-bar following preference unavailable; preserving native bars", failure);
             }
             return false;
         }
@@ -1137,7 +1136,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             });
             barPreferenceHandler.post(this::reconcileBarFollowPreference);
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "Status-bar following preference listener unavailable", failure);
+            moduleLog(LOG_WARN, TAG, "Status-bar following preference listener unavailable", failure);
         }
     }
 
@@ -1158,7 +1157,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             }
             if (barFolmeProbe != null) finishBarFolmeProbe("preference disabled", null);
             if (pendingAppContentCleanup != null) closeAppWindowProbe(pendingAppContentCleanup);
-            if (previous) moduleLog(Log.INFO, TAG, "Status-bar following disabled; retiring exact App owner");
+            if (previous) moduleLog(LOG_INFO, TAG, "Status-bar following disabled; retiring exact App owner");
             return;
         }
         if (pendingAppContentCleanup != null) {
@@ -1192,15 +1191,15 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     if (barFollowClassLoader != loader) return;
                     try {
                         if (!AppBarContentPreparation.isCurrentHomeBinding(loader, binder, injector, view)) return;
-                        moduleLog(Log.INFO, TAG, "Home status bar bound; reconciling status-bar following");
+                        moduleLog(LOG_INFO, TAG, "Home status bar bound; reconciling status-bar following");
                         reconcileBarFollowPreference();
                     } catch (Throwable failure) {
-                        moduleLog(Log.WARN, TAG, "Home status-bar readiness unavailable; preserving native bars", failure);
+                        moduleLog(LOG_WARN, TAG, "Home status-bar readiness unavailable; preserving native bars", failure);
                     }
                 });
             }
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "Home status-bar readiness unavailable; preserving native bars", failure);
+            moduleLog(LOG_WARN, TAG, "Home status-bar readiness unavailable; preserving native bars", failure);
         }
         return result;
     }
@@ -1296,13 +1295,13 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         String event = chain.getExecutable().getName();
         if (content != null) new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
             if (pendingAppContentCleanup != content) return;
-            try { moduleLog(Log.INFO, TAG, "BarAppearance transition=" + event + " " + content.appearanceDiagnostic()); }
-            catch (Throwable failure) { moduleLog(Log.WARN, TAG, "BarAppearance diagnostic failed", failure); }
+            try { moduleLog(LOG_INFO, TAG, "BarAppearance transition=" + event + " " + content.appearanceDiagnostic()); }
+            catch (Throwable failure) { moduleLog(LOG_WARN, TAG, "BarAppearance diagnostic failed", failure); }
         });
         XiaomiShadeBarEvents events = shadeBarEvents;
         if (events != null) {
             try { events.event(chain.getThisObject(), (Integer) chain.getArg(0)); }
-            catch (RuntimeException failure) { moduleLog(Log.WARN, TAG, "App bar task event unavailable", failure); }
+            catch (RuntimeException failure) { moduleLog(LOG_WARN, TAG, "App bar task event unavailable", failure); }
         }
         // A16 notifies before the original CommandQueue message is enqueued.
         return chain.proceed();
@@ -1322,7 +1321,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     .intercept(this::observeBarFolmeCancel));
             recentsBars.configureFolme(loader);
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "Native bar Folme unavailable; parity engine not activated", failure);
+            moduleLog(LOG_WARN, TAG, "Native bar Folme unavailable; parity engine not activated", failure);
         }
     }
 
@@ -1353,12 +1352,12 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     if (!java.lang.reflect.Modifier.isStatic(field.getModifiers()))
                         fields.add(field.getName() + ":" + field.getType().getName());
                 }
-                moduleLog(Log.INFO, TAG, "BarContentContract: " + name + " fields=" + fields
+                moduleLog(LOG_INFO, TAG, "BarContentContract: " + name + " fields=" + fields
                         + " constructors=" + java.util.Arrays.toString(type.getDeclaredConstructors()));
             } catch (ClassNotFoundException absent) {
-                moduleLog(Log.INFO, TAG, "BarContentContract: absent=" + name);
+                moduleLog(LOG_INFO, TAG, "BarContentContract: absent=" + name);
             } catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "BarContentContract: unreadable=" + name, failure);
+                moduleLog(LOG_WARN, TAG, "BarContentContract: unreadable=" + name, failure);
             }
         }
     }
@@ -1375,15 +1374,15 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     AppBarContentPreparation content = pendingAppContentCleanup;
                     try { if (content != null) content.selectLiveRole(role); }
                     catch (Throwable failure) {
-                        moduleLog(Log.WARN, TAG, "App bar role selection failed; retiring exact owner", failure);
+                        moduleLog(LOG_WARN, TAG, "App bar role selection failed; retiring exact owner", failure);
                         closeAppWindowProbe(content);
                     }
                 }
                 public void failed(Throwable failure) {
-                    moduleLog(Log.WARN, TAG, "A16 bar task selection unavailable; retaining previous selection", failure);
+                    moduleLog(LOG_WARN, TAG, "A16 bar task selection unavailable; retaining previous selection", failure);
                 }
             });
-        } catch (Throwable failure) { moduleLog(Log.WARN, TAG, "App bar task event bridge unavailable", failure); }
+        } catch (Throwable failure) { moduleLog(LOG_WARN, TAG, "App bar task event bridge unavailable", failure); }
         // Keep the exact content owner reachable until cleanup really succeeds.
         // Reload must not discard a graph with outstanding native registrations.
         try {
@@ -1396,12 +1395,12 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 try (AppBarContentPreparation prepared = AppBarContentPreparation.create(loader,
                         owner -> pendingAppContentCleanup = owner, this::appBarModeFailed)) {
                     prepared.verifyPrimaryUnchanged();
-                    moduleLog(Log.INFO, TAG, "App bar independent notification Views: "
+                    moduleLog(LOG_INFO, TAG, "App bar independent notification Views: "
                             + prepared.verifyNotificationViews());
                 }
                 pendingAppContentCleanup = null;
             }
-            moduleLog(Log.INFO, TAG, "App bar native content preparation verified: fresh root/binder,"
+            moduleLog(LOG_INFO, TAG, "App bar native content preparation verified: fresh root/binder,"
                     + " detached XML View/injector, fragment, independent notification Views/dark, shared island/animator;"
                     + " native 2041 window layout with owned injector Job (not attached);"
                     + " independent privacy controller bound to App battery/chip/dot with owned flow;"
@@ -1412,12 +1411,12 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             AppBarContentPreparation attached = AppBarContentPreparation.create(loader,
                     owner -> pendingAppContentCleanup = owner, this::appBarModeFailed);
             attached.observeAppearance((message, failure) -> moduleLog(
-                    failure == null ? Log.INFO : Log.WARN, TAG, message, failure));
+                    failure == null ? LOG_INFO : LOG_WARN, TAG, message, failure));
             attached.attachWindowProbe(() -> {
                 if (pendingAppContentCleanup != attached) return;
                 if (!barFeatureState.accepts(generation)) { closeAppWindowProbe(attached); return; }
                 try {
-                    moduleLog(Log.INFO, TAG, "App bar real-window attachment verified: type=2041, display=0,"
+                    moduleLog(LOG_INFO, TAG, "App bar real-window attachment verified: type=2041, display=0,"
                             + " alpha=0, native children attached; " + attached.verifyAttachedWindowProbe());
                     attached.queryWindowProof(() -> {
                         try {
@@ -1434,26 +1433,26 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                             return;
                         }
                         nativeBarWindowActive = true;
-                        moduleLog(Log.INFO, TAG, "App bar real window active; native WMS owns status animation");
+                        moduleLog(LOG_INFO, TAG, "App bar real window active; native WMS owns status animation");
                     },
                     (proof, failure) -> {
                         if (pendingAppContentCleanup != attached) return;
-                        if (failure != null) moduleLog(Log.WARN, TAG, "App bar server window proof unavailable", failure);
+                        if (failure != null) moduleLog(LOG_WARN, TAG, "App bar server window proof unavailable", failure);
                         else {
                             proof.size(); // Decode before logging; Bundle's lazy string hides actual readiness.
-                            moduleLog(Log.INFO, TAG, "App bar authenticated server window proof: " + proof);
+                            moduleLog(LOG_INFO, TAG, "App bar authenticated server window proof: " + proof);
                         }
                         closeAppWindowProbe(attached);
                     });
                 } catch (Throwable failure) {
-                    moduleLog(Log.WARN, TAG, "App bar real-window attachment verification failed", failure);
+                    moduleLog(LOG_WARN, TAG, "App bar real-window attachment verification failed", failure);
                     closeAppWindowProbe(attached);
                 }
             });
         } catch (Throwable failure) {
             if (pendingAppContentCleanup != null && pendingAppContentCleanup.isClosed())
                 pendingAppContentCleanup = null;
-            moduleLog(Log.WARN, TAG, "App bar native content preparation unavailable; no second root bound", failure);
+            moduleLog(LOG_WARN, TAG, "App bar native content preparation unavailable; no second root bound", failure);
         }
         try {
             final int[] frames = {0};
@@ -1463,7 +1462,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     frames[0]++;
                     if (!reversed[0] && values[1] < .8f && values[1] > .2f) {
                         reversed[0] = true;
-                        moduleLog(Log.INFO, TAG, "Native bar Folme retarget sample values="
+                        moduleLog(LOG_INFO, TAG, "Native bar Folme retarget sample values="
                                 + java.util.Arrays.toString(values) + " velocities="
                                 + java.util.Arrays.toString(velocities));
                         new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
@@ -1473,7 +1472,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                                     active.retargetStatus(0, 1);
                                     active.resetNavigation(0, 1);
                                     active.retargetNavigation(1, 0);
-                                    moduleLog(Log.INFO, TAG, "Native bar Folme independent status retarget"
+                                    moduleLog(LOG_INFO, TAG, "Native bar Folme independent status retarget"
                                             + " and navigation setTo/to issued");
                                 }
                             } catch (Throwable failure) { finishBarFolmeProbe("retarget failed", failure); }
@@ -1489,7 +1488,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             barFolmeProbe = engine;
             engine.set(new float[]{0, 1, 1, 0});
             engine.retarget(new float[]{1, 0, 0, 1});
-            moduleLog(Log.INFO, TAG, "Native bar Folme four-property probe started; no surfaces attached");
+            moduleLog(LOG_INFO, TAG, "Native bar Folme four-property probe started; no surfaces attached");
             // Diagnostic watchdog only, not an animation duration or completion proof.
             new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                 if (barFolmeProbe == engine) finishBarFolmeProbe("probe watchdog: no terminal proof", null);
@@ -1498,7 +1497,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
     }
 
     private void appBarModeFailed(AppBarContentPreparation owner, RuntimeException failure) {
-        moduleLog(Log.WARN, TAG, "App bar Flow consumer failed; retiring exact owner", failure);
+        moduleLog(LOG_WARN, TAG, "App bar Flow consumer failed; retiring exact owner", failure);
         // Let the current native collector return before cancelling its Job or
         // retiring the window. An old owner must never close its replacement.
         barPreferenceHandler.post(() -> {
@@ -1517,17 +1516,17 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             java.util.concurrent.CountDownLatch reload = barReloadCompletion;
             if (reload != null) reload.countDown();
             if (barFollowRestartPending) barPreferenceHandler.post(this::reconcileBarFollowPreference);
-            moduleLog(Log.INFO, TAG, "App bar real-window detached; Home owners restored");
+            moduleLog(LOG_INFO, TAG, "App bar real-window detached; Home owners restored");
         } catch (Throwable failure) {
             if (attached.awaitingWindowRetirement()) {
-                moduleLog(Log.INFO, TAG, "App bar cleanup awaiting WMS committed retirement");
+                moduleLog(LOG_INFO, TAG, "App bar cleanup awaiting WMS committed retirement");
                 return;
             }
             if (attached.resumeAfterNativeCleanup(() -> closeAppWindowProbe(attached))) {
-                moduleLog(Log.INFO, TAG, "App bar cleanup awaiting native notification coroutine completion");
+                moduleLog(LOG_INFO, TAG, "App bar cleanup awaiting native notification coroutine completion");
                 return;
             }
-            moduleLog(Log.WARN, TAG, "App bar real-window cleanup pending; retaining owner", failure);
+            moduleLog(LOG_WARN, TAG, "App bar real-window cleanup pending; retaining owner", failure);
         }
     }
 
@@ -1535,10 +1534,10 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         XiaomiBarFolme engine = barFolmeProbe;
         barFolmeProbe = null;
         try { if (engine != null) engine.close(); }
-        catch (Throwable cleanup) { moduleLog(Log.WARN, TAG, "Native Folme cleanup failed", cleanup); }
+        catch (Throwable cleanup) { moduleLog(LOG_WARN, TAG, "Native Folme cleanup failed", cleanup); }
         barFolmeProbePending = false;
         if (barFollowRestartPending) barPreferenceHandler.post(this::reconcileBarFollowPreference);
-        moduleLog(failure == null ? Log.INFO : Log.WARN, TAG, "Native bar Folme " + reason, failure);
+        moduleLog(failure == null ? LOG_INFO : LOG_WARN, TAG, "Native bar Folme " + reason, failure);
     }
 
     protected Object observeBarFolmeUpdate(XposedInterface.Chain chain) throws Throwable {
@@ -1582,7 +1581,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 if (executor instanceof Executor)
                     request = recentsBars.prepare(chain.getThisObject(), (Executor) executor);
             } catch (Throwable failure) {
-                moduleLog(Log.WARN, TAG, "Unable to prepare recents bars", failure);
+                moduleLog(LOG_WARN, TAG, "Unable to prepare recents bars", failure);
             }
             binding.visualRequest = request;
         }
@@ -1618,7 +1617,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                         (SurfaceControl.Transaction) chain.getArg(2));
             }
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "Unable to stage recents bar visuals", failure);
+            moduleLog(LOG_WARN, TAG, "Unable to stage recents bar visuals", failure);
         }
         try {
             Object result = chain.proceed();
@@ -1662,11 +1661,11 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
             traceBarIdentity("cleanup", barTraceSequence.incrementAndGet(),
                     readField(controller, "this$0"), null, readField(controller, "mTransition"));
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "RecentsBarTrace: cleanup identity unreadable", failure);
+            moduleLog(LOG_WARN, TAG, "RecentsBarTrace: cleanup identity unreadable", failure);
         }
         // cleanUp runs before Shell releases its runner leashes. Never retain their children.
         try { recentsBars.cleanup(chain.getThisObject()); }
-        catch (Throwable failure) { moduleLog(Log.WARN, TAG, "Bar cleanup failed", failure); }
+        catch (Throwable failure) { moduleLog(LOG_WARN, TAG, "Bar cleanup failed", failure); }
         return chain.proceed();
     }
 
@@ -1680,7 +1679,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         Object owner = null;
         try { owner = readField(callback, "this$0"); }
         catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "RecentsBarTrace: callback owner unreadable", failure);
+            moduleLog(LOG_WARN, TAG, "RecentsBarTrace: callback owner unreadable", failure);
         }
         RecentsBarCallbackSession ticket;
         synchronized (barCallbackLock) { ticket = barCallbackSession; }
@@ -1699,13 +1698,13 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                         if (reuseTicket.adopt(owner, callback, original, endpoint,
                                 authenticated && endpoint != null && endpoint.isBinderAlive(), state)) {
                             reuseTicket.delivered(callback, authenticated, state);
-                            if (wasUnbound) moduleLog(Log.INFO, TAG, "RecentsBarReuse: acknowledged callback="
+                            if (wasUnbound) moduleLog(LOG_INFO, TAG, "RecentsBarReuse: acknowledged callback="
                                     + barTraceId(callback) + " task=" + reuseTicket.taskId);
                         }
                     }
                 } catch (Throwable failure) {
                     if (reuseTicket != null) reuseTicket.close();
-                    moduleLog(Log.WARN, TAG, "RecentsBarReuse: acknowledgement unavailable", failure);
+                    moduleLog(LOG_WARN, TAG, "RecentsBarReuse: acknowledgement unavailable", failure);
                 }
             }
         } catch (Throwable failure) {
@@ -1724,11 +1723,11 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 if (accepted) recentsBars.gestureState(
                         (RecentsBarFollowController.Request) ticket.visualRequest, state);
             }
-            moduleLog(Log.INFO, TAG, "RecentsBarTrace: session state=" + state
+            moduleLog(LOG_INFO, TAG, "RecentsBarTrace: session state=" + state
                     + " accepted=" + accepted + " authenticated=" + authenticated
                     + " event=" + event);
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "Unable to observe bar gesture state", failure);
+            moduleLog(LOG_WARN, TAG, "Unable to observe bar gesture state", failure);
         }
         return result;
     }
@@ -1743,13 +1742,13 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         try {
             Object latest = owner == null ? null : readField(owner, "mGestureStateUpdateCallback");
             Object original = callback == null ? null : readField(callback, "val$original");
-            moduleLog(Log.INFO, TAG, "RecentsBarTrace: " + phase + " event=" + event
+            moduleLog(LOG_INFO, TAG, "RecentsBarTrace: " + phase + " event=" + event
                     + " owner=" + barTraceId(owner) + " callback=" + barTraceId(callback)
                     + " latest=" + barTraceId(latest) + " matchesLatest="
                     + (callback != null && callback == latest)
                     + " original=" + barTraceId(original) + " token=" + barTraceId(token));
         } catch (Throwable failure) {
-            moduleLog(Log.WARN, TAG, "RecentsBarTrace: identity unavailable phase=" + phase
+            moduleLog(LOG_WARN, TAG, "RecentsBarTrace: identity unavailable phase=" + phase
                     + " event=" + event, failure);
         }
     }
@@ -1790,7 +1789,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 Thread.currentThread().interrupt();
             } finally { barReloadCompletion = null; }
             if (!ready || pendingAppContentCleanup != null) {
-                moduleLog(Log.WARN, TAG, "Status-bar retirement did not complete; rejecting reload and recovering old generation");
+                moduleLog(LOG_WARN, TAG, "Status-bar retirement did not complete; rejecting reload and recovering old generation");
                 barPreferenceHandler.post(() -> {
                     recentsBars.resumeAfterRejectedReload();
                     barFeatureState.resumeAfterRejectedReload();
@@ -1798,7 +1797,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 });
                 return false;
             }
-            moduleLog(Log.INFO, TAG, "Status-bar retirement completed within this hot-reload request");
+            moduleLog(LOG_INFO, TAG, "Status-bar retirement completed within this hot-reload request");
         }
         synchronized (barCallbackLock) {
             if (barCallbackSession != null) barCallbackSession.close();
@@ -1831,7 +1830,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         barFollowPreferences = null;
         if (preferences != null) try {
             preferences.unregisterOnSharedPreferenceChangeListener(barFollowPreferenceListener);
-        } catch (Throwable failure) { moduleLog(Log.WARN, TAG, "Status-bar preference listener cleanup failed", failure); }
+        } catch (Throwable failure) { moduleLog(LOG_WARN, TAG, "Status-bar preference listener cleanup failed", failure); }
         recentsBars.onIdle(null);
         nativeBarWindowActive = false;
         synchronized (barReuseLock) {
