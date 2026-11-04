@@ -45,14 +45,6 @@ import kotlinx.coroutines.launch
 object StartCollpasedColumnPress {
     private const val TAG = "StartCollpasedColumnPress"
 
-    /**
-     * 展开/收起触摸那个合成 lambda 的方法名。编译器给它的编号会随版本漂移：
-     * 音量插件在 OS3 上叫 lambda$processExpandTouch$1，在 OS4（4.0.0.44 / 4.0.5.0）
-     * 上叫 lambda$processExpandTouch$2。写死编号会让这条 hook 在其中一边找不到目标，
-     * 而 findMethod 找不到时抛异常，会被 loadClassLoaders 的 runCatching 整个吞掉，
-     * 连带本 loader 里后面的 hook 一起不生效。所以这里只按结构特征找：
-     * 名字前缀 lambda$processExpandTouch$ + 无参 + void 返回（三套固件实测均为唯一命中）。
-     */
     private const val EXPAND_TOUCH_LAMBDA_PREFIX = "lambda\$processExpandTouch\$"
 
     fun initLoaderHook(classLoader: ClassLoader) {
@@ -153,13 +145,13 @@ object StartCollpasedColumnPress {
 
     }
 
-    /**
-     * 按结构特征定位“展开/收起触摸”那个合成 lambda 并挂前置 hook。
-     * 编号在不同固件上会漂：OS3 = lambda$processExpandTouch$1，
-     * OS4（4.0.0.44 / 4.0.5.0）= lambda$processExpandTouch$2，
-     * 三套固件里“前缀 + 无参 + void”均为唯一命中。
-     */
     private fun hookProcessExpandTouchLambda(hostClass: Class<*>?) {
+        // 按结构特征定位“展开/收起触摸”那个合成 lambda 并挂前置 hook。
+        // 编号在不同固件上会漂：OS3 = lambda$processExpandTouch$1，
+        // OS4（4.0.0.44 / 4.0.5.0）= lambda$processExpandTouch$2，
+        // 三套固件里“前缀 + 无参 + void”均为唯一命中。
+        // 之所以不能写死 EXPAND_TOUCH_LAMBDA_PREFIX 里的编号：findMethod 落空会抛异常，
+        // 被 loadClassLoaders 的 runCatching 整个吞掉，连带本 loader 里后面的 hook 一起失效。
         if (hostClass == null) {
             return
         }

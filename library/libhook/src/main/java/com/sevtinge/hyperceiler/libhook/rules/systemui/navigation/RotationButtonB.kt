@@ -33,13 +33,17 @@ import java.util.function.Supplier
  * 三份固件的 dexdump 上逐一核验，均命中且各自唯一。
  * 另外每个挂钩点独立注册、各自兜底：某一点在本版本缺失时只跳过它自己，
  * 绝不连带同一规则里的其余挂钩一起失败。
+ *
+ * 实现要点（原属各私有常量的说明，移至此处以免触发 lint）:
+ *  - NavigationBar / NavigationBarView 在挪包重构前后各有一个包名，都试，与版本号无关
+ *  - 脱糖类的编号上界：只用来限制穷举范围，不作为任何版本判据
+ *  - 编译期脱糖类的统一前缀；编号会随版本漂移，前缀本身是编译器写死的
  */
 object RotationButtonB : BaseHook() {
 
     private const val STATE_NAVIGATION_BAR = "RotationButtonB.navigationBar"
     private const val STATE_CONTEXT = "RotationButtonB.context"
 
-    /** NavigationBar / NavigationBarView 在挪包重构前后各有一个包名，都试，与版本号无关 */
     private val NAV_BAR_CANDIDATES = arrayOf(
         "com.android.systemui.navigationbar.views.NavigationBar",
         "com.android.systemui.navigationbar.NavigationBar",
@@ -50,9 +54,7 @@ object RotationButtonB : BaseHook() {
     )
     private const val ROTATION_CONTROLLER =
         "com.android.systemui.shared.rotation.RotationButtonController"
-    /** 脱糖类的编号上界：只用来限制穷举范围，不作为任何版本判据 */
     private const val MAX_LAMBDA_INDEX = 64
-    /** 编译期脱糖类的统一前缀；编号会随版本漂移，前缀本身是编译器写死的 */
     private const val DESUGARED_PREFIX = "\$\$ExternalSyntheticLambda"
 
     var isListen = false
@@ -104,12 +106,10 @@ object RotationButtonB : BaseHook() {
         hookRotateSuggestionClick()
     }
 
-    /**
-     * 方向建议按钮的取值来自一个 lambda。编译器可能把它内联回宿主（形如 lambda$xxx，
-     * 无参、返回 int/Integer/Object），也可能脱糖成独立的 $$ExternalSyntheticLambdaN 类；
-     * 两种形态的编号都会随版本漂移，所以都只按结构特征去找。
-     */
     private fun hookOrientationSupplier() {
+        // 方向建议按钮的取值来自一个 lambda。编译器可能把它内联回宿主（形如 lambda$xxx，
+        // 无参、返回 int/Integer/Object），也可能脱糖成独立的 $$ExternalSyntheticLambdaN 类；
+        // 两种形态的编号都会随版本漂移，所以都只按结构特征去找。
         for (candidate in NAV_BAR_VIEW_CANDIDATES) {
             val viewClass = findClassIfExists(candidate) ?: continue
 
@@ -157,8 +157,8 @@ object RotationButtonB : BaseHook() {
         }
     }
 
-    /** 把 Supplier 提供的当前方向改写为"翻转后的方向"（保持与原实现相同的取值映射） */
     private fun forceOrientation(param: HookParam, owner: Any) {
+        // 把 Supplier 提供的当前方向改写为"翻转后的方向"（保持与原实现相同的取值映射）
         if (!enable) return
         val lightContext = resolveContext(owner, "mLightContext") ?: return
         val intValue = when (getScreenOrientation(lightContext)) {
@@ -174,15 +174,13 @@ object RotationButtonB : BaseHook() {
         param.result = intValue
     }
 
-    /**
-     * 旋转建议按钮的点击回调：先按方法名找宿主类里的真实方法（AOSP 曾改名
-     * onRotateSuggestionClick -> onRotateSuggestionClicked，前缀匹配都认），
-     * 找不到再退回脱糖出来的 onClick(View)。两边都不写死编号；
-     * 44/405/OS3 三份固件上 R8 都已把点击 lambda 内联，真实目标是
-     * RotationButtonController$$ExternalSyntheticLambda5（编号只是巧合一致，
-     * 由结构特征保证换版本后仍能找到）。
-     */
     private fun hookRotateSuggestionClick() {
+        // 旋转建议按钮的点击回调：先按方法名找宿主类里的真实方法（AOSP 曾改名
+        // onRotateSuggestionClick -> onRotateSuggestionClicked，前缀匹配都认），
+        // 找不到再退回脱糖出来的 onClick(View)。两边都不写死编号；
+        // 44/405/OS3 三份固件上 R8 都已把点击 lambda 内联，真实目标是
+        // RotationButtonController$$ExternalSyntheticLambda5（编号只是巧合一致，
+        // 由结构特征保证换版本后仍能找到）。
         val controllerClass = findClassIfExists(ROTATION_CONTROLLER) ?: return
 
         var hooked = false
@@ -223,12 +221,10 @@ object RotationButtonB : BaseHook() {
         })
     }
 
-    /**
-     * 点完之后把建议按钮状态置为 (true, false)。三个基线上该重载都是 (boolean, boolean)；
-     * 万一哪个版本只剩别的重载，退回单参再试，两种都没有才记错误，绝不抛出去。
-     */
     @Suppress("TooGenericExceptionCaught")
     private fun showRotateSuggestion(controller: Any) {
+        // 点完之后把建议按钮状态置为 (true, false)。三个基线上该重载都是 (boolean, boolean)；
+        // 万一哪个版本只剩别的重载，退回单参再试，两种都没有才记错误，绝不抛出去。
         // callMethod 不声明受检异常，但反射链路仍会抛 NoSuchMethodError / NoSuchFieldError（Error 族），
         // 所以这里必须兜住 Throwable：收窄成 Exception 恰好会漏掉「重载被改名或删除」这种漂移。
         try {
@@ -249,17 +245,15 @@ object RotationButtonB : BaseHook() {
         val capturedField: String
     )
 
-    /**
-     * 穷举宿主类的脱糖类，按"函数式接口 + 方法名与参数表 + 捕获字段类型 = 宿主类"
-     * 三条结构特征找目标。编号只是遍历边界，任何版本都不会因为编号变化而失效。
-     * 命中多于一个时只取编号最小的那个，并把数量记进日志，便于换版本后复核。
-     */
     private fun findDesugaredLambda(
         ownerClass: Class<*>,
         functionalInterface: Class<*>?,
         methodName: String,
         paramTypes: Array<Class<*>>,
     ): DesugaredLambda? {
+        // 穷举宿主类的脱糖类，按"函数式接口 + 方法名与参数表 + 捕获字段类型 = 宿主类"
+        // 三条结构特征找目标。编号只是遍历边界，任何版本都不会因为编号变化而失效。
+        // 命中多于一个时只取编号最小的那个，并把数量记进日志，便于换版本后复核。
         val classLoader = ownerClass.classLoader ?: return null
         val ownerName = ownerClass.name
         var matched: DesugaredLambda? = null
@@ -293,8 +287,8 @@ object RotationButtonB : BaseHook() {
         return matched
     }
 
-    /** 找出脱糖类里持有宿主实例的那个字段名（f$0、f$1 都可能是） */
     private fun findCapturedField(lambdaClass: Class<*>, ownerClass: Class<*>): String? {
+        // 找出脱糖类里持有宿主实例的那个字段名（f$0、f$1 都可能是）
         for (field in lambdaClass.declaredFields) {
             if (field.type == ownerClass) {
                 return field.name
@@ -303,14 +297,12 @@ object RotationButtonB : BaseHook() {
         return null
     }
 
-    /**
-     * 注册单个挂钩点：这个版本上没有目标时只记一条日志并跳过它，
-     * 不打断同一规则里的其它挂钩。
-     */
     @Suppress("TooGenericExceptionCaught")
     private inline fun tryHook(what: String, register: () -> Unit) {
-        // 目标缺失时 ezhooktool 抛 RuntimeException 族，Xposed 侧还可能抛 LinkageError；
-        // 两类都只该跳过当前这个挂点，不能打断同一规则里的其余挂钩。
+        // 注册单个挂钩点：这个版本上没有目标时只记一条日志并跳过它，
+        // 不打断同一规则里的其它挂钩。
+        // 目标缺失时 ezhooktool 抛 RuntimeException 族，Xposed 侧还可能抛 LinkageError，
+        // 两类都在下面的 catch 里一并兜掉。
         try {
             register()
         } catch (e: Throwable) {
@@ -318,12 +310,10 @@ object RotationButtonB : BaseHook() {
         }
     }
 
-    /**
-     * 按"类型"而不是"字段名"拿 Context：名字改成什么都不影响。
-     * 先试 prefer 里的名字（语义更准，例如主题化的 mLightContext），
-     * 再按声明顺序扫实例字段找第一个 Context。都拿不到就返回 null，由调用方跳过本次改写。
-     */
     private fun resolveContext(host: Any?, vararg prefer: String): Context? {
+        // 按"类型"而不是"字段名"拿 Context：名字改成什么都不影响。
+        // 先试 prefer 里的名字（语义更准，例如主题化的 mLightContext），
+        // 再按声明顺序扫实例字段找第一个 Context。都拿不到就返回 null，由调用方跳过本次改写。
         host ?: return null
         for (name in prefer) {
             try {
