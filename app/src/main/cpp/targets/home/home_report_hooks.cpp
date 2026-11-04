@@ -2,6 +2,7 @@
 #include "home_report_hooks.h"
 #include "home_report_guard.h"
 #include "nativehook/memory_io.h"
+#include "nativehook/safe_mode.h"
 
 #include <array>
 #include <cstring>
@@ -41,6 +42,7 @@ bool collect(const char *name, void *address, size_t size, void *data) {
 } // namespace
 
 void set_enabled(bool value) {
+    if (nhk::home_safe_mode::decision().blocked) value = false;
     __atomic_store_n(&hc_home_report_enabled, value ? 1u : 0u, __ATOMIC_RELEASE);
 }
 
@@ -50,6 +52,10 @@ bool enabled() {
 
 InstallResult install(const Runtime &runtime) {
     std::lock_guard<std::mutex> lock(g_mutex);
+    if (nhk::home_safe_mode::decision().blocked) {
+        set_enabled(false);
+        return {InstallStatus::SafeModeBlocked};
+    }
     if (g_broken) return {InstallStatus::RollbackFailed, g_target};
     if (runtime.enumerate_symbols == nullptr || runtime.inline_hook == nullptr
         || runtime.inline_unhook == nullptr) return {InstallStatus::InvalidRuntime};
@@ -103,6 +109,7 @@ const char *status_name(InstallStatus status) {
         case InstallStatus::UnsupportedBody: return "unsupported-body";
         case InstallStatus::UnreadableBody: return "unreadable-body";
         case InstallStatus::ConflictingTarget: return "conflicting-target";
+        case InstallStatus::SafeModeBlocked: return "safe-mode-blocked";
         case InstallStatus::HookFailed: return "hook-failed";
         case InstallStatus::MissingOriginalRolledBack: return "missing-original-rolled-back";
         case InstallStatus::RollbackFailed: return "rollback-failed";

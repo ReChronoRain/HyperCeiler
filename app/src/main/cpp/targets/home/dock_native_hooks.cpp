@@ -10,6 +10,7 @@
 #include "nativehook/inline_hook_backend.h"
 #include "nativehook/memory_io.h"
 #include "home_recent_statusbar.h"
+#include "nativehook/safe_mode.h"
 
 #include <android/log.h>
 #include <dlfcn.h>
@@ -2027,7 +2028,7 @@ uint32_t dock_native_motion_state() {
 }
 
 void start_dock_native_motion(Hook hook, Unhook unhook) {
-    if (hook == nullptr || started.exchange(true)) return;
+    if (nhk::home_safe_mode::decision().blocked || hook == nullptr || started.exchange(true)) return;
     hook_function = hook;
     unhook_function = unhook;
     // Register with the shared backend boundary so the slot host installs

@@ -9,6 +9,7 @@ project(HyperCeilerNative LANGUAGES CXX)
 # `System.loadLibrary` name in NativeHomeHooksOS4.
 add_library(HyperCeilerNative SHARED
     nativehook/native_log.cpp
+    nativehook/safe_mode.cpp
     targets/home/hyperceiler_home.cpp)
 
 option(HYPERCEILER_HYOS_BACKEND "Build the separate Zygisk Next native-only companion" OFF)

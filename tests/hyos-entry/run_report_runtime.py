@@ -21,10 +21,10 @@ def run(name,cmd):
  (out/(name+'.txt')).write_text(r.stdout+r.stderr)
  checks.append(dict(name=name,passed=r.returncode==0,returncode=r.returncode))
  if r.returncode:raise RuntimeError(name+': '+r.stderr+r.stdout)
-run('build',['g++','-std=c++20','-O2','-Wall','-Wextra','-Werror','-pthread','-I'+str(cpp),'-I'+str(a.sdk.resolve()),'-I'+str(here/'stubs'),here/'report_runtime_test.cpp',cpp/'targets/home/home_report_hooks.cpp','-o',binary])
-scenarios=['disabled','null-api','not-loaded-then-retry','wrong-note','wrong-elf','outside-executable','wrong-size','duplicate','expires-during-discovery','exact-rom-installs-once','body-mutated']
+run('build',['g++','-std=c++20','-O2','-Wall','-Wextra','-Werror','-pthread','-I'+str(cpp),'-I'+str(a.sdk.resolve()),'-I'+str(here/'stubs'),here/'report_runtime_test.cpp',cpp/'targets/home/home_report_hooks.cpp',cpp/'nativehook/safe_mode.cpp',cpp/'nativehook/native_log.cpp','-o',binary])
+scenarios=['disabled','null-api','not-loaded-then-retry','wrong-note','wrong-elf','outside-executable','wrong-size','duplicate','expires-during-discovery','exact-rom-installs-once','body-mutated','safe-mode-blocked']
 for name in scenarios:run(name,[binary,name,rom])
-files=[cpp/'targets/hyos/hyos_report_runtime.cpp',cpp/'targets/home/home_report_hooks.cpp',cpp/'targets/home/home_report_guard.h']
+files=[cpp/'targets/hyos/hyos_report_runtime.cpp',cpp/'targets/home/home_report_hooks.cpp',cpp/'targets/home/home_report_guard.h',cpp/'nativehook/safe_mode.cpp',cpp/'nativehook/safe_mode.h',cpp/'nativehook/native_log.cpp',cpp/'nativehook/native_log.h']
 report=dict(passed=all(c['passed'] for c in checks),checks=checks,scenarios=len(scenarios),sources=[dict(path=str(f.relative_to(source)),sha256=hashlib.sha256(f.read_bytes()).hexdigest()) for f in files],device_status='NOT_TESTED',limits=['SDK symbol resolver and inline-hook operations are fixtures; actual ROM ELF and production guards/installer are exercised.'])
 (out/'report.json').write_text(json.dumps(report,indent=2)+'\n')
 print(f'{len(scenarios)}/{len(scenarios)} PASS')

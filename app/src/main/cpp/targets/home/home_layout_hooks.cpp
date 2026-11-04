@@ -61,6 +61,7 @@ extern "C" void hc_home_diagnostic_sample();
 #include "nativehook/source_word_io.h"
 #include "nativehook/source_word_patch.h"
 #include "nativehook/native_image.h"
+#include "nativehook/safe_mode.h"
 
 #include <android/log.h>
 #include <pthread.h>
@@ -7169,6 +7170,7 @@ bool adopt_layout_state() {
 }
 
 void home_layout_prepare_for_launcher_child() {
+    if (nhk::home_safe_mode::decision().blocked) return;
     (void) adopt_layout_state();
 }
 
@@ -7203,6 +7205,7 @@ void home_layout_set_title_color(int argb) {
 // Configuration must reach the source-word planner before the first Dart layout,
 // not merely the hook banks. No Binder, blocking runtime lock, or disk write here.
 void prime_home_layout_engine() {
+    if (nhk::home_safe_mode::decision().blocked) return;
     home_layout::Config config;
     if(!home_layout::query_bootstrap_config(config))return;
     const bool ready=home_layout_engine::PrimeLayoutConfig(make_layout_engine_config(config));
@@ -7211,6 +7214,7 @@ void prime_home_layout_engine() {
 }
 
 void prime_home_layout_first_render_locked() {
+    if (nhk::home_safe_mode::decision().blocked) return;
     if(g_first_render_finished.load(std::memory_order_acquire))return;
     struct DiscoveryScope {
         bool attempted=false;
@@ -7311,6 +7315,7 @@ void prime_home_layout_first_render_locked() {
 }
 
 void prime_home_layout_first_render(HookFunction hook,UnhookFunction unhook) {
+    if (nhk::home_safe_mode::decision().blocked) return;
     if(!hook||g_first_render_finished.load(std::memory_order_acquire)
         ||g_loader_priming.test_and_set(std::memory_order_acquire))return;
     struct Lease {~Lease(){g_loader_priming.clear(std::memory_order_release);}} lease;
@@ -7319,6 +7324,7 @@ void prime_home_layout_first_render(HookFunction hook,UnhookFunction unhook) {
 }
 
 void prime_home_layout_first_render_from_property(HookFunction hook,UnhookFunction unhook) {
+    if (nhk::home_safe_mode::decision().blocked) return;
     // This fallback is not a render-thread initialization API, including before
     // a worker exists. Do not consume its first-frame attempt from that thread.
     if(gettid()!=getpid())return;
@@ -7331,6 +7337,7 @@ void prime_home_layout_first_render_from_property(HookFunction hook,UnhookFuncti
 }
 
 void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
+    if (nhk::home_safe_mode::decision().blocked) return;
     if (hook == nullptr || g_loader_prime_finished.load(std::memory_order_acquire)) return;
     if (g_loader_priming.test_and_set(std::memory_order_acquire)) return;
     struct ReleasePrime { ~ReleasePrime() { g_loader_priming.clear(std::memory_order_release); } } release;
@@ -7445,6 +7452,7 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
 }
 
 void prime_home_layout_probe(HookFunction hook, UnhookFunction unhook) {
+    if (nhk::home_safe_mode::decision().blocked) return;
     /*
      * Idempotent: the loader reports libapp.so more than once. Overwriting an already registered slot
      * reset its bookkeeping and made the bank install a second hook on the same address, which killed
@@ -7623,6 +7631,7 @@ void prime_native_columns(HookFunction hook, UnhookFunction unhook) {
 }
 
 void start_home_layout_hooks(const char *site, HookFunction hook, UnhookFunction unhook) {
+    if (nhk::home_safe_mode::decision().blocked) return;
     // Property callers can be the Flutter raster or input worker. A cold bank
     // must not make their property read perform discovery/fork reset/install.
     // Explicit library/configuration/native startup paths are unaffected.

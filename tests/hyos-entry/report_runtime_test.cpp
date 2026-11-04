@@ -11,6 +11,8 @@
 extern "C" void hc_home_report_entry() {}
 struct ZnSymbolResolver {};
 namespace test {
+bool normal_reader(const char *,char *value,std::size_t capacity){assert(capacity>=1);value[0]=0;return true;}
+bool blocked_reader(const char *,char *value,std::size_t capacity){assert(capacity>=6);std::memcpy(value,"home",5);return true;}
 bool enabled=true,loaded=true,expire=false,wrong_size=false,duplicate=false,outside=false;
 int new_count=0,free_count=0,hook_count=0;
 uintptr_t image=0;
@@ -35,8 +37,10 @@ int main(int argc,char **argv){
  int fd=open(argv[2],O_RDONLY);assert(fd>=0);struct stat st{};assert(fstat(fd,&st)==0);
  void *bytes=mmap(nullptr,st.st_size,PROT_READ|PROT_WRITE,MAP_PRIVATE,fd,0);close(fd);assert(bytes!=MAP_FAILED);image=reinterpret_cast<uintptr_t>(bytes);
  ZygiskNextAPI api{};api.newSymbolResolver=create;api.freeSymbolResolver=release;api.getBaseAddress=base;api.forEachSymbols=symbols;api.inlineHook=hook;api.inlineUnhook=unhook;
+ nhk::home_safe_mode::set_reader_for_test(&normal_reader);nhk::home_safe_mode::set_pid_for_test(4001);
  const std::string scenario=argv[1];
- if(scenario=="disabled"){enabled=false;hyperceiler_hyos_retry_home_report(&api);assert(new_count==0&&hook_count==0);}
+ if(scenario=="safe-mode-blocked"){nhk::home_safe_mode::set_reader_for_test(&blocked_reader);nhk::home_safe_mode::set_pid_for_test(4002);hyperceiler_hyos_retry_home_report(&api);assert(new_count==0&&hook_count==0&&free_count==0);}
+ else if(scenario=="disabled"){enabled=false;hyperceiler_hyos_retry_home_report(&api);assert(new_count==0&&hook_count==0);}
  else if(scenario=="null-api"){hyperceiler_hyos_retry_home_report(nullptr);api.getBaseAddress=nullptr;hyperceiler_hyos_retry_home_report(&api);assert(new_count==0);}
  else if(scenario=="not-loaded-then-retry"){loaded=false;hyperceiler_hyos_retry_home_report(&api);assert(new_count==1&&free_count==0&&hook_count==0);loaded=true;hyperceiler_hyos_retry_home_report(&api);assert(hook_count==1&&free_count==1);}
  else if(scenario=="wrong-note"){reinterpret_cast<unsigned char *>(bytes)[hyos_guard::kDartNoteVa+16]^=1;hyperceiler_hyos_retry_home_report(&api);assert(hook_count==0&&free_count==1);}
