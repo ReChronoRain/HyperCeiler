@@ -1543,4 +1543,6 @@
     <string name="custom_hook_mode">Вибрати режим</string>
     <string name="open_source">Проєкти з відкритим кодом</string>
     <string name="close_source">Проєкти із закритим кодом</string>
+    <string name="system_ui_status_bar_follow_title">Status bar following (experimental)</string>
+    <string name="system_ui_status_bar_follow_summary">Experimental: restart SystemUI and the system process to apply. May affect system stability.</string>
 </resources>

@@ -1678,4 +1678,6 @@
     <string name="close_source">閉源項目</string>
     <string name="home_drawer_hide_search">隱藏抽屜搜尋框</string>
     <string name="home_layout_hotseats_margin_horizontal_desc">調整底欄圖示的左右留白，數值越大圖示越靠近中間，重新啟動系統桌面後生效</string>
+    <string name="system_ui_status_bar_follow_title">狀態欄跟隨（實驗性）</string>
+    <string name="system_ui_status_bar_follow_summary">實驗性功能：需重新啟動 SystemUI 和系統程序後生效，可能影響系統穩定性。</string>
 </resources>

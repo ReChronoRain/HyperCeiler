@@ -117,8 +117,13 @@ public class SystemUIB extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        // Experimental status-bar follow remains hidden/default-off until all required contracts are verified.
-        initHook(new com.sevtinge.hyperceiler.libhook.rules.systemui.barfollow.StatusBarFollowSystemUi(), PrefsBridge.getBoolean("system_ui_status_bar_follow_enable", false));
+
+
+
+
+        if (com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_AVAILABLE) {
+            initHook(new com.sevtinge.hyperceiler.libhook.rules.systemui.barfollow.StatusBarFollowSystemUi(), PrefsBridge.getBoolean("system_ui_status_bar_follow_enable", false));
+        }
         initHook(new com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeHideRecentCardsOS4(),
             isHyperOSVersion(4f));
         initHook(new com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeExtraGesturesOS4(),
