@@ -25,6 +25,10 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.Deoptimizers;
  */
 public abstract class StatusBarFollowRuntime extends BaseHook {
     protected static final String TAG = "HyperCeiler.StatusBarFollow";
+    protected static final int LOG_DEBUG = 3;
+    protected static final int LOG_INFO = 4;
+    protected static final int LOG_WARN = 5;
+    protected static final int LOG_ERROR = 6;
     protected volatile RecentsOpenSession.Attempt recentsOpenAttempt;
     private final List<XposedInterface.HookHandle> statusbarHookHandles = new CopyOnWriteArrayList<>();
     private volatile boolean dexKitLibraryLoaded;
