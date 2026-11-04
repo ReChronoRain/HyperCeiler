@@ -26,6 +26,10 @@ import org.luckypray.dexkit.query.enums.StringMatchType
 import java.io.File
 import java.lang.reflect.Method
 
+/**
+ * Battery health hook for Security Center.
+ * Hooks battery health display and provides fallback resolution.
+ */
 object BatteryHealth : BaseHook() {
     override fun useDexKit() = true
 
@@ -35,6 +39,10 @@ object BatteryHealth : BaseHook() {
         findMethod
         return true
     }
+
+    private const val METHOD_FIND_PREFERENCE = "findPreference"
+    private const val METHOD_SET_TEXT = "setText"
+    private const val KEY_BATTERY_HEALTH = "reference_battery_health"
 
     private val getSecurityBatteryHealth by lazy<Method?> {
         optionalMember("getSecurityBatteryHealth") {
@@ -91,34 +99,25 @@ object BatteryHealth : BaseHook() {
 
         findMethod.createAfterHook { param ->
             gff = runCatching {
-                param.thisObject.callMethod("findPreference", "reference_battery_health")
+                param.thisObject.callMethod(METHOD_FIND_PREFERENCE, KEY_BATTERY_HEALTH)
             }.getOrNull()
         }
 
         cc.createAfterHook {
-            val pref = gff ?: return@createAfterHook
-            val resolvedHealth = health ?: resolveHealthFallback()
-            if (resolvedHealth != null && resolvedHealth in 1..100) {
-                runCatching {
-                    pref.callMethod("setText", "$resolvedHealth%")
+            val pref = gff
+            if (pref != null) {
+                val resolvedHealth = health ?: resolveHealthFallback()
+                if (resolvedHealth != null && resolvedHealth in 1..100) {
+                    runCatching {
+                        pref.callMethod(METHOD_SET_TEXT, "$resolvedHealth%")
+                    }
                 }
             }
         }
     }
 
     private fun resolveHealthFallback(): Int? {
-        val miChargeSoh = runCatching {
-            val miChargeClass = findClassIfExists("miui.util.IMiCharge") ?: return@runCatching null
-            val instance = miChargeClass.getMethod("getInstance").invoke(null) ?: return@runCatching null
-            val soh = instance.javaClass.getMethod("getBatterySoh").invoke(instance)
-            when (soh) {
-                is Int -> if (soh in 1..100) soh else null
-                is Number -> if (soh.toInt() in 1..100) soh.toInt() else null
-                is String -> soh.trim().toIntOrNull()?.takeIf { it in 1..100 }
-                null -> null
-                else -> null
-            }
-        }.getOrNull()
+        val miChargeSoh = readMiChargeSoh()
         if (miChargeSoh != null) {
             return miChargeSoh
         }
@@ -142,31 +141,56 @@ object BatteryHealth : BaseHook() {
             "/sys/class/power_supply/battery/charge_full",
             "/sys/class/power_supply/bms/charge_full"
         ))
-        if (rawDesign != null && rawFull != null && rawDesign > 0 && rawFull > 0) {
-            val ratio = kotlin.math.round((rawFull.toDouble() / rawDesign.toDouble()) * 100.0).toInt()
+        val design = rawDesign ?: 0L
+        val full = rawFull ?: 0L
+        if (design > 0L && full > 0L) {
+            val ratio = kotlin.math.round((full.toDouble() / design.toDouble()) * 100.0).toInt()
             return if (ratio > 100) 100 else if (ratio < 1) null else ratio
         }
 
         return null
     }
 
+    private fun readMiChargeSoh(): Int? {
+        return try {
+            val miChargeClass = findClassIfExists("miui.util.IMiCharge")
+            val instance = miChargeClass?.getMethod("getInstance")?.invoke(null)
+            if (instance != null) {
+                val soh = instance.javaClass.getMethod("getBatterySoh").invoke(instance)
+                when (soh) {
+                    is Int -> if (soh in 1..100) soh else null
+                    is Number -> if (soh.toInt() in 1..100) soh.toInt() else null
+                    is String -> soh.trim().toIntOrNull()?.takeIf { it in 1..100 }
+                    null -> null
+                    else -> null
+                }
+            } else null
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
     private fun readSysfsInt(path: String): Int? {
-        return runCatching {
+        return try {
             val file = File(path)
             if (file.exists()) {
                 file.bufferedReader().use { it.readLine()?.trim()?.toIntOrNull() }
             } else null
-        }.getOrNull()
+        } catch (_: Throwable) {
+            null
+        }
     }
 
     private fun readFirstPositiveSysfsLong(paths: List<String>): Long? {
         for (path in paths) {
-            val value = runCatching {
+            val value = try {
                 val file = File(path)
                 if (file.exists()) {
                     file.bufferedReader().use { it.readLine()?.trim()?.toLongOrNull() }
                 } else null
-            }.getOrNull()
+            } catch (_: Throwable) {
+                null
+            }
             if (value != null && value > 0L) {
                 return value
             }
