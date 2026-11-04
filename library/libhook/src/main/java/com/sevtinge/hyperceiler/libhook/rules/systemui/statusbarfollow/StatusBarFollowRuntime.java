@@ -50,9 +50,11 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
         HookBuilder(Executable executable) { this.executable = executable; }
         public HookBuilder setId(String value) { return this; }
         public XposedInterface.HookHandle intercept(XposedInterface.Hooker hooker) {
+            XposedInterface.Hooker gated = chain -> StatusBarFollowGate.enabled()
+                ? hooker.intercept(chain) : chain.proceed();
             XposedInterface.HookHandle handle = executable instanceof Method method
-                ? BaseHook.chain(method, hooker)
-                : BaseHook.chain((Constructor<?>) executable, hooker);
+                ? BaseHook.chain(method, gated)
+                : BaseHook.chain((Constructor<?>) executable, gated);
             if (handle != null) statusbarHookHandles.add(handle);
             return handle;
         }

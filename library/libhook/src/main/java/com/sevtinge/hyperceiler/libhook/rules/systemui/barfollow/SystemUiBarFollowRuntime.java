@@ -25,6 +25,7 @@ import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.FieldUsingType;
 
 import io.github.libxposed.api.XposedInterface;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarFollowGate;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarFollowPreferences;
 
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarFollowRuntime;
@@ -1113,7 +1114,7 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                     StatusBarFollowPreferences.KEY_RESTORE_STATUS_BAR_FOLLOW,
                     StatusBarFollowPreferences.DEFAULT_RESTORE_STATUS_BAR_FOLLOW);
             barFollowPreferenceFailureLogged = false;
-            return enabled;
+            return enabled && StatusBarFollowGate.enabled();
         } catch (Throwable failure) {
             if (!barFollowPreferenceFailureLogged) {
                 barFollowPreferenceFailureLogged = true;
