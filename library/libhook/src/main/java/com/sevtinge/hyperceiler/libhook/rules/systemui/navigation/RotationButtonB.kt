@@ -116,14 +116,7 @@ object RotationButtonB : BaseHook() {
             // 形态一：lambda 被内联回宿主类
             var hooked = false
             for (method in viewClass.declaredMethods) {
-                val returnType = method.returnType
-                if (method.parameterTypes.isEmpty()
-                    && (returnType == Int::class.javaPrimitiveType
-                        || returnType == Integer::class.java
-                        || returnType == Any::class.java)
-                    // 不猜编号：名字带 lambda$ 前缀才算内联 lambda，避免误挂普通 getter
-                    && method.name.startsWith("lambda$")
-                ) {
+                if (isInlinedRotationSupplier(method)) {
                     hookMethod(method, object : IMethodHook {
                         override fun before(param: HookParam) {
                             forceOrientation(param, param.thisObject)
@@ -155,6 +148,22 @@ object RotationButtonB : BaseHook() {
             })
             return
         }
+    }
+
+    private fun isInlinedRotationSupplier(method: Method): Boolean {
+        // 形态一的三个结构特征同时成立才算命中。不猜编号：名字带 lambda$ 前缀
+        // 才算内联 lambda，避免误挂普通 getter。
+        return method.parameterTypes.isEmpty() &&
+            method.name.startsWith("lambda$") &&
+            returnsRotationLikeValue(method.returnType)
+    }
+
+    private fun returnsRotationLikeValue(returnType: Class<*>): Boolean {
+        // 方向 Supplier 的返回类型在三个基线上是 int/Integer，编译器也可能把它
+        // 装箱或擦成 Object，所以三种都认。
+        return returnType == Int::class.javaPrimitiveType ||
+            returnType == Integer::class.java ||
+            returnType == Any::class.java
     }
 
     private fun forceOrientation(param: HookParam, owner: Any) {
