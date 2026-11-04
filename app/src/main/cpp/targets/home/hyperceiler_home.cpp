@@ -1,4 +1,5 @@
 #include "nativehook/android_diagnostics.h"
+#include "nativehook/native_log.h"
 /*
  * This file is part of HyperCeiler.
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -425,6 +426,13 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 }
 
 extern "C" JNIEXPORT jint JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeFlushLogs(
+    JNIEnv *, jobject) {
+    nhk::native_log::flush();
+    return native_status();
+}
+
+extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeStatus(
     JNIEnv *, jobject) {
     return native_status();
@@ -519,6 +527,9 @@ NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
 }
 
 extern "C" [[gnu::visibility("default")]] [[gnu::used]]
-jint JNI_OnLoad(JavaVM *, void *) {
+jint JNI_OnLoad(JavaVM *vm, void *) {
+    JNIEnv *env = nullptr;
+    if (vm != nullptr && vm->GetEnv(reinterpret_cast<void **>(&env), JNI_VERSION_1_6) == JNI_OK)
+        nhk::native_log::attach_java_bridge(vm, env);
     return JNI_VERSION_1_6;
 }

@@ -7,7 +7,9 @@ project(HyperCeilerNative LANGUAGES CXX)
 # The library name is the LSPosed native-hook contract: it must match the
 # `libHyperCeilerNative.so` entry of META-INF/xposed/native_init.list and the
 # `System.loadLibrary` name in NativeHomeHooksOS4.
-add_library(HyperCeilerNative SHARED targets/home/hyperceiler_home.cpp)
+add_library(HyperCeilerNative SHARED
+    nativehook/native_log.cpp
+    targets/home/hyperceiler_home.cpp)
 
 option(HYPERCEILER_HYOS_BACKEND "Build the separate Zygisk Next native-only companion" OFF)
 if(HYPERCEILER_HYOS_BACKEND)
