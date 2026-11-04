@@ -1648,4 +1648,6 @@
     <string name="settings_float_nav">フローティングボトムバー</string>
     <string name="system_framework_bypass_force_mi_appstore_desc">確認なしに Xiaomi アプリストアに直接リダイレクトすることを回避して、サードパーティのアプリストアを選択できるようにします</string>
     <string name="health_unlock_foucs_app_sign_white_list_title">すべてのアプリがスマートウォッチやスマートバンドにフォーカス通知を送信できるようにする</string>
+    <string name="system_ui_status_bar_follow_title">Status bar following (experimental)</string>
+    <string name="system_ui_status_bar_follow_summary">Experimental: restart SystemUI and the system process to apply. May affect system stability.</string>
 </resources>

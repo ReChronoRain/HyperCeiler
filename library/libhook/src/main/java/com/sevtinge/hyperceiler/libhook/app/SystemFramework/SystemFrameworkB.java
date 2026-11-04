@@ -93,8 +93,13 @@ public class SystemFrameworkB extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        // Experimental status-bar follow remains hidden/default-off until all required contracts are verified.
-        initHook(new com.sevtinge.hyperceiler.libhook.rules.systemframework.statusbarfollow.StatusBarFollowSystemServer(), PrefsBridge.getBoolean("system_ui_status_bar_follow_enable", false));
+
+
+
+
+        if (com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_AVAILABLE) {
+            initHook(new com.sevtinge.hyperceiler.libhook.rules.systemframework.statusbarfollow.StatusBarFollowSystemServer(), PrefsBridge.getBoolean("system_ui_status_bar_follow_enable", false));
+        }
         initHook(new com.sevtinge.hyperceiler.libhook.rules.weather.WeatherNativeBridgeOS4(),
             com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
         // HYOS/Flutter launcher has no Java Activity entry. WMS owns its backdrop instead.

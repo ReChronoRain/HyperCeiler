@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
+val statusBarFollowBuildAvailable = providers.gradleProperty("statusBarFollow").map(String::toBoolean).getOrElse(false)
+
 android {
     namespace = "com.sevtinge.hyperceiler.common"
     compileSdk = 37
@@ -12,6 +14,7 @@ android {
         minSdk = 35
 
         buildConfigField("String", "APP_MODULE_ID", "\"com.sevtinge.hyperceiler\"")
+        buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", "false")
     }
 
     buildFeatures {
@@ -19,9 +22,18 @@ android {
     }
 
     buildTypes {
-        release {}
-        create("beta") {}
-        create("canary") {}
+        debug {
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", "true")
+        }
+        release {
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", statusBarFollowBuildAvailable.toString())
+        }
+        create("beta") {
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", statusBarFollowBuildAvailable.toString())
+        }
+        create("canary") {
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", statusBarFollowBuildAvailable.toString())
+        }
     }
 }
 

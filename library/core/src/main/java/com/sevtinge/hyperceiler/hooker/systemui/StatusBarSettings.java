@@ -46,6 +46,10 @@ public class StatusBarSettings extends DashboardFragment {
     public void initPrefs() {
 
         mHideStatusBarOnLockScreen = findPreference("prefs_key_system_ui_status_bar_hide_icon");
+        SwitchPreference statusBarFollow = findPreference("prefs_key_system_ui_status_bar_follow_enable");
+        if (statusBarFollow != null) {
+            statusBarFollow.setVisible(com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_AVAILABLE);
+        }
         if (isMoreSmallVersion(200, 2f)) {
             mHideStatusBarOnLockScreen.setSummary(R.string.system_ui_status_bar_hide_icon_desc);
         }

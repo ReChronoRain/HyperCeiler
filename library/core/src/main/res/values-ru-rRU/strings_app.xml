@@ -1622,4 +1622,6 @@
     <string name="gallery_longer_trashbin_time_desc">Экспериментальная функция. Только для пользователей из материкового Китая.</string>
     <string name="health_disable_splash_ad">Отключить всплывающую рекламу</string>
     <string name="help_full_support_desc">Данная версия приложения полностью совместима с текущей версией прошивки</string>
+    <string name="system_ui_status_bar_follow_title">Status bar following (experimental)</string>
+    <string name="system_ui_status_bar_follow_summary">Experimental: restart SystemUI and the system process to apply. May affect system stability.</string>
 </resources>

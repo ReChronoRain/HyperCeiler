@@ -13,6 +13,7 @@ public final class StatusBarFollowGate {
     private StatusBarFollowGate() { }
 
     public static boolean enabled() {
+        if (!com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_AVAILABLE) return false;
         try {
             if (Build.VERSION.SDK_INT < 37) return false;
             if (!com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion(4f)) return false;
