@@ -30,3 +30,17 @@ https://www.apache.org/licenses/LICENSE-2.0.
 Per Apache-2.0 §4, the ported files carry a header notice naming the source
 project and this file. HyperCeiler itself is AGPL-3.0-or-later; the derived
 files above remain subject to Apache-2.0 with the notices preserved.
+
+## Zygisk Next API header
+
+`zygisk_next_api.h` is an unmodified upstream API header included with author permission, provided that its source is attributed.
+
+- File: `zygisk_next_api.h`
+- Source repository: <https://github.com/LSPosed/ZygiskNext>
+- Fixed source commit: not supplied in the r4 request; the user-provided snapshot is treated as the authorized source and the commit must be filled before release.
+- SHA-256: `957922AEEC1BB31091CC37DCA29267B7FA41E4E109F679AF1526EE4C5E4325C8`
+- Authorization: author permission to include this one header, with attribution required.
+- Obtained: 2026-11-04
+- Scope: this permission covers only `zygisk_next_api.h`. No other ZygiskNext source, code fragment, or binary is included.
+- Verified macros: `ZYGISK_NEXT_API_VERSION=4`, `ZYGISK_NEXT_HYOS_API_VERSION=1`.
+- The header content is not modified and carries no added comments.

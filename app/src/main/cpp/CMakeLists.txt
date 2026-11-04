@@ -14,6 +14,9 @@ add_library(HyperCeilerNative SHARED
 
 option(HYPERCEILER_HYOS_BACKEND "Build the separate Zygisk Next native-only companion" OFF)
 if(HYPERCEILER_HYOS_BACKEND)
+    if(NOT HYPERCEILER_ZYGISK_NEXT_API_DIR)
+        set(HYPERCEILER_ZYGISK_NEXT_API_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nativehook")
+    endif()
     set_target_properties(HyperCeilerNative PROPERTIES OUTPUT_NAME HyperCeilerHyos)
     if(NOT EXISTS "${HYPERCEILER_ZYGISK_NEXT_API_DIR}/zygisk_next_api.h")
         message(FATAL_ERROR "Supply the pinned Zygisk Next API 4 SDK header directory")
