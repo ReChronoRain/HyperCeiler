@@ -109,10 +109,10 @@ Decision parse(const char *value) noexcept {
 
 Decision decision() noexcept {
     const pid_t pid = current_pid();
-    if (g_cached_pid.load(std::memory_order_acquire) == pid)
-        return {static_cast<State>(g_cached_state.load(std::memory_order_relaxed)),
-            static_cast<State>(g_cached_state.load(std::memory_order_relaxed)) != State::normal
-                && static_cast<State>(g_cached_state.load(std::memory_order_relaxed)) != State::missing};
+    if (g_cached_pid.load(std::memory_order_acquire) == pid) {
+        const auto state = static_cast<State>(g_cached_state.load(std::memory_order_relaxed));
+        return {state, state != State::normal && state != State::missing};
+    }
 
     char value[kMaxValue]{};
     const Reader configured = g_reader.load(std::memory_order_acquire);
