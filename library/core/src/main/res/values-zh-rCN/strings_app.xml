@@ -1515,7 +1515,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">垂直边距</string>
     <string name="security">手机管家</string>
     <string name="security_app_title">显示更多应用信息</string>
-    <string name="security_app_summary">添加新字段到应用信息页面:\n- 版本代码\n- APK 完整目录\n- 数据目录\n- 用户标识符\n- 最低 SDK 版本\n- 目标 SDK 版本\n- 链接到商店页面\n- 启动应用</string>
+    <string name="security_app_summary">添加新字段到应用信息页面:\n- 版本代码\n- APK 完整目录\n- 数据目录\n- 用户标识符\n- 最低 SDK 版本\n- 目标 SDK 版本\n- 链接到商店页面\n- 启动应用\n- 分享应用安装包</string>
     <string name="security_app_sort_title">应用管理列表排序</string>
     <string name="security_app_sort_summary">修改应用管理列表默认排序</string>
     <string name="security_restrict_app_title">全限制</string>

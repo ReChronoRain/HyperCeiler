@@ -1027,7 +1027,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">Margin vertikal</string>
     <string name="security">Keamanan</string>
     <string name="security_app_title">Tampilkan detail aplikasi tambahan</string>
-    <string name="security_app_summary">Tambahkan kolom baru ke aplikasi ke halaman:\n- kode versi\n- jalur lengkap ke apk\n- jalur data\n- ID pengguna\n- versi SDK min\n- versi SDK target\n- tautan ke halaman Play Store \n- meluncurkan aplikasi</string>
+    <string name="security_app_summary">Tambahkan kolom baru ke aplikasi ke halaman:\n- kode versi\n- jalur lengkap ke apk\n- jalur data\n- ID pengguna\n- versi SDK min\n- versi SDK target\n- tautan ke halaman Play Store \n- meluncurkan aplikasi\n- bagikan berkas APK</string>
     <string name="security_app_sort_title">Penyortiran daftar manajemen aplikasi</string>
     <string name="security_app_sort_summary">Ubah pengurutan default daftar manajemen aplikasi</string>
     <string name="security_restrict_app_title">Batas penuh</string>

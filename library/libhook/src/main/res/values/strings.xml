@@ -125,6 +125,10 @@
     <string name="various_install_app_size">Size</string>
     <string name="app_details_playstore">Open with Play Store</string>
     <string name="app_details_launch">Launch</string>
+    <string name="app_details_share_apk">Share APK</string>
+    <string name="app_details_share_apk_preparing">Preparing APK file…</string>
+    <string name="app_details_share_apk_preparing_split">Packaging split APKs (%1$d files)…</string>
+    <string name="app_details_share_apk_failed">Failed to share APK</string>
     <string name="app_details_nolaunch">App has no default launchable activity</string>
     <string name="app_details_apk_file">APK directory</string>
     <string name="app_details_apk_version_code">App version number</string>

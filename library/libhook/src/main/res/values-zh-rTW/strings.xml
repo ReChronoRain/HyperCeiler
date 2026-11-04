@@ -89,6 +89,10 @@
     <string name="various_install_app_size">大小</string>
     <string name="app_details_playstore">在Google Play中打開</string>
     <string name="app_details_launch">啟動</string>
+    <string name="app_details_share_apk">分享安裝包</string>
+    <string name="app_details_share_apk_preparing">正在準備安裝包文件…</string>
+    <string name="app_details_share_apk_preparing_split">正在打包 Split APK (%1$d 個文件)…</string>
+    <string name="app_details_share_apk_failed">分享安裝包失敗</string>
     <string name="app_details_nolaunch">沒有默認的啟動活動</string>
     <string name="app_details_apk_file">應用程式資料夾</string>
     <string name="app_details_apk_version_code">應用程式版本號</string>
