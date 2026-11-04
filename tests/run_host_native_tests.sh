@@ -57,6 +57,9 @@ for test in NativeHookElfTest NativeHookGotTest NativeHookBankTest \
   build "$test" "$ROOT/tests/nativehook/$test.cpp" && run "$test"
 done
 
+build NativeLogFacadeTest "$ROOT/tests/nativehook/NativeLogFacadeTest.cpp" \
+  "$CPP/nativehook/native_log.cpp" && run NativeLogFacadeTest
+
 # --- Desktop Dart hook layers. ---
 build DockNativeRuntimeTest "$ROOT/tests/home-dock-window/DockNativeRuntimeTest.cpp" \
   && run DockNativeRuntimeTest
