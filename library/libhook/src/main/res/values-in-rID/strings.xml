@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_center_battery_design_capacity">Kapasitas Desain</string>
+    <string name="security_center_battery_full_capacity">Kapasitas Aktual</string>
+    <string name="security_center_battery_capacity_format">%1$d mAh</string>
+    <string name="security_center_battery_max_capacity">Kapasitas Maksimum</string>
+    <string name="security_center_battery_cycle_count">Jumlah Siklus</string>
+    <string name="security_center_battery_voltage">Tegangan Baterai</string>
+    <string name="security_center_battery_technology">Teknologi Baterai</string>
+    <string name="security_center_battery_status">Status Baterai</string>
+    <string name="security_center_battery_current_now">Arus Saat Ini</string>
+    <string name="security_center_battery_capacity_level">Tingkat Kapasitas</string>
+    <string name="security_center_battery_time_to_full">Waktu Hingga Penuh</string>
+    <string name="security_center_battery_status_charging">Mengisi daya</string>
+    <string name="security_center_battery_status_discharging">Mengosongkan</string>
+    <string name="security_center_battery_status_not_charging">Tidak mengisi daya</string>
+    <string name="security_center_battery_status_full">Penuh</string>
+    <string name="security_center_battery_health_good">Normal</string>
+    <string name="security_center_battery_health_overheat">Panas berlebih</string>
+    <string name="security_center_battery_health_dead">Rusak</string>
+    <string name="security_center_battery_health_over_voltage">Tegangan berlebih</string>
+    <string name="security_center_battery_health_cold">Dingin</string>
+</resources>
+
