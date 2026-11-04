@@ -43,7 +43,7 @@ inline std::optional<size_t> resolve_folder_auto_close(std::span<const uint32_t>
     for(size_t i=gate+1;i<close_at;++i) {
         if((body[i]&0xfc000000u)!=0x94000000u)continue;
         auto t=auto_close_call(va+uint32_t(i*4),body[i]);
-        if(t==registered)reg_at=i;if(t==rx)open_at=i;
+        if(t==registered){reg_at=i;}if(t==rx){open_at=i;}
     }
     if(!(gate<reg_at && reg_at<open_at && open_at<close_at))return {};
     return gate*4;
@@ -69,7 +69,7 @@ inline bool close_animation_argument(std::span<const uint32_t> b,uint32_t va,
     if(stores!=1)return false;
     for(size_t i=3;i<b.size();++i) {
         uint32_t callee=0;if(!target(b[i],va+uint32_t(i*4),callee))continue;
-        if(callee==immediate)++fast;if(callee==scroll)++slow;
+        if(callee==immediate){++fast;}if(callee==scroll){++slow;}
         if(callee==should_animate && ldw(b[i-3],0,2) && imm9(b[i-3])==field
             && b[i-2]==0x8b1c8042u && ldx(b[i-1],29,1))++uses;
     }

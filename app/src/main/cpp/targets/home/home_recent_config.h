@@ -28,17 +28,17 @@ template<class Read> bool read_recent_config(Read read,RecentConfig& out,bool op
     if(magic!=kRecentMagic||!read(count)||count!=kRecentWireCount)return false;
     RecentConfig next;
     for(int i=0;i<kRecentWireCount;++i)if(!read(next.values[i]))return false;
-    if(!next.valid())return false;out=next;if(present)*present=true;return true;
+    if(!next.valid()){return false;}out=next;if(present){*present=true;}return true;
 }
 // Header switches are published together with the core snapshot, never merged
 // with a previous query. An older server may omit only this optional extension.
 template<class Read> bool read_recent_header(Read read,RecentConfig& out,bool optional=true,bool* present=nullptr) {
     out.values[RecentConfig::HideIcon]=out.values[RecentConfig::HideText]=0;
-    if(present)*present=false;int32_t magic=0,flags=0;
+    if(present){*present=false;}int32_t magic=0,flags=0;
     if(!read(magic))return optional;
     if(magic!=kRecentHeaderMagic||!read(flags)||flags<0||(flags&~3))return false;
     out.values[RecentConfig::HideIcon]=flags&1;
     out.values[RecentConfig::HideText]=(flags>>1)&1;
-    if(present)*present=true;return true;
+    if(present){*present=true;}return true;
 }
 }

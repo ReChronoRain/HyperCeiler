@@ -94,7 +94,7 @@ inline std::optional<BackWindowShape> resolve_back_window(std::span<const std::b
         std::array<uint32_t,10> w{};for(unsigned i=0;i<10;++i){auto v=image->word(at+i*4);if(!v)return {};w[i]=*v;}
         if(w[1]!=0xb94013e9u||w[2]!=0x4b090108u||w[3]!=0x7100051fu
             ||w[4]!=0xb9002fe8u||w[6]!=0x6b080269u||(w[8]&0xffc003ffu)!=0x3940028au)continue;
-        if(result)return {};result=BackWindowShape{apply->begin,update->begin,at,16,(w[8]>>10)&4095};
+        if(result){return {};}result=BackWindowShape{apply->begin,update->begin,at,16,(w[8]>>10)&4095};
     }
     return receiver&&param?result:std::nullopt;
 }
