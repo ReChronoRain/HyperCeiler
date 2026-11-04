@@ -440,18 +440,62 @@ public class AppDetails extends BaseHook {
         }
     }
 
-    private void handleShareApk(Activity act, Resources modRes, HookParam param) {
+    private File resolveOriginalApk() {
         if (mLastPackageInfo == null || mLastPackageInfo.applicationInfo == null) {
-            return;
+            return null;
         }
-
         String sourceDir = mLastPackageInfo.applicationInfo.sourceDir;
         if (sourceDir == null || sourceDir.isEmpty()) {
-            return;
+            return null;
         }
+        File apkFile = new File(sourceDir);
+        return apkFile.exists() ? apkFile : null;
+    }
 
-        File originalApk = new File(sourceDir);
-        if (!originalApk.exists()) {
+    private String getPreparingMessage(Resources modRes, PackageInfo pkgInfo) {
+        int splitCount = getSplitApkCount(pkgInfo);
+        if (splitCount > 0) {
+            return modRes.getString(R.string.app_details_share_apk_preparing_split, splitCount);
+        }
+        return modRes.getString(R.string.app_details_share_apk_preparing);
+    }
+
+    private void launchShareChooser(Activity act, File shareFile, String packageName, String failedMsg) {
+        try {
+            boolean isApks = shareFile.getName().endsWith(".apks");
+            String mimeType = isApks ? "application/zip" : "application/vnd.android.package-archive";
+            Uri uri = getShareUri(act, shareFile);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setType(mimeType);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            intent.putExtra(Intent.EXTRA_PACKAGE_NAME, packageName);
+            intent.putExtra("com.miui.mishare.extra.MISHARE_APK_PACKAGE_NAME", packageName);
+            act.startActivity(Intent.createChooser(intent, null));
+        } catch (Throwable t) {
+            XposedLog.e(TAG, getPackageName(), "Failed to launch share intent", t);
+            Toast.makeText(act, failedMsg, Toast.LENGTH_SHORT).show();
+        } finally {
+            sPreparing.set(false);
+        }
+    }
+
+    private void performShareInBackground(Activity act, File originalApk, PackageInfo pkgInfo, String failedMsg) {
+        IO_EXECUTOR.execute(() -> {
+            try {
+                File shareFile = prepareShareFile(act, originalApk, pkgInfo);
+                act.runOnUiThread(() -> launchShareChooser(act, shareFile, pkgInfo.packageName, failedMsg));
+            } catch (Throwable t) {
+                XposedLog.e(TAG, getPackageName(), "Failed to prepare share file", t);
+                act.runOnUiThread(() -> Toast.makeText(act, failedMsg, Toast.LENGTH_SHORT).show());
+                sPreparing.set(false);
+            }
+        });
+    }
+
+    private void handleShareApk(Activity act, Resources modRes, HookParam param) {
+        File originalApk = resolveOriginalApk();
+        if (originalApk == null) {
             Toast.makeText(act, modRes.getString(R.string.app_details_share_apk_failed), Toast.LENGTH_SHORT).show();
             param.setResult(true);
             return;
@@ -462,47 +506,9 @@ public class AppDetails extends BaseHook {
             return;
         }
 
-        String packageName = mLastPackageInfo.packageName;
-        int splitCount = getSplitApkCount(mLastPackageInfo);
-        String prepMsg = splitCount > 0
-            ? modRes.getString(R.string.app_details_share_apk_preparing_split, splitCount)
-            : modRes.getString(R.string.app_details_share_apk_preparing);
         String failedMsg = modRes.getString(R.string.app_details_share_apk_failed);
-
-        Toast.makeText(act, prepMsg, Toast.LENGTH_SHORT).show();
-
-        IO_EXECUTOR.execute(() -> {
-            try {
-                File shareFile = prepareShareFile(act, originalApk, mLastPackageInfo);
-                boolean isApks = shareFile.getName().endsWith(".apks");
-                String mimeType = isApks
-                    ? "application/zip"
-                    : "application/vnd.android.package-archive";
-
-                act.runOnUiThread(() -> {
-                    try {
-                        Uri uri = getShareUri(act, shareFile);
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intent.setType(mimeType);
-                        intent.putExtra(Intent.EXTRA_STREAM, uri);
-                        intent.putExtra(Intent.EXTRA_PACKAGE_NAME, packageName);
-                        intent.putExtra("com.miui.mishare.extra.MISHARE_APK_PACKAGE_NAME", packageName);
-                        act.startActivity(Intent.createChooser(intent, null));
-                    } catch (Throwable t) {
-                        XposedLog.e(TAG, getPackageName(), "Failed to launch share intent", t);
-                        Toast.makeText(act, failedMsg, Toast.LENGTH_SHORT).show();
-                    } finally {
-                        sPreparing.set(false);
-                    }
-                });
-            } catch (Throwable t) {
-                XposedLog.e(TAG, getPackageName(), "Failed to prepare share file", t);
-                act.runOnUiThread(() -> Toast.makeText(act, failedMsg, Toast.LENGTH_SHORT).show());
-                sPreparing.set(false);
-            }
-        });
-
+        Toast.makeText(act, getPreparingMessage(modRes, mLastPackageInfo), Toast.LENGTH_SHORT).show();
+        performShareInBackground(act, originalApk, mLastPackageInfo, failedMsg);
         param.setResult(true);
     }
 
