@@ -19,7 +19,9 @@ with tempfile.TemporaryDirectory(prefix='hc-hyos-inventory-') as folder:
 enum {ANDROID_LOG_INFO=4,ANDROID_LOG_WARN=5,ANDROID_LOG_ERROR=6};
 inline int __android_log_print(int,const char*,const char*,...){return 0;}
 ''')
-    (temp/'sys/sysmacros.h').write_text('#pragma once\n#include <sys/types.h>\n')
+    # glibc declares makedev/major/minor in <sys/sysmacros.h>; only hosts without it need the shim.
+    if not any(Path(p, 'sys/sysmacros.h').exists() for p in ('/usr/include', '/usr/include/x86_64-linux-gnu', '/usr/include/aarch64-linux-gnu')):
+        (temp/'sys/sysmacros.h').write_text('#pragma once\n#include <sys/types.h>\n')
     (temp/'link.h').write_text('''#pragma once
 #include <elf.h>
 struct dl_phdr_info {uintptr_t dlpi_addr;const char*dlpi_name;const Elf64_Phdr*dlpi_phdr;Elf64_Half dlpi_phnum;};
@@ -69,7 +71,7 @@ struct Elf64_Phdr {Elf64_Word p_type,p_flags;Elf64_Off p_offset;Elf64_Addr p_vad
         for i in range(80):
             with zipfile.ZipFile(temp/f'other-{i}.apk','w'):
                 pass
-        command = ['c++','-std=c++20','-Wall','-Wextra','-Werror',f'-DNHK_HOST_PAGE_SIZE={page}',
+        command = ['c++','-std=c++20','-Wall','-Wextra','-Werror','-Wno-misleading-indentation',f'-DNHK_HOST_PAGE_SIZE={page}',
                    '-I'+str(temp),'-I'+str(ROOT/'app/src/main/cpp'),
                    str(Path(__file__).with_name('test.cpp')),'-o',str(temp/'test')]
         subprocess.run(command, check=True)

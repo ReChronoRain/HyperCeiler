@@ -40,11 +40,14 @@ inline bool ParseReadableRanges(const std::string& text, uintptr_t address, size
             || !number(range.substr(0,dash),16,begin) || !number(range.substr(dash+1),16,end)
             || !number(offset,16,off) || !number(device.substr(0,colon),16,major)
             || !number(device.substr(colon+1),16,minor) || !number(inode,10,ino)
-            || begin>=end || end>UINTPTR_MAX || begin<previous
+            || begin>end || end>UINTPTR_MAX || begin<previous
             || major>UINT32_MAX || minor>UINT32_MAX || perms.size()!=4
             || (perms[0]!='r'&&perms[0]!='-') || (perms[1]!='w'&&perms[1]!='-')
             || (perms[2]!='x'&&perms[2]!='-') || (perms[3]!='p'&&perms[3]!='s')) return false;
         previous=uintptr_t(end);
+        // Zero-length "[page size compat]" rows appear where a padded ELF segment was split;
+        // they map nothing, so they neither cover nor break a requested range.
+        if (begin==end) continue;
         if (end<=address || begin>=limit) continue;
         if (begin>cursor || end<=cursor || perms[0]!='r'
             || off>UINT64_MAX-(std::min<uint64_t>(end,limit)-begin)) return false;

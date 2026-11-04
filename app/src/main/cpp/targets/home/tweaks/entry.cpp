@@ -143,6 +143,12 @@ std::string DescribeCount(uint32_t count) {
 }
 
 bool IsLauncherProcess() {
+    // Called on every launcher property read via StartHomeLayoutEngine(). Cache the positive
+    // answer per pid: once a pid has specialized into com.miui.home it never turns back into
+    // the spawner/usap, and a fork gets a new pid, so the cache cannot leak across processes.
+    static std::atomic<pid_t> launcherPid{0};
+    const pid_t self = getpid();
+    if (launcherPid.load(std::memory_order_acquire) == self) return true;
     int fd = open("/proc/self/cmdline", O_RDONLY | O_CLOEXEC);
     if (fd < 0) return false;
     char buf[256];
@@ -150,7 +156,9 @@ bool IsLauncherProcess() {
     close(fd);
     if (n <= 0) return false;
     buf[n] = '\0';
-    return strcmp(buf, "com.miui.home") == 0;
+    if (strcmp(buf, "com.miui.home") != 0) return false;
+    launcherPid.store(self, std::memory_order_release);
+    return true;
 }
 
 // Permission changes are journaled separately from whether the instruction landed.
@@ -987,9 +995,39 @@ uint64_t MonitorPeriodMs(const State& state) {
      *           still being found, and while a plan is actively being applied. A genuinely
      *           progressed plan settles in a pass or two, so this stays bounded.
      */
-    if (state.imageFound && state.configLoaded && !state.repatchNeeded) return 1500;
+    // Only MonitorLoop() calls this, so plain statics are enough. The phase is keyed by pid like
+    // HomeLayoutEnginePrepareForLauncherChild(): a desktop forked from a process that already ran
+    // the monitor must start with the fast cadence, not with its parent's backoff.
+    static pid_t phaseOwner = 0;
+    static uint64_t unsettledSince = 0;
+    static uint64_t backoffMs = 1500;
+    if (const pid_t self = getpid(); phaseOwner != self) {
+        phaseOwner = self;
+        unsettledSince = 0;
+        backoffMs = 1500;
+    }
+    if (state.imageFound && state.configLoaded && !state.repatchNeeded) {
+        unsettledSince = 0;
+        backoffMs = 1500;
+        return 1500;
+    }
     if (state.restoreBlocked || state.writeRetryPending) return 1500;
-    return 50;
+    /*
+     * "This stays bounded" does not hold when discovery can never succeed - a maps row the
+     * inventory rejects, an image outside dl_iterate_phdr and every mapped container, or a
+     * configuration that never loads: the loop then ran a full dl_iterate_phdr + /proc/self/maps
+     * pass every 50 ms for the life of the launcher (~25-30% of a core at nice -20 on a HyperOS 4
+     * device with ~4700 mappings, felt as desktop/gesture jank). Keep the fast cadence for the
+     * first 5 s of an unsettled phase, then back off 1.5 s -> 3 s -> ... -> 30 s.
+     * OnNativeLibraryLoaded() still wakes the loop immediately, so an image that appears later is
+     * patched without waiting for the backoff.
+     */
+    const uint64_t now = NowMs();
+    if (unsettledSince == 0) unsettledSince = now;
+    if (now - unsettledSince < 5000) return 50;
+    const uint64_t period = backoffMs;
+    backoffMs = backoffMs >= 15000 ? 30000 : backoffMs * 2;
+    return period;
 }
 
 void MonitorLoop() {
@@ -1112,7 +1150,7 @@ void StartHomeLayoutEngine() {
             [](void*) -> void* {
                 // Named for field triage: an unnamed thread in the launcher cannot be attributed
                 // to a component, and this one is a permanent loop.
-                (void)pthread_setname_np(pthread_self(), "hc-home-layout-engine");
+                (void)pthread_setname_np(pthread_self(), "hc-layout-eng");  // <=15 bytes, or ERANGE leaves it unnamed
                 MonitorLoop();
                 return nullptr;
             },
