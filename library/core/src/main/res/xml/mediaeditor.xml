@@ -47,6 +47,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="prefs_key_mediaeditor_custom_sticker_category"
+        android:title="@string/mediaeditor_custom_sticker_category">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mediaeditor_custom_sticker"
+            android:summary="@string/mediaeditor_custom_sticker_desc"
+            android:title="@string/mediaeditor_custom_sticker_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="prefs_key_mediaeditor_custom_photo_frames_v2"
         android:title="@string/mediaeditor_authoring">
         <SwitchPreference
