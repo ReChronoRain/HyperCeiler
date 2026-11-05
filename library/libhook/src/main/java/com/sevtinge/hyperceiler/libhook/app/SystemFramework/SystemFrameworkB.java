@@ -97,7 +97,7 @@ public class SystemFrameworkB extends BaseLoad {
 
 
 
-        if (com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_AVAILABLE) {
+        if (com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_SERVER_AVAILABLE) {
             initHook(new com.sevtinge.hyperceiler.libhook.rules.systemframework.statusbarfollow.StatusBarFollowSystemServer(), PrefsBridge.getBoolean("system_ui_status_bar_follow_enable", false));
         }
         initHook(new com.sevtinge.hyperceiler.libhook.rules.weather.WeatherNativeBridgeOS4(),

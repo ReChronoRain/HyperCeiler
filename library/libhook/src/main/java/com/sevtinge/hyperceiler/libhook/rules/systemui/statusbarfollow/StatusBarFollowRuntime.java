@@ -32,6 +32,8 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
     protected volatile RecentsOpenSession.Attempt recentsOpenAttempt;
     private final List<XposedInterface.HookHandle> statusbarHookHandles = new CopyOnWriteArrayList<>();
     private volatile boolean dexKitLibraryLoaded;
+    private final ThreadLocal<Boolean> statusbarHookActive = new ThreadLocal<>();
+    private volatile boolean callbackTimeoutReported;
 
     protected abstract String resolveBarFollowDexContainer(Class<?> target) throws Throwable;
 
@@ -54,8 +56,28 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
         HookBuilder(Executable executable) { this.executable = executable; }
         public HookBuilder setId(String value) { return this; }
         public XposedInterface.HookHandle intercept(XposedInterface.Hooker hooker) {
-            XposedInterface.Hooker gated = chain -> StatusBarFollowGate.enabled()
-                ? hooker.intercept(chain) : chain.proceed();
+                        XposedInterface.Hooker gated = chain -> {
+                if (!StatusBarFollowGate.enabled() || Boolean.TRUE.equals(statusbarHookActive.get()))
+                    return chain.proceed();
+                GuardedChain guarded = new GuardedChain(chain);
+                statusbarHookActive.set(Boolean.TRUE);
+                long started = System.nanoTime();
+                try {
+                    return hooker.intercept(guarded);
+                } catch (Throwable failure) {
+                    if (!guarded.proceeded) return chain.proceed();
+                    if (guarded.hasResult()) return guarded.result;
+                    moduleLog(LOG_WARN, TAG, "Status-bar callback failed after proceed", failure);
+                    return null;
+                } finally {
+                    statusbarHookActive.remove();
+                    long elapsed = System.nanoTime() - started;
+                    if (elapsed > 50_000_000L && !callbackTimeoutReported) {
+                        callbackTimeoutReported = true;
+                        moduleLog(LOG_WARN, TAG, "Status-bar callback exceeded 50 ms budget");
+                    }
+                }
+            };
             XposedInterface.HookHandle handle = executable instanceof Method method
                 ? BaseHook.chain(method, gated)
                 : BaseHook.chain((Constructor<?>) executable, gated);
@@ -191,6 +213,31 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
         if (priority <= 4) XposedLog.d(tag, message, failure);
         else if (priority == 5) XposedLog.w(tag, message, failure);
         else XposedLog.e(tag, message, failure);
+    }
+
+    private static final class GuardedChain implements XposedInterface.Chain {
+        private final XposedInterface.Chain delegate;
+        boolean proceeded;
+        boolean completed;
+        Object result;
+        GuardedChain(XposedInterface.Chain delegate) { this.delegate = delegate; }
+        @Override public Executable getExecutable() { return delegate.getExecutable(); }
+        @Override public Object getThisObject() { return delegate.getThisObject(); }
+        @Override public List<Object> getArgs() { return delegate.getArgs(); }
+        @Override public Object getArg(int index) { return delegate.getArg(index); }
+        @Override public Object proceed() throws Throwable { return proceedWithResult(delegate.proceed()); }
+        @Override public Object proceed(Object[] values) throws Throwable { return proceedWithResult(delegate.proceed(values)); }
+        @Override public Object proceedWith(Object target) throws Throwable { return proceedWithResult(delegate.proceedWith(target)); }
+        @Override public Object proceedWith(Object target, Object[] values) throws Throwable {
+            return proceedWithResult(delegate.proceedWith(target, values));
+        }
+        private Object proceedWithResult(Object value) {
+            proceeded = true;
+            completed = true;
+            result = value;
+            return value;
+        }
+        boolean hasResult() { return completed; }
     }
 
     protected static boolean deoptimize(Constructor<?> constructor) {

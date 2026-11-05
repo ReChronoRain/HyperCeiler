@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.barfollow;
 
+import android.content.Context;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.BootFuseController;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarBootFuse;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarFollowGate;
 
 import java.lang.reflect.Array;
@@ -19,13 +23,36 @@ public final class StatusBarFollowSystemUi extends SystemUiBarFollowRuntime {
     private final Map<Class<?>, String> loadedDexContainers = new ConcurrentHashMap<>();
 
     @Override public void init() {
+        StatusBarBootFuse.Session fuse = null;
         try {
             if (!StatusBarFollowGate.enabled()) return;
+            Context context = EzXposed.getAppContextOrNull();
+            if (context == null) return;
+            fuse = StatusBarBootFuse.open(context, "systemui");
+            if (fuse == null) return;
+            BootFuseController.Decision decision = fuse.controller().beginInstall(
+                PrefsBridge.getString("system_ui_status_bar_boot_fuse_reset_request", ""));
+            if (decision != BootFuseController.Decision.ALLOW) {
+                moduleLog(LOG_WARN, TAG, "Status-bar follow boot fuse denied SystemUI install state=" + decision);
+                return;
+            }
             ClassLoader loader = EzXposed.getSafeClassLoader();
-            hookRecentsBarFollow(loader, Collections.emptySet());
-            registerHotReloadCleanup(this::closeBarFollowRuntime);
+            final StatusBarBootFuse.Session session = fuse;
+            if (!session.startBootCompletionObserver(context, () -> {
+                try {
+                    hookRecentsBarFollow(loader, Collections.emptySet());
+                    session.markInstalled();
+                    registerHotReloadCleanup(this::closeBarFollowRuntime);
+                } catch (Throwable failure) {
+                    moduleLog(LOG_WARN, TAG, "Deferred SystemUI status-bar installation failed", failure);
+                    session.close();
+                }
+            })) return;
+            registerHotReloadCleanup(session::close);
         } catch (Throwable ignored) {
             // Contract failure preserves the native status bar path.
+        } finally {
+            if (fuse != null && !fuse.hasStarted() && !fuse.hasInstalled()) fuse.close();
         }
     }
 

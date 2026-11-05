@@ -1684,4 +1684,6 @@
     <string name="miui_package_installer_disable_cloud_check_desc">Bằng cách chặn các yêu cầu cấu hình đám mây trong quá trình cài đặt ứng dụng và tạo ra các phản hồi trống, tốc độ tải có thể được cải thiện và các hạn chế cài đặt cũng như cửa sổ bật lên có thể được bỏ qua trong môi trường ngoại tuyến</string>
     <string name="system_ui_status_bar_follow_title">Status bar following (experimental)</string>
     <string name="system_ui_status_bar_follow_summary">Experimental: restart SystemUI and the system process to apply. May affect system stability.</string>
+    <string name="system_ui_status_bar_boot_fuse_reset_title">Reset status-bar boot fuse</string>
+    <string name="system_ui_status_bar_boot_fuse_reset_summary">Explicitly clear a tripped boot fuse. Restart the target process after resetting.</string>
 </resources>
