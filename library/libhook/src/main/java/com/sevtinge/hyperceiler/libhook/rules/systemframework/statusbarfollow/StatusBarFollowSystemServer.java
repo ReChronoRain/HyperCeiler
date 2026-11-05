@@ -85,7 +85,10 @@ public final class StatusBarFollowSystemServer extends StatusBarFollowRuntime {
                     session.close();
                 }
             })) return;
-            registerHotReloadCleanup(session::close);
+            registerHotReloadCleanup(() -> {
+                rollbackStatusbarHooks();
+                session.close();
+            });
         } catch (Throwable ignored) {
             // Fail closed: no partial system_server ownership survives a contract failure.
         } finally {
