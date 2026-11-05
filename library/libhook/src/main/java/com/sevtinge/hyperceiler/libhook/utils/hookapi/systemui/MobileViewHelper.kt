@@ -93,7 +93,7 @@ class DataSimFlowProxy(
             MiuiStub.javaAdapter.alwaysCollectFlow(originalFlow, Consumer<Any> { value ->
                 // When a subscription is rebound to another ViewModel, only
                 // its newest upstream Flow may drive the shared activity proxy.
-                if ((!keepProxyIdentity || originalFlows[subId] === originalFlow) &&
+                if (acceptsEmission(subId, originalFlow) &&
                     (isSingleSimMode() || subId == SubscriptionManager.getDefaultDataSubscriptionId())
                 ) {
                     setStateFlowValue(p, value)
@@ -101,7 +101,7 @@ class DataSimFlowProxy(
             })
         } else {
             MiuiStub.javaAdapter.alwaysCollectFlow(originalFlow, Consumer<Any> { value ->
-                if ((!keepProxyIdentity || originalFlows[subId] === originalFlow) &&
+                if (acceptsEmission(subId, originalFlow) &&
                     subId == SubscriptionManager.getDefaultDataSubscriptionId()
                 ) {
                     proxy?.let { p ->
@@ -111,6 +111,9 @@ class DataSimFlowProxy(
             })
         }
     }
+
+    private fun acceptsEmission(subId: Int, source: Any): Boolean =
+        !keepProxyIdentity || originalFlows[subId] === source
 
     /** 广播触发时同步代理至当前上网卡的值 */
     fun syncFromBroadcast(slot0SubId: Int) {
