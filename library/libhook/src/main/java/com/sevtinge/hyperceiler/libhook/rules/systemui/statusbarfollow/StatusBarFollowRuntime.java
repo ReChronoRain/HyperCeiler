@@ -225,10 +225,11 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
         @Override public Object getThisObject() { return delegate.getThisObject(); }
         @Override public List<Object> getArgs() { return delegate.getArgs(); }
         @Override public Object getArg(int index) { return delegate.getArg(index); }
-        @Override public Object proceed() throws Throwable { return proceedWithResult(delegate.proceed()); }
-        @Override public Object proceed(Object[] values) throws Throwable { return proceedWithResult(delegate.proceed(values)); }
-        @Override public Object proceedWith(Object target) throws Throwable { return proceedWithResult(delegate.proceedWith(target)); }
+        @Override public Object proceed() throws Throwable { proceeded = true; return proceedWithResult(delegate.proceed()); }
+        @Override public Object proceed(Object[] values) throws Throwable { proceeded = true; return proceedWithResult(delegate.proceed(values)); }
+        @Override public Object proceedWith(Object target) throws Throwable { proceeded = true; return proceedWithResult(delegate.proceedWith(target)); }
         @Override public Object proceedWith(Object target, Object[] values) throws Throwable {
+            proceeded = true;
             return proceedWithResult(delegate.proceedWith(target, values));
         }
         private Object proceedWithResult(Object value) {
@@ -252,3 +253,4 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
         return new ArrayList<>(statusbarHookHandles);
     }
 }
+
