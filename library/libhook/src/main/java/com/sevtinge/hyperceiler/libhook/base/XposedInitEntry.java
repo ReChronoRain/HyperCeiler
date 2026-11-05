@@ -22,19 +22,19 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.text.TextUtils;
-import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.LogStatusManager;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
-import com.sevtinge.hyperceiler.libhook.rules.home.other.NativeHomeHooksOS4;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.AmbientNativeColorOS4;
 import com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeLayoutNativeEndpointOS4;
+import com.sevtinge.hyperceiler.libhook.rules.home.other.NativeHomeHooksOS4;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.AmbientNativeColorOS4;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
@@ -340,7 +340,7 @@ public class XposedInitEntry extends XposedModule {
             // Preferences are now known to be initialized. Let the launcher recovery slot decide
             // internally whether a deferred load or bootstrap-config repair is still pending; this
             // must not depend on whether bootstrap itself observed `prefsInited`.
-            if (processName != null && processName.startsWith(LAUNCHER_PACKAGE)) {
+            if (retryingPrefs && processName != null && processName.startsWith(LAUNCHER_PACKAGE)) {
                 NativeHomeHooksOS4.INSTANCE.onPreferencesReadyAfterRetry();
             }
             attachHookLogLevelObserver(target.isSystemServer());
