@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 import io.github.libxposed.api.XposedInterface;
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
 
 public class GuidedAccessHome extends BaseHook {
     private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
@@ -40,8 +41,42 @@ public class GuidedAccessHome extends BaseHook {
         hookIsMistakeTouch();
         hookScreenPinTouchResolution();
         hookLandscapeOverviewGestureView();
+        hookGestureModeHelper();
         hookScreenPinnedHelperStartDirectly();
         hookHomeStartScreenPinningDirectly();
+    }
+
+    /**
+     * Pad 上"底部中间上滑退出固定应用"由桌面进程的 GestureModeScreenPinning 接管，
+     * 它识别手势后会抢占触摸并弹出退出 UI（NavStubView 的 hook 覆盖不到这条链路）。
+     * 锁定期间强制退回 GestureModeEmpty，让该手势完全失效；解锁后自动恢复正常。
+     */
+    private void hookGestureModeHelper() {
+        // pad 专有的手势模式选择类；手机桌面没有该类或字段时直接跳过，避免反射异常。
+        Class<?> helperClass = findClassIfExists("com.miui.home.recents.GestureModeHelper");
+        if (helperClass == null) return;
+        try {
+            helperClass.getDeclaredField("mGestureModeEmpty");
+        } catch (NoSuchFieldException e) {
+            return;
+        }
+
+        chainAllMethods(helperClass, "createGestureMode", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!isLocked()) return chain.proceed();
+                Object result = chain.proceed();
+                try {
+                    Object emptyMode = getObjectField(chain.getThisObject(), "mGestureModeEmpty");
+                    if (emptyMode == null || emptyMode == result) return result;
+                    XposedLog.d(TAG, "GuidedAccess: forced empty gesture mode while locked");
+                    return emptyMode;
+                } catch (Throwable t) {
+                    XposedLog.w(TAG, "GuidedAccess: force empty gesture mode E: " + t);
+                    return result;
+                }
+            }
+        });
     }
 
     private void hookPointerEvent() {
@@ -172,6 +207,10 @@ public class GuidedAccessHome extends BaseHook {
         } catch (Throwable ignored) {
         }
         return null;
+    }
+
+    private boolean isLocked() {
+        return getLockApp(EzXposed.getAppContextOrNull()) != -1;
     }
 
     private int getLockApp(Context context) {
