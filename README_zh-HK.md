@@ -10,6 +10,7 @@
 &nbsp;&nbsp;|&nbsp;&nbsp;繁體中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)
 &nbsp;&nbsp;|&nbsp;&nbsp;[Українська](/README_uk_UA.md)
 &nbsp;&nbsp;|&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
+&nbsp;&nbsp;|&nbsp;&nbsp;[日本語](/README_ja-JP.md)
 
 </div>
 
