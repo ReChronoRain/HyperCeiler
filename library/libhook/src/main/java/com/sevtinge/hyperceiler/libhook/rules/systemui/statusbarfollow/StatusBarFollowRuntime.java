@@ -261,4 +261,3 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
         return new ArrayList<>(statusbarHookHandles);
     }
 }
-

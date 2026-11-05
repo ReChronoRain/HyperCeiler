@@ -107,4 +107,3 @@ public final class StatusBarFollowSystemUi extends SystemUiBarFollowRuntime {
         throw new UnsupportedOperationException("status-bar follow does not own input handoff");
     }
 }
-
