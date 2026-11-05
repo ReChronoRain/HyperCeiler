@@ -89,6 +89,9 @@ import java.util.function.Consumer
 object MobileTypeSingle2Hook : BaseHook() {
     private const val LAST_BOUND_VIEW_MODEL_KEY = "mobile_type_single2_last_bound_vm"
     private const val DATA_SIM_CONTEXT_KEY = "MobileTypeSingle2Hook.dataSimContext"
+    private const val CELL_PROVIDER_METHOD = "getCellProvider"
+    private const val ACTIVITY_VISIBLE_FIELD = "inOutVisible"
+    private const val ACTIVITY_RESOURCE_FIELD = "inOutResId"
     private val showNameFlowProxy = DataSimFlowProxy("")
     private val inOutVisibleProxy = DataSimFlowProxy(false, keepProxyIdentity = true)
     private val inOutResIdProxy = DataSimFlowProxy(0, keepProxyIdentity = true)
@@ -240,18 +243,13 @@ object MobileTypeSingle2Hook : BaseHook() {
         }
     }
 
-    /**
-     * Exact SystemUI 17.03.260226.r DEX: MobileIconsViewModel.createViewModel
-     * captures the inner inOutResId into the OUTER MiuiMobileIconVMImpl
-     * before MiuiMobileIconBinder.bind(). Its inOutVisible is transformLatest
-     * and resolves the provider at collection time. Prepare only the two
-     * activity proxies before native bind; leave all unrelated hooks unchanged.
-     */
-    private fun isActivityAlreadyPrepared(viewModel: Any, subId: Int, slot: Int): Boolean {
+    private fun isActivityProxyBoundToCurrentSources(viewModel: Any, subId: Int, slot: Int): Boolean {
+        // Compare actual Flow identities, not a flag from a prior
+        // LSPosed hot-reload generation.
         val visibleSource = inOutVisibleProxy.originalFlows[subId] ?: return false
         val resourceSource = inOutResIdProxy.originalFlows[subId] ?: return false
-        val visibleNow = viewModel.getObjectField("inOutVisible") ?: return false
-        val resourceNow = viewModel.getObjectField("inOutResId") ?: return false
+        val visibleNow = viewModel.getObjectField(ACTIVITY_VISIBLE_FIELD) ?: return false
+        val resourceNow = viewModel.getObjectField(ACTIVITY_RESOURCE_FIELD) ?: return false
         return if (slot == 0) {
             visibleNow === inOutVisibleProxy.proxy && resourceNow === inOutResIdProxy.proxy
         } else {
@@ -262,7 +260,7 @@ object MobileTypeSingle2Hook : BaseHook() {
     private fun prepareOs4ActivityBeforeBind(vmImpl: Any?) {
         if (vmImpl == null) return
         val viewModel = runCatching {
-            vmImpl.callMethodAs<Any>("getCellProvider")
+            vmImpl.callMethodAs<Any>(CELL_PROVIDER_METHOD)
         }.getOrNull() ?: return
         val interactor = runCatching {
             vmImpl.getObjectFieldAs<Any>("iconInteractor")
@@ -275,14 +273,14 @@ object MobileTypeSingle2Hook : BaseHook() {
 
         // Verify the actual Flow identity, not a flag left on a ViewModel
         // from an earlier LSPosed hot-reload generation.
-        if (!isActivityAlreadyPrepared(viewModel, subId, slot)) {
-            val visible = viewModel.getObjectField("inOutVisible") ?: return
-            val resource = viewModel.getObjectField("inOutResId") ?: return
+        if (!isActivityProxyBoundToCurrentSources(viewModel, subId, slot)) {
+            val visible = viewModel.getObjectField(ACTIVITY_VISIBLE_FIELD) ?: return
+            val resource = viewModel.getObjectField(ACTIVITY_RESOURCE_FIELD) ?: return
             inOutVisibleProxy.setupForSlot(slot, subId, visible, MobileViewHelper::isSingleSimMode)
             inOutResIdProxy.setupForSlot(slot, subId, resource, MobileViewHelper::isSingleSimMode)
             if (slot == 0) {
-                viewModel.setObjectField("inOutVisible", inOutVisibleProxy.proxy!!)
-                viewModel.setObjectField("inOutResId", inOutResIdProxy.proxy!!)
+                viewModel.setObjectField(ACTIVITY_VISIBLE_FIELD, inOutVisibleProxy.proxy!!)
+                viewModel.setObjectField(ACTIVITY_RESOURCE_FIELD, inOutResIdProxy.proxy!!)
             }
         }
 
@@ -290,8 +288,8 @@ object MobileTypeSingle2Hook : BaseHook() {
             // Native factory already cached inOutResId in the OUTER VM.
             // Repoint this Flow-typed field before the binder subscribes.
             inOutResIdProxy.proxy?.let { proxy ->
-                if (vmImpl.getObjectField("inOutResId") !== proxy) {
-                    vmImpl.setObjectField("inOutResId", proxy)
+                if (vmImpl.getObjectField(ACTIVITY_RESOURCE_FIELD) !== proxy) {
+                    vmImpl.setObjectField(ACTIVITY_RESOURCE_FIELD, proxy)
                 }
             }
         }
@@ -300,7 +298,7 @@ object MobileTypeSingle2Hook : BaseHook() {
     private fun applyOs4ViewModelAfterBind(vmImpl: Any?) {
         if (vmImpl == null) return
         val viewModel = runCatching {
-            vmImpl.callMethodAs<Any>("getCellProvider")
+            vmImpl.callMethodAs<Any>(CELL_PROVIDER_METHOD)
         }.getOrNull() ?: return
         val interactor = runCatching {
             vmImpl.getObjectFieldAs<Any>("iconInteractor")
@@ -330,8 +328,8 @@ object MobileTypeSingle2Hook : BaseHook() {
                     viewModel.setObjectField("showName", showNameFlowProxy.proxy!!)
                 }
             }
-            if (!hideIndicator && !(isMoreAndroidVersion(37) && isActivityAlreadyPrepared(viewModel, subId, slotIndex))) {
-                viewModel.getObjectField("inOutVisible")?.let { originalFlow ->
+            if (!hideIndicator && !(isMoreAndroidVersion(37) && isActivityProxyBoundToCurrentSources(viewModel, subId, slotIndex))) {
+                viewModel.getObjectField(ACTIVITY_VISIBLE_FIELD)?.let { originalFlow ->
                     inOutVisibleProxy.setupForSlot(
                         slotIndex,
                         subId,
@@ -339,10 +337,10 @@ object MobileTypeSingle2Hook : BaseHook() {
                         MobileViewHelper::isSingleSimMode
                     )
                     if (slotIndex == 0) {
-                        viewModel.setObjectField("inOutVisible", inOutVisibleProxy.proxy!!)
+                        viewModel.setObjectField(ACTIVITY_VISIBLE_FIELD, inOutVisibleProxy.proxy!!)
                     }
                 }
-                viewModel.getObjectField("inOutResId")?.let { originalFlow ->
+                viewModel.getObjectField(ACTIVITY_RESOURCE_FIELD)?.let { originalFlow ->
                     inOutResIdProxy.setupForSlot(
                         slotIndex,
                         subId,
@@ -350,7 +348,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                         MobileViewHelper::isSingleSimMode
                     )
                     if (slotIndex == 0) {
-                        viewModel.setObjectField("inOutResId", inOutResIdProxy.proxy!!)
+                        viewModel.setObjectField(ACTIVITY_RESOURCE_FIELD, inOutResIdProxy.proxy!!)
                     }
                 }
             }
@@ -404,7 +402,7 @@ object MobileTypeSingle2Hook : BaseHook() {
     private fun unwrapCellProviderViewModel(viewModel: Any?): Any? {
         if (viewModel == null) return null
         return if (viewModel.javaClass.simpleName == "MiuiMobileIconVMImpl") {
-            viewModel.callMethodAs("getCellProvider")
+            viewModel.callMethodAs(CELL_PROVIDER_METHOD)
         } else {
             viewModel
         }
@@ -733,7 +731,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             renderStateStore.updateShowName(subId, value as? String ?: "")
         }
         collectRenderState(
-            viewModel.getObjectField("inOutVisible")
+            viewModel.getObjectField(ACTIVITY_VISIBLE_FIELD)
         ) { value ->
             coerceBooleanState(value)?.let { renderStateStore.updateInOutVisible(subId, it) }
         }

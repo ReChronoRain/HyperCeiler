@@ -26,6 +26,10 @@ import java.util.concurrent.CancellationException
 import java.util.function.Consumer
 
 class JavaAdapter(instance: Any) : BaseReflectObject(instance) {
+    private companion object {
+        const val COLLECT_FLOW_METHOD = "alwaysCollectFlow"
+    }
+
     fun <T> alwaysCollectFlow(flow: Any, consumer: Consumer<T>): KotlinJob {
         val adapterClass = instance.javaClass
         // HyperOS 4 SystemUI 17.03.260226.r:
@@ -35,7 +39,7 @@ class JavaAdapter(instance: Any) : BaseReflectObject(instance) {
         // The native implementation delegates to its static three-argument
         // overload with applicationScope, which DOES return StandaloneCoroutine.
         val voidOverload = isMoreAndroidVersion(37) && adapterClass.methods.any { method ->
-            method.name == "alwaysCollectFlow" &&
+            method.name == COLLECT_FLOW_METHOD &&
                 method.parameterCount == 2 &&
                 method.parameterTypes[1] == Consumer::class.java &&
                 method.returnType == Void.TYPE
@@ -47,7 +51,7 @@ class JavaAdapter(instance: Any) : BaseReflectObject(instance) {
                 "SystemUI JavaAdapter.applicationScope is null"
             }
             val withScope = adapterClass.declaredMethods.single { method ->
-                method.name == "alwaysCollectFlow" &&
+                method.name == COLLECT_FLOW_METHOD &&
                     method.parameterCount == 3 &&
                     Modifier.isStatic(method.modifiers)
             }.apply { isAccessible = true }
@@ -57,7 +61,7 @@ class JavaAdapter(instance: Any) : BaseReflectObject(instance) {
         } else {
             // Preserve the existing implementation for Android versions whose
             // public two-argument overload already returns a Job.
-            requireNotNull(instance.callMethod("alwaysCollectFlow", flow, consumer)) {
+            requireNotNull(instance.callMethod(COLLECT_FLOW_METHOD, flow, consumer)) {
                 "SystemUI JavaAdapter collector returned no Job"
             }
         }
