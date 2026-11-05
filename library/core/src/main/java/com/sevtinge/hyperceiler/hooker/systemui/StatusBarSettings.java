@@ -29,7 +29,9 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.prefs.RecommendPreference;
+import java.util.UUID;
 
 public class StatusBarSettings extends DashboardFragment {
 
@@ -46,6 +48,14 @@ public class StatusBarSettings extends DashboardFragment {
     public void initPrefs() {
 
         mHideStatusBarOnLockScreen = findPreference("prefs_key_system_ui_status_bar_hide_icon");
+        Preference bootFuseReset = findPreference("prefs_key_system_ui_status_bar_boot_fuse_reset_request");
+        if (bootFuseReset != null) {
+            bootFuseReset.setVisible(com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_AVAILABLE);
+            bootFuseReset.setOnPreferenceClickListener(preference -> {
+                PrefsBridge.putString("system_ui_status_bar_boot_fuse_reset_request", UUID.randomUUID().toString());
+                return true;
+            });
+        }
         SwitchPreference statusBarFollow = findPreference("prefs_key_system_ui_status_bar_follow_enable");
         if (statusBarFollow != null) {
             statusBarFollow.setVisible(com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_AVAILABLE);

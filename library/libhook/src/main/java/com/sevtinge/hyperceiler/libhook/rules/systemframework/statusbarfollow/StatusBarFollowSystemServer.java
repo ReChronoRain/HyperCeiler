@@ -10,7 +10,9 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.statusbarfollow;
 
 import android.os.Build;
 
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.BootFuseController;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.RecentsOpenSession;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarBootFuse;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarFollowGate;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbarfollow.StatusBarFollowRuntime;
 
@@ -50,11 +52,43 @@ public final class StatusBarFollowSystemServer extends StatusBarFollowRuntime {
     private final AtomicInteger serverNavigationPolicyEpoch = new AtomicInteger();
 
     @Override public void init() {
+        StatusBarBootFuse.Session fuse = null;
         try {
+            if (!com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_SERVER_AVAILABLE) return;
             if (!StatusBarFollowGate.enabled()) return;
-            hookServerBarLifetime(EzXposed.getSafeClassLoader(), Collections.emptySet());
+            android.content.Context context = EzXposed.getAppContextOrNull();
+            if (context == null)
+                context = com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                    com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+            if (context == null) return;
+            fuse = StatusBarBootFuse.open(context, "systemserver");
+            if (fuse == null) return;
+            BootFuseController.Decision decision = fuse.controller().beginInstall(
+                com.sevtinge.hyperceiler.common.utils.PrefsBridge.getString(
+                    "system_ui_status_bar_boot_fuse_reset_request", ""));
+            if (decision != BootFuseController.Decision.ALLOW) {
+                moduleLog(LOG_WARN, TAG, "Status-bar follow boot fuse denied system_server install state=" + decision);
+                return;
+            }
+            final StatusBarBootFuse.Session session = fuse;
+            if (!session.startBootCompletionObserver(context, () -> {
+                try {
+                    hookServerBarLifetime(EzXposed.getSafeClassLoader(), Collections.emptySet());
+                    if (!serverBarLifetimeHooksReady) {
+                        session.close();
+                        return;
+                    }
+                    session.markInstalled();
+                } catch (Throwable failure) {
+                    moduleLog(LOG_WARN, TAG, "Deferred system_server status-bar installation failed", failure);
+                    session.close();
+                }
+            })) return;
+            registerHotReloadCleanup(session::close);
         } catch (Throwable ignored) {
             // Fail closed: no partial system_server ownership survives a contract failure.
+        } finally {
+            if (fuse != null && !fuse.hasStarted() && !fuse.hasInstalled()) fuse.close();
         }
     }
 
@@ -78,6 +112,7 @@ public final class StatusBarFollowSystemServer extends StatusBarFollowRuntime {
         throw new UnsupportedOperationException("system_server status-bar port does not own input handoff");
     }
     protected void hookServerBarLifetime(ClassLoader loader, Set<String> present) {
+        if (!com.sevtinge.hyperceiler.common.BuildConfig.STATUS_BAR_FOLLOW_SERVER_AVAILABLE) return;
         if (!StatusBarFollowGate.enabled() || Build.VERSION.SDK_INT != 37) return;
         try {
             Class<?> controller = Class.forName("com.android.server.wm.MiuiStatusBarController", false, loader);

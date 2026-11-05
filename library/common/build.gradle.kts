@@ -5,6 +5,7 @@ plugins {
 }
 
 val statusBarFollowBuildAvailable = providers.gradleProperty("statusBarFollow").map(String::toBoolean).getOrElse(false)
+val statusBarFollowServerBuildAvailable = providers.gradleProperty("statusBarFollowServer").map(String::toBoolean).getOrElse(false)
 
 android {
     namespace = "com.sevtinge.hyperceiler.common"
@@ -15,6 +16,7 @@ android {
 
         buildConfigField("String", "APP_MODULE_ID", "\"com.sevtinge.hyperceiler\"")
         buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", "false")
+        buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", "false")
     }
 
     buildFeatures {
@@ -24,15 +26,19 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", "true")
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", statusBarFollowServerBuildAvailable.toString())
         }
         release {
             buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", statusBarFollowBuildAvailable.toString())
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", statusBarFollowServerBuildAvailable.toString())
         }
         create("beta") {
             buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", statusBarFollowBuildAvailable.toString())
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", statusBarFollowServerBuildAvailable.toString())
         }
         create("canary") {
             buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", statusBarFollowBuildAvailable.toString())
+            buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", statusBarFollowServerBuildAvailable.toString())
         }
     }
 }
