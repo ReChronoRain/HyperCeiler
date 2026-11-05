@@ -110,6 +110,18 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
                 else moduleLog(LOG_WARN, TAG, "RecentsBarFollow: " + message, failure);
             });
 
+    private void validateSystemUiStatusbarContracts(ClassLoader loader) throws ReflectiveOperationException {
+        Class.forName("com.android.systemui.statusbar.data.repository.StatusBarModePerDisplayRepositoryImpl", false, loader);
+        Class.forName("com.android.systemui.statusbar.data.repository.StatusBarModePerDisplayRepositoryImpl$statusBarAppearance$1", false, loader);
+        Class.forName("com.android.wm.shell.transition.DefaultTransitionHandler", false, loader);
+        Class.forName("com.android.wm.shell.transition.Transitions$TransitionHandler", false, loader);
+        Class.forName("com.android.wm.shell.recents.RecentsTransitionHandler", false, loader);
+        Class<?> flow = Class.forName("kotlinx.coroutines.flow.Flow", false, loader);
+        Class<?> adapter = Class.forName("com.android.systemui.util.kotlin.JavaAdapterKt", false, loader);
+        adapter.getMethod("collectFlow$default", android.view.View.class, flow, java.util.function.Consumer.class,
+            kotlin.coroutines.CoroutineContext.class, int.class);
+    }
+
     protected void hookRecentsBarFollow(ClassLoader loader, Set<String> present) {
         if (Build.VERSION.SDK_INT != 37) return;
         try {
@@ -1843,3 +1855,6 @@ public abstract class SystemUiBarFollowRuntime extends StatusBarFollowRuntime {
         recentsBars.detach();
     }
 }
+
+
+
