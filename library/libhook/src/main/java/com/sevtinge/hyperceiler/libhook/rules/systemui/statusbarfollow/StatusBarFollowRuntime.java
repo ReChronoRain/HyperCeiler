@@ -89,6 +89,14 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
     protected final HookBuilder hook(Method method) { return new HookBuilder(method); }
     protected final HookBuilder hook(Constructor<?> constructor) { return new HookBuilder(constructor); }
 
+    protected final void rollbackStatusbarHooks() {
+        for (int i = statusbarHookHandles.size() - 1; i >= 0; --i) {
+            try { statusbarHookHandles.get(i).unhook(); }
+            catch (Throwable ignored) { }
+        }
+        statusbarHookHandles.clear();
+    }
+
     protected void recordHookHandle(XposedInterface.HookHandle handle) {
         if (handle != null) statusbarHookHandles.add(handle);
     }
@@ -253,3 +261,4 @@ public abstract class StatusBarFollowRuntime extends BaseHook {
         return new ArrayList<>(statusbarHookHandles);
     }
 }
+
