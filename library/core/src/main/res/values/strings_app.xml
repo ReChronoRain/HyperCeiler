@@ -1564,7 +1564,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">Vertical margin</string>
     <string name="security">Security</string>
     <string name="security_app_title">Show additional app details</string>
-    <string name="security_app_summary">Add new fields to app into page:\n• App version number\n• User ID\n• Data directory\n• APK directory\n• Min SDK version\n• Target SDK version\n• Open with Play Store\n• Launch</string>
+    <string name="security_app_summary">Add new fields to app into page:\n• App version number\n• User ID\n• Data directory\n• APK directory\n• Min SDK version\n• Target SDK version\n• Open with Play Store\n• Launch\n• Share APK</string>
     <string name="security_app_sort_title">App management list sorting</string>
     <string name="security_app_sort_summary">Modify the default sorting of the manage apps list</string>
     <string name="security_restrict_app_title">Full restrictions</string>
