@@ -145,8 +145,18 @@ internal object DexKitCacheManager {
         val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
         var result: Any? = null
         currentBridge.withBridge { rawBridge ->
+            // 规则里普遍用 singleOrNull()/firstOrNull() 兜底，查不到时 IDexKit 会返回 null。
+            // 过去这里把 null 直接交给 resolveAndCache，最终在 else 分支的 baseData.javaClass
+            // 上抛出 "Attempt to invoke virtual method 'java.lang.Class java.lang.Object.getClass()'
+            // on a null object reference"：栈里只剩 DexKitCacheManager，既看不出是哪条查询，
+            // 也分不清是 0 个候选还是多个候选（设备日志 OS4.0.4.0：FuckMiuiUpload、
+            // powerkeeper/CustomRefreshRate 都是这一条）。改为在查询处就地失败，
+            // 异常信息带上查询 key 与包名；类型保持非空，不把 null 往下传。
             val baseData: BaseData = try {
-                iDexKit.dexkit(rawBridge)
+                requireNotNull(iDexKit.dexkit(rawBridge)) {
+                    "DexKit query '$key' found no unique member in ${currentTarget.packageName}" +
+                        " (matcher matched 0 or more than 1 candidate)"
+                }
             } catch (e: ReflectiveOperationException) {
                 throw RuntimeException(e)
             }
