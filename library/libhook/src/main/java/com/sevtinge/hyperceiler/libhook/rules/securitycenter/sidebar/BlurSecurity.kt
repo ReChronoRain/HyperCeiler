@@ -89,13 +89,44 @@ object BlurSecurity : BaseHook() {
     // keepList 列表内元素及其子元素不会反色
     private val keepColorList = arrayOf("rv_information")
 
-    private val lottieAnimation by lazy<Method> {
-        requiredMember("BlurSecurity1") {
+    // 为什么必须逐候选验形状、三版实测结果都在 init() 里那个 hook 上方逐条列出；
+    // 这里只做「候选类 + a(Context, AttributeSet, int/Integer) + int 字段 h」的整体筛选。
+    private fun findInnerViewClassByShape(): Class<*>? = sequenceOf(
+        "com.miui.gamebooster.videobox.view.c",
+        "b8.c",
+    ).mapNotNull { findClassIfExists(it) }.firstOrNull { clazz ->
+        hasInnerViewShape(clazz)
+    }
+
+    private fun hasInnerViewShape(clazz: Class<*>): Boolean {
+        val methodOk = clazz.declaredMethods.any { method ->
+            method.name == "a" && method.parameterTypes.size == 3 &&
+                Context::class.java.isAssignableFrom(method.parameterTypes[0]) &&
+                AttributeSet::class.java.isAssignableFrom(method.parameterTypes[1]) &&
+                isIntLike(method.parameterTypes[2])
+        }
+        val fieldOk = clazz.declaredFields.any { field ->
+            field.name == "h" && isIntLike(field.type)
+        }
+        return methodOk && fieldOk
+    }
+
+    private fun isIntLike(type: Class<*>): Boolean =
+        type == Int::class.javaPrimitiveType || type == Integer::class.java
+
+    private val lottieAnimation by lazy<Method?> {
+        // 该锚点只是 assets 目录名：assets/game_turbo_box_mode_change/{blue_light,red_light}.json
+        // 在 OS3.0.319 / OS4.0.0.44 / OS4.0.5.0 三版 MIUISecurityCenter.apk 里都还在（各 2 个文件），
+        // 但三版 classes*.dex 里对 "game_turbo_box_mode_change" 的引用都是 0 次（二进制 grep）,
+        // 即这条查询在三版上必然 0 命中——因此这里必须是可降级的可选成员，
+        // 否则 requiredMember 抛错会让整条 BlurSecurity（模糊 + 反色）被整体跳过。
+        optionalMember("BlurSecurity1") {
             it.findMethod {
+                searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
                 matcher {
                     addUsingString("game_turbo_box_mode_change")
                 }
-            }.single()
+            }.singleOrNull()
         }
     }
 
@@ -203,7 +234,7 @@ object BlurSecurity : BaseHook() {
                              * ↳ getPerformanceTextView
                              *   ↳ e(boolean)
                              */
-                            lottieAnimation.createHook {
+                            lottieAnimation?.createHook {
                                 replace {
                                     null
                                 }
@@ -250,13 +281,30 @@ object BlurSecurity : BaseHook() {
             val srsLevelSeekBarProClass = findClassIfExists(
                 "com.miui.gamebooster.videobox.view.SrsLevelSeekBarPro"
             ) ?: return
-            var srsLevelSeekBarInnerViewClass = findClassIfExists(
-                "com.miui.gamebooster.videobox.view.c"
-            )
+            // 两个候选名在三版 MIUISecurityCenter.apk 里的实测状态（DexKit 索引 + dexdump 复核）：
+            //   com.miui.gamebooster.videobox.view.c ：三版都不存在
+            //   b8.c                                 ：OS3 存在（17 个方法，全是 a(Lb8/c;)V 这类
+            //                                           合成/lambda 方法）、OS4.0.0.44 存在但是个无关的
+            //                                           记录类（<init>(String,String,I)/a()String/b()I/
+            //                                           equals/toString）、OS4.0.5 已不存在
+            //   即三版都没有 a(Context, AttributeSet, int)；另外 videobox/view/SrsLevelSeekBar
+            //   只有 OS3 还有（44/405 换成了 SrsLevelLabelView），只剩 Pro。
+            // 旧写法这里的 `?: return` 与只补「类找不到」两种失效形态三版不一样：
+            //   OS4.0.5：b8.c 也没了 -> 直接 return，从 gameManagerMethod 反色 hook 起的
+            //            其余全部 hook（Pro、AuditionView）一起丢；
+            //   OS3 / OS4.0.0.44：b8.c 找得到 -> 不 return，但到了下面 findAndHookMethod
+            //            时 ezhooktool 的 resolveMethod 只能回 null（getDeclaredMethod 失配、
+            //            BestMatchUtils 也没有三个参的 a），installCallback 随即抛
+            //            IllegalStateException，本行之后的 AuditionView#M（图标加深）hook 丢。
+            // 所以这里按「类 + 方法形状 + 字段形状」一起验：三版都过不了，就只跳过这一个 hook。
+            // 另：三版里真正同时具备 (Context, AttributeSet, int) 与 int 字段 h 的只有
+            // SrsLevelSeekBarPro#b，但 Pro 上的 h 只是同名字段，无法确认就是原 inner-view
+            // 要改的背景色字段（上面那条 Pro hook 已在改 j/l），所以这里不做顶替，只降级；
+            // 该 inner-view hook 目前三版都是空转（保留代码是为了类回来时自动复活）。
+            val srsLevelSeekBarInnerViewClass = findInnerViewClassByShape()
             if (srsLevelSeekBarInnerViewClass == null) {
-                srsLevelSeekBarInnerViewClass = findClassIfExists(
-                    "b8.c"
-                ) ?: return
+                XposedLog.d(TAG, this.lpparam.packageName,
+                    "SrsLevelSeekBarInnerView shape not found, skip its color hook only")
             }
             val videoBoxWhiteList = arrayOf(
                 "miuix.slidingwidget.widget.SlidingButton",
@@ -381,18 +429,20 @@ object BlurSecurity : BaseHook() {
                 }
             )
 
-            findAndHookMethod(srsLevelSeekBarInnerViewClass, "a", Context::class.java,
-                AttributeSet::class.java, Int::class.java, object : IMethodHook {
-                    override fun after(param: HookParam) {
-                        val bgColorField = srsLevelSeekBarInnerViewClass.getDeclaredField("h")
-                        bgColorField.isAccessible = true
-                        bgColorField.setInt(
-                            param.thisObject,
-                            ColorUtils.addAlphaForColor(Color.WHITE, 150)
-                        )
+            srsLevelSeekBarInnerViewClass?.let { innerViewClass ->
+                findAndHookMethod(innerViewClass, "a", Context::class.java,
+                    AttributeSet::class.java, Int::class.java, object : IMethodHook {
+                        override fun after(param: HookParam) {
+                            val bgColorField = innerViewClass.getDeclaredField("h")
+                            bgColorField.isAccessible = true
+                            bgColorField.setInt(
+                                param.thisObject,
+                                ColorUtils.addAlphaForColor(Color.WHITE, 150)
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
 
             // 让图标颜色更深一点
             findAndHookMethod(
