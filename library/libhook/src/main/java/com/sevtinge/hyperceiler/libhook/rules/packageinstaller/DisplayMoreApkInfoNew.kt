@@ -62,8 +62,14 @@ object DisplayMoreApkInfoNew : BaseHook() {
     private var mAppInfoViewObject: Class<*>? = null
     private var mAppInfoViewObjectViewHolder: Class<*>? = null
 
-    private val viewExcludeMethod2 by lazy<Method> {
-        requiredMember("ViewExcludeMethod2") {
+    // 以下四个查询共用同一个类锚：包含字面量 "context.ge…ta.versionName" 的类。
+    // 该锚点是混淆产物：MIUIPackageInstaller 在 OS3 里确实带这个串（含 U+2026 省略号），
+    // OS4.0.5 里已经不存在（dex 字节直查 HIT 1 → HIT 0），过去全部挂 required + .single()，
+    // 一个锚点失效就让整条规则被跳过（OS4.0.4.0 设备日志：NoResultException）。
+    // 改成 optional + singleOrNull 只是第一步：init() 里的反射回退还需要去掉
+    // “没拿到 viewHolderField 就直接 return”这道闸（见 init() 处说明），否则回退仍不可达。
+    private val viewExcludeMethod2 by lazy<Method?> {
+        optionalMember("ViewExcludeMethod2") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -75,12 +81,12 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     paramCount = 0
                     addUsingNumber(1)
                 }
-            }.single()
+            }.singleOrNull()
         }
     }
 
-    private val viewExcludeMethod1 by lazy<Method> {
-        requiredMember("ViewExcludeMethod1") {
+    private val viewExcludeMethod1 by lazy<Method?> {
+        optionalMember("ViewExcludeMethod1") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -92,12 +98,12 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     paramCount = 0
                     addUsingString("")
                 }
-            }.single()
+            }.singleOrNull()
         }
     }
 
     private val viewMethod by lazy<List<Method>> {
-        requiredMemberList("ViewMethod") {
+        optionalMemberList("ViewMethod") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -112,8 +118,8 @@ object DisplayMoreApkInfoNew : BaseHook() {
         }
     }
 
-    private val entryMethod by lazy<Method> {
-        requiredMember("EntryMethod") {
+    private val entryMethod by lazy<Method?> {
+        optionalMember("EntryMethod") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -124,7 +130,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     returnType = "void"
                     paramTypes = listOf($$"com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject$ViewHolder")
                 }
-            }.single()
+            }.singleOrNull()
         }
     }
 
@@ -146,16 +152,19 @@ object DisplayMoreApkInfoNew : BaseHook() {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        if (viewHolderField == null) {
-            return
-        }
-
         // pick the first view method that is not excluded
         val reallyViewMethod: Method? = viewMethod.firstOrNull { it != viewExcludeMethod1 && it != viewExcludeMethod2 }
 
+        // 旧写法这里先 `if (viewHolderField == null) return`。但 viewHolderField 只能来自那个
+        // 已失效的串锚（它在两版里都声明在 AppInfoViewObject 的**子类**里，基类本身没有
+        // ViewHolder 类型字段：OS3 是 listcomponets/d#q、listcomponets/r#p，OS4.0.5 是
+        // listcomponets/B#p、listcomponets/g#q），所以 OS4.0.5 上这道 return 会把下面的
+        // 反射回退（candidateMethods[0] + args[0]）一起堵死，整条规则仍然完全不生效。
+        // 该字段只服务于 reallyViewMethod 分支，回退分支不需要它，因此这里不再提前返回。
+
         // if we have a specific view method, ensure entry calls it
         reallyViewMethod?.let { method ->
-            entryMethod.createBeforeHook {
+            entryMethod?.createBeforeHook {
                 callMethod(method.name)
             }
         }
@@ -187,6 +196,8 @@ object DisplayMoreApkInfoNew : BaseHook() {
             }
 
         val methodToHook = reallyViewMethod ?: candidateMethods[0]
+        // by lazy 委托属性不能智能转换，先取局部变量
+        val holderField = viewHolderField
         XposedLog.d(
             TAG,
             this.lpparam.packageName,
@@ -194,10 +205,13 @@ object DisplayMoreApkInfoNew : BaseHook() {
         )
 
         methodToHook.createAfterHook { hookParam ->
-            val holderInstance: Any = if (reallyViewMethod != null) {
-                hookParam.thisObject.getObjectField(viewHolderField!!.name) ?: return@createAfterHook
+            val holderInstance: Any = if (reallyViewMethod != null && holderField != null) {
+                hookParam.thisObject.getObjectField(holderField.name) ?: return@createAfterHook
             } else {
-                hookParam.args[0] ?: return@createAfterHook
+                // 挂的是基类 AppInfoViewObject 的 (ViewHolder)V 方法（OS3 叫 E、OS4.0.5 叫 D，
+                // 两版都是除构造器外唯一该方法），holder 直接取第一个参数；args 可能为空
+                // （挂在无参的 view 方法上时），用 getOrNull 避免越界。
+                hookParam.args.getOrNull(0) ?: return@createAfterHook
             }
 
             val mAppSizeTv = (holderInstance.callMethod("getTvAppVersion") as? TextView)
