@@ -16,56 +16,96 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Pilih semua</string>
     <string name="miuix_appcompat_cancel_description">Batal</string>
     <string name="miuix_appcompat_confirm_description">Oke</string>
-    <string name="miuix_appcompat_select_all_description">Pilih Semua</string>
+    <string name="miuix_appcompat_select_all_description">Pilih semua</string>
     <string name="miuix_appcompat_deselect_all_description">Batalkan pilihan semua</string>
-    <string name="miuix_appcompat_delete_description">Menghapus</string>
-    <string name="miuix_appcompat_search_action_mode_cancel">Membatalkan</string>
-    <string name="miuix_appcompat_search_input_description">Mencari</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Lagi</string>
-    <string name="miuix_appcompat_action_mode_inverse">Terbalik</string>
+    <string name="miuix_appcompat_delete_description">Hapus</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Batal</string>
+    <string name="miuix_appcompat_search_input_description">Cari</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Lainnya</string>
+    <string name="miuix_appcompat_action_mode_inverse">Balikkan pilihan</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Tip</string>
     <string name="root">Beberapa fitur tidak tersedia tanpa izin Root/Su</string>
-    <string name="soft_reboot">Memulai Ulang</string>
-    <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
+    <string name="soft_reboot">Mulai ulang </string>
+    <string name="restart_app_desc">Yakin ingin memulai ulang %1$s sekarang?</string>
     <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
-    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
-    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan izin Root/Su?</string>
-    <string name="start_failed">Gagal memulai aktivitas, periksa apakah HyperCeiler telah diberikan izin Root/SU.</string>
-    <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
-    <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
+    <string name="hook_failed">HyperCeiler belum aktif. Periksa apakah LSPosed aktif dan apakah HyperCeiler diizinkan untuk memulai otomatis. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
+    <string name="kill_failed">Gagal menghentikan proses. Periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
+    <string name="start_failed">Gagal memulai aktivitas. Periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
+    <string name="pid_failed">Aplikasi target sedang tidak berjalan dan tidak perlu dimulai ulang.</string>
+    <string name="reboot_failed">Mulai ulang gagal. Periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
+    <string name="experimental_features">Fitur eksperimental</string>
     <!--HyperCeiler Tips-->
+    <string name="warn">Perhatian</string>
+    <string name="module_title_1">Informasi dasar</string>
+    <string name="module_title_2">Informasi jejak tumpukan</string>
+    <string name="app_error_desc">HyperCeiler terhenti tanpa terduga. Untuk membantu kami memperbaikinya, berikan informasi berikut:\n\nTekan dan tahan pesan apa pun untuk menyalin seluruhnya.</string>
     <string name="safe_mode_history">Lihat catatan pengecualian</string>
+    <string name="safe_mode_cancel">Nonaktifkan Mode Aman</string>
+    <string name="safe_mode_ok">Batal</string>
+    <string name="safe_mode_later_title">Tip</string>
     <string name="safe_mode_recorder_title">Catatan pengecualian</string>
-    <string name="safe_mode_recorder_file">Mengajukan</string>
+    <string name="safe_mode_recorder_file">Berkas</string>
     <string name="safe_mode_recorder_class">Kelas</string>
-    <string name="safe_mode_recorder_method">metode</string>
-    <string name="safe_mode_recorder_line">Garis</string>
-    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
-    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
+    <string name="safe_mode_recorder_method">Metode</string>
+    <string name="safe_mode_recorder_line">Baris</string>
+    <string name="safe_mode_recorder_msg">Pesan pengecualian</string>
+    <string name="safe_mode_recorder_st">Stack trace</string>
+    <string name="error_message">Pesan pengecualian</string>
+    <string name="error_type">Jenis pengecualian</string>
+    <string name="error_file_name">Nama berkas</string>
+    <string name="error_time">Waktu pencatatan</string>
+    <string name="error_version_name">Nama versi</string>
+    <string name="error_git_hash">Hash Git</string>
+    <string name="error_build_time">Waktu build</string>
+    <string name="tip_default">Tip: Ini adalah tip default. Jika Anda melihat pesan ini, berarti terjadi masalah pada HyperCeiler. Silakan laporkan kepada pengembang secara tepat waktu dan informatif.</string>
+    <string name="headtip_tip_auto_safe_mode">Mode Aman dapat melepas hook aplikasi secara otomatis saat terjadi crash berulang demi menjaga stabilitas sistem. Fitur ini memerlukan cakupan hook Kerangka Sistem untuk berjalan. Kami sangat menyarankan untuk mencentang cakupan Kerangka Sistem guna mengaktifkan Mode Aman.</string>
+    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, mari kita terus bekerja sama tahun ini!</string>
+    <string name="headtip_tip_fuck_coolapk">Hari ini dalam sejarah: Sevtinge menyampaikan pidato penting pada 14 Juli 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">Layanan log perangkat saat ini mengalami anomali sehingga fitur HyperCeiler akan dibatasi. Harap pulihkan layanan log agar dapat berjalan normal kembali.\nKode kesalahan: %1$s</string>
+    <string name="headtip_notice_dead_logger">Layanan log perangkat saat ini mengalami anomali sehingga fitur HyperCeiler akan dibatasi. Harap pulihkan layanan log agar dapat berjalan normal kembali.</string>
+    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini</string>
+    <string name="supported_system_func">Fitur ini didukung secara resmi pada versi sistem saat ini</string>
+    <string name="unsupported_app_version_func">Versi aplikasi saat ini tidak mendukung fitur ini</string>
+    <string name="supported_app_version_func">Versi aplikasi saat ini mendukung fitur ini</string>
+    <string name="app_version_unavailable_warning_banner">Versi aplikasi tidak dapat dibaca. Demi keamanan hook, semua fitur untuk aplikasi ini telah dinonaktifkan.</string>
+    <string name="feature_doing_func">Fitur ini sedang dalam tahap pengembangan, nantikan pembaruan berikutnya.</string>
+    <string name="search_result_not_available">Fitur ini mungkin tidak didukung pada perangkat ini atau tersembunyi di dalam opsi tertentu</string>
     <!--System UI-->
     <string name="system_ui">UI Sistem</string>
     <!--System launcher-->
     <string name="mihome">Peluncur sistem</string>
     <!--Settings-->
-    <string name="system_settings">Pengaturan</string>
+    <string name="system_settings">Setelan</string>
     <!--Security/Tablet security center-->
-    <string name="security_center_hyperos">Alat Keamanan</string>
+    <string name="security_center_hyperos">Keamanan</string>
     <!--Other-->
-    <string name="exit">KELUAR</string>
-    <string name="ignore">Mengabaikan</string>
-    <string name="disable_suggest">Nonaktifkan Saran</string>
-    <string name="enable_suggest">Aktifkan Saran</string>
-    <string name="experimental_features">Fitur eksperimental</string>
-    <string name="warn">Perhatian</string>
-    <string name="module_title_1">Pesan dasar</string>
-    <string name="module_title_2">Tumpukan pesan</string>
-    <string name="app_error_desc">HyperCeiler tiba-tiba tertutup. Untuk membantu kami memperbaiki masalah ini, berikan informasi berikut:\n\nTekan dan tahan pesan apa pun untuk menyalin semuanya.</string>
-    <string name="safe_mode_cancel">Nonaktifkan mode aman</string>
-    <string name="safe_mode_ok">Batal</string>
+    <string name="exit">Keluar</string>
+    <string name="ignore">Abaikan</string>
+    <string name="disable_suggest">Nonaktifkan saran</string>
+    <string name="enable_suggest">Aktifkan saran</string>
+    <string name="search_apps_hint">Cari di antara %d aplikasi</string>
+    <string name="load_apps_failed">Gagal memuat daftar aplikasi</string>
+    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan versi resmi Xiaomi. Demi alasan keamanan, semua fungsi untuk cakupan ini telah dinonaktifkan. Silakan coba beralih ke paket aplikasi resmi yang dirilis oleh Xiaomi, atau buka "Setelan HyperCeiler - Opsi pengembang - Mode debug" untuk menentukan versi hook lalu coba lagi.</string>
+    <string name="home_os4_unadapted_tips">Fitur yang berwarna abu-abu belum disesuaikan dan akan tersedia setelah tahap adaptasi selesai.</string>
+    <string name="debug_mode_running">Cakupan target saat ini berada dalam mode debug. Jika tidak diperlukan, silakan nonaktifkan.\nVersi aplikasi saat ini: %1$s\nVersi target yang dipilih: %2$s\nBerhasil dikaitkan: %3$s</string>
+    <string name="debug_mode_switch">Versi debug</string>
+
+    <!--AICR-->
+    <string name="aicr_modify_browser_copy">Ganti peramban untuk salin langsung</string>
+    <string name="aicr_preferred_browser">Peramban pilihan</string>
+    <string name="aicr_default_browser">Peramban default</string>
+
+    <string name="home_restart_launcher">Mulai ulang peluncur</string>
+    <string name="home_restart_zygote">Mulai ulang Zygote</string>
+    <string name="home_restart_zygote_confirm">Mulai ulang runtime Android sekarang? Aplikasi akan ditutup dan ponsel akan kembali ke layar kunci.</string>
+    <string name="home_recent_hide_text">Sembunyikan teks</string>
+    <string name="home_recent_remove_icon_summary">Sembunyikan ikon aplikasi pada header kartu tugas terkini; berlaku setelah peluncur dimulai ulang</string>
+    <string name="home_recent_hide_text_summary">Sembunyikan nama aplikasi pada header kartu tugas terkini; berlaku setelah peluncur dimulai ulang</string>
 </resources>
