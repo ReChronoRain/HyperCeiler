@@ -56,15 +56,20 @@ public class LogStatusManager {
 
     public static volatile int logLevel = LogLevelManager.getDefaultLogLevel();
 
-    public static void init(Context context, String appPrivateDir, Runnable xposedLogSyncer, Runnable onConfigReady) {
-        // 1. 初始化配置管理器
+    /**
+     * Prepare log configuration for all process starts, including Provider-only
+     * cold starts. Health checks and historical imports remain UI-triggered.
+     */
+    public static void initializeConfiguration(Context context, String appPrivateDir) {
         LogConfigManager.init(appPrivateDir);
         logLevelConfigBasePath = appPrivateDir;
         logLevel = readLogLevelFromFile();
         observeLogLevel(context, appPrivateDir);
-
-        // 2. 设置本地日志基准目录
         LoggerHealthChecker.localLogBaseDir = new File(appPrivateDir, "files/log");
+    }
+
+    public static void init(Context context, String appPrivateDir, Runnable xposedLogSyncer, Runnable onConfigReady) {
+        initializeConfiguration(context, appPrivateDir);
 
         // 3. 配置就绪回调
         if (onConfigReady != null) {
