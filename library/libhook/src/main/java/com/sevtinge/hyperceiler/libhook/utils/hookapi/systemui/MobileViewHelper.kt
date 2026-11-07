@@ -43,7 +43,10 @@ import java.util.function.Consumer
  * 始终反映当前上网卡对应的原始 Flow 值，用于双排信号模式下
  * slot 0 代理显示当前上网卡的属性（如 showName、isDataConnected）。
  */
-class DataSimFlowProxy(private val defaultValue: Any) {
+class DataSimFlowProxy(
+    private val defaultValue: Any,
+    private val keepProxyIdentity: Boolean = false,
+) {
     @Volatile
     var proxy: Any? = null
         private set
@@ -66,23 +69,51 @@ class DataSimFlowProxy(private val defaultValue: Any) {
             val initValue = if (isSingleSimMode() || subId == defaultDataSubId) {
                 getStateFlowValue(originalFlow) ?: defaultValue
             } else {
-                originalFlows[defaultDataSubId]?.let { getStateFlowValue(it) } ?: defaultValue
+                originalFlows[defaultDataSubId]?.let { getStateFlowValue(it) }
+                    ?: if (keepProxyIdentity) {
+                        // No SIM2 source registered yet: keep the slot-0 icon
+                        // resource rather than replacing the native drawable
+                        // with the uninitialized 0/false default.
+                        getStateFlowValue(originalFlow) ?: defaultValue
+                    } else {
+                        defaultValue
+                    }
             }
-            val p = newReadonlyStateFlow(initValue)
-            proxy = p
+            // Native mobile binders can subscribe to the same slot-0 activity
+            // from multiple status-bar hosts. Replacing the proxy would strand
+            // earlier collectors on a stale Flow. This opt-in mode is used
+            // only for activity visibility and activity resource IDs.
+            val p = if (keepProxyIdentity) {
+                synchronized(this) {
+                    proxy ?: newReadonlyStateFlow(initValue).also { proxy = it }
+                }
+            } else {
+                newReadonlyStateFlow(initValue).also { proxy = it }
+            }
             MiuiStub.javaAdapter.alwaysCollectFlow(originalFlow, Consumer<Any> { value ->
-                if (isSingleSimMode() || subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
+                // When a subscription is rebound to another ViewModel, only
+                // its newest upstream Flow may drive the shared activity proxy.
+                if (acceptsEmission(subId, originalFlow) &&
+                    (isSingleSimMode() || subId == SubscriptionManager.getDefaultDataSubscriptionId())
+                ) {
                     setStateFlowValue(p, value)
                 }
             })
         } else {
             MiuiStub.javaAdapter.alwaysCollectFlow(originalFlow, Consumer<Any> { value ->
-                if (subId == SubscriptionManager.getDefaultDataSubscriptionId()) {
-                    proxy?.let { p -> setStateFlowValue(p, value) }
+                if (acceptsEmission(subId, originalFlow) &&
+                    subId == SubscriptionManager.getDefaultDataSubscriptionId()
+                ) {
+                    proxy?.let { p ->
+                        setStateFlowValue(p, value)
+                    }
                 }
             })
         }
     }
+
+    private fun acceptsEmission(subId: Int, source: Any): Boolean =
+        !keepProxyIdentity || originalFlows[subId] === source
 
     /** 广播触发时同步代理至当前上网卡的值 */
     fun syncFromBroadcast(slot0SubId: Int) {
@@ -90,7 +121,8 @@ class DataSimFlowProxy(private val defaultValue: Any) {
         val targetFlow = originalFlows[activeDataSubId] ?: originalFlows[slot0SubId]
         if (targetFlow != null) {
             proxy?.let { p ->
-                setStateFlowValue(p, getStateFlowValue(targetFlow) ?: defaultValue)
+                val value = getStateFlowValue(targetFlow) ?: defaultValue
+                setStateFlowValue(p, value)
             }
         }
     }
