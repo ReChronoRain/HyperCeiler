@@ -104,8 +104,9 @@ public class LogViewerActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         super.onCreate();
-        // The log viewer can be entered directly without opening the home screen.
-        LogManager.init(this, null, () -> XposedLogLoader.syncLogsToDatabaseSync(this));
+        // The first list query already imports LSPosed logs, including direct
+        // Log Viewer launches. Start health checking without a duplicate import.
+        LogManager.startHealthCheck(this, null);
         initViews();
         setupTab();
         setupViewPager();
