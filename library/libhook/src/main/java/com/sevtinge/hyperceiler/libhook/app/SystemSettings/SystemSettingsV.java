@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AntiQues;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AppsFreezerEnable;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.ControlCenterStyle;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.EnableSpeedMode;
+import com.sevtinge.hyperceiler.libhook.rules.systemsettings.HideXiaomiAccount;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.HyperCeilerSettings;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.InternationalBuild;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.LinkTurbo;
@@ -61,6 +62,7 @@ public class SystemSettingsV extends BaseLoad {
         initHook(new InternationalBuild(), PrefsBridge.getBoolean("system_settings_international_build"));
         initHook(UnlockXiaomiHyperAIEntranceKt.INSTANCE, PrefsBridge.getBoolean("system_settings_unlock_xiaomihyperai_entrance"));
         initHook(new AddGoogleListHeader(), PrefsBridge.getBoolean("system_settings_unlock_google_header"));
+        initHook(new HideXiaomiAccount(), PrefsBridge.getBoolean("system_settings_hide_xiaomi_account"));
 
         // 系统更新伪装版本
         initHook(new ModifySystemVersion(), PrefsBridge.getBoolean("updater_enable_miui_version") && PrefsBridge.getStringAsInt("updater_version_mode", 1) != 1);

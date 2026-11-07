@@ -856,6 +856,7 @@
     <string name="system_settings_novelty_haptic_title">Разблокировать новый пункт настройки сенсорного управления</string>
     <string name="system_settings_novelty_haptic_desc">Только для устройств где есть \"Звуки и тактильные ощущения - Тактильные ощущения\"</string>
     <string name="system_settings_unlock_google_header">Разблокировать пункт Google</string>
+    <string name="system_settings_hide_xiaomi_account">Скрыть аккаунт Xiaomi</string>
     <string name="system_settings_unlock_ui_mode">Разблокировать оптимизацию компоновки приложения</string>
     <string name="system_settings_usb_mode">При подключении к USB всплывающее окно не появляется</string>
     <string name="system_settings_usb_mode_choose">Вариант USB по умолчанию</string>

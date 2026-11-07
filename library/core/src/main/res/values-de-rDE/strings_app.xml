@@ -816,6 +816,7 @@
     <string name="system_settings_novelty_haptic_title">Neue Version der Haptik-Feedback-Seite freischalten</string>
     <string name="system_settings_novelty_haptic_desc">Nur für Geräte mit der Sounds &amp; Haptik-Feedback - Haptik-Seite</string>
     <string name="system_settings_unlock_google_header">Google-Eintrag freischalten</string>
+    <string name="system_settings_hide_xiaomi_account">Xiaomi-Konto ausblenden</string>
     <string name="system_settings_unlock_ui_mode">App-Layout-Optimierungen freischalten</string>
     <string name="system_settings_usb_mode">Pop-up-Fenster beim Verbinden mit USB ausblenden</string>
     <string name="system_settings_usb_mode_choose">USB-Standardoption</string>

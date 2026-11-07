@@ -847,6 +847,7 @@
     <string name="system_settings_novelty_haptic_title">فتح نسخة جديدة من صفحة ردود الفعل اللمسية</string>
     <string name="system_settings_novelty_haptic_desc">لأجهزة معينة تحتوي على صفحة الصوت وردود الفعل اللمسية</string>
     <string name="system_settings_unlock_google_header">فتح إدخال Google</string>
+    <string name="system_settings_hide_xiaomi_account">إخفاء حساب Xiaomi</string>
     <string name="system_settings_unlock_ui_mode">فتح تحسينات تخطيط التطبيق</string>
     <string name="system_settings_usb_mode">إخفاء نافذة منبثقة عند الاتصال بالـ USB</string>
     <string name="system_settings_usb_mode_choose">الخيار الافتراضي لـ USB</string>

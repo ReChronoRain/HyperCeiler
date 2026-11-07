@@ -610,6 +610,7 @@
     <string name="system_settings_novelty_haptic_title">Buka kunci versi baru halaman penyesuaian sentuhan</string>
     <string name="system_settings_novelty_haptic_desc">Hanya untuk perangkat dengan halaman Suara &amp; Haptik - Haptik</string>
     <string name="system_settings_unlock_google_header">Buka kunci Entri Google</string>
+    <string name="system_settings_hide_xiaomi_account">Sembunyikan akun Xiaomi</string>
     <string name="system_settings_unlock_ui_mode">Buka pengoptimalan tata letak aplikasi</string>
     <string name="system_settings_usb_mode">Tidak ada jendela pop-up saat menghubungkan ke USB</string>
     <string name="system_settings_usb_mode_choose">Opsi Bawaan USB</string>

@@ -813,6 +813,7 @@
     <string name="system_settings_novelty_haptic_title">Розблокувати нову версію сторінки тактильного відгуку</string>
     <string name="system_settings_novelty_haptic_desc">Тільки для пристроїв зі сторінкою \"Звуки та тактильний відгук\" - \"Тактильні відчуття\"</string>
     <string name="system_settings_unlock_google_header">Розблокувати пункт Google</string>
+    <string name="system_settings_hide_xiaomi_account">Приховати обліковий запис Xiaomi</string>
     <string name="system_settings_unlock_ui_mode">Розблокувати оптимізацію макета додатка</string>
     <string name="system_settings_usb_mode">Приховати спливаюче вікно при підключенні до USB</string>
     <string name="system_settings_usb_mode_choose">Опція USB за замовчуванням</string>
