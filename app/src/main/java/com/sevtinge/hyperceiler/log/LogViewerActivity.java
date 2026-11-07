@@ -104,6 +104,8 @@ public class LogViewerActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         super.onCreate();
+        // The log viewer can be entered directly without opening the home screen.
+        LogManager.init(this, null, () -> XposedLogLoader.syncLogsToDatabaseSync(this));
         initViews();
         setupTab();
         setupViewPager();

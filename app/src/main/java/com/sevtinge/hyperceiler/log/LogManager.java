@@ -103,7 +103,9 @@ public class LogManager {
         if (provider != null) {
             setDeviceInfoProvider(provider);
         }
-        if (!sStatusManagerInitialized) {
+        // Only a UI request supplies a synchronizer. Provider-only cold starts must
+        // not create a health-check thread that copies LSPosed logs or reads Logcat.
+        if (xposedLogSyncer != null && !sStatusManagerInitialized) {
             synchronized (LogManager.class) {
                 if (!sStatusManagerInitialized) {
                     LogStatusManager.init(
