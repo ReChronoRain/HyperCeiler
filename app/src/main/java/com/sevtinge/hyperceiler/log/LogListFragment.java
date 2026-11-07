@@ -179,6 +179,9 @@ public class LogListFragment extends Fragment {
                 if (syncBeforeQuery && context != null) {
                     // The loader persists denied Root access too; never silently skip collection.
                     XposedLogLoader.syncLogsToDatabaseSync(context.getApplicationContext());
+                    // LoggerHealthChecker reads the copied LSPosed files: check only
+                    // after the first import, not before it on direct viewer launches.
+                    LogManager.startHealthCheck(context.getApplicationContext(), null);
                 }
             } else {
                 hasRootPermission = false;

@@ -104,6 +104,8 @@ public class LogViewerActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         super.onCreate();
+        // The initial list refresh imports logs before launching health checking.
+        // Do not run a second import or an early check from the Activity.
         initViews();
         setupTab();
         setupViewPager();
