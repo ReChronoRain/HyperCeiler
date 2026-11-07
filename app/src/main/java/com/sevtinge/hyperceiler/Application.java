@@ -32,7 +32,6 @@ import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.home.safemode.AppCrashStore;
 import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.log.LogManager;
-import com.sevtinge.hyperceiler.log.XposedLogLoader;
 import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DeviceInfoBuilder;
 import com.sevtinge.hyperceiler.utils.FrameworkStatusManager;
@@ -64,11 +63,9 @@ public class Application extends fan.app.Application
         syncHookAvailabilityIfUnlocked();
         FrameworkStatusManager.init();
 
-        LogManager.init(
-            this,
-            DeviceInfoBuilder::build,
-            () -> XposedLogLoader.syncLogsToDatabaseSync(this)
-        );
+        // A preferences Provider query can cold-start the app without opening its UI.
+        // Keep the log repository ready, but never import historical logs on that path.
+        LogManager.init(this, DeviceInfoBuilder::build, null);
         setupCrashHandler();
     }
 
