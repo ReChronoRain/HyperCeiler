@@ -164,6 +164,52 @@ public:
         if(e.action==1)reset();return d;
     }
 };
+
+// Horizontal Hotseat gestures share PlatformScene's verified Flutter pointer stream.
+// The dock is constrained to the bottom 180dp interaction band; icon taps and vertical workspace
+// gestures remain stock. Once horizontal movement claims the stream, Flutter receives
+// CANCEL and the configured action is emitted only on a qualifying release.
+class DockSwipeRecognizer {
+    bool active_=false,claimed_=false,cancelled_=false;
+    int64_t start_=0; uintptr_t owner_=0; uint64_t revision_=0;
+    unsigned mask_=0; float x_=0,y_=0,dx_=0,dy_=0;
+public:
+    void reset(){*this={};}
+    bool tracking()const{return active_;}
+    home_gestures::Decision accept(const SwipeSample& e,const home_gestures::Settings& s,
+        bool editing,int height) {
+        using namespace home_gestures;
+        constexpr unsigned left_bit=1u<<10,right_bit=1u<<11;
+        if(e.action==0) {
+            reset();
+            if(editing||e.count!=1||e.time<=0||!e.owner||height<=0||!std::isfinite(e.x[0])
+                ||!std::isfinite(e.y[0])||!std::isfinite(s.density)||s.density<.5f||s.density>8
+                ||!(s.mask&(left_bit|right_bit))||e.y[0]<float(height)-180.f*s.density)return {};
+            active_=true;start_=e.time;owner_=e.owner;revision_=s.revision;mask_=s.mask;x_=e.x[0];y_=e.y[0];return {};
+        }
+        if(!active_)return {};
+        auto finish=[&](){Decision d{false,cancelled_,0,revision_};reset();return d;};
+        if(e.owner!=owner_||editing||s.revision!=revision_||e.time<start_||e.time-start_>1500
+            ||e.count!=1||!std::isfinite(e.x[0])||!std::isfinite(e.y[0]))return finish();
+        if(e.action==3)return finish();
+        if(e.action!=1&&e.action!=2)return {};
+        dx_=e.x[0]-x_;dy_=e.y[0]-y_;
+        if(!claimed_&&std::abs(dx_)>16.f*s.density&&std::abs(dx_)>std::abs(dy_)*1.2f) {
+            const bool configured=dx_<0?(mask_&left_bit):(mask_&right_bit);
+            if(configured)claimed_=true;
+        }
+        Decision d{false,cancelled_,0,revision_};
+        if(claimed_) {
+            d.cancel=!cancelled_;d.consume=true;cancelled_=true;
+            const int64_t elapsed=std::max<int64_t>(1,e.time-start_);
+            const float velocity=std::abs(dx_)*1000.f/float(elapsed);
+            if(e.action==1&&std::abs(dx_)>=75.f*s.density&&velocity>=33.f*s.density)
+                d.gesture=dx_<0?13:14;
+        }
+        if(e.action==1)reset();
+        return d;
+    }
+};
 } // namespace home_workspace_gesture
 void hc_workspace_scope_bind(const home_workspace_gesture::ScopeContract&);
 void hc_workspace_status_bind(const home_workspace_gesture::StatusPolicy&);

@@ -53,6 +53,7 @@ bool workspace_ready=false;
 bool scene_ready=false;
 home_workspace_gesture::ScopeContract scope_contract;
 home_workspace_gesture::SwipeRecognizer workspace_state;
+home_workspace_gesture::DockSwipeRecognizer dock_state;
 home_workspace_gesture::StatusPolicy status_policy;
 int64_t workspace_start=0,stock_block_start=0,stock_block_end=0;
 void publish_workspace_locked(){
@@ -103,7 +104,7 @@ void *action_worker(void*) {
                 std::lock_guard guard(lock);
                 if(!count)break;
                 r=requests[head];head=(head+1)%requests.size();--count;
-                valid=r.revision==settings.revision&&(r.event==6?settings.quick:(settings.mask&(1u<<(r.event-1))));
+                valid=r.revision==settings.revision&&(r.event==6?settings.quick:(r.event==13?(settings.mask&(1u<<10)):r.event==14?(settings.mask&(1u<<11)):(settings.mask&(1u<<(r.event-1)))));
             }
             timespec now{};
             if(valid&&clock_gettime(CLOCK_MONOTONIC,&now)==0) {
@@ -226,8 +227,8 @@ void hc_gestures_config(const home_gestures::Config &config) {
     const unsigned mask=config.enabled?config.mask:0;
     const float density=float(config.density_dpi)/160.f,width=float(config.width);
     if(settings.mask!=mask||settings.quick!=config.quick||settings.density!=density||settings.width!=width) {
-        settings={mask,config.quick,density,width,settings.revision+1};
-        home_state.reset();back_state.reset();
+        settings={mask,config.quick,density,width,config.height,settings.revision+1};
+        home_state.reset();back_state.reset();dock_state.reset();workspace_state.reset();
         publish_workspace_locked();
         __android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeGesture","config mask=%u quick=%d dpi=%d width=%d",mask,config.quick,config.density_dpi,config.width);
     }
@@ -288,27 +289,34 @@ extern "C" void hc_workspace_scene(void* owner,void* event) {
         std::lock_guard guard(lock);
         const bool can_claim=workspace_ready&&scene_ready&&scope_contract.down_return
             &&(settings.mask&30u);
-        // Readiness controls NEW claims, not delivery of lifecycle events to
-        // an existing recognizer. Otherwise a Down forwarded while unready can
-        // later lose its Move/Up to the previous cancelled sequence on recovery.
-        // Keep draining an owned stream and clear its timestamp interval on the
-        // next Down, even while the source-bank readiness gate is closed.
+        const bool dock_can_claim=workspace_ready&&scene_ready
+            &&(settings.mask&((1u<<10)|(1u<<11)));
         if(!api.masked) {
-            workspace_state.reset();workspace_start=stock_block_start=stock_block_end=0;
-        } else if(can_claim||workspace_state.tracking()||stock_block_start>0) {
+            workspace_state.reset();dock_state.reset();workspace_start=stock_block_start=stock_block_end=0;
+        } else {
             home_workspace_gesture::SwipeSample e;e.action=api.masked(event);e.count=api.pointers(event);
             e.time=api.time(event);e.owner=reinterpret_cast<uintptr_t>(owner);
             if(e.action==0){workspace_start=e.time;stock_block_start=stock_block_end=0;}
             for(int i=0;i<std::min(e.count,2);++i){e.id[i]=api.pointer_id(event,i);e.x[i]=api.x(event,i);e.y[i]=api.y(event,i);}
-            bool editing=!can_claim;
+            bool editing=!dock_can_claim&&!can_claim;
 #if defined(HYPERCEILER_DOCK_NATIVE_MOTION)
             editing|=(dock_edit_packed.load(std::memory_order_acquire)&1u)!=0;
 #endif
-            decision=workspace_state.accept(e,settings,editing);
-            if(decision.consume){stock_block_start=workspace_start;stock_block_end=e.time;}
-            if(probe.load(std::memory_order_relaxed)&&(settings.mask&30u))__android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeGesture",
-                "workspace scene a=%d n=%d x=%.1f y=%.1f t=%lld decision=%d/%d/%d",e.action,e.count,e.x[0],e.y[0],
-                static_cast<long long>(e.time),decision.cancel,decision.consume,decision.gesture);
+            const bool dock_was_tracking=dock_state.tracking();
+            if(dock_can_claim||dock_was_tracking) {
+                auto dock_decision=dock_state.accept(e,settings,editing,settings.height);
+                if(dock_decision.consume||dock_decision.gesture)decision=dock_decision;
+            }
+            const bool dock_stream=dock_was_tracking||dock_state.tracking();
+            if(!dock_stream&&(can_claim||workspace_state.tracking()||stock_block_start>0)) {
+                decision=workspace_state.accept(e,settings,!can_claim||editing);
+                if(decision.consume){stock_block_start=workspace_start;stock_block_end=e.time;}
+            }
+            if(probe.load(std::memory_order_relaxed)&&((settings.mask&30u)||(settings.mask&((1u<<10)|(1u<<11)))))
+                __android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeGesture",
+                    "scene a=%d n=%d x=%.1f y=%.1f t=%lld decision=%d/%d/%d dock=%d",
+                    e.action,e.count,e.x[0],e.y[0],static_cast<long long>(e.time),decision.cancel,
+                    decision.consume,decision.gesture,dock_stream);
         }
     }
     // PlatformScene borrows the handle. CANCEL runs the original Flutter / Rust

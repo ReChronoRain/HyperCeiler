@@ -5,20 +5,20 @@
 #include <cmath>
 
 namespace home_gestures {
-struct Config { bool enabled=false,quick=false; unsigned mask=0; int density_dpi=160,width=1; };
+struct Config { bool enabled=false,quick=false; unsigned mask=0; int density_dpi=160,width=1,height=1; };
 constexpr int32_t kMagic=0x48434731;
 template<class Read> bool read_config(Read read,Config &out,bool optional=true) {
     out={};int32_t magic=0,enabled=0,quick=0,mask=0,dpi=0,width=0;
     if(!read(magic))return optional;
     if(magic!=kMagic||!read(enabled)||!read(quick)||!read(mask)||!read(dpi)||!read(width)
-        ||enabled<0||enabled>1||quick<0||quick>1||mask<0||mask>31||dpi<80||dpi>1280||width<1||width>32768)return false;
-    out={enabled!=0,quick!=0,static_cast<unsigned>(mask),dpi,width};return true;
+        ||enabled<0||enabled>1||quick<0||quick>1||mask<0||mask>4095||dpi<80||dpi>1280||width<1||width>32768)return false;
+    out={enabled!=0,quick!=0,static_cast<unsigned>(mask),dpi,width,1};return true;
 }
 // Android MotionEvent and AAPCS are contracts, not launcher object offsets.
 enum Gesture { None=0, DoubleTap=1, Up=2, Down=3, Up2=4, Down2=5, Previous=6 };
 struct Sample { int action=0, pointers=1; float x=0,y=0; int64_t time=0; uintptr_t owner=0; };
 struct Decision { bool cancel=false, consume=false; int gesture=None; uint64_t revision=0; };
-struct Settings { unsigned mask=0; bool quick=false; float density=1,width=0; uint64_t revision=0; };
+struct Settings { unsigned mask=0; bool quick=false; float density=1,width=0; int height=1; uint64_t revision=0; };
 class Recognizer {
     uintptr_t owner_=0;
     uint64_t revision_=0;

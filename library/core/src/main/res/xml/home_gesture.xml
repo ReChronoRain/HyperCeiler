@@ -138,6 +138,18 @@
             android:summary="@string/home_gesture_line_double_click_desc"
             android:title="@string/home_gesture_line_double_click" />
 
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_dock_left_swipe"
+            android:summary="@string/home_gesture_dock_left_swipe_desc"
+            android:title="@string/home_gesture_dock_left_swipe" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_dock_right_swipe"
+            android:summary="@string/home_gesture_dock_right_swipe_desc"
+            android:title="@string/home_gesture_dock_right_swipe" />
+
         <!--Preference
             android:key="prefs_key_home_gesture_swipe_and_stop"
             android:title="@string/home_gesture_swipe_and_stop"

@@ -1215,6 +1215,10 @@
     <string name="home_gesture_line_long_press_desc">Long press the gesture line</string>
     <string name="home_gesture_line_double_click">Gesture line double click</string>
     <string name="home_gesture_line_double_click_desc">Double click the gesture line</string>
+    <string name="home_gesture_dock_left_swipe">Dock swipe left</string>
+    <string name="home_gesture_dock_left_swipe_desc">Swipe left across the dock to run an action</string>
+    <string name="home_gesture_dock_right_swipe">Dock swipe right</string>
+    <string name="home_gesture_dock_right_swipe_desc">Swipe right across the dock to run an action</string>
     <string name="home_gesture_pinch">Pinch with two fingers</string>
     <string name="home_gesture_spread">Zoom with two fingers</string>
     <string name="home_gesture_swipe_and_stop">Swipe and stop</string>

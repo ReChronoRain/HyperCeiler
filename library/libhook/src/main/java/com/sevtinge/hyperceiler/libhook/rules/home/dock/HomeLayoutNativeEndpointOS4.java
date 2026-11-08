@@ -1157,7 +1157,8 @@ public final class HomeLayoutNativeEndpointOS4 {
         return new int[]{readBoolean(values,"home_gesture_enable",false)?1:0,
             readBoolean(values,"home_navigation_quick_back",false)?1:0,mask,
             dm!=null?Math.max(80,Math.min(1280,dm.densityDpi)):160,
-            dm!=null?Math.max(1,Math.min(32768,dm.widthPixels)):1};
+            dm!=null?Math.max(1,Math.min(32768,dm.widthPixels)):1,
+            dm!=null?Math.max(1,Math.min(65536,dm.heightPixels)):1};
     }
 
     public static final int TITLE_COUNT = 4;

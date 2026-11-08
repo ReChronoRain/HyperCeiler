@@ -39,12 +39,12 @@ public final class HomeQuickSwitchOS4 {
             int expected = event == 7 ? data.readInt() : -1;
             Context context = ContextUtils.getContextNoError(ContextUtils.FlAG_ONLY_ANDROID);
             long now = SystemClock.uptimeMillis();
-            if (!synchronous(flags) || data.dataAvail() != 0 || event < 1 || event > 12 || time > now
+            if (!synchronous(flags) || data.dataAvail() != 0 || event < 1 || event > 14 || time > now
                 || now - time > 750 || ((event == 6 || event == 7) && now - lastSwitch < 350)) {
                 diagnostic("reject protocol event="+event+" flags="+flags+" remaining="+data.dataAvail()+" age="+(now-time));
                 reply.writeInt(ACK); reply.writeInt(0); return;
             }
-            if(context==null || (event >= 7 ? (event == 7 && expected < 0) || !isSystemUI(context,uid,pid) : !isLauncher(context,uid,pid))) {
+            if(context==null || ((event >= 7 && event <= 12) ? (event == 7 && expected < 0) || !isSystemUI(context,uid,pid) : !isLauncher(context,uid,pid))) {
                 diagnostic("reject caller uid="+uid+" pid="+pid+" context="+(context!=null));
                 reply.writeInt(ACK); reply.writeInt(0); return;
             }
@@ -57,7 +57,7 @@ public final class HomeQuickSwitchOS4 {
                     if ((event == 6 || event == 7) && enabled(context)) {
                         result = switchPrevious(context, expected);
                         if (result) lastSwitch = now;
-                    } else if (event < 6 || event >= 8) result = performGesture(context,event);
+                    } else if (event < 6 || (event >= 8 && event <= 12) || event == 13 || event == 14) result = performGesture(context,event);
                     else diagnostic("reject quick preference");
                 }
             } finally { Binder.restoreCallingIdentity(token); }
@@ -88,7 +88,7 @@ public final class HomeQuickSwitchOS4 {
             }
             int index = actionIndex(event);
             if(index<0||index>=com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.ACTIONS.length)return false;
-            if(event==8&&!homeForeground(context))return false;
+            if((event==8||event==13||event==14)&&!homeForeground(context))return false;
             String key=com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.ACTIONS[index];
             if(!(values.get(key+"_action") instanceof Integer action)||action<=0||action>100)return false;
             values.forEach(com.sevtinge.hyperceiler.common.utils.PrefsBridge::putHookCache);
@@ -96,7 +96,7 @@ public final class HomeQuickSwitchOS4 {
         }
     }
     static int actionIndex(int event) {
-        return event>=1&&event<=5?event-1:event>=8&&event<=12?event-3:-1;
+        return event>=1&&event<=5?event-1:event>=8&&event<=12?event-3:event==13?10:event==14?11:-1;
     }
     private static boolean homeForeground(Context context) {
         var home=context.getPackageManager().resolveActivity(new android.content.Intent(android.content.Intent.ACTION_MAIN)

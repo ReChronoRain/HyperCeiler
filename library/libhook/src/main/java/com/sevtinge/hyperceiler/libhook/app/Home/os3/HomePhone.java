@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.gesture.BackGestureHaptic;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
@@ -109,6 +110,8 @@ public class HomePhone extends BaseLoad {
             || PrefsBridge.getInt("home_gesture_down_swipe2_action", 0) > 0;
         boolean hasGestureLineAction = PrefsBridge.getInt("home_gesture_line_long_press_action", 0) > 0
             || PrefsBridge.getInt("home_gesture_line_double_click_action", 0) > 0;
+        boolean hasDockSwipeAction = PrefsBridge.getInt("home_gesture_dock_left_swipe_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_dock_right_swipe_action", 0) > 0;
 
         // 手势
         initHook(new DisableFullScreenBackGesture(), PrefsBridge.getBoolean("home_navigation_disable_full_screen_back_gesture"));
@@ -119,6 +122,7 @@ public class HomePhone extends BaseLoad {
         initHook(new ScreenSwipe(), gesturesEnabled && hasScreenSwipeAction);
         initHook(new ShakeDevice(), gesturesEnabled && PrefsBridge.getInt("home_gesture_shake_action", 0) > 0);
         initHook(GestureLine.INSTANCE, gesturesEnabled && hasGestureLineAction);
+        initHook(new HotSeatSwipe(), gesturesEnabled && hasDockSwipeAction);
         initHook(new BackGestureAreaHeight(), PrefsBridge.getInt("home_navigation_back_area_height", 60) != 60);
         initHook(new BackGestureAreaWidth(), PrefsBridge.getInt("home_navigation_back_area_width", 100) != 100);
 

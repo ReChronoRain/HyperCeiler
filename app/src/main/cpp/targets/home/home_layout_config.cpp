@@ -168,7 +168,7 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 21;
+constexpr uint32_t kCacheVersion = 22;
 // The first launcher layout can run before credential-encrypted storage unlocks.
 // Bootstrap must survive a device reboot, not only a process restart after unlock.
 constexpr const char *kCacheDir = "/data/user_de/0/com.miui.home/files";
@@ -231,7 +231,7 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(kFolderAutoCloseMagic); put_u32(config.folder_auto_close ? 1U : 0U);
     put_u32(home_gestures::kMagic);
     put_u32(config.gestures.enabled); put_u32(config.gestures.quick); put_u32(config.gestures.mask);
-    put_u32(config.gestures.density_dpi); put_u32(config.gestures.width);
+    put_u32(config.gestures.density_dpi); put_u32(config.gestures.width); put_u32(config.gestures.height);
     put_u32(kObjectScaleMagic);
     for(const auto& scale:config.object_scales){put_u32(scale.enabled);put_u32(scale.percent);}
     put_u32(kDockTitleMagic); put_u32(config.dock_show_title);
@@ -250,7 +250,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
     if (version != 4 && version != 5 && version != 6 && version != 7 && version != 8
-        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != 17 && version != 18 && version != 19 && version != 20 && version != kCacheVersion)
+        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != 17 && version != 18 && version != 19 && version != 20 && version != 21 && version != kCacheVersion)
         return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
@@ -337,6 +337,11 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if (version >= 13 && !home_gestures::read_config([&](int32_t &word) {
         auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
     },config.gestures,false)) return false;
+    if (version >= 22) {
+        auto height=get_u32();
+        if(!height||*height<1||*height>65536)return false;
+        config.gestures.height=static_cast<int>(*height);
+    }
     config.object_scales={};
     if(version>=14 && !read_object_scales([&](int32_t& word){
         auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
@@ -534,8 +539,19 @@ static bool query_binder(Config &result) {
     if (valid) valid=home_gestures::read_config([&](int32_t &word) {
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.gestures);
+    // New endpoints append display height to the gesture snapshot. Older endpoints
+    // put the object-scale magic here, so peek this one word and preserve compatibility.
+    int32_t after_gesture=0; bool prefetched=false;
+    if(valid) {
+        valid=AParcel_readInt32(output,&after_gesture)==STATUS_OK;
+        if(valid && after_gesture==kObjectScaleMagic) prefetched=true;
+        else if(valid && after_gesture>=1 && after_gesture<=65536)
+            candidate.gestures.height=after_gesture;
+        else valid=false;
+    }
     bool has_object_scales=false;
     if(valid)valid=read_object_scales([&](int32_t& word){
+        if(prefetched){prefetched=false;word=after_gesture;return true;}
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.object_scales,true,&has_object_scales);
     EndpointDiagnostics endpoint;

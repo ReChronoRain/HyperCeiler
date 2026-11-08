@@ -48,6 +48,7 @@ public final class HomeOS4AdaptationGate {
         "prefs_key_home_gesture_double_tap", "prefs_key_home_gesture_shake",
         "prefs_key_home_navigation_assist_left_slide", "prefs_key_home_navigation_assist_right_slide",
         "prefs_key_home_gesture_line_long_press", "prefs_key_home_gesture_line_double_click",
+        "prefs_key_home_gesture_dock_left_swipe", "prefs_key_home_gesture_dock_right_swipe",
         "prefs_key_home_gesture_up_swipe", "prefs_key_home_gesture_down_swipe",
         "prefs_key_home_gesture_up_swipe2", "prefs_key_home_gesture_down_swipe2",
         "prefs_key_home_navigation_back_area_height", "prefs_key_home_navigation_back_area_width");

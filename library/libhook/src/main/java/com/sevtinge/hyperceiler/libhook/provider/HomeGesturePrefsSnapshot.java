@@ -11,9 +11,10 @@ public final class HomeGesturePrefsSnapshot {
     public static final String[] ACTIONS = {"home_gesture_double_tap", "home_gesture_up_swipe",
         "home_gesture_down_swipe", "home_gesture_up_swipe2", "home_gesture_down_swipe2",
         "home_gesture_shake", "home_navigation_assist_left_slide", "home_navigation_assist_right_slide",
-        "home_gesture_line_long_press", "home_gesture_line_double_click"};
-    // Events 6/7 retain the existing Previous wire contract. Native mask remains exactly five bits.
-    public static final int NATIVE_ACTION_COUNT = 5;
+        "home_gesture_line_long_press", "home_gesture_line_double_click",
+        "home_gesture_dock_left_swipe", "home_gesture_dock_right_swipe"};
+    // Events 6/7 retain the Previous wire contract; the native mask carries the five workspace and two dock actions.
+    public static final int NATIVE_ACTION_COUNT = 12;
     private HomeGesturePrefsSnapshot() {}
     public static Cursor cursor(SharedPreferences prefs) {
         if (prefs == null) return null;
