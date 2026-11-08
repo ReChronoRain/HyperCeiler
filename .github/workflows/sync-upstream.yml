@@ -1,0 +1,140 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: upstream-sync-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Synchronize upstream and preserve custom commits
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -Eeuo pipefail
+
+          BRANCH="main"
+          UPSTREAM="https://github.com/ReChronoRain/HyperCeiler.git"
+          WORKFLOW=".github/workflows/sync-upstream.yml"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git remote add upstream "$UPSTREAM" 2>/dev/null || true
+          git fetch origin "$BRANCH"
+          git fetch upstream "$BRANCH"
+
+          ORIGINAL="$(git rev-parse "origin/$BRANCH")"
+          UPSTREAM_SHA="$(git rev-parse "upstream/$BRANCH")"
+
+          if git merge-base --is-ancestor "$UPSTREAM_SHA" "$ORIGINAL"; then
+            echo "Already synchronized with upstream."
+            exit 0
+          fi
+
+          BASE="$(git merge-base "$UPSTREAM_SHA" "$ORIGINAL")"
+
+          if [[ -z "$BASE" ]]; then
+            echo "::error::No common ancestor. Nothing pushed."
+            exit 1
+          fi
+
+          if [[ ! -f "$WORKFLOW" ]]; then
+            echo "::error::Sync workflow is missing. Nothing pushed."
+            exit 1
+          fi
+
+          WORKFLOW_BACKUP="$(mktemp)"
+          cp "$WORKFLOW" "$WORKFLOW_BACKUP"
+
+          # Preserve the original fork history with a backup tag.
+          BACKUP_TAG="sync-backup-${RUN_ID}"
+          git tag "$BACKUP_TAG" "$ORIGINAL"
+          git push origin "refs/tags/$BACKUP_TAG"
+
+          # Capture every fork-only commit in original order.
+          mapfile -t CUSTOM_COMMITS < <(
+            git rev-list --reverse "$BASE..$ORIGINAL"
+          )
+
+          echo "Custom commits to preserve: ${#CUSTOM_COMMITS[@]}"
+          printf '%s\n' "${CUSTOM_COMMITS[@]}"
+
+          # Stop rather than silently mishandle merge commits.
+          if git rev-list --merges "$BASE..$ORIGINAL" | grep -q .; then
+            echo "::error::Fork-only merge commits found. Nothing pushed to main."
+            exit 1
+          fi
+
+          # Start from the exact upstream main.
+          git checkout -B "$BRANCH" "$UPSTREAM_SHA"
+
+          # Replay all fork-only commits. Upstream wins conflicting hunks.
+          for COMMIT in "${CUSTOM_COMMITS[@]}"; do
+            echo "Replaying $COMMIT"
+
+            if git cherry-pick --empty=keep -X ours "$COMMIT"; then
+              echo "Preserved $COMMIT"
+              continue
+            fi
+
+            echo "::warning::Unresolved conflict in $COMMIT."
+            echo "Resolving remaining conflicts in favor of upstream."
+
+            CONFLICTS="$(git diff --name-only --diff-filter=U)"
+
+            if [[ -n "$CONFLICTS" ]]; then
+              while IFS= read -r FILE; do
+                [[ -z "$FILE" ]] && continue
+                git checkout --ours -- "$FILE"
+                git add -- "$FILE"
+              done <<< "$CONFLICTS"
+            fi
+
+            if ! GIT_EDITOR=true git cherry-pick --continue; then
+              git cherry-pick --abort || true
+              echo "::error::Could not preserve commit $COMMIT. Nothing pushed to main."
+              exit 1
+            fi
+          done
+
+          # Restore the sync workflow if upstream removed or changed it.
+          mkdir -p "$(dirname "$WORKFLOW")"
+          cp "$WORKFLOW_BACKUP" "$WORKFLOW"
+          rm -f "$WORKFLOW_BACKUP"
+
+          if ! git diff --quiet -- "$WORKFLOW"; then
+            git add "$WORKFLOW"
+            git commit -m "Preserve automatic upstream sync workflow"
+          fi
+
+          # Verify upstream is an ancestor of the completed result.
+          git merge-base --is-ancestor "$UPSTREAM_SHA" HEAD
+
+          echo "Final history:"
+          git log --oneline -12
+
+          # Push only if main has not changed since it was fetched.
+          git push \
+            --force-with-lease="refs/heads/main:$ORIGINAL" \
+            origin "HEAD:refs/heads/main"
+
+          echo "Upstream synchronization completed successfully."
