@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 /** Horizontal swipe actions on the launcher hotseat/dock (OS3). */
 public class HotSeatSwipe extends BaseHook {
