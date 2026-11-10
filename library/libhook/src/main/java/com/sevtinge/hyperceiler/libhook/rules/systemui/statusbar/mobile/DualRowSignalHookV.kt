@@ -55,6 +55,10 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.util.concurrent.ConcurrentHashMap
 
 class DualRowSignalHookV : MobileSignalHook() {
+    private companion object {
+        const val ICON_STYLE_THEME = "theme"
+    }
+
     private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container") }
     private val ID_SIGNAL_SLOT1 by lazy { getOrCreateViewId("dual_signal_slot1") }
     private val ID_SIGNAL_SLOT2 by lazy { getOrCreateViewId("dual_signal_slot2") }
@@ -73,7 +77,10 @@ class DualRowSignalHookV : MobileSignalHook() {
     }
 
     private val selectedIconStyle by lazy {
-        PrefsBridge.getString("system_ui_status_mobile_network_icon_style", "")
+        when (val style = PrefsBridge.getString("system_ui_status_mobile_network_icon_style", "")) {
+            "classic", "thick", ICON_STYLE_THEME -> style
+            else -> ""
+        }
     }
 
     private val dualSignalResMap = HashMap<String, Bitmap>(64)
@@ -128,7 +135,7 @@ class DualRowSignalHookV : MobileSignalHook() {
 
         mobileGroup.setPadding(
             DisplayUtils.dp2px(leftMargin * 0.5f), 0,
-            DisplayUtils.dp2px(rightMargin * 0.5f), 0
+            DisplayUtils.dp2px(rightMargin * 0.5f) + getHorizontalIconSpacing(rootView.context), 0
         )
 
         // 检查是否已有双排容器
@@ -270,7 +277,7 @@ class DualRowSignalHookV : MobileSignalHook() {
             val modRes = getModuleRes(context.applicationContext ?: context)
             dualSignalResMap.clear()
 
-            val colorModes = if (selectedIconStyle == "theme") {
+            val colorModes = if (selectedIconStyle == ICON_STYLE_THEME) {
                 arrayOf(
                     Triple("", false, true),
                     Triple("dark", false, false)
@@ -465,7 +472,7 @@ class DualRowSignalHookV : MobileSignalHook() {
             return
         }
 
-        val needsTint = isUseTint && selectedIconStyle != "theme"
+        val needsTint = isUseTint && selectedIconStyle != ICON_STYLE_THEME
         slot1.setImageBitmap(slot1Bitmap)
         slot2.setImageBitmap(slot2Bitmap)
 
@@ -518,11 +525,24 @@ class DualRowSignalHookV : MobileSignalHook() {
 
     private fun getSignalIconResName(slot: Int, level: Int, isUseTint: Boolean, isLight: Boolean): String {
         val iconStyle = if (selectedIconStyle.isNotEmpty()) "_$selectedIconStyle" else ""
-        val colorMode = if (!isUseTint || selectedIconStyle == "theme") {
+        val colorMode = if (!isUseTint || selectedIconStyle == ICON_STYLE_THEME) {
             if (!isLight) "_dark" else ""
         } else {
             "_tint"
         }
         return "statusbar_signal_${slot}_$level$colorMode$iconStyle"
+    }
+
+    private fun getHorizontalIconSpacing(context: Context): Int {
+        val resId = context.resources.getIdentifier(
+            "status_bar_horizontal_padding",
+            "dimen",
+            "com.android.systemui"
+        )
+        return if (resId != 0) {
+            context.resources.getDimensionPixelSize(resId)
+        } else {
+            DisplayUtils.dp2px(2.5f)
+        }
     }
 }
