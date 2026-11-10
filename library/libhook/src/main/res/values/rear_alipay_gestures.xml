@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rear_alipay_back_native_entry">Alipay payment code (rear display)</string>
+    <string name="rear_alipay_back_native_transit_entry">Alipay transit code (rear display)</string>
+</resources>
