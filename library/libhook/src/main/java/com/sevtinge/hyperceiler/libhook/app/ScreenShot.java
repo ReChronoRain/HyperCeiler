@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.DeviceShellCustomize;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.HideStatusBarWhenShot;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.SaveToPictures;
+import com.sevtinge.hyperceiler.libhook.rules.screenshot.ScreenshotSaveMode;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockCopyPicture;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockMinimumCropLimit2;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockPrivacyMarking;
@@ -41,6 +42,7 @@ public class ScreenShot extends BaseLoad {
         initHook(DeviceShellCustomize.INSTANCE, !TextUtils.isEmpty(PrefsBridge.getString("screenshot_device_customize", "")));
         initHook(UnlockPrivacyMarking.INSTANCE, PrefsBridge.getBoolean("screenshot_unlock_privacy_marking"));
         initHook(UnlockCopyPicture.INSTANCE, PrefsBridge.getBoolean("screenshot_unlock_copy_to_clipboard"));
+        initHook(ScreenshotSaveMode.INSTANCE, PrefsBridge.getBoolean("screenshot_save_mode_keep_both"));
         initHook(HideStatusBarWhenShot.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_hide_icon"));
     }
 }
