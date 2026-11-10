@@ -857,6 +857,7 @@
     <string name="system_settings_novelty_haptic_title">Mở khóa phiên bản mới của Tab Chạm</string>
     <string name="system_settings_novelty_haptic_desc">Chỉ dành cho các thiết bị có Âm thanh &amp; Chạm - Tab Chạm</string>
     <string name="system_settings_unlock_google_header">Tắt các cổng Google ẩn</string>
+    <string name="system_settings_hide_xiaomi_account">Ẩn tài khoản Xiaomi</string>
     <string name="system_settings_unlock_ui_mode">Mở khóa tối ưu hóa bố cục ứng dụng</string>
     <string name="system_settings_usb_mode">Tắt cửa sổ nổi lên khi kết nối USB</string>
     <string name="system_settings_usb_mode_choose">Tùy chọn dùng USB mặc định</string>

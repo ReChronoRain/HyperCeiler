@@ -778,6 +778,7 @@
     <string name="system_settings_novelty_haptic_title">Odblokuj nową wersję strony wibracji</string>
     <string name="system_settings_novelty_haptic_desc">Tylko dla urządzeń z ustawieniami Dźwięki i wibracje - strona Haptyka</string>
     <string name="system_settings_unlock_google_header">Odblokuj wpis Google</string>
+    <string name="system_settings_hide_xiaomi_account">Ukryj konto Xiaomi</string>
     <string name="system_settings_unlock_ui_mode">Odblokuj optymalizację układu aplikacji</string>
     <string name="system_settings_usb_mode">Ukryj wyskakujące okno podczas połączenia z USB</string>
     <string name="system_settings_usb_mode_choose">Domyślna opcja USB</string>
