@@ -20,6 +20,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_ui_controlcenter_media_card_title"
     app:quick_restart="com.android.systemui">
+    <PreferenceCategory android:title="@string/system_ui_control_center_media_control_hide_media_card_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_hide_media_card"
+            android:summary="@string/system_ui_control_center_media_control_hide_media_card_desc"
+            android:title="@string/system_ui_control_center_media_control_hide_media_card" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/system_ui_control_center_media_control_media_background_title">
         <fan.preference.DropDownPreference
             android:defaultValue="0"
