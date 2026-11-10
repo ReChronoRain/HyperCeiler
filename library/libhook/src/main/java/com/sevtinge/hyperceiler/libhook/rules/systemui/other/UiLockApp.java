@@ -66,6 +66,19 @@ public class UiLockApp extends BaseHook {
     private static final String[] TASKBAR_DELEGATE_CLASS_CANDIDATES = new String[] {
         "com.android.systemui.navigationbar.TaskbarDelegate"
     };
+    private static final String[] WINDOW_DECORATION_CLASS_CANDIDATES = new String[] {
+        // 具体实现类优先：基类方法被覆写时，hook 基类不会命中实际绘制路径。
+        "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiWindowDecoration",
+        "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration"
+    };
+    private static final String[] DOT_VIEW_CLASS_CANDIDATES = new String[] {
+        "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationDotView",
+        "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiDotView",
+        "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiDecorationRootView"
+    };
+    private static final String[] DECORATION_DOT_CLASS_CANDIDATES = new String[] {
+        "com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationDot"
+    };
 
     private boolean mObserverRegistered = false;
     private View mStatusBarView;
@@ -74,6 +87,7 @@ public class UiLockApp extends BaseHook {
     private final List<WeakReference<View>> mGestureHandleViews = new ArrayList<>();
     private final List<WeakReference<Object>> mNavigationBars = new ArrayList<>();
     private final List<WeakReference<Object>> mTaskbarDelegates = new ArrayList<>();
+    private final List<WeakReference<Object>> mWindowDecorations = new ArrayList<>();
     private final Map<View, Integer> mHandleVisibilityBackup = new WeakHashMap<>();
     private final Map<View, Float> mHandleAlphaBackup = new WeakHashMap<>();
 
@@ -89,15 +103,23 @@ public class UiLockApp extends BaseHook {
             updateStatusBarVisibility(restoredContext);
         }
 
+        // 不在此处直接加载/挂接 SystemUI 类：过早强制加载大量 SystemUI/WMShell 类会打乱
+        // SystemUI 自身的启动与懒加载序列，导致其它 SystemUI hook 的效果失效（日志仍为 Success）。
+        // 统一推迟到 SystemUIApplication.onCreate 执行前再安装。
         findAndChainMethod("com.android.systemui.SystemUIApplication",
             "onCreate",
             new XposedInterface.Hooker() {
                 @Override
                 public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    installSystemUiHooks();
                     Object result = chain.proceed();
                     try {
                         Context context = (Context) callMethod(chain.getThisObject(), "getApplicationContext");
                         registerObserverIfNeeded(context);
+                        // 未锁定时保持完全被动，避免开机阶段干扰其它 SystemUI hook。
+                        if (getLockApp(context) != -1) {
+                            updateStatusBarVisibility(context);
+                        }
                     } catch (Throwable e) {
                         XposedLog.w(TAG, "SystemUIApplication onCreate hook E: " + e);
                     }
@@ -105,7 +127,10 @@ public class UiLockApp extends BaseHook {
                 }
             }
         );
+    }
 
+    /** 在 SystemUIApplication.onCreate 执行前安装需要加载 SystemUI/WMShell 类的 hook。 */
+    private void installSystemUiHooks() {
         for (String className : STATUS_BAR_WINDOW_CONTROLLER_CLASS_CANDIDATES) {
             hookStatusBarWindowControllerClass(className);
         }
@@ -118,13 +143,23 @@ public class UiLockApp extends BaseHook {
         for (String className : TASKBAR_DELEGATE_CLASS_CANDIDATES) {
             hookTaskbarDelegateClass(className);
         }
+        for (String className : WINDOW_DECORATION_CLASS_CANDIDATES) {
+            hookWindowDecorationClass(className);
+        }
+        for (String className : DOT_VIEW_CLASS_CANDIDATES) {
+            hookDotViewClass(className);
+        }
+        for (String className : DECORATION_DOT_CLASS_CANDIDATES) {
+            hookDecorationDotClass(className);
+        }
         if (isPad()) {
             hookLauncherProxyStopScreenPinning();
         }
     }
 
     private void hookStatusBarWindowControllerClass(String className) {
-        Class<?> controllerClass = findClassIfExists(className);
+        // 与 DisableMiuiMultiWinSwitch 一致：目标进程最终 ClassLoader 加载，找不到就跳过。
+        Class<?> controllerClass = findClassIfExists(className, getClassLoader());
         if (controllerClass == null || controllerClass.isInterface()) return;
 
         chainAllConstructors(controllerClass, new XposedInterface.Hooker() {
@@ -141,7 +176,10 @@ public class UiLockApp extends BaseHook {
                         putHotReloadRuntimeState(STATE_STATUS_BAR_VIEW, mStatusBarView);
                     }
                     registerObserverIfNeeded(context);
-                    updateStatusBarVisibility(context);
+                    // 未锁定时只注册 observer 和保存状态栏视图，不写任何 SystemUI 状态。
+                    if (getLockApp(context) != -1) {
+                        updateStatusBarVisibility(context);
+                    }
                 } catch (Throwable e) {
                     XposedLog.w(TAG, "StatusBarWindowController hook E: " + e);
                 }
@@ -151,7 +189,7 @@ public class UiLockApp extends BaseHook {
     }
 
     private void hookGestureHandleClass(String className) {
-        Class<?> gestureHandleClass = findClassIfExists(className);
+        Class<?> gestureHandleClass = findClassIfExists(className, getClassLoader());
         if (gestureHandleClass == null) return;
 
         chainAllConstructors(gestureHandleClass, new XposedInterface.Hooker() {
@@ -169,8 +207,7 @@ public class UiLockApp extends BaseHook {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
-                Context context = handleView.getContext();
-                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                if (!isLocked(handleView)) return chain.proceed();
                 Object[] args = chain.getArgs().toArray();
                 args[0] = View.GONE;
                 return chain.proceed(args);
@@ -181,8 +218,7 @@ public class UiLockApp extends BaseHook {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
-                Context context = handleView.getContext();
-                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                if (!isLocked(handleView)) return chain.proceed();
                 Object[] args = chain.getArgs().toArray();
                 args[0] = 0f;
                 return chain.proceed(args);
@@ -193,8 +229,7 @@ public class UiLockApp extends BaseHook {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
-                Context context = handleView.getContext();
-                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                if (!isLocked(handleView)) return chain.proceed();
                 return null;
             }
         });
@@ -212,7 +247,7 @@ public class UiLockApp extends BaseHook {
     }
 
     private void hookNavigationBarClass(String className) {
-        Class<?> navigationBarClass = findClassIfExists(className);
+        Class<?> navigationBarClass = findClassIfExists(className, getClassLoader());
         if (navigationBarClass == null) return;
 
         chainAllConstructors(navigationBarClass, new XposedInterface.Hooker() {
@@ -242,7 +277,7 @@ public class UiLockApp extends BaseHook {
     }
 
     private void hookTaskbarDelegateClass(String className) {
-        Class<?> taskbarDelegateClass = findClassIfExists(className);
+        Class<?> taskbarDelegateClass = findClassIfExists(className, getClassLoader());
         if (taskbarDelegateClass == null) return;
 
         chainAllConstructors(taskbarDelegateClass, new XposedInterface.Hooker() {
@@ -268,7 +303,8 @@ public class UiLockApp extends BaseHook {
     }
 
     private void hookLauncherProxyStopScreenPinning() {
-        Class<?> launcherProxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
+        Class<?> launcherProxyClass = findClassIfExists(
+            "com.android.systemui.recents.LauncherProxyService$1", getClassLoader());
         if (launcherProxyClass == null) return;
 
         chainAllMethods(launcherProxyClass, "verifyCallerAndClearCallingIdentityPostMain", new XposedInterface.Hooker() {
@@ -287,11 +323,152 @@ public class UiLockApp extends BaseHook {
         });
     }
 
+    private void hookWindowDecorationClass(String className) {
+        Class<?> decorClass = findClassIfExists(className, getClassLoader());
+        if (decorClass == null) {
+            XposedLog.e(TAG, getPackageName(), "UiLockApp target class not found: " + className);
+            return;
+        }
+
+        chainAllConstructors(decorClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                try {
+                    registerWindowDecoration(chain.getThisObject());
+                } catch (Throwable e) {
+                    XposedLog.w(TAG, "registerWindowDecoration E: " + e);
+                }
+                return result;
+            }
+        });
+
+        // 强行修正 shouldHideCaption
+        chainAllMethods(decorClass, "shouldHideCaption", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (isLocked(chain.getThisObject())) {
+                    return true;
+                }
+                return chain.proceed();
+            }
+        });
+
+        // 核心：Hook relayout 确保每次布局刷新时强制应用隐藏状态
+        chainAllMethods(decorClass, "relayout", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (isLocked(chain.getThisObject())) {
+                    try {
+                        // 强行修改实例变量，确保内部判定一致
+                        setObjectField(chain.getThisObject(), "mCaptionVisible", false);
+                    } catch (Throwable e) {
+                        XposedLog.w(TAG, "relayout set mCaptionVisible E: " + e);
+                    }
+                }
+                return chain.proceed();
+            }
+        });
+
+        // 强制隐藏 Surface
+        chainAllMethods(decorClass, "updateVisibility", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (chain.getArgs().size() >= 1 && chain.getArgs().get(0) instanceof Boolean) {
+                    if (isLocked(chain.getThisObject())) {
+                        Object[] args = chain.getArgs().toArray();
+                        args[0] = false;
+                        return chain.proceed(args);
+                    }
+                }
+                return chain.proceed();
+            }
+        });
+
+        // 拦截点击判定，防止触发拖拽
+        chainAllMethods(decorClass, "pointInView", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (isLocked(chain.getThisObject())) {
+                    return false;
+                }
+                return chain.proceed();
+            }
+        });
+    }
+
+    private void registerWindowDecoration(Object decor) {
+        if (decor == null) return;
+        for (WeakReference<Object> reference : mWindowDecorations) {
+            if (reference.get() == decor) return;
+        }
+        mWindowDecorations.add(new WeakReference<>(decor));
+    }
+
+    private void hookDotViewClass(String className) {
+        Class<?> dotViewClass = findClassIfExists(className, getClassLoader());
+        if (dotViewClass == null) {
+            XposedLog.e(TAG, getPackageName(), "UiLockApp target class not found: " + className);
+            return;
+        }
+
+        // 核心：强制设置不可见状态，使其不参与触控分发（解决游戏死区问题）
+        chainAllMethods(dotViewClass, "setVisibility", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (chain.getThisObject() instanceof View view && isLocked(view)) {
+                    Object[] args = chain.getArgs().toArray();
+                    args[0] = View.GONE; // 强制设为 GONE
+                    return chain.proceed(args);
+                }
+                return chain.proceed();
+            }
+        });
+
+        // 辅助：当 View 被添加到窗口时立即检查状态
+        chainAllMethods(dotViewClass, "onAttachedToWindow", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (chain.getThisObject() instanceof View view && isLocked(view)) {
+                    view.setVisibility(View.GONE);
+                }
+                return chain.proceed();
+            }
+        });
+
+        chainAllMethods(dotViewClass, "onDraw", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (chain.getThisObject() instanceof View view && isLocked(view)) {
+                    return null;
+                }
+                return chain.proceed();
+            }
+        });
+    }
+
+    private void hookDecorationDotClass(String className) {
+        Class<?> dotClass = findClassIfExists(className, getClassLoader());
+        if (dotClass == null) {
+            XposedLog.e(TAG, getPackageName(), "UiLockApp target class not found: " + className);
+            return;
+        }
+
+        chainAllMethods(dotClass, "createHandleMenu", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (isLocked(chain.getThisObject())) return null;
+                return chain.proceed();
+            }
+        });
+    }
+
     private void updateStatusBarVisibility(Context context) {
         boolean isLocked = getLockApp(context) != -1;
+        boolean wasLocked = mLastLockedState != null && mLastLockedState;
         boolean stateChanged = mLastLockedState == null || mLastLockedState != isLocked;
+        mLastLockedState = isLocked;
         if (stateChanged) {
-            mLastLockedState = isLocked;
             XposedLog.d(TAG, "lockState locked=" + isLocked);
         }
 
@@ -300,14 +477,15 @@ public class UiLockApp extends BaseHook {
         }
 
         updateGestureHandleVisibility(isLocked);
+        updateWindowDecorVisibility(isLocked);
 
-        if (!isLocked) {
+        // 仅在“锁定 → 解锁”的真实转换时恢复状态；开机/平时未锁定绝不写 SystemUI 状态，
+        // 避免干扰其它 hook（时钟、免打扰通知、多窗口开关等）。
+        if (stateChanged && wasLocked && !isLocked) {
             refreshNavigationBarPinningState();
             refreshTaskbarPinningState();
             refreshNavigationTransientState();
             refreshTaskbarTransientState();
-        }
-        if (stateChanged && !isLocked) {
             refreshStatusBarDisableFlags(context);
         }
     }
@@ -342,6 +520,22 @@ public class UiLockApp extends BaseHook {
                 if (oldVisibility != null && handleView.getVisibility() != oldVisibility) {
                     handleView.setVisibility(oldVisibility);
                 }
+            }
+        }
+    }
+
+    private void updateWindowDecorVisibility(boolean isLocked) {
+        Iterator<WeakReference<Object>> iterator = mWindowDecorations.iterator();
+        while (iterator.hasNext()) {
+            Object decor = iterator.next().get();
+            if (decor == null) {
+                iterator.remove();
+                continue;
+            }
+            try {
+                callMethod(decor, "setCaptionVisibility", !isLocked);
+            } catch (Throwable e) {
+                XposedLog.w(TAG, "updateWindowDecorVisibility error: " + e);
             }
         }
     }
@@ -464,8 +658,10 @@ public class UiLockApp extends BaseHook {
     private void refreshStatusBarDisableFlags(Context context) {
         if (context == null) return;
         try {
-            Class<?> dependencyClass = findClassIfExists("com.android.systemui.Dependency");
-            Class<?> commandQueueClass = findClassIfExists("com.android.systemui.statusbar.CommandQueue");
+            Class<?> dependencyClass = findClassIfExists(
+                "com.android.systemui.Dependency", getClassLoader());
+            Class<?> commandQueueClass = findClassIfExists(
+                "com.android.systemui.statusbar.CommandQueue", getClassLoader());
             if (dependencyClass == null || commandQueueClass == null) return;
 
             Object commandQueue = null;
@@ -527,6 +723,20 @@ public class UiLockApp extends BaseHook {
         } catch (Throwable ignored) {
         }
         return null;
+    }
+
+    /**
+     * 判断目标是否处于引导式访问锁定状态。任何反射/取 context 的异常都不外泄，
+     * 保证 hook 回调绝不会因本规则抛异常而影响 SystemUI 其它 hook。
+     */
+    private boolean isLocked(Object target) {
+        try {
+            Context context = resolveContext(target);
+            return context != null && getLockApp(context) != -1;
+        } catch (Throwable t) {
+            XposedLog.d(TAG, "isLocked check failed: " + t);
+            return false;
+        }
     }
 
     public static int getLockApp(Context context) {
