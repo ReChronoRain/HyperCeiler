@@ -36,20 +36,23 @@ object DisableCleaner : BaseHook() {
                 it.result = null
             }
 
-        findClass("com.android.server.am.CameraBooster")
-            .findAllMethods { name("boostCameraIfNeeded") }
+        // OS4: CameraBooster 迁至 com.miui.cameraopt.booster，方法改名 boostCameraByThreshold（ROM DEX 核验）
+        val cameraBooster = findClassIfExists("com.miui.cameraopt.booster.CameraBooster")
+            ?: findClass("com.android.server.am.CameraBooster")
+        cameraBooster.findAllMethods { filter { name in setOf("boostCameraByThreshold", "boostCameraIfNeeded") } }
             .createBeforeHooks {
                 it.result = null
             }
 
-        findClass("com.android.server.am.OomAdjuster")
-            .findAllMethods { name("shouldKillExcessiveProcesses") }
+        // OS4: OomAdjuster 迁至 psc 子包（ROM DEX 核验：两个方法名均保留）
+        val oomAdjuster = findClassIfExists("com.android.server.am.psc.OomAdjuster")
+            ?: findClass("com.android.server.am.OomAdjuster")
+        oomAdjuster.findAllMethods { name("shouldKillExcessiveProcesses") }
             .createBeforeHooks {
                 it.result = false
             }
 
-        findClass("com.android.server.am.OomAdjuster")
-            .findAllMethods { name("updateAndTrimProcessLSP") }
+        oomAdjuster.findAllMethods { name("updateAndTrimProcessLSP") }
             .createBeforeHooks {
                 it.args[2] = 0
             }
@@ -72,8 +75,9 @@ object DisableCleaner : BaseHook() {
                 it.result = null
             }
 
+        // OS4: nStartPressureMonitor 改名 notifyCpuPressureEvents（ROM DEX 核验）
         findClass("com.android.server.am.SystemPressureController")
-            .findAllMethods { name("nStartPressureMonitor") }
+            .findAllMethods { filter { name in setOf("nStartPressureMonitor", "notifyCpuPressureEvents") } }
             .createBeforeHooks {
                 it.result = null
             }

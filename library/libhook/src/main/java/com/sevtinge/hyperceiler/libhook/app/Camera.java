@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.libhook.rules.camera.CustomCameraColor;
 import com.sevtinge.hyperceiler.libhook.rules.camera.CustomWatermark;
 import com.sevtinge.hyperceiler.libhook.rules.camera.EnableLabOptions;
 import com.sevtinge.hyperceiler.libhook.rules.camera.MaxScreenBrightness;
+import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableIdPhoto;
 import com.sevtinge.hyperceiler.libhook.rules.camera.Unlock4k60;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockLeica;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockSuperHighQuality;
@@ -45,6 +46,9 @@ public class Camera extends BaseLoad {
         // 设置
         initHook(new EnableLabOptions(), PrefsBridge.getBoolean("camera_settings_lab_options"));
         initHook(new UnlockTrackEyes(), PrefsBridge.getBoolean("camera_settings_track_eyes"));
+
+        // OS4: 证件照功能整体迁入相机（IdPhotoModuleEntry.support），复用相册侧开关
+        initHook(new EnableIdPhoto(), PrefsBridge.getBoolean("gallery_enable_id_photo"));
 
         initHook(new MaxScreenBrightness(), PrefsBridge.getBoolean("camera_max_brightness"));
         initHook(new CustomCameraColor(), PrefsBridge.getBoolean("camera_custom_theme_color"));
