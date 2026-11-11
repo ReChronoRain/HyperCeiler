@@ -28,45 +28,32 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 public class AntiQues extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.settings.MiuiDeviceNameEditFragment", "onSave", new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                boolean originalValue = getStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD");
-                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", true);
-                setObjectExtra(param, "originalValue", originalValue);
-            }
-            @Override
-            public void after(HookParam param) {
-                boolean originalValue = (boolean) getObjectExtra(param, "originalValue");
-                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", originalValue);
-            }
-        });
-        findAndHookMethod("com.android.settings.wifi.EditTetherFragment", "onSave", new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                boolean originalValue = getStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD");
-                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", true);
-                setObjectExtra(param, "originalValue", originalValue);
-            }
-            @Override
-            public void after(HookParam param) {
-                boolean originalValue = (boolean) getObjectExtra(param, "originalValue");
-                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", originalValue);
-            }
-        });
-        findAndHookMethod("com.android.settings.DeviceNameCheckManager", "getDeviceNameCheckResult", Context.class, String.class, int.class, "com.android.settings.DeviceNameCheckManager$GetResultSuccessCallback", new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                boolean originalValue = getStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD");
-                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", true);
-                setObjectExtra(param, "originalValue", originalValue);
-            }
-            @Override
-            public void after(HookParam param) {
-                boolean originalValue = (boolean) getObjectExtra(param, "originalValue");
-                setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", originalValue);
-            }
-        });
+        findAndHookMethod("com.android.settings.DeviceNameCheckManager", "getDeviceNameCheckResult",
+            Context.class, String.class, int.class,
+            "com.android.settings.DeviceNameCheckManager$GetResultSuccessCallback", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    // The caller's callback saves the name. IS_INTERNATIONAL_BUILD is final
+                    // on newer ROMs, so bypass the network check at its shared entry point.
+                    Object[] args = param.getArgs();
+                    callMethod(args[3], "resolveResult", args[1]);
+                    param.setResult(null);
+                }
+            });
+        Class<?> tetherFragment = findClassIfExists("com.android.settings.wifi.EditTetherFragment");
+        if (tetherFragment != null) {
+            findAndHookMethod(tetherFragment, "isSoftApSsidchanged", new IMethodHook() {
+                @Override
+                public void after(HookParam param) {
+                    // Preserve the original wifi_ap_ssid_changed preference update, then
+                    // let onSave use its existing path for saving without an online check.
+                    if (param.getThrowable() == null) {
+                        param.setResult(false);
+                    }
+                }
+            });
+            deoptimizeMethods(tetherFragment, "onSave");
+        }
         findAndHookMethod("com.android.settings.bluetooth.MiuiBTUtils", "isSupportNameComplianceCheck", Context.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
