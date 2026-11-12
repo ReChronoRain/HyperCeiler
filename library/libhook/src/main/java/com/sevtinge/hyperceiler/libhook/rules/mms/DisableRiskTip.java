@@ -48,7 +48,7 @@ public class DisableRiskTip extends BaseHook {
 
     @Override
     protected boolean initDexKit() {
-        mMethod1 = requiredMember("Method1", new IDexKit() {
+        mMethod1 = optionalMember("Method1", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -58,7 +58,7 @@ public class DisableRiskTip extends BaseHook {
                 return methodData;
             }
         });
-        mMethod2 = requiredMember("Method2", new IDexKit() {
+        mMethod2 = optionalMember("Method2", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -102,25 +102,31 @@ public class DisableRiskTip extends BaseHook {
                     }
                 });
         }
-        hookMethod(mMethod1, new IMethodHook() {
+        if (mMethod1 != null) hookMethod(mMethod1, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 // XposedLog.d("smsrisk g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
                 // 不知道为什么set两遍才能跑，先留在这里吧
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && PrefsBridge.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "12" && PrefsBridge.getBoolean("mms_disable_fraud_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
+                clearEnabledRiskType(param.getArgs()[0]);
                 // XposedLog.d("smsrisk 2 g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
             }
         });
-        hookMethod(mMethod2, new IMethodHook() {
+        if (mMethod2 != null) hookMethod(mMethod2, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 // XposedLog.d("smsrisk n6.p "+getObjectField(param.getArgs()[0], "mRiskType"));
                 // 不知道为什么set两遍才能跑，先留在这里吧
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && PrefsBridge.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "12" && PrefsBridge.getBoolean("mms_disable_fraud_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
+                clearEnabledRiskType(param.getArgs()[0]);
                 // XposedLog.d("smsrisk 2 n6.p "+getObjectField(param.getArgs()[0], "mRiskType"));
             }
         });
+    }
+
+    private void clearEnabledRiskType(Object contact) {
+        Object type = getObjectField(contact, "mRiskType");
+        if (("11".equals(type) && PrefsBridge.getBoolean("mms_disable_overseas_risk_tip"))
+            || ("12".equals(type) && PrefsBridge.getBoolean("mms_disable_fraud_risk_tip"))) {
+            setObjectField(contact, "mRiskType", "");
+        }
     }
 }

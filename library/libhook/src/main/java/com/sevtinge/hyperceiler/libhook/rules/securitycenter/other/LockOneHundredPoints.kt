@@ -89,8 +89,8 @@ object LockOneHundredPoints : BaseHook() {
         }
     }
 
-    private val addRiskApp by lazy<Method> {
-        requiredMember("AddRiskApp") {
+    private val addRiskApp by lazy<Method?> {
+        optionalMember("AddRiskApp") {
             it.findClass {
                 matcher {
                     className = "com.miui.securityscan.scanner.ScoreManager"
@@ -101,7 +101,7 @@ object LockOneHundredPoints : BaseHook() {
                     paramCount = 1
                     returnType = "void"
                 }
-            }.single()
+            }.singleOrNull()
         }
     }
 
@@ -120,7 +120,7 @@ object LockOneHundredPoints : BaseHook() {
             score3.createHook {
                 returnConstant(true)
             }
-            addRiskApp.createHook {
+            addRiskApp?.createHook {
                 returnConstant(null)
             }
         }.onFailure {
@@ -128,4 +128,3 @@ object LockOneHundredPoints : BaseHook() {
         }
     }
 }
-
