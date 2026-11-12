@@ -18,7 +18,10 @@
  */
 package com.sevtinge.hyperceiler.libhook.app;
 
+import android.app.Application;
+
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.AppLockPinScramble;
@@ -67,6 +70,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.SimplifyMainF
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.AddSideBarExpandReceiver;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.BlurSecurity;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.RedirectBgmRecognition;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game.GamePerformanceWildMode;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game.RemoveGameToast;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game.RemoveMacroBlackList;
@@ -147,6 +151,26 @@ public class SecurityCenter extends BaseLoad {
         initHook(new NewBoxBlur(), PrefsBridge.getBoolean("security_center_newbox_custom_enable"));
         initHook(BlurSecurity.INSTANCE, PrefsBridge.getBoolean("se_enable"));
         initHook(SidebarLineCustom.INSTANCE, PrefsBridge.getBoolean("security_center_sidebar_line_color"));
+        String processName = Application.getProcessName();
+        if ("com.miui.securitycenter:ui".equals(processName)
+            && PrefsBridge.getBoolean(RedirectBgmRecognition.PREF_ENABLED)) {
+            int bgmHookRoute = PrefsBridge.getStringAsInt(
+                RedirectBgmRecognition.PREF_HOOK_ROUTE,
+                RedirectBgmRecognition.ROUTE_SECURITY_CENTER_INSTRUMENTATION);
+            if (bgmHookRoute == RedirectBgmRecognition.ROUTE_SECURITY_CENTER_INSTRUMENTATION
+                || bgmHookRoute == RedirectBgmRecognition.ROUTE_SECURITY_CENTER_BINDER) {
+                XposedLog.i(getTag(), getPackageName(),
+                    "BGM redirect selected route=" + bgmHookRoute
+                        + ", process=" + processName);
+                initHook(new RedirectBgmRecognition(
+                    bgmHookRoute == RedirectBgmRecognition.ROUTE_SECURITY_CENTER_INSTRUMENTATION,
+                    bgmHookRoute == RedirectBgmRecognition.ROUTE_SECURITY_CENTER_BINDER
+                ));
+            } else {
+                XposedLog.w(getTag(), getPackageName(),
+                    "BGM redirect route is invalid: " + bgmHookRoute);
+            }
+        }
         initHook(new RemoveMacroBlackList(), PrefsBridge.getBoolean("security_center_remove_macro_black_list"));
         initHook(RemoveGameToast.INSTANCE, PrefsBridge.getBoolean("security_center_remove_game_toast"));
         initHook(UnlockGunService.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_gun_service"));
