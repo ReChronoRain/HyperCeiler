@@ -21,20 +21,5 @@ signing.properties
 *.apk
 /handover/
 /.workbuddy/
-
-# Python bytecode from the tests/ verification scripts.
-__pycache__/
-
-# Raw LSPosed/KernelSU log bundles from other people's devices. They carry IMEI-adjacent
-# identifiers, package inventories and full thread dumps - append-only evidence to read,
-# never something to publish. The lasting conclusions live in handover/ and .workbuddy/.
-tests/lsposed-log-*/
-
-# AI agent working conventions (kept locally, not tracked)
-AGENTS.md
-
-# Local execution reports; intentionally not committed.
-reports/
-
-# Local proprietary launcher firmware fixtures extracted from a supplied APK.
-/firmware/
+/.reasonix/
+/.vscode/

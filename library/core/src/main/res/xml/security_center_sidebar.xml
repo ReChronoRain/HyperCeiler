@@ -114,6 +114,27 @@
     <PreferenceCategory android:title="@string/security_center_sidebar_videobox_title">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_sidebar_bgm_enable"
+            android:title="@string/security_center_sidebar_bgm_enable" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_security_center_sidebar_bgm_enable"
+            android:key="prefs_key_security_center_sidebar_bgm_hook_route"
+            android:summary="@string/security_center_sidebar_bgm_hook_route_summary"
+            android:title="@string/security_center_sidebar_bgm_hook_route_title"
+            app:entries="@array/security_center_sidebar_bgm_hook_route"
+            app:entryValues="@array/security_center_sidebar_bgm_hook_route_value" />
+
+        <EditTextPreference
+            android:defaultValue="com.netease.cloudmusic/com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyActivityV2"
+            android:dependency="prefs_key_security_center_sidebar_bgm_enable"
+            android:key="prefs_key_security_center_sidebar_bgm_target_activity"
+            android:summary="@string/security_center_sidebar_bgm_target_activity_summary"
+            android:title="@string/security_center_sidebar_bgm_target_activity" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_unlock_new_vb"
             android:title="@string/security_center_unlock_new_vb" />
 

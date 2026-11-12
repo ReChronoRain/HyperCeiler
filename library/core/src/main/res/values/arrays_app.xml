@@ -821,6 +821,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="security_center_sidebar_bgm_hook_route">
+        <item>@string/security_center_sidebar_bgm_route_security_center_instrumentation</item>
+        <item>@string/security_center_sidebar_bgm_route_security_center_binder</item>
+    </string-array>
+
+    <string-array name="security_center_sidebar_bgm_hook_route_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <string-array name="network_speed_style">
         <item>@string/array_default</item>
         <item>@string/system_ui_statusbar_network_speed_style_1</item>

@@ -1619,6 +1619,14 @@
     <string name="security_center_sidebar_videobox_title">Video toolbox</string>
     <string name="security_center_sidebar_gamebox_title">Gamebox</string>
     <string name="security_center_sidebar_function_title">Sidebar function</string>
+    <string name="security_center_sidebar_bgm_title">BGM recognition</string>
+    <string name="security_center_sidebar_bgm_enable">Custom BGM recognition app</string>
+    <string name="security_center_sidebar_bgm_target_activity">Custom recognition Activity</string>
+    <string name="security_center_sidebar_bgm_target_activity_summary">Enter a component, e.g. com.example.app/.RecognitionActivity. Default: NetEase Cloud Music recognition Activity.</string>
+    <string name="security_center_sidebar_bgm_hook_route_title">Interception route</string>
+    <string name="security_center_sidebar_bgm_hook_route_summary">Switch hook point. Intercepts the Intent Security Center is about to send, then rebuilds it.</string>
+    <string name="security_center_sidebar_bgm_route_security_center_instrumentation">Instrumentation: intercept in-app Activity launch requests</string>
+    <string name="security_center_sidebar_bgm_route_security_center_binder">ActivityTaskManager Binder: IPC for sending launch requests to system services</string>
     <string name="security_center_game_speed">Launch the game quickly</string>
     <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games.</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Bypass Xiaomi Account SIM security</string>
