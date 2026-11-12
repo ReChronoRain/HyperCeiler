@@ -433,6 +433,7 @@
     <string name="system_framework_core_title">底层</string>
     <string name="system_framework_hook_entry">解锁导航断充保护限制</string>
     <string name="system_framework_hook_entry_desc">导航断充保护允许非导航场景下使用</string>
+    <string name="system_framework_back_tap_when_locked">锁屏时保持背部轻敲可用</string>
     <string name="system_framework_shortcut_title">分享快捷方式</string>
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>
