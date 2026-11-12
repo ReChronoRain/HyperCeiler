@@ -29,7 +29,6 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.common.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
@@ -102,8 +101,7 @@ public class DialogHelper {
         builder.setView(view);
         builder.setHapticFeedbackEnabled(true);
         builder.setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
-                    ShellExec shellExec = ShellInit.getShell();
-                    shellExec.run("setprop persist.service.hyperceiler.crash.report \"\"").sync();
+                    clearSafeModeState();
                     activity.finish();
                 });
         builder.setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> activity.finish());
@@ -142,6 +140,19 @@ public class DialogHelper {
                 .show();
     }
 
+    /**
+     * 解除安全模式：安全模式由系统属性与 prefs 开关共同决定（任一为 true 即生效），
+     * 因此必须同时清理，否则只清属性仍会一直被判定为安全模式。
+     */
+    private static void clearSafeModeState() {
+        ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report \"\"").sync();
+        PrefsBridge.removeByApp("prefs_key_system_ui_safe_mode_enable");
+        PrefsBridge.removeByApp("prefs_key_home_safe_mode_enable");
+        PrefsBridge.removeByApp("prefs_key_system_settings_safe_mode_enable");
+        PrefsBridge.removeByApp("prefs_key_security_center_safe_mode_enable");
+        PrefsBridge.removeByApp("prefs_key_demo_safe_mode_enable");
+    }
+
     public static void showSafeModeDialog(Context context, String msg) {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.safe_mode_later_title)
@@ -149,12 +160,7 @@ public class DialogHelper {
                 .setHapticFeedbackEnabled(true)
                 .setCancelable(false)
                 .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
-                    ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report \"\"").sync();
-                    PrefsBridge.removeByApp("prefs_key_system_ui_safe_mode_enable");
-                    PrefsBridge.removeByApp("prefs_key_home_safe_mode_enable");
-                    PrefsBridge.removeByApp("prefs_key_system_settings_safe_mode_enable");
-                    PrefsBridge.removeByApp("prefs_key_security_center_safe_mode_enable");
-                    PrefsBridge.removeByApp("prefs_key_demo_safe_mode_enable");
+                    clearSafeModeState();
                     dialog.dismiss();
                 })
                 .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())
