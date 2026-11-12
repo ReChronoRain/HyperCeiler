@@ -124,6 +124,8 @@ public class RedirectBgmRecognition extends BaseHook {
                 return;
             }
 
+            // 替换待处理的参数后继续原 Instrumentation/Binder 启动流程，不额外发起第二次启动。
+            // 仅保留抓取到的 NEW_TASK 标志；丢弃小米音乐 URI 和其它原始数据。
             Intent redirectedIntent = new Intent().setComponent(targetComponent);
             redirectedIntent.addFlags(intent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK);
             args[i] = redirectedIntent;
@@ -135,6 +137,8 @@ public class RedirectBgmRecognition extends BaseHook {
     }
 
     private static boolean isRadarRecognitionRequest(Intent intent) {
+        // 抓取到的调用链：安全中心发送 ACTION_VIEW miui-music://radar/...，
+        // 系统将其交给 MusicDispatchActivity，再由小米音乐进入内部识曲流程。
         if (!Intent.ACTION_VIEW.equals(intent.getAction())) {
             return false;
         }

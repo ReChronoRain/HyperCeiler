@@ -152,6 +152,7 @@ public class SecurityCenter extends BaseLoad {
         initHook(BlurSecurity.INSTANCE, PrefsBridge.getBoolean("se_enable"));
         initHook(SidebarLineCustom.INSTANCE, PrefsBridge.getBoolean("security_center_sidebar_line_color"));
         String processName = Application.getProcessName();
+        // 抓取日志确认侧边栏启动请求来自 :ui，其它安全中心进程无需安装此 hook。
         if ("com.miui.securitycenter:ui".equals(processName)
             && PrefsBridge.getBoolean(RedirectBgmRecognition.PREF_ENABLED)) {
             int bgmHookRoute = PrefsBridge.getStringAsInt(
