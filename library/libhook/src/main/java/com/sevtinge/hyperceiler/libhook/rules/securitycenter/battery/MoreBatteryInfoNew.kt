@@ -22,6 +22,8 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Resources
 import android.os.BatteryManager
 import android.os.Bundle
@@ -37,7 +39,12 @@ import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.abs
 
+/**
+ * Expanded battery info hook for Security Center.
+ * Adds battery capacity, cycles, voltage, technology, and health telemetry.
+ */
 object MoreBatteryInfoNew : BaseHook() {
     override fun useDexKit() = true
 
@@ -49,6 +56,18 @@ object MoreBatteryInfoNew : BaseHook() {
 
         return true
     }
+
+    private const val METHOD_GET_KEY = "getKey"
+    private const val METHOD_FIND_PREFERENCE = "findPreference"
+    private const val METHOD_SET_TITLE = "setTitle"
+    private const val METHOD_SET_ORDER = "setOrder"
+    private const val METHOD_SET_TEXT = "setText"
+    private const val METHOD_GET_TEXT = "getText"
+    private const val METHOD_SET_KEY = "setKey"
+    private const val METHOD_SET_CLICKABLE = "setClickable"
+    private const val METHOD_SET_TOUCH_ANIM = "setTouchAnimationEnable"
+    private const val METHOD_ADD_PREFERENCE = "addPreference"
+    private const val METHOD_SET_VISIBLE = "setVisible"
 
     private val manufacturingDateMethod by lazy<Method> {
         requiredMember("manufacturingDate") {
@@ -93,7 +112,7 @@ object MoreBatteryInfoNew : BaseHook() {
     private const val CHARGE_PROTECT_FRAGMENT_CLASS =
         "com.miui.powercenter.nightcharge.ChargeProtectFragment"
     private const val CHARGE_PROTECT_HANDLER_CLASS =
-        $$"com.miui.powercenter.nightcharge.ChargeProtectFragment$d"
+        "com.miui.powercenter.nightcharge.ChargeProtectFragment\$d"
     private const val BATTERY_HEALTH_KEY = "reference_battery_health"
     private const val CURRENT_TEMP_KEY = "reference_current_temp"
     private const val TODAY_CHARGE_KEY = "reference_toady_charge_time"
@@ -102,12 +121,21 @@ object MoreBatteryInfoNew : BaseHook() {
     private const val FIRST_USE_DATE_KEY = "reference_first_use_date"
     private const val DESIGN_CAPACITY_KEY = "reference_battery_design_capacity"
     private const val FULL_CAPACITY_KEY = "reference_battery_full_capacity"
+    private const val MAX_CAPACITY_KEY = "reference_battery_max_capacity"
+    private const val VOLTAGE_KEY = "reference_battery_voltage"
+    private const val TECHNOLOGY_KEY = "reference_battery_technology"
+    private const val STATUS_KEY = "reference_battery_status"
+    private const val CURRENT_NOW_KEY = "reference_battery_current_now"
+    private const val CAPACITY_LEVEL_KEY = "reference_battery_capacity_level"
+    private const val TIME_TO_FULL_KEY = "reference_battery_time_to_full"
+
     private const val CAPACITY_EMPTY_TEXT = "--"
     private const val BATTERY_DATE_FORMAT = "yyyyMMdd"
     private const val BATTERY_PROPERTY_MANUFACTURING_DATE = 7
     private const val BATTERY_PROPERTY_FIRST_USAGE_DATE = 8
     private const val BATTERY_SYSFS_DIR = "/sys/class/power_supply/battery"
     private const val BATTERY_BMS_SYSFS_DIR = "/sys/class/power_supply/bms"
+
     private val DESIGN_CAPACITY_PATHS = listOf(
         "$BATTERY_SYSFS_DIR/charge_full_design",
         "$BATTERY_BMS_SYSFS_DIR/charge_full_design"
@@ -125,6 +153,16 @@ object MoreBatteryInfoNew : BaseHook() {
         "$BATTERY_SYSFS_DIR/first_usage_date",
         "$BATTERY_BMS_SYSFS_DIR/first_usage_date"
     )
+    private val CYCLE_COUNT_PATHS = listOf(
+        "$BATTERY_SYSFS_DIR/cycle_count",
+        "/sys/class/power_supply/mtk-gauge/cycle_count",
+        "$BATTERY_SYSFS_DIR/battery_cycle",
+        "/sys/class/power_supply/mtk-gauge/battery_cycle",
+        "$BATTERY_BMS_SYSFS_DIR/cycle_count",
+        "$BATTERY_BMS_SYSFS_DIR/battery_cycle",
+        "$BATTERY_SYSFS_DIR/cycles",
+        "$BATTERY_SYSFS_DIR/device/cycle_count"
+    )
 
     private val keepPreferenceKeys = setOf(
         BATTERY_HEALTH_KEY,
@@ -134,14 +172,33 @@ object MoreBatteryInfoNew : BaseHook() {
         PRODUCTION_DATE_KEY,
         FIRST_USE_DATE_KEY,
         DESIGN_CAPACITY_KEY,
-        FULL_CAPACITY_KEY
+        FULL_CAPACITY_KEY,
+        MAX_CAPACITY_KEY,
+        VOLTAGE_KEY,
+        TECHNOLOGY_KEY,
+        STATUS_KEY,
+        CURRENT_NOW_KEY,
+        CAPACITY_LEVEL_KEY,
+        TIME_TO_FULL_KEY
     )
 
     private var batteryInfoCategory: Any? = null
+    private var batteryHealthPreference: Any? = null
     private var productionDatePreference: Any? = null
     private var firstUseDatePreference: Any? = null
     private var designCapacityPreference: Any? = null
     private var fullCapacityPreference: Any? = null
+    private var maxCapacityPreference: Any? = null
+    private var voltagePreference: Any? = null
+    private var technologyPreference: Any? = null
+    private var statusPreference: Any? = null
+    private var currentNowPreference: Any? = null
+    private var capacityLevelPreference: Any? = null
+    private var timeToFullPreference: Any? = null
+    private var cycleCountPreference: Any? = null
+    private var todayChargePreference: Any? = null
+    private var currentTempPreference: Any? = null
+
     @SuppressLint("StaticFieldLeak")
     private var batteryContext: Context? = null
 
@@ -163,13 +220,13 @@ object MoreBatteryInfoNew : BaseHook() {
             ) { chain ->
                 val preference = chain.getArg(0)
                 val key = runCatching {
-                    preference?.callMethod("getKey") as? String
+                    preference?.callMethod(METHOD_GET_KEY) as? String
                 }.getOrNull()
                 if (key != null && key in keepPreferenceKeys) {
-                    return@interceptHookMethod false
+                    false
+                } else {
+                    chain.proceed()
                 }
-
-                chain.proceed()
             }
         }.onFailure {
             XposedLog.e(TAG, packageName, "Failed to hook PreferenceGroup.removePreference(Preference)", it)
@@ -199,18 +256,20 @@ object MoreBatteryInfoNew : BaseHook() {
         runCatching {
             handlerClass.interceptHookMethod("handleMessage", Message::class.java) { chain ->
                 val result = chain.proceed()
-                val handler = chain.thisObject ?: return@interceptHookMethod result
-                runCatching {
-                    handler.callMethod("a")
-                }.onFailure {
-                    XposedLog.e(TAG, packageName, "Refresh callback failed: a()", it)
+                val handler = chain.thisObject
+                if (handler != null) {
+                    runCatching {
+                        handler.callMethod("a")
+                    }.onFailure {
+                        XposedLog.e(TAG, packageName, "Refresh callback failed: a()", it)
+                    }
+                    runCatching {
+                        handler.callMethod("b")
+                    }.onFailure {
+                        XposedLog.e(TAG, packageName, "Refresh callback failed: b()", it)
+                    }
+                    refreshDynamicBatteryRows()
                 }
-                runCatching {
-                    handler.callMethod("b")
-                }.onFailure {
-                    XposedLog.e(TAG, packageName, "Refresh callback failed: b()", it)
-                }
-                refreshDynamicBatteryRows()
                 result
             }
         }.onFailure {
@@ -232,47 +291,101 @@ object MoreBatteryInfoNew : BaseHook() {
         }.getOrNull()
         val findPreferenceByKey: (String) -> Any? = { key ->
             runCatching {
-                fragment.callMethod("findPreference", key)
+                fragment.callMethod(METHOD_FIND_PREFERENCE, key)
             }.getOrNull()
         }
 
         batteryInfoCategory = findPreferenceByKey("preference_key_category_battery_info")
+        batteryHealthPreference = findPreferenceByKey(BATTERY_HEALTH_KEY)
         productionDatePreference = findPreferenceByKey(PRODUCTION_DATE_KEY)
         firstUseDatePreference = findPreferenceByKey(FIRST_USE_DATE_KEY)
+        cycleCountPreference = findPreferenceByKey(CYCLE_COUNT_KEY)
+        todayChargePreference = findPreferenceByKey(TODAY_CHARGE_KEY)
+        currentTempPreference = findPreferenceByKey(CURRENT_TEMP_KEY)
         designCapacityPreference = findPreferenceByKey(DESIGN_CAPACITY_KEY)
         fullCapacityPreference = findPreferenceByKey(FULL_CAPACITY_KEY)
+        maxCapacityPreference = findPreferenceByKey(MAX_CAPACITY_KEY)
+        voltagePreference = findPreferenceByKey(VOLTAGE_KEY)
+        technologyPreference = findPreferenceByKey(TECHNOLOGY_KEY)
+        statusPreference = findPreferenceByKey(STATUS_KEY)
+        currentNowPreference = findPreferenceByKey(CURRENT_NOW_KEY)
+        capacityLevelPreference = findPreferenceByKey(CAPACITY_LEVEL_KEY)
+        timeToFullPreference = findPreferenceByKey(TIME_TO_FULL_KEY)
+    }
+
+    private fun updateOrEnsurePref(
+        existing: Any?,
+        category: Any,
+        context: Context,
+        key: String,
+        title: String,
+        order: Int
+    ): Any? {
+        if (existing == null) {
+            return ensureTextPreference(category, context, key, title, order)
+        }
+        runCatching {
+            existing.callMethod(METHOD_SET_TITLE, title)
+            existing.callMethod(METHOD_SET_ORDER, order)
+        }
+        return existing
+    }
+
+    private fun setPrefOrder(pref: Any?, order: Int) {
+        if (pref != null) {
+            runCatching { pref.callMethod(METHOD_SET_ORDER, order) }
+        }
     }
 
     private fun ensureDynamicBatteryPreferences(modRes: Resources) {
         val category = batteryInfoCategory ?: return
         val context = batteryContext ?: return
-        val needDesignCapacity = designCapacityPreference == null
-        val needFullCapacity = fullCapacityPreference == null
 
-        if (!needDesignCapacity && !needFullCapacity) {
-            return
-        }
+        designCapacityPreference = updateOrEnsurePref(
+            designCapacityPreference, category, context, DESIGN_CAPACITY_KEY,
+            modRes.getString(R.string.security_center_battery_design_capacity), 10
+        )
+        fullCapacityPreference = updateOrEnsurePref(
+            fullCapacityPreference, category, context, FULL_CAPACITY_KEY,
+            modRes.getString(R.string.security_center_battery_full_capacity), 20
+        )
+        maxCapacityPreference = updateOrEnsurePref(
+            maxCapacityPreference, category, context, MAX_CAPACITY_KEY,
+            modRes.getString(R.string.security_center_battery_max_capacity), 30
+        )
+        cycleCountPreference = updateOrEnsurePref(
+            cycleCountPreference, category, context, CYCLE_COUNT_KEY,
+            modRes.getString(R.string.security_center_battery_cycle_count), 40
+        )
+        statusPreference = updateOrEnsurePref(
+            statusPreference, category, context, STATUS_KEY,
+            modRes.getString(R.string.security_center_battery_status), 50
+        )
+        currentNowPreference = updateOrEnsurePref(
+            currentNowPreference, category, context, CURRENT_NOW_KEY,
+            modRes.getString(R.string.security_center_battery_current_now), 60
+        )
+        voltagePreference = updateOrEnsurePref(
+            voltagePreference, category, context, VOLTAGE_KEY,
+            modRes.getString(R.string.security_center_battery_voltage), 70
+        )
+        timeToFullPreference = updateOrEnsurePref(
+            timeToFullPreference, category, context, TIME_TO_FULL_KEY,
+            modRes.getString(R.string.security_center_battery_time_to_full), 90
+        )
+        capacityLevelPreference = updateOrEnsurePref(
+            capacityLevelPreference, category, context, CAPACITY_LEVEL_KEY,
+            modRes.getString(R.string.security_center_battery_capacity_level), 100
+        )
+        technologyPreference = updateOrEnsurePref(
+            technologyPreference, category, context, TECHNOLOGY_KEY,
+            modRes.getString(R.string.security_center_battery_technology), 110
+        )
 
-        val nextOrder = resolveNextPreferenceOrder(category)
-
-        if (needDesignCapacity) {
-            designCapacityPreference = ensureTextPreference(
-                category,
-                context,
-                DESIGN_CAPACITY_KEY,
-                modRes.getString(R.string.security_center_battery_design_capacity),
-                nextOrder
-            )
-        }
-        if (needFullCapacity) {
-            fullCapacityPreference = ensureTextPreference(
-                category,
-                context,
-                FULL_CAPACITY_KEY,
-                modRes.getString(R.string.security_center_battery_full_capacity),
-                nextOrder + 1
-            )
-        }
+        setPrefOrder(currentTempPreference, 80)
+        setPrefOrder(todayChargePreference, 120)
+        setPrefOrder(firstUseDatePreference, 130)
+        setPrefOrder(productionDatePreference, 140)
     }
 
     private fun refreshDynamicBatteryRows() {
@@ -280,6 +393,13 @@ object MoreBatteryInfoNew : BaseHook() {
         val modRes = AppsTool.getModuleRes(context)
 
         ensureDynamicBatteryPreferences(modRes)
+
+        val batteryIntent = runCatching {
+            context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        }.getOrNull()
+        val batteryManager = runCatching {
+            context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
+        }.getOrNull()
 
         updateDatePreference(
             productionDatePreference,
@@ -301,22 +421,57 @@ object MoreBatteryInfoNew : BaseHook() {
             )
         )
 
+        val rawDesignCapacity = readRawCapacity(designCapacityMethod, DESIGN_CAPACITY_PATHS)
+        val rawFullCapacity = readRawCapacity(fullCapacityMethod, FULL_CAPACITY_PATHS)
+
         setPreferenceText(
             designCapacityPreference,
-            resolveCapacityText(
-                designCapacityMethod,
-                modRes,
-                DESIGN_CAPACITY_PATHS
-            )
+            formatCapacityText(rawDesignCapacity, modRes)
         )
 
         setPreferenceText(
             fullCapacityPreference,
-            resolveCapacityText(
-                fullCapacityMethod,
-                modRes,
-                FULL_CAPACITY_PATHS
-            )
+            formatCapacityText(rawFullCapacity, modRes)
+        )
+
+        setPreferenceText(
+            maxCapacityPreference,
+            resolveMaxCapacityText(rawDesignCapacity, rawFullCapacity)
+        )
+
+        val cycleCountText = resolveCycleCountText(batteryIntent, batteryManager)
+        setPreferenceText(cycleCountPreference, cycleCountText)
+
+        updateBatteryHealthText(rawDesignCapacity, rawFullCapacity)
+
+        setPreferenceText(
+            voltagePreference,
+            resolveVoltageText(batteryIntent)
+        )
+
+        setPreferenceText(
+            technologyPreference,
+            resolveTechnologyText(batteryIntent)
+        )
+
+        setPreferenceText(
+            statusPreference,
+            resolveStatusText(batteryIntent, modRes)
+        )
+
+        setPreferenceText(
+            currentNowPreference,
+            resolveCurrentNowText(batteryManager)
+        )
+
+        setPreferenceText(
+            capacityLevelPreference,
+            resolveCapacityLevelText(batteryIntent, modRes)
+        )
+
+        setPreferenceText(
+            timeToFullPreference,
+            resolveTimeToFullText(batteryManager)
         )
     }
 
@@ -330,61 +485,31 @@ object MoreBatteryInfoNew : BaseHook() {
         val textPreferenceClass =
             findClassIfExists("miuix.preference.TextPreference") ?: return null
 
-        val firstAttempt = runCatching {
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(textPreferenceClass, context)
-        }
-        val textPreference: Any? = firstAttempt.getOrNull() ?: run {
-            runCatching {
-                com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(textPreferenceClass, context, null)
-            }.getOrNull()
-        }
-
-        val resolvedTextPreference = textPreference ?: run {
-            XposedLog.e(TAG, packageName, "Unable to create TextPreference for $key")
-            return null
-        }
-
-        runCatching { resolvedTextPreference.callMethod("setKey", key) }
-        runCatching { resolvedTextPreference.callMethod("setTitle", title) }
-        runCatching { resolvedTextPreference.callMethod("setClickable", false) }
-        runCatching { resolvedTextPreference.callMethod("setTouchAnimationEnable", false) }
-        runCatching { resolvedTextPreference.callMethod("setOrder", order) }
-
-        runCatching {
-            category.callMethod("addPreference", resolvedTextPreference)
-        }.onFailure {
-            XposedLog.e(TAG, packageName, "Failed to add dynamic preference $key", it)
-        }
-        return resolvedTextPreference
-    }
-
-    private fun resolveNextPreferenceOrder(category: Any): Int {
-        val count = runCatching {
-            category.callMethod("getPreferenceCount") as? Int
-        }.getOrNull() ?: return 1000
-
-        var maxOrder = Int.MIN_VALUE
-        for (index in 0 until count) {
-            val preference = runCatching {
-                category.callMethod("getPreference", index)
-            }.getOrNull() ?: continue
-            val order = runCatching {
-                preference.callMethod("getOrder") as? Int
-            }.getOrNull() ?: continue
-            if (order > maxOrder) {
-                maxOrder = order
+        val textPreference: Any? = try {
+            newInstance(textPreferenceClass, context)
+        } catch (_: Throwable) {
+            try {
+                newInstance(textPreferenceClass, context, null)
+            } catch (_: Throwable) {
+                XposedLog.e(TAG, packageName, "Unable to create TextPreference for $key")
+                null
             }
         }
 
-        if (maxOrder == Int.MIN_VALUE) {
-            return count + 100
-        }
+        if (textPreference == null) return null
 
-        return if (maxOrder >= Int.MAX_VALUE - 2) {
-            Int.MAX_VALUE - 2
-        } else {
-            maxOrder + 1
+        runCatching { textPreference.callMethod(METHOD_SET_KEY, key) }
+        runCatching { textPreference.callMethod(METHOD_SET_TITLE, title) }
+        runCatching { textPreference.callMethod(METHOD_SET_CLICKABLE, false) }
+        runCatching { textPreference.callMethod(METHOD_SET_TOUCH_ANIM, false) }
+        runCatching { textPreference.callMethod(METHOD_SET_ORDER, order) }
+
+        runCatching {
+            category.callMethod(METHOD_ADD_PREFERENCE, textPreference)
+        }.onFailure {
+            XposedLog.e(TAG, packageName, "Failed to add dynamic preference $key", it)
         }
+        return textPreference
     }
 
     private fun resolveBatteryDateText(
@@ -418,42 +543,50 @@ object MoreBatteryInfoNew : BaseHook() {
             return null
         }
 
-        return runCatching {
+        return try {
             val parser = SimpleDateFormat(BATTERY_DATE_FORMAT, Locale.US).apply {
                 isLenient = false
             }
-            val parsed = parser.parse(value) ?: return@runCatching null
-            val pattern = android.text.format.DateFormat.getBestDateTimePattern(
-                Locale.getDefault(),
-                "yMMM"
-            )
-            SimpleDateFormat(pattern, Locale.getDefault()).format(parsed)
-        }.getOrNull()?.takeIf { it.isNotBlank() }
+            val parsed = parser.parse(value)
+            if (parsed != null) {
+                val pattern = android.text.format.DateFormat.getBestDateTimePattern(
+                    Locale.getDefault(),
+                    "yMMM"
+                )
+                SimpleDateFormat(pattern, Locale.getDefault()).format(parsed).takeIf { it.isNotBlank() }
+            } else null
+        } catch (_: Throwable) {
+            null
+        }
     }
 
     private fun readBatteryManagerDateSeconds(context: Context, propertyId: Int): Long? {
-        return runCatching {
+        return try {
             val batteryManager = context.getSystemService(BatteryManager::class.java)
-                ?: return@runCatching null
-            val value = batteryManager.getLongProperty(propertyId)
-            if (value > 0) value else null
-        }.getOrNull()
+            if (batteryManager != null) {
+                val value = batteryManager.getLongProperty(propertyId)
+                if (value > 0) value else null
+            } else null
+        } catch (_: Throwable) {
+            null
+        }
     }
 
     private fun secondsToYyyyMMdd(seconds: Long): String? {
         if (seconds <= 0) {
             return null
         }
-        return runCatching {
+        return try {
             SimpleDateFormat(BATTERY_DATE_FORMAT, Locale.US).format(Date(seconds * 1000L))
-        }.getOrNull()
+        } catch (_: Throwable) {
+            null
+        }
     }
 
-    private fun resolveCapacityText(
+    private fun readRawCapacity(
         method: Method,
-        modRes: Resources,
         sysfsPaths: List<String>
-    ): String {
+    ): Long? {
         val rawCapacity = when (val value = callDexKitStaticValue(method)) {
             is Int -> value.toLong()
             is Long -> value
@@ -462,6 +595,10 @@ object MoreBatteryInfoNew : BaseHook() {
             else -> null
         } ?: readFirstPositiveNumber(sysfsPaths)?.toLong()
 
+        return if (rawCapacity != null && rawCapacity > 0) rawCapacity else null
+    }
+
+    private fun formatCapacityText(rawCapacity: Long?, modRes: Resources): String {
         return if (rawCapacity != null && rawCapacity > 0) {
             modRes.getString(
                 R.string.security_center_battery_capacity_format,
@@ -472,13 +609,116 @@ object MoreBatteryInfoNew : BaseHook() {
         }
     }
 
+    private fun resolveMaxCapacityText(rawDesign: Long?, rawFull: Long?): String {
+        val design = rawDesign ?: 0L
+        val full = rawFull ?: 0L
+        if (design > 0L && full > 0L) {
+            val ratio = (full.toDouble() / design.toDouble()) * 100.0
+            val percent = if (ratio > 100.0) 100.0 else ratio
+            val rounded = kotlin.math.round(percent).toInt()
+            return "$rounded%"
+        }
+        val soh = readFirstLine("$BATTERY_SYSFS_DIR/soh")
+            ?: readFirstLine("$BATTERY_BMS_SYSFS_DIR/soh")
+        val sohInt = soh?.trim()?.toIntOrNull()
+        if (sohInt != null && sohInt > 0) {
+            return "$sohInt%"
+        }
+        return CAPACITY_EMPTY_TEXT
+    }
+
+    private fun resolveVoltageText(batteryIntent: Intent?): String {
+        var voltage = batteryIntent?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1) ?: -1
+        if (voltage <= 0) {
+            voltage = readFirstPositiveNumber(listOf(
+                "$BATTERY_SYSFS_DIR/voltage_now",
+                "$BATTERY_BMS_SYSFS_DIR/voltage_now"
+            ))?.let { if (it > 100000) it / 1000 else it } ?: -1
+        }
+        return if (voltage > 0) "$voltage mV" else CAPACITY_EMPTY_TEXT
+    }
+
+    private fun resolveTechnologyText(batteryIntent: Intent?): String {
+        val tech = batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
+        if (!tech.isNullOrBlank()) {
+            return tech
+        }
+        val sysfsTech = readFirstLine("$BATTERY_SYSFS_DIR/technology")
+            ?: readFirstLine("$BATTERY_BMS_SYSFS_DIR/technology")
+        return if (!sysfsTech.isNullOrBlank()) sysfsTech.trim() else "Li-poly"
+    }
+
+    private fun resolveStatusText(batteryIntent: Intent?, modRes: Resources): String {
+        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+        return when (status) {
+            BatteryManager.BATTERY_STATUS_CHARGING -> modRes.getString(R.string.security_center_battery_status_charging)
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> modRes.getString(R.string.security_center_battery_status_discharging)
+            BatteryManager.BATTERY_STATUS_FULL -> modRes.getString(R.string.security_center_battery_status_full)
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> modRes.getString(R.string.security_center_battery_status_not_charging)
+            else -> {
+                val sysfsStatus = readFirstLine("$BATTERY_SYSFS_DIR/status")
+                    ?: readFirstLine("$BATTERY_BMS_SYSFS_DIR/status")
+                if (!sysfsStatus.isNullOrBlank()) sysfsStatus.trim() else "Discharging"
+            }
+        }
+    }
+
+    private fun resolveCurrentNowText(batteryManager: BatteryManager?): String {
+        var current = try {
+            batteryManager?.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+        } catch (_: Throwable) {
+            null
+        }
+        if (current == null || current == 0 || current == Int.MIN_VALUE) {
+            val raw = readFirstLine("$BATTERY_SYSFS_DIR/current_now")
+                ?: readFirstLine("$BATTERY_BMS_SYSFS_DIR/current_now")
+            current = raw?.trim()?.toIntOrNull()
+        }
+        if (current == null || current == 0) {
+            return "0 mA"
+        }
+        val currentMa = if (abs(current) >= 10000) current / 1000 else current
+        return "$currentMa mA"
+    }
+
+    private fun resolveCapacityLevelText(batteryIntent: Intent?, modRes: Resources): String {
+        val sysfsLevel = readFirstLine("$BATTERY_SYSFS_DIR/capacity_level")
+            ?: readFirstLine("$BATTERY_BMS_SYSFS_DIR/capacity_level")
+        if (!sysfsLevel.isNullOrBlank()) {
+            return sysfsLevel.trim()
+        }
+        val health = batteryIntent?.getIntExtra(BatteryManager.EXTRA_HEALTH, -1) ?: -1
+        return when (health) {
+            BatteryManager.BATTERY_HEALTH_GOOD -> modRes.getString(R.string.security_center_battery_health_good)
+            BatteryManager.BATTERY_HEALTH_OVERHEAT -> modRes.getString(R.string.security_center_battery_health_overheat)
+            BatteryManager.BATTERY_HEALTH_DEAD -> modRes.getString(R.string.security_center_battery_health_dead)
+            BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> modRes.getString(R.string.security_center_battery_health_over_voltage)
+            BatteryManager.BATTERY_HEALTH_COLD -> modRes.getString(R.string.security_center_battery_health_cold)
+            else -> "Normal"
+        }
+    }
+
+    private fun resolveTimeToFullText(batteryManager: BatteryManager?): String {
+        val remainingMs = try {
+            batteryManager?.computeChargeTimeRemaining()
+        } catch (_: Throwable) {
+            null
+        } ?: -1L
+
+        if (remainingMs > 0) {
+            val minutes = remainingMs / 60000L
+            return "$minutes min"
+        }
+        return "0 min"
+    }
+
     private fun setPreferenceText(preference: Any?, text: String) {
         if (preference == null) {
             return
         }
 
         runCatching {
-            preference.callMethod("setText", text)
+            preference.callMethod(METHOD_SET_TEXT, text)
         }.onFailure {
             XposedLog.e(TAG, packageName, "Failed to set text for ${preference.javaClass.name}", it)
         }
@@ -490,7 +730,7 @@ object MoreBatteryInfoNew : BaseHook() {
         }
 
         runCatching {
-            preference.callMethod("setVisible", !text.isNullOrBlank())
+            preference.callMethod(METHOD_SET_VISIBLE, !text.isNullOrBlank())
         }.onFailure {
             XposedLog.e(
                 TAG,
@@ -503,9 +743,11 @@ object MoreBatteryInfoNew : BaseHook() {
     }
 
     private fun callDexKitStaticValue(method: Method): Any? {
-        return runCatching {
+        return try {
             method.invoke(null)
-        }.getOrNull()
+        } catch (_: Throwable) {
+            null
+        }
     }
 
     private fun readDateFromSysfs(label: String): String? {
@@ -536,24 +778,165 @@ object MoreBatteryInfoNew : BaseHook() {
     }
 
     private fun readFirstLine(path: String): String? {
-        return runCatching {
+        return try {
             val file = File(path)
-            if (!file.exists()) {
-                return@runCatching null
-            }
-            file.bufferedReader().use { reader ->
-                reader.readLine()
-            }
-        }.getOrNull()
+            if (file.exists()) {
+                file.bufferedReader().use { reader ->
+                    reader.readLine()
+                }
+            } else null
+        } catch (_: Throwable) {
+            null
+        }
     }
 
     private fun clearCapturedPreferences() {
         batteryInfoCategory = null
+        batteryHealthPreference = null
         productionDatePreference = null
         firstUseDatePreference = null
         designCapacityPreference = null
         fullCapacityPreference = null
+        maxCapacityPreference = null
+        voltagePreference = null
+        technologyPreference = null
+        statusPreference = null
+        currentNowPreference = null
+        capacityLevelPreference = null
+        timeToFullPreference = null
+        cycleCountPreference = null
+        todayChargePreference = null
+        currentTempPreference = null
         batteryContext = null
     }
 
+    private fun resolveCycleCountText(
+        batteryIntent: Intent?,
+        batteryManager: BatteryManager?
+    ): String {
+        val miChargeCycles = readMiChargeCycleCount()
+        if (miChargeCycles != null) {
+            return "$miChargeCycles"
+        }
+
+        val bmCycles = readBatteryManagerCycleCount(batteryManager)
+        if (bmCycles != null) {
+            return "$bmCycles"
+        }
+
+        val intentCycles = readIntentCycleCount(batteryIntent)
+        if (intentCycles != null) {
+            return "$intentCycles"
+        }
+
+        val sysfsCycles = readFirstCycleCount(CYCLE_COUNT_PATHS)
+        if (sysfsCycles != null) {
+            return "$sysfsCycles"
+        }
+
+        return CAPACITY_EMPTY_TEXT
+    }
+
+    private fun readMiChargeCycleCount(): Int? {
+        return try {
+            val miChargeClass = findClassIfExists("miui.util.IMiCharge")
+            val instance = miChargeClass?.getMethod("getInstance")?.invoke(null)
+            if (instance != null) {
+                val raw = instance.javaClass.getMethod("getBatteryCycleCount").invoke(instance)
+                when (raw) {
+                    is Int -> if (raw >= 0) raw else null
+                    is Number -> if (raw.toInt() >= 0) raw.toInt() else null
+                    is String -> raw.trim().toIntOrNull()?.takeIf { it >= 0 }
+                    null -> null
+                    else -> null
+                }
+            } else null
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    private fun readBatteryManagerCycleCount(batteryManager: BatteryManager?): Int? {
+        return try {
+            batteryManager?.getIntProperty(10)?.takeIf { it >= 0 }
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    private fun readIntentCycleCount(batteryIntent: Intent?): Int? {
+        if (batteryIntent == null) return null
+        val c1 = batteryIntent.getIntExtra("android.os.extra.CYCLE_COUNT", -1)
+        if (c1 >= 0) return c1
+        val c2 = batteryIntent.getIntExtra("cycle_count", -1)
+        return if (c2 >= 0) c2 else null
+    }
+
+    private fun readFirstCycleCount(paths: List<String>): Int? {
+        for (path in paths) {
+            val raw = readFirstLine(path)?.trim().orEmpty()
+            val value = raw.toIntOrNull()
+            if (value != null && value >= 0) {
+                return value
+            }
+        }
+        return null
+    }
+
+    private fun updateBatteryHealthText(rawDesignCapacity: Long?, rawFullCapacity: Long?) {
+        val pref = batteryHealthPreference ?: return
+        val currentText = runCatching {
+            pref.callMethod(METHOD_GET_TEXT)?.toString()?.trim()
+        }.getOrNull()
+
+        if (currentText.isNullOrBlank() || currentText.contains("null", ignoreCase = true) || currentText.contains(" %")) {
+            val resolvedHealth = resolveHealthPercent(rawDesignCapacity, rawFullCapacity)
+            if (resolvedHealth != null && resolvedHealth in 1..100) {
+                setPreferenceText(pref, "$resolvedHealth%")
+            }
+        }
+    }
+
+    private fun resolveHealthPercent(rawDesign: Long?, rawFull: Long?): Int? {
+        val miChargeSoh = readMiChargeSoh()
+        if (miChargeSoh != null) {
+            return miChargeSoh
+        }
+
+        val sysfsSoh = readFirstPositiveNumber(listOf(
+            "$BATTERY_SYSFS_DIR/soh",
+            "/sys/class/power_supply/mtk-gauge/soh",
+            "$BATTERY_BMS_SYSFS_DIR/soh"
+        ))
+        if (sysfsSoh != null && sysfsSoh in 1..100) {
+            return sysfsSoh
+        }
+
+        val design = rawDesign ?: 0L
+        val full = rawFull ?: 0L
+        if (design > 0L && full > 0L) {
+            val ratio = kotlin.math.round((full.toDouble() / design.toDouble()) * 100.0).toInt()
+            return if (ratio > 100) 100 else if (ratio < 1) null else ratio
+        }
+        return null
+    }
+
+    private fun readMiChargeSoh(): Int? {
+        return try {
+            val miChargeClass = findClassIfExists("miui.util.IMiCharge")
+            val instance = miChargeClass?.getMethod("getInstance")?.invoke(null)
+            if (instance != null) {
+                val soh = instance.javaClass.getMethod("getBatterySoh").invoke(instance)
+                when (soh) {
+                    is Int -> if (soh in 1..100) soh else null
+                    is Number -> if (soh.toInt() in 1..100) soh.toInt() else null
+                    is String -> soh.trim().toIntOrNull()?.takeIf { it in 1..100 }
+                    null -> null
+                    else -> null
+                }
+            } else null
+        } catch (_: Throwable) {
+            null
+        }
+    }
 }
