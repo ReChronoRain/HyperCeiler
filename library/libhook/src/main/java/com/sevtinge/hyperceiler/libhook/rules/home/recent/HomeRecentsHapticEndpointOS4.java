@@ -33,7 +33,7 @@ public final class HomeRecentsHapticEndpointOS4 {
             }
             long token=Binder.clearCallingIdentity();
             try {
-                var profile=HomeRecentsHapticPrefs.decodeProfile(HomeLayoutNativeEndpointOS4.recentsHapticProfileWord());
+                var profile=HomeLayoutNativeEndpointOS4.recentsHapticProfile();
                 if(profile!=null){
                     enabled=profile.enabled()?1:0;type=profile.type();strength=profile.strength();
                     close=profile.close()?1:0;
@@ -42,7 +42,7 @@ public final class HomeRecentsHapticEndpointOS4 {
                     else if((operation==2?close:enabled)==1&&SystemClock.uptimeMillis()-timestamp<=200
                         &&context.getSystemService(PowerManager.class).isInteractive()
                         &&!context.getSystemService(KeyguardManager.class).isKeyguardLocked())
-                        result=HomeRecentsHapticOS4.perform(context,type,strength,count)?1:0;
+                        result=HomeRecentsHapticOS4.perform(context,profile,count)?1:0;
                 }
             } finally {Binder.restoreCallingIdentity(token);}
         } catch(Exception failure){

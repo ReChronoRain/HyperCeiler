@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="home_recent_haptic_custom">自定义马达 ID</string>
+    <string name="home_recent_haptic_effect_id">振动效果 ID</string>
+    <string name="home_recent_haptic_effects">所有振动效果 ID</string>
+    <string name="home_recent_haptic_effects_summary">展示设备返回的 ID，点击选择并预览</string>
+    <string name="home_recent_haptic_id_invalid">请输入非负十进制或十六进制 ID</string>
+    <string name="home_recent_haptic_inventory_missing">设备未公开完整列表，仅展示已知系统效果。</string>
+    <string name="home_recent_haptic_supported">支持</string>
+    <string name="home_recent_haptic_unsupported">不支持</string>
+    <string name="home_recent_haptic_unknown">支持情况未知</string>
     <string name="home_recent_haptic_category">卡片振动</string>
     <string name="home_recent_card_close_haptic">卡片关闭振动自定义</string>
     <string name="home_recent_card_close_haptic_summary">关闭一张卡片时振动一次</string>

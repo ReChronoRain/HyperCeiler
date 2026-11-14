@@ -5,6 +5,7 @@ import android.os.Parcel;
 
 /** The unchanged HCL4 payload shared by the WMS compatibility route and local JNI publisher. */
 public final class HomeLayoutWire {
+    private static String lastMediumDiagnostic;
     private HomeLayoutWire() { }
 
     public static void write(Parcel reply, HomeLayoutNativeEndpointOS4.Snapshot value,
@@ -48,7 +49,7 @@ public final class HomeLayoutWire {
         reply.writeInt(HomeLayoutNativeEndpointOS4.OBJECT_SCALE_MAGIC);
         int[] scales = value == null || value.objectScales() == null
             ? new int[]{0, 100, 0, 100, 0, 100} : value.objectScales();
-        for (int part : scales) reply.writeInt(part);
+        for (int i=0;i<6;++i) reply.writeInt(scales[i]);
         reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_MAGIC);
         reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_SCHEMA);
         reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_REVISION);
@@ -64,5 +65,11 @@ public final class HomeLayoutWire {
         HomeLayoutNativeEndpointOS4.writeDockHorizontal(reply, value == null ? 0 : value.dockHorizontalDelta());
         HomeLayoutNativeEndpointOS4.writeInfiniteScroll(reply, value != null && value.infiniteScroll());
         HomeLayoutNativeEndpointOS4.writeRecentHeader(reply, recent);
+        reply.writeInt(0x48434d53);
+        for(int i=6;i<10;++i)reply.writeInt(i<scales.length?scales[i]:(i%2==0?0:100));
+        String medium=java.util.Arrays.toString(scales);
+        if(!medium.equals(lastMediumDiagnostic)) {
+            lastMediumDiagnostic=medium;android.util.Log.i("HyperCeiler.HomeConfig","wire scales="+medium);
+        }
     }
 }

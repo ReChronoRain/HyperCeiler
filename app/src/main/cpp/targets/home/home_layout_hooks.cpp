@@ -5,6 +5,7 @@ extern "C" void hc_home_diagnostic_sample();
 #include "home_runtime_layout_contracts.h"
 #include "home_icon_feature_resolver.h"
 #include "home_folder_feature_resolver.h"
+#include "home_medium_folder_scale.h"
 #include "home_folder_preview_return.h"
 #include "home_folder_preview_return_state.h"
 #include "home_animation_feature_resolver.h"
@@ -261,6 +262,11 @@ uint64_t hc_folder_title_scale_bits=0x3ff0000000000000ULL;
 uint64_t hc_icon_scale_bits=0x3ff0000000000000ULL;
 uint64_t hc_small_folder_scale_bits=0x3ff0000000000000ULL;
 uint64_t hc_big_folder_scale_bits=0x3ff0000000000000ULL;
+uint64_t hc_medium_folder_scale_bits[2]={0x3ff0000000000000ULL,0x3ff0000000000000ULL};
+void hc_medium_folder_begin_entry();void hc_medium_folder_capture_entry();void hc_medium_folder_geometry_entry();
+void* hc_medium_folder_originals[2]{};
+uint32_t hc_medium_folder_ready=0;
+uint64_t hc_medium_folder_hits[2]{},hc_medium_folder_applied[2]{};
 uint64_t hc_widget_scale_bits=0x3ff0000000000000ULL;
 void hc_folder_anim_scale0_entry();void hc_folder_anim_scale1_entry();void hc_folder_anim_scale2_entry();
 void hc_folder_anim_scale3_entry();void hc_folder_anim_scale4_entry();
@@ -556,7 +562,8 @@ constexpr size_t kInfiniteSlotBase = kDockPositionSlotBase + 2;
 constexpr size_t kCustomTitleDrawerSlot = kInfiniteSlotBase + 2;
 constexpr size_t kShortcutManagementSlot = kCustomTitleDrawerSlot + 1;
 constexpr size_t kRecentsHapticSlotBase = kShortcutManagementSlot + 1;
-constexpr size_t kSlotCount = kRecentsHapticSlotBase + 7;
+constexpr size_t kMediumFolderSlotBase=kRecentsHapticSlotBase+7;
+constexpr size_t kSlotCount=kMediumFolderSlotBase+2;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -759,6 +766,7 @@ void sync_title_config(const home_layout::Config &config) {
     scales_changed|=publish_scale(&hc_small_folder_scale_bits,config.object_scales[0].factor());
     scales_changed|=publish_scale(&hc_big_folder_scale_bits,config.object_scales[1].factor());
     scales_changed|=publish_scale(&hc_widget_scale_bits,config.object_scales[2].factor());
+    for(unsigned i=0;i<2;++i)scales_changed|=publish_scale(&hc_medium_folder_scale_bits[i],config.object_scales[i+3].factor());
     if(scales_changed)__android_log_print(ANDROID_LOG_INFO,kTag,
         "render scales icon=%.4f small_folder=%.2f big_folder=%.2f widget=%.2f",
         icon_scale,config.object_scales[0].factor(),config.object_scales[1].factor(),config.object_scales[2].factor());
@@ -1406,6 +1414,7 @@ struct RuntimeFeatures {
     std::optional<home_layout::features::FolderReturnFeature> app_return;
     std::optional<home_layout::features::FolderPreviewReturnFeature> preview_return;
     std::optional<home_layout::features::FolderFeatures> folders;
+    std::optional<home_layout::features::MediumFolderFeature> medium_folders;
     std::optional<home_layout::features::AnimationRatioFeature> ratio;
     std::optional<home_layout::features::AnimationMagicFeature> magic;
     std::optional<home_layout::features::WidgetScaleFeature> widget;
@@ -1664,6 +1673,7 @@ bool ensure_runtime_features() {
             if(g_runtime_features.desktop)g_runtime_features.progress=home_layout::features::progress_icon_feature(*code,icon,*g_runtime_features.desktop);
             g_runtime_features.dock_margin=home_layout::features::layout_scalar_feature(*code,icon.current,true);
             g_runtime_features.dock_position=home_layout::features::dock_position_feature(*code,icon.current);
+            g_runtime_features.medium_folders=home_layout::features::medium_folder_feature(*code,icon.current);
             home_layout::features::FolderFeatures folders;
             if(home_layout::features::resolve_folders(*code,icon.current,folders))
                 g_runtime_features.folders=folders;
@@ -1719,7 +1729,13 @@ bool ensure_runtime_features() {
         found.drawer_font=home_layout::features::drawer_font_feature(*code,*found.icon);
         home_layout::features::FolderFeatures folders;
         if(home_layout::features::resolve_folders(*code,found.icon->current,folders))found.folders=folders;
+        found.medium_folders=home_layout::features::medium_folder_feature(*code,found.icon->current);
         if(found.folders)found.preview_return=home_layout::features::folder_preview_return_feature(*code,*found.folders,*found.icon);
+        if(!found.preview_return&&found.medium_folders) {
+            home_layout::features::FolderFeatures observed;
+            observed.current=found.icon->current;observed.preview_builder=found.medium_folders->preview;
+            found.preview_return=home_layout::features::folder_preview_return_feature(*code,observed,*found.icon);
+        }
     }
     const uint32_t grid_config=found.geometry?found.geometry->current:found.icon?found.icon->current:0;
     if(grid_config&&(!found.icon||found.icon->current==grid_config)) {
@@ -3714,8 +3730,33 @@ bool bind_widget_scale() {
 bool bind_folder_icon_scale() {
     if(!g_dart)return scale_bind_failure(2,1,"Dart image not available yet");
     if(g_slots[kFolderIconScaleSlot].address)return true;
-    if(!ensure_runtime_features()||!g_runtime_features.folders)
+    if(!ensure_runtime_features()||(!g_runtime_features.folders&&!g_runtime_features.medium_folders))
         return scale_bind_failure(2,30,"unique executable small/large folder producers, padding and rectangle-list consumers unavailable");
+    if(g_runtime_features.medium_folders) {
+        const auto& feature=*g_runtime_features.medium_folders;
+        uintptr_t address=0;nhk::CodeSource source{};Words words{};
+        std::array<Slot,2> spans{};
+        void* entries[]={reinterpret_cast<void*>(hc_medium_folder_begin_entry),reinterpret_cast<void*>(hc_medium_folder_capture_entry)};
+        const uint32_t sites[]={feature.producer,feature.producer+feature.span_site};
+        for(unsigned i=0;i<2;++i) {
+            if(!bind_dart_target(sites[i],spans[i].address,spans[i].source,spans[i].original_words))return false;
+            for(auto word:spans[i].original_words)if((word&0xfc000000u)==0x94000000u)return false;
+            spans[i].replacement=entries[i];spans[i].original=&hc_medium_folder_originals[i];
+        }
+        if(!bind_dart_target(feature.base,address,source,words))return false;
+        hc_folder_icon_scale_big_caller=g_dart->load_base+feature.producer+feature.geometry.caller_return;
+        for(unsigned i=0;i<13;++i)hc_folder_icon_scale_big_fields[i]=feature.geometry.dimensions[i];
+        if(g_runtime_features.folders&&g_runtime_features.folders->base==feature.base) {
+            const auto& old=*g_runtime_features.folders;
+            hc_folder_icon_scale_caller=g_dart->load_base+old.small+old.small_site.caller_return;
+            for(unsigned i=0;i<4;++i)hc_folder_icon_scale_fields[i]=old.small_site.dimensions[i];
+        }
+        for(unsigned i=0;i<2;++i)g_slots[kMediumFolderSlotBase+i]=spans[i];
+        g_slots[kFolderIconScaleSlot]={address,reinterpret_cast<void*>(hc_medium_folder_geometry_entry),
+            &hc_folder_icon_scale_original,source,words};
+        __android_log_print(ANDROID_LOG_INFO,kTag,"medium folder span/preview geometry resolved producer=%#x capture=%#x padding=%#x",feature.producer,feature.span_site,feature.base);
+        return true;
+    }
     const auto& feature=*g_runtime_features.folders;
     const uint32_t small=feature.small,base=feature.base,big=feature.big;
     const auto& shape=feature.small_site;const auto& big_shape=feature.big_site;
@@ -4811,6 +4852,8 @@ size_t arm_hooks(std::vector<size_t> &order) {
         (void) bind_gadget_bridge();
     }
     size_t added = 0;
+    for(size_t i=kMediumFolderSlotBase;i<kSlotCount;++i)
+        if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     for(size_t i=kRecentsHapticSlotBase;i<kRecentsHapticSlotBase+7;++i)
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     if(g_slots[kShortcutManagementSlot].address&&std::find(order.begin(),order.end(),kShortcutManagementSlot)==order.end()){
@@ -5149,6 +5192,8 @@ void publish_indicator_dot_delta() {
     __atomic_store_n(&hc_widget_scale_enabled,uint32_t(widget_ready),__ATOMIC_RELEASE);
     __atomic_store_n(&hc_folder_icon_scale_enabled,uint32_t(nhk::slot_ready(g_slots[kFolderIconScaleSlot])
         &&hc_folder_icon_scale_original),__ATOMIC_RELEASE);
+    __atomic_store_n(&hc_medium_folder_ready,uint32_t(nhk::slot_ready(g_slots[kMediumFolderSlotBase])
+        &&nhk::slot_ready(g_slots[kMediumFolderSlotBase+1])&&nhk::slot_ready(g_slots[kFolderIconScaleSlot])),__ATOMIC_RELEASE);
     const uint32_t live[]={__atomic_load_n(&hc_folder_anim_scale_enabled,__ATOMIC_ACQUIRE),
         __atomic_load_n(&hc_widget_scale_enabled,__ATOMIC_ACQUIRE),
         __atomic_load_n(&hc_folder_icon_scale_enabled,__ATOMIC_ACQUIRE)};
@@ -5423,6 +5468,7 @@ void *worker(void *) {
     const bool any_tweak = config.tweaks.folder_enabled || config.tweaks.pad_enabled
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
         || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
+        || config.object_scales[3].enabled || config.object_scales[4].enabled
         || config.recent.requested() || (config.policies&home_layout::kDismissAnimationPolicy) || config.drawer_hide_search || config.dock_horizontal!=0 || config.infinite_scroll
         || hyperceiler_home_prestart_disabled() || hc_recents_haptic_enabled()
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
@@ -6539,6 +6585,41 @@ home_layout::FolderPreviewReturnState& folder_preview_state() {
     return local.state;
 }
 }
+namespace {struct MediumSpan {uintptr_t frame=0;uint64_t width=0,height=0;};thread_local MediumSpan medium_span;}
+extern "C" void hc_medium_folder_begin(){medium_span={};}
+extern "C" void hc_medium_folder_capture(uintptr_t frame,uint64_t width,uint64_t height){
+    medium_span={frame,width,height};
+    static unsigned reports=0;
+    if(reports++<8)__android_log_print(ANDROID_LOG_INFO,kTag,"medium folder original spans=%llu/%llu kind=%u frame=%#llx",
+        static_cast<unsigned long long>(width),static_cast<unsigned long long>(height),
+        home_layout::features::medium_folder_kind(width,height),static_cast<unsigned long long>(frame));
+}
+extern "C" void hc_medium_folder_geometry(uintptr_t strategy,uintptr_t caller,uintptr_t frame) {
+    if(!__atomic_load_n(&hc_folder_icon_scale_enabled,__ATOMIC_ACQUIRE))return;
+    const int64_t* fields=nullptr;unsigned count=0,kind=0;uint64_t bits=0x3ff0000000000000ULL;
+    if(caller==hc_folder_icon_scale_caller) {
+        fields=hc_folder_icon_scale_fields;count=4;bits=__atomic_load_n(&hc_small_folder_scale_bits,__ATOMIC_ACQUIRE);
+    } else if(caller==hc_folder_icon_scale_big_caller) {
+        auto span=medium_span;medium_span={};
+        if(!__atomic_load_n(&hc_medium_folder_ready,__ATOMIC_ACQUIRE)||span.frame!=frame)return;
+        if((span.width|span.height)&1||span.width<2||span.height<2||span.width>32||span.height>32)return;
+        kind=home_layout::features::medium_folder_kind(span.width,span.height);
+        if(kind)bits=__atomic_load_n(&hc_medium_folder_scale_bits[kind-1],__ATOMIC_ACQUIRE);
+        else bits=__atomic_load_n(&hc_big_folder_scale_bits,__ATOMIC_ACQUIRE);
+        fields=hc_folder_icon_scale_big_fields;count=13;
+        if(kind)__atomic_fetch_add(&hc_medium_folder_hits[kind-1],uint64_t{1},__ATOMIC_RELAXED);
+    } else return;
+    double factor=1;std::memcpy(&factor,&bits,sizeof(factor));
+    if(!std::isfinite(factor)||factor<.6||factor>1.4)return;
+    if(factor==1)return;
+    double values[13]{};
+    for(unsigned i=0;i<count;++i){
+        std::memcpy(&values[i],reinterpret_cast<const void*>(strategy+fields[i]),8);
+        if(!std::isfinite(values[i])||std::abs(values[i])>4096)return;
+    }
+    for(unsigned i=0;i<count;++i){values[i]*=factor;std::memcpy(reinterpret_cast<void*>(strategy+fields[i]),&values[i],8);}
+    if(kind&&factor!=1)__atomic_fetch_add(&hc_medium_folder_applied[kind-1],uint64_t{1},__ATOMIC_RELAXED);
+}
 extern "C" void hc_folder_preview_capture(uintptr_t frame,uint64_t width,uint64_t height) {
     // Capture even before all three sites are armed: an in-flight invocation
     // without a capture must safely use stock dimensions at both consumers.
@@ -6546,7 +6627,9 @@ extern "C" void hc_folder_preview_capture(uintptr_t frame,uint64_t width,uint64_
     // An invalid capture also discards any aborted invocation at this frame.
     constexpr uint64_t neutral=0x3ff0000000000000ULL;
     if(__atomic_load_n(&hc_small_folder_scale_bits,__ATOMIC_ACQUIRE)==neutral
-        &&__atomic_load_n(&hc_big_folder_scale_bits,__ATOMIC_ACQUIRE)==neutral)width=height=0;
+        &&__atomic_load_n(&hc_big_folder_scale_bits,__ATOMIC_ACQUIRE)==neutral
+        &&__atomic_load_n(&hc_medium_folder_scale_bits[0],__ATOMIC_ACQUIRE)==neutral
+        &&__atomic_load_n(&hc_medium_folder_scale_bits[1],__ATOMIC_ACQUIRE)==neutral)width=height=0;
     folder_preview_state().capture(frame,width,height);
 }
 extern "C" home_layout::FolderPreviewReturnValue hc_folder_preview_take(uintptr_t frame,uint64_t height) {
@@ -6563,6 +6646,10 @@ extern "C" home_layout::FolderPreviewReturnValue hc_folder_preview_take(uintptr_
 }
 
 extern "C" void hc_home_diagnostic_sample() {
+    nhk::android_diagnostics::counter("home.scale.medium_horizontal","横向 3×1 中文件夹缩放",
+        __atomic_load_n(&hc_medium_folder_hits[0],__ATOMIC_RELAXED),__atomic_load_n(&hc_medium_folder_applied[0],__ATOMIC_RELAXED));
+    nhk::android_diagnostics::counter("home.scale.medium_vertical","纵向 3×1 中文件夹缩放",
+        __atomic_load_n(&hc_medium_folder_hits[1],__ATOMIC_RELAXED),__atomic_load_n(&hc_medium_folder_applied[1],__ATOMIC_RELAXED));
     nhk::android_diagnostics::counter("home.title.custom","自定义应用标题",g_title_custom_hits.load(std::memory_order_relaxed),g_title_custom_applied.load(std::memory_order_relaxed));
     const auto reasons=g_title_custom_skip_reasons.load(std::memory_order_relaxed);
     const auto fresh=reasons&~g_title_custom_skip_reported.exchange(reasons,std::memory_order_relaxed);
@@ -6960,6 +7047,7 @@ bool adopt_layout_state() {
     hc_progress_icon_width_hits=hc_progress_icon_height_hits=0;
     hc_progress_dock_width_hits=hc_progress_dock_height_hits=0;
     hc_folder_icon_scale_enabled=0;hc_folder_icon_scale_original=nullptr;
+    hc_medium_folder_ready=0;hc_medium_folder_originals[0]=hc_medium_folder_originals[1]=nullptr;
     hc_folder_anim_scale_enabled=0;hc_widget_scale_enabled=0;
     hc_widget_scale_hits=hc_widget_scale_applied=hc_widget_scale_applied_bits=0;
     g_widget_scale_last.store(UINT64_MAX,std::memory_order_relaxed);
@@ -6978,7 +7066,7 @@ bool adopt_layout_state() {
     hc_folder_anim_scale3_original=hc_folder_anim_scale4_original=nullptr;
     std::fill(std::begin(hc_widget_scale_originals),std::end(hc_widget_scale_originals),nullptr);hc_widget_dispatch_entry=0;
     std::atomic_store_explicit(&g_widget_routing,std::shared_ptr<const WidgetRouting>{},std::memory_order_release);
-    for(auto* bits:{&hc_icon_scale_bits,&hc_small_folder_scale_bits,&hc_big_folder_scale_bits,&hc_widget_scale_bits})
+    for(auto* bits:{&hc_icon_scale_bits,&hc_small_folder_scale_bits,&hc_big_folder_scale_bits,&hc_widget_scale_bits,&hc_medium_folder_scale_bits[0],&hc_medium_folder_scale_bits[1]})
         __atomic_store_n(bits,0x3ff0000000000000ULL,__ATOMIC_RELEASE);
     hc_folder_icon_scale_caller=0;
     hc_folder_icon_scale_big_caller=0;
@@ -7322,6 +7410,7 @@ void prime_home_layout_first_render_locked() {
     }
     for(size_t i=kIconRenderSlotBase;i<kIconRenderSlotBase+6;++i)if(g_slots[i].address)order.push_back(i);
     for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)if(g_slots[i].address)order.push_back(i);
+    for(size_t i=kMediumFolderSlotBase;i<kSlotCount;++i)if(g_slots[i].address)order.push_back(i);
     if(g_slots[kFolderIconScaleSlot].address)order.push_back(kFolderIconScaleSlot);
     for(size_t i=kFolderAnimScaleSlotBase;i<kFolderAnimScaleSlotBase+kFolderAnimScaleSlotCount;++i)
         if(g_slots[i].address)order.push_back(i);

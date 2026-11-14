@@ -208,7 +208,7 @@ public final class HomeConfigRootService extends RootService {
             var cards=HomeRecentCardsPrefs.selection(values);
             var dock=com.sevtinge.hyperceiler.libhook.provider.HomeDockPrefs.profile(values);
             if(profile==null)throw new IllegalStateException("Physical feedback snapshot rejected");
-            if(!frameworkReady)profile=new HomeRecentsHapticPrefs.Profile(false,false,profile.type(),profile.strength());
+            if(!frameworkReady)profile=new HomeRecentsHapticPrefs.Profile(false,false,profile.type(),profile.strength(),profile.custom(),profile.effectId());
             try(var cursor=HomeLayoutPrefsSnapshot.cursorValues(values)) {
                 var snapshot=HomeLayoutNativeEndpointOS4.readLocalSnapshot(this,cursor);
                 if(snapshot==null)throw new IllegalStateException("Physical preference snapshot rejected");
@@ -312,7 +312,7 @@ public final class HomeConfigRootService extends RootService {
     }
 
     private byte[] hapticWave(HomeRecentsHapticPrefs.Profile profile,int count) {
-        var effect=HomeRecentsHapticOS4.waveform(this,profile.type(),profile.strength(),count);
+        var effect=HomeRecentsHapticOS4.waveform(this,profile,count);
         if(effect==null)return null;
         Parcel arguments=Parcel.obtain();
         try {
@@ -356,7 +356,7 @@ public final class HomeConfigRootService extends RootService {
                         &&getSystemService(android.os.PowerManager.class).isInteractive()
                         &&!getSystemService(android.app.KeyguardManager.class).isKeyguardLocked()) {
                         if(request.prepare())wave=hapticWave(current.profile(),request.count());
-                        else performed=HomeRecentsHapticOS4.perform(this,current.profile().type(),current.profile().strength(),request.count());
+                        else performed=HomeRecentsHapticOS4.perform(this,current.profile(),request.count());
                     }
                     if(request.prepare())HomeLocalWire.writeHapticWave(output,request.timestamp(),wave);
                     else HomeLocalWire.writeHapticReply(output,request.timestamp(),performed);

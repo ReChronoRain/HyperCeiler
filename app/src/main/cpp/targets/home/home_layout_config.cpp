@@ -309,7 +309,7 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 21;
+constexpr uint32_t kCacheVersion = 22;
 // The first launcher layout can run before credential-encrypted storage unlocks.
 // Bootstrap must survive a device reboot, not only a process restart after unlock.
 constexpr const char *kCacheDir = "/data/user_de/0/com.miui.home/files";
@@ -374,7 +374,7 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(config.gestures.enabled); put_u32(config.gestures.quick); put_u32(config.gestures.mask);
     put_u32(config.gestures.density_dpi); put_u32(config.gestures.width);
     put_u32(kObjectScaleMagic);
-    for(const auto& scale:config.object_scales){put_u32(scale.enabled);put_u32(scale.percent);}
+    for(size_t i=0;i<3;++i){const auto& scale=config.object_scales[i];put_u32(scale.enabled);put_u32(scale.percent);}
     put_u32(kDockTitleMagic); put_u32(config.dock_show_title);
     put_u32(kRecentMagic); put_u32(kRecentWireCount);
     for(int i=0;i<kRecentWireCount;++i)put_u32(config.recent.values[i]);
@@ -383,6 +383,8 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(kDockHorizontalMagic);put_u32(1);put_u32(uint32_t(config.dock_horizontal));
     put_u32(kInfiniteScrollMagic);put_u32(config.infinite_scroll?1:0);
     put_u32(kRecentHeaderMagic);put_u32(config.recent.values[RecentConfig::HideIcon]|(config.recent.values[RecentConfig::HideText]<<1));
+    put_u32(kMediumScaleMagic);
+    for(size_t i=3;i<5;++i){put_u32(config.object_scales[i].enabled);put_u32(config.object_scales[i].percent);}
 }
 
 bool parse_config(const std::vector<uint8_t> &data, Config &config) {
@@ -391,7 +393,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
     if (version != 4 && version != 5 && version != 6 && version != 7 && version != 8
-        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != 17 && version != 18 && version != 19 && version != 20 && version != kCacheVersion)
+        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != 17 && version != 18 && version != 19 && version != 20 && version != 21 && version != kCacheVersion)
         return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
@@ -509,6 +511,9 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if(version>=21&&!read_recent_header([&](int32_t& word){
         auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
     },config.recent,false))return false;
+    if(version>=22&&!read_medium_scales([&](int32_t& word){
+        auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
+    },config.object_scales,false))return false;
     if (version >= 8 && at != data.size()) return false;
     return true;
 }
@@ -673,6 +678,9 @@ static bool read_layout_reply(const AParcel *output, Config &result, bool strict
     if(valid&&has_infinite_scroll)valid=read_recent_header([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.recent,true,&has_recent_header);
+    if(valid&&has_recent_header)valid=read_medium_scales([&](int32_t& word){
+        return AParcel_readInt32(output,&word)==STATUS_OK;
+    },candidate.object_scales,true);
     // Local publications always use this APK's complete payload. Optional old-WMS tails
     // remain supported only by the compatibility reader, never by the JNI boundary.
     if (strict && (count != HC_LAYOUT_KNOB_COUNT

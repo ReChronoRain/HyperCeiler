@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
+#include "home_scalar_feature_resolver.h"
 #include "home_folder_feature_resolver.h"
 #include "home_icon_feature_resolver.h"
 
@@ -73,18 +74,22 @@ inline bool item_accessor(const Code& code,uint32_t va,int32_t strategy,const It
     }
     return access==1;
 }
-inline bool origin_body(const Body& b,uint32_t va,uint32_t current,const ItemLayout& item) {
+inline bool origin_body(const Body& b,uint32_t va,uint32_t current,const ItemLayout& item,const Body& config_body) {
     int32_t info=0;if(!receiver_slot(b,2,info)||!stx(b[3],29,1)
         ||!frame_slot(b,imm9(b[3])))return false;
-    unsigned config=0,x=0,y=0;bool rooted=false;
+    unsigned config=0,inlined=0,x=0,y=0;bool rooted=false;
+    const Function function{va,b};
     for(size_t i=0;i<b.size();++i){uint32_t to=0;
         if(target(b[i],va+uint32_t(i*4),to)&&to==current)++config;
+        else if(scalar_config_read(function,i,current,config_body)){++config;++inlined;}
         if(ldx(b[i],29,0))rooted=imm9(b[i])==info;
         if((b[i]&0xfc000000u)==0x94000000u)rooted=false;
         if(rooted&&(b[i]&0xffe00c00u)==0xfc400000u&&rn(b[i])==0){
             x+=imm9(b[i])==item.x;y+=imm9(b[i])==item.y;}
     }
-    return config>=3&&x==2&&y==1;
+    // New AOT output inlines the two axis producers; the third Rx access is
+    // the controller's live model rather than another config getter.
+    return (config>=3||(config==2&&inlined==2))&&x==2&&y==1;
 }
 inline bool no_interior_branch(const Code& code,const FolderPreviewReturnFeature& plan) {
     const uint32_t starts[]={plan.origin,plan.width_site,plan.height_site};
@@ -173,6 +178,7 @@ inline std::optional<FolderPreviewReturnFeature> folder_preview_return_feature(
     const Code& code,const FolderFeatures& folders,const IconFeature& icon) {
     using namespace home_dynamic;using namespace folder_preview_return_detail;
     if(!icon.current||folders.current!=icon.current)return {};
+    Body config_body;(void)code.body(icon.current,config_body);
     const auto item=item_layout(code,folders);if(!item)return {};
     std::optional<FolderPreviewReturnFeature> out;
     for(const auto& function:code.functions()){
@@ -220,7 +226,7 @@ inline std::optional<FolderPreviewReturnFeature> folder_preview_return_feature(
                     &&a[k+2]==0x8b1c8000u){if(strategy){strategy=0;break;}strategy=int32_t(zimm(a[k]));}
                 RectLayout painted_rect;
                 if(!field(strategy)||!item_accessor(code,accessor,strategy,*item)
-                    ||!code.body(origin,origin_code)||!origin_body(origin_code,origin,icon.current,*item)
+                    ||!code.body(origin,origin_code)||!origin_body(origin_code,origin,icon.current,*item,config_body)
                     ||!static_consumer(code,origin,strategy,*item,painted_rect)
                     ||painted_rect.allocator!=landing_rect.allocator||painted_rect.fields!=landing_rect.fields)continue;
                 next.origin=origin;next.caller_return=function.va+uint32_t((i+4)*4);++sources;

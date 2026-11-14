@@ -17,6 +17,7 @@ public final class HomeOS4AdaptationGate {
         "prefs_key_home_layout_small_folder_scale",
         "prefs_key_home_layout_big_folder_scale_enable",
         "prefs_key_home_layout_big_folder_scale",
+        "prefs_key_home_layout_medium_folder_horizontal_scale_enable","prefs_key_home_layout_medium_folder_horizontal_scale","prefs_key_home_layout_medium_folder_vertical_scale_enable","prefs_key_home_layout_medium_folder_vertical_scale",
         "prefs_key_home_layout_widget_scale_enable",
         "prefs_key_home_layout_widget_scale",
 
@@ -27,7 +28,8 @@ public final class HomeOS4AdaptationGate {
     // Keep the OS4 clear-button implementation and the framework-backed home-mode setting.
     private static final Set<String> ADAPTED_RECENT_KEYS = Set.of(
         "prefs_key_home_recent_card_haptic", "prefs_key_home_recent_card_close_haptic", "prefs_key_home_recent_card_haptic_type",
-        "prefs_key_home_recent_card_haptic_strength", "prefs_key_home_recent_modify_animation",
+        "prefs_key_home_recent_card_haptic_strength",
+        "prefs_key_home_recent_card_haptic_custom", "prefs_key_home_recent_card_haptic_effect_id", "home_recent_haptic_effects", "prefs_key_home_recent_modify_animation",
         "prefs_key_home_recent_remove_icon", "prefs_key_home_recent_hide_text",
         "prefs_key_home_recent_hide_card",
         "prefs_key_home_recent_hide_status_bar_in_task_view",

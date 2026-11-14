@@ -2886,3 +2886,49 @@ hc_recent_entries:
 .endm
 dock_position_splice hc_dock_position0_entry, 0
 dock_position_splice hc_dock_position1_entry, 1
+
+/* Observe original Smi spans on the native stack only. Original managed calls,
+ * stack maps and rooted strategy objects remain at their original PCs. */
+.globl hc_medium_folder_begin_entry
+.p2align 4
+hc_medium_folder_begin_entry:
+    dart_save
+    workspace_native_save
+    bl hc_medium_folder_begin
+    workspace_native_restore
+    dart_restore
+    adrp x16, hc_medium_folder_originals
+    ldr x16, [x16, :lo12:hc_medium_folder_originals]
+    br x16
+
+.globl hc_medium_folder_capture_entry
+.p2align 4
+hc_medium_folder_capture_entry:
+    dart_save
+    workspace_native_save
+    mov x3, x0
+    mov x0, x29
+    mov x1, x2
+    mov x2, x3
+    bl hc_medium_folder_capture
+    workspace_native_restore
+    dart_restore
+    adrp x16, hc_medium_folder_originals
+    add x16, x16, :lo12:hc_medium_folder_originals
+    ldr x16, [x16, #8]
+    br x16
+
+.globl hc_medium_folder_geometry_entry
+.p2align 4
+hc_medium_folder_geometry_entry:
+    dart_save
+    workspace_native_save
+    mov x0, x1
+    mov x1, x30
+    mov x2, x29
+    bl hc_medium_folder_geometry
+    workspace_native_restore
+    dart_restore
+    adrp x16, hc_folder_icon_scale_original
+    ldr x16, [x16, :lo12:hc_folder_icon_scale_original]
+    br x16

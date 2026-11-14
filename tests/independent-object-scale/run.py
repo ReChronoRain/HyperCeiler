@@ -19,7 +19,7 @@ with tempfile.TemporaryDirectory(prefix='hc-scale-endpoint-') as temp:
     sources=[p for p in (root/'tests/home-layout-native/stubs').rglob('*.java') if p.name!='ModuleLog.java']
     sources+=[p for p in (root/'tests/home-dock-window/stubs').rglob('*.java') if p.name!='ModuleLog.java']
     lib=root/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'
-    sources += [lib/'provider/HomeLayoutPrefsSnapshot.java',lib/'provider/HomeGesturePrefsSnapshot.java',
+    sources += [lib/'provider/HomeLayoutPrefsSnapshot.java',lib/'provider/HomeGesturePrefsSnapshot.java',lib/'provider/HomeRecentsHapticPrefs.java',
         lib/'base/FrameworkHookGate.java',
         lib/'rules/home/dock/HomeLayoutNativeEndpointOS4.java',
         root/'library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java',

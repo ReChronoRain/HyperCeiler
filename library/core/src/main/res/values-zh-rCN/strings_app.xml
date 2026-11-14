@@ -1850,7 +1850,7 @@
     <string name="home_is_rust_no_support">当前 LSPosed 版本不支持 HyperOS Runtime 的Hook。请尝试更新 LSPosed 后重试。</string>
     <string name="home_layout_small_folder_scale_title">小文件夹缩放</string>
     <string name="home_layout_big_folder_scale_title">大文件夹缩放</string>
-    <string name="home_layout_widget_scale_title">小组件缩放</string>
+    <string name="home_layout_widget_scale_title">小部件缩放</string>
     <string name="home_layout_independent_scale_desc">独立调整缩放比例</string>
     <string name="home_drawer_hide_search">隐藏抽屉搜索框</string>
     <string name="home_layout_hotseats_margin_horizontal_desc">调整底栏图标的左右留白，数值越大图标越靠近中间，重启系统桌面后生效</string>
@@ -1858,4 +1858,8 @@
     <string name="system_ui_status_bar_follow_summary">实验性功能：需重启 SystemUI 和系统进程后生效，可能影响系统稳定性。</string>
     <string name="system_ui_status_bar_boot_fuse_reset_title">重置状态栏开机熔断</string>
     <string name="system_ui_status_bar_boot_fuse_reset_summary">显式清除已熔断的开机保护。重置后需重启目标进程。</string>
+    <string name="home_layout_medium_folder_horizontal_scale_title">横向中文件夹缩放</string>
+    <string name="home_layout_medium_folder_horizontal_scale_desc">中文件夹就是 3x1 的文件夹</string>
+    <string name="home_layout_medium_folder_vertical_scale_title">纵向中文件夹缩放</string>
+    <string name="home_layout_medium_folder_vertical_scale_desc">中文件夹名字致敬中折叠</string>
 </resources>

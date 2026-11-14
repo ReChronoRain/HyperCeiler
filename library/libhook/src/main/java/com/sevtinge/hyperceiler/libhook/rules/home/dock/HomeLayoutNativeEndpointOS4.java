@@ -500,6 +500,22 @@ public final class HomeLayoutNativeEndpointOS4 {
         // It must not erase a complete cache, especially while an APK is being replaced.
         if (!isProviderSchema(cursor)) return null;
         final android.os.Bundle extras = cursor.getExtras();
+        if(extras!=null&&extras.getInt("medium_scales_version",0)==1)
+            for(String kind:new String[]{"medium_folder_horizontal","medium_folder_vertical"}) {
+                String key="home_layout_"+kind+"_scale";
+                int enabled=extras.getInt(key+"_enable",0),percent=extras.getInt(key,100);
+                if((enabled==0||enabled==1)&&percent>=60&&percent<=140) {
+                    values.put(key+"_enable",enabled);values.put(key,percent);
+                }
+            }
+
+        if(extras!=null&&extras.getInt("haptic_custom_version",0)==1) {
+            int custom=extras.getInt("home_recent_card_haptic_custom",0),id=extras.getInt("home_recent_card_haptic_effect_id",0);
+            if((custom==0||custom==1)&&id>=0) {
+                values.put("home_recent_card_haptic_custom",custom);
+                values.put("home_recent_card_haptic_effect_id",id);
+            }
+        }
         if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.XIAOHEIZI_VERSION, 0) == 1) {
             int enabled = extras.getInt(HomeLayoutPrefsSnapshot.XIAOHEIZI_KEY, -1);
             if (enabled == 0 || enabled == 1) values.put(HomeLayoutPrefsSnapshot.XIAOHEIZI_KEY, enabled);
@@ -733,6 +749,15 @@ public final class HomeLayoutNativeEndpointOS4 {
         final PublishedSnapshot value = combinedPublished;
         return leaseDeadline(value, SystemClock.elapsedRealtimeNanos()) != 0
             ? value.haptic() : -1;
+    }
+    public static com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.Profile recentsHapticProfile() {
+        ensureRefresher();
+        final PublishedSnapshot value=combinedPublished;
+        if(leaseDeadline(value,SystemClock.elapsedRealtimeNanos())==0)return null;
+        var base=com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.decodeProfile(value.haptic());
+        if(base==null)return null;
+        return new com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.Profile(base.enabled(),base.close(),base.type(),base.strength(),
+            readBoolean(value.values(),"home_recent_card_haptic_custom",false),readInt(value.values(),"home_recent_card_haptic_effect_id",0));
     }
 
     private static int deriveHyosFlags(java.util.Map<String, Object> values, String frameworkReason,
@@ -1154,14 +1179,14 @@ public final class HomeLayoutNativeEndpointOS4 {
     public static final int DOCK_TITLE_MAGIC = 0x48434454;
     public static final int OBJECT_SCALE_MAGIC = 0x48435331;
     private static boolean validObjectScales(int[] values) {
-        if (values == null || values.length != 6) return false;
-        for (int i = 0; i < 6; i += 2)
+        if (values == null || values.length != 6 && values.length != 10) return false;
+        for (int i = 0; i < values.length; i += 2)
             if (values[i] < 0 || values[i] > 1 || values[i + 1] < 60 || values[i + 1] > 140) return false;
         return true;
     }
     private static int[] readObjectScales(java.util.Map<String, Object> values) {
-        final String[] kinds = {"small_folder", "big_folder", "widget"};
-        final int[] result = new int[6];
+        final String[] kinds = {"small_folder", "big_folder", "widget", "medium_folder_horizontal", "medium_folder_vertical"};
+        final int[] result = new int[kinds.length*2];
         for (int i = 0; i < kinds.length; ++i) {
             final String key = "home_layout_" + kinds[i] + "_scale";
             result[i * 2] = readBoolean(values, key + "_enable", false) ? 1 : 0;

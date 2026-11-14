@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="home_recent_haptic_custom">Custom vibration effect ID</string>
+    <string name="home_recent_haptic_effect_id">Vibration effect ID</string>
+    <string name="home_recent_haptic_effects">All vibration effect IDs</string>
+    <string name="home_recent_haptic_effects_summary">Show IDs reported by this device; tap to select and preview</string>
+    <string name="home_recent_haptic_id_invalid">Enter a non-negative decimal or hexadecimal ID</string>
+    <string name="home_recent_haptic_inventory_missing">The device did not expose a complete inventory. Only known system effects are listed.</string>
+    <string name="home_recent_haptic_supported">Supported</string>
+    <string name="home_recent_haptic_unsupported">Unsupported</string>
+    <string name="home_recent_haptic_unknown">Support unknown</string>
     <string name="home_recent_haptic_category">Card vibration</string>
     <string name="home_recent_card_close_haptic">Swipe-up close vibration</string>
     <string name="home_recent_card_close_haptic_summary">Vibrate once when an upward swipe is accepted to close a card, shares the scrolling vibration type and strength</string>

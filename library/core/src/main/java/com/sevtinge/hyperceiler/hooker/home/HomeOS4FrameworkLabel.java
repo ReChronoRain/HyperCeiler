@@ -34,6 +34,7 @@ final class HomeOS4FrameworkLabel extends ReplacementSpan {
         "prefs_key_home_recent_card_close_haptic",
         "prefs_key_home_recent_card_haptic_type",
         "prefs_key_home_recent_card_haptic_strength",
+        "prefs_key_home_recent_card_haptic_custom", "prefs_key_home_recent_card_haptic_effect_id", "home_recent_haptic_effects",
         "prefs_key_home_gesture_enable",
         "prefs_key_home_navigation_quick_back",
         "prefs_key_home_gesture_double_tap",
