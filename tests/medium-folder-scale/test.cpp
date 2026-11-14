@@ -38,9 +38,9 @@ int main() {
     auto duplicate=moved;for(auto& f:duplicate)f.va-=0x02000000;
     auto ambiguous=original;ambiguous.insert(ambiguous.end(),duplicate.begin(),duplicate.end());
     bytes=image(ambiguous);code=Code::parse(bytes);assert(code);assert(!medium_folder_feature(*code,config));
-    assert(medium_folder_kind(6,2)==1&&medium_folder_kind(2,6)==2);
+    assert(medium_folder_kind(4,2)==1&&medium_folder_kind(2,4)==2);
     for(auto w:{0u,2u,4u,6u,8u,7u})for(auto h:{0u,2u,4u,6u,8u,3u})
-        if(!((w==6&&h==2)||(w==2&&h==6)))assert(medium_folder_kind(w,h)==0);
+        if(!((w==4&&h==2)||(w==2&&h==4)))assert(medium_folder_kind(w,h)==0);
     // Independent persisted switches and percentages survive the optional tail.
     for(int mask=0;mask<4;++mask)for(int a:{60,100,140})for(int b:{60,100,140}) {
         home_layout::ObjectScales scales{};std::vector<int> words={home_layout::kMediumScaleMagic,mask&1,a,(mask>>1)&1,b};size_t at=0;

@@ -678,15 +678,16 @@ static bool read_layout_reply(const AParcel *output, Config &result, bool strict
     if(valid&&has_infinite_scroll)valid=read_recent_header([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.recent,true,&has_recent_header);
+    bool has_medium_scales=false;
     if(valid&&has_recent_header)valid=read_medium_scales([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
-    },candidate.object_scales,true);
+    },candidate.object_scales,true,&has_medium_scales);
     // Local publications always use this APK's complete payload. Optional old-WMS tails
     // remain supported only by the compatibility reader, never by the JNI boundary.
     if (strict && (count != HC_LAYOUT_KNOB_COUNT
         || endpoint_state != EndpointDiagnosticState::Valid || endpoint.revision != kEndpointRevision
         || !has_object_scales || !has_dock_title || !has_recent || !has_drawer || !has_policies
-        || !has_dock_horizontal || !has_infinite_scroll || !has_recent_header
+        || !has_dock_horizontal || !has_infinite_scroll || !has_recent_header || !has_medium_scales
         || AParcel_getDataPosition(output) != AParcel_getDataSize(output))) valid = false;
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
@@ -720,7 +721,8 @@ static bool read_layout_reply(const AParcel *output, Config &result, bool strict
             ||!(endpoint.capabilities&kDrawerSearchCapability)||!has_drawer
             ||!(endpoint.capabilities&kLayoutPoliciesCapability)||!has_policies
             ||!(endpoint.capabilities&kDockHorizontalCapability)||!has_dock_horizontal
-            ||!(endpoint.capabilities&kInfiniteScrollCapability)||!has_infinite_scroll||!has_recent_header;
+            ||!(endpoint.capabilities&kInfiniteScrollCapability)||!has_infinite_scroll||!has_recent_header
+            ||!(endpoint.capabilities&kMediumFolderCapability)||!has_medium_scales;
         config_diagnostic(1,mismatch?ANDROID_LOG_WARN:ANDROID_LOG_INFO,
             "ENDPOINT_%s: client_revision=%d server_revision=%d schema=%d capabilities=%#x pid=%d object_scales=%d dock_title=%d recent=%d drawer=%d policies=%d infinite_scroll=%d recent_header=%d%s",
             mismatch?"MISMATCH":"READY",kEndpointRevision,endpoint.revision,endpoint.schema,endpoint.capabilities,endpoint.pid,

@@ -1113,8 +1113,8 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
     public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
-    public static final int ENDPOINT_REVISION = 20261028;
-    public static final int ENDPOINT_CAPABILITIES = 127; // object scales + Dock titles + recents + drawer search + layout policies
+    public static final int ENDPOINT_REVISION = 20261114;
+    public static final int ENDPOINT_CAPABILITIES = 255; // includes independent medium-folder scale tail
 
     public static final int INFINITE_SCROLL_MAGIC = 0x48434957;
     public static void writeInfiniteScroll(Parcel reply, boolean enabled) {

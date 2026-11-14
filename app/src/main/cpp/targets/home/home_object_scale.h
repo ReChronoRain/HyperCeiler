@@ -26,7 +26,8 @@ template<class Read> bool read_object_scales(Read read,ObjectScales& out,bool op
     out=next;if(present)*present=true;return true;
 }
 constexpr int32_t kMediumScaleMagic=0x48434d53;
-template<class Read> bool read_medium_scales(Read read,ObjectScales& out,bool optional=true) {
+template<class Read> bool read_medium_scales(Read read,ObjectScales& out,bool optional=true,bool* present=nullptr) {
+    if(present)*present=false;
     int32_t magic=0;
     if(!read(magic))return optional;
     if(magic!=kMediumScaleMagic)return false;
@@ -36,6 +37,6 @@ template<class Read> bool read_medium_scales(Read read,ObjectScales& out,bool op
         if(!read(enabled)||!read(percent)||enabled<0||enabled>1||percent<60||percent>140)return false;
         next[i]={enabled!=0,percent};
     }
-    out=next;return true;
+    out=next;if(present)*present=true;return true;
 }
 }

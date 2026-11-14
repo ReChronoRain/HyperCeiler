@@ -6,7 +6,9 @@ arguments, size record, background aliases, preview helpers and padding call.
 It never uses a launcher version, strategy class ID, stored address or stored
 business-field offset.
 
-The original Smi spans distinguish 3×1 and 1×3. The producer entry clears a
+The original Smi spans distinguish the 2×1 and 1×2 desktop occupancy of the
+horizontal and vertical three-icon previews. Preview counts must not be used
+as desktop cell spans. The producer entry clears a
 thread-local scalar observation before each invocation. The observation is
 consumed once, in the matching frame, after the original geometry producers
 finish. No Dart object pointer is retained and no managed call/GC PC is moved.

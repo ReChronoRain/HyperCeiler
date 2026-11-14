@@ -70,8 +70,10 @@ inline std::optional<MediumFolderFeature> medium_folder_feature(const Code& code
 // boxed arguments are not classified. Horizontal and vertical never share a gate.
 inline unsigned medium_folder_kind(uint64_t width,uint64_t height) {
     if((width|height)&1)return 0;
-    if(width==6&&height==2)return 1;
-    if(width==2&&height==6)return 2;
+    // A three-icon preview occupies two desktop cells along its long axis.
+    // These are the original size-spec arguments, not preview icon counts.
+    if(width==4&&height==2)return 1;
+    if(width==2&&height==4)return 2;
     return 0;
 }
 }
