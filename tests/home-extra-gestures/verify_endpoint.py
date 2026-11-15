@@ -16,6 +16,7 @@ files=[]
 def write(n,t):
  p=D/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(t);files.append(str(p))
 stubs={
+'com/sevtinge/hyperceiler/common/log/ModuleLog.java':'package com.sevtinge.hyperceiler.common.log;public class ModuleLog {public static void i(String t,String s){}public static void w(String t,String s,Exception e){}}',
 'android/net/Uri.java':'package android.net;public class Uri {}',
 'android/database/Cursor.java':'package android.database;public interface Cursor extends AutoCloseable {boolean moveToFirst();int getInt(int i);String getString(int i);boolean isNull(int i);int getColumnCount();int getColumnIndex(String k);String getColumnName(int i);void close();}',
 'android/database/MatrixCursor.java':'''package android.database;import java.util.*;public class MatrixCursor implements Cursor {String[] columns;List<Object> values=new ArrayList<>();public MatrixCursor(String[] c){columns=c;}public class RowBuilder {public RowBuilder add(Object o){values.add(o);return this;}}public RowBuilder newRow(){return new RowBuilder();}public boolean moveToFirst(){return true;}public int getInt(int i){Object v=values.get(i);return v instanceof Number?((Number)v).intValue():Integer.parseInt(v.toString());}public String getString(int i){return values.get(i).toString();}public boolean isNull(int i){return values.get(i)==null;}public int getColumnCount(){return columns.length;}public int getColumnIndex(String n){return Arrays.asList(columns).indexOf(n);}public String getColumnName(int i){return columns[i];}public void close(){}}''',
@@ -45,6 +46,10 @@ public class EndpointTest {
 static int ACK=0x48435131;static long lastSwitch;static Uri PREFS=new Uri();static int switches;
 static boolean isSystemUI(Context c,int uid,int pid){return uid==1000&&pid==222;}static boolean isLauncher(Context c,int uid,int pid){return uid==20001&&pid==111;}
 static boolean switchPrevious(Context c,int expected){switches++;return true;}
+static final class Os4BackFeedback {
+ static boolean selected;
+ static boolean receiveIfMatches(Parcel data,Parcel reply,int flags){if(!selected)return false;reply.writeInt(1234);return true;}
+}
 '''
 for n in ['static boolean synchronous(','private static void diagnostic(','public static synchronized void receive(','private static boolean enabled(','private static boolean performGesture(','static int actionIndex(','private static boolean homeForeground(']:pre+=body(n)+'\n'
 pre+=r'''
@@ -73,6 +78,8 @@ public static void main(String[]args) {
  Context.prefs.put("prefs_key_home_gesture_enable",false);ok(!call(11,1000,222,0,0,false),"master off");ok(call(7,1000,222,0,0,false),"quick independent");Context.prefs.put("prefs_key_home_gesture_enable",true);
  Context.prefs.put("prefs_key_home_gesture_line_double_click_action",0);ok(!call(12,1000,222,0,0,false),"action off");ok(call(11,1000,222,0,0,false),"other action unaffected");
  Context.prefs.put("prefs_key_home_gesture_line_long_press_action",13);ok(call(11,1000,222,0,0,false)&&com.sevtinge.hyperceiler.common.utils.PrefsBridge.cache.get("home_gesture_line_long_press_action").equals(13),"fresh payload reload");
+ Os4BackFeedback.selected=true;Parcel delegated=new Parcel(13,SystemClock.now),delegatedReply=new Parcel();int before=switches;
+ receive(delegated,delegatedReply,0);ok(delegated.dataAvail()==8&&delegatedReply.data.size()==1&&delegatedReply.data.get(0).intValue()==1234&&switches==before,"feedback route consumes event before legacy dispatch");
  System.out.println("EXTRA_ENDPOINT_CHECKS="+checks+" FAILED="+failed+"; production snapshot/receive/perform, caller identity/Binder/actions mocked");if(failed>0)System.exit(1);
 }}
 '''

@@ -65,7 +65,7 @@ constexpr int O_RDONLY=0,O_CLOEXEC=0;
 struct stat{int st_mode=1;int64_t st_size=0;uint64_t st_dev=0,st_ino=0;};
 #define S_ISREG(m) ((m)==1)
 int fstat(int,struct stat*s){s->st_size=outerFile.size();s->st_dev=123;s->st_ino=456;return 0;}
-bool StatMatches(const Image& image,const struct stat& st){return S_ISREG(st.st_mode)&&st.st_size>=0&&st.st_dev==image.sourceDevice&&st.st_ino==image.sourceInode&&(image.fromApkEntry?image.apkEntryOffset:0)<=uint64_t(st.st_size)&&image.fileViewBytes<=uint64_t(st.st_size)-(image.fromApkEntry?image.apkEntryOffset:0);}
+bool StatMatches(const Image& image,int,const struct stat& st){return S_ISREG(st.st_mode)&&st.st_size>=0&&st.st_dev==image.sourceDevice&&st.st_ino==image.sourceInode&&(image.fromApkEntry?image.apkEntryOffset:0)<=uint64_t(st.st_size)&&image.fileViewBytes<=uint64_t(st.st_size)-(image.fromApkEntry?image.apkEntryOffset:0);}
 int open(const char*,int){opened++;return 3;}int close(int){return 0;}
 ssize_t pread(int,void*out,size_t n,off_t at){if(at<0||uint64_t(at)>outerFile.size()||n>outerFile.size()-at)return -1;memcpy(out,outerFile.data()+at,n);return n;}
 }

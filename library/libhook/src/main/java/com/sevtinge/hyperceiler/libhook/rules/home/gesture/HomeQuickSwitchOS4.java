@@ -31,6 +31,7 @@ public final class HomeQuickSwitchOS4 {
     }
 
     public static synchronized void receive(Parcel data, Parcel reply, int flags) {
+        if (Os4BackFeedback.receiveIfMatches(data, reply, flags)) return;
         boolean result = false;
         int uid = Binder.getCallingUid(), pid = Binder.getCallingPid();
         try {

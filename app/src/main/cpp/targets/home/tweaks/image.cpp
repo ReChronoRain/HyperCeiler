@@ -3,6 +3,7 @@
 #include "common.h"
 #include "nativehook/native_image.h"
 #include "nativehook/memory_io.h"
+#include "nativehook/file_identity.h"
 #include <elf.h>
 #include <fcntl.h>
 #include <link.h>
@@ -63,8 +64,8 @@ bool MapSnapshot(std::vector<MapRow>& rows, ImageDiscoveryDiagnostic* diagnostic
     return !rows.empty()||fail("maps-no-files");
 }
 uint64_t Device(const nhk::FileMapping& m){return uint64_t(makedev(m.device_major,m.device_minor));}
-bool StatMatches(const Image& image,const struct stat& st) {
-    if(!S_ISREG(st.st_mode)||st.st_size<0||uint64_t(st.st_dev)!=image.sourceDevice
+bool StatMatches(const Image& image,int fd,const struct stat& st) {
+    if(!S_ISREG(st.st_mode)||st.st_size<0||!nhk::mapped_device_matches(fd,image.sourceDevice,st)
         ||uint64_t(st.st_ino)!=image.sourceInode)return false;
     const uint64_t origin=image.fromApkEntry?image.apkEntryOffset:0;
     return origin<=uint64_t(st.st_size)&&image.fileViewBytes<=uint64_t(st.st_size)-origin;
@@ -273,7 +274,7 @@ bool ReadImageFile(const Image& image,uint64_t offset,void* out,size_t length) {
     const uint64_t fileOffset=origin+offset;
     if(uint64_t(length)>maxOffset-fileOffset)return false;
     const int fd=open(image.path,O_RDONLY|O_CLOEXEC);if(fd<0)return false;
-    struct stat st{};bool ok=fstat(fd,&st)==0&&StatMatches(image,st);
+    struct stat st{};bool ok=fstat(fd,&st)==0&&StatMatches(image,fd,st);
     auto* dst=static_cast<uint8_t*>(out);size_t done=0;
     while(ok&&done<length){const ssize_t n=pread(fd,dst+done,length-done,off_t(fileOffset+done));
         if(n<0&&errno==EINTR)continue;
