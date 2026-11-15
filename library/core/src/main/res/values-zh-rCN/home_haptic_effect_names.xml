@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- Names are firmware token translations, never vendor ID tables. -->
+    <string-array name="home_haptic_firmware_names">
+        <item>糖果</item>
+        <item>旋转木马</item>
+        <item>钢片琴</item>
+        <item>童年</item>
+        <item>乡野</item>
+        <item>牛仔</item>
+        <item>仙境</item>
+        <item>幻想</item>
+        <item>郊游</item>
+        <item>欢欣</item>
+        <item>冰拿铁</item>
+        <item>功夫</item>
+        <item>棒棒糖</item>
+        <item>MIX 2 旋律</item>
+        <item>小米旋律</item>
+        <item>小米浩室舞曲</item>
+        <item>小米爵士</item>
+        <item>小米混音</item>
+        <item>山间清泉</item>
+        <item>橙子</item>
+        <item>风铃</item>
+        <item>太空时代</item>
+        <item>玩具机器人</item>
+        <item>活力</item>
+        <item>瓶子轻敲</item>
+        <item>气泡</item>
+        <item>牛蛙</item>
+        <item>迸发</item>
+        <item>鸟鸣</item>
+        <item>金属碰撞</item>
+        <item>水晶</item>
+        <item>渐入</item>
+        <item>渐出</item>
+        <item>长笛</item>
+        <item>清新</item>
+        <item>蛙鸣</item>
+        <item>吉他</item>
+        <item>竖琴</item>
+        <item>新消息到达</item>
+        <item>消息发送</item>
+        <item>瞬间</item>
+        <item>木琴通知</item>
+        <item>魔法药水</item>
+        <item>雷达</item>
+        <item>弹簧</item>
+        <item>掠过</item>
+        <item>上滑手势</item>
+        <item>指纹动画：星球</item>
+        <item>有线充电</item>
+        <item>无线充电</item>
+        <item>解锁失败</item>
+        <item>指纹动画一</item>
+        <item>指纹动画二</item>
+        <item>指纹动画三</item>
+        <item>指纹动画四</item>
+        <item>指纹动画：极光</item>
+        <item>人脸识别失败</item>
+        <item>卸载应用动画</item>
+        <item>卸载确认</item>
+        <item>截屏</item>
+        <item>锁屏相机入口</item>
+        <item>桌面编辑</item>
+        <item>桌面图标选择</item>
+        <item>清理全部任务</item>
+        <item>新建文件夹</item>
+        <item>移除通知</item>
+        <item>清除全部通知</item>
+        <item>NFC 刷卡</item>
+        <item>NFC 刷卡（慢节奏）</item>
+        <item>POCO 旋律</item>
+        <item>游戏倒计时</item>
+        <item>爆炸受伤</item>
+        <item>爆炸场景</item>
+        <item>开门</item>
+        <item>行走脚步</item>
+        <item>匍匐移动</item>
+        <item>开启瞄准镜</item>
+        <item>关闭瞄准镜</item>
+        <item>快速换弹</item>
+        <item>投掷手榴弹</item>
+        <item>中弹受击</item>
+        <item>手榴弹爆炸</item>
+        <item>拳击</item>
+        <item>平底锅敲击</item>
+        <item>使用绷带</item>
+        <item>跳跃</item>
+        <item>飞机飞行</item>
+        <item>打开降落伞</item>
+        <item>收起降落伞</item>
+        <item>载具碰撞</item>
+        <item>越野车行驶</item>
+        <item>轿车行驶</item>
+        <item>摩托车行驶</item>
+        <item>AKM 射击</item>
+        <item>M16A4 射击</item>
+        <item>AWM 射击</item>
+        <item>Mini14 射击</item>
+        <item>VSS 射击</item>
+        <item>QBZ 射击</item>
+        <item>UMP9 射击</item>
+        <item>DP28 射击</item>
+        <item>S1897 射击</item>
+        <item>P18C 射击</item>
+        <item>击败目标</item>
+        <item>爆头命中</item>
+        <item>连续击败目标</item>
+        <item>击败目标（强反馈）</item>
+        <item>爆头命中（强反馈）</item>
+        <item>连续击败（强反馈）</item>
+        <item>手榴弹爆破</item>
+        <item>手榴弹击败目标</item>
+        <item>命中目标</item>
+        <item>安装 C4</item>
+        <item>角色登场</item>
+        <item>开启奖励箱</item>
+        <item>领取任务奖励</item>
+        <item>BLT 武器射击</item>
+        <item>亚特兰蒂斯</item>
+        <item>数字宇宙</item>
+        <item>遐想</item>
+        <item>指纹动画：三角</item>
+        <item>指纹动画：光焰</item>
+        <item>指纹动画：涟漪</item>
+        <item>指纹动画：螺旋</item>
+        <item>游戏工具箱启动</item>
+        <item>返回手势拉动</item>
+        <item>返回手势释放</item>
+        <item>警示提醒</item>
+        <item>轻微否定反馈</item>
+        <item>中性操作反馈</item>
+        <item>肯定反馈</item>
+        <item>录入指纹</item>
+        <item>锁定</item>
+        <item>滑动阻尼</item>
+        <item>完成全部待办</item>
+        <item>卸载图标动画</item>
+        <item>按钮高亮</item>
+        <item>按钮否定反馈</item>
+        <item>按钮触感</item>
+        <item>时钟高亮反馈</item>
+        <item>时钟调节</item>
+        <item>时钟刻度</item>
+        <item>输入框反馈</item>
+        <item>按键高亮</item>
+        <item>按键刻度</item>
+        <item>列表高亮</item>
+        <item>列表滑动</item>
+        <item>选择器滚动</item>
+        <item>弹出窗口</item>
+        <item>滑杆调节</item>
+        <item>开关切换</item>
+        <item>标签切换</item>
+        <item>文本操作</item>
+        <item>轻微过渡</item>
+        <item>界面过渡</item>
+        <item>触感演示视频</item>
+        <item>滑动边缘回弹</item>
+        <item>滑动到底部</item>
+        <item>滑动到顶部</item>
+        <item>滑动标签</item>
+        <item>强烈肯定反馈</item>
+        <item>肯定反馈</item>
+        <item>否定反馈</item>
+        <item>静音切换</item>
+        <item>锁屏</item>
+        <item>指纹解锁</item>
+        <item>充电连接</item>
+        <item>清理通知</item>
+        <item>清理进程</item>
+        <item>卸载应用</item>
+        <item>游戏工具箱启动</item>
+        <item>进入编辑模式</item>
+        <item>相机快门</item>
+        <item>MicOn 触感</item>
+        <item>卡片滑动</item>
+        <item>应答提示一</item>
+        <item>应答提示二</item>
+        <item>点赞</item>
+        <item>点踩</item>
+        <item>长按</item>
+        <item>木吉他</item>
+    </string-array>
+</resources>

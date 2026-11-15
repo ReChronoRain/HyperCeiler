@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- Names are firmware token translations, never vendor ID tables. -->
+    <string-array name="home_haptic_firmware_keys" translatable="false">
+        <item>candy</item>
+        <item>carousel</item>
+        <item>celesta</item>
+        <item>childhood</item>
+        <item>country</item>
+        <item>cowboy</item>
+        <item>fairyland</item>
+        <item>fantasy</item>
+        <item>fieldtrip</item>
+        <item>glee</item>
+        <item>icelatte</item>
+        <item>kungfu</item>
+        <item>lollipop</item>
+        <item>mimix2</item>
+        <item>mi</item>
+        <item>mihouse</item>
+        <item>mijazz</item>
+        <item>miremix</item>
+        <item>mountainspring</item>
+        <item>orange</item>
+        <item>windchime</item>
+        <item>spaceage</item>
+        <item>toyrobot</item>
+        <item>vigor</item>
+        <item>bottle</item>
+        <item>bubble</item>
+        <item>bullfrog</item>
+        <item>burst</item>
+        <item>chirp</item>
+        <item>clank</item>
+        <item>crystal</item>
+        <item>fadein</item>
+        <item>fadeout</item>
+        <item>flute</item>
+        <item>fresh</item>
+        <item>frog</item>
+        <item>guitar</item>
+        <item>harp</item>
+        <item>incomingmessage</item>
+        <item>messagesent</item>
+        <item>moment</item>
+        <item>notificationxylophone</item>
+        <item>potion</item>
+        <item>radar</item>
+        <item>spring</item>
+        <item>swoosh</item>
+        <item>gestureupslide</item>
+        <item>fodmotionplanet</item>
+        <item>chargewire</item>
+        <item>chargewireless</item>
+        <item>unlockfailed</item>
+        <item>fodmotion1</item>
+        <item>fodmotion2</item>
+        <item>fodmotion3</item>
+        <item>fodmotion4</item>
+        <item>fodmotionaurora</item>
+        <item>faceidwrong2</item>
+        <item>uninstallanimation</item>
+        <item>uninstalldialog</item>
+        <item>screenshot</item>
+        <item>lockscreencameraentry</item>
+        <item>launcheredit</item>
+        <item>launchericonselection</item>
+        <item>taskcleanall</item>
+        <item>newiconfolder</item>
+        <item>notificationremove</item>
+        <item>notificationcleanall</item>
+        <item>nfccard</item>
+        <item>nfccardslow</item>
+        <item>poco</item>
+        <item>offlinecountdown</item>
+        <item>scenebombinjury</item>
+        <item>scenebomb</item>
+        <item>dooropen</item>
+        <item>scenestep</item>
+        <item>crawl</item>
+        <item>scopeon</item>
+        <item>scopeoff</item>
+        <item>magazinequick</item>
+        <item>grenade</item>
+        <item>scenegetshot</item>
+        <item>grenadeexplosion</item>
+        <item>punch</item>
+        <item>pan</item>
+        <item>bandage</item>
+        <item>scenejump</item>
+        <item>vehicleplane</item>
+        <item>sceneopenparachute</item>
+        <item>scenecloseparachute</item>
+        <item>vehiclecollision</item>
+        <item>vehiclebuggy</item>
+        <item>vehicledacia</item>
+        <item>vehiclemoto</item>
+        <item>firearmsakm</item>
+        <item>firearmsm16a4</item>
+        <item>firearmsawm</item>
+        <item>firearmsmini14</item>
+        <item>firearmsvss</item>
+        <item>firearmsqbz</item>
+        <item>firearmsump9</item>
+        <item>firearmsdp28</item>
+        <item>firearmss1897</item>
+        <item>firearmsp18c</item>
+        <item>cfmkillone</item>
+        <item>cfmheadshot</item>
+        <item>cfmmultikill</item>
+        <item>cfmkillonestrong</item>
+        <item>cfmheadshotstrong</item>
+        <item>cfmmultikillstrong</item>
+        <item>cfmweapongrenadeexplode</item>
+        <item>cfmweapongrenadekillone</item>
+        <item>cfmimpactfleshnormal</item>
+        <item>cfmweaponc4installed</item>
+        <item>cfmheroappear</item>
+        <item>cfmuirewardopenbox</item>
+        <item>cfmuirewardtask</item>
+        <item>cfmweaponbltshoot</item>
+        <item>atlantis</item>
+        <item>digitaluniverse</item>
+        <item>reveries</item>
+        <item>fodmotiontriang</item>
+        <item>fodmotionflare</item>
+        <item>fodmotionripple</item>
+        <item>fodmotionspiral</item>
+        <item>gameboxlaunch</item>
+        <item>gesturebackpull</item>
+        <item>gesturebackrelease</item>
+        <item>alert</item>
+        <item>feedbacknegativelight</item>
+        <item>feedbackneutral</item>
+        <item>feedbackpositive</item>
+        <item>fingerprintrecord</item>
+        <item>lockdown</item>
+        <item>slidingdamping</item>
+        <item>todoalldone</item>
+        <item>uninstallanimationicon</item>
+        <item>signalbuttonhighlight</item>
+        <item>signalbuttonnegative</item>
+        <item>signalbutton</item>
+        <item>signalclockhigh</item>
+        <item>signalclock</item>
+        <item>signalclockunit</item>
+        <item>signalinputbox</item>
+        <item>signalkeyhigh</item>
+        <item>signalkeyunit</item>
+        <item>signallisthighlight</item>
+        <item>signallist</item>
+        <item>signalpicker</item>
+        <item>signalpopup</item>
+        <item>signalseekbar</item>
+        <item>signalswitch</item>
+        <item>signaltab</item>
+        <item>signaltext</item>
+        <item>signaltransitionlight</item>
+        <item>signaltransition</item>
+        <item>hapticsvideo</item>
+        <item>boundarybounce</item>
+        <item>boundarybottom</item>
+        <item>boundarytop</item>
+        <item>slidetag</item>
+        <item>superpositive</item>
+        <item>positive</item>
+        <item>negative</item>
+        <item>mute</item>
+        <item>screenlock</item>
+        <item>fingerprintunlock</item>
+        <item>charge</item>
+        <item>notificationcleanup</item>
+        <item>processcleanup</item>
+        <item>appuninstallation</item>
+        <item>gameboxstartup</item>
+        <item>edittingmode</item>
+        <item>camerashutter</item>
+        <item>micon</item>
+        <item>cardslide</item>
+        <item>answer1</item>
+        <item>answer2</item>
+        <item>like</item>
+        <item>dislike</item>
+        <item>longpress</item>
+        <item>acousticguitar</item>
+    </string-array>
+    <string-array name="home_haptic_firmware_groups" translatable="false">
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>system</item>
+        <item>system</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>music</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>game</item>
+        <item>music</item>
+        <item>music</item>
+        <item>music</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>music</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>system</item>
+        <item>music</item>
+    </string-array>
+    <string-array name="home_haptic_firmware_names">
+        <item>Candy</item>
+        <item>Carousel</item>
+        <item>Celesta</item>
+        <item>Childhood</item>
+        <item>Country</item>
+        <item>Cowboy</item>
+        <item>Fairyland</item>
+        <item>Fantasy</item>
+        <item>Field Trip</item>
+        <item>Glee</item>
+        <item>Ice Latte</item>
+        <item>Kung Fu</item>
+        <item>Lollipop</item>
+        <item>Mi Mix2</item>
+        <item>Mi</item>
+        <item>Mi House</item>
+        <item>Mi Jazz</item>
+        <item>Mi Remix</item>
+        <item>Mountain Spring</item>
+        <item>Orange</item>
+        <item>Wind Chime</item>
+        <item>Space Age</item>
+        <item>Toy Robot</item>
+        <item>Vigor</item>
+        <item>Bottle</item>
+        <item>Bubble</item>
+        <item>Bullfrog</item>
+        <item>Burst</item>
+        <item>Chirp</item>
+        <item>Clank</item>
+        <item>Crystal</item>
+        <item>Fade In</item>
+        <item>Fade Out</item>
+        <item>Flute</item>
+        <item>Fresh</item>
+        <item>Frog</item>
+        <item>Guitar</item>
+        <item>Harp</item>
+        <item>Incoming Message</item>
+        <item>Message Sent</item>
+        <item>Moment</item>
+        <item>Notification Xylophone</item>
+        <item>Potion</item>
+        <item>Radar</item>
+        <item>Spring</item>
+        <item>Swoosh</item>
+        <item>Gesture Up Slide</item>
+        <item>Fingerprint animation Planet</item>
+        <item>Charge Wire</item>
+        <item>Charge Wireless</item>
+        <item>Unlock Failed</item>
+        <item>Fingerprint animation1</item>
+        <item>Fingerprint animation2</item>
+        <item>Fingerprint animation3</item>
+        <item>Fingerprint animation4</item>
+        <item>Fingerprint animation Aurora</item>
+        <item>Face IDWrong2</item>
+        <item>uninstall Animation</item>
+        <item>uninstall Dialog</item>
+        <item>screenshot</item>
+        <item>lockscreen Camera Entry</item>
+        <item>launcher Edit</item>
+        <item>launcher Icon Selection</item>
+        <item>task Clean All</item>
+        <item>new Icon Folder</item>
+        <item>notification Remove</item>
+        <item>notification Cleanall</item>
+        <item>nfc Card</item>
+        <item>nfc Card Slow</item>
+        <item>POCO</item>
+        <item>offline Countdown</item>
+        <item>scene Bomb Injury</item>
+        <item>scene Bomb</item>
+        <item>door Open</item>
+        <item>scene Step</item>
+        <item>crawl</item>
+        <item>scope On</item>
+        <item>scope Off</item>
+        <item>magazine Quick</item>
+        <item>grenade</item>
+        <item>scene Getshot</item>
+        <item>grenade Explosion</item>
+        <item>punch</item>
+        <item>pan</item>
+        <item>bandage</item>
+        <item>scene Jump</item>
+        <item>vehicle Plane</item>
+        <item>scene Openparachute</item>
+        <item>scene Closeparachute</item>
+        <item>vehicle Collision</item>
+        <item>vehicle Buggy</item>
+        <item>vehicle Dacia</item>
+        <item>vehicle Moto</item>
+        <item>firearms Akm</item>
+        <item>firearms M16a4</item>
+        <item>firearms Awm</item>
+        <item>firearms Mini14</item>
+        <item>firearms Vss</item>
+        <item>firearms Qbz</item>
+        <item>firearms Ump9</item>
+        <item>firearms Dp28</item>
+        <item>firearms S1897</item>
+        <item>firearms P18c</item>
+        <item>Kill One</item>
+        <item>Headshot</item>
+        <item>Multi Kill</item>
+        <item>Kill One Strong</item>
+        <item>Headshot Strong</item>
+        <item>Multi Kill Strong</item>
+        <item>Weapon Grenade Explode</item>
+        <item>Weapon Grenade Kill One</item>
+        <item>Impact Flesh Normal</item>
+        <item>Weapon C4Installed</item>
+        <item>Hero Appear</item>
+        <item>UIReward Open Box</item>
+        <item>UIReward Task</item>
+        <item>Weapon BLTShoot</item>
+        <item>Atlantis</item>
+        <item>Digital Universe</item>
+        <item>Reveries</item>
+        <item>Fingerprint animation Triang</item>
+        <item>Fingerprint animation Flare</item>
+        <item>Fingerprint animation Ripple</item>
+        <item>Fingerprint animation Spiral</item>
+        <item>gamebox Launch</item>
+        <item>Gesture Back Pull</item>
+        <item>Gesture Back Release</item>
+        <item>alert</item>
+        <item>feedback Negative Light</item>
+        <item>feedback Neutral</item>
+        <item>feedback Positive</item>
+        <item>fingerprint Record</item>
+        <item>lockdown</item>
+        <item>sliding Damping</item>
+        <item>todo Alldone</item>
+        <item>uninstall Animation Icon</item>
+        <item>signal Button Highlight</item>
+        <item>signal Button Negative</item>
+        <item>signal Button</item>
+        <item>signal Clock High</item>
+        <item>signal Clock</item>
+        <item>signal Clock Unit</item>
+        <item>signal Inputbox</item>
+        <item>signal Key High</item>
+        <item>signal Key Unit</item>
+        <item>signal List Highlight</item>
+        <item>signal List</item>
+        <item>signal Picker</item>
+        <item>signal Popup</item>
+        <item>signal Seekbar</item>
+        <item>signal Switch</item>
+        <item>signal Tab</item>
+        <item>signal Text</item>
+        <item>signal Transition Light</item>
+        <item>signal Transition</item>
+        <item>haptics Video</item>
+        <item>Boundary Bounce</item>
+        <item>Boundary Bottom</item>
+        <item>Boundary Top</item>
+        <item>Slide Tag</item>
+        <item>Super Positive</item>
+        <item>Positive</item>
+        <item>Negative</item>
+        <item>Mute</item>
+        <item>Screen Lock</item>
+        <item>Fingerprint Unlock</item>
+        <item>Charge</item>
+        <item>Notification Cleanup</item>
+        <item>Process Cleanup</item>
+        <item>APPUninstallation</item>
+        <item>Game Box Startup</item>
+        <item>Editting Mode</item>
+        <item>Camera Shutter</item>
+        <item>micon</item>
+        <item>cardslide</item>
+        <item>answer1</item>
+        <item>answer2</item>
+        <item>like</item>
+        <item>dislike</item>
+        <item>longpress</item>
+        <item>Acoustic Guitar</item>
+    </string-array>
+</resources>

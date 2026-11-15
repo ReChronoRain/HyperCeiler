@@ -63,6 +63,14 @@ public final class HomeRecentsHapticOS4 {
 
     /** Enumerate the HAL's actual effect inventory; public constants supplement unknown inventories. */
     public record EffectInventory(java.util.SortedMap<Integer,Integer> ids,boolean complete) { }
+    /** Use the current framework's names for vendor IDs; never invent vendor meanings. */
+    public static String effectName(int id) {
+        try {
+            Object name=HiddenApiBypass.invoke(VibrationEffect.class,null,"effectIdToString",id);
+            if(name instanceof String text&&!text.isBlank()&&!text.equals(String.valueOf(id)))return text;
+        } catch(ReflectiveOperationException|RuntimeException unavailable) { }
+        return null;
+    }
     public static EffectInventory effectIds(Context context) {
         var result=new java.util.TreeMap<Integer,Integer>();
         boolean complete=false;

@@ -31,18 +31,8 @@
             android:key="prefs_key_home_recent_card_close_haptic"
             android:title="@string/home_recent_card_close_haptic"
             android:summary="@string/home_recent_card_close_haptic_summary" />
-        <SwitchPreference android:key="prefs_key_home_recent_card_haptic_custom"
-            android:defaultValue="false" android:title="@string/home_recent_haptic_custom" />
-        <Preference android:key="prefs_key_home_recent_card_haptic_effect_id"
-            android:title="@string/home_recent_haptic_effect_id" />
         <Preference android:key="home_recent_haptic_effects"
             android:title="@string/home_recent_haptic_effects" android:summary="@string/home_recent_haptic_effects_summary" />
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_home_recent_card_haptic_type"
-            android:title="@string/home_recent_card_haptic_type"
-            app:entries="@array/home_recent_card_haptic_types"
-            app:entryValues="@array/home_recent_card_haptic_values" />
         <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_card_haptic_strength"
             android:title="@string/home_recent_card_haptic_strength"

@@ -4744,6 +4744,7 @@ bool bind_recents_haptic() {
         reinterpret_cast<void*>(hc_recentshaptic_5_entry),reinterpret_cast<void*>(hc_recentshaptic_6_entry)};
     std::array<Slot,7> prepared{};
     for(size_t i=0;i<prepared.size();++i){auto& slot=prepared[i];
+        if(!(p.site_mask&(1u<<i)))continue;
         if(!bind_dart_target(p.sites[i],slot.address,slot.source,slot.original_words))return declined(10+unsigned(i),"verified no-call window unavailable");
         for(auto w:slot.original_words)if((w&0xfc000000u)==0x94000000u)return declined(20+unsigned(i),"managed call in replay window");
         slot.replacement=entries[i];slot.original=&hc_recentshaptic_originals[i];
@@ -4751,7 +4752,7 @@ bool bind_recents_haptic() {
     std::atomic_store_explicit(&g_recents_haptic_routing,std::make_shared<const home_layout::haptic::Plan>(p),std::memory_order_release);
     for(size_t i=0;i<prepared.size();++i)g_slots[kRecentsHapticSlotBase+i]=prepared[i];
     g_recents_haptic_bind_failure.store(0,std::memory_order_relaxed);
-    __android_log_print(ANDROID_LOG_INFO,kTag,"recents card haptic executable graph bound sites=7 notification_cids=%u/%u/%u; grid/linear/stack extents decoded, no fixed addresses or private symbols",p.start_cid,p.update_cid,p.end_cid);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"recents card haptic executable graph bound mask=%#x notification_cids=%u/%u/%u; independently proven notification/extent families, no fixed addresses or private symbols",p.site_mask,p.start_cid,p.update_cid,p.end_cid);
     return true;
 }
 
@@ -5254,8 +5255,10 @@ void publish_indicator_dot_delta() {
     g_prestart_ready.store(nhk::slot_ready(g_slots[kPrestartSlot])&&hc_prestart_original,std::memory_order_release);
     g_report_ready.store(nhk::slot_ready(g_slots[kReportSlot])&&hc_report_original,std::memory_order_release);
     g_shortcuts_ready.store(nhk::slot_ready(g_slots[kShortcutManagementSlot])&&hc_shortcuts_original,std::memory_order_release);
-    bool haptic_ready=true;
-    for(size_t i=0;i<7;++i)haptic_ready&=nhk::slot_ready(g_slots[kRecentsHapticSlotBase+i])&&hc_recentshaptic_originals[i];
+    const auto haptic_plan=std::atomic_load_explicit(&g_recents_haptic_routing,std::memory_order_acquire);
+    bool haptic_ready=bool(haptic_plan)&&haptic_plan->site_mask;
+    if(haptic_plan)for(size_t i=0;i<7;++i)if(haptic_plan->site_mask&(1u<<i))
+        haptic_ready&=nhk::slot_ready(g_slots[kRecentsHapticSlotBase+i])&&hc_recentshaptic_originals[i];
     hc_recents_haptic_ready(haptic_ready);
     bool widget_ready=g_runtime_features.widget&& !g_runtime_features.widget->builders.empty();
     if(widget_ready)for(size_t i=0;i<g_runtime_features.widget->builders.size();++i)

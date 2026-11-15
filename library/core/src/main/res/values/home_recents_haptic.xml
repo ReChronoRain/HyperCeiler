@@ -2,8 +2,27 @@
 <resources>
     <string name="home_recent_haptic_custom">Custom vibration effect ID</string>
     <string name="home_recent_haptic_effect_id">Vibration effect ID</string>
-    <string name="home_recent_haptic_effects">All vibration effect IDs</string>
-    <string name="home_recent_haptic_effects_summary">Show IDs reported by this device; tap to select and preview</string>
+    <string name="home_recent_haptic_effects">Vibration effects</string>
+    <string name="home_recent_haptic_picker_title">Choose vibration effect</string>
+    <string name="home_recent_haptic_preset">Preset</string>
+    <string name="home_recent_haptic_selected_preset">%1$s (preset)</string>
+    <string name="home_recent_haptic_enter_id">Enter ID</string>
+    <string name="home_recent_haptic_preview">Preview</string>
+    <string name="home_recent_haptic_effects_summary">Search by name or ID, preview and choose an effect</string>
+    <string name="home_recent_haptic_search">Search name or ID</string>
+    <string name="home_recent_haptic_use">Use this effect</string>
+    <string name="home_recent_haptic_selected_effect">%1$s (ID %2$d)</string>
+    <string name="home_recent_haptic_empty">No matching vibration effects</string>
+    <string name="home_recent_haptic_loading">Loading vibration effects…</string>
+    <string name="home_recent_haptic_effect_unnamed">Unnamed device feedback</string>
+    <string name="home_recent_haptic_effect_click">Click</string>
+    <string name="home_recent_haptic_effect_double_click">Double click</string>
+    <string name="home_recent_haptic_effect_tick">Tick</string>
+    <string name="home_recent_haptic_effect_thud">Thud</string>
+    <string name="home_recent_haptic_effect_pop">Pop</string>
+    <string name="home_recent_haptic_effect_heavy_click">Heavy click</string>
+    <string name="home_recent_haptic_effect_texture_tick">Texture tick</string>
+    <string name="home_recent_haptic_effect_ringtone">Ringtone pattern %1$d</string>
     <string name="home_recent_haptic_id_invalid">Enter a non-negative decimal or hexadecimal ID</string>
     <string name="home_recent_haptic_inventory_missing">The device did not expose a complete inventory. Only known system effects are listed.</string>
     <string name="home_recent_haptic_supported">Supported</string>
@@ -20,4 +39,10 @@
     <string name="home_recent_card_haptic_strength_summary">Available strength control depends on the device motor</string>
     <string-array name="home_recent_card_haptic_types"><item>Tick</item><item>Click</item><item>Thud</item><item>Double click</item></string-array>
     <string-array name="home_recent_card_haptic_values"><item>0</item><item>1</item><item>2</item><item>3</item></string-array>
+    <string name="home_recent_haptic_group_system">System actions</string>
+    <string name="home_recent_haptic_group_basic">Basic feedback</string>
+    <string name="home_recent_haptic_group_music">Music and rhythm</string>
+    <string name="home_recent_haptic_group_game">Game feedback</string>
+    <string name="home_recent_haptic_group_device">Device feedback</string>
+    <string name="home_recent_haptic_presets_group">Presets</string>
 </resources>

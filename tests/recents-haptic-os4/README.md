@@ -1,5 +1,104 @@
 # OS4 recents card vibration
 
+The tracker-based notification path is checked by
+`python tests/recents-haptic-os4/verify_tracker_grid.py` (C++20 compiler in `CXX`).
+This portable suite also executes both original 8583/8584 resolver and observation
+fixtures. The 9239 fixtures carry the source image SHA-256; their addresses are
+test inputs, never production lookup tables.
+
+The new path proves the phone/pad notification class dispatch and its shared
+pooled scenario tracker, tracker begin/end singleton source, actual boxed metrics
+consumer, real drag-details producer and grid calculator links. A separate
+admission proves the merged list/stack notification owner against those same
+class IDs and tracker calls, the linear extent/padding call and the stack
+offset/index inverse relation with its paired viewport callers. The merged
+callback receives updates even though its original body handles only start/end.
+List and stack share one feedback lane and publish their actual rendered strides
+to that lane; grid stride/state remains separate. The plan publishes a site mask,
+so an unavailable/ambiguous list family cannot disable a fully proven grid family.
+Only admitted slots participate in binding and readiness. The old complete
+seven-site graph is attempted first and retains its original separate lanes.
+
+The portable checks pass 685 grid and 878 shared-family instruction corruptions,
+independent relocation, missing/ambiguous owners, invalid notification/depth/
+pixel class, programmatic entry and unsupported-slot rejection. Both legacy
+fixtures also pass their existing 882 corruption and crossing/observation checks.
+Release builds successfully. Device validation on 2026-11-15 used the installed
+Release on 24129PN74C, launcher process 11123, with the existing root-socket
+configuration transport. The final graph bound mask `0x77`, ready=1, and received
+enabled=1/type=2/strength=100. Four horizontal stack-layout swipes recorded 785
+notification samples and 1508 extent observations, stride=274.847, queued=10,
+delivered=10, dropped=0. Android vibrator_manager independently recorded matching
+`com.miui.home` TOUCH waveforms (32 ms at amplitude 1.0) with status `finished`.
+This establishes actual stack gesture consumption and system vibration execution;
+subjective strength/sensation, the other layouts on-device, custom effect IDs and
+default WMS transport were not revalidated in this run. The earlier grid-only
+diagnostic build's mask `0x13` was insufficient for this device's stack layout.
+
+The settings page has one Vibration effects entry combining the four existing
+waveform presets and the device inventory. The redesigned picker has a full-width
+search field and no manual ID entry. Purpose categories appear once as group
+headings. Presets use compact single-line rows; device rows show a readable name
+and secondary decimal ID. Support-status labels and hexadecimal duplicates are absent.
+System actions are ordered before music/game effects. The native dialog list
+owns scrolling and text uses MIUIX dialog attributes. Search explicitly clears
+ALT_FOCUSABLE_IM because the editor is in the custom title, not setView.
+
+Vendor names come from current numbered RTP firmware filenames in ODM/vendor
+firmware directories. The application enumerates readable directories first,
+then uses its existing root helper on a background thread when necessary. No
+user path or command enters that read. Names are cached for the process; localized
+translations are keyed by semantic firmware stems, never vendor numerical ID
+lookup tables. Conflicting aliases decline naming. Unknown future stems retain
+their actual vendor name, while missing metadata is labeled honestly. Standard
+Android names remain the fallback for IDs in its own namespace.
+
+`JAVA_HOME=/path/to/jdk python tests/recents-haptic-os4/verify_firmware_names.py`
+checks the production filename index, changed IDs, duplicates, conflicts,
+malformed/path-like names, and aligned English/Chinese/category resources. The
+checked-in filename fixture was read from /odm/firmware on 24129PN74C; it contains
+203 numbered aliases. All 181 nonstandard stems have localized names.
+
+The latest Release was installed on 2026-11-15. Device UI checks confirmed the
+full-width search and absence of Input ID, with searches returning Card scrolling
+(ID 402), Camera shutter (217) and Acoustic guitar (521), their Chinese names
+and purpose categories. Android recorded the ID 521 preview starting; it was
+superseded by subsequent button feedback when canceling. The configuration
+observed before and after the final cancel-only check remained
+custom=true/effectId=118/type=2. Earlier picker acceptance also verified scrolling,
+search-filtered scrolling, preset/device selection and mode persistence. Manual
+input was tested in that earlier revision and has now been removed at user request.
+Other device font scales and on-device dark mode were not exercised.
+
+Search/previews do not save. Use writes the chosen value before selecting its
+mode using the existing custom/type/effect_id keys; native and endpoint consumers
+retain the original schema. The picker has only Cancel/Use actions.
+
+The follow-up search-field adjustment uses 16 dp title-panel side gutters instead
+of the library's larger title padding. On-device bounds changed from x=156..1044
+to x=91..1109 (888 to 1018 screen pixels). The preview instruction and its
+TextView/padding were subsequently removed at user request, leaving the search
+directly above the list. The installed width adjustment was checked through the live UI hierarchy.
+The IME Search action hides the keyboard without dismissing the picker.
+
+The subsequent layout pass removes duplicate title padding, aligns search/list
+gutters and uses MIUIX secondary text colors for category headings and IDs.
+Group headings are nonselectable and exposed as accessibility headings. Use is
+disabled when the current selection is absent from the filtered results.
+The installed Release was checked for grouped scrolling, ID 402 filtering,
+selection enabling Use, and empty results disabling Use. Cancel preserved
+custom=true/effectId=118/type=2 in physical preferences. This pass did not assess
+subjective preview sensation, other font scales, dark mode or screen readers.
+
+The searchable picker now uses a nonimmersive, top-anchored dialog with window
+resize, rather than the bottom dialog's whole-panel IME translation. The native
+list still owns scrolling. Fractional window margins and vertical offsets are
+cleared so filtering and IME resizing cannot change the editor's top position.
+On the installed Release, the title stayed at y=218..357 and search at
+y=357..513 screen pixels before opening the IME, with the IME visible, after
+filtering to ID 402 and after hiding the IME. Cancel retained the existing
+custom=true/effectId=118/type=2 configuration.
+
 Run `JAVA_HOME=/path/to/jdk python3 run.py` here. Fixtures are independently compacted executable
 instructions from launchers 8583 and 8584. Production discovery uses no names,
 ELF sections or stored image addresses. It proves four recents-only notification

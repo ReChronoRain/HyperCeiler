@@ -62,35 +62,17 @@ public class HomeRecentSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        initCustomHaptics();
+        initHapticEffects();
         findPreference("home_recent_haptic_category").setVisible(isHyperOSVersion(4f));
-        DropDownPreference hapticType = findPreference("prefs_key_home_recent_card_haptic_type");
-        hapticType.setOnPreferenceChangeListener((preference, value) -> {
-            int type = Integer.parseInt((String) value);
-            var values=new java.util.HashMap<String,Object>(PrefsBridge.getAll());
-            values.put("prefs_key_home_recent_card_haptic_type",String.valueOf(type));
-            var profile=com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.profile(values);
-            if (profile==null||!HomeRecentsHapticOS4.perform(requireContext().getApplicationContext(), profile, 1)) {
-                Toast.makeText(requireContext(), R.string.home_recent_card_haptic_preview_unavailable, Toast.LENGTH_SHORT).show();
-            }
-            return true;
+        SwitchPreference scrollHaptic=findPreference("prefs_key_home_recent_card_haptic");
+        SwitchPreference closeHaptic=findPreference("prefs_key_home_recent_card_close_haptic");
+        Preference hapticStrength=findPreference("prefs_key_home_recent_card_haptic_strength");
+        hapticStrength.setEnabled(scrollHaptic.isChecked()||closeHaptic.isChecked());
+        scrollHaptic.setOnPreferenceChangeListener((preference,value)->{
+            hapticStrength.setEnabled((Boolean)value||closeHaptic.isChecked());return true;
         });
-        SwitchPreference scrollHaptic = findPreference("prefs_key_home_recent_card_haptic");
-        SwitchPreference closeHaptic = findPreference("prefs_key_home_recent_card_close_haptic");
-        SwitchPreference customHaptic = findPreference("prefs_key_home_recent_card_haptic_custom");
-        Preference hapticStrength = findPreference("prefs_key_home_recent_card_haptic_strength");
-        hapticType.setEnabled((scrollHaptic.isChecked() || closeHaptic.isChecked())&&!customHaptic.isChecked());
-        hapticStrength.setEnabled(scrollHaptic.isChecked() || closeHaptic.isChecked());
-        scrollHaptic.setOnPreferenceChangeListener((preference, value) -> {
-            boolean enabled = (Boolean) value || closeHaptic.isChecked();
-            hapticType.setEnabled(enabled&&!customHaptic.isChecked());hapticStrength.setEnabled(enabled);return true;
-        });
-        closeHaptic.setOnPreferenceChangeListener((preference, value) -> {
-            boolean enabled = (Boolean) value || scrollHaptic.isChecked();
-            hapticType.setEnabled(enabled&&!customHaptic.isChecked());hapticStrength.setEnabled(enabled);return true;
-        });
-        customHaptic.setOnPreferenceChangeListener((preference,value)->{
-            hapticType.setEnabled((scrollHaptic.isChecked()||closeHaptic.isChecked())&&!(Boolean)value);return true;
+        closeHaptic.setOnPreferenceChangeListener((preference,value)->{
+            hapticStrength.setEnabled((Boolean)value||scrollHaptic.isChecked());return true;
         });
         mShowLaunch = findPreference("prefs_key_home_recent_show_launch");
         mHideWorldCirculate = findPreference("prefs_key_home_recent_hide_world_circulate");
@@ -148,48 +130,47 @@ public class HomeRecentSettings extends DashboardFragment {
         HomeOS4AdaptationGate.apply(getPreferenceScreen(), getPreferenceScreenResId());
     }
 
-    private void previewEffect(int id) {
-        var profile=new com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.Profile(true,true,0,
-            PrefsBridge.getInt("home_recent_card_haptic_strength",50),true,id);
+    private HomeHapticEffectsDialog.Selection currentHapticEffect() {
+        boolean custom=PrefsBridge.getBoolean("home_recent_card_haptic_custom",false);
+        try {
+            int value=custom?com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.effectId(
+                PrefsBridge.getString("home_recent_card_haptic_effect_id","0"))
+                :Integer.parseInt(PrefsBridge.getString("home_recent_card_haptic_type","0"));
+            if(value<0||(!custom&&value>3))throw new NumberFormatException();
+            return new HomeHapticEffectsDialog.Selection(custom,value);
+        } catch(NumberFormatException invalid){return new HomeHapticEffectsDialog.Selection(false,0);}
+    }
+
+    private void previewHapticEffect(HomeHapticEffectsDialog.Selection selected) {
+        var profile=new com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.Profile(true,true,
+            selected.custom()?0:selected.value(),PrefsBridge.getInt("home_recent_card_haptic_strength",50),
+            selected.custom(),selected.custom()?selected.value():0);
         if(!HomeRecentsHapticOS4.perform(requireContext().getApplicationContext(),profile,1))
             Toast.makeText(requireContext(),R.string.home_recent_card_haptic_preview_unavailable,Toast.LENGTH_SHORT).show();
     }
-    private void initCustomHaptics() {
-        SwitchPreference custom=findPreference("prefs_key_home_recent_card_haptic_custom");
-        Preference effect=findPreference("prefs_key_home_recent_card_haptic_effect_id");
-        effect.setSummary(PrefsBridge.getString("home_recent_card_haptic_effect_id","0"));
-        effect.setDependency(custom.getKey());
-        effect.setOnPreferenceClickListener(preference->{
-            var input=new android.widget.EditText(requireContext());
-            input.setSingleLine(true);input.setText(PrefsBridge.getString("home_recent_card_haptic_effect_id","0"));
-            var dialog=new fan.appcompat.app.AlertDialog.Builder(requireContext())
-                .setTitle(R.string.home_recent_haptic_effect_id).setView(input)
-                .setPositiveButton(android.R.string.ok,null).setNegativeButton(android.R.string.cancel,null).create();
-            dialog.setOnShowListener(ignored->dialog.getButton(android.content.DialogInterface.BUTTON_POSITIVE).setOnClickListener(view->{
-                try {
-                    int id=com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.effectId(input.getText().toString());
-                    if(id<0)throw new NumberFormatException();
-                    PrefsBridge.putString("home_recent_card_haptic_effect_id",String.valueOf(id));
-                    effect.setSummary(String.valueOf(id));previewEffect(id);dialog.dismiss();
-                } catch(NumberFormatException invalid){input.setError(getString(R.string.home_recent_haptic_id_invalid));}
-            }));dialog.show();return true;
-        });
-        findPreference("home_recent_haptic_effects").setOnPreferenceClickListener(preference->{
-            var inventory=HomeRecentsHapticOS4.effectIds(requireContext().getApplicationContext());
-            var ids=new java.util.ArrayList<>(inventory.ids().keySet());
-            String[] labels=new String[ids.size()];
-            for(int i=0;i<ids.size();++i) {
-                int id=ids.get(i),support=inventory.ids().get(id);
-                int label=support==android.os.Vibrator.VIBRATION_EFFECT_SUPPORT_YES?R.string.home_recent_haptic_supported
-                    :support==android.os.Vibrator.VIBRATION_EFFECT_SUPPORT_NO?R.string.home_recent_haptic_unsupported:R.string.home_recent_haptic_unknown;
-                labels[i]=id+" (0x"+Integer.toHexString(id)+") · "+getString(label);
-            }
-            if(!inventory.complete())Toast.makeText(requireContext(),R.string.home_recent_haptic_inventory_missing,Toast.LENGTH_LONG).show();
-            new fan.appcompat.app.AlertDialog.Builder(requireContext()).setTitle(R.string.home_recent_haptic_effects)
-                .setItems(labels,(dialog,which)->{
-                    int id=ids.get(which);PrefsBridge.putString("home_recent_card_haptic_effect_id",String.valueOf(id));
-                    effect.setSummary(String.valueOf(id));previewEffect(id);
-                }).setNegativeButton(android.R.string.cancel,null).show();return true;
+
+    private void initHapticEffects() {
+        Preference picker=findPreference("home_recent_haptic_effects");
+        picker.setSummary(HomeHapticEffectsDialog.summary(requireContext(),currentHapticEffect()));
+        new Thread(()->{
+            HomeHapticEffectCatalog.load();
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(()->{
+                if(isAdded())picker.setSummary(HomeHapticEffectsDialog.summary(requireContext(),currentHapticEffect()));
+            });
+        },"HomeHapticNames").start();
+        picker.setOnPreferenceClickListener(preference->{
+            HomeHapticEffectsDialog.show(requireContext(),currentHapticEffect(),this::previewHapticEffect,selected->{
+                // Prepare the selected mode's value first, then switch modes. Existing
+                // preference keys and both native/configuration consumers remain intact.
+                if(selected.custom()){
+                    PrefsBridge.putString("home_recent_card_haptic_effect_id",String.valueOf(selected.value()));
+                }else{
+                    PrefsBridge.putString("home_recent_card_haptic_type",String.valueOf(selected.value()));
+                }
+                PrefsBridge.putBoolean("home_recent_card_haptic_custom",selected.custom());
+                picker.setSummary(HomeHapticEffectsDialog.summary(requireContext(),selected));
+            });
+            return true;
         });
     }
 

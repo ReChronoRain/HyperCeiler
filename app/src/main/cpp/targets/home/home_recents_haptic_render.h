@@ -12,7 +12,7 @@ template<class Read> Observation observe(const recent_render::Registers& s,const
         if(!object(owner)||!read(owner+field,&low,4)||!(low&1)||low==uint32_t(s.x[22]))return false;
         out=uint64_t(low)+(s.x[28]<<32);return object(out);
     };
-    if(action>=7)return {};
+    if(action>=7||!(p.site_mask&(1u<<action)))return {};
     if(action==4){
         const auto layout=s.x[3];uint32_t axis=0;uint64_t horizontal=0;double spacing=0;
         if(!object(layout)||!read(layout+p.axis,&axis,4)||!read(s.x[27]+p.horizontal_pool,&horizontal,8)
@@ -21,7 +21,7 @@ template<class Read> Observation observe(const recent_render::Registers& s,const
     }
     if(action==5)return {true,true,2,Event::Update,s.d(1)+s.d(2)};
     if(action==6){double extent=0;if(!object(s.x[1])||!read(s.x[1]+p.stack_extent,&extent,8))return {};
-        return {true,true,3,Event::Update,extent};}
+        return {true,true,p.shared_list?2u:3u,Event::Update,extent};}
     const auto notification=s.x[2];uint64_t tags=0;int64_t depth=0;
     if(!object(notification)||!read(notification-1,&tags,8)||!read(notification+p.depth,&depth,8)||depth)return {};
     const uint32_t cid=(tags>>12)&0xfffff;

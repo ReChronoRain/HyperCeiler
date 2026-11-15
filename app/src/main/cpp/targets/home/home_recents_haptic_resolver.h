@@ -2,10 +2,13 @@
 #pragma once
 #include "home_feature_code.h"
 #include "home_dynamic_layout.h"
+#include "home_recents_haptic_tracker_shapes.h"
 #include <optional>
 
 namespace home_layout::haptic {
 struct Plan {
+    uint32_t site_mask=0x7f; // Only a complete, independently proven notification/layout family is enabled.
+    bool shared_list=false; // One notification owner now serves both list and stack layouts.
     std::array<uint32_t,7> sites{}; // Four scoped notifications, grid/list/stack extent sources.
     uint32_t begin=0,end=0,start_cid=0,update_cid=0,end_cid=0,double_cid=0;
     uint32_t item=0,single=0,padding=0,inverse=0,start_producer=0,start_factory=0;
@@ -184,7 +187,7 @@ inline constexpr uint32_t inverse[]={
 };
 } // namespace shapes
 
-inline std::optional<Plan> resolve(const features::Code& code) {
+inline std::optional<Plan> resolve_legacy(const features::Code& code) {
     using namespace home_dynamic;
     const auto unique=[&](const auto& shape)->const features::Function* {
         const features::Function* found=nullptr;
@@ -252,5 +255,95 @@ inline std::optional<Plan> resolve(const features::Code& code) {
     }
     if(callers!=1)return {};
     return p;
+}
+
+// The tracker-based grid notifications no longer call the old recents controller.
+// Admit this complete grid family independently; append the shared list/stack
+// family only after proving its notification owner and both extent producers.
+inline std::optional<Plan> resolve_tracker_grid(const features::Code& code) {
+    using namespace home_dynamic;
+    const auto unique=[&](const auto& shape)->const features::Function* {
+        const features::Function* found=nullptr;
+        for(const auto& f:code.functions())if(shapes::matches(f.words,shape)){
+            if(found)return nullptr;found=&f;
+        }
+        return found;
+    };
+    const auto phone=unique(shapes::phone_tracker),pad=unique(shapes::pad_tracker);
+    const auto begin=unique(shapes::tracker_begin),end=unique(shapes::tracker_end);
+    const auto grid=unique(shapes::grid),item=unique(shapes::item),single=unique(shapes::single);
+    const auto producer=unique(shapes::start_producer);
+    if(!phone||!pad||!begin||!end||!grid||!item||!single||!producer)return {};
+    const auto call=[](const features::Function& f,size_t i){uint32_t to=0;
+        return target(f.words[i],f.va+uint32_t(i*4),to)?to:0;};
+    if(call(*phone,34)!=begin->va||call(*phone,41)!=end->va
+        ||call(*pad,31)!=begin->va||call(*pad,38)!=end->va
+        ||call(*item,25)!=grid->va||call(*item,17)!=single->va)return {};
+    // Both dispatchers pass the very same original pooled tracker to begin/end.
+    const auto& b=phone->words;const auto& a=pad->words;
+    for(auto at:{32u,39u})if(b[at]!=b[32]||b[at+1]!=b[33])return {};
+    for(auto at:{29u,36u})if(a[at]!=b[32]||a[at+1]!=b[33])return {};
+    // The tracker methods read the same lazy singleton and initializer; their
+    // original scenario-state checks and all managed calls remain in place.
+    for(auto i:{5u,6u,10u,11u})if(begin->words[i]!=end->words[i])return {};
+    if(!call(*begin,12)||call(*begin,12)!=call(*end,12))return {};
+    const auto classes=[](const Body& words){std::vector<uint32_t> ids;
+        for(size_t i=0;i+2<words.size();++i)if(movz(words[i],17)
+            &&(words[i+1]&0xfffffc1fu)==0xeb11001fu
+            &&(words[i+2]&0xff00001fu)==0x54000001u)ids.push_back(zimm(words[i]));
+        return ids;
+    };
+    const auto ids=classes(b);
+    if(ids.size()!=3||classes(a)!=ids||ids[0]==ids[1]||ids[0]==ids[2]||ids[1]==ids[2])return {};
+    Plan p;p.site_mask=(1u<<0)|(1u<<1)|(1u<<4);
+    p.sites={phone->va,pad->va,0,0,grid->va,0,0};
+    p.begin=begin->va;p.end=end->va;p.item=item->va;p.single=single->va;
+    p.start_cid=ids[0];p.end_cid=ids[1];p.update_cid=ids[2];
+    p.depth=imm9(b[5]);p.metrics=imm9(b[48]);p.pixels=imm9(b[50]);p.payload=imm9(b[62]);
+    if(p.depth!=imm9(a[5])||!field(p.depth)||!field(p.metrics)||!field(p.pixels)||!field(p.payload))return {};
+    p.start_producer=producer->va;p.start_factory=call(*producer,39);
+    Body factory;uint32_t start_tag=0;
+    if(!p.start_factory||p.start_factory!=call(*producer,71)||!code.prefix(p.start_factory,3,factory)
+        ||!tag(factory,start_tag)||(factory[2]&0xfc000000u)!=0x14000000u
+        ||(start_tag>>12)!=p.start_cid)return {};
+    p.drag_details=imm9(producer->words[74]);
+    const uint32_t notification_size=((start_tag>>8)&15)*16;
+    if(!field(p.drag_details)||p.drag_details==p.metrics||p.drag_details==p.depth
+        ||uint32_t(p.drag_details+5)>notification_size||p.metrics!=imm9(producer->words[76])
+        ||p.depth!=imm9(producer->words[79]))return {};
+    const uint32_t double_tag=zimm(b[72])|(zimm(b[73])<<16);
+    if(!double_tag||double_tag!=(zimm(b[82])|(zimm(b[83])<<16))||((double_tag>>8)&15)!=1
+        ||p.payload+9>16||p.payload!=imm9(b[75])||p.payload!=imm9(b[85]))return {};
+    p.double_cid=double_tag>>12;
+    p.axis=imm9(grid->words[4]);p.horizontal_pool=uoff(grid->words[13]);p.spacing=imm9(grid->words[43]);
+    if(!field(p.axis)||!field(p.spacing)||!p.horizontal_pool||p.spacing!=imm9(grid->words[32])
+        ||p.spacing!=imm9(grid->words[91]))return {};
+    // The newer AOT shares the list/stack notification owner. It still receives
+    // UPDATE notifications, although the original body only handles start/end.
+    // Both layouts now use one feedback session and their actual rendered
+    // extent producer publishes into that same lane. Grid lanes stay separate.
+    const auto list=unique(shapes::shared_list_tracker),extent=unique(shapes::extent);
+    const auto padding=unique(shapes::padding),index=unique(shapes::index),inverse=unique(shapes::inverse);
+    if(list&&extent&&padding&&index&&inverse&&classes(list->words)==std::vector<uint32_t>{ids[0],ids[1]}
+        &&call(*list,11)==begin->va&&call(*list,18)==end->va&&call(*extent,27)==padding->va
+        &&list->words[9]==b[32]&&list->words[10]==b[33]
+        &&list->words[16]==b[32]&&list->words[17]==b[33]
+        &&field(imm9(index->words[4]))&&imm9(index->words[4])==imm9(inverse->words[1])) {
+        unsigned callers=0;bool linked=true;
+        for(const auto& f:code.functions()){
+            unsigned edges=0;for(size_t i=0;i<f.words.size();++i)edges+=call(f,i)==index->va;
+            if(edges){if(edges!=2||!frame_size(f.words)){linked=false;break;}++callers;}
+        }
+        if(linked&&callers==1){
+            p.shared_list=true;p.site_mask|=(1u<<2)|(1u<<5)|(1u<<6);
+            p.sites[2]=list->va;p.sites[5]=extent->va+31*4;p.sites[6]=index->va;
+            p.padding=padding->va;p.inverse=inverse->va;p.stack_extent=imm9(index->words[4]);
+        }
+    }
+    return p;
+}
+inline std::optional<Plan> resolve(const features::Code& code) {
+    if(auto legacy=resolve_legacy(code))return legacy;
+    return resolve_tracker_grid(code);
 }
 } // namespace home_layout::haptic
