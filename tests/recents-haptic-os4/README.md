@@ -90,14 +90,21 @@ selection enabling Use, and empty results disabling Use. Cancel preserved
 custom=true/effectId=118/type=2 in physical preferences. This pass did not assess
 subjective preview sensation, other font scales, dark mode or screen readers.
 
-The searchable picker now uses a nonimmersive, top-anchored dialog with window
-resize, rather than the bottom dialog's whole-panel IME translation. The native
-list still owns scrolling. Fractional window margins and vertical offsets are
-cleared so filtering and IME resizing cannot change the editor's top position.
-On the installed Release, the title stayed at y=218..357 and search at
-y=357..513 screen pixels before opening the IME, with the IME visible, after
-filtering to ID 402 and after hiding the IME. Cancel retained the existing
-custom=true/effectId=118/type=2 configuration.
+The searchable picker uses a nonimmersive bottom-anchored panel. A full-height
+window receives IME insets without platform panning. While the IME is visible,
+the native list gets an explicit height after reserving the measured title and
+action chrome; the panel retains its resting top where space permits, with a
+minimum useful keyboard viewport on shorter windows. Filtering keeps that
+viewport stable. Hiding the IME restores wrap-content sizing at the bottom.
+This replaces the earlier top-anchored revision, which kept the editor stable
+but incorrectly moved the resting picker to the top of the screen.
+The installed Release was checked with the title at y=814..953 and editor at
+y=953..1109, unchanged after IME opening and ID 402 filtering. The shortened
+native list scrolled to show the complete Card scrolling name and ID. Both
+actions remained visible above the IME. Hiding the keyboard restored the
+filtered panel to the bottom (action bounds y=2364..2527). Cancel preserved
+custom=true/effectId=118/type=2. Other keyboard heights and orientations were
+not checked on-device.
 
 Run `JAVA_HOME=/path/to/jdk python3 run.py` here. Fixtures are independently compacted executable
 instructions from launchers 8583 and 8584. Production discovery uses no names,

@@ -107,16 +107,15 @@ final class HomeHapticEffectsDialog {
         var dialog=builder.setCustomTitle(header).setAdapter(adapter,null)
             .setPositiveButton(R.string.home_recent_haptic_use,null)
             .setNegativeButton(android.R.string.cancel,null).create();
-        // This searchable picker needs a stable top edge. The immersive bottom
-        // dialog translates its whole panel above the IME and moves it again
-        // whenever filtering changes the list height. Let the window resize
-        // the native list instead, keeping the title and editor in place.
+        // Keep the usual bottom placement. Handle IME space in the list rather
+        // than letting the immersive controller translate the entire panel.
         dialog.setEnableImmersive(false);
         dialog.setOnShowListener(ignored->{
             View body=dialog.findViewById(fan.appcompat.R.id.parentPanel);
             if(body!=null&&body.getLayoutParams() instanceof android.widget.FrameLayout.LayoutParams params){
-                params.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;
+                params.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;
                 body.setLayoutParams(params);
+                keepBottomPickerAboveKeyboard(body,search,dialog.getListView());
             }
             // Custom titles inherit the library's large title-panel side padding.
             // Use ordinary field gutters so the search fills the dialog body.
@@ -162,17 +161,72 @@ final class HomeHapticEffectsDialog {
         });
         header.setFocusableInTouchMode(true);header.requestFocus();
         dialog.show();
-        dialog.getWindow().setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL);
-        // The library's bottom-dialog margin is a fraction of window height;
-        // retaining it on a top-anchored window makes the editor drift on IME
-        // resize and on each filtered content-height change.
+        dialog.getWindow().setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
+        // Use pixels for the bottom gap: fractional margins drift on resize.
         var windowParams=dialog.getWindow().getAttributes();
         windowParams.verticalMargin=0;windowParams.y=0;
+        windowParams.height=ViewGroup.LayoutParams.MATCH_PARENT;
         dialog.getWindow().setAttributes(windowParams);
         dialog.getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-            |android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            |android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         // AlertController only checks setView for editors; ours is in the title.
         dialog.getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+    }
+
+    private static void keepBottomPickerAboveKeyboard(View body,EditText search,ListView list){
+        if(!(body.getParent() instanceof View root))return;
+        int[] restingTop={-1},chromeHeight={0};boolean[] keyboardVisible={false};
+        list.addOnLayoutChangeListener((view,left,top,right,bottom,oldLeft,oldTop,oldRight,oldBottom)->{
+            // The native panel can change its internal spacing in a short
+            // viewport. Reconcile that measured chrome before clipping a row.
+            int measuredChrome=body.getHeight()-list.getHeight();
+            if(keyboardVisible[0]&&list.getHeight()<dp(root.getContext(),100)
+                &&measuredChrome>chromeHeight[0]){
+                chromeHeight[0]=measuredChrome;root.post(root::requestApplyInsets);
+            }
+        });
+        // Capture before IME layout, while the panel still rests at the bottom.
+        search.setOnFocusChangeListener((view,focused)->{
+            if(focused&&!keyboardVisible[0]){
+                restingTop[0]=body.getTop();chromeHeight[0]=body.getHeight()-list.getHeight();
+            }
+        });
+        root.setOnApplyWindowInsetsListener((view,insets)->{
+            boolean visible=insets.isVisible(android.view.WindowInsets.Type.ime());
+            if(visible&&restingTop[0]<0){
+                restingTop[0]=body.getTop();chromeHeight[0]=body.getHeight()-list.getHeight();
+            }
+            keyboardVisible[0]=visible;
+            if(body.getLayoutParams() instanceof android.widget.FrameLayout.LayoutParams params){
+                if(visible){
+                    int[] origin=new int[2],windowOrigin=new int[2];root.getLocationOnScreen(origin);
+                    root.getRootView().getLocationOnScreen(windowOrigin);
+                    int keyboardTop=windowOrigin[1]+root.getRootView().getHeight()
+                        -insets.getInsets(android.view.WindowInsets.Type.ime()).bottom;
+                    int available=Math.max(0,keyboardTop-origin[1]);
+                    // Preserve room for an actual result as well as the title,
+                    // editor and actions, even on a short keyboard viewport.
+                    int minimumBody=Math.max(chromeHeight[0]+dp(root.getContext(),100),dp(root.getContext(),360));
+                    int top=Math.min(restingTop[0],Math.max(0,available-minimumBody));
+                    params.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;
+                    params.topMargin=top;params.bottomMargin=0;
+                    params.height=ViewGroup.LayoutParams.WRAP_CONTENT;
+                    var listParams=list.getLayoutParams();
+                    listParams.height=Math.max(0,available-top-chromeHeight[0]);
+                    list.setLayoutParams(listParams);
+                }else{
+                    params.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;
+                    params.topMargin=0;params.bottomMargin=0;
+                    params.height=ViewGroup.LayoutParams.WRAP_CONTENT;
+                    var listParams=list.getLayoutParams();listParams.height=ViewGroup.LayoutParams.WRAP_CONTENT;
+                    list.setLayoutParams(listParams);
+                    restingTop[0]=-1;
+                }
+                body.setLayoutParams(params);
+            }
+            return view.onApplyWindowInsets(insets);
+        });
+        root.requestApplyInsets();
     }
 
     private static void textColor(TextView view,int attribute){
