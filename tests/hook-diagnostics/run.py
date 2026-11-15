@@ -11,6 +11,7 @@ with tempfile.TemporaryDirectory(prefix='hc-hook-diagnostics-')as temp:
  subprocess.run(['java','-ea','-cp',temp,'ExportTest'],check=True)
 
 subprocess.run(['python3',str(R/'tests/hook-diagnostics/observer.py')],check=True)
+subprocess.run(['python3',str(R/'tests/hook-diagnostics/module_identity.py')],check=True)
 with tempfile.TemporaryDirectory(prefix='hc-hook-native-diagnostics-')as temp:
  binary=Path(temp)/'native'
  subprocess.run(['c++','-std=c++20','-O2','-Wall','-Wextra','-Werror','-I'+str(R/'app/src/main/cpp'),str(R/'tests/hook-diagnostics/native.cpp'),'-o',str(binary)],check=True)

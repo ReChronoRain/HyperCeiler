@@ -92,6 +92,7 @@ struct FolderPreviewPlan {
     uint32_t source_alloc_site=UINT32_MAX, anchor_alloc_site=UINT32_MAX, real_alloc_site=UINT32_MAX;
     int anchor_frame=0, scale_x_frame=0, scale_y_frame=0;
     uint32_t padding_site=UINT32_MAX; int config_cell=0, cell_padding=0, cache_icon_width=0, cache_icon_height=0;
+    bool padding_helper=false;
     // FolderAnimController._calcFolderPreviewLoc: the destination preview is built there, so the
     // index that selects the cell is still a live register. Two windows are spliced - the one that
     // has just materialised `index` in x2, and the one that stores the finished Offset into the
@@ -122,7 +123,8 @@ inline bool preview_call_to(uint32_t w,uint32_t pc,uint32_t target){
 inline bool folder_preview_plan(std::span<const uint32_t>build,std::span<const uint32_t>layout,
         std::span<const uint32_t>close,std::span<const uint32_t>cache,std::span<const uint32_t>width_owner,
         uint32_t build_va,uint32_t height_va,std::span<const uint32_t> end,std::span<const uint32_t> real,
-        std::span<const uint32_t> preview,std::span<const uint32_t> init,std::span<const uint32_t> padding,FolderPreviewPlan &out){
+        std::span<const uint32_t> preview,std::span<const uint32_t> init,std::span<const uint32_t> padding,FolderPreviewPlan &out,
+        uint32_t cache_va=0,uint32_t cell_width_call=0,uint32_t cell_height_call=0,uint32_t padding_va=0){
     FolderPreviewPlan p;unsigned builders=0,contexts=0,layouts=0,closes=0,indices=0;
     size_t builder_at=0,context_at=0;
     for(size_t i=0;i+15<build.size();++i){
@@ -181,6 +183,29 @@ inline bool folder_preview_plan(std::span<const uint32_t>build,std::span<const u
             }
         }
     }
+    // New AOT keeps cell metrics in linked double-returning helpers. The same
+    // original D0 is boxed and stored into this animation controller after the
+    // nursery fast path. Derive the destination from that producer/consumer pair.
+    if(!p.cache_width&&!p.cache_height&&cache_va&&cell_width_call&&cell_height_call){
+        unsigned widths=0,heights=0;
+        for(size_t i=0;i+13<cache.size();++i){
+            const bool w=preview_call_to(cache[i],cache_va+uint32_t(i*4),cell_width_call);
+            const bool h=preview_call_to(cache[i],cache_va+uint32_t(i*4),cell_height_call);
+            if(!w&&!h)continue;
+            const unsigned owner=cache[i+11]&31;
+            if(cache[i+1]!=0xa9460740u||cache[i+2]!=0x91004000u||cache[i+3]!=0xeb00003fu
+                ||(cache[i+4]&0xff00001fu)!=0x54000009u
+                ||cache[i+5]!=0xf9003340u||cache[i+6]!=0xd1003c00u
+                ||(cache[i+7]&0xffe0001fu)!=0xd2800001u||(cache[i+8]&0xffe0001fu)!=0xf2a00001u
+                ||cache[i+9]!=0xf81ff001u||cache[i+10]!=0xfc007000u
+                ||(cache[i+11]&0xffe00fe0u)!=0xf84003a0u||(owner!=1&&owner!=2)
+                ||(cache[i+12]&0xffe0001fu)!=0xd2800011u
+                ||cache[i+13]!=(0xb8316800u|(owner<<5)))return false;
+            const int field=int((cache[i+12]>>5)&65535);
+            if(w){p.cache_width=field;++widths;}else{p.cache_height=field;++heights;}
+        }
+        if(widths!=1||heights!=1||p.cache_width==p.cache_height)return false;
+    }
     unsigned pads=0,cache_pads=0,icons=0;
     for(size_t i=0;i+2<padding.size();++i)
         if((padding[i]&0xffe00fff)==0xb8400001&&padding[i+1]==0x8b1c8021
@@ -189,7 +214,8 @@ inline bool folder_preview_plan(std::span<const uint32_t>build,std::span<const u
         }
     for(size_t i=0;i+3<cache.size();++i){
         if((cache[i]&0xffe00fff)==0xb8400001&&preview_imm9(cache[i])==p.config_cell
-            &&cache[i+1]==0x8b1c8021&&cache[i+2]==0xfc40f020&&cache[i+3]==0xa9460740){
+            &&cache[i+1]==0x8b1c8021&&(cache[i+2]&0xffe00fffu)==0xfc400020u
+            &&preview_imm9(cache[i+2])==p.cell_padding&&cache[i+3]==0xa9460740){
             p.padding_site=uint32_t(i*4);++cache_pads;
         }
         if(cache[i]!=0xfc417020)continue; // original config iconSize
@@ -200,8 +226,17 @@ inline bool folder_preview_plan(std::span<const uint32_t>build,std::span<const u
                 ++icons;break;
             }
     }
+    if(pads==1&&!cache_pads&&padding_va){
+        for(size_t i=0;i+5<padding.size();++i)
+            if((padding[i]&0xffe00fffu)==0xb8400001u&&preview_imm9(padding[i])==p.config_cell
+                &&padding[i+1]==0x8b1c8021u&&(padding[i+2]&0xffe00fffu)==0xfc400020u
+                &&preview_imm9(padding[i+2])==p.cell_padding&&padding[i+3]==0xaa1d03efu
+                &&padding[i+4]==0xa8c179fdu&&padding[i+5]==0xd65f03c0u){
+                p.padding_site=uint32_t(i*4);p.padding_helper=true;++cache_pads;
+            }
+    }
     if(pads!=1||cache_pads!=1||icons!=2||p.config_cell<=0||p.cell_padding<=0
-        ||!preview_window(cache,p.padding_site))return false;
+        ||!preview_window(p.padding_helper?padding:cache,p.padding_site))return false;
     // calGridWidth writes this exact FolderGridViewGetxController receiver.
     // gridContainerWidth's same-looking field belongs to GridConfig and is NOT
     // evidence for this object, even when both happen to be +0x53 in one build.

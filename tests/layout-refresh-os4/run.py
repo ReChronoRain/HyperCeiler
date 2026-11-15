@@ -72,6 +72,8 @@ int main(){
     assert(guard_probes==3&&!g_drawer_search_ready&&install_calls==0);
     runtime_valid=true;madvise_guard_state=1;
 
+    reset();cached.tweaks.icon_scale_enabled=false;cached.object_scales[2].enabled=false;
+    prime_home_layout_first_render_locked();assert(!hc_icon_render_enabled&&!hc_widget_scale_enabled&&hc_folder_icon_scale_enabled);
     reset();cached.drawer_hide_search=true;cached.tweaks.icon_scale_enabled=true;cached.knobs[0]={true,35};
     prime_home_layout_first_render_locked();
     assert(g_slots[kDockPositionSlotBase].ready&&g_slots[kDockPositionSlotBase+1].ready);
@@ -79,7 +81,7 @@ int main(){
     assert(hc_hotseat_margin_caller_count==2&&hc_hotseat_margin_callers[0]==0x102e&&hc_hotseat_margin_callers[1]==0x1032);
     for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();
     assert(config_reads==1&&discoveries==1&&install_calls==1&&image_reads==1);
-    reset();cached.knobs[0]={true,0};prime_home_layout_first_render_locked();assert(scale==1&&margin==70);
+    reset();cached.tweaks.icon_scale_enabled=false;cached.knobs[0]={true,0};prime_home_layout_first_render_locked();assert(scale==1&&margin==70);
     // Unsupported optional families cannot make every subsequent property read
     // retry a bank install or reread its configuration on the rendering thread.
     for(unsigned missing=0;missing<3;++missing){reset();cached.drawer_hide_search=true;

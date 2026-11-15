@@ -6,6 +6,7 @@ extern "C" void hc_home_diagnostic_sample();
 #include "home_icon_feature_resolver.h"
 #include "home_folder_feature_resolver.h"
 #include "home_medium_folder_scale.h"
+#include "home_folder_title_center.h"
 #include "home_folder_preview_return.h"
 #include "home_folder_preview_return_state.h"
 #include "home_animation_feature_resolver.h"
@@ -638,6 +639,8 @@ static bool folder_preview_requested(uint64_t packed) {
     return cols >= 3 && cols <= 6 && (cols != 3 || (packed & 2));
 }
 bool g_folder_layout_bound = false, g_folder_layout_checked = false;
+uint32_t g_folder_layout_slot_mask=0xff;
+std::array<int32_t,2> g_folder_title_alignment_axes{};
 /*
  * `g_folder_layout_checked` only says "the admission scan reached at least the first symbol",
  * and the two log lines that could explain a refusal are both gated on it. So a launcher whose
@@ -2640,9 +2643,10 @@ bool bind_folder_preview() {
         "FolderAnimController._refreshCachedGridParams", "FolderGridViewGetxController.calGridWidth",
         "FolderGridViewGetxController.folderCellHeight", "FolderAnimController._setGridEndLoc",
         "FolderAnimController._calcRealIconPos", "FolderAnimController._calcFolderPreviewLoc",
-        "FolderAnimController._initGridViewItemAnimParams", "ShortcutIconDropMixin.folderItemPadding"};
-    std::array<uint32_t, 11> va{}; std::array<std::vector<uint32_t>, 11> body;
-    for (size_t i = 0; i < va.size(); ++i) {
+        "FolderAnimController._initGridViewItemAnimParams", "ShortcutIconDropMixin.folderItemPadding",
+        "GridController.folderPreviewItemPadding","GridController.folderCellWidth","GridController.folderCellHeight"};
+    std::array<uint32_t, 14> va{}; std::array<std::vector<uint32_t>, 14> body;
+    for (size_t i = 0; i < 11; ++i) {
         uint32_t size = 0;
         if (!home_layout_engine::HomeLayoutEngineFindSymbol(names[i], &va[i], &size) || !dartscan::body(va[i], body[i])) {
             if (!waiting_logged) {
@@ -2655,7 +2659,16 @@ bool bind_folder_preview() {
     }
     waiting_logged = false;
     home_layout::FolderPreviewPlan fields;
-    if (!home_layout::folder_preview_plan(body[0], body[1], body[2], body[3], body[4], va[0], va[5], body[6], body[7], body[8], body[9], body[10], fields)) {
+    bool planned=home_layout::folder_preview_plan(body[0], body[1], body[2], body[3], body[4], va[0], va[5], body[6], body[7], body[8], body[9], body[10], fields);
+    if(!planned){
+        bool metrics=true;
+        for(size_t i=11;i<14;++i){uint32_t size=0;
+            metrics&=home_layout_engine::HomeLayoutEngineFindSymbol(names[i],&va[i],&size)&&dartscan::body(va[i],body[i]);
+        }
+        if(metrics)planned=home_layout::folder_preview_plan(body[0],body[1],body[2],body[3],body[4],va[0],va[5],
+            body[6],body[7],body[8],body[9],body[11],fields,va[3],va[12],va[13],va[11]);
+    }
+    if (!planned) {
         // Newer AOT emits the delegate builder in the anonymous-code span after
         // this named owner. Do not hook that named method: admit only the unique
         // original delegate construction + height-call dataflow inside its span.
@@ -2680,8 +2693,28 @@ bool bind_folder_preview() {
     if(!index||!store||!pad||index+4>=body[8].size()
         ||!home_layout::preview_call_to(body[8][index-1],va[8]+uint32_t((index-1)*4),first)
         ||!home_layout::preview_call_to(body[8][index+4],va[8]+uint32_t((index+4)*4),cell)
-        ||!home_layout::preview_call_to(body[8][store-1],va[8]+uint32_t((store-1)*4),va[7])
-        ||!home_layout::preview_call_to(body[3][pad-1],va[3]+uint32_t((pad-1)*4),config))return false;
+        ||!home_layout::preview_call_to(body[8][store-1],va[8]+uint32_t((store-1)*4),va[7]))return false;
+    if(fields.padding_helper){
+        home_dynamic::Body config_body;if(!dartscan::body(config,config_body))return false;
+        std::array<int,3> values{};
+        for(unsigned role=0;role<3;++role){const unsigned owner=11+role;const auto& b=body[owner];unsigned sources=0;
+            const home_layout::features::Function f{va[owner],b};
+            for(size_t i=1;i+5<b.size();++i)
+                if(home_dynamic::ldw(b[i],0,1)&&home_dynamic::imm9(b[i])==fields.config_cell
+                    &&b[i+1]==0x8b1c8021u&&home_dynamic::ldd(b[i+2],1,0)
+                    &&b[i+3]==0xaa1d03efu&&b[i+4]==0xa8c179fdu&&b[i+5]==0xd65f03c0u
+                    &&home_layout::features::scalar_config_read(f,i-1,config,config_body)){
+                    values[role]=home_dynamic::imm9(b[i+2]);++sources;
+                }
+            if(sources!=1||values[role]<=0)return false;
+        }
+        if(values[0]!=fields.cell_padding||values[0]==values[1]||values[0]==values[2]||values[1]==values[2])return false;
+        unsigned delegates=0;
+        for(size_t i=0;i+3<body[10].size();++i)
+            if(home_layout::preview_call_to(body[10][i],va[10]+uint32_t(i*4),va[11])
+                &&body[10][i+1]==0xaa1d03efu&&body[10][i+2]==0xa8c179fdu&&body[10][i+3]==0xd65f03c0u)++delegates;
+        if(delegates!=1)return false;
+    }else if(!home_layout::preview_call_to(body[3][pad-1],va[3]+uint32_t((pad-1)*4),config))return false;
     uint32_t translate=0;std::vector<uint32_t> offset_body;
     if(!home_layout_engine::HomeLayoutEngineFindSymbol("Offset.translate",&translate,&ignored)
         ||!dartscan::body(translate,offset_body))return false;
@@ -2710,7 +2743,7 @@ bool bind_folder_preview() {
     std::array<Slot, 7> prepared{};
     for (size_t i = 0; i < prepared.size(); ++i) {
         auto &slot = prepared[i];
-        const size_t owner = i < 3 ? i : (i < 5 ? 8 : (i == 5 ? 9 : 3));
+        const size_t owner = i < 3 ? i : (i < 5 ? 8 : (i == 5 ? 9 : (fields.padding_helper?11:3)));
         const uint32_t fn = va[owner];
         // The window the splice sits on must lie wholly inside the function body it was decoded from.
         const uint32_t site = sites[i];
@@ -2769,6 +2802,43 @@ bool bind_folder_probe() {
     __android_log_print(ANDROID_LOG_INFO, kTag,
         "folder dest probe bound at _calcRealIconPos+%u; cached x=%#x y=%#x",
         fields.probe_site, fields.cache_inset_x, fields.cache_inset_y);
+    return true;
+}
+
+bool bind_folder_title_center() {
+    if(!g_dart||!(__atomic_load_n(&hc_folder_layout_requested,__ATOMIC_ACQUIRE)&1))return false;
+    const char* names[]={"AndroidAttributeUtils.convertTextAlignment","_FlutterTextViewState._resolveEffectiveTextAlign",
+        "AndroidAttributeUtils.convertGravity","Container.build","Container._paddingIncludingDecoration",
+        "_encodeParagraphStyle","FolderHeaderWidget._buildEditor","FolderHeaderWidget._buildText","FolderHeaderWidget._textStyle"};
+    uint32_t va[9]{};std::array<home_dynamic::Body,7> roots;
+    for(unsigned i=0;i<9;++i){uint32_t size=0;
+        if(!home_layout_engine::HomeLayoutEngineFindSymbol(names[i],&va[i],&size))return false;
+        if(i<7&&!dartscan::body(va[i],roots[i]))return false;
+    }
+    uint32_t span=0;if(!dartscan::function_span(va[7],&span))return false;
+    const auto length=g_dart->view_end-g_dart->view_begin;
+    if(!length||length>kMaxLauncherImageBytes)return false;
+    std::ifstream input(g_dart->path,std::ios::binary);if(!input)return false;
+    std::vector<std::byte> image(static_cast<size_t>(length));input.seekg(static_cast<std::streamoff>(g_dart->view_begin));
+    input.read(reinterpret_cast<char*>(image.data()),static_cast<std::streamsize>(image.size()));
+    if(input.gcount()!=static_cast<std::streamsize>(image.size()))return false;
+    auto code=home_layout::features::Code::parse(image);if(!code)return false;
+    auto plan=home_layout::features::folder_title_center(*code,va[7],va[7]+span,va[6],va[8],roots);
+    if(!plan)return false;
+    const uint32_t sites[]={plan->text,plan->editor,plan->inner.window};
+    const unsigned kinds[]={4,5,7};
+    void* entries[]={reinterpret_cast<void*>(hc_folder_layout_4_entry),reinterpret_cast<void*>(hc_folder_layout_5_entry),reinterpret_cast<void*>(hc_folder_layout_7_entry)};
+    std::array<Slot,3> prepared{};
+    for(unsigned i=0;i<3;++i){auto& slot=prepared[i];
+        if(!bind_dart_target(sites[i],slot.address,slot.source,slot.original_words))return false;
+        slot.replacement=entries[i];slot.original=&hc_folder_layout_original[kinds[i]];
+    }
+    g_folder_center_pool=plan->center;g_folder_enum_index_field=plan->enum_index;
+    g_folder_inner=plan->inner;g_folder_inner_owner_local=32+plan->inner.frame-plan->inner.owner_slot;
+    g_folder_title_alignment_axes=plan->axes;g_folder_inner_ready=true;
+    for(unsigned i=0;i<3;++i)g_slots[kFolderLayoutSlotBase+kinds[i]]=prepared[i];
+    g_folder_layout_slot_mask=(1u<<4)|(1u<<5)|(1u<<7);g_folder_layout_bound=true;
+    __android_log_print(ANDROID_LOG_INFO,kTag,"folder title independent bank bound=3; layout geometry unavailable; current header call graph and gravity roots verified");
     return true;
 }
 
@@ -2851,7 +2921,7 @@ bool bind_folder_layout() {
             "cling=%d/%#x outer=%d/%#x left=%d/%#x",
             gap, width, height, cell.field, cell.offset, cling.field, cling.offset,
             outer.field, outer.offset, left.field, left.offset);
-        return false;
+        return bind_folder_title_center();
     }
     // Both boxed padding values are freshly allocated Double objects. Check their tag
     // and the original GC rejoin: the new stub must cover that shared store, not its predecessor.
@@ -2998,7 +3068,7 @@ bool bind_folder_layout() {
     g_folder_inner_owner_local = 32 + inner.frame - inner.owner_slot;
     g_folder_inner_ready = true;
     for (size_t i = 0; i < prepared.size(); ++i) g_slots[kFolderLayoutSlotBase + i] = prepared[i];
-    g_folder_layout_bound = true;
+    g_folder_layout_slot_mask=0xff;g_folder_title_alignment_axes={};g_folder_layout_bound = true;
     __android_log_print(ANDROID_LOG_INFO, kTag,
         "folder layout bank bound=8 fields=%d/%d/%d/%d center_pool=%x inner=%#x/%#x/%#x/%#x roots=%x/%x/%x",
         cell.field, gap, width, height, center, inner.window, inner.owner_slot, inner.frame,
@@ -4942,6 +5012,7 @@ size_t arm_hooks(std::vector<size_t> &order) {
         if (std::find(order.begin(), order.end(), index) == order.end()) { order.push_back(index); ++added; }
     }
     if (g_folder_layout_bound) for (size_t i = 0; i < 8; ++i) {
+        if(!(g_folder_layout_slot_mask&(1u<<i)))continue;
         const size_t index = kFolderLayoutSlotBase + i;
         if (std::find(order.begin(), order.end(), index) == order.end()) { order.push_back(index); ++added; }
     }
@@ -5110,7 +5181,7 @@ size_t publish_hooks() {
     for (size_t i = 0; i < 2; ++i) autofit_ready &= nhk::slot_ready(g_slots[kGridAutofitSlotBase + i]);
     __atomic_store_n(&hc_grid_autofit_ready, autofit_ready ? 1u : 0u, __ATOMIC_RELEASE);
     bool folder_layout_ready = g_folder_layout_bound;
-    for (size_t i = 0; i < 8; ++i) folder_layout_ready &= nhk::slot_ready(g_slots[kFolderLayoutSlotBase + i]);
+    for (size_t i = 0; i < 8; ++i) if(g_folder_layout_slot_mask&(1u<<i))folder_layout_ready &= nhk::slot_ready(g_slots[kFolderLayoutSlotBase + i]);
     __atomic_store_n(&hc_folder_layout_ready, folder_layout_ready ? 1u : 0u, __ATOMIC_RELEASE);
     __atomic_store_n(&hc_gadget_bridge_enabled,
         uint32_t(g_gadget_requested.load(std::memory_order_acquire)
@@ -6282,6 +6353,9 @@ extern "C" void hc_folder_preview_body(uintptr_t saved, uintptr_t frame, unsigne
         // This Offset was allocated by the original _setGridEndLoc; never a shared constant.
         std::memcpy(reinterpret_cast<void *>(offset + 7), &x, 8);
         std::memcpy(reinterpret_cast<void *>(offset + 15), &y, 8);
+        static std::atomic_uint source_reports{0};
+        if(source_reports.fetch_add(1,std::memory_order_relaxed)<4)
+            __android_log_print(ANDROID_LOG_INFO,kTag,"folder animation source corrected index=%lld delta=%.3f/%.3f ratio=%.4f",static_cast<long long>(index),dx+extra,dy,ratio);
     } else if (kind == 3) {
         // The splice precedes MOV x1,x0 / ADD x2,x1,x0: saved x0 is the UNBOXED
         // getFirstVisibleItemIndex result, and the frame holds the UNBOXED local index.
@@ -6445,7 +6519,15 @@ extern "C" void hc_folder_layout_body(uintptr_t saved, uintptr_t pool, unsigned 
             std::memcpy(&center, reinterpret_cast<const void *>(pool + g_folder_inner.center_pool), 4);
             std::memcpy(&low, reinterpret_cast<const void *>(pool + g_folder_inner.direction_pool[0]), 4);
             std::memcpy(&high, reinterpret_cast<const void *>(pool + g_folder_inner.direction_pool[1]), 4);
-            const bool known = cur == 0 || cur == low || cur == high || cur == center;
+            bool known = cur == 0 || cur == low || cur == high || cur == center;
+            if(!known&&g_folder_title_alignment_axes[0]>0&&g_folder_title_alignment_axes[1]>0
+                &&(cur&7)==1&&(center&7)==1){
+                const auto current=base+cur,root=base+center;
+                if(((read64(current-1)>>12)&0xfffff)==((read64(root-1)>>12)&0xfffff)){
+                    const double x=scalar(current+g_folder_title_alignment_axes[0]),y=scalar(current+g_folder_title_alignment_axes[1]);
+                    known=(x==-1||x==0||x==1)&&y==0;
+                }
+            }
             if (known && center != 0 && (center & 7) == 1 && center != cur) {
                 std::memcpy(reinterpret_cast<void *>(owner + g_folder_inner.alignment), &center, 4);
                 static std::atomic_uint reported{0};
@@ -6623,13 +6705,14 @@ extern "C" void hc_medium_folder_geometry(uintptr_t strategy,uintptr_t caller,ui
 extern "C" void hc_folder_preview_capture(uintptr_t frame,uint64_t width,uint64_t height) {
     // Capture even before all three sites are armed: an in-flight invocation
     // without a capture must safely use stock dimensions at both consumers.
-    // Neutral/disabled folder scaling retains the launcher's original result.
+    // This legacy landing override is shared by every folder. Enabling only a
+    // medium-folder switch must not activate it for unscaled small/large
+    // folders: their original animation already applies its preview transform.
+    // Medium geometry is produced in its own strategy, independently of this gate.
     // An invalid capture also discards any aborted invocation at this frame.
     constexpr uint64_t neutral=0x3ff0000000000000ULL;
     if(__atomic_load_n(&hc_small_folder_scale_bits,__ATOMIC_ACQUIRE)==neutral
-        &&__atomic_load_n(&hc_big_folder_scale_bits,__ATOMIC_ACQUIRE)==neutral
-        &&__atomic_load_n(&hc_medium_folder_scale_bits[0],__ATOMIC_ACQUIRE)==neutral
-        &&__atomic_load_n(&hc_medium_folder_scale_bits[1],__ATOMIC_ACQUIRE)==neutral)width=height=0;
+        &&__atomic_load_n(&hc_big_folder_scale_bits,__ATOMIC_ACQUIRE)==neutral)width=height=0;
     folder_preview_state().capture(frame,width,height);
 }
 extern "C" home_layout::FolderPreviewReturnValue hc_folder_preview_take(uintptr_t frame,uint64_t height) {
@@ -7221,6 +7304,7 @@ bool adopt_layout_state() {
     for (size_t i = 0; i < 2; ++i) { hc_grid_autofit_original[i] = nullptr; hc_grid_autofit_resume[i] = 0; }
     g_folder_preview_bound = g_folder_preview_checked = false;
     g_folder_layout_bound = g_folder_layout_checked = false;
+    g_folder_layout_slot_mask=0xff;g_folder_title_alignment_axes={};
     g_folder_layout_attempted = false;
     g_folder_layout_retry_at_ms = 0; g_folder_layout_retry_failures = 0;
     __atomic_store_n(&hc_folder_layout_ready, 0u, __ATOMIC_RELEASE);
@@ -7408,16 +7492,22 @@ void prime_home_layout_first_render_locked() {
         for(size_t i=kGridAutofitSlotBase;i<kGridAutofitSlotBase+2;++i)
             if(g_slots[i].address)order.push_back(i);
     }
-    for(size_t i=kIconRenderSlotBase;i<kIconRenderSlotBase+6;++i)if(g_slots[i].address)order.push_back(i);
-    for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)if(g_slots[i].address)order.push_back(i);
+    // Only requested scale families need installation before dimensions cache.
+    // Installing disabled widget/icon banks here needlessly delays first frame;
+    // the worker can adopt those optional slots through its existing path.
+    if(config.tweaks.icon_scale_enabled){
+        for(size_t i=kIconRenderSlotBase;i<kIconRenderSlotBase+6;++i)if(g_slots[i].address)order.push_back(i);
+        for(size_t i=kProgressIconSlotBase;i<kProgressIconSlotBase+4;++i)if(g_slots[i].address)order.push_back(i);
+    }
     for(size_t i=kMediumFolderSlotBase;i<kSlotCount;++i)if(g_slots[i].address)order.push_back(i);
     if(g_slots[kFolderIconScaleSlot].address)order.push_back(kFolderIconScaleSlot);
     for(size_t i=kFolderAnimScaleSlotBase;i<kFolderAnimScaleSlotBase+kFolderAnimScaleSlotCount;++i)
         if(g_slots[i].address)order.push_back(i);
     for(size_t i=kFolderReturnScaleSlotBase;i<kFolderReturnScaleSlotBase+2;++i)
         if(g_slots[i].address)order.push_back(i);
-    for(size_t i=kWidgetScaleSlot;i<kWidgetScaleSlot+kWidgetScaleSlotCount;++i)
-        if(g_slots[i].address)order.push_back(i);
+    if(config.object_scales[2].enabled)
+        for(size_t i=kWidgetScaleSlot;i<kWidgetScaleSlot+kWidgetScaleSlotCount;++i)
+            if(g_slots[i].address)order.push_back(i);
     for(size_t i=kDockPositionSlotBase;i<kDockPositionSlotBase+2;++i)
         if(g_slots[i].address)order.push_back(i);
     if(g_slots[kTitleCustomSlot].address)order.push_back(kTitleCustomSlot);
@@ -7427,8 +7517,10 @@ void prime_home_layout_first_render_locked() {
         if(g_slots[kKnobHookSlotBase+i].address)order.push_back(kKnobHookSlotBase+i);
     for(size_t i=kDrawerSearchSlot;i<kDrawerSearchSlot+2;++i)if(g_slots[i].address)order.push_back(i);
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
-    if(!order.empty() && home_madvise_prepare_first_render())
-        (void)nhk::ensure_slots_live(g_slots,slot_host(),order);
+    const bool guard_ready=order.empty()||home_madvise_prepare_first_render();
+    const bool order_valid=nhk::valid_slot_order(g_slots,order);
+    const bool installed=guard_ready&&!order.empty()&&nhk::ensure_slots_live(g_slots,slot_host(),order);
+    __android_log_print(ANDROID_LOG_INFO,kTag,"first-render bank slots=%zu valid=%d guard=%d installed=%d",order.size(),order_valid,guard_ready,installed);
 #else
     if(!order.empty())(void)nhk::ensure_slots_live(g_slots,slot_host(),order);
 #endif

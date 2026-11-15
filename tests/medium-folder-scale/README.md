@@ -34,3 +34,23 @@ and three-event effects without fallback. This verifies enumeration and effect
 construction, not the physical sensation. Folder instruction/animation graphs
 were verified against the device's 9239 image; visual and touch behavior still
 require exercising the newly installed module.
+
+Follow-up device verification (2026-11-14): the original span captures are
+4/2 and 2/4 (tagged Smis), confirming 2×1/1×2 occupancy. A diagnostic identity
+cache registered Android TLS destructors while holding the page-guard lock;
+the destructor registration waited on the loader lock and first-frame setup
+missed the ready guard. Module build identity is now warmed at native entry
+and shared across threads; process identity uses immutable PID-scoped
+publications without nontrivial TLS. Disabled icon/widget scale banks are
+deferred to maintenance instead of delaying the initial frame.
+
+With the root-socket diagnostic transport, both runtime factors read 1.4,
+both kinds recorded three hits and three applied operations, and screenshots
+showed horizontal and vertical enlargement. Tapping the horizontal preview's
+folder area opened the expected folder. This is not an assertion that every
+animation or out-of-cell hit-test edge passed. The already-running system
+endpoint still publishes the older payload; the default WMS transport after
+loading the new endpoint on a future reboot remains to be verified separately.
+The final installed Release (versionCode 4886) reported first-render bank
+slots=12, valid=1, guard=1, installed=1; both factors were 1.4, ready=1,
+and horizontal/vertical hit and applied counters were 11/11 each.

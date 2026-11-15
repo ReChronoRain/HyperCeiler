@@ -18,7 +18,8 @@ constexpr unsigned kTitleCustomSlot=46,kCustomTitleDrawerSlot=47;
 constexpr const char* kKnobHookSymbols[]={"dock","folder","top","bottom","side","capsule","policy","slide"};
 struct Slot{uintptr_t address=0;void* replacement=nullptr;void** original=nullptr;int source=0,original_words=0;bool ready=false;};
 constexpr unsigned kLayoutSaveSlot=48,kGridPersistSlot=49,kDartColumnsSlot=50,kGridAutofitSlotBase=51;
-Slot g_slots[61];
+constexpr unsigned kMediumFolderSlotBase=61,kSlotCount=63;
+Slot g_slots[kSlotCount];
 uint32_t hc_dart_columns_ready=0,hc_grid_autofit_ready=0;
 unsigned grid_bind_calls=0;bool columns_graph=true,autofit_graph=true;
 std::atomic_bool g_drawer_search_requested{false},g_drawer_search_ready{false};
@@ -72,8 +73,9 @@ bool bind_dart_target(uint32_t target,uintptr_t& address,int&,int&){if(!geometry
 int slot_host(){return 0;}
 namespace nhk{
 namespace home_safe_mode{struct Decision{bool blocked;};Decision decision(){return {false};}}
+bool valid_slot_order(Slot*,const std::vector<size_t>&){return true;}
 bool ensure_slots_live(Slot* slots,int,const std::vector<size_t>& order){assert(madvise_guard_state==1);++install_calls;for(auto i:order)slots[i].ready=allow_install;return allow_install;}
 bool slot_ready(const Slot& slot){return slot.ready;}
 }
 void publish_hooks(){hc_dart_columns_ready=g_slots[48].ready&&g_slots[49].ready&&g_slots[50].ready;hc_grid_autofit_ready=g_slots[51].ready&&g_slots[52].ready;g_drawer_search_ready=g_slots[11].ready&&g_slots[12].ready;hc_icon_render_enabled=1;for(unsigned i=0;i<6;++i)hc_icon_render_enabled&=g_slots[i].ready;hc_folder_icon_scale_enabled=g_slots[13].ready;hc_widget_scale_enabled=g_slots[21].ready;auto& k=g_knobs[0];margin=k.hook_armed&&k.requested?k.delta_dp.load()+70:-1;}
-void reset(){geometry_graph=geometry_bind=true;g_grid_field={};g_geometry_frame={};g_runtime_features.geometry.reset();columns_graph=autofit_graph=true;hc_dart_columns_ready=hc_grid_autofit_ready=grid_bind_calls=0;for(auto& s:g_slots)s={};for(auto& k:g_knobs){k.hook_armed=k.hook_mode=false;k.hook_address=0;k.requested=false;k.delta_dp=0;}g_drawer_search_ready=false;g_drawer_search_requested=false;hc_icon_render_enabled=hc_folder_icon_scale_enabled=hc_widget_scale_enabled=0;g_first_render_finished=false;g_first_render_features_scanned=false;g_first_render_discovery=false;g_runtime_features.dock_margin.reset();have_image=have_config=allow_install=graph=folder_graph=widget_graph=drawer_graph=true;discoveries=config_reads=install_calls=image_reads=0;cached={};margin=-1;scale=1;}
+void reset(){geometry_graph=geometry_bind=true;g_grid_field={};g_geometry_frame={};g_runtime_features.geometry.reset();columns_graph=autofit_graph=true;hc_dart_columns_ready=hc_grid_autofit_ready=grid_bind_calls=0;for(auto& s:g_slots)s={};for(auto& k:g_knobs){k.hook_armed=k.hook_mode=false;k.hook_address=0;k.requested=false;k.delta_dp=0;}g_drawer_search_ready=false;g_drawer_search_requested=false;hc_icon_render_enabled=hc_folder_icon_scale_enabled=hc_widget_scale_enabled=0;g_first_render_finished=false;g_first_render_features_scanned=false;g_first_render_discovery=false;g_runtime_features.dock_margin.reset();have_image=have_config=allow_install=graph=folder_graph=widget_graph=drawer_graph=true;discoveries=config_reads=install_calls=image_reads=0;cached={};cached.tweaks.icon_scale_enabled=true;cached.object_scales[2].enabled=true;margin=-1;scale=1;}

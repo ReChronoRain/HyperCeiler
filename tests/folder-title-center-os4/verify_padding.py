@@ -16,7 +16,17 @@ pre = r'''
 #include <cstring>
 #include <iostream>
 #include <vector>
+#include <array>
+#ifdef _WIN32
+#define NOMINMAX
+#include <windows.h>
+constexpr int PROT_READ=1,PROT_WRITE=2,MAP_PRIVATE=1,MAP_ANONYMOUS=2;
+#define MAP_FAILED reinterpret_cast<void*>(-1)
+void* mmap(void*,size_t n,int,int,int,int){auto* p=VirtualAlloc(nullptr,n,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);return p?p:MAP_FAILED;}
+int munmap(void* p,size_t){return VirtualFree(p,0,MEM_RELEASE)?0:-1;}
+#else
 #include <sys/mman.h>
+#endif
 #include "home_folder_layout.h"
 uint64_t hc_folder_layout_requested=1;
 int g_folder_gap_field=0,g_folder_cell_width_field=0,g_folder_screen_width_field=0,
@@ -24,6 +34,7 @@ int g_folder_gap_field=0,g_folder_cell_width_field=0,g_folder_screen_width_field
     g_folder_controller_config_field=0,g_folder_rx_value_field=0,g_folder_enum_index_field=0;
 uint32_t g_folder_center_pool=0,g_folder_inner_owner_local=0;
 bool g_folder_inner_ready=true;
+std::array<int32_t,2> g_folder_title_alignment_axes{};
 home_layout::FolderInnerContainer g_folder_inner;
 constexpr int ANDROID_LOG_INFO=4;
 const char*kTag="test";
@@ -102,6 +113,27 @@ reset();set(insets+plan.inset+8,12.);invoke();
 check(scalar(insets+plan.inset+8)==12&&scalar(insets+plan.inset+16)==0,"foreign padding shape preserved");
 reset();set(insets+plan.inset+16,8.);invoke();
 check(scalar(insets+plan.inset+16)==8,"custom right margin preserved");
+// New constructor output supplies Alignment.centerLeft/right instead of the
+// directional roots. Only this fresh title Container and a horizontal value
+// of the same Alignment class may be changed.
+g_folder_title_alignment_axes={7,15};
+const uintptr_t center_object=owner+512,side_object=owner+768;
+pool[plan.center_pool/8]=uint32_t(center_object);
+auto side=[&](double x,double y,uint64_t cid){
+    reset();set(center_object-1,uint64_t(123)<<12);set(side_object-1,cid<<12);
+    set(side_object+7,x);set(side_object+15,y);set(owner+plan.alignment,uint32_t(side_object));
+};
+for(double x:{-1.,0.,1.}){
+    side(x,0,123);invoke();
+    check(word(owner+plan.alignment)==uint32_t(center_object),"current horizontal Alignment constant centered");
+    check(scalar(insets+plan.inset+16)==16,"current constructor keeps equal horizontal gutters");
+}
+side(-1,1,123);invoke();
+check(word(owner+plan.alignment)==uint32_t(side_object),"vertical Alignment constant preserved");
+side(-1,0,124);invoke();
+check(word(owner+plan.alignment)==uint32_t(side_object),"unrelated Alignment class preserved");
+side(-1,0,123);hc_folder_layout_requested=0;invoke();
+check(word(owner+plan.alignment)==uint32_t(side_object),"new alignment disabled exact no-op");
 munmap(memory,4096);
 std::cout<<"FOLDER_TITLE_PADDING="<<checks<<" checks; failed="<<failures<<'\n';
 return failures?1:0;

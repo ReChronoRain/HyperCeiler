@@ -3,6 +3,7 @@
 #include "home_feature_code.h"
 #include "home_icon_render.h"
 #include "home_folder_app_return.h"
+#include "home_scalar_feature_resolver.h"
 #include <map>
 #include <optional>
 #include <set>
@@ -113,18 +114,70 @@ inline std::optional<ProgressIconFeature> progress_icon_feature(const Code& code
 }
 
 struct FolderCloseFeature {uint32_t init=0,cache=0;std::array<uint32_t,3> sites{};std::array<uint32_t,2> cache_sites{};};
+inline bool folder_config_phi(const Function& f,size_t at,uint32_t current,const home_dynamic::Body& root){
+    using namespace home_dynamic;
+    if((f.words[at]&0xfc000000u)!=0x94000000u)return false;
+    size_t tail=0;uint32_t rx=0;
+    for(size_t i=3;i+2<root.size();++i)if(ldw(root[i],0,1)&&root[i+1]==0x8b1c8021u
+        &&target(root[i+2],current+uint32_t((i+2)*4),rx)){if(tail)return false;tail=i;}
+    if(!tail||tail<8||at<tail)return false;
+    uint32_t to=0;if(!target(f.words[at],f.va+uint32_t(at*4),to)||to!=rx)return false;
+    for(size_t begin=at>64?at-64:0;begin+tail<at;++begin){
+        const size_t end=begin+tail-3;
+        if(end+3>at)continue;
+        const auto move=f.words[end];unsigned reg=rd(move);
+        if((move&0xffffffe0u)!=0xaa0003e0u||reg>18||f.words[end+1]!=0x14000002u||f.words[end+2]!=move)continue;
+        bool same=true;unsigned outer=0;
+        for(size_t j=3;j<tail;++j){const size_t k=begin+j-3;const auto a=root[j],b=f.words[k];uint32_t expected=0,actual=0;
+            if(target(a,current+uint32_t(j*4),expected)){same&=target(b,f.va+uint32_t(k*4),actual)&&expected==actual;}
+            else if((a&0xff00001fu)==0x54000001u
+                &&int64_t(j)+(int32_t(a<<8)>>13)==int64_t(tail)){
+                const int64_t destination=int64_t(k)+(int32_t(b<<8)>>13);
+                same&=(b&0xff00001fu)==0x54000001u&&destination==int64_t(end+2);++outer;
+            }else same&=a==b;
+        }
+        if(!same||outer!=1)continue;
+        std::array<unsigned,32> tag{};tag[reg]=1; // controller -> compressed Rx -> Rx
+        std::map<int32_t,unsigned> locals;
+        for(size_t j=end+3;j<at&&same;++j){const auto w=f.words[j];
+            if((w&0xffe0ffe0u)==0xaa0003e0u)tag[rd(w)]=tag[(w>>16)&31];
+            else if((w&0xffe00c00u)==0xb8400000u){tag[rd(w)]=tag[rn(w)]==1&&imm9(w)==imm9(root[tail])?2:0;}
+            else if((w&0xfffffc00u)==0x8b1c8000u){tag[rd(w)]=tag[rn(w)]==2?3:0;}
+            else if(stx(w,29,rd(w)))locals[imm9(w)]=tag[rd(w)];
+            else if(ldx(w,29,rd(w)))tag[rd(w)]=locals[imm9(w)];
+            else if((w&0xffe00c00u)==0xfc400000u||(w&0xffe00c00u)==0xfc000000u){}
+            else same=false;
+        }
+        if(same&&tag[1]==3)return true;
+    }
+    return false;
+}
 inline std::optional<FolderCloseFeature> folder_close_feature(const Code& code,const IconFeature& icon) {
     using namespace home_dynamic;
+    Body config;if(!code.body(icon.current,config))return {};
+    // Normalize only a complete, independently matched inlined producer in a
+    // private analysis copy. Runtime instructions and all Dart call PCs stay put.
+    const auto observed=[&](const Function& f){
+        Body b=f.words;
+        for(size_t i=0;i<b.size();++i)if((b[i]&0xfc000000u)==0x94000000u
+            &&(scalar_config_read(f,i,icon.current,config)||folder_config_phi(f,i,icon.current,config))){
+            const int64_t delta=int64_t(icon.current)-f.va-int64_t(i*4);
+            if(delta%4==0&&delta>=-(int64_t{1}<<27)&&delta<(int64_t{1}<<27))
+                b[i]=0x94000000u|(uint32_t(delta/4)&0x03ffffffu);
+        }
+        return b;
+    };
     std::optional<FolderCloseFeature> out;
     for(const auto& f:code.functions()) {
         std::array<uint32_t,3> sites{};
-        if(!frame_size(f.words)||!folder_animation_scale_sites(f.words,f.va,icon.current,sites))continue;
-        const auto& b=f.words;
+        if(!frame_size(f.words))continue;
+        const auto b=observed(f);
+        if(!folder_animation_scale_sites(b,f.va,icon.current,sites))continue;
         if(sites[0]<12||imm9(b[sites[0]/4-3])!=icon.render.grid
             ||imm9(b[sites[0]/4-1])!=icon.render.value)continue;
         for(const auto& c:code.functions()) {
             std::array<uint32_t,2> cached{};
-            if(!frame_size(c.words)||!folder_animation_cache_sites(c.words,c.va,icon.current,icon.render.grid,icon.render.value,cached))continue;
+            if(!frame_size(c.words)||!folder_animation_cache_sites(observed(c),c.va,icon.current,icon.render.grid,icon.render.value,cached))continue;
             if(out)return {};
             out=FolderCloseFeature{f.va,c.va,sites,cached};
         }
