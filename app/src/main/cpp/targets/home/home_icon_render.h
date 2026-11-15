@@ -92,13 +92,13 @@ struct SmallFolderScaleSite {
 // so the original padding, preview and animation consumers see the same geometry.
 inline bool small_folder_scale_site(const home_dynamic::Body& b,uint32_t va,
     const home_dynamic::Body& base,uint32_t base_va,uint32_t current,
-    uint32_t preview_height,SmallFolderScaleSite& out) {
+    uint32_t preview_height,SmallFolderScaleSite& out,uint32_t preview_width=0) {
     using namespace home_dynamic;
     if(b.size()<12||base.size()<4||b[0]!=0xa9bf79fdu||b[1]!=0xaa0f03fdu
       ||base[0]!=0xa9bf79fdu||base[1]!=0xaa0f03fdu
       ||(base[2]&0xffc003ffu)!=0xd10001efu||!stx(base[3],29,1)
       ||!slot(imm9(base[3])))return false;
-    SmallFolderScaleSite next;unsigned dock=0,config=0,height=0,tail=0;
+    SmallFolderScaleSite next;unsigned dock=0,config=0,height=0,width=0,tail=0;
     uint32_t dock_end=0;int32_t config_field=0,value_field=0;
     for(size_t i=0;i+4<b.size();++i){uint32_t to=0;
         if(std_(b[i],1,1)&&std_(b[i+1],1,1)&&std_(b[i+2],1,0)&&std_(b[i+3],1,0)
@@ -122,13 +122,18 @@ inline bool small_folder_scale_site(const home_dynamic::Body& b,uint32_t va,
             if(imm9(b[i+1])!=imm9(base[3])||imm9(b[i+2])!=next.dimensions[3])return false;
             ++height;
         }
+        if(preview_width&&to==preview_width&&ldx(b[i+1],29,1)&&std_(b[i+2],1,0)){
+            if(imm9(b[i+1])!=imm9(base[3])||imm9(b[i+2])!=next.dimensions[2])return false;
+            ++width;
+        }
         if(to==base_va&&b[i+1]==0xaa1603e0u&&b[i+2]==0xaa1d03efu
           &&b[i+3]==0xa8c179fdu&&b[i+4]==0xd65f03c0u){
             ++tail;next.caller_return=uint32_t((i+1)*4);
             if(dock_end!=i*4)return false;
         }
     }
-    if(dock!=1||config!=3||height!=1||tail!=1||!field(config_field)||!field(value_field))return false;
+    if(dock!=1||config!=(preview_width?2u:3u)||width!=(preview_width?1u:0u)
+        ||height!=1||tail!=1||!field(config_field)||!field(value_field))return false;
     for(unsigned i=0;i<4;++i){
         if(!field(next.dimensions[i])||next.dimensions[i]>255)return false;
         for(unsigned j=0;j<i;++j)if(std::abs(next.dimensions[i]-next.dimensions[j])<8)return false;
