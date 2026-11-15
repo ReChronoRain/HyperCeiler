@@ -50,8 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 import fan.appcompat.widget.HyperPopupMenu;
-import fan.miuixbase.widget.FilterSortTabView;
-import fan.miuixbase.widget.FilterSortView2;
+import fan.miuixbasewidget.widget.FilterSortView2;
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.viewpager.widget.ViewPager;
 
@@ -66,8 +65,8 @@ public class LogViewerActivity extends BaseActivity {
     private NestedHeaderLayout mNestedHeaderLayout;
     private SearchEditText mSearchEditText;
     private FilterSortView2 mLogType;
-    private FilterSortTabView mLogTypeApp;
-    private FilterSortTabView mLogTypeXposed;
+    private FilterSortView2.TabView mLogTypeApp;
+    private FilterSortView2.TabView mLogTypeXposed;
 
     private int mCurrentType = 0;
 

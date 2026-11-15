@@ -76,7 +76,7 @@
             android:fadingEdge="horizontal"
             android:maxLines="2"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.List" />
+            android:textAppearance="@style/Miuix.AppCompat.TextAppearance.List" />
 
         <TextView
             android:id="@android:id/summary"
@@ -86,7 +86,7 @@
             android:layout_alignStart="@android:id/title"
             android:layout_marginTop="@dimen/miuix_preference_summary_margin_top"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.List.Secondary"
+            android:textAppearance="@style/Miuix.AppCompat.TextAppearance.List.Secondary"
             tools:ignore="PrivateResource" />
 
     </RelativeLayout>

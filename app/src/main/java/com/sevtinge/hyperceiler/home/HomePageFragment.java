@@ -172,7 +172,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             getSwitchManager().hide();
             SearchActionMode searchActionMode = getSearchActionMode((SearchActionMode) mode);
-            searchActionMode.setSearchMaskAlwaysHidden(true);
+            //searchActionMode.setSearchMaskAlwaysHidden(true);
             searchActionMode.setAnchorView(mAnchorView);
             searchActionMode.setAnimateView(mListView);
             searchActionMode.setResultView(mSearchResultLinearLayout);

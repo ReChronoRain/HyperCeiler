@@ -31,14 +31,14 @@
         android:layout_height="100dp" />
 
     <TextView
-        android:textAppearance="@style/TextAppearance.List"
+        android:textAppearance="@style/Miuix.AppCompat.TextAppearance.List"
         android:paddingTop="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name" />
 
     <TextView
-        android:textAppearance="@style/TextAppearance.List.Secondary"
+        android:textAppearance="@style/Miuix.AppCompat.TextAppearance.List.Secondary"
         android:textSize="16sp"
         android:id="@android:id/summary"
         android:paddingTop="10dp"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:textAppearance="@style/TextAppearance.List.Secondary"
+        android:textAppearance="@style/Miuix.AppCompat.TextAppearance.List.Secondary"
         android:textSize="16sp"
         android:id="@android:id/title"
         android:paddingTop="10dp"

@@ -19,7 +19,7 @@
   -->
 <resources>
 
-    <style name="ProvisionTheme" parent="@style/Theme.AppCompat.DayNight">
+    <style name="ProvisionTheme" parent="@style/Theme.DayNight">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
@@ -47,7 +47,7 @@
         <item name="groupButtonsTertiaryButtonStyle">@style/Widget.Button</item>
     </style>
 
-    <style name="TransparentActionBarTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="TransparentActionBarTheme" parent="Theme.DayNight.NoTitle">
         <item name="actionBarBackground">@android:color/transparent</item>
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="windowActionBarOverlay">true</item>

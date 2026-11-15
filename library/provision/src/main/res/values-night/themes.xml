@@ -19,7 +19,7 @@
   -->
 <resources>
 
-    <style name="ProvisionTheme" parent="@style/Theme.AppCompat.Dark">
+    <style name="ProvisionTheme" parent="@style/Theme.Dark">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="android:actionBarItemBackground">@android:color/transparent</item>

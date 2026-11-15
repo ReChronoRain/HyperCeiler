@@ -8,7 +8,7 @@ import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.util.regex.Pattern;
 
-import fan.os.SystemProperties;
+import fan.core.utils.SystemProperties;
 
 public class AboutPhoneUtils {
 

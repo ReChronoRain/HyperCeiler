@@ -42,8 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:measureWithLargestChild="true"
-        android:paddingStart="@dimen/miuix_appcompat_dialog_button_panel_margin_horizontal"
-        android:paddingEnd="@dimen/miuix_appcompat_dialog_button_panel_margin_horizontal"
+        android:paddingStart="@dimen/miuix_appcompat_dialog_button_panel_horizontal_margin"
+        android:paddingEnd="@dimen/miuix_appcompat_dialog_button_panel_horizontal_margin"
         android:paddingTop="20dp">
 
         <Button
