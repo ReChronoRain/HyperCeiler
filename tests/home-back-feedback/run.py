@@ -11,6 +11,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[2]
 TESTS = ROOT / "tests/home-back-feedback"
 JAVA = ROOT / "library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/gesture"
+MODULE_LOG = ROOT / "library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java"
 
 
 def run(command):
@@ -48,7 +49,7 @@ def main():
         classes.mkdir(exist_ok=True)
         dex.mkdir(exist_ok=True)
         run(["javac", "-cp", args.android_jar, "-d", classes, JAVA / "BackHoldState.java",
-             JAVA / "Os4BackFeedback.java", TESTS / "BinderProtocolTest.java"])
+             JAVA / "Os4BackFeedback.java", MODULE_LOG, TESTS / "BinderProtocolTest.java"])
         dex_file = dex / "classes.dex"
         dex_file.unlink(missing_ok=True)
         run(["java", "-cp", args.r8_jar, "com.android.tools.r8.D8", "--min-api", "34",

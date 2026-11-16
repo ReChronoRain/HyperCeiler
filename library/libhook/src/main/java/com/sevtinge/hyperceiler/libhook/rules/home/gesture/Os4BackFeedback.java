@@ -25,7 +25,8 @@ import android.os.SystemClock;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.util.Log;
+
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
@@ -45,7 +46,8 @@ public final class Os4BackFeedback {
     private static Context app;
     private static volatile NativePreview nativePreview;
     private static boolean hapticSent;
-    private static Target target, pending;
+    private static Target target;
+    private static Target pending;
     private static long pendingTime;
     private static volatile long cancellation;
     private static boolean armed;
@@ -57,8 +59,9 @@ public final class Os4BackFeedback {
     private static final int MAGIC = 0x48434248;
 
     private static void install(Context context) {
-        if (main != null)
+        if (main != null) {
             return;
+        }
         app = context;
         HandlerThread thread = new HandlerThread("HC-BackFeedback");
         thread.start();
@@ -74,28 +77,32 @@ public final class Os4BackFeedback {
                 }
             }, filter);
         });
-        Log.i(TAG, "feedback ready via WMS Binder");
+        ModuleLog.i(TAG, "feedback ready via WMS Binder");
     }
 
     private static Context systemContext() throws Exception {
         Class<?> activityThread = Class.forName("android.app.ActivityThread");
         Object thread = activityThread.getMethod("currentActivityThread").invoke(null);
-        return (Context)activityThread.getMethod("getSystemContext").invoke(thread);
+        return (Context) activityThread.getMethod("getSystemContext").invoke(thread);
     }
 
     private static boolean launcher(Context context, int uid, int pid) throws Exception {
-        if (uid < 10000 || pid <= 0 ||
-            context.getPackageManager().getApplicationInfo("com.miui.home", 0).uid != uid)
+        if (uid < 10000 || pid <= 0
+            || context.getPackageManager().getApplicationInfo("com.miui.home", 0).uid != uid) {
             return false;
+        }
         byte[] expected = "com.miui.home".getBytes(java.nio.charset.StandardCharsets.US_ASCII);
         byte[] command = new byte[64];
         try (FileInputStream input = new FileInputStream("/proc/" + pid + "/cmdline")) {
             int count = input.read(command);
-            if (count <= expected.length || command[expected.length] != 0)
+            if (count <= expected.length || command[expected.length] != 0) {
                 return false;
-            for (int i = 0; i < expected.length; i++)
-                if (command[i] != expected[i])
+            }
+            for (int i = 0; i < expected.length; i++) {
+                if (command[i] != expected[i]) {
                     return false;
+                }
+            }
         }
         return true;
     }
@@ -105,20 +112,23 @@ public final class Os4BackFeedback {
         boolean selected = false;
         try {
             data.enforceInterface("android.view.IWindowManager");
-            if (data.readInt() != BINDER_EVENT)
+            if (data.readInt() != BINDER_EVENT) {
                 return false;
+            }
             selected = true;
-            if (reply == null || (flags & IBinder.FLAG_ONEWAY) != 0)
+            if (reply == null || (flags & IBinder.FLAG_ONEWAY) != 0) {
                 return true;
-            long stamp = data.readLong(), now = SystemClock.uptimeMillis();
+            }
+            long stamp = data.readLong();
+            long now = SystemClock.uptimeMillis();
             if (data.dataAvail() != 68) {
                 reply.writeByteArray(ack(false));
                 return true;
             }
             byte[] packet = data.createByteArray();
-            if ((flags & IBinder.FLAG_ONEWAY) != 0 || android.os.Process.myUid() != 1000 || stamp <= 0 ||
-                stamp > now || now - stamp > 750 || data.dataAvail() != 0 || packet == null ||
-                packet.length != 64) {
+            if ((flags & IBinder.FLAG_ONEWAY) != 0 || android.os.Process.myUid() != 1000 || stamp <= 0
+                || stamp > now || now - stamp > 750 || data.dataAvail() != 0 || packet == null
+                || packet.length != 64) {
                 reply.writeByteArray(ack(false));
                 return true;
             }
@@ -136,12 +146,13 @@ public final class Os4BackFeedback {
             }
         } catch (Exception error) {
             if (selected) {
-                Log.w(TAG, "feedback Binder request failed", error);
+                ModuleLog.w(TAG, "feedback Binder request failed", error);
                 reply.writeByteArray(ack(false));
             }
         } finally {
-            if (!selected)
+            if (!selected) {
                 data.setDataPosition(position);
+            }
         }
         return selected;
     }
@@ -156,16 +167,20 @@ public final class Os4BackFeedback {
 
     private static byte[] dispatch(byte[] packet) throws InterruptedException {
         ByteBuffer data = ByteBuffer.wrap(packet).order(ByteOrder.LITTLE_ENDIAN);
-        if (data.getInt() != MAGIC)
+        if (data.getInt() != MAGIC) {
             return ack(false);
+        }
         int operation = data.getInt();
         boolean accepted = false;
         if (operation == 1) {
             long owner = data.getLong();
-            int action = data.getInt(), pointers = data.getInt();
-            float x = data.getFloat(), y = data.getFloat();
+            int action = data.getInt();
+            int pointers = data.getInt();
+            float x = data.getFloat();
+            float y = data.getFloat();
             long time = data.getLong();
-            float density = data.getFloat(), width = data.getFloat();
+            float density = data.getFloat();
+            float width = data.getFloat();
             long revision = data.getLong();
             if (action == 1) {
                 CountDownLatch done = new CountDownLatch(1);
@@ -178,8 +193,9 @@ public final class Os4BackFeedback {
                     }
                 });
                 accepted = done.await(40, TimeUnit.MILLISECONDS) && result.get();
-            } else
+            } else {
                 main.post(() -> touch(owner, action, pointers, x, y, time, density, width, revision));
+            }
         } else if (operation == 4) {
             long known = data.getLong();
             NativePreview snapshot = nativePreview;
@@ -200,19 +216,21 @@ public final class Os4BackFeedback {
         } else if (operation == 5) {
             long session = data.getLong();
             main.post(() -> presented(session));
-        } else if (operation == 6)
+        } else if (operation == 6) {
             main.post(Os4BackFeedback::disarm);
-        else if (operation == 2)
+        } else if (operation == 2) {
             main.post(Os4BackFeedback::commit);
-        else if (operation == 3)
+        } else if (operation == 3) {
             cancel();
+        }
         return ack(accepted);
     }
 
     public static boolean touch(long owner, int action, int pointers, float x, float y, long time,
-                                float density, float width, long revision) {
-        if (main == null || app == null || Looper.myLooper() != Looper.getMainLooper())
+        float density, float width, long revision) {
+        if (main == null || app == null || Looper.myLooper() != Looper.getMainLooper()) {
             return false;
+        }
         if (!state.update(owner, action, pointers, x, y, time, density, width, revision)) {
             reset();
             return false;
@@ -238,76 +256,84 @@ public final class Os4BackFeedback {
             return commit;
         }
         if (armed) {
-            if (!state.geometry(true))
+            if (!state.geometry(true)) {
                 disarm();
+            }
         }
         return false;
     }
 
     public static void cancel() {
         Handler handler = main;
-        if (handler == null)
+        if (handler == null) {
             return;
-        if (Looper.myLooper() == handler.getLooper())
+        }
+        if (Looper.myLooper() == handler.getLooper()) {
             reset();
-        else
+        } else {
             handler.post(Os4BackFeedback::reset);
+        }
     }
 
     public static void commit() {
-        if (main == null || Looper.myLooper() != main.getLooper())
+        if (main == null || Looper.myLooper() != main.getLooper()) {
             return;
+        }
         Target selected = pending;
         long time = pendingTime;
         long generation = cancellation;
         pending = null;
-        if (selected != null && SystemClock.uptimeMillis() - time <= 750)
+        if (selected != null && SystemClock.uptimeMillis() - time <= 750) {
             worker.post(() -> launch(selected, time, generation));
+        }
     }
 
     private static void prepare(long serial) {
         Target selected = null;
         try {
-            if (interactive())
+            if (interactive()) {
                 selected = selectTarget();
+            }
         } catch (Exception error) {
-            Log.w(TAG, "target lookup failed", error);
+            ModuleLog.w(TAG, "target lookup failed", error);
         }
         Target result = selected;
         main.post(() -> {
-            if (!state.active || state.serial != serial)
+            if (!state.active || state.serial != serial) {
                 return;
+            }
             target = result;
             if (result != null) {
                 nativePreview = new NativePreview(state.start, state.left(), result.pixels);
-                Log.i(TAG, "native target prepared task=" + result.id + " session=" + state.start +
-                               " ageMs=" + (SystemClock.uptimeMillis() - state.start));
+                ModuleLog.i(TAG, "native target prepared task=" + result.id + " session=" + state.start
+                    + " ageMs=" + (SystemClock.uptimeMillis() - state.start));
             }
         });
     }
 
     private static void presented(long session) {
-        if (hapticSent || !state.active || state.start != session || target == null || nativePreview == null)
+        if (hapticSent || !state.active || state.start != session || target == null || nativePreview == null) {
             return;
+        }
         armed = true;
         hapticSent = true;
         boolean requested = false;
         try {
             if (Settings.System.getInt(app.getContentResolver(), Settings.System.HAPTIC_FEEDBACK_ENABLED,
-                                       1) != 0) {
-                Vibrator vibrator = (Vibrator)app.getSystemService(Context.VIBRATOR_SERVICE);
+                1) != 0) {
+                Vibrator vibrator = (Vibrator) app.getSystemService(Context.VIBRATOR_SERVICE);
                 if (vibrator != null && vibrator.hasVibrator()) {
                     vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK),
-                                     new AudioAttributes.Builder()
-                                         .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                                         .build());
+                        new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                            .build());
                     requested = true;
                 }
             }
         } catch (Exception error) {
-            Log.w(TAG, "ready haptic failed", error);
+            ModuleLog.w(TAG, "ready haptic failed", error);
         }
-        Log.i(TAG, "native icon confirmed task=" + target.id + " hapticRequested=" + requested);
+        ModuleLog.i(TAG, "native icon confirmed task=" + target.id + " hapticRequested=" + requested);
     }
 
     private static void disarm() {
@@ -334,6 +360,7 @@ public final class Os4BackFeedback {
         final long session;
         final boolean left;
         final byte[] pixels;
+
         NativePreview(long session, boolean left, byte[] pixels) {
             this.session = session;
             this.left = left;
@@ -342,8 +369,8 @@ public final class Os4BackFeedback {
     }
 
     private static boolean interactive() {
-        return ((PowerManager)app.getSystemService(Context.POWER_SERVICE)).isInteractive() &&
-            !((KeyguardManager)app.getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardLocked();
+        return ((PowerManager) app.getSystemService(Context.POWER_SERVICE)).isInteractive()
+            && !((KeyguardManager) app.getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardLocked();
     }
 
     private static Object service() throws Exception {
@@ -352,9 +379,9 @@ public final class Os4BackFeedback {
 
     private static List<?> recent(Object service, int user) throws Exception {
         Method method = Class.forName("android.app.IActivityTaskManager")
-                            .getMethod("getRecentTasks", int.class, int.class, int.class);
+            .getMethod("getRecentTasks", int.class, int.class, int.class);
         Object slice = method.invoke(service, 32, 2, user);
-        return (List<?>)slice.getClass().getMethod("getList").invoke(slice);
+        return (List<?>) slice.getClass().getMethod("getList").invoke(slice);
     }
 
     private static int integer(Object object, String name) throws Exception {
@@ -362,34 +389,39 @@ public final class Os4BackFeedback {
     }
 
     private static ComponentName component(Object task) throws Exception {
-        ComponentName name = (ComponentName)task.getClass().getField("baseActivity").get(task);
-        if (name == null)
-            name = (ComponentName)task.getClass().getField("topActivity").get(task);
+        ComponentName name = (ComponentName) task.getClass().getField("baseActivity").get(task);
+        if (name == null) {
+            name = (ComponentName) task.getClass().getField("topActivity").get(task);
+        }
         return name;
     }
 
     private static ActivityManager.RunningTaskInfo current() {
         List<ActivityManager.RunningTaskInfo> tasks =
-            ((ActivityManager)app.getSystemService(Context.ACTIVITY_SERVICE)).getRunningTasks(1);
+            ((ActivityManager) app.getSystemService(Context.ACTIVITY_SERVICE)).getRunningTasks(1);
         return tasks.isEmpty() ? null : tasks.get(0);
     }
 
     private static Target selectTarget() throws Exception {
         ActivityManager.RunningTaskInfo current = current();
-        if (current == null)
+        if (current == null) {
             return null;
+        }
         int user = integer(current, "userId");
         for (Object task : recent(service(), user)) {
             int id = integer(task, "taskId");
-            if (id < 0 || id == current.taskId || integer(task, "userId") != user)
+            if (id < 0 || id == current.taskId || integer(task, "userId") != user) {
                 continue;
+            }
             Object config = task.getClass().getField("configuration").get(task);
             Object window = config.getClass().getField("windowConfiguration").get(config);
-            if (((Integer)window.getClass().getMethod("getActivityType").invoke(window)) != 1)
+            if (((Integer) window.getClass().getMethod("getActivityType").invoke(window)) != 1) {
                 continue;
+            }
             ComponentName component = component(task);
-            if (component == null)
+            if (component == null) {
                 continue;
+            }
             PackageManager pm = app.getPackageManager();
             try {
                 android.content.pm.ApplicationInfo info =
@@ -403,37 +435,43 @@ public final class Os4BackFeedback {
 
     private static void launch(Target selected, long released, long generation) {
         try {
-            if (generation != cancellation || SystemClock.uptimeMillis() - released > 750 || !interactive())
+            if (generation != cancellation || SystemClock.uptimeMillis() - released > 750 || !interactive()) {
                 return;
+            }
             ActivityManager.RunningTaskInfo current = current();
-            if (current == null || current.taskId != selected.source ||
-                integer(current, "userId") != selected.user)
+            if (current == null || current.taskId != selected.source
+                || integer(current, "userId") != selected.user) {
                 return;
+            }
             Object service = service();
             boolean valid = false;
             for (Object task : recent(service, selected.user)) {
-                if (integer(task, "taskId") == selected.id && integer(task, "userId") == selected.user &&
-                    selected.component.equals(component(task))) {
+                if (integer(task, "taskId") == selected.id && integer(task, "userId") == selected.user
+                    && selected.component.equals(component(task))) {
                     valid = true;
                     break;
                 }
             }
-            if (!valid || generation != cancellation || SystemClock.uptimeMillis() - released > 750)
+            if (!valid || generation != cancellation || SystemClock.uptimeMillis() - released > 750) {
                 return;
+            }
             Object result = Class.forName("android.app.IActivityTaskManager")
-                                .getMethod("startActivityFromRecents", int.class, Bundle.class)
-                                .invoke(service, selected.id, null);
-            Log.i(TAG, "commit task=" + selected.id + " app=" + selected.component.getPackageName() +
-                           " result=" + result);
+                .getMethod("startActivityFromRecents", int.class, Bundle.class)
+                .invoke(service, selected.id, null);
+            ModuleLog.i(TAG, "commit task=" + selected.id + " app=" + selected.component.getPackageName()
+                + " result=" + result);
         } catch (Exception error) {
-            Log.w(TAG, "selected task launch failed", error);
+            ModuleLog.w(TAG, "selected task launch failed", error);
         }
     }
 
     private static final class Target {
-        final int source, id, user;
+        final int source;
+        final int id;
+        final int user;
         final ComponentName component;
         final byte[] pixels;
+
         Target(int source, int id, int user, ComponentName component, Drawable icon) {
             this.source = source;
             this.id = id;
