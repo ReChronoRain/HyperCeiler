@@ -64,8 +64,7 @@ bool MapSnapshot(std::vector<MapRow>& rows, ImageDiscoveryDiagnostic* diagnostic
 }
 uint64_t Device(const nhk::FileMapping& m){return uint64_t(makedev(m.device_major,m.device_minor));}
 bool StatMatches(const Image& image,const struct stat& st) {
-    if(!S_ISREG(st.st_mode)||st.st_size<0||uint64_t(st.st_dev)!=image.sourceDevice
-        ||uint64_t(st.st_ino)!=image.sourceInode)return false;
+    if(!S_ISREG(st.st_mode)||st.st_size<0||uint64_t(st.st_ino)!=image.sourceInode)return false;
     const uint64_t origin=image.fromApkEntry?image.apkEntryOffset:0;
     return origin<=uint64_t(st.st_size)&&image.fileViewBytes<=uint64_t(st.st_size)-origin;
 }
