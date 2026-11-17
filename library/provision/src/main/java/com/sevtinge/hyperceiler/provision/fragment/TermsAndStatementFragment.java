@@ -80,7 +80,7 @@ public class TermsAndStatementFragment extends BaseFragment {
 
         mPrivacyView = view.findViewById(R.id.privacy);
         mPrivacyView.setText(enhanceTermsTitle());
-        mPrivacyView.setMovementMethod(fan.androidbase.widget.LinkMovementMethod.getInstance());
+        mPrivacyView.setMovementMethod(fan.androidbasewidget.widget.LinkMovementMethod.getInstance());
         mPrivacyView.setLinksClickable(true);
 
         mAgreeCheckBox = view.findViewById(R.id.checkbox_agree);

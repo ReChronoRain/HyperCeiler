@@ -44,7 +44,7 @@ public class SpinnerItemView extends ItemView {
 
         mSpinner = findViewById(R.id.spinner);
         if (mEntries != null && mEntries.length != 0) {
-            ArrayAdapter<?> adapter = new ArrayAdapter<>(context, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mEntries);
+            ArrayAdapter<?> adapter = new ArrayAdapter<>(context, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_layout_integrated, 0x01020014, mEntries);
             adapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
             mSpinner.setAdapter(adapter);
         }

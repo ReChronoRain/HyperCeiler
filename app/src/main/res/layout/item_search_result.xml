@@ -42,7 +42,7 @@
             android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.List"
+            android:textAppearance="@style/Miuix.AppCompat.TextAppearance.List"
             android:textSize="17sp" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:ellipsize="end"
             android:paddingTop="2dp"
             android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.List.Secondary"
+            android:textAppearance="@style/Miuix.AppCompat.TextAppearance.List.Secondary"
             android:textSize="14sp" />
 
     </LinearLayout>

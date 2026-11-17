@@ -76,7 +76,7 @@ public class SwitchView extends HyperCardView {
 
         // 分割线
         mDividerLine = new View(getContext());
-        mDividerLine.setBackgroundColor(AttributeResolver.resolveColor(getContext(), fan.theme.R.attr.colorDividerLine));
+        mDividerLine.setBackgroundColor(AttributeResolver.resolveColor(getContext(), fan.appcompat.R.attr.colorDividerLine));
         addView(mDividerLine, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
 
         // Tab 容器

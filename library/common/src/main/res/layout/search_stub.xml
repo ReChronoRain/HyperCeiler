@@ -10,7 +10,7 @@
         android:id="@android:id/inputArea"
         android:layout_width="match_parent"
         android:layout_height="@dimen/miuix_appcompat_searchbar_bg_height"
-        android:background="?attr/searchModeEditTextBackground">
+        android:background="?attr/miuixAppcompatSearchModeEditTextBackground">
 
         <LinearLayout
             android:id="@+id/search_container"
@@ -25,7 +25,7 @@
                 android:paddingStart="@dimen/miuix_appcompat_edit_text_search_bg_icon_padding_start"
                 android:paddingEnd="@dimen/miuix_appcompat_edit_text_search_bg_icon_padding_end"
                 android:scaleType="centerInside"
-                android:src="?attr/searchModeEditTextIcon" />
+                android:src="?attr/miuixAppcompatEditTextSearchIcon" />
 
             <com.sevtinge.hyperceiler.common.widget.SearchEditText
                 android:id="@android:id/input"
@@ -37,7 +37,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="0dp"
                 android:scrollbars="none"
-                android:textColorHint="?attr/searchActionModeEditTextHintColor"
+                android:textColorHint="?attr/searchEditTextHintColor"
                 android:textDirection="locale"
                 android:textSize="@dimen/miuix_appcompat_search_edit_text_size" />
         </LinearLayout>
