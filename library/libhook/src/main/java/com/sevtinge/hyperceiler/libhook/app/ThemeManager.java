@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.AllowDownloadMore;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.AllowThirdTheme;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.DisableThemeAdNew;
+import com.sevtinge.hyperceiler.libhook.rules.thememanager.RestoreLocalThemeImport;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.UnlockAIWallPaper;
 
 @HookBase(targetPackage = "com.android.thememanager")
@@ -36,6 +37,7 @@ public class ThemeManager extends BaseLoad {
         initHook(new DisableThemeAdNew(), PrefsBridge.getBoolean("various_theme_disable_ads"));
         initHook(new AllowDownloadMore(), PrefsBridge.getBoolean("theme_manager_allow_download_more"));
         initHook(UnlockAIWallPaper.INSTANCE, PrefsBridge.getBoolean("theme_manager_unlock_ai_wallpaper"));
+        initHook(new RestoreLocalThemeImport(), PrefsBridge.getBoolean("theme_manager_restore_local_import"));
     }
 
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="theme_manager_restore_local_import">恢复本地主题导入</string>
+    <string name="theme_manager_restore_local_import_desc">恢复本地主题列表中的原生导入按钮。修改后需重启主题壁纸。实验功能：兼容性取决于应用结构，不改变主题校验逻辑。</string>
+</resources>
