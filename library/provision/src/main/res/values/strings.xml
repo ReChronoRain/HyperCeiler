@@ -53,5 +53,5 @@
     <string name="provision_system_complete">Setup complete</string>
     <string name="provision_scope_open_failed">Unable to open scope page</string>
 
-    <string name="provision_get_md_failed">## Failed to get content.   \n - You can visit [here](%URL%) to view the origin content.   \n - Or try to [refresh](hyperceiler://refresh) this page.</string>
+    <string name="provision_get_md_failed" formatted="false">## Failed to get content.   \n - You can visit [here](%URL%) to view the origin content.   \n - Or try to [refresh](hyperceiler://refresh) this page.</string>
 </resources>
