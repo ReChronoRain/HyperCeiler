@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fan.springback.view.SpringBackLayout
+    <moralnorm.springback.view.SpringBackLayout
         app:scrollableView="@id/list_location"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:textFilterEnabled="true" />
 
-    </fan.springback.view.SpringBackLayout>
+    </moralnorm.springback.view.SpringBackLayout>
 
     <Button
         android:id="@+id/location_add"

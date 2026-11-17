@@ -3,7 +3,7 @@ package com.sevtinge.hyperceiler.common.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import fan.androidbasewidget.widget.ClearableEditText;
+import fan.androidbase.widget.ClearableEditText;
 
 public class SearchEditText extends ClearableEditText {
 

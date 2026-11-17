@@ -26,27 +26,25 @@
         android:orientation="vertical">
 
         <!-- 日志类型切换 -->
-        <fan.miuixbasewidget.widget.FilterSortView2
+        <fan.miuixbase.widget.FilterSortView2
             android:id="@+id/log_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/miuix_theme_padding_horizontal_common">
 
-            <view
+            <fan.miuixbase.widget.FilterSortTabView
                 android:id="@+id/log_type_app"
-                class="fan.miuixbasewidget.widget.FilterSortView2$TabView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/log_type_app" />
 
-            <view
-                class="fan.miuixbasewidget.widget.FilterSortView2$TabView"
+            <fan.miuixbase.widget.FilterSortTabView
                 android:id="@+id/log_type_xposed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/log_type_xposed" />
 
-        </fan.miuixbasewidget.widget.FilterSortView2>
+        </fan.miuixbase.widget.FilterSortView2>
     </LinearLayout>
 
 </fan.nestedheader.widget.NestedHeaderLayout>

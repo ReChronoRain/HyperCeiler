@@ -31,19 +31,19 @@
     </style>
 
     <style name="CrashTheme" parent="Base.Theme.HyperCeiler.DayNight">
-        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant</item>
-        <item name="android:colorBackground">@color/miuix_design_default_color_surface_variant</item>
-        <item name="miuixColorPrimary">@color/miuix_design_default_color_surface_variant</item>
-        <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant</item>
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="android:colorBackground">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="miuixColorPrimary">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_light</item>
     </style>
 
-    <style name="Base.Theme.HyperCeiler" parent="Theme.DayNight">
+    <style name="Base.Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="rebootIconColor">@color/black</item>
         <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>
 
-    <style name="Base.Theme.HyperCeiler.AprilFools" parent="Theme.DayNight">
+    <style name="Base.Theme.HyperCeiler.AprilFools" parent="Theme.AppCompat.DayNight">
         <item name="rebootIconColor">@color/black</item>
         <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>

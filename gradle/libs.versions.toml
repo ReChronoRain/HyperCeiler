@@ -16,7 +16,7 @@ roomCompiler = "2.8.5"
 viewpager2 = "1.1.0"
 
 # UI Libraries
-miuix = "4.0.0.28"
+miuix = "1.0.13.0"
 
 # Xposed & Hooks
 xposed-api = "102.0.0"
@@ -48,16 +48,13 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompi
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
 # Miuix UI
-miuix-androidbasewidget = { module = "fan.miuix:androidbasewidget", version.ref = "miuix" }
 miuix-animation = { module = "fan.miuix:animation", version.ref = "miuix" }
 miuix-appcompat = { module = "fan.miuix:appcompat", version.ref = "miuix" }
-miuix-bottomnavigation = { module = "fan.miuix:bottomnavigation", version.ref = "miuix" }
+miuix-basewidget = { module = "fan.miuix:basewidget", version.ref = "miuix" }
 miuix-bottomsheet = { module = "fan.miuix:bottomsheet", version.ref = "miuix" }
 miuix-cardview = { module = "fan.miuix:cardview", version.ref = "miuix" }
 miuix-core = { module = "fan.miuix:core", version.ref = "miuix" }
 miuix-folme = { module = "fan.miuix:folme", version.ref = "miuix" }
-miuix-miuixbasewidget = { module = "fan.miuix:miuixbasewidget", version.ref = "miuix" }
-miuix-navigation = { module = "fan.miuix:navigation", version.ref = "miuix" }
 miuix-navigator = { module = "fan.miuix:navigator", version.ref = "miuix" }
 miuix-nestedheader = { module = "fan.miuix:nestedheader", version.ref = "miuix" }
 miuix-pickerwidget = { module = "fan.miuix:pickerwidget", version.ref = "miuix" }
@@ -65,9 +62,7 @@ miuix-preference = { module = "fan.miuix:preference", version.ref = "miuix" }
 miuix-recyclerview = { module = "fan.miuix:recyclerview", version.ref = "miuix" }
 miuix-springback = { module = "fan.miuix:springback", version.ref = "miuix" }
 miuix-theme = { module = "fan.miuix:theme", version.ref = "miuix" }
-miuix-topnavigation = { module = "fan.miuix:topnavigation", version.ref = "miuix" }
 miuix-viewpager = { module = "fan.miuix:viewpager", version.ref = "miuix" }
-miuix-viewpager2 = { module = "fan.miuix:viewpager2", version.ref = "miuix" }
 miuix-transition = { module = "fan.miuix:transition", version.ref = "miuix" }
 
 # Xposed & Hooks
@@ -95,11 +90,9 @@ lsparanoid = { id = "org.lsposed.lsparanoid", version.ref = "lsparanoid" }
 
 [bundles]
 miuix = [
-    "miuix-androidbasewidget", "miuix-animation", "miuix-appcompat",
-    "miuix-bottomnavigation", "miuix-bottomsheet", "miuix-cardview", "miuix-core",
-    "miuix-folme", "miuix-miuixbasewidget", "miuix-navigation", "miuix-navigator",
+    "miuix-animation", "miuix-appcompat", "miuix-basewidget", "miuix-bottomsheet",
+    "miuix-cardview", "miuix-core", "miuix-folme", "miuix-navigator",
     "miuix-nestedheader", "miuix-pickerwidget", "miuix-preference", "miuix-recyclerview",
-    "miuix-springback", "miuix-theme", "miuix-topnavigation", "miuix-viewpager",
-    "miuix-viewpager2", "miuix-transition"
+    "miuix-springback", "miuix-theme", "miuix-viewpager", "miuix-transition"
 ]
 #ezxhelper = ["ezxhelper-core", "ezxhelper-xposed-api"]

@@ -30,7 +30,7 @@ import com.sevtinge.hyperceiler.core.R;
 
 import java.util.List;
 
-import fan.androidbasewidget.widget.CheckedTextView;
+import fan.androidbase.widget.CheckedTextView;
 
 public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdapter.ViewHolder> {
 

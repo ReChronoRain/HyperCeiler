@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="NavigatorActivityTheme" parent="@style/Theme.DayNight.Navigator">
+    <style name="NavigatorActivityTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="bgBlurOptions">splitActionBar</item>
-        <item name="miuixColorBottomSurface">@color/miuix_design_dark_default_color_surface_variant</item>
+        <item name="miuixColorBottomSurface">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="navigationFragmentStyle">@style/NaviFragmentTheme</item>
         <item name="recyclerViewCardStyle">@style/RecyclerViewCardStyle.DayNight</item>
 
         <item name="actionBarTitleEnableEllipsis">true</item>
         <item name="arrowRightFillColor">@color/miuix_appcompat_arrow_right_fill_color_dark</item>
         <item name="colorPrimary">@*android:color/primary_material_dark</item>
+        <item name="colorPrimaryVariant">@android:color/white</item>
         <item name="preferenceCategoryBackground">@drawable/miuix_preference_category_background</item>
         <item name="preferenceCategoryTextColor">@color/miuix_preference_category_text_color_dark</item>
         <item name="preferenceItemBackground">@drawable/miuix_preference_item_background</item>
@@ -30,7 +31,7 @@
         <item name="preferenceItemPaddingEnd">@dimen/miuix_preference_item_padding_end</item>
         <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
 
-        <item name="textColorAlertDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
         <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
 
         <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_dark</item>
@@ -38,17 +39,17 @@
         <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
-    <style name="NavigatorContentFragmentTheme" parent="Theme.DayNight.Content">
+    <style name="NavigatorContentFragmentTheme" parent="Theme.AppCompat.DayNight.Content">
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
-        <item name="android:windowBackground">@color/miuix_design_dark_default_color_surface_variant</item>
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
-        <item name="actionBarBackground">@color/miuix_design_dark_default_color_surface_variant</item>
+        <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="actionbarSearchMaskColor">#cc000000</item>
         <item name="bgBlurOptions">actionBar|splitActionBar</item>
-        <item name="miuixColorPrimary">@color/miuix_design_dark_default_color_surface_variant</item>
+        <item name="miuixColorPrimary">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="responsiveActionMenuViewStyle">@style/Widget.ResponsiveActionMenuView.Light</item>
 
-        <item name="textColorAlertDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
         <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
 
         <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_dark</item>
@@ -56,12 +57,12 @@
         <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
-    <style name="NaviFragmentTheme" parent="@style/Theme.DayNight.NavigationFragment"/>
+    <style name="NaviFragmentTheme" parent="@style/Theme.AppCompat.DayNight.NavigationFragment"/>
 
-    <style name="Theme.Navigator.ContentChild" parent="Theme.DayNight.ContentChild">
+    <style name="Theme.Navigator.ContentChild" parent="Theme.AppCompat.DayNight.ContentChild">
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
-        <item name="android:windowBackground">@color/miuix_design_dark_default_color_surface_variant</item>
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
 
         <item name="contentAutoFitSystemWindow">false</item>
         <item name="windowExtraPaddingHorizontalEnable">true</item>
@@ -69,7 +70,7 @@
 
         <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light.OS2</item>
 
-        <item name="textColorAlertDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
         <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
 
         <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_dark</item>
@@ -99,6 +100,7 @@
         <item name="actionBarTitleEnableEllipsis">true</item>
         <item name="arrowRightFillColor">@color/miuix_appcompat_arrow_right_fill_color_dark</item>
         <item name="colorPrimary">@*android:color/primary_material_dark</item>
+        <item name="colorPrimaryVariant">@android:color/white</item>
         <item name="preferenceCategoryBackground">@drawable/miuix_preference_category_background</item>
         <item name="preferenceCategoryTextColor">@color/miuix_preference_category_text_color_dark</item>
         <item name="preferenceItemBackground">@drawable/miuix_preference_item_background</item>
@@ -114,7 +116,7 @@
 
 
 
-    <style name="HomePageTheme" parent="@style/Theme.DayNight.Navigator">
+    <style name="HomePageTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowBackground">@color/miuix_default_color_surface_low_dark</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -143,7 +145,7 @@
         <item name="colorDividerLine">@color/miuix_default_color_outline_dark</item>
 
 
-        <item name="textColorAlertDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
         <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
 
         <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_dark</item>
@@ -151,7 +153,7 @@
         <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_dark</item>
     </style>
 
-    <style name="NavigatorContentTheme" parent="@style/Theme.DayNight.Content">
+    <style name="NavigatorContentTheme" parent="@style/Theme.AppCompat.DayNight.Content">
         <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:actionModeBackground">@color/miuix_default_color_surface_low_dark</item>
@@ -173,6 +175,7 @@
         <item name="actionbarSearchMaskColor">@android:color/transparent</item>
         <item name="arrowRightFillColor">@color/miuix_appcompat_arrow_right_fill_color_dark</item>
         <item name="clearableEditTextIcon">@drawable/miuix_appcompat_edit_text_clear_btn_dark</item>
+        <item name="colorPrimaryVariant">@android:color/white</item>
         <item name="preferenceCategoryPaddingStart">@dimen/miuix_preference_category_padding_start</item>
         <item name="preferenceCategoryPaddingEnd">@dimen/miuix_preference_category_padding_end</item>
         <item name="preferenceCategoryBackground">@drawable/miuix_preference_category_background</item>
