@@ -424,6 +424,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/fido"
+        android:summary="com.fido.asm"
+        android:title="@string/fido_asm"
+        app:inflatedXml="@xml/fido_asm"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/scanner"
         android:summary="com.xiaomi.scanner"
         android:title="@string/scanner_hyper"
