@@ -102,7 +102,10 @@ public class SystemFrameworkB extends BaseLoad {
         }
         initHook(new com.sevtinge.hyperceiler.libhook.rules.weather.WeatherNativeBridgeOS4(),
             com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
-        // HYOS/Flutter launcher has no Java Activity entry. WMS owns its backdrop instead.
+        // Only the authenticated early unlock epoch remains here after rendering migration.
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeUnlockTransitionOS4(),
+            com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
+        // Legacy renderer remains available until native backend handoff is verified.
         initHook(new com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeDockWindow(),
             com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
         // 核心破解

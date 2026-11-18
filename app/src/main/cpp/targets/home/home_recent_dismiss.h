@@ -86,11 +86,15 @@ template<size_t N> bool matches(const Function& f,const uint32_t (&shape)[N]) {
     if(f.words.size()!=N)return false;
     for(size_t i=0;i<N;++i){
         const auto w=shape[i];
-        // Branch offsets express this local CFG, so do not erase them.
+        // Short intra-function branch offsets still express this local CFG and stay
+        // compared verbatim. A long B/BL tail (observed: the impact wrapper's return
+        // jump to a shared stub) targets layout-dependent addresses, so both direct
+        // branch encodings keep only their opcode; the target is validated separately
+        // through the caller's call-linkage checks.
         const uint32_t mask=(w&0xffc003ffu)==0xd10001efu?0xffc003ffu:
             (w&0xffc003e0u)==0x91400360u?0xffc003ffu:
             ((w&0xff800000u)==0xd2800000u||(w&0xff800000u)==0xf2800000u)?0xffe0001fu:
-            (w&0xfc000000u)==0x94000000u?0xfc000000u:
+            (w&0xfc000000u)==0x94000000u||(w&0xfc000000u)==0x14000000u?0xfc000000u:
             (w&0x3b200c00u)==0x38000000u?0xffe00fffu:
             (w&0x3b000000u)==0x39000000u?0xffc003ffu:0xffffffffu;
         if((f.words[i]&mask)!=(w&mask))return false;

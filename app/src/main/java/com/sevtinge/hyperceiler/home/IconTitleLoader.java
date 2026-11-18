@@ -23,9 +23,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class IconTitleLoader {
 
     private static final Map<String, CharSequence> sLabelCache = new ConcurrentHashMap<>();
+    private static final Map<String, Boolean> sRuntimeCache = new ConcurrentHashMap<>();
     private static final AtomicInteger sLabelCacheGeneration = new AtomicInteger();
 
-    public record AppInfo(Drawable icon, CharSequence label) {
+    public record AppInfo(Drawable icon, CharSequence label, boolean hyperOsRuntime) {
     }
 
     /**
@@ -35,10 +36,11 @@ public class IconTitleLoader {
     public static AppInfo getCached(Context context, String pkg, int iconSizePx) {
         CharSequence label = sLabelCache.get(buildLabelCacheKey(pkg, getLocaleTag(context)));
         Drawable icon = AppIconCache.getCached(context, pkg, iconSizePx);
-        if (label == null || icon == null) {
+        Boolean runtime = sRuntimeCache.get(pkg);
+        if (label == null || icon == null || runtime == null) {
             return null;
         }
-        return new AppInfo(icon, label);
+        return new AppInfo(icon, label, runtime);
     }
 
     public static void load(Context context, String pkg, int iconSizePx, LoadCallback callback) {
@@ -56,14 +58,18 @@ public class IconTitleLoader {
         ThreadUtils.getBackgroundExecutor().execute(() -> {
             try {
                 PackageManager pm = labelContext.getPackageManager();
-                ApplicationInfo info = pm.getApplicationInfo(pkg, 0);
+                ApplicationInfo info = pm.getApplicationInfo(pkg, PackageManager.GET_META_DATA);
                 String labelCacheKey = buildLabelCacheKey(pkg, localeTag);
                 CharSequence label = sLabelCache.computeIfAbsent(labelCacheKey, ignored -> loadLabel(labelContext, info, pm, locale));
                 Drawable icon = AppIconCache.loadIcon(appContext, pkg, iconSizePx);
                 if (icon == null) {
                     icon = info.loadIcon(pm);
                 }
-                AppInfo result = new AppInfo(icon, label);
+                boolean runtime = info.metaData != null && info.metaData.getBoolean("hyperos_package", false);
+                if (generation == sLabelCacheGeneration.get()) {
+                    sRuntimeCache.put(pkg, runtime);
+                }
+                AppInfo result = new AppInfo(icon, label, runtime);
                 ThreadUtils.postOnMainThread(() -> {
                     if (generation == sLabelCacheGeneration.get()) {
                         callback.onReady(result);
@@ -74,7 +80,7 @@ public class IconTitleLoader {
     }
 
     /**
-     * 批量预加载首页会用到的 label 和指定尺寸图标，全部完成后回到主线程。
+     * 批量预加载首页应用名、Runtime 标记和指定尺寸图标，全部完成后回到主线程。
      * 已缓存的包名会被跳过。
      */
     public static void preloadAll(Context context, List<String> packageNames, int iconSizePx, Runnable onComplete) {
@@ -83,10 +89,11 @@ public class IconTitleLoader {
         Locale locale = getLocaleSnapshot(labelContext);
         String localeTag = locale.toLanguageTag();
         int generation = sLabelCacheGeneration.get();
-        // 过滤出 label 或当前尺寸图标尚未缓存的包名
+        // 仅查询应用名、Runtime 标记或当前尺寸图标尚未缓存的应用。
         List<String> toLoad = packageNames.stream()
             .filter(pkg -> pkg != null && (sLabelCache.get(buildLabelCacheKey(pkg, localeTag)) == null
-                || AppIconCache.getCached(appContext, pkg, iconSizePx) == null))
+                || AppIconCache.getCached(appContext, pkg, iconSizePx) == null
+                || !sRuntimeCache.containsKey(pkg)))
             .toList();
 
         if (toLoad.isEmpty()) {
@@ -99,10 +106,11 @@ public class IconTitleLoader {
             ThreadUtils.getBackgroundExecutor().execute(() -> {
                 try {
                     PackageManager pm = labelContext.getPackageManager();
-                    ApplicationInfo info = pm.getApplicationInfo(pkg, 0);
+                    ApplicationInfo info = pm.getApplicationInfo(pkg, PackageManager.GET_META_DATA);
                     CharSequence label = loadLabel(labelContext, info, pm, locale);
                     if (generation == sLabelCacheGeneration.get()) {
                         sLabelCache.put(buildLabelCacheKey(pkg, localeTag), label);
+                        sRuntimeCache.put(pkg, info.metaData != null && info.metaData.getBoolean("hyperos_package", false));
                     }
                     AppIconCache.loadIcon(appContext, pkg, iconSizePx);
                 } catch (Exception ignored) {
@@ -127,6 +135,7 @@ public class IconTitleLoader {
 
     public static void clearLabelCache() {
         sLabelCache.clear();
+        sRuntimeCache.clear();
         sLabelCacheGeneration.incrementAndGet();
     }
 

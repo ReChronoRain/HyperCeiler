@@ -5,11 +5,11 @@ import argparse,concurrent.futures,hashlib,json,subprocess,sys
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True);b=Path(__file__).resolve().parent;r=b.parents[1];src=r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/weather/WeatherNativeEndpointOS4.java';original=src.read_text()
 cases=[
  ('drop_caller_verifier',' || !verifier.isWeather(uid, pid)',''),
- ('renew_lease_after_query','published = new Published(values, epoch, ++revision, started + LEASE_NS);','published = new Published(values, epoch, ++revision, now + LEASE_NS);'),
- ('drop_global_gate','boolean allowed = v.allow() && FrameworkHookGate','boolean allowed = FrameworkHookGate'),
+ ('renew_lease_after_query','published = new Published(values, epoch, ++revision, started + LEASE_NS, observed);','published = new Published(values, epoch, ++revision, now + LEASE_NS, observed);'),
+ ('drop_global_gate','return values.allow() && FrameworkHookGate','return FrameworkHookGate'),
  ('default_level_zero','number(row[0], 3)','number(row[0], 0)'),
  ('map_raw_level_plus_one','new Values(level, card, blur,','new Values(level + 1, card, blur,'),
- ('drop_publication_identity_recheck','if (retired || published != value) continue;','if (retired) continue;'),
+ ('drop_publication_identity_recheck','if (retired || published != value) return null;','if (retired) return null;'),
  ('drop_query_retirement_and_ticket','if (retired || ticket != attempt || revision == Long.MAX_VALUE','if (revision == Long.MAX_VALUE'),
  ('spawn_replacement_for_stuck_query','if (worker != null) return;','// MUTATION: omit single-worker exclusion'),
 ]

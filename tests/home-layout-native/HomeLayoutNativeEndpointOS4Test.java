@@ -247,7 +247,11 @@ public final class HomeLayoutNativeEndpointOS4Test {
         check(descriptorRejected);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ReflectiveOperationException {
+        // Mapping tests publish explicitly. Cadence tests exercise the real worker separately.
+        var worker = HomeLayoutNativeEndpointOS4.class.getDeclaredField("refresher");
+        worker.setAccessible(true);
+        worker.set(null, new Thread());
         checkProviderMapping();
         checkTransactionBoundary();
     }

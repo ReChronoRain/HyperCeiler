@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <application>
+        <service
+            android:name=".provider.XiaoheiziRageService"
+            android:exported="true"
+            android:permission="android.permission.MANAGE_ACTIVITY_TASKS" />
+        <provider
+            android:name=".provider.HomeDockGlassProvider"
+            android:authorities="com.sevtinge.hyperceiler.provider.homeglass"
+            android:process=":home_glass"
+            android:exported="true" />
         <provider
             android:name=".provider.SharedPrefsProvider"
             android:authorities="com.sevtinge.hyperceiler.provider.sharedprefs"

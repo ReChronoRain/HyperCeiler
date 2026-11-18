@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hyperos_runtime_label" translatable="false">HyperOS Runtime</string>
+    <color name="hyperos_runtime_label_foreground">@color/miuix_color_blue_light_primary_default</color>
+    <color name="hyperos_runtime_label_background">@color/miuix_color_blue_light_secondary_default</color>
+</resources>

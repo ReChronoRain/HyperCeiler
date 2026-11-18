@@ -92,7 +92,7 @@ extern std::atomic<uint32_t> dock_motion_subscribed;
 // Translation-unit boundary for the layout host. Registration and readiness
 // are one operation under the guard lock, so a concurrent guard maintenance
 // pass cannot revoke the guard between the check and the page registration.
-bool home_madvise_protect_range(uintptr_t address, size_t bytes);
+bool home_madvise_protect_range(uintptr_t address, size_t bytes, bool first_render);
 
 namespace {
 constexpr char kTag[] = "HyperCeiler.DockNative";
@@ -1434,7 +1434,7 @@ bool read_pointer_safely(uintptr_t slot, const void *&value) {
  * between must be registered, and a full table refuses the range.
  */
 bool protect_patch_range(uintptr_t address, size_t bytes) {
-    return home_madvise_protect_range(address, bytes);
+    return home_madvise_protect_range(address, bytes, false);
 }
 
 /**
@@ -1612,18 +1612,18 @@ void report_guard_pending(const std::string &key, const std::string &detail) {
         "madvise guard pending: %s", detail.c_str());
 }
 
-void maybe_install_madvise_guard_locked() {
+void maybe_install_madvise_guard_locked(bool first_render = false) {
     // The generation check walks /proc/self/maps, which is not free. The guard settles once and
     // is re-checked every ~40 passes (tens of seconds) instead of every fourth pass.
     static std::atomic<uint32_t> maintain_tick{0};
-    if (maintain_tick.fetch_add(1, std::memory_order_relaxed) % 40U == 0U) {
+    if (!first_render && maintain_tick.fetch_add(1, std::memory_order_relaxed) % 40U == 0U) {
         maintain_madvise_guard();
     }
     static uint64_t retry_at_ns = 0;
     static unsigned pending_failures = 0;
     const uint64_t now_ns = monotonic_now_ns();
     const uint32_t state = madvise_guard_state.load(std::memory_order_acquire);
-    if (state == 0U && now_ns && now_ns < retry_at_ns) return;
+    if (!first_render && state == 0U && now_ns && now_ns < retry_at_ns) return;
     if (state == 1U || state == 2U || state == 4U) return; // Settled (or residual).
     uint32_t expected = 0;
     if (!madvise_guard_state.compare_exchange_strong(expected, 3U,
@@ -1656,9 +1656,11 @@ void maybe_install_madvise_guard_locked() {
         }
     };
     const auto stay_pending = [&](const char *reason) {
-        if (pending_failures < 6) ++pending_failures;
-        const uint64_t delay = std::min<uint64_t>(1ULL << pending_failures, 60) * 1000000000ULL;
-        retry_at_ns = now_ns && now_ns <= UINT64_MAX - delay ? now_ns + delay : 0;
+        if (!first_render) {
+            if (pending_failures < 6) ++pending_failures;
+            const uint64_t delay = std::min<uint64_t>(1ULL << pending_failures, 60) * 1000000000ULL;
+            retry_at_ns = now_ns && now_ns <= UINT64_MAX - delay ? now_ns + delay : 0;
+        }
         report_guard_pending(reason, reason);
         madvise_guard_state.store(0U, std::memory_order_release);
     };
@@ -2041,14 +2043,28 @@ void start_dock_native_motion(Hook hook, Unhook unhook) {
         __android_log_print(ANDROID_LOG_WARN, kTag, "motion worker unavailable");
     }
 }
-// Cross-translation-unit check-and-register operation used by the layout host.
-// The layout worker can reach its first protect_range before the dock health
-// worker gets a turn, so drive one installation pass here. Only state 1
-// authorizes registration; pending/unavailable/residual leave the patch stock.
-bool home_madvise_protect_range(uintptr_t address, size_t bytes) {
+// The Dart image is now mapped, after a worker may have sampled an incomplete
+// Flutter image. Give first layout one validated attempt without inheriting
+// that pending deadline or waiting on the worker.
+bool home_madvise_prepare_first_render() {
+    if (madvise_guard_state.load(std::memory_order_acquire) == 1U) return true;
+    std::unique_lock guard(madvise_guard_mutex, std::try_to_lock);
+    if (!guard.owns_lock()) return false;
+    maybe_install_madvise_guard_locked(true);
+    return madvise_guard_state.load(std::memory_order_acquire) == 1U;
+}
+
+// Only state 1 authorizes registration. First render has already attempted
+// preparation, so each slot only checks and registers under a nonblocking lock.
+bool home_madvise_protect_range(uintptr_t address, size_t bytes, bool first_render) {
     if (bytes == 0 || nhk::add_overflows(address, bytes)) return false;
-    std::lock_guard guard(madvise_guard_mutex);
-    maybe_install_madvise_guard_locked();
+    std::unique_lock guard(madvise_guard_mutex, std::defer_lock);
+    if (first_render) {
+        if (!guard.try_lock()) return false;
+    } else {
+        guard.lock();
+        maybe_install_madvise_guard_locked();
+    }
     if (madvise_guard_state.load(std::memory_order_acquire) != 1U) return false;
     const uint64_t page = host_page_size();
     const uintptr_t first = static_cast<uintptr_t>(page_down(address));

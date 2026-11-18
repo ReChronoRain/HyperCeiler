@@ -8,6 +8,9 @@ using Protect=bool(*)(uintptr_t,size_t);
 // Existing health worker only, no loader/property/render-thread discovery.
 void maintain(Hook,Unhook,Protect) noexcept;
 uint64_t packed() noexcept;
+// Local scene consumer does not enable status-bar hiding or its remote lease.
+void observe_for_dock(bool enabled) noexcept;
+uint64_t dock_scene() noexcept;
 void configure(bool enabled) noexcept;
 bool requested() noexcept;
 uint64_t maintenance_revision() noexcept;

@@ -125,6 +125,8 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                 }
             }
             case 1 -> {
+                holder.boundPackageName = header.summary == null ? null : header.summary.toString();
+                holder.runtimeLabel.setVisibility(View.GONE);
                 holder.title.setText(header.getTitle(res));
                 CharSequence summary = header.getSummary(res);
                 if (!TextUtils.isEmpty(summary)) {
@@ -246,6 +248,8 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         public TextView title;
         public TextView summary;
         public TextView value;
+        public TextView runtimeLabel;
+        private String boundPackageName;
         public ImageView arrowRight;
 
         public HeaderViewHolder(@NonNull View itemView) {
@@ -261,6 +265,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                     icon = itemView.findViewById(android.R.id.icon);
                     title = itemView.findViewById(android.R.id.title);
                     summary = itemView.findViewById(android.R.id.summary);
+                    runtimeLabel = itemView.findViewById(R.id.hyperos_runtime_label);
                     value = itemView.findViewById(fan.preference.R.id.text_right);
                     if (icon != null && icon.getParent() != null) {
                         LinearLayout parent = (LinearLayout) icon.getParent();
@@ -275,14 +280,16 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
     private void setIconAndTitle(HeaderViewHolder holder, Header header) {
         long id = header.id;
         if (holder == null || id == R.id.various || TextUtils.isEmpty(header.summary)) return;
-        // 快速滚动时跳过异步图标加载，停止后会通过 notifyDataSetChanged 重新 bind
-        if (mIsScrolling) return;
         String packageName = header.summary.toString();
         int headerIconSize = mContext.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
+        // 滚动时仍显示预加载的图标和标签，只暂停需要后台查询的加载。
+        if (mIsScrolling && IconTitleLoader.getCached(mContext, packageName, headerIconSize) == null) return;
         // 精准更新 UI
         IconTitleLoader.load(mContext, packageName, headerIconSize, (info) -> {
             // 检查 ViewHolder 是否已被复用
-            if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+            if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION
+                && packageName.equals(holder.boundPackageName)) {
+                holder.runtimeLabel.setVisibility(info.hyperOsRuntime() ? View.VISIBLE : View.GONE);
                 holder.icon.setImageDrawable(info.icon());
                 if (id != R.id.system_framework) {
                     holder.title.setText(info.label());

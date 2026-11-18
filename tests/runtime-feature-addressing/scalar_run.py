@@ -22,6 +22,13 @@ with tempfile.TemporaryDirectory(prefix='hc-scalar-features-') as tmp:
     h+='};}\nstatic const std::map<std::string,uint32_t> scalar_roots={\n'
     for k,v in f['roots'].items(): h+='{'+json.dumps(k)+','+str(v)+'},\n'
     h+='};\n'
+    newer=json.loads((HERE/'scalars-9239.json').read_text())
+    h+='static Functions inline_scalar_fixture(){return {\n'
+    for row in newer['functions']:
+        h+='{'+str(row['va'])+',{'+','.join(map(str,row['words']))+'}},\n'
+    h+='};}\nstatic const std::map<std::string,uint32_t> inline_roots={\n'
+    for k,v in newer['roots'].items():h+='{'+json.dumps(k)+','+str(v)+'},\n'
+    h+='};\n'
     (d/'scalar_fixture.h').write_text(h)
     subprocess.run(['c++','-std=c++20','-O2','-Wall','-Wextra','-Werror',
                     '-I'+str(ROOT/'app/src/main/cpp'),'-I'+str(d),str(HERE/'scalar_test.cpp'),'-o',str(d/'test')],check=True)

@@ -1225,6 +1225,10 @@
     <string name="home_layout_home_title">Home screen</string>
     <string name="home_layout_indicator_title">Desktop search</string>
     <string name="home_layout_indicator_margin_bottom_desc">Adjust the distance between desktop search and the bottom of the screen.</string>
+    <string name="home_layout_xiaoheizi_title">Xiaoheizi mode</string>
+    <string name="home_layout_xiaoheizi_desc">When you return to the Home screen, a basketball-headed character dribbles across the Ask XiaoAi capsule. Its outline bounces with the ball before the character dances on the right.</string>
+    <string name="home_layout_xiaoheizi_rage_title">Xiaoheizi rage mode</string>
+    <string name="home_layout_xiaoheizi_rage_desc">Continuously dance and move across the Home screen in a row</string>
     <string name="home_layout_hotseats_title">Dock icons</string>
     <string name="home_layout_searchbar_title">Search bar</string>
     <string name="home_layout_searchbar_os4_hint">On OS4, adjust the search capsule under Layout → Desktop search.</string>
@@ -1894,4 +1898,8 @@
     <string name="system_ui_status_bar_follow_summary">Experimental: restart SystemUI and the system process to apply. May affect system stability.</string>
     <string name="system_ui_status_bar_boot_fuse_reset_title">Reset status-bar boot fuse</string>
     <string name="system_ui_status_bar_boot_fuse_reset_summary">Explicitly clear a tripped boot fuse. Restart the target process after resetting.</string>
+    <string name="home_layout_medium_folder_horizontal_scale_title">Horizontal 3×1 medium folder scale</string>
+    <string name="home_layout_medium_folder_horizontal_scale_desc">A medium folder is a 3x1 folder</string>
+    <string name="home_layout_medium_folder_vertical_scale_title">Vertical 3×1 medium folder scale</string>
+    <string name="home_layout_medium_folder_vertical_scale_desc">The Chinese name pays tribute to medium foldable phones</string>
 </resources>

@@ -12,6 +12,10 @@ public final class ModuleLog {
         // no-op: see above
     }
 
+    public static void w(String tag, String message, Throwable throwable) {
+        // no-op: see above
+    }
+
     public static void e(String tag, String message) {
         // no-op: see above
     }

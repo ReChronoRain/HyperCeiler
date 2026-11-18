@@ -1,13 +1,19 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 package com.sevtinge.hyperceiler.libhook.rules.weather;
 
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.SystemClock;
+import com.sevtinge.hyperceiler.common.log.ModuleLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.base.FrameworkHookGate;
 import com.sevtinge.hyperceiler.libhook.provider.WeatherPrefsSnapshot;
@@ -23,29 +29,16 @@ public final class WeatherNativeEndpointOS4 {
     public static final int ACK = 0x48575331;
     public static final int REPLY_BYTES = 48;
     private static final long LEASE_NS = 5_000_000_000L;
-    /** Interactive cadence; the card can only show a fresher lease while the panel is drawing. */
-    private static final long ACTIVE_REFRESH_MS = 1500;
-    /**
-     * Cadence while the panel is non-interactive: a cycle is a cross-process query into the module
-     * app, which the platform has most likely reclaimed by then, and a doze card cannot observe the
-     * fresher lease it buys. 30 s is the cap this class already uses for provider failure.
-     */
-    private static final long DOZE_REFRESH_MS = 30000;
-    /**
-     * Idle periods are slept in slices this long so the first interactive cycle, and with it the
-     * first lease the wake can use, starts within a slice of the wake rather than up to
-     * {@link #DOZE_REFRESH_MS} after it. A slice is a local read of this process's own power
-     * service, which is what keeps a 20x reduced idle cadence from costing a stale card at unlock.
-     */
-    private static final long IDLE_SLICE_MS = 1000;
+    private static final long FIRST_RETRY_MS = 1500;
+    private static final int MAX_RETRIES = 3;
+    private static final String MODULE_PACKAGE = "com.sevtinge.hyperceiler";
+    private static final String PREFS_URI = "content://" + MODULE_PACKAGE + ".provider.sharedprefs";
     private static final String PACKAGE = "com.miui.weather2";
     private static final String[][] SPECS = WeatherPrefsSnapshot.specs();
     private static final Object WORKER_LOCK = new Object();
     // One query lane per module classloader, even when a retired provider query ignores interrupt.
     private static Thread worker;
     private static WeatherNativeEndpointOS4 owner;
-    /** This endpoint runs in system_server, so the panel state is read from a local service. */
-    private static volatile android.os.PowerManager powerManager;
     private final Object lock = new Object();
     private final CallerVerifier verifier;
     private volatile boolean retired;
@@ -53,11 +46,13 @@ public final class WeatherNativeEndpointOS4 {
     private long epoch;
     private long revision;
     private long ticket;
+    // Writes revoke the snapshot under lock, then wake the query lane.
+    private volatile long notificationVersion;
 
     @FunctionalInterface interface CallerVerifier { boolean isWeather(int uid, int pid); }
     private record Values(int level, int card, int blur, boolean allow, boolean frameworkAllow,
         String reason, FrameworkHookGate.Fingerprint framework) { }
-    private record Published(Values values, long epoch, long revision, long deadline) { }
+    private record Published(Values values, long epoch, long revision, long deadline, boolean observed) { }
     public record Snapshot(int available, int flags, long epoch, long revision, long deadline,
         int deviceLevel, int cardType, int blur) { }
 
@@ -76,70 +71,84 @@ public final class WeatherNativeEndpointOS4 {
         }
     }
 
-    // Owner changes are lifecycle transitions between endpoint instances, irrespective of equality.
-    @SuppressWarnings("PMD.CompareObjectsWithEquals")
-    private static boolean screenInteractive() {
-        try {
-            android.os.PowerManager manager = powerManager;
-            if (manager == null) {
-                final Context context = ContextUtils.getContextNoError(
-                    ContextUtils.FlAG_ONLY_ANDROID);
-                if (context == null) return true;
-                manager = context.getSystemService(android.os.PowerManager.class);
-                if (manager == null) return true;
-                powerManager = manager;
-            }
-            return manager.isInteractive();
-        } catch (RuntimeException | Error unavailable) {
-            return true;
-        }
+    private static boolean isWeatherChange(Uri uri) {
+        if (uri == null) return true;
+        String key = uri.getLastPathSegment();
+        if (key == null || key.equals("pref")) return true;
+        if (key.startsWith("prefs_key_")) key = key.substring("prefs_key_".length());
+        for (String[] spec : SPECS) if (spec[1].equals(key)) return true;
+        return false;
     }
 
-    /**
-     * Sleep a period, but in {@link #IDLE_SLICE_MS} slices while the panel is non-interactive, so an
-     * owner change (which interrupts this thread) and the first interactive cycle both take effect on
-     * the next slice rather than after the whole idle period.
-     */
-    private static void sleepWithIdleGate(long delay) throws InterruptedException {
-        if (delay <= IDLE_SLICE_MS || screenInteractive()) {
-            Thread.sleep(delay);
-            return;
+    private static void invalidateOwner() {
+        final WeatherNativeEndpointOS4 current;
+        synchronized (WORKER_LOCK) { current = owner; }
+        if (current == null) return;
+        synchronized (current.lock) {
+            if (current.retired) return;
+            if (current.ticket != Long.MAX_VALUE) ++current.ticket;
+            current.invalidateLocked();
+            ++current.notificationVersion;
         }
-        long remaining = delay;
-        while (remaining > 0) {
-            Thread.sleep(Math.min(remaining, IDLE_SLICE_MS));
-            if (screenInteractive()) return;
-            remaining -= IDLE_SLICE_MS;
-        }
-    }
-
-    /**
-     * Cadence for the next cycle: the retry ladder is exactly what it was while the panel is
-     * interactive, and doze only raises the floor to {@link #DOZE_REFRESH_MS}.
-     */
-    static long nextDelay(long previousDelay, boolean refreshed, boolean interactive) {
-        final long ladder = refreshed ? ACTIVE_REFRESH_MS
-            : Math.min(Math.max(previousDelay, ACTIVE_REFRESH_MS) * 2, DOZE_REFRESH_MS);
-        return interactive ? ladder : Math.max(ladder, DOZE_REFRESH_MS);
+        synchronized (WORKER_LOCK) { WORKER_LOCK.notifyAll(); }
     }
 
     private static void workerLoop() {
-        long delay = ACTIVE_REFRESH_MS;
-        try {
-            for (;;) {
-                final WeatherNativeEndpointOS4 current;
-                synchronized (WORKER_LOCK) {
-                    current = owner;
-                    if (current == null) return;
-                }
-                Thread.interrupted();
-                // The failure ladder is unchanged while the panel is interactive; doze only lifts
-                // the floor, and the slice loop below returns early the moment it stops being doze.
-                delay = nextDelay(delay, current.refreshFromProvider(), screenInteractive());
-                synchronized (WORKER_LOCK) { if (owner != current) continue; }
-                try { sleepWithIdleGate(delay); } catch (InterruptedException changedOwner) { }
+        Context context = null;
+        ContentResolver resolver = null;
+        boolean watchingPackage = false;
+        final ContentObserver observer = new ContentObserver(null) {
+            @Override public void onChange(boolean selfChange, Uri uri) {
+                if (isWeatherChange(uri)) invalidateOwner();
             }
+        };
+        final BroadcastReceiver packageObserver = new BroadcastReceiver() {
+            @Override public void onReceive(Context receiverContext, Intent intent) {
+                final Uri packageUri = intent.getData();
+                if (packageUri != null && MODULE_PACKAGE.equals(packageUri.getSchemeSpecificPart()))
+                    invalidateOwner();
+            }
+        };
+        try {
+            while (context == null) {
+                synchronized (WORKER_LOCK) {
+                    if (owner == null) return;
+                }
+                context = ContextUtils.getContextNoError(ContextUtils.FlAG_ONLY_ANDROID);
+                if (context == null) {
+                    synchronized (WORKER_LOCK) {
+                        if (owner == null) return;
+                        try { WORKER_LOCK.wait(FIRST_RETRY_MS); }
+                        catch (InterruptedException changedOwner) { /* Check the owner again. */ }
+                    }
+                }
+            }
+            try {
+                final IntentFilter packages = new IntentFilter();
+                packages.addAction(Intent.ACTION_PACKAGE_ADDED);
+                packages.addAction(Intent.ACTION_PACKAGE_REPLACED);
+                packages.addAction(Intent.ACTION_PACKAGE_REMOVED);
+                packages.addAction(Intent.ACTION_PACKAGE_DATA_CLEARED);
+                packages.addDataScheme("package");
+                context.registerReceiver(packageObserver, packages, Context.RECEIVER_NOT_EXPORTED);
+                watchingPackage = true;
+                resolver = context.getContentResolver();
+                resolver.registerContentObserver(Uri.parse(PREFS_URI + "/pref"), true, observer);
+            } catch (RuntimeException unavailable) {
+                // Allow the initial read, but an unobserved result cannot renew its lease.
+                resolver = null;
+                ModuleLog.w("HyperCeiler.Weather", "Configuration observer unavailable", unavailable);
+            }
+            refreshOnChange(resolver != null);
         } finally {
+            if (resolver != null) {
+                try { resolver.unregisterContentObserver(observer); }
+                catch (RuntimeException unavailable) { /* The observer is being retired. */ }
+            }
+            if (watchingPackage) {
+                try { context.unregisterReceiver(packageObserver); }
+                catch (RuntimeException unavailable) { /* The receiver is being retired. */ }
+            }
             synchronized (WORKER_LOCK) {
                 if (worker == Thread.currentThread()) {
                     worker = null;
@@ -147,6 +156,40 @@ public final class WeatherNativeEndpointOS4 {
                     if (owner != null && !owner.retired) owner.startPrefetch();
                 }
             }
+        }
+    }
+
+    /** One serial query lane even when a retired generation has a blocked Provider call. */
+    private static void refreshOnChange(boolean observed) {
+        WeatherNativeEndpointOS4 previous = null;
+        long attemptedVersion = -1;
+        long lastQueryAt = 0;
+        int retries = 0;
+        boolean success = false;
+        for (;;) {
+            final WeatherNativeEndpointOS4 current;
+            synchronized (WORKER_LOCK) {
+                current = owner;
+                if (current == null) return;
+                if (current == previous && current.notificationVersion == attemptedVersion) {
+                    final boolean idle = success || retries == MAX_RETRIES;
+                    final long remaining = idle ? 0
+                        : ((FIRST_RETRY_MS << retries) * 1_000_000L) - (System.nanoTime() - lastQueryAt);
+                    if (idle || remaining > 0) {
+                        try { WORKER_LOCK.wait(idle ? 0 : (remaining + 999_999L) / 1_000_000L); }
+                        catch (InterruptedException changedOwner) { /* Check ownership before retrying. */ }
+                        continue;
+                    }
+                    ++retries;
+                } else {
+                    previous = current;
+                    attemptedVersion = current.notificationVersion;
+                    retries = 0;
+                }
+            }
+            Thread.interrupted();
+            success = current.refreshFromProvider(observed);
+            lastQueryAt = System.nanoTime();
         }
     }
 
@@ -167,10 +210,12 @@ public final class WeatherNativeEndpointOS4 {
 
     private void invalidateLocked() {
         if (epoch == 0 || revision == Long.MAX_VALUE) { published = null; return; }
-        published = new Published(null, epoch, ++revision, 0);
+        published = new Published(null, epoch, ++revision, 0, false);
     }
 
-    boolean refreshFromProvider() {
+    boolean refreshFromProvider() { return refreshFromProvider(false); }
+
+    private boolean refreshFromProvider(boolean observed) {
         final long attempt;
         synchronized (lock) {
             if (retired) return false;
@@ -182,7 +227,7 @@ public final class WeatherNativeEndpointOS4 {
         }
         final long started = SystemClock.elapsedRealtimeNanos();
         boolean success;
-        try { success = refresh(attempt, started); }
+        try { success = refresh(attempt, started, observed); }
         catch (RuntimeException | Error unavailable) { success = false; }
         synchronized (lock) {
             if (!success && ticket == attempt && !retired) invalidateLocked();
@@ -190,7 +235,7 @@ public final class WeatherNativeEndpointOS4 {
         return success;
     }
 
-    private boolean refresh(long attempt, long started) {
+    private boolean refresh(long attempt, long started, boolean observed) {
         if (started <= 0 || started > Long.MAX_VALUE - LEASE_NS) return false;
         Values values = queryProviderValues();
         if (values == null) return false;
@@ -201,7 +246,7 @@ public final class WeatherNativeEndpointOS4 {
             if (retired || ticket != attempt || revision == Long.MAX_VALUE
                 || now < started || now >= started + LEASE_NS) return false;
             if (epoch == 0) epoch = nonce;
-            published = new Published(values, epoch, ++revision, started + LEASE_NS);
+            published = new Published(values, epoch, ++revision, started + LEASE_NS, observed);
         }
         return true;
     }
@@ -211,7 +256,7 @@ public final class WeatherNativeEndpointOS4 {
         if (context == null || context.getContentResolver() == null) return null;
         Object[] row = new Object[SPECS.length];
         try (Cursor cursor = context.getContentResolver().query(Uri.parse(
-                "content://com.sevtinge.hyperceiler.provider.sharedprefs/weather_config"),
+                PREFS_URI + "/weather_config"),
                 null, null, null, null)) {
             if (!isProviderSchema(cursor)) return null;
             for (int i = 0; i < SPECS.length; i++) {
@@ -277,25 +322,28 @@ public final class WeatherNativeEndpointOS4 {
     }
 
     /** Null requests one retry after retirement or a concurrent publication. */
-    // A refreshed record with equal contents is still a new publication; validate its identity.
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
     private Snapshot tryReadSnapshot() {
         Published value = published;
         long now = SystemClock.elapsedRealtimeNanos();
-        if (!isLeaseLive(value, now)) return unavailable(value);
+        final long deadline = leaseDeadline(value, now);
+        if (deadline == 0) return unavailable(value);
         Values v = value.values();
         boolean allowed = isAllowed(v);
         long finished = SystemClock.elapsedRealtimeNanos();
         if (retired || published != value) return null;
-        if (finished < now || finished >= value.deadline()) return unavailable(value);
+        if (finished < now || finished >= deadline) return unavailable(value);
         if (!allowed) return new Snapshot(1, 0, value.epoch(), value.revision(), 0, 3, 0, 0);
-        return new Snapshot(1, 1, value.epoch(), value.revision(), value.deadline(),
+        return new Snapshot(1, 1, value.epoch(), value.revision(), deadline,
             v.level(), v.card(), v.blur());
     }
 
-    private boolean isLeaseLive(Published value, long now) {
-        return !retired && value != null && value.values() != null && now > 0
-            && now < value.deadline() && value.deadline() - now <= LEASE_NS;
+    private long leaseDeadline(Published value, long now) {
+        if (retired || value == null || value.values() == null || now <= 0
+            || now > Long.MAX_VALUE - LEASE_NS || now < value.deadline() - LEASE_NS) return 0;
+        // A settings or package event revokes the observed revision before its next read.
+        if (value.observed()) return now + LEASE_NS;
+        return now < value.deadline() ? value.deadline() : 0;
     }
 
     private static boolean isAllowed(Values values) {

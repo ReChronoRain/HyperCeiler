@@ -14,6 +14,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.base.OriginalArgumentsHook;
 import com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
@@ -39,8 +40,11 @@ public final class HomeHideRecentCardsOS4 extends BaseHook {
     private record Listener(int uid, Object target, Method changed) { }
     private final ConcurrentHashMap<Object, Listener> listeners = new ConcurrentHashMap<>();
     private final AtomicBoolean queued = new AtomicBoolean(), appliedReported = new AtomicBoolean();
-    private final ThreadLocal<ArrayDeque<Selection>> calls = ThreadLocal.withInitial(ArrayDeque::new);
+    private record Call(Selection selection, String owner) { }
+    private final ThreadLocal<ArrayDeque<Call>> calls = ThreadLocal.withInitial(ArrayDeque::new);
     private static final Selection STOCK = new Selection(Set.of(), -1);
+    private static final Call STOCK_CALL = new Call(STOCK, "");
+    private static String executionOwner() { return PropUtils.getProp("debug.hyperceiler.home_cards_owner", ""); }
     private volatile Selection selection;
     private volatile Context context;
     private volatile boolean closed;
@@ -97,19 +101,23 @@ public final class HomeHideRecentCardsOS4 extends BaseHook {
             bound.add(type); // Do not install duplicate hooks after a partial backend failure.
             observeMethod(implementation, new IMethodHook() {
                 @Override public void before(HookParam p) {
+                    String owner = executionOwner();
+                    if (owner.startsWith("native:")) { calls.get().push(STOCK_CALL); return; }
                     Selection current = selection;
                     if (!closed && current == null && SystemClock.elapsedRealtime() >= retryAt) requestRefresh();
-                    calls.get().push(!closed && current != null && current.owns(Binder.getCallingUid()) ? current : STOCK);
+                    calls.get().push(!closed && current != null && current.owns(Binder.getCallingUid())
+                        ? new Call(current, owner) : STOCK_CALL);
                 }
                 @Override public void after(HookParam p) {
                     var stack = calls.get();
-                    Selection captured = stack.isEmpty() ? STOCK : stack.pop();
+                    Call frame = stack.isEmpty() ? STOCK_CALL : stack.pop();
+                    Selection captured = frame.selection();
                     if (stack.isEmpty()) calls.remove();
                     if (closed || captured == STOCK || captured != selection || captured.packages().isEmpty()
-                        || p.getThrowable() != null) return;
+                        || p.getThrowable() != null || !frame.owner().equals(executionOwner())) return;
                     try {
                         Object original = p.getResult(), filtered = plan.filter(original, captured.packages());
-                        if (selection != captured || closed || filtered == original) return;
+                        if (selection != captured || closed || filtered == original || !frame.owner().equals(executionOwner())) return;
                         p.setResult(filtered);
                         if (appliedReported.compareAndSet(false, true)) ModuleLog.i(TAG,
                             "selected-app cards filtered from launcher reply, task store and processes unchanged");

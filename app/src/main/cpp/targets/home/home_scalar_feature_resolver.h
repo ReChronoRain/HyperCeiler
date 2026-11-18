@@ -9,6 +9,31 @@ struct LayoutScalarFeature {
     runtime_contract::ScalarSource source{};
     std::vector<uint32_t> margin_callers; // Verified Dock return PCs, never shared workspace/config producers.
 };
+// The AOT compiler may inline the configuration producer. Match its complete
+// executable body, resolving BL destinations rather than comparing relative
+// call encodings. Pool loads, fields and branch diamonds come from this image.
+inline bool scalar_config_read(const Function& f,size_t at,uint32_t config,
+    const home_dynamic::Body& root) {
+    using namespace home_dynamic;
+    uint32_t to=0;
+    if(target(f.words[at],f.va+uint32_t(at*4),to)&&to==config)return true;
+    size_t end=3;
+    while(end<root.size()&&!runtime_contract::epilogue(root,end))++end;
+    if(end<7||end==root.size()||at+1<end-3)return false;
+    uint32_t last=0;
+    if(target(root[end-1],config+uint32_t((end-1)*4),last)) {
+        if(!target(f.words[at],f.va+uint32_t(at*4),to)||to!=last)return false;
+    } else if(f.words[at]!=root[end-1])return false;
+    const size_t begin=at+1-(end-3);
+    for(size_t j=3;j<end;++j) {
+        const size_t k=begin+j-3;
+        uint32_t expected=0,actual=0;
+        if(target(root[j],config+uint32_t(j*4),expected)) {
+            if(!target(f.words[k],f.va+uint32_t(k*4),actual)||actual!=expected)return false;
+        } else if(root[j]!=f.words[k])return false;
+    }
+    return true;
+}
 // Every returning arm must define unboxed D0 immediately before the epilogue,
 // or branch directly to it. This also covers zero and the original typed tail
 // getter; a nominal object-returning helper is never enough evidence.
@@ -88,8 +113,7 @@ inline std::optional<LayoutScalarFeature> layout_scalar_feature(const Code& code
         const auto& b=f.words;if(!frame_size(b))continue;
         unsigned hits=0;Source candidate{};
         for(size_t j=0;j+6<b.size();++j) {
-            uint32_t to=0;
-            if(!target(b[j],f.va+uint32_t(j*4),to)||to!=config||!ldw(b[j+1],0,1)
+            if(!scalar_config_read(f,j,config,root)||!ldw(b[j+1],0,1)
                 ||!field(imm9(b[j+1]))||b[j+2]!=0x8b1c8021u||!ldd(b[j+3],1,0)||!field(imm9(b[j+3])))continue;
             bool returns=!margin&&runtime_contract::epilogue(b,j+4);int32_t local=0;
             uint32_t screen=0;
@@ -99,6 +123,12 @@ inline std::optional<LayoutScalarFeature> layout_scalar_feature(const Code& code
                     uint32_t current=0;
                     if(target(sb[i],screen+uint32_t(i*4),current)&&current==config&&ldw(sb[i+1],0,1)
                         &&field(imm9(sb[i+1]))&&sb[i+2]==0x8b1c8021u)shared=true;
+                }
+                if(!shared) {
+                    Function inlined{screen,sb};
+                    for(size_t i=0;i+2<sb.size();++i)
+                        if(scalar_config_read(inlined,i,config,root)&&ldw(sb[i+1],0,1)
+                            &&field(imm9(sb[i+1]))&&sb[i+2]==0x8b1c8021u)shared=true;
                 }
                 returns=shared&&scalar_double_return(code,screen)
                     &&runtime_contract::margin_return(b,j+4,f.va,screen,local);
@@ -180,6 +210,54 @@ inline std::optional<LayoutScalarFeature> layout_scalar_feature(const Code& code
                             &&imm9(b[j+2])==imm9(b[i+2]))center=true;
                     }
                 }
+                if(origin||center)result->margin_callers.push_back(f.va+uint32_t((i+1)*4));
+            }
+        }
+        // Newer AOT output keeps the row-height accessor but inlines its config
+        // producer. Prove that accessor from the same Dock rectangle subtraction
+        // before admitting origin/centre users of the margin.
+        std::vector<uint32_t> height_getters;
+        for(const auto& f:code.functions()) {
+            bool dock=false;
+            for(auto pc:result->margin_callers)if(pc>f.va&&pc<=f.va+f.words.size()*4)dock=true;
+            if(!dock)continue;
+            const auto& b=f.words;
+            for(size_t i=0;i+3<b.size();++i) {
+                uint32_t to=0;Body body;
+                if(!target(b[i],f.va+uint32_t(i*4),to)||to==result->source.target
+                    ||b[i+1]!=0x4ea01c01u||!ldd(b[i+2],29,0)||!frame_slot(b,imm9(b[i+2]))
+                    ||b[i+3]!=0x1e613802u||!code.body(to,body))continue;
+                Function getter{to,body};
+                for(size_t j=0;j+4<body.size();++j)
+                    if(scalar_config_read(getter,j,config,root)&&ldd(body[j+1],0,0)
+                        &&field(imm9(body[j+1]))&&runtime_contract::epilogue(body,j+2))height_getters.push_back(to);
+            }
+        }
+        std::sort(height_getters.begin(),height_getters.end());
+        height_getters.erase(std::unique(height_getters.begin(),height_getters.end()),height_getters.end());
+        if(height_getters.size()==1)for(const auto& f:code.functions()) {
+            const auto& b=f.words;
+            for(size_t i=0;i+10<b.size();++i) {
+                uint32_t to=0;
+                if(!target(b[i],f.va+uint32_t(i*4),to)||to!=result->source.target)continue;
+                bool origin=false,center=false;
+                if(b[i+1]==0x4ea01c01u&&ldd(b[i+2],29,0)&&frame_slot(b,imm9(b[i+2]))
+                    &&b[i+3]==0x1e612802u&&std_(b[i+4],29,2))
+                    for(size_t j=i+5;j+6<b.size();++j) {
+                        uint32_t height=0;
+                        if(target(b[j],f.va+uint32_t(j*4),height)&&height==height_getters[0]
+                            &&ldd(b[j+1],29,1)&&imm9(b[j+1])==imm9(b[i+4])
+                            &&b[j+2]==0x1e602822u&&b[j+3]==0x4ea21c40u
+                            &&runtime_contract::epilogue(b,j+4))origin=true;
+                    }
+                if(b[i+1]==0x4ea01c03u&&ldd(b[i+2],29,0)&&frame_slot(b,imm9(b[i+2]))
+                    &&b[i+5]==0x6e211c21u&&b[i+6]==0x6e221c42u
+                    &&(b[i+7]&0xfc000000u)==0x94000000u&&runtime_contract::epilogue(b,i+8))
+                    for(size_t j=0;j+1<i;++j) {
+                        uint32_t height=0;
+                        if(target(b[j],f.va+uint32_t(j*4),height)&&height==height_getters[0]
+                            &&std_(b[j+1],29,0)&&imm9(b[j+1])==imm9(b[i+2]))center=true;
+                    }
                 if(origin||center)result->margin_callers.push_back(f.va+uint32_t((i+1)*4));
             }
         }

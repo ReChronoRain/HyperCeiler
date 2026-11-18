@@ -7,7 +7,8 @@ public class ContentResolver {
     public static boolean recentHeaderExtras = false;
     public static boolean recentDismissExtras = false;
     private static String[][] specs = new String[0][];
-    private static int failureIndex = -1, queries;
+    private static int failureIndex = -1;
+    private static volatile int queries;
     private static String failureMode;
     private static boolean wrongSchema, emptyBatch;
     private static android.database.ContentObserver observer;
@@ -49,6 +50,8 @@ public class ContentResolver {
             return new android.database.Cursor() {
                 public android.os.Bundle getExtras() {
                     android.os.Bundle b = new android.os.Bundle();
+                    String haptic = com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.HAPTIC_PROFILE_V1;
+                    if (snapshot.get(haptic) instanceof Integer profile) b.putInt(haptic, profile);
                     if(recentsExtras) {
                         b.putInt("hc_recents_bar_version",1);
                         Object v=snapshot.get("prefs_key_home_recent_hide_status_bar_in_task_view");

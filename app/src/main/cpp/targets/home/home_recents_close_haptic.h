@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
 #include "home_recent_dismiss.h"
+#include <algorithm>
 namespace home_layout::features::close_haptic {
 using namespace home_dynamic;
 struct Plan {uint32_t commit=0,stock=0,after_stock=0;};
@@ -80,13 +81,19 @@ inline constexpr uint32_t impact[]={
 };
 }
 inline std::optional<Plan> resolve(const auto& code){
-    const Function *vertical=nullptr,*arm=nullptr,*impact=nullptr;
+    const Function *vertical=nullptr,*arm=nullptr;
+    std::vector<const Function*> impacts;
     for(const auto& f:code.functions()){
         if(dismiss::matches(f,shapes::vertical)){if(vertical)return {};vertical=&f;}
         if(dismiss::matches(f,shapes::arm)){if(arm)return {};arm=&f;}
-        if(dismiss::matches(f,shapes::impact)){if(impact)return {};impact=&f;}
+        // The impact wrapper differs across builds only in its shared-stub tail branch,
+        // whose displacement follows the image layout once the long B is masked like a
+        // BL. Structural shape matches alone are therefore ambiguous; the wrapper this
+        // owner actually invokes is picked by the call linkage below, and the produced
+        // plan records only vertical-internal offsets.
+        if(dismiss::matches(f,shapes::impact))impacts.push_back(&f);
     }
-    if(!vertical||!arm||!impact)return {};
+    if(!vertical||!arm||impacts.empty())return {};
     const auto& b=vertical->words;const auto& a=arm->words;
     // Same animation field, and the two already guarded success/cancel arms
     // must use the same original Value.to implementation.
@@ -95,12 +102,14 @@ inline std::optional<Plan> resolve(const auto& code){
     Plan out;
     for(size_t i=1;i+4<b.size();++i){
         const auto to=dismiss::call(*vertical,i);
+        const bool impact_call=std::any_of(impacts.begin(),impacts.end(),
+            [&](const Function*f){return f->va==to;});
         if(to==arm->va){
             if(!ldx(b[i-1],29,1)||imm9(b[i-1])!=imm9(b[3])||!ldx(b[i+1],29,0)
                 ||!ldw(b[i+2],0,1)||b[i+3]!=0x8b1c8021u||b[i+4]!=0x6b16003fu)return {};
             if(out.commit)return {};out.commit=vertical->va+uint32_t((i+1)*4);
         }
-        if(to==impact->va){
+        if(impact_call){
             if(i<7||!ldx(b[i+1],29,0)||imm9(b[i+1])!=imm9(b[3]))return {};
             const size_t start=i-7;
             if((b[start]&0xffc003ffu)!=0x91400371u)return {};

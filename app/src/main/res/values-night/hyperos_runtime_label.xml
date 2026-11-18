@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hyperos_runtime_label_foreground">@color/miuix_color_blue_dark_primary_default</color>
+    <color name="hyperos_runtime_label_background">@color/miuix_color_blue_dark_secondary_default</color>
+</resources>

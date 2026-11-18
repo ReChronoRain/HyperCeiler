@@ -501,28 +501,27 @@ public class PrefsBridge {
         if (!commitClear(mPhysicalPrefs, "physical")) {
             return;
         }
-        Map<String, ?> remoteEntries = mRemotePrefs == null ? Collections.emptyMap() : new HashMap<>(mRemotePrefs.getAll());
         clearHookCache();
-        if (mRemotePrefs == null) {
-            return;
-        }
-
+        SharedPreferences remote = mRemotePrefs;
         LinkedHashSet<String> changedKeys = new LinkedHashSet<>();
         changedKeys.addAll(localEntries.keySet());
-        changedKeys.addAll(remoteEntries.keySet());
-        if (!changedKeys.isEmpty()) {
-            SharedPreferences.Editor remoteEdit = mRemotePrefs.edit();
-            for (String key : remoteEntries.keySet()) {
-                remoteEdit.remove(key);
+        Map<String, ?> remoteEntries = Collections.emptyMap();
+        try {
+            if (remote != null) {
+                remoteEntries = new HashMap<>(remote.getAll());
+                changedKeys.addAll(remoteEntries.keySet());
+                if (!remoteEntries.isEmpty()) {
+                    SharedPreferences.Editor remoteEdit = remote.edit();
+                    for (String key : remoteEntries.keySet()) remoteEdit.remove(key);
+                    commitEditor(remoteEdit, "remote", "clear remote prefs");
+                }
             }
-            if (!commitEditor(remoteEdit, "remote", "clear remote prefs")) {
-                return;
+        } finally {
+            // The physical reset is already committed even if the remote store is unavailable.
+            for (String key : changedKeys) {
+                Object value = localEntries.containsKey(key) ? localEntries.get(key) : remoteEntries.get(key);
+                notifyPrefChanged(key, resolvePrefType(value));
             }
-        }
-
-        for (String key : changedKeys) {
-            Object value = localEntries.containsKey(key) ? localEntries.get(key) : remoteEntries.get(key);
-            notifyPrefChanged(key, resolvePrefType(value));
         }
     }
 

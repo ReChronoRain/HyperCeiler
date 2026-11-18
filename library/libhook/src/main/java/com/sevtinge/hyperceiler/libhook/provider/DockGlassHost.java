@@ -69,6 +69,11 @@ final class DockGlassHost {
     // Accessed on the app main thread only. Two slots allow resize handover.
     private final HashMap<String, Entry> entries = new HashMap<>();
     private final IBinder lifetime = new Binder();
+    private final int clientUid;
+
+    DockGlassHost() { this(-1); }
+
+    DockGlassHost(int clientUid) { this.clientUid = clientUid; }
     private int dockCreates;
     // Brightness bit the live material was built from (1 = light wallpaper, 0 = dark, -1 = none).
     // Process-wide because the applied wallpaper is; see probe(). Main-thread writes, volatile for
@@ -138,12 +143,12 @@ final class DockGlassHost {
         }
     }
 
-    private static void checkCaller(String method) {
+    private void checkCaller(String method) {
         int uid = Binder.getCallingUid();
         boolean selfTest = "dock_glass_self_test".equals(method);
         boolean diagnostics = "dock_glass_diagnostics".equals(method);
         boolean history = "dock_glass_history".equals(method);
-        if (uid != Process.SYSTEM_UID && uid != Process.myUid()
+        if (uid != Process.SYSTEM_UID && uid != Process.myUid() && uid != clientUid
                 && !((selfTest || diagnostics || history) && uid == 2000)) {
             throw new SecurityException("Only the system Dock hook may manage glass hosts");
         }

@@ -210,6 +210,11 @@ object NativeHomeHooksOS4 {
                     prefBoolean("home_dock_bg_custom_enable") && prefStringInt("home_dock_add_blur") == 1
                 )
                 stage("configure done status=${hex(initialStatus)}${describeStatus(initialStatus)}")
+                // The actual HYOS renderer may have no ART VM. Never select an unverified
+                // Java transport merely because the module entry ran in another process.
+                if (android.os.SystemProperties.get("debug.hyperceiler.home_config_backend", "wms") == "java") {
+                    HomeLayoutLocalRuntime.start()
+                }
                 // The Dock preference is what decides whether the launcher pays for the native
                 // motion pipeline at all; push it before anything else can start following.
                 val dockStatus = syncDockEnabled()

@@ -59,11 +59,22 @@ public class SharedPrefsProvider extends ContentProvider {
 
     SharedPreferences prefs;
     private final DockGlassHost dockGlassHost = new DockGlassHost();
+    private final XiaoheiziLayerHost xiaoheiziLayerHost = new XiaoheiziLayerHost();
+    private final HomeExtraGestureRegistry extraGestures = new HomeExtraGestureRegistry();
 
     @Override
     public Bundle call(String method, String arg, Bundle extras) {
+        if (method != null && method.startsWith("hc_home_extra_")) {
+            return extraGestures.call(getContext(), method, extras);
+        }
         if (method != null && method.startsWith("dock_glass_")) {
             return dockGlassHost.call(getContext(), method, arg, extras);
+        }
+        if (method != null && method.startsWith("xiaoheizi_")) {
+            return xiaoheiziLayerHost.call(getContext(), method, arg, extras);
+        }
+        if ("hc_home_platform_contract".equals(method)) {
+            return HomePlatformContract.query(getContext());
         }
         if ("hc_debug_put".equals(method)) {
             return debugPut(arg);
@@ -203,7 +214,12 @@ public class SharedPrefsProvider extends ContentProvider {
             return HomeRecentsHapticPrefs.cursor(prefs);
         }
         if (AUTHORITY.equals(uri.getAuthority()) && "/home_layout".equals(uri.getPath())) {
-            return HomeLayoutPrefsSnapshot.cursor(prefs);
+            if (prefs == null) return null;
+            try {
+                final var values = prefs.getAll();
+                final var haptic = HomeRecentsHapticPrefs.profile(values);
+                return HomeLayoutPrefsSnapshot.cursorValues(values, haptic == null ? -1 : haptic.encoded());
+            } catch (RuntimeException unavailable) { return null; }
         }
         if (prefs == null) {
             // A missing preference handle is unavailable, not a successful all-keys deletion.
@@ -273,7 +289,7 @@ public class SharedPrefsProvider extends ContentProvider {
                 return cursor;
             }
             case 8 -> {
-                return dockGeometryCursor();
+                return dockGeometryCursor(projection);
             }
         }
         return null;
@@ -297,8 +313,19 @@ public class SharedPrefsProvider extends ContentProvider {
      * the value it read from {@code PrefsBridge}, which preserves the settings page's own
      * default instead of turning an untouched preference into a real zero.
      */
-    private Cursor dockGeometryCursor() {
-        MatrixCursor cursor = new MatrixCursor(DOCK_GEOMETRY_COLUMNS);
+    private Cursor dockGeometryCursor(String[] projection) {
+        // Keep the eight-column default and the previous nine-column projection.
+        boolean withRage = projection != null && projection.length == 2
+            && "xiaoheizi_enabled".equals(projection[0]) && "xiaoheizi_rage".equals(projection[1]);
+        boolean withCapsule = withRage || (projection != null && projection.length == 1
+            && "xiaoheizi_enabled".equals(projection[0]));
+        String[] columns = DOCK_GEOMETRY_COLUMNS;
+        if (withCapsule) {
+            columns = java.util.Arrays.copyOf(columns, columns.length + (withRage ? 2 : 1));
+            columns[DOCK_GEOMETRY_COLUMNS.length] = "xiaoheizi_enabled";
+            if (withRage) columns[DOCK_GEOMETRY_COLUMNS.length + 1] = "xiaoheizi_rage";
+        }
+        MatrixCursor cursor = new MatrixCursor(columns);
         if (prefs == null) {
             return cursor;
         }
@@ -321,7 +348,17 @@ public class SharedPrefsProvider extends ContentProvider {
                 row.add(null);
             }
         }
+        if (withCapsule) row.add(dockBoolean("prefs_key_home_layout_xiaoheizi_enable"));
+        if (withRage) row.add(dockBoolean("prefs_key_home_layout_xiaoheizi_rage"));
         return cursor;
+    }
+
+    private int dockBoolean(String key) {
+        try {
+            return prefs.getBoolean(key, false) ? 1 : 0;
+        } catch (ClassCastException malformed) {
+            return 0;
+        }
     }
 
     private boolean isValidPath(List<String> parts, int match) {

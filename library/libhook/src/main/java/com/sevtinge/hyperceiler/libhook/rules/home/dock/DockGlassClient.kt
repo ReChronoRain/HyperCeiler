@@ -297,7 +297,9 @@ internal class DockGlassClient(private val rendererBroker: DockGlassRendererBrok
         val marginHorizontal: Int? = null,
         val marginBottom: Int? = null,
         val bgRadius: Int? = null,
-        val homeMode: Int? = null
+        val homeMode: Int? = null,
+        val xiaoheiziEnabled: Boolean? = null,
+        val xiaoheiziRage: Boolean? = null
     ) {
         /**
          * Mirror this snapshot into [PrefsBridge]'s hook-process cache.
@@ -362,7 +364,7 @@ internal class DockGlassClient(private val rendererBroker: DockGlassRendererBrok
                 guard("geometry query") {
                     catchingRecoverable({
                         val cursor = context.contentResolver.query(Uri.parse("$uri/dock_geometry"),
-                            null, null, null, null)
+                            arrayOf("xiaoheizi_enabled", "xiaoheizi_rage"), null, null, null)
                         if (cursor == null) noteGeometryFailure("null cursor")
                         else success = cursor.use(::applyGeometrySnapshot)
                     }) { noteGeometryFailure("${it.javaClass.simpleName}: ${it.message?.take(100)}") }
@@ -402,7 +404,10 @@ internal class DockGlassClient(private val rendererBroker: DockGlassRendererBrok
         }
         val columns = arrayOf("custom_enable", "add_blur", "bg_color", "bg_height",
             "margin_horizontal", "margin_bottom", "bg_radius", "home_mode")
-        if (!cursor.columnNames.contentEquals(columns)) {
+        val capsuleColumns = columns + "xiaoheizi_enabled"
+        val withRage = cursor.columnNames.contentEquals(capsuleColumns + "xiaoheizi_rage")
+        val withCapsule = withRage || cursor.columnNames.contentEquals(capsuleColumns)
+        if (!withCapsule && !cursor.columnNames.contentEquals(columns)) {
             noteGeometryFailure("unexpected columns")
             return false
         }
@@ -415,7 +420,9 @@ internal class DockGlassClient(private val rendererBroker: DockGlassRendererBrok
             marginHorizontal = cursor.optInt(4),
             marginBottom = cursor.optInt(5),
             bgRadius = cursor.optInt(6),
-            homeMode = cursor.optInt(7)
+            homeMode = cursor.optInt(7),
+            xiaoheiziEnabled = if (withCapsule) cursor.optInt(8)?.let { it != 0 } else null,
+            xiaoheiziRage = if (withRage) cursor.optInt(9)?.let { it != 0 } else null
         )
         if (snapshot == liveGeometry) { geometryFailReason = null; return true }
         liveGeometry = snapshot

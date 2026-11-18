@@ -13,6 +13,7 @@ public final class Uri {
     }
     public static Uri withAppendedPath(Uri base, String path) { return parse(base.value+"/"+path); }
     public String getLastPathSegment() { return value.substring(value.lastIndexOf('/')+1); }
+    public String getSchemeSpecificPart() { return value.substring(value.indexOf(':') + 1); }
 
     @Override
     public String toString() {

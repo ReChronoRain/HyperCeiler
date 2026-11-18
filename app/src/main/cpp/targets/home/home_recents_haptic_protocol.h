@@ -5,6 +5,11 @@ namespace home_layout::haptic {
 constexpr int32_t kTransaction=0x00484356,kAck=0x48435631;
 constexpr int32_t kTransactionV2=0x00484357,kAckV2=0x48435632;
 struct Reply {bool available=false,enabled=false,performed=false;int type=0,strength=50;bool close=false;};
+struct Profile {
+    bool available=false,enabled=false,close=false;
+    int type=0,strength=50;
+    uint32_t encoded()const{return uint32_t(enabled)|(uint32_t(type)<<1)|(close?8u:0u)|(uint32_t(strength)<<4);}
+};
 template<class Read> bool read_reply(Read read,Reply& out,bool extended=false){
     out={};int32_t ack=0,available=0,enabled=0,type=0,strength=0,result=0,close=0;
     if(!read(ack)||!read(available)||!read(enabled)||(extended&&!read(close))||!read(type)||!read(strength)||!read(result)

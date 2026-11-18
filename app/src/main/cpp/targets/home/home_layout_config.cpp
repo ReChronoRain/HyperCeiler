@@ -2,6 +2,8 @@
 #include "home_layout_config.h"
 #include "home_widget_move.h"
 #include "home_endpoint_diagnostics.h"
+#include <cerrno>
+#include <time.h>
 
 #ifdef HYPERCEILER_HYOS_BACKEND
 #include "targets/hyos/hyos_control.h"
@@ -9,6 +11,16 @@
 #include <android/binder_ibinder.h>
 #include <android/log.h>
 #include <android/binder_parcel.h>
+#ifdef __ANDROID__
+#include <android/binder_parcel_jni.h>
+#include "home_local_config_channel.h"
+#include "home_local_config_protocol.h"
+#include "home_native_binder_watch.h"
+#include "home_native_window.h"
+#include <poll.h>
+#include <sys/eventfd.h>
+#include <unistd.h>
+#endif
 #include <android/binder_status.h>
 #include <sys/system_properties.h>
 
@@ -26,11 +38,140 @@
 #include <string>
 #include <cstdarg>
 #include <vector>
-#include <cerrno>
 #include <sys/stat.h>
 #endif
 
 namespace home_layout {
+
+#if defined(__ANDROID__) && !defined(HYPERCEILER_HYOS_BACKEND)
+namespace {
+using home_native_glass::BinderWatch;
+using home_native_platform::Binder;
+
+constexpr transaction_code_t kObserveConfig = 0x00484358;
+constexpr int32_t kObserveAck = 0x48435831;
+struct ConfigObserver {
+    std::atomic<uint64_t> revision{0};
+    std::atomic<bool> retired{false};
+};
+Binder config_observer{nullptr, AIBinder_decStrong};
+std::shared_ptr<BinderWatch::Signal> config_server;
+std::unique_ptr<BinderWatch> config_server_watch;
+int64_t next_config_registration = 0;
+bool reported_config_observer = false;
+
+int config_event() {
+    // Allocated by the layout worker before handing a callback to WMS.
+    static const int fd = eventfd(0, EFD_CLOEXEC | EFD_NONBLOCK);
+    return fd;
+}
+
+void wake_config_worker() {
+    const int fd = config_event();
+    if (fd >= 0) (void)eventfd_write(fd, 1);
+}
+
+const AIBinder_Class* config_observer_class() {
+    static const auto* type = AIBinder_Class_define("com.sevtinge.hyperceiler.home.ConfigObserver",
+        [](void*) -> void* { return new ConfigObserver; },
+        [](void* state) { delete static_cast<ConfigObserver*>(state); },
+        [](AIBinder* binder, transaction_code_t code, const AParcel* input, AParcel*) -> binder_status_t {
+            if (AIBinder_getCallingUid() != 1000) return STATUS_PERMISSION_DENIED;
+            if (AParcel_getDataPosition(input) != AParcel_getDataSize(input)) return STATUS_BAD_VALUE;
+            auto& state = *static_cast<ConfigObserver*>(AIBinder_getUserData(binder));
+            if (code == FIRST_CALL_TRANSACTION) {
+                // Shared across registrations, so a reconnect cannot reuse a worker's revision.
+                static std::atomic<uint64_t> sequence{0};
+                state.revision.store(sequence.fetch_add(1, std::memory_order_relaxed) + 1,
+                    std::memory_order_release);
+                wake_config_worker();
+                return STATUS_OK;
+            }
+            if (code != FIRST_CALL_TRANSACTION + 1) return STATUS_UNKNOWN_TRANSACTION;
+            state.retired.store(true, std::memory_order_release);
+            wake_config_worker();
+            return STATUS_OK;
+        });
+    return type;
+}
+}
+
+uint64_t config_observer_revision() {
+    if (!config_observer || config_server->dead.load(std::memory_order_acquire)) return 0;
+    const auto& state = *static_cast<ConfigObserver*>(AIBinder_getUserData(config_observer.get()));
+    return state.retired.load(std::memory_order_acquire) ? 0 : state.revision.load(std::memory_order_acquire);
+}
+
+void refresh_config_observer() {
+    if (home_local_config::requested() || config_event() < 0) return;
+    timespec clock{};
+    if (clock_gettime(CLOCK_MONOTONIC, &clock) != 0) return;
+    const int64_t now = int64_t(clock.tv_sec) * 1000 + clock.tv_nsec / 1000000;
+    if (config_observer_revision() != 0) {
+        if (!reported_config_observer) {
+            reported_config_observer = true;
+            __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeConfig",
+                "WMS preference observer active; layout and haptic refresh on publication");
+        }
+        return;
+    }
+    if (config_observer) {
+        const auto& state = *static_cast<ConfigObserver*>(AIBinder_getUserData(config_observer.get()));
+        if (!state.retired.load(std::memory_order_acquire)
+            && !config_server->dead.load(std::memory_order_acquire) && now < next_config_registration) return;
+        config_observer.reset();
+        config_server_watch.reset();
+        config_server.reset();
+        reported_config_observer = false;
+    } else if (now < next_config_registration) return;
+
+    next_config_registration = now + 5000;
+    std::string reason;
+    const auto window = home_native_platform::window(reason);
+    if (!window || !home_native_platform::callbacks(reason)) return;
+    const auto* type = config_observer_class();
+    Binder observer(type ? AIBinder_new(type, nullptr) : nullptr, AIBinder_decStrong);
+    if (!observer) return;
+    auto signal = std::make_shared<BinderWatch::Signal>();
+    auto watch = BinderWatch::bind(window.get(), signal, wake_config_worker);
+    if (!watch) return;
+    bool unsupported = false;
+    const auto reply = home_native_platform::call(window.get(), kObserveConfig, [&](AParcel* data) {
+        return AParcel_writeStrongBinder(data, observer.get());
+    }, reason, &unsupported);
+    if (unsupported) next_config_registration = now + 30000;
+    int32_t marker = 0, accepted = 0;
+    if (!reply || AParcel_readInt32(reply.get(), &marker) != STATUS_OK || marker != kObserveAck
+        || AParcel_readInt32(reply.get(), &accepted) != STATUS_OK || accepted != 1
+        || AParcel_getDataPosition(reply.get()) != AParcel_getDataSize(reply.get())) return;
+    config_server = std::move(signal);
+    config_server_watch = std::move(watch);
+    config_observer = std::move(observer);
+}
+#else
+uint64_t config_observer_revision() { return 0; }
+void refresh_config_observer() {}
+#endif
+
+bool wait_for_config_event(long milliseconds) {
+#if defined(__ANDROID__) && !defined(HYPERCEILER_HYOS_BACKEND)
+    const int fd = config_event();
+    if (fd >= 0) {
+        pollfd descriptor{fd, POLLIN, 0};
+        int ready;
+        do { ready = poll(&descriptor, 1, static_cast<int>(milliseconds)); } while (ready < 0 && errno == EINTR);
+        if (ready == 0) return false;
+        if (ready > 0 && (descriptor.revents & POLLIN)) {
+            eventfd_t count = 0;
+            return eventfd_read(fd, &count) == 0;
+        }
+    }
+#endif
+    timespec remaining{milliseconds / 1000, (milliseconds % 1000) * 1000000};
+    while (nanosleep(&remaining, &remaining) != 0 && errno == EINTR) {}
+    return false;
+}
+
 #ifndef HYPERCEILER_HYOS_BACKEND
 namespace {
 constexpr transaction_code_t kLayoutTransaction = 0x0048434C;
@@ -168,7 +309,7 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 21;
+constexpr uint32_t kCacheVersion = 22;
 // The first launcher layout can run before credential-encrypted storage unlocks.
 // Bootstrap must survive a device reboot, not only a process restart after unlock.
 constexpr const char *kCacheDir = "/data/user_de/0/com.miui.home/files";
@@ -233,7 +374,7 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(config.gestures.enabled); put_u32(config.gestures.quick); put_u32(config.gestures.mask);
     put_u32(config.gestures.density_dpi); put_u32(config.gestures.width);
     put_u32(kObjectScaleMagic);
-    for(const auto& scale:config.object_scales){put_u32(scale.enabled);put_u32(scale.percent);}
+    for(size_t i=0;i<3;++i){const auto& scale=config.object_scales[i];put_u32(scale.enabled);put_u32(scale.percent);}
     put_u32(kDockTitleMagic); put_u32(config.dock_show_title);
     put_u32(kRecentMagic); put_u32(kRecentWireCount);
     for(int i=0;i<kRecentWireCount;++i)put_u32(config.recent.values[i]);
@@ -242,6 +383,8 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(kDockHorizontalMagic);put_u32(1);put_u32(uint32_t(config.dock_horizontal));
     put_u32(kInfiniteScrollMagic);put_u32(config.infinite_scroll?1:0);
     put_u32(kRecentHeaderMagic);put_u32(config.recent.values[RecentConfig::HideIcon]|(config.recent.values[RecentConfig::HideText]<<1));
+    put_u32(kMediumScaleMagic);
+    for(size_t i=3;i<5;++i){put_u32(config.object_scales[i].enabled);put_u32(config.object_scales[i].percent);}
 }
 
 bool parse_config(const std::vector<uint8_t> &data, Config &config) {
@@ -250,7 +393,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
     if (version != 4 && version != 5 && version != 6 && version != 7 && version != 8
-        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != 17 && version != 18 && version != 19 && version != 20 && version != kCacheVersion)
+        && version != 9 && version != 10 && version != 11 && version != 12 && version != 13 && version != 14 && version != 15 && version != 16 && version != 17 && version != 18 && version != 19 && version != 20 && version != 21 && version != kCacheVersion)
         return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
@@ -368,6 +511,9 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if(version>=21&&!read_recent_header([&](int32_t& word){
         auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
     },config.recent,false))return false;
+    if(version>=22&&!read_medium_scales([&](int32_t& word){
+        auto next=get_u32();if(!next)return false;word=static_cast<int32_t>(*next);return true;
+    },config.object_scales,false))return false;
     if (version >= 8 && at != data.size()) return false;
     return true;
 }
@@ -419,47 +565,8 @@ static void config_diagnostic(unsigned category,int priority,const char* format,
     __android_log_print(priority,"HyperCeiler.HomeConfig","%s",message);
 }
 
-static bool query_binder(Config &result) {
-    using GetService = AIBinder *(*)(const char *);
-    const auto get_service = reinterpret_cast<GetService>(
-        dlsym(RTLD_DEFAULT, "AServiceManager_getService"));
-    if (get_service == nullptr) {
-        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: AServiceManager_getService missing");return false;
-    }
-    AIBinder *window = get_service("window");
-    if (window == nullptr) {
-        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: window service missing");return false;
-    }
-    const AIBinder_Class *clazz = AIBinder_getClass(window);
-    bool associated = false;
-    if (clazz != nullptr) {
-        const char *descriptor = AIBinder_Class_getDescriptor(clazz);
-        associated = descriptor != nullptr && std::strcmp(descriptor, kDescriptor) == 0;
-    } else {
-        clazz = window_class();
-        associated = clazz != nullptr && AIBinder_associateClass(window, clazz);
-    }
-    if (!associated) {
-        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: IWindowManager descriptor association failed");
-        AIBinder_decStrong(window);
-        return false;
-    }
-    AParcel *input = nullptr;
-    if (AIBinder_prepareTransaction(window, &input) != STATUS_OK || input == nullptr) {
-        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: cannot prepare layout transaction");
-        AIBinder_decStrong(window);
-        return false;
-    }
-    AParcel *output = nullptr;
-    const binder_status_t status = AIBinder_transact(window, kLayoutTransaction,
-        &input, &output, 0);
-    AIBinder_decStrong(window);
-    if (status != STATUS_OK || output == nullptr) {
-        config_diagnostic(0,ANDROID_LOG_WARN,"CONFIG_TRANSACT_FAILED: status=%d response=%d; "
-            "check system_server module scope and restart device after module updates",int(status),output!=nullptr);
-        if(output)AParcel_delete(output);
-        return false;
-    }
+static bool read_layout_reply(const AParcel *output, Config &result, bool strict) {
+    constexpr binder_status_t status = STATUS_OK;
     int32_t ack = 0;
     int32_t grid_enabled = 0;
     int32_t x = 0;
@@ -571,6 +678,17 @@ static bool query_binder(Config &result) {
     if(valid&&has_infinite_scroll)valid=read_recent_header([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.recent,true,&has_recent_header);
+    bool has_medium_scales=false;
+    if(valid&&has_recent_header)valid=read_medium_scales([&](int32_t& word){
+        return AParcel_readInt32(output,&word)==STATUS_OK;
+    },candidate.object_scales,true,&has_medium_scales);
+    // Local publications always use this APK's complete payload. Optional old-WMS tails
+    // remain supported only by the compatibility reader, never by the JNI boundary.
+    if (strict && (count != HC_LAYOUT_KNOB_COUNT
+        || endpoint_state != EndpointDiagnosticState::Valid || endpoint.revision != kEndpointRevision
+        || !has_object_scales || !has_dock_title || !has_recent || !has_drawer || !has_policies
+        || !has_dock_horizontal || !has_infinite_scroll || !has_recent_header || !has_medium_scales
+        || AParcel_getDataPosition(output) != AParcel_getDataSize(output))) valid = false;
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
         return value >= lo && value <= hi;
@@ -582,7 +700,6 @@ static bool query_binder(Config &result) {
         && flag(tweaks[10]) && flag(tweaks[11])
         && flag(tweaks[12]) && within(tweaks[13], 30, 200)
         && flag(tweaks[14]) && within(tweaks[15], 30, 200) && flag(tweaks[16]);
-    if (output != nullptr) AParcel_delete(output);
     if (!valid || !tweaks_ok || !within(title[0], 0, 20)
         || !within(title[1], 0, 20) || !flag(title[3])) {
         /*
@@ -595,7 +712,7 @@ static bool query_binder(Config &result) {
             tweaks_ok?1:0,valid?1:0);
         return false;
     }
-    config_diagnostic(0,ANDROID_LOG_INFO,"CONFIG_TRANSPORT_READY: authenticated layout snapshot accepted");
+    config_diagnostic(0,ANDROID_LOG_INFO,"CONFIG_TRANSPORT_READY: complete layout snapshot accepted");
     if(endpoint_state==EndpointDiagnosticState::Valid) {
         const bool mismatch=endpoint.revision!=kEndpointRevision
             ||!(endpoint.capabilities&kIndependentScalesCapability)||!has_object_scales
@@ -604,7 +721,8 @@ static bool query_binder(Config &result) {
             ||!(endpoint.capabilities&kDrawerSearchCapability)||!has_drawer
             ||!(endpoint.capabilities&kLayoutPoliciesCapability)||!has_policies
             ||!(endpoint.capabilities&kDockHorizontalCapability)||!has_dock_horizontal
-            ||!(endpoint.capabilities&kInfiniteScrollCapability)||!has_infinite_scroll||!has_recent_header;
+            ||!(endpoint.capabilities&kInfiniteScrollCapability)||!has_infinite_scroll||!has_recent_header
+            ||!(endpoint.capabilities&kMediumFolderCapability)||!has_medium_scales;
         config_diagnostic(1,mismatch?ANDROID_LOG_WARN:ANDROID_LOG_INFO,
             "ENDPOINT_%s: client_revision=%d server_revision=%d schema=%d capabilities=%#x pid=%d object_scales=%d dock_title=%d recent=%d drawer=%d policies=%d infinite_scroll=%d recent_header=%d%s",
             mismatch?"MISMATCH":"READY",kEndpointRevision,endpoint.revision,endpoint.schema,endpoint.capabilities,endpoint.pid,
@@ -634,6 +752,66 @@ static bool query_binder(Config &result) {
     return true;
 }
 
+static bool query_binder(Config &result) {
+#ifdef __ANDROID__
+    static bool capabilities_reported = false;
+    if (!capabilities_reported) {
+        capabilities_reported = true;
+        using GetCreatedVms = jint (*)(JavaVM **, jsize, jsize *);
+        const auto get_vms = reinterpret_cast<GetCreatedVms>(dlsym(RTLD_DEFAULT, "JNI_GetCreatedJavaVMs"));
+        JavaVM *vm = nullptr;
+        jsize count = -1;
+        const jint status = get_vms == nullptr ? JNI_ERR : get_vms(&vm, 1, &count);
+        __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeConfig",
+            "LOCAL_CAPABILITY: pid=%d jni_query_api=%d jni_status=%d java_vm_count=%d java_vm_handle=%d",
+            static_cast<int>(getpid()), get_vms != nullptr, status, count, vm != nullptr);
+    }
+#endif
+    using GetService = AIBinder *(*)(const char *);
+    const auto get_service = reinterpret_cast<GetService>(
+        dlsym(RTLD_DEFAULT, "AServiceManager_getService"));
+    if (get_service == nullptr) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: AServiceManager_getService missing");return false;
+    }
+    AIBinder *window = get_service("window");
+    if (window == nullptr) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: window service missing");return false;
+    }
+    const AIBinder_Class *clazz = AIBinder_getClass(window);
+    bool associated = false;
+    if (clazz != nullptr) {
+        const char *descriptor = AIBinder_Class_getDescriptor(clazz);
+        associated = descriptor != nullptr && std::strcmp(descriptor, kDescriptor) == 0;
+    } else {
+        clazz = window_class();
+        associated = clazz != nullptr && AIBinder_associateClass(window, clazz);
+    }
+    if (!associated) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: IWindowManager descriptor association failed");
+        AIBinder_decStrong(window);
+        return false;
+    }
+    AParcel *input = nullptr;
+    if (AIBinder_prepareTransaction(window, &input) != STATUS_OK || input == nullptr) {
+        config_diagnostic(0,ANDROID_LOG_ERROR,"CONFIG_TRANSPORT_UNAVAILABLE: cannot prepare layout transaction");
+        AIBinder_decStrong(window);
+        return false;
+    }
+    AParcel *output = nullptr;
+    const binder_status_t status = AIBinder_transact(window, kLayoutTransaction,
+        &input, &output, 0);
+    AIBinder_decStrong(window);
+    if (status != STATUS_OK || output == nullptr) {
+        config_diagnostic(0,ANDROID_LOG_WARN,"CONFIG_TRANSACT_FAILED: status=%d response=%d; "
+            "check system_server module scope and restart device after module updates",int(status),output!=nullptr);
+        if(output)AParcel_delete(output);
+        return false;
+    }
+    const bool valid = read_layout_reply(output, result, false);
+    AParcel_delete(output);
+    return valid;
+}
+
 // Serialize the infrequent configuration requests, not the Dart build path.
 // A persisted snapshot is only a cold-start bootstrap; it must never supersede
 // a newer successful Binder result when storage writes fail or the endpoint dies.
@@ -641,6 +819,9 @@ struct ProcessConfigCache {
     std::mutex mutex;
     std::optional<Config> latest;
     std::vector<uint8_t> persisted;
+    bool local_owned = false;
+    int local_source = 1; // Java=1, Root channel=2; selected once per process.
+    int64_t local_revision = 0;
 };
 static ProcessConfigCache g_process_config;
 
@@ -670,17 +851,150 @@ bool query_bootstrap_config(Config &result) {
 }
 #endif
 
-bool query_config(Config &result) {
+#ifndef HYPERCEILER_HYOS_BACKEND
+static bool publish_local_reply(const AParcel *parcel, int64_t revision, int source = 1,
+    haptic::Profile profile = {}, cards::Snapshot selected = {},uint64_t generation=0,home_dock::Config dock={}) {
+    if (revision <= 0 || parcel == nullptr) return false;
+    Config candidate;
+    const bool valid = read_layout_reply(parcel, candidate, true);
+    if (!valid) return false;
+    std::lock_guard<std::mutex> lock(g_process_config.mutex);
+    if (!g_process_config.local_owned || revision <= g_process_config.local_revision) return false;
+    if(g_process_config.local_source!=source)return false;
+    candidate.local_haptic=profile;
+    candidate.local_dock=dock;
+    candidate.local_recent_cards=std::move(selected);
+    candidate.local_cards_generation=generation;
+    // One complete publication, including neutral values and explicit resets. The old
+    // WMS source cannot replace it: query_config stops that transport after nativeBegin.
+    g_process_config.local_revision = revision;
+    g_process_config.latest = candidate;
+    std::vector<uint8_t> serialized;
+    serialize_config(candidate, serialized);
+    if (serialized != g_process_config.persisted && write_config_cache(candidate))
+        g_process_config.persisted = std::move(serialized);
+    config_diagnostic(2, ANDROID_LOG_INFO, "CONFIG_SOURCE: launcher-local configuration publication");
+    return true;
+}
+
+#endif
+
+#if defined(__ANDROID__) && !defined(HYPERCEILER_HYOS_BACKEND)
+static bool publish_root_packet(const unsigned char* bytes,size_t length,uint32_t version,
+    std::shared_ptr<const home_local_config::HapticWavePack>& waves) {
+    home_local_config::Snapshot snapshot;
+    if(!home_local_config::read_snapshot(version,{bytes,length},snapshot))return false;
+    bytes=snapshot.layout.data();length=snapshot.layout.size();
+    static AIBinder_Class* type=AIBinder_Class_define("HyperCeiler.HomeLocal",
+        [](void* value)->void*{return value;},[](void*){},
+        [](AIBinder*,transaction_code_t,const AParcel*,AParcel*)->binder_status_t{return STATUS_UNKNOWN_TRANSACTION;});
+    static AIBinder* local=type?AIBinder_new(type,nullptr):nullptr;
+    if(!local)return false;
+    AParcel* parcel=nullptr;
+    if(AIBinder_prepareTransaction(local,&parcel)!=STATUS_OK)return false;
+    static int64_t revision=0;
+    const bool accepted=AParcel_unmarshal(parcel,bytes,length)==STATUS_OK
+        &&AParcel_setDataPosition(parcel,0)==STATUS_OK
+        &&publish_local_reply(parcel,++revision,2,snapshot.profile,std::move(snapshot.cards),home_local_config::publication_generation(),snapshot.dock);
+    AParcel_delete(parcel);
+    if(accepted)waves=std::move(snapshot.haptic_waves);
+    return accepted;
+}
+#endif
+
+bool local_haptic_profile(haptic::Profile& result) {
+#ifndef HYPERCEILER_HYOS_BACKEND
+    std::lock_guard<std::mutex> lock(g_process_config.mutex);
+    if(g_process_config.local_owned&&g_process_config.local_source==2) {
+        result=g_process_config.latest?g_process_config.latest->local_haptic:haptic::Profile{};
+        return true;
+    }
+#endif
+    result={};return false;
+}
+
+bool inspect_local_recent_cards(cards::Snapshot& result) {
+#ifndef HYPERCEILER_HYOS_BACKEND
+    // Publication also persists a cache. A task-response callback must never
+    // wait behind that I/O; a busy publication retains the original response.
+    std::unique_lock<std::mutex> lock(g_process_config.mutex,std::try_to_lock);
+    if(!lock.owns_lock())return false;
+    result={};
+    if(g_process_config.local_owned&&g_process_config.local_source==2&&g_process_config.latest
+        &&home_local_config::requested()&&home_local_config::publication_current(g_process_config.latest->local_cards_generation))
+        result=g_process_config.latest->local_recent_cards;
+#else
+    result={};
+#endif
+    return true;
+}
+bool local_dock_config(home_dock::Config& result) {
+#ifndef HYPERCEILER_HYOS_BACKEND
+    std::lock_guard<std::mutex> lock(g_process_config.mutex);
+    if(g_process_config.local_owned&&g_process_config.local_source==2&&g_process_config.latest&&home_local_config::requested()) {
+        result=g_process_config.latest->local_dock;return result.available;
+    }
+#endif
+    result={};return false;
+}
+cards::Snapshot local_recent_cards() {
+    cards::Snapshot result;(void)inspect_local_recent_cards(result);return result;
+}
+
+bool commit_local_recent_cards(std::span<void*> groups,const cards::Plan& plan,
+    void (*drop)(void*),size_t& kept) {
+#ifndef HYPERCEILER_HYOS_BACKEND
+    std::unique_lock<std::mutex> lock(g_process_config.mutex,std::try_to_lock);
+    if(!lock.owns_lock())return false;
+    if(!g_process_config.local_owned||g_process_config.local_source!=2||!g_process_config.latest)return false;
+    if(!home_local_config::requested()||!home_local_config::publication_current(g_process_config.latest->local_cards_generation))return false;
+    const auto result=cards::commit(groups,plan,g_process_config.latest->local_recent_cards,drop);
+    if(!result)return false;
+    kept=*result;return true;
+#else
+    (void)groups;(void)plan;(void)drop;(void)kept;return false;
+#endif
+}
+
+bool query_config(Config &result, bool on_change) {
 #ifdef HYPERCEILER_HYOS_BACKEND
+    (void)on_change;
     // Unavailable/expired authorization publishes neutral values, never an old
     // JNI/property/disk configuration or a second independent Binder revision.
     (void) hyos_control::layout_config(result);
     return true;
 #else
+#ifdef __ANDROID__
+    if(home_local_config::requested()) {
+        bool root=false;
+        {
+            std::lock_guard<std::mutex> lock(g_process_config.mutex);
+            if(!g_process_config.local_owned){g_process_config.local_owned=true;g_process_config.local_source=2;}
+            root=g_process_config.local_source==2;
+        }
+        if(root)home_local_config::poll(publish_root_packet);
+    }
+#endif
     std::lock_guard<std::mutex> lock(g_process_config.mutex);
     Config candidate;
+    if (g_process_config.local_owned) {
+        if (g_process_config.latest) candidate = *g_process_config.latest;
+        else if (!read_config_cache(candidate)) return false;
+        else g_process_config.latest = candidate;
+        if (debug_override_enabled()) apply_debug_override(candidate);
+        result = std::move(candidate);
+        return true;
+    }
+    static uint64_t applied_revision = 0;
+    const auto revision = config_observer_revision();
+    const bool debug_override = debug_override_enabled();
+    if (on_change && revision != 0 && revision == applied_revision && !debug_override && g_process_config.latest) {
+        result = *g_process_config.latest;
+        return true;
+    }
     const bool from_binder = query_binder(candidate);
-    if (debug_override_enabled()) {
+    applied_revision = from_binder && !debug_override ? revision : 0;
+    if (debug_override) {
         // Calibration never changes the authoritative in-memory or disk snapshot.
         apply_debug_override(candidate);
         config_diagnostic(2,ANDROID_LOG_WARN,"CONFIG_SOURCE: debug property override (not persisted)");
@@ -713,5 +1027,27 @@ bool query_config(Config &result) {
     return true;
 #endif
 }
+
+
+#if defined(__ANDROID__) && !defined(HYPERCEILER_HYOS_BACKEND)
+extern "C" JNIEXPORT void JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_HomeLayoutLocalRuntime_nativeBegin(
+        JNIEnv *, jclass) {
+    std::lock_guard<std::mutex> lock(g_process_config.mutex);
+    if(g_process_config.local_owned&&g_process_config.local_source!=1)return;
+    g_process_config.local_owned = true;
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_HomeLayoutLocalRuntime_nativePublish(
+        JNIEnv *env, jclass, jobject java_parcel, jlong revision) {
+    if (java_parcel == nullptr) return JNI_FALSE;
+    AParcel *parcel = AParcel_fromJavaParcel(env, java_parcel);
+    if (parcel == nullptr) return JNI_FALSE;
+    const bool accepted = publish_local_reply(parcel, revision);
+    AParcel_delete(parcel);
+    return accepted ? JNI_TRUE : JNI_FALSE;
+}
+#endif
 
 } // namespace home_layout

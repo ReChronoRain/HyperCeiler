@@ -45,12 +45,18 @@ import io.github.libxposed.service.XposedServiceHelper;
 
 public class Application extends fan.app.Application
     implements XposedServiceHelper.OnServiceListener {
+    private final java.util.concurrent.ExecutorService frameworkCallbacks =
+        java.util.concurrent.Executors.newSingleThreadExecutor();
 
     private static final String TAG = "Application";
     public static volatile boolean isModuleActivated = false;
 
     @Override
     protected void attachBaseContext(Context base) {
+        if (com.sevtinge.hyperceiler.libhook.provider.HomeDockGlassProvider.isProcess(base)) {
+            super.attachBaseContext(base);
+            return;
+        }
         super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(base));
         AppInitializer.attach(this);
     }
@@ -58,6 +64,7 @@ public class Application extends fan.app.Application
     @Override
     public void onCreate() {
         super.onCreate();
+        if (com.sevtinge.hyperceiler.libhook.provider.HomeDockGlassProvider.isProcess(this)) return;
         // 应用启动阶段，预热非 UI 任务（如 Shell、语言包、权限检查）
         AppInitializer.initOnAppCreate(this);
         syncHookAvailabilityIfUnlocked();
@@ -67,12 +74,15 @@ public class Application extends fan.app.Application
         // Keep the log repository ready, but never import historical logs on that path.
         LogManager.init(this, DeviceInfoBuilder::build, null);
         setupCrashHandler();
+        com.sevtinge.hyperceiler.home.runtime.HomeConfigRootClient.start(this);
     }
 
 
     @Override
     public void onServiceBind(@NonNull XposedService service) {
-        synchronized (this) {
+        // Return the XposedProvider Binder call before publishing observer notifications.
+        // Synchronous notifyChange here made AMS kill/restart the provider every five seconds.
+        frameworkCallbacks.execute(() -> {
             setModuleActivated(true);
             PrefsBridge.setRemotePrefs(service.getRemotePreferences(PrefsBridge.REMOTE_PREFS_GROUP));
             syncHookAvailabilityIfUnlocked();
@@ -81,19 +91,19 @@ public class Application extends fan.app.Application
             ScopeManager.setService(service);
             LSPosedScopeHelper.reloadScope();
             refreshHomePageBanner();
-        }
+        });
     }
 
     @Override
     public void onServiceDied(@NonNull XposedService service) {
         AndroidLog.e(TAG, "XposedService died.");
-        synchronized (this) {
+        frameworkCallbacks.execute(() -> {
             setModuleActivated(false);
             PrefsBridge.setRemotePrefs(null);
             FrameworkStatusManager.onServiceDied();
             ScopeManager.clearService();
             refreshHomePageBanner();
-        }
+        });
     }
 
     private static void setModuleActivated(boolean activated) {

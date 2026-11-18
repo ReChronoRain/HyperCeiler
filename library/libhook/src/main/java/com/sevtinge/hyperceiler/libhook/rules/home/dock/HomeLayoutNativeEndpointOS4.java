@@ -1,12 +1,17 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 package com.sevtinge.hyperceiler.libhook.rules.home.dock;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
+import android.os.RemoteException;
 import android.os.SystemClock;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
@@ -17,6 +22,8 @@ import com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /** Synchronous, authenticated preference snapshot for the dex-less Rust launcher. */
 public final class HomeLayoutNativeEndpointOS4 {
@@ -35,64 +42,24 @@ public final class HomeLayoutNativeEndpointOS4 {
     public static final int COMBINED_TRANSACTION_CODE = 0x00484353;
     public static final int COMBINED_ACK = 0x48435331;
     public static final int COMBINED_REPLY_BYTES = 188;
+    public static final int OBSERVE_TRANSACTION_CODE = 0x00484358;
+    private static final int OBSERVE_ACK = 0x48435831;
+    private static final String OBSERVER_DESCRIPTOR = "com.sevtinge.hyperceiler.home.ConfigObserver";
     private static final String DESCRIPTOR = "android.view.IWindowManager";
-    /**
-     * Where the current values come from.
-     *
-     * This endpoint runs in system_server, which cannot read the module's own preference file
-     * (the app's data directory is not readable from here), so a file-based read silently falls
-     * back to the LSPosed snapshot - and that snapshot only carries values that were pushed while
-     * the module app was connected to its service, which is why a switch flipped in the settings
-     * page used to have no effect until much later.
-     *
-     * The reliable source is the module app itself: it exposes the very same preferences through
-     * its provider, and reading our own file is something it can always do. A background thread
-     * pulls those values into a cache so that the launcher's synchronous transaction never waits
-     * on a binder call. A refresh can start the module app, so idle refreshes must be sparse.
-     */
-    private static final String PREFS_AUTHORITY = "com.sevtinge.hyperceiler.provider.sharedprefs";
-    // HCS1 authorization expires after five BOOTTIME seconds, even without a settings write.
-    // Renew on the existing worker; notifications still coalesce slider updates promptly.
-    private static final long PREFS_REFRESH_MS = 1500;
+    // LSPosed's remote preference copy can go stale after an APK or daemon restart.
+    // Read the physical settings on startup and invalidation, never to renew an idle lease.
+    private static final String MODULE_PACKAGE = "com.sevtinge.hyperceiler";
+    private static final String PREFS_AUTHORITY = MODULE_PACKAGE + ".provider.sharedprefs";
     private static final long INITIAL_RETRY_MS = 1500;
+    private static final int MAX_RETRIES = 3;
     private static final long CHANGE_MIN_INTERVAL_NS = 150_000_000L;
-    /**
-     * Cap on retries after failed cycles. Change notifications provide the prompt path while
-     * this bounded retry also recovers from a provider that was unavailable during an update.
-     */
-    private static final long MAX_REFRESH_BACKOFF_MS = 30000;
-    /**
-     * Cadence while the panel is non-interactive.
-     *
-     * Every cycle costs a cross-process query into the module app, and that app is the one the
-     * platform is most likely to have reclaimed already, so an idle cycle can be a cold start of
-     * another process. A doze panel cannot serve a fresher lease either: the launcher is not
-     * drawing, and {@link #tryReadCombinedSnapshot()} answers the same fallback it would answer for
-     * any other expired lease. 30 s is the cap this class already uses for provider failure, and it
-     * matches {@code HomeDockWindow.SWEEP_DOZE_INTERVAL_MS}, which gates the same cost for the same
-     * reason on this ROM.
-     */
-    private static final long DOZE_REFRESH_MS = 30000;
-    /**
-     * The idle cadence is waited out in slices this long, so that the first interactive cycle starts
-     * - and republishes a live lease - within a slice of the wake instead of up to
-     * {@link #DOZE_REFRESH_MS} after it. A slice is a local read of this process's own power
-     * service; a cycle is a query that can cold start another app, so slicing is what keeps the
-     * reduced cadence from being paid for at every unlock.
-     */
-    private static final long IDLE_SLICE_MS = 1000;
     private static final String TAG = "HyperCeiler.HomeLayoutEndpoint";
     private static volatile java.util.Map<String, Object> cachedValues;
-    // Published with the same provider revision, never restored as live authorization.
-    private static String cachedFrameworkReason;
-    private static FrameworkHookGate.Fingerprint cachedFrameworkFingerprint;
-    private static boolean hyosSnapshotLive;
-    private static long hyosSnapshotAtNanos;
     private static final long HYOS_MAX_SNAPSHOT_AGE_NANOS = 5_000_000_000L;
     private static volatile String lastDenied;
     private static volatile String lastAccepted;
-    /** This endpoint runs in system_server, so the panel state is read from a local service. */
-    private static volatile android.os.PowerManager powerManager;
+    // Guarded by refresherLock. Only a live configuration observer can renew a lease.
+    private static volatile boolean observing;
     private static Thread refresher;
     private static volatile boolean paused;
     private static long refreshEpoch;
@@ -103,14 +70,85 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static volatile PublishedSnapshot combinedPublished;
     private static final String RELOAD_CACHE_KEY = "OS4.HomeLayout.ProviderSnapshot.v1";
     private static final Object refresherLock = new Object();
+    private static final Map<Integer, ConfigObserver> configObservers = new HashMap<>();
+
+    private static final class ConfigObserver implements IBinder.DeathRecipient {
+        private final IBinder binder;
+        private final int pid;
+
+        ConfigObserver(IBinder binder, int pid) { this.binder = binder; this.pid = pid; }
+
+        @Override public void binderDied() {
+            synchronized (configObservers) { configObservers.remove(pid, this); }
+        }
+
+        boolean notify(boolean retired) {
+            final Parcel message = Parcel.obtain();
+            try {
+                message.writeInterfaceToken(OBSERVER_DESCRIPTOR);
+                return binder.transact(IBinder.FIRST_CALL_TRANSACTION + (retired ? 1 : 0),
+                    message, null, IBinder.FLAG_ONEWAY);
+            } catch (RemoteException unavailable) {
+                return false;
+            } finally {
+                message.recycle();
+            }
+        }
+    }
+
+    private static void notifyConfigObservers(boolean retired) {
+        synchronized (configObservers) {
+            final var observers = configObservers.values().iterator();
+            while (observers.hasNext()) {
+                final ConfigObserver observer = observers.next();
+                observer.notify(retired);
+                if (retired) {
+                    observers.remove();
+                    observer.binder.unlinkToDeath(observer, 0);
+                }
+            }
+        }
+    }
+
+    public void observe(Parcel data, Parcel reply, int flags) throws RemoteException {
+        data.enforceInterface(DESCRIPTOR);
+        final int uid = Binder.getCallingUid();
+        final int pid = Binder.getCallingPid();
+        if ((flags & IBinder.FLAG_ONEWAY) != 0 || uid < 10000 || pid <= 0 || !verifier.isLauncher(uid, pid))
+            throw new SecurityException("Synchronous launcher registration required");
+        final IBinder binder = data.readStrongBinder();
+        if (data.dataAvail() != 0 || binder == null || !OBSERVER_DESCRIPTOR.equals(binder.getInterfaceDescriptor()))
+            throw new IllegalArgumentException("Invalid configuration observer");
+        ensureRefresher();
+        boolean registered = false;
+        synchronized (configObservers) {
+            if (observing && !paused) {
+                final ConfigObserver existing = configObservers.get(pid);
+                final boolean same = existing != null && existing.binder.equals(binder);
+                final ConfigObserver observer = same ? existing : new ConfigObserver(binder, pid);
+                if (!same) binder.linkToDeath(observer, 0);
+                registered = observer.notify(false);
+                if (registered) {
+                    configObservers.put(pid, observer);
+                    if (!same && existing != null) existing.binder.unlinkToDeath(existing, 0);
+                } else {
+                    configObservers.remove(pid, observer);
+                    binder.unlinkToDeath(observer, 0);
+                }
+            }
+        }
+        reply.writeNoException();
+        reply.writeInt(OBSERVE_ACK);
+        reply.writeInt(registered ? 1 : 0);
+    }
 
     /** Every key this endpoint reads, without the module's own key prefix. */
     private static final String[][] PREF_KEYS = HomeLayoutPrefsSnapshot.specs();
 
     // One immutable provider revision owns both authorization and the decoded layout.
     private record PublishedSnapshot(java.util.Map<String, Object> values, String reason,
-        FrameworkHookGate.Fingerprint framework, Snapshot layout, long epoch, long revision,
-        long deadline) { }
+        FrameworkHookGate.Fingerprint framework, Snapshot layout, int haptic,
+        long epoch, long revision, long deadline, boolean observed) { }
 
     public record CombinedSnapshot(int available, int flags, long epoch, long revision,
         long deadline, Snapshot layout) {
@@ -137,10 +175,9 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     /** Caller holds refresherLock. Revocation advances the same publication sequence. */
     private static void invalidateCombinedLocked() {
-        hyosSnapshotLive = false;
         if (combinedEpoch == 0) { combinedPublished = null; return; }
-        combinedPublished = new PublishedSnapshot(null, null, null, null, combinedEpoch,
-            ++combinedRevision, 0);
+        combinedPublished = new PublishedSnapshot(null, null, null, null, -1, combinedEpoch,
+            ++combinedRevision, 0, false);
     }
 
     public static void startCombinedPrefetch() { ensureRefresher(); }
@@ -152,7 +189,10 @@ public final class HomeLayoutNativeEndpointOS4 {
         final String segment = path.substring(slash + 1);
         final String key = segment.startsWith("prefs_key_")
             ? segment.substring("prefs_key_".length()) : segment;
-        if (HomeLayoutPrefsSnapshot.DISMISS_KEY.equals(key)
+        if (key.equals("pref") || key.startsWith("home_recent_card_haptic")
+            || key.equals("home_recent_card_close_haptic")
+            || HomeLayoutPrefsSnapshot.XIAOHEIZI_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.DISMISS_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENT_ICON_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.INFINITE_KEY.equals(key)
@@ -183,143 +223,136 @@ public final class HomeLayoutNativeEndpointOS4 {
         }
     }
 
-    /**
-     * Whether the panel is interactive. Fail-open on purpose: a context or a service that cannot be
-     * resolved keeps the interactive cadence, so a resolution failure costs queries rather than
-     * silently freezing the published lease for a whole boot.
-     */
-    private static boolean screenInteractive() {
-        try {
-            android.os.PowerManager manager = powerManager;
-            if (manager == null) {
-                final android.content.Context context =
-                    com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
-                        com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
-                if (context == null) return true;
-                manager = context.getSystemService(android.os.PowerManager.class);
-                if (manager == null) return true;
-                powerManager = manager;
-            }
-            return manager.isInteractive();
-        } catch (RuntimeException | Error unavailable) {
-            return true;
-        }
-    }
-
-    /**
-     * How long to wait before the next cycle: unchanged while the panel is interactive, floored at
-     * {@link #DOZE_REFRESH_MS} while it is not. Kept separate from the retry ladder so the two
-     * effects cannot hide each other.
-     */
-    static long idlePeriod(long period, boolean interactive) {
-        return interactive ? period : Math.max(period, DOZE_REFRESH_MS);
-    }
-
-    /**
-     * Wait out one idle period in {@link #IDLE_SLICE_MS} slices. Returns as soon as the panel is
-     * interactive, so the caller's next cycle republishes a lease the wake can use; a settings write
-     * observed during the wait is left to the caller's revision check, which still refreshes
-     * promptly. {@code period} is consumed entirely when the panel stays in doze.
-     */
-    private static boolean idleGateElapsed(long period, long epoch) throws InterruptedException {
-        if (period <= IDLE_SLICE_MS || screenInteractive()) {
-            refresherLock.wait(period);
-            return true;
-        }
-        long remaining = period;
-        while (remaining > 0) {
-            refresherLock.wait(Math.min(remaining, IDLE_SLICE_MS));
-            if (paused || refreshEpoch != epoch) return false;
-            if (screenInteractive()) return true;
-            remaining -= IDLE_SLICE_MS;
-        }
-        return true;
-    }
-
     private static void ensureRefresher() {
         restoreProviderSnapshot();
         synchronized (refresherLock) {
             if (refresher != null || paused) return;
             final long epoch = refreshEpoch;
-            refresher = new Thread(() -> {
-                ContentResolver resolver = null;
-                ContentObserver observer = null;
-                long retry = INITIAL_RETRY_MS;
-                long lastQueryAtNanos = 0;
-                try {
-                    try {
-                        final android.content.Context context =
-                            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
-                                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
-                        if (context != null) {
-                            resolver = context.getContentResolver();
-                        }
-                        if (resolver != null) {
-                            final ContentObserver candidate = new ContentObserver(null) {
-                                @Override public void onChange(boolean selfChange, Uri uri) {
-                                    if (!isLayoutChange(uri)) return;
-                                    synchronized (refresherLock) {
-                                        ++notificationVersion;
-                                        invalidateCombinedLocked();
-                                        refresherLock.notifyAll();
-                                    }
-                                }
-                            };
-                            resolver.registerContentObserver(Uri.parse(
-                                "content://" + PREFS_AUTHORITY + "/pref"), true, candidate);
-                            observer = candidate;
-                        }
-                    } catch (RuntimeException | Error unavailable) {
-                        // A broken content service must not crash system_server's worker.
-                        // Unobserved systems continue with a bounded five-second fallback.
-                    }
-                    for (;;) {
-                        final long beforeQuery;
-                        synchronized (refresherLock) {
-                            if (paused || refreshEpoch != epoch) return;
-                            // Slider drags may emit dozens of writes per second. Coalesce them
-                            // without delaying the first write or making the UI wait for release.
-                            if (lastQueryAtNanos != 0) {
-                                final long remaining = CHANGE_MIN_INTERVAL_NS
-                                    - (System.nanoTime() - lastQueryAtNanos);
-                                if (remaining > 0) {
-                                    refresherLock.wait(Math.max(1, (remaining + 999_999) / 1_000_000));
-                                    continue;
-                                }
-                            }
-                            beforeQuery = notificationVersion;
-                        }
-                        final boolean success = refreshFromProvider();
-                        lastQueryAtNanos = System.nanoTime();
-                        final long period;
-                        if (success) {
-                            retry = INITIAL_RETRY_MS;
-                            period = PREFS_REFRESH_MS;
-                        } else {
-                            retry = Math.min(retry * 2, MAX_REFRESH_BACKOFF_MS);
-                            period = retry;
-                        }
-                        synchronized (refresherLock) {
-                            if (paused || refreshEpoch != epoch) return;
-                            // A write during the query needs a new whole-file revision now.
-                            if (notificationVersion != beforeQuery) continue;
-                            idleGateElapsed(idlePeriod(period, screenInteractive()), epoch);
-                        }
-                    }
-                } catch (InterruptedException cancelled) {
-                    Thread.currentThread().interrupt();
-                } finally {
-                    if (resolver != null && observer != null) {
-                        try { resolver.unregisterContentObserver(observer); }
-                        catch (RuntimeException | Error unavailable) { /* Retiring after provider death. */ }
-                    }
-                    synchronized (refresherLock) {
-                        if (refresher == Thread.currentThread()) refresher = null;
-                    }
-                }
-            }, "hc-layout-prefs");
+            refresher = new Thread(() -> watchPreferences(epoch), "hc-layout-prefs");
             refresher.setDaemon(true);
             refresher.start();
+        }
+    }
+
+    private static void invalidatePreferences(long epoch, boolean discardLastGood) {
+        final boolean revoked;
+        synchronized (refresherLock) {
+            if (paused || refreshEpoch != epoch) return;
+            ++notificationVersion;
+            revoked = (combinedPublished != null && combinedPublished.values() != null)
+                || (discardLastGood && cachedValues != null);
+            if (discardLastGood) {
+                cachedValues = null;
+                BaseHook.putHotReloadRuntimeState(RELOAD_CACHE_KEY, null);
+            }
+            invalidateCombinedLocked();
+            refresherLock.notifyAll();
+        }
+        if (revoked) notifyConfigObservers(false);
+    }
+
+    private static void watchPreferences(long epoch) {
+        Context context = null;
+        ContentResolver resolver = null;
+        boolean watchingPackage = false;
+        final ContentObserver observer = new ContentObserver(null) {
+            @Override public void onChange(boolean selfChange, Uri uri) {
+                if (isLayoutChange(uri)) invalidatePreferences(epoch, false);
+            }
+        };
+        final BroadcastReceiver packageObserver = new BroadcastReceiver() {
+            @Override public void onReceive(Context receiverContext, Intent intent) {
+                final Uri packageUri = intent.getData();
+                if (packageUri == null || !MODULE_PACKAGE.equals(packageUri.getSchemeSpecificPart())) return;
+                final String action = intent.getAction();
+                final boolean dataRemoved = Intent.ACTION_PACKAGE_DATA_CLEARED.equals(action)
+                    || (Intent.ACTION_PACKAGE_REMOVED.equals(action)
+                        && !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false));
+                invalidatePreferences(epoch, dataRemoved);
+            }
+        };
+        try {
+            // Register before the initial query so a concurrent edit or package change cannot be
+            // missed. Waiting for Android's context performs no calls to the module process.
+            while (context == null) {
+                context = systemContext();
+                if (context == null) Thread.sleep(INITIAL_RETRY_MS);
+            }
+            final IntentFilter packages = new IntentFilter();
+            packages.addAction(Intent.ACTION_PACKAGE_ADDED);
+            packages.addAction(Intent.ACTION_PACKAGE_REPLACED);
+            packages.addAction(Intent.ACTION_PACKAGE_REMOVED);
+            packages.addAction(Intent.ACTION_PACKAGE_DATA_CLEARED);
+            packages.addDataScheme("package");
+            context.registerReceiver(packageObserver, packages, Context.RECEIVER_NOT_EXPORTED);
+            watchingPackage = true;
+            resolver = context.getContentResolver();
+            resolver.registerContentObserver(
+                Uri.parse("content://" + PREFS_AUTHORITY + "/pref"), true, observer);
+            synchronized (refresherLock) {
+                if (paused || refreshEpoch != epoch) return;
+                observing = true;
+            }
+
+            long attemptedVersion = -1;
+            long lastQueryAtNanos = 0;
+            int retries = 0;
+            boolean success = false;
+            for (;;) {
+                synchronized (refresherLock) {
+                    if (paused || refreshEpoch != epoch) return;
+                    if (notificationVersion == attemptedVersion) {
+                        if (success || retries == MAX_RETRIES) {
+                            refresherLock.wait();
+                            continue;
+                        }
+                        final long elapsed = System.nanoTime() - lastQueryAtNanos;
+                        final long remaining = ((INITIAL_RETRY_MS << retries) * 1_000_000L) - elapsed;
+                        if (remaining > 0) {
+                            refresherLock.wait((remaining + 999_999L) / 1_000_000L);
+                            continue;
+                        }
+                        ++retries;
+                    } else {
+                        // Coalesce slider edits without missing a notification during the read.
+                        final long remaining = CHANGE_MIN_INTERVAL_NS
+                            - (System.nanoTime() - lastQueryAtNanos);
+                        if (lastQueryAtNanos != 0 && remaining > 0) {
+                            refresherLock.wait((remaining + 999_999L) / 1_000_000L);
+                            continue;
+                        }
+                        attemptedVersion = notificationVersion;
+                        retries = 0;
+                    }
+                }
+                success = refreshFromProvider();
+                lastQueryAtNanos = System.nanoTime();
+            }
+        } catch (InterruptedException cancelled) {
+            Thread.currentThread().interrupt();
+        } catch (RuntimeException | LinkageError unavailable) {
+            com.sevtinge.hyperceiler.common.log.ModuleLog.w(TAG, "Configuration observer unavailable", unavailable);
+        } finally {
+            boolean retired = false;
+            synchronized (refresherLock) {
+                if (refreshEpoch == epoch) {
+                    observing = false;
+                    invalidateCombinedLocked();
+                    retired = true;
+                }
+            }
+            if (retired) notifyConfigObservers(true);
+            if (resolver != null) {
+                try { resolver.unregisterContentObserver(observer); }
+                catch (RuntimeException unavailable) { /* The observer is being retired. */ }
+            }
+            if (watchingPackage) {
+                try { context.unregisterReceiver(packageObserver); }
+                catch (RuntimeException unavailable) { /* The receiver is being retired. */ }
+            }
+            synchronized (refresherLock) {
+                if (refresher == Thread.currentThread()) refresher = null;
+            }
         }
     }
 
@@ -329,12 +362,14 @@ public final class HomeLayoutNativeEndpointOS4 {
         synchronized (refresherLock) {
             paused = true;
             ++refreshEpoch; // A query already in flight must not publish after retirement.
+            observing = false;
             invalidateCombinedLocked();
             worker = refresher;
-            if (worker == null) return true;
-            worker.interrupt();
+            if (worker != null) worker.interrupt();
             refresherLock.notifyAll();
         }
+        notifyConfigObservers(true);
+        if (worker == null) return true;
         try { worker.join(500); }
         catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); return false; }
         synchronized (refresherLock) {
@@ -351,8 +386,8 @@ public final class HomeLayoutNativeEndpointOS4 {
     /** A missing provider revision is NOT an authoritative zero/default native configuration. */
     private static Snapshot readReadyPreferences() {
         ensureRefresher();
-        if (cachedValues == null) return null;
-        return readPreferences();
+        final java.util.Map<String, Object> values = cachedValues;
+        return values == null ? null : decodeLayout(values);
     }
 
     /** One Binder query / one physical settings revision, including an explicit empty reset. */
@@ -373,7 +408,6 @@ public final class HomeLayoutNativeEndpointOS4 {
         catch (RuntimeException | Error unavailable) { success = false; }
         synchronized (refresherLock) {
             if (!success && refreshEpoch == epoch && refreshTicket == ticket) {
-                hyosSnapshotLive = false;
                 invalidateCombinedLocked();
             }
         }
@@ -383,7 +417,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static boolean tryRefreshFromProvider(long epoch, long ticket, long notificationAtQuery, long started) {
         if (started <= 0 || started > Long.MAX_VALUE - HYOS_MAX_SNAPSHOT_AGE_NANOS) return false;
         if (!ensurePublicationEpoch(epoch, ticket)) return false;
-        final ProviderSnapshot source = queryProviderSnapshot();
+        final ProviderSnapshot source = queryProviderSnapshot(systemContext());
         if (source == null) return false;
         final java.util.Map<String, Object> complete = source.values();
         final Snapshot layout = decodeLayout(complete);
@@ -395,13 +429,10 @@ public final class HomeLayoutNativeEndpointOS4 {
             // Boot-classloader Map/String/Integer only; no endpoint, callback or Thread crosses reload.
             BaseHook.putHotReloadRuntimeState(RELOAD_CACHE_KEY, complete);
             cachedValues = complete;
-            cachedFrameworkReason = source.reason();
-            cachedFrameworkFingerprint = source.framework();
-            hyosSnapshotAtNanos = System.nanoTime();
-            hyosSnapshotLive = true;
-            combinedPublished = new PublishedSnapshot(complete, cachedFrameworkReason,
-                cachedFrameworkFingerprint, layout, combinedEpoch, ++combinedRevision, deadline);
+            combinedPublished = new PublishedSnapshot(complete, source.reason(), source.framework(),
+                layout, source.haptic(), combinedEpoch, ++combinedRevision, deadline, observing);
         }
+        notifyConfigObservers(false);
         return true;
     }
 
@@ -424,75 +455,120 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     private record ProviderSnapshot(java.util.Map<String, Object> values, String reason,
-        FrameworkHookGate.Fingerprint framework) { }
+        FrameworkHookGate.Fingerprint framework, int haptic) { }
 
-    private static ProviderSnapshot queryProviderSnapshot() {
-        final android.content.Context context =
-            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
-                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+    private static Context systemContext() {
+        return com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+    }
+
+    public record LocalSnapshot(Snapshot layout, int[] gestures) { }
+
+    /** A launcher-owned query, with no WMS worker or cross-process cache publication. */
+    public static LocalSnapshot readLocalSnapshot(android.content.Context context) {
+        final ProviderSnapshot source = queryProviderSnapshot(context);
+        if (source == null) return null;
+        final Snapshot layout = decodeLayout(source.values());
+        if (!validCombinedLayout(layout)) return null;
+        return new LocalSnapshot(layout, gestureConfig(source.values(), context));
+    }
+
+    private static ProviderSnapshot queryProviderSnapshot(android.content.Context context) {
         if (context == null) return null;
+        try (final android.database.Cursor cursor = context.getContentResolver().query(android.net.Uri.parse(
+                "content://" + PREFS_AUTHORITY + "/home_layout"), null, null, null, null)) {
+            return decodeProviderSnapshot(cursor);
+        } catch (RuntimeException | Error unavailable) { return null; }
+    }
+
+    /** Root file publisher reuses the exact Provider decoder without impersonating a Context. */
+    public static LocalSnapshot readLocalSnapshot(android.content.Context context, android.database.Cursor cursor) {
+        try {
+            final ProviderSnapshot source = decodeProviderSnapshot(cursor);
+            if (source == null) return null;
+            final Snapshot layout = decodeLayout(source.values());
+            if (!validCombinedLayout(layout)) return null;
+            return new LocalSnapshot(layout, gestureConfig(source.values(), context));
+        } catch (RuntimeException | Error unavailable) { return null; }
+    }
+
+    private static ProviderSnapshot decodeProviderSnapshot(android.database.Cursor cursor) {
         final java.util.Map<String, Object> values = new java.util.HashMap<>();
         final java.util.Map<String, String> frameworkText = new java.util.HashMap<>();
         long frameworkVersionCode = Long.MIN_VALUE;
-        try {
-            final android.content.ContentResolver resolver = context.getContentResolver();
-            if (resolver == null) return null;
-            try (final android.database.Cursor cursor = resolver.query(android.net.Uri.parse(
-                    "content://" + PREFS_AUTHORITY + "/home_layout"), null, null, null, null)) {
-                // Older providers return an empty / one-column cursor for an unknown path.
-                // It must not erase a complete cache, especially while an APK is being replaced.
-                if (!isProviderSchema(cursor)) return null;
-                final android.os.Bundle extras = cursor.getExtras();
-                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_VERSION, 0) == 1) {
-                    int dismiss = extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_KEY, -1);
-                    if (dismiss == 0 || dismiss == 1) values.put(HomeLayoutPrefsSnapshot.DISMISS_KEY, dismiss);
-                }
-                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_VERSION, 0) == 1) {
-                    int hidden = extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, -1);
-                    if (hidden == 0 || hidden == 1)
-                        values.put(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, hidden);
-                }
-                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_VERSION, 0) == 1) {
-                    int margin = extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY, -1);
-                    int enabled = extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable", -1);
-                    if (margin >= 0 && margin <= 100 && (enabled == 0 || enabled == 1)) {
-                        values.put(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY, margin);
-                        values.put(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable", enabled);
-                    }
-                }
-                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_VERSION, 0) == 1) {
-                    int infinite = extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_KEY, -1);
-                    if (infinite == 0 || infinite == 1) values.put(HomeLayoutPrefsSnapshot.INFINITE_KEY, infinite);
-                }
-                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.RECENT_HEADER_VERSION, 0) == 1) {
-                    int flags = extras.getInt(HomeLayoutPrefsSnapshot.RECENT_HEADER_FLAGS, -1);
-                    if (flags >= 0 && (flags & ~3) == 0) {
-                        values.put(HomeLayoutPrefsSnapshot.RECENT_ICON_KEY, flags & 1);
-                        values.put(HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY, (flags >> 1) & 1);
-                    }
-                }
-                for (int index = 0; index < PREF_KEYS.length; ++index) {
-                    final String key = PREF_KEYS[index][1];
-                    final int column = index + 1;
-                    if (!key.equals(cursor.getColumnName(column))) return null;
-                    if (cursor.isNull(column)) continue;
-                    switch (PREF_KEYS[index][0]) {
-                        case "text" -> frameworkText.put(key, cursor.getString(column));
-                        case "stringset" -> {
-                            final String packet = cursor.getString(column);
-                            HomeLayoutPrefsSnapshot.decodeTitleRecords(packet);
-                            values.put(key, packet);
-                        }
-                        case "long" -> frameworkVersionCode = cursor.getLong(column);
-                        default -> values.put(key, cursor.getInt(column));
-                    }
+        // Older providers return an empty / one-column cursor for an unknown path.
+        // It must not erase a complete cache, especially while an APK is being replaced.
+        if (!isProviderSchema(cursor)) return null;
+        final android.os.Bundle extras = cursor.getExtras();
+        if(extras!=null&&extras.getInt("medium_scales_version",0)==1)
+            for(String kind:new String[]{"medium_folder_horizontal","medium_folder_vertical"}) {
+                String key="home_layout_"+kind+"_scale";
+                int enabled=extras.getInt(key+"_enable",0),percent=extras.getInt(key,100);
+                if((enabled==0||enabled==1)&&percent>=60&&percent<=140) {
+                    values.put(key+"_enable",enabled);values.put(key,percent);
                 }
             }
-        } catch (RuntimeException | Error unavailable) { return null; }
+
+        if(extras!=null&&extras.getInt("haptic_custom_version",0)==1) {
+            int custom=extras.getInt("home_recent_card_haptic_custom",0),id=extras.getInt("home_recent_card_haptic_effect_id",0);
+            if((custom==0||custom==1)&&id>=0) {
+                values.put("home_recent_card_haptic_custom",custom);
+                values.put("home_recent_card_haptic_effect_id",id);
+            }
+        }
+        if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.XIAOHEIZI_VERSION, 0) == 1) {
+            int enabled = extras.getInt(HomeLayoutPrefsSnapshot.XIAOHEIZI_KEY, -1);
+            if (enabled == 0 || enabled == 1) values.put(HomeLayoutPrefsSnapshot.XIAOHEIZI_KEY, enabled);
+        }
+        if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_VERSION, 0) == 1) {
+            int dismiss = extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_KEY, -1);
+            if (dismiss == 0 || dismiss == 1) values.put(HomeLayoutPrefsSnapshot.DISMISS_KEY, dismiss);
+        }
+        if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_VERSION, 0) == 1) {
+            int hidden = extras.getInt(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, -1);
+            if (hidden == 0 || hidden == 1)
+                values.put(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, hidden);
+        }
+        if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_VERSION, 0) == 1) {
+            int margin = extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY, -1);
+            int enabled = extras.getInt(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable", -1);
+            if (margin >= 0 && margin <= 100 && (enabled == 0 || enabled == 1)) {
+                values.put(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY, margin);
+                values.put(HomeLayoutPrefsSnapshot.DOCK_HORIZONTAL_KEY + "_enable", enabled);
+            }
+        }
+        if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_VERSION, 0) == 1) {
+            int infinite = extras.getInt(HomeLayoutPrefsSnapshot.INFINITE_KEY, -1);
+            if (infinite == 0 || infinite == 1) values.put(HomeLayoutPrefsSnapshot.INFINITE_KEY, infinite);
+        }
+        if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.RECENT_HEADER_VERSION, 0) == 1) {
+            int flags = extras.getInt(HomeLayoutPrefsSnapshot.RECENT_HEADER_FLAGS, -1);
+            if (flags >= 0 && (flags & ~3) == 0) {
+                values.put(HomeLayoutPrefsSnapshot.RECENT_ICON_KEY, flags & 1);
+                values.put(HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY, (flags >> 1) & 1);
+            }
+        }
+        for (int index = 0; index < PREF_KEYS.length; ++index) {
+            final String key = PREF_KEYS[index][1];
+            final int column = index + 1;
+            if (!key.equals(cursor.getColumnName(column))) return null;
+            if (cursor.isNull(column)) continue;
+            switch (PREF_KEYS[index][0]) {
+                case "text" -> frameworkText.put(key, cursor.getString(column));
+                case "stringset" -> {
+                    final String packet = cursor.getString(column);
+                    HomeLayoutPrefsSnapshot.decodeTitleRecords(packet);
+                    values.put(key, packet);
+                }
+                case "long" -> frameworkVersionCode = cursor.getLong(column);
+                default -> values.put(key, cursor.getInt(column));
+            }
+        }
         return new ProviderSnapshot(java.util.Collections.unmodifiableMap(values),
             frameworkText.get("framework_check_reason"),
             new FrameworkHookGate.Fingerprint(frameworkText.get("framework_check_name"),
-                frameworkText.get("framework_check_version"), frameworkVersionCode));
+                frameworkText.get("framework_check_version"), frameworkVersionCode),
+            extras == null ? -1 : extras.getInt(HomeLayoutPrefsSnapshot.HAPTIC_PROFILE_V1, -1));
     }
 
     private static boolean isProviderSchema(android.database.Cursor cursor) {
@@ -661,20 +737,27 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     static int readHyosFlags() {
         ensureRefresher();
-        final java.util.Map<String, Object> values;
-        final String frameworkReason;
-        final FrameworkHookGate.Fingerprint checkedFramework;
-        synchronized (refresherLock) {
-            if (!hyosSnapshotLive || paused
-                || System.nanoTime() - hyosSnapshotAtNanos > HYOS_MAX_SNAPSHOT_AGE_NANOS) return -1;
-            values = cachedValues;
-            frameworkReason = cachedFrameworkReason;
-            checkedFramework = cachedFrameworkFingerprint;
-        }
-        // No JNI/remote-preference fallback in a Rust child. Activation requires
-        // the module application's authoritative snapshot and normal hook gates.
-        if (values == null) return -1;
-        return deriveHyosFlags(values, frameworkReason, checkedFramework);
+        final PublishedSnapshot value = combinedPublished;
+        if (leaseDeadline(value, SystemClock.elapsedRealtimeNanos()) == 0) return -1;
+        final int flags = deriveHyosFlags(value.values(), value.reason(), value.framework());
+        return combinedPublished == value && !paused ? flags : -1;
+    }
+
+    /** Card feedback reads the same physical revision as layout, with no Provider IPC. */
+    public static int recentsHapticProfileWord() {
+        ensureRefresher();
+        final PublishedSnapshot value = combinedPublished;
+        return leaseDeadline(value, SystemClock.elapsedRealtimeNanos()) != 0
+            ? value.haptic() : -1;
+    }
+    public static com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.Profile recentsHapticProfile() {
+        ensureRefresher();
+        final PublishedSnapshot value=combinedPublished;
+        if(leaseDeadline(value,SystemClock.elapsedRealtimeNanos())==0)return null;
+        var base=com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.decodeProfile(value.haptic());
+        if(base==null)return null;
+        return new com.sevtinge.hyperceiler.libhook.provider.HomeRecentsHapticPrefs.Profile(base.enabled(),base.close(),base.type(),base.strength(),
+            readBoolean(value.values(),"home_recent_card_haptic_custom",false),readInt(value.values(),"home_recent_card_haptic_effect_id",0));
     }
 
     private static int deriveHyosFlags(java.util.Map<String, Object> values, String frameworkReason,
@@ -721,40 +804,44 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     /** Null means the publication changed while its framework gate was inspected. */
-    // A refreshed record with equal contents is still a new publication; validate its identity.
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
     private static CombinedSnapshot tryReadCombinedSnapshot() {
         final PublishedSnapshot value = combinedPublished;
         final long now = SystemClock.elapsedRealtimeNanos();
-        if (!isCombinedLeaseLive(value, now)) return unavailableCombined(value);
+        final long deadline = leaseDeadline(value, now);
+        if (deadline == 0) return unavailableCombined(value);
         final int flags = deriveHyosFlags(value.values(), value.reason(), value.framework());
         final long finished = SystemClock.elapsedRealtimeNanos();
         if (combinedPublished != value || paused) return null;
-        if (finished < now || finished >= value.deadline()) return unavailableCombined(value);
+        if (finished < now || finished >= deadline) return unavailableCombined(value);
         if (flags == 0) return new CombinedSnapshot(1, 0, value.epoch(), value.revision(), 0, null);
         if (!validCombinedLayout(value.layout())) return unavailableCombined(value);
         return new CombinedSnapshot(1, flags, value.epoch(), value.revision(),
-            value.deadline(), value.layout());
+            deadline, value.layout());
     }
 
     /** Same immutable physical-file publication and authorization as combined layout. */
     public record RecentsBarPreference(boolean available, boolean enabled, long deadline) { }
     public static RecentsBarPreference recentsBarPreference() {
         final PublishedSnapshot value = combinedPublished;
-        final long now = SystemClock.elapsedRealtimeNanos();
-        if (!isCombinedLeaseLive(value, now)
-            || !value.values().containsKey(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY))
+        final long deadline = leaseDeadline(value, SystemClock.elapsedRealtimeNanos());
+        if (deadline == 0 || !value.values().containsKey(HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY))
             return new RecentsBarPreference(false, false, 0);
         final int flags = deriveHyosFlags(value.values(), value.reason(), value.framework());
-        if (combinedPublished != value || !isCombinedLeaseLive(value, SystemClock.elapsedRealtimeNanos()))
+        if (combinedPublished != value || paused || SystemClock.elapsedRealtimeNanos() >= deadline)
             return new RecentsBarPreference(false, false, 0);
         return new RecentsBarPreference(true, (flags & HYOS_ALLOWED) != 0
-            && readBoolean(value.values(), HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, false), value.deadline());
+            && readBoolean(value.values(), HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, false), deadline);
     }
 
-    private static boolean isCombinedLeaseLive(PublishedSnapshot value, long now) {
-        return value != null && !paused && value.values() != null && now > 0
-            && now < value.deadline() && value.deadline() - now <= HYOS_MAX_SNAPSHOT_AGE_NANOS;
+    private static long leaseDeadline(PublishedSnapshot value, long now) {
+        if (value == null || paused || value.values() == null || now <= 0
+            || now > Long.MAX_VALUE - HYOS_MAX_SNAPSHOT_AGE_NANOS
+            || now < value.deadline() - HYOS_MAX_SNAPSHOT_AGE_NANOS) return 0;
+        // The observer revokes the revision before re-reading changed settings. The lease still
+        // bounds a client if WMS or the observer stops serving replies; a lease is never restored.
+        if (value.observed()) return now + HYOS_MAX_SNAPSHOT_AGE_NANOS;
+        return now < value.deadline() ? value.deadline() : 0;
     }
 
     private static boolean validCombinedLayout(Snapshot value) {
@@ -1026,8 +1113,8 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
     public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
-    public static final int ENDPOINT_REVISION = 20261028;
-    public static final int ENDPOINT_CAPABILITIES = 127; // object scales + Dock titles + recents + drawer search + layout policies
+    public static final int ENDPOINT_REVISION = 20261114;
+    public static final int ENDPOINT_CAPABILITIES = 255; // includes independent medium-folder scale tail
 
     public static final int INFINITE_SCROLL_MAGIC = 0x48434957;
     public static void writeInfiniteScroll(Parcel reply, boolean enabled) {
@@ -1092,14 +1179,14 @@ public final class HomeLayoutNativeEndpointOS4 {
     public static final int DOCK_TITLE_MAGIC = 0x48434454;
     public static final int OBJECT_SCALE_MAGIC = 0x48435331;
     private static boolean validObjectScales(int[] values) {
-        if (values == null || values.length != 6) return false;
-        for (int i = 0; i < 6; i += 2)
+        if (values == null || values.length != 6 && values.length != 10) return false;
+        for (int i = 0; i < values.length; i += 2)
             if (values[i] < 0 || values[i] > 1 || values[i + 1] < 60 || values[i + 1] > 140) return false;
         return true;
     }
     private static int[] readObjectScales(java.util.Map<String, Object> values) {
-        final String[] kinds = {"small_folder", "big_folder", "widget"};
-        final int[] result = new int[6];
+        final String[] kinds = {"small_folder", "big_folder", "widget", "medium_folder_horizontal", "medium_folder_vertical"};
+        final int[] result = new int[kinds.length*2];
         for (int i = 0; i < kinds.length; ++i) {
             final String key = "home_layout_" + kinds[i] + "_scale";
             result[i * 2] = readBoolean(values, key + "_enable", false) ? 1 : 0;
@@ -1144,15 +1231,18 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     /** Uses one complete revision from the existing provider cache, without a second gesture poller. */
     public static int[] gestureConfig() {
-        final java.util.Map<String, Object> values = cachedValues;
+        return gestureConfig(cachedValues,
+            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID));
+    }
+
+    private static int[] gestureConfig(java.util.Map<String, Object> values, android.content.Context context) {
         int mask=0;
         String[] actions=com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.ACTIONS;
         for(int i=0;i<com.sevtinge.hyperceiler.libhook.provider.HomeGesturePrefsSnapshot.NATIVE_ACTION_COUNT;i++) {
             int action=readInt(values,actions[i]+"_action",0);
             if(action>0 && action<=100)mask|=1<<i;
         }
-        final android.content.Context context=com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
-            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
         final android.util.DisplayMetrics dm=context!=null?context.getResources().getDisplayMetrics():null;
         return new int[]{readBoolean(values,"home_gesture_enable",false)?1:0,
             readBoolean(values,"home_navigation_quick_back",false)?1:0,mask,

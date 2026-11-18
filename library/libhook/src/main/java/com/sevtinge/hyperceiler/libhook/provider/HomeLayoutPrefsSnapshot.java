@@ -10,7 +10,9 @@ import java.util.Map;
 
 /** One authoritative physical-file revision; a null cell is a known missing key. */
 public final class HomeLayoutPrefsSnapshot {
+    private static String lastMediumDiagnostic;
     public static final int SCHEMA = 4;
+    public static final String HAPTIC_PROFILE_V1 = "hc_recents_haptic_profile_v1";
     public static final String RECENT_ICON_KEY = "home_recent_remove_icon";
     public static final String RECENT_TEXT_KEY = "home_recent_hide_text";
     public static final String RECENT_HEADER_VERSION = "hc_recent_header_version";
@@ -26,6 +28,8 @@ public final class HomeLayoutPrefsSnapshot {
     public static final String RECENTS_BAR_VERSION = "hc_recents_bar_version";
     public static final String RECENT_CARDS_KEY = "home_recent_hide_card";
     public static final String RECENT_CARDS_VERSION = "hc_recent_cards_version";
+    public static final String XIAOHEIZI_KEY = "home_layout_xiaoheizi_enable";
+    public static final String XIAOHEIZI_VERSION = "hc_xiaoheizi_version";
     private static final String[][] KEYS = {
         {"boolean", "home_drawer_hide_search"},
         {"integer", "task_view_corners"},
@@ -127,10 +131,19 @@ public final class HomeLayoutPrefsSnapshot {
     }
     public static Cursor cursor(SharedPreferences prefs) {
         if (prefs == null) return null;
+        try { return cursorValues(prefs.getAll()); }
+        catch (RuntimeException unavailable) { return null; }
+    }
+
+    /** Build the same schema from one already-captured physical-file revision. */
+    public static Cursor cursorValues(Map<String, ?> snapshot) {
+        return cursorValues(snapshot, -1);
+    }
+
+    static Cursor cursorValues(Map<String, ?> snapshot, int hapticProfile) {
+        if (snapshot == null) return null;
         try {
-            // getAll() snapshots SharedPreferences under its own lock. Do not interleave
-            // contains()/getInt() Binder calls with UI commits or package replacement.
-            Map<String, ?> values = new HashMap<>(prefs.getAll());
+            Map<String, ?> values = new HashMap<>(snapshot);
             String[] columns = new String[KEYS.length + 1];
             columns[0] = "schema";
             for (int i = 0; i < KEYS.length; i++) columns[i + 1] = KEYS[i][1];
@@ -171,6 +184,12 @@ public final class HomeLayoutPrefsSnapshot {
             Object hideBar = values.get("prefs_key_" + RECENTS_BAR_KEY);
             if (hideBar != null && !(hideBar instanceof Boolean)) return null;
             Bundle extras = new Bundle();
+            if (hapticProfile >= 0) extras.putInt(HAPTIC_PROFILE_V1, hapticProfile);
+            Object xiaoheizi = values.get("prefs_key_" + XIAOHEIZI_KEY);
+            if (xiaoheizi == null || xiaoheizi instanceof Boolean) {
+                extras.putInt(XIAOHEIZI_VERSION, 1);
+                extras.putInt(XIAOHEIZI_KEY, Boolean.TRUE.equals(xiaoheizi) ? 1 : 0);
+            }
             Object dismiss = values.get("prefs_key_" + DISMISS_KEY);
             if (dismiss == null || dismiss instanceof Boolean) {
                 extras.putInt(DISMISS_VERSION, 1);
@@ -212,7 +231,33 @@ public final class HomeLayoutPrefsSnapshot {
                 extras.putInt(RECENT_HEADER_FLAGS, (Boolean.TRUE.equals(hideIcon) ? 1 : 0)
                     | (Boolean.TRUE.equals(hideText) ? 2 : 0));
             }
+            int effectId=0;
+            Object effect=values.get("prefs_key_home_recent_card_haptic_effect_id");
+            try {if(effect!=null) {
+                String text=effect.toString().trim();
+                effectId=text.startsWith("0x")||text.startsWith("0X")?Integer.parseInt(text.substring(2),16):Integer.parseInt(text,10);
+            }}
+            catch(NumberFormatException invalid){effectId=-1;}
+            if(effectId>=0) {
+                extras.putInt("haptic_custom_version",1);
+                extras.putInt("home_recent_card_haptic_custom",Boolean.TRUE.equals(values.get("prefs_key_home_recent_card_haptic_custom"))?1:0);
+                extras.putInt("home_recent_card_haptic_effect_id",effectId);
+            }
+            extras.putInt("medium_scales_version",1);
+            for(String kind:new String[]{"medium_folder_horizontal","medium_folder_vertical"}) {
+                String key="home_layout_"+kind+"_scale";
+                Object percent=values.get("prefs_key_"+key);
+                extras.putInt(key,percent instanceof Integer number?Math.max(60,Math.min(140,number)):100);
+                extras.putInt(key+"_enable",Boolean.TRUE.equals(values.get("prefs_key_"+key+"_enable"))?1:0);
+            }
             result.setExtras(extras);
+            String medium="horizontal="+extras.getInt("home_layout_medium_folder_horizontal_scale_enable",0)+"/"
+                +extras.getInt("home_layout_medium_folder_horizontal_scale",100)+" vertical="
+                +extras.getInt("home_layout_medium_folder_vertical_scale_enable",0)+"/"
+                +extras.getInt("home_layout_medium_folder_vertical_scale",100);
+            if(!medium.equals(lastMediumDiagnostic)) {
+                lastMediumDiagnostic=medium;android.util.Log.i("HyperCeiler.HomeConfig","provider medium "+medium);
+            }
             return result;
         } catch (RuntimeException unavailable) { return null; }
     }

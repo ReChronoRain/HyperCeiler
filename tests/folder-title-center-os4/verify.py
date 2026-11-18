@@ -62,7 +62,7 @@ pre+='struct Dart{uintptr_t load_base=0x100000000;std::string path="libapp.so";}
 if 'g_folder_layout_retry_at_ms' in src:
  pre+='uint64_t test_clock=1;uint64_t monotonic_ms(){return test_clock;}uint64_t g_folder_layout_retry_at_ms=0;unsigned g_folder_layout_retry_failures=0;\n'
 pre+='void*hc_folder_layout_original[8]{};uint64_t hc_folder_layout_requested=3;uint32_t hc_folder_layout_ready=0;bool g_folder_layout_bound=false,g_folder_layout_checked=false,g_folder_layout_attempted=false;int g_folder_cell_width_field=-1,g_folder_gap_field=-1,g_folder_screen_width_field=-1,g_folder_screen_height_field=-1,g_folder_cling_width_field=-1,g_folder_controller_config_field=-1,g_folder_rx_value_field=-1,g_folder_enum_index_field=-1;uint32_t g_folder_center_pool=0;\n'
-pre+='home_layout::FolderInnerContainer g_folder_inner;uint32_t g_folder_inner_owner_local=0;bool g_folder_inner_ready=false;static std::atomic_uint g_folder_inner_reported{0};\n'
+pre+='home_layout::FolderInnerContainer g_folder_inner;uint32_t g_folder_inner_owner_local=0;bool g_folder_inner_ready=false;uint32_t g_folder_layout_slot_mask=0xff;std::array<int32_t,2> g_folder_title_alignment_axes{};bool bind_folder_title_center(){return false;}static std::atomic_uint g_folder_inner_reported{0};\n'
 for i in range(8):pre+=f'void hc_folder_layout_{i}_entry(){{}}\n'
 pre+='bool bind_dart_target(uint32_t va,uintptr_t&a,nhk::CodeSource&,Words&w){for(auto&[v,b]:images)if(va>=v&&!((va-v)&3)&&(va-v)/4+4<=b.size()){a=g_dart->load_base+va;std::copy_n(b.begin()+(va-v)/4,4,w.begin());return true;}return false;}\n'
 pre+=fun(src,'bool folder_layout_anchors(')+'\n'+fun(src,'bool bind_folder_layout()')+'\n'

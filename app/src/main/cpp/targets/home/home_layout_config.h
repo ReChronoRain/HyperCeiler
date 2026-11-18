@@ -14,6 +14,9 @@
 #include "home_title_custom.h"
 #include "home_dock_title.h"
 #include "home_folder_layout.h"
+#include "home_recents_haptic_protocol.h"
+#include "home_dock_config.h"
+#include "home_recent_cards_filter.h"
 
 #include <array>
 
@@ -103,13 +106,30 @@ struct Config {
     home_gestures::Config gestures{};
     bool folder_auto_close = false;
     std::vector<home_title::CustomTitle> title_custom_labels;
+    // Live local publication only; a disk bootstrap must not authorize actions
+    // or task filtering. These fields are absent from the disk serializer.
+    haptic::Profile local_haptic{};
+    home_dock::Config local_dock{};
+    cards::Snapshot local_recent_cards;
+    uint64_t local_cards_generation=0;
 };
+
+bool local_haptic_profile(haptic::Profile& result);
+bool local_dock_config(home_dock::Config& result);
+cards::Snapshot local_recent_cards();
+bool inspect_local_recent_cards(cards::Snapshot& result);
+bool commit_local_recent_cards(std::span<void*> groups,const cards::Plan& plan,
+    void (*drop)(void*),size_t& kept);
 
 /** Loader callback: nonblocking cache-only bootstrap, never Binder/dlsym.
  * False means unavailable/busy, not an authoritative disabled snapshot. */
 bool query_bootstrap_config(Config &result);
 
 /** Worker only: read the snapshot through the authenticated WMS Binder endpoint. */
-bool query_config(Config &result);
+bool query_config(Config &result, bool on_change = false);
+// The layout worker owns registration. Zero means retain compatibility polling.
+void refresh_config_observer();
+uint64_t config_observer_revision();
+bool wait_for_config_event(long milliseconds);
 
 } // namespace home_layout

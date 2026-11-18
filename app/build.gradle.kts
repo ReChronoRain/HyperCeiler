@@ -208,6 +208,7 @@ java {
 kotlin.jvmToolchain(25)
 
 dependencies {
+    implementation(libs.libsu.service)
     implementation(libs.viewpager2)
     implementation(libs.expansion)
     implementation(projects.library.core)

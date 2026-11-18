@@ -24,7 +24,8 @@ namespace home_recent_bar {
 namespace {
 using Words=std::array<uint32_t,4>;using Slot=nhk::InlineSlot<4>;
 constexpr const char* kFeature="最近任务隐藏状态栏";
-std::atomic<uint64_t> published{0},hits{0};
+std::atomic<uint64_t> published{0},local_scene{0},hits{0};
+std::atomic_bool dock_observer{false};
 std::atomic_bool bank_ready{false}, enabled{false};
 std::mutex wake_lock;
 std::condition_variable wake;
@@ -54,26 +55,32 @@ bool attempted=false,retired=false;
 Hook install_hook=nullptr;Unhook remove_hook=nullptr;Protect protect_hook=nullptr;
 
 uint64_t now_ns(){timespec t{};if(clock_gettime(CLOCK_MONOTONIC,&t))return 0;return uint64_t(t.tv_sec)*1000000000+t.tv_nsec;}
-void publish(unsigned value) noexcept {
-    auto old=published.load(std::memory_order_relaxed);
+void publish_to(std::atomic<uint64_t>& destination,unsigned value) noexcept {
+    auto old=destination.load(std::memory_order_relaxed);
     for(;;){if((old&15)==value&&old)return;
         const uint64_t next=(((old>>4)+1)<<4)|value;
-        if(published.compare_exchange_weak(old,next,std::memory_order_release,std::memory_order_relaxed))break;
+        if(destination.compare_exchange_weak(old,next,std::memory_order_release,std::memory_order_relaxed))break;
     }
     if(dock_motion_event>=0)(void)eventfd_write(dock_motion_event,1);
 }
+void publish(unsigned value) noexcept {publish_to(published,value);}
+bool observing() noexcept {return enabled.load(std::memory_order_acquire)||dock_observer.load(std::memory_order_acquire);}
+void publish_scene(unsigned value) noexcept {
+    publish_to(local_scene,dock_observer.load(std::memory_order_acquire)?value:0);
+    publish(enabled.load(std::memory_order_acquire)?value:0);
+}
 void snapshot() noexcept {
     unsigned mask=0;
-    if(enabled.load(std::memory_order_acquire) && bank_ready.load(std::memory_order_acquire)){
+    if(observing() && bank_ready.load(std::memory_order_acquire)){
         for(unsigned i=0;i<3;++i){
             uint8_t value=0;auto p=flags[i].load(std::memory_order_acquire);
-            if(!p||!nhk::safe_read(p,std::as_writable_bytes(std::span(&value,1)))||value>1){publish(0);return;}
+            if(!p||!nhk::safe_read(p,std::as_writable_bytes(std::span(&value,1)))||value>1){publish_scene(0);return;}
             mask|=unsigned(value)<<i;
         }
-        if (!enabled.load(std::memory_order_acquire) || !bank_ready.load(std::memory_order_acquire)) { publish(0); return; }
+        if (!observing() || !bank_ready.load(std::memory_order_acquire)) { publish_scene(0); return; }
         mask=dart_scene::compose(mask,dart_observation.load(std::memory_order_acquire));
     }
-    publish(mask);
+    publish_scene(mask);
 }
 template<unsigned I> void observe(uint8_t value){
     auto original=reinterpret_cast<void(*)(uint8_t)>(__atomic_load_n(&originals[I],__ATOMIC_ACQUIRE));
@@ -83,7 +90,7 @@ template<unsigned I> void observe(uint8_t value){
     // Snapshot the real native globals after the original, not the callback
     // completion order. Concurrent portrait/window setters cannot publish a
     // stale argument over a newer store. No file scan, Binder, Dart or logger.
-    if (enabled.load(std::memory_order_acquire)) snapshot();
+    if (observing()) snapshot();
 }
 std::optional<std::vector<nhk::ExecutableMapping>> inventory(){
     std::ifstream maps("/proc/self/maps");if(!maps)return {};
@@ -209,9 +216,19 @@ void wait_for_maintenance(long ns,uint64_t revision) noexcept {
     wake.wait_for(guard,std::chrono::nanoseconds(ns),[&]{return maintenance_revision()!=revision;});
 }
 uint64_t packed() noexcept{return published.load(std::memory_order_acquire);}
+uint64_t dock_scene() noexcept{return local_scene.load(std::memory_order_acquire);}
+void observe_for_dock(bool value) noexcept {
+    if(dock_observer.exchange(value,std::memory_order_acq_rel)==value)return;
+    {
+        std::lock_guard guard(wake_lock);
+        wake_revision.fetch_add(1,std::memory_order_release);wake.notify_one();
+    }
+    if(!value)publish_to(local_scene,0);
+    if(dock_motion_event>=0)(void)eventfd_write(dock_motion_event,1);
+}
 void maintain(Hook hook,Unhook unhook,Protect protect) noexcept {
     try {
-        if(!requested()||retired||!hook)return;
+        if(!observing()||retired||!hook)return;
         install_hook=hook;remove_hook=unhook;protect_hook=protect;
         const auto now=now_ns();if(!now)return;
         if(!slots[0].address){
@@ -228,7 +245,7 @@ void maintain(Hook hook,Unhook unhook,Protect protect) noexcept {
         if(!last_generation||now-last_generation>=30000000000ULL){
             last_generation=now;auto inv=inventory();bool valid=bool(inv);
             if(inv)for(const auto& s:slots){std::array<uintptr_t,1>a{s.address};std::array<nhk::CodeSource,1>e{s.source};valid&=nhk::mapping_state(*inv,a,e,16)==nhk::MappingState::same;}
-            if(!valid){bank_ready=false;publish(0);retired=true;phase("runtime source generation changed, stock status bar retained");return;}
+            if(!valid){bank_ready=false;publish_scene(0);retired=true;phase("runtime source generation changed, stock status bar retained");return;}
         }
         const bool healthy=nhk::ordered_slots_healthy(slots,order,[](auto addresses,auto,auto observed){
             for(size_t i=0;i<addresses.size();++i)if(!nhk::safe_read(addresses[i],std::as_writable_bytes(observed.subspan(i,1))))return false;return true;});
@@ -236,13 +253,16 @@ void maintain(Hook hook,Unhook unhook,Protect protect) noexcept {
             &&nhk::ordered_slots_healthy(slots,order,[](auto a,auto,auto w){for(size_t i=0;i<a.size();++i)if(!nhk::safe_read(a[i],std::as_writable_bytes(w.subspan(i,1))))return false;return true;}));
         bank_ready.store(live,std::memory_order_release);snapshot();
         phase(live?"four scene sites verified live":"scene patch installation pending");
-        nhk::android_diagnostics::counter("home.recents.statusbar",kFeature,hits.load(std::memory_order_relaxed));
-        nhk::android_diagnostics::counter("home.recents.flutter-scene",kFeature,dart_hits.load(std::memory_order_relaxed));
+        // A Dock-only consumer must not report status-bar feature execution.
+        if(enabled.load(std::memory_order_acquire)) {
+            nhk::android_diagnostics::counter("home.recents.statusbar",kFeature,hits.load(std::memory_order_relaxed));
+            nhk::android_diagnostics::counter("home.recents.flutter-scene",kFeature,dart_hits.load(std::memory_order_relaxed));
+        }
         const auto report=dart_observation.load(std::memory_order_acquire);
         if(last_dart_report!=report){last_dart_report=report;
             __android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeLayout","recents Flutter scene observed=%u active=%u reason=%s",(report>>1)&1,report&1,dart_scene::read_reason(dart_scene::ReadResult(report>>2)));}
 
-    }catch(...){bank_ready=false;publish(0);}
+    }catch(...){bank_ready=false;publish_scene(0);}
 }
 extern "C" void hc_recent_dart_state_observe(uint64_t frame,uint64_t thread,uint64_t pool) noexcept {
     if(!dart_contract.load(std::memory_order_acquire)||!bank_ready.load(std::memory_order_acquire))return;
@@ -251,7 +271,7 @@ extern "C" void hc_recent_dart_state_observe(uint64_t frame,uint64_t thread,uint
     const unsigned observation=unsigned(value.result)*4+(value.result==dart_scene::ReadResult::Ready?2u+unsigned(value.active):0u);
     dart_observation.store(observation,std::memory_order_release);
     if(value.result==dart_scene::ReadResult::Ready)dart_hits.fetch_add(1,std::memory_order_relaxed);
-    if(enabled.load(std::memory_order_acquire))snapshot();
+    if(observing())snapshot();
 }
 
 }

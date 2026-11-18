@@ -1,6 +1,16 @@
 package android.content;
 import java.util.*;import java.util.concurrent.atomic.*;import android.database.*;import com.sevtinge.hyperceiler.libhook.provider.*;
 public class ContentResolver {
+ private static volatile ContentObserver observer;
+ public void registerContentObserver(android.net.Uri uri,boolean descendants,ContentObserver candidate) {
+  if(!descendants)throw new AssertionError("pref observer must include key descendants");
+  observer=candidate;
+ }
+ public void unregisterContentObserver(ContentObserver candidate) {if(observer==candidate)observer=null;}
+ public static void signalChange(String uri) {
+  var current=observer;
+  if(current!=null)current.onChange(false,android.net.Uri.parse(uri));
+ }
  public static volatile Map<String,Object> values=Map.of();public static volatile String failure="";public static volatile Runnable afterSnapshot=()->{};public static volatile java.util.function.Consumer<MatrixCursor> mutate=c->{};
  public static AtomicInteger queries=new AtomicInteger(),reads=new AtomicInteger(),inflight=new AtomicInteger(),max=new AtomicInteger();public static boolean missing;
  public static SharedPreferences prefs(){return ()->{reads.incrementAndGet();if(failure.equals("getAll"))throw new IllegalStateException();return values;};}

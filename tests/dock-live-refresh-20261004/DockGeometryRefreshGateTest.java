@@ -25,7 +25,7 @@ public final class DockGeometryRefreshGateTest {
         g.close(); check(!g.begin(14002));check(g.finish(false,14003)==-1);check(g.request(15000,true)==-1);
         for(String k:new String[]{"home_dock_bg_custom_enable","home_dock_add_blur","home_dock_bg_color",
             "home_dock_bg_height","home_dock_bg_margin_horizontal","home_dock_bg_margin_bottom",
-            "home_dock_bg_radius","home_other_home_mode"}) {
+            "home_dock_bg_radius","home_other_home_mode","home_layout_xiaoheizi_enable","home_layout_xiaoheizi_rage"}) {
             check(DockGeometryRefreshGate.isGeometryKey(k));
             check(DockGeometryRefreshGate.isGeometryKey("prefs_key_"+k));
         }

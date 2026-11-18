@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="home_recent_haptic_custom">自定义振动效果 ID</string>
+    <string name="home_recent_haptic_effect_id">振动效果 ID</string>
+    <string name="home_recent_haptic_effects">振动效果</string>
+    <string name="home_recent_haptic_picker_title">选择振动效果</string>
+    <string name="home_recent_haptic_preset">预设</string>
+    <string name="home_recent_haptic_selected_preset">%1$s（预设）</string>
+    <string name="home_recent_haptic_enter_id">输入 ID</string>
+    <string name="home_recent_haptic_preview">试听</string>
+    <string name="home_recent_haptic_effects_summary">按名称或 ID 查找，试听并选择振动效果</string>
+    <string name="home_recent_haptic_search">搜索名称或 ID</string>
+    <string name="home_recent_haptic_use">使用此效果</string>
+    <string name="home_recent_haptic_selected_effect">%1$s（ID %2$d）</string>
+    <string name="home_recent_haptic_empty">没有找到匹配的振动效果</string>
+    <string name="home_recent_haptic_loading">正在读取振动效果…</string>
+    <string name="home_recent_haptic_effect_unnamed">设备未公开名称</string>
+    <string name="home_recent_haptic_effect_click">点击</string>
+    <string name="home_recent_haptic_effect_double_click">双击</string>
+    <string name="home_recent_haptic_effect_tick">轻点</string>
+    <string name="home_recent_haptic_effect_thud">重击</string>
+    <string name="home_recent_haptic_effect_pop">弹跳</string>
+    <string name="home_recent_haptic_effect_heavy_click">强力点击</string>
+    <string name="home_recent_haptic_effect_texture_tick">纹理轻点</string>
+    <string name="home_recent_haptic_effect_ringtone">铃声节奏 %1$d</string>
+    <string name="home_recent_haptic_id_invalid">请输入非负十进制或十六进制 ID</string>
+    <string name="home_recent_haptic_inventory_missing">设备未公开完整列表，仅展示已知系统效果。</string>
+    <string name="home_recent_haptic_supported">支持</string>
+    <string name="home_recent_haptic_unsupported">不支持</string>
+    <string name="home_recent_haptic_unknown">支持情况未知</string>
     <string name="home_recent_haptic_category">卡片振动</string>
     <string name="home_recent_card_close_haptic">卡片关闭振动自定义</string>
     <string name="home_recent_card_close_haptic_summary">关闭一张卡片时振动一次</string>
@@ -10,4 +38,10 @@
     <string name="home_recent_card_haptic_strength">振动强度</string>
     <string name="home_recent_card_haptic_strength_summary">实际可调强度取决于设备马达的支持情况</string>
     <string-array name="home_recent_card_haptic_types"><item>轻点</item><item>点击</item><item>重击</item><item>双击</item></string-array>
+    <string name="home_recent_haptic_group_system">系统操作</string>
+    <string name="home_recent_haptic_group_basic">基础触感</string>
+    <string name="home_recent_haptic_group_music">旋律节奏</string>
+    <string name="home_recent_haptic_group_game">游戏反馈</string>
+    <string name="home_recent_haptic_group_device">设备触感</string>
+    <string name="home_recent_haptic_presets_group">常用预设</string>
 </resources>

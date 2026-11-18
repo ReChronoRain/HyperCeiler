@@ -31,12 +31,8 @@
             android:key="prefs_key_home_recent_card_close_haptic"
             android:title="@string/home_recent_card_close_haptic"
             android:summary="@string/home_recent_card_close_haptic_summary" />
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_home_recent_card_haptic_type"
-            android:title="@string/home_recent_card_haptic_type"
-            app:entries="@array/home_recent_card_haptic_types"
-            app:entryValues="@array/home_recent_card_haptic_values" />
+        <Preference android:key="home_recent_haptic_effects"
+            android:title="@string/home_recent_haptic_effects" android:summary="@string/home_recent_haptic_effects_summary" />
         <SeekBarPreferenceCompat
             android:key="prefs_key_home_recent_card_haptic_strength"
             android:title="@string/home_recent_card_haptic_strength"

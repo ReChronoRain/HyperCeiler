@@ -60,6 +60,9 @@ class HomeDockWindow : BaseHook() {
         const val METHOD_CLOSE = "close"
         const val METHOD_RELEASE = "release"
         const val WM_HANDLER = "mH"
+        /** Preference key owned by Layout -> Desktop search, not by the Dock block. */
+        const val XIAOHEIZI_KEY = "prefs_key_home_layout_xiaoheizi_enable"
+        const val XIAOHEIZI_RAGE_KEY = "prefs_key_home_layout_xiaoheizi_rage"
         const val WM_LOCK = "mGlobalLock"
         const val IS_VALID = "isValid"
         const val SET_POSITION = "setPosition"
@@ -335,6 +338,16 @@ class HomeDockWindow : BaseHook() {
         glassClient::record)
     private val nativeMotionReply = ThreadLocal<Int>()
     private val recentsStatusBar = HomeRecentsStatusBarOS4(glassClient::record)
+    /**
+     * Ask-XiaoAi capsule performance layer ("Xiaoheizi mode").
+     *
+     * <p>Idle unless the user turns it on. It is kept off every Dock path: it renders nothing
+     * itself, owns its own worker, and only borrows the launcher's SurfaceControl as a parent.
+     */
+    private val xiaoheiziLayer = XiaoheiziLayer(
+        { runCatching { service?.getObjectFieldAs<Context>("mContext") }.getOrNull() },
+        glassClient::record,
+    )
     private val layoutEndpoint = HomeLayoutNativeEndpointOS4()
     private val layoutReply = ThreadLocal<HomeLayoutNativeEndpointOS4.Snapshot>()
     private val combinedReply = ThreadLocal<HomeLayoutNativeEndpointOS4.CombinedSnapshot>()
@@ -429,6 +442,7 @@ class HomeDockWindow : BaseHook() {
     private fun launcherWindowVisible(): Boolean = runCatching {
         val wm = service ?: return@runCatching true
         synchronized(wm.getObjectFieldAs<Any>(WM_LOCK)) {
+            HomeDockBackendOS4.INSTANCE.window()?.let { return@runCatching it.callMethod("isVisible") == true }
             synchronized(layers) {
                 layers.isEmpty() || layers.keys.any { it.callMethod("isVisible") == true }
             }
@@ -444,8 +458,19 @@ class HomeDockWindow : BaseHook() {
         glassClient.record("glass rotation return=retained-capture-v3 pause=before-wallpaper-zoom resume=pose-committed")
         glassClient.record("glass renderer=SystemUI appLifetimeIndependent=true noFreezerExemption=true")
         val prefs = PrefsBridge.getSharedPreferences()
+        xiaoheiziLayer.enabled = prefs?.getBoolean(XIAOHEIZI_KEY, false) == true
+        xiaoheiziLayer.rage = prefs?.getBoolean(XIAOHEIZI_RAGE_KEY, false) == true
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == null || key.contains("home_dock_") || key.endsWith("home_other_home_mode")) {
+            if (key == null || key == XIAOHEIZI_KEY || key == XIAOHEIZI_RAGE_KEY) {
+                if (glassClient.liveGeometry()?.xiaoheiziRage == null) {
+                    xiaoheiziLayer.rage = prefs?.getBoolean(XIAOHEIZI_RAGE_KEY, false) == true
+                }
+                if (glassClient.liveGeometry()?.xiaoheiziEnabled == null) {
+                    xiaoheiziLayer.enabled = prefs?.getBoolean(XIAOHEIZI_KEY, false) == true
+                }
+                glassClient.refreshGeometry(force = true)
+            }
+            if (key == null || key == XIAOHEIZI_KEY || key == XIAOHEIZI_RAGE_KEY || key.contains("home_dock_") || key.endsWith("home_other_home_mode")) {
                 // Advisory only. The callback now tells us when it is worth redrawing, it is no
                 // longer what makes a value visible: the sweep and every traversal read the
                 // preferences themselves. Refresh first so the requested traversal cannot see the
@@ -458,7 +483,9 @@ class HomeDockWindow : BaseHook() {
         prefs?.registerOnSharedPreferenceChangeListener(listener)
         registerHotReloadCleanup {
             stopped = true
+            HomeDockBackendOS4.INSTANCE.uninstall(backendController)
             recentsStatusBar.close()
+            xiaoheiziLayer.close()
             prefs?.unregisterOnSharedPreferenceChangeListener(listener)
             synchronized(layers) { layers.keys.toList().forEach { removeLayer(it) } }
             glassClient.close()
@@ -473,6 +500,7 @@ class HomeDockWindow : BaseHook() {
         WindowHooks(loadClass("com.android.server.wm.WindowState")).install()
         installRotationHook()
         installUnlockReveal()
+        HomeDockBackendOS4.INSTANCE.install(backendController)
         XposedLog.i(TAG, LOG_TAG, "WMS dock hook ready: enabled=${settings.enabled}, blur=${settings.blur}")
     }
 
@@ -520,6 +548,18 @@ class HomeDockWindow : BaseHook() {
                 nightMode = liveGeometry.homeMode ?: resolved.nightMode
             )
         }
+        liveGeometry?.xiaoheiziRage?.let { rage ->
+            if (xiaoheiziLayer.rage != rage) {
+                xiaoheiziLayer.rage = rage
+                glassClient.record("xiaoheizi rage enabled=$rage source=provider")
+            }
+        }
+        liveGeometry?.xiaoheiziEnabled?.let { enabled ->
+            if (xiaoheiziLayer.enabled != enabled) {
+                xiaoheiziLayer.enabled = enabled
+                glassClient.record("xiaoheizi enabled=$enabled source=provider")
+            }
+        }
         if (resolved == settings) return false
         val previousStyle = settings.revealStyle
         settings = resolved
@@ -539,6 +579,16 @@ class HomeDockWindow : BaseHook() {
     /** Keeps optional scene-hook failures separate from the background's lifecycle. */
     private inner class WindowHooks(private val windowClass: Class<*>) {
         private val attrsField = windowClass.getDeclaredField("mAttrs").apply { isAccessible = true }
+        private val obscuredField = runCatching {
+            windowClass.getDeclaredField("mObscured")
+                .takeIf { it.type == Boolean::class.javaPrimitiveType }?.apply { isAccessible = true }
+        }.getOrNull()
+
+        private val capsuleEntry = XiaoheiziEntryGate()
+        private val displayFocusField = runCatching {
+            loadClass("com.android.server.wm.DisplayContent").getDeclaredField("mCurrentFocus")
+                .takeIf { windowClass.isAssignableFrom(it.type) }?.apply { isAccessible = true }
+        }.getOrNull()
 
         fun install() {
             recentsStatusBar.install(windowClass)
@@ -547,7 +597,13 @@ class HomeDockWindow : BaseHook() {
             windowClass.getDeclaredMethod("removeImmediately").apply { isAccessible = true }
                 .createBeforeHook { param ->
                     recentsStatusBar.removed(param.thisObject)
-                    synchronized(layers) { removeLayer(param.thisObject) }
+                    synchronized(layers) {
+                        if (revealStyleWindow.get() === param.thisObject) {
+                            capsuleEntry.reset()
+                            xiaoheiziLayer.hide()
+                        }
+                        removeLayer(param.thisObject)
+                    }
                 }
             installNativeMotionTransaction()
             installWallpaper()
@@ -564,6 +620,16 @@ class HomeDockWindow : BaseHook() {
                         // endpoint can observe the same frame, including the newest hook.
                         if (stopped) return@createBeforeHook
                         val code = param.args[0] as Int
+                        if (code == HomeLayoutNativeEndpointOS4.OBSERVE_TRANSACTION_CODE) {
+                            val reply = param.args[2] as? Parcel ?: return@createBeforeHook
+                            try {
+                                layoutEndpoint.observe(param.args[1] as Parcel, reply, param.args[3] as Int)
+                            } catch (error: Exception) {
+                                reply.writeException(error)
+                            }
+                            param.result = true
+                            return@createBeforeHook
+                        }
                         if (code == HomeRecentsStatusBarOS4.TRANSACTION) {
                             val reply = param.args[2] as? Parcel ?: return@createBeforeHook
                             recentsStatusBar.receive(param.args[1] as Parcel, reply, param.args[3] as Int)
@@ -587,6 +653,13 @@ class HomeDockWindow : BaseHook() {
                             com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeRecentsHapticEndpointOS4.receive(
                                 param.args[1] as Parcel, reply, param.args[3] as Int,
                                 code == com.sevtinge.hyperceiler.libhook.rules.home.recent.HomeRecentsHapticEndpointOS4.TRANSACTION_V2)
+                            param.result = true
+                            return@createBeforeHook
+                        }
+                        if (code == com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeShakeWireOS4.TRANSACTION) {
+                            val reply = param.args[2] as? Parcel ?: return@createBeforeHook
+                            com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeQuickSwitchOS4.receiveShake(
+                                param.args[1] as Parcel, reply, param.args[3] as Int)
                             param.result = true
                             return@createBeforeHook
                         }
@@ -659,65 +732,8 @@ class HomeDockWindow : BaseHook() {
                     } else if (layout) {
                         val result = layoutReply.get()
                         layoutReply.remove()
-                        reply.writeInt(result?.acknowledgment() ?: HomeLayoutNativeEndpointOS4.ACK)
-                        reply.writeInt(result?.gridEnabled() ?: 0)
-                        reply.writeInt(result?.cellX() ?: 0)
-                        reply.writeInt(result?.cellY() ?: 0)
-                        val knobEnabled = result?.knobEnabled() ?: IntArray(0)
-                        val knobDeltas = result?.knobDeltaDp() ?: IntArray(0)
-                        reply.writeInt(knobEnabled.size)
-                        for (index in knobEnabled.indices) {
-                            reply.writeInt(knobEnabled[index])
-                            reply.writeInt(if (index < knobDeltas.size) knobDeltas[index] else 0)
-                        }
-                        // The code-patch features ride along as a fixed run of values; the native
-                        // side refuses the whole snapshot when any of them is out of range.
-                        val tweaks = result?.tweaks() ?: IntArray(0)
-                        for (index in 0 until HomeLayoutNativeEndpointOS4.TWEAK_COUNT) {
-                            reply.writeInt(if (index < tweaks.size) tweaks[index] else 0)
-                        }
-                        val title = result?.title() ?: intArrayOf(12, 12, -1, 0)
-                        for (index in 0 until HomeLayoutNativeEndpointOS4.TITLE_COUNT) {
-                            reply.writeInt(title[index])
-                        }
-                        // UTF-16 units are explicit bounded integers; no native string allocator/GC.
-                        reply.writeInt(0x48435431)
-                        val labels = result?.customTitles() ?: emptyArray<Array<String>>()
-                        reply.writeInt(labels.size)
-                        for (pair in labels) for (text in pair) {
-                            reply.writeInt(text.length)
-                            for (unit in text) reply.writeInt(unit.code)
-                        }
-                        // Optional trailing extension; older native clients ignore it.
-                        reply.writeInt(0x48435731)
-                        reply.writeInt(if (result?.widgetAllowMove() == true) 1 else 0)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.FOLDER_MAGIC)
-                        val folder = result?.folder() ?: IntArray(HomeLayoutNativeEndpointOS4.FOLDER_COUNT)
-                        for (value in folder) reply.writeInt(value)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.BACK_GESTURE_MAGIC)
-                        val backGesture = result?.backGesture() ?: intArrayOf(60, 100)
-                        for (value in backGesture) reply.writeInt(value)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.FOLDER_AUTO_CLOSE_MAGIC)
-                        reply.writeInt(if (result?.folderAutoClose() == true) 1 else 0)
-                        reply.writeInt(0x48434731)
-                        for (value in HomeLayoutNativeEndpointOS4.gestureConfig()) reply.writeInt(value)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.OBJECT_SCALE_MAGIC)
-                        for (value in result?.objectScales() ?: intArrayOf(0, 100, 0, 100, 0, 100))
-                            reply.writeInt(value)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_MAGIC)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_DIAGNOSTICS_SCHEMA)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_REVISION)
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.ENDPOINT_CAPABILITIES)
-                        reply.writeInt(android.os.Process.myPid())
-                        reply.writeInt(HomeLayoutNativeEndpointOS4.DOCK_TITLE_MAGIC)
-                        reply.writeInt(if (result?.dockShowTitle() == true) 1 else 0)
-                        HomeLayoutNativeEndpointOS4.writeRecent(reply,
-                            result?.recent() ?: HomeLayoutNativeEndpointOS4.recentDefaults())
-                        HomeLayoutNativeEndpointOS4.writeDrawer(reply, result?.drawerHideSearch() ?: false)
-                        HomeLayoutNativeEndpointOS4.writePolicies(reply, result?.policies() ?: 0L)
-                        HomeLayoutNativeEndpointOS4.writeDockHorizontal(reply, result?.dockHorizontalDelta() ?: 0)
-                        HomeLayoutNativeEndpointOS4.writeInfiniteScroll(reply, result?.infiniteScroll() ?: false)
-                        HomeLayoutNativeEndpointOS4.writeRecentHeader(reply, result?.recent() ?: HomeLayoutNativeEndpointOS4.recentDefaults())
+                        HomeLayoutWire.write(reply, result,
+                            HomeLayoutNativeEndpointOS4.gestureConfig(), android.os.Process.myPid())
                     } else {
                         val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
                         nativeMotionReply.remove()
@@ -736,6 +752,7 @@ class HomeDockWindow : BaseHook() {
             if (stopped) return
             val attrs = attrsField.get(window) as WindowManager.LayoutParams
             if (attrs.packageName != "com.miui.home") return
+            if (HomeDockBackendOS4.INSTANCE.suppressed()) return
             // Only launcher windows reach this point, so this is the cheapest place to pick up a
             // changed parameter. It is what makes an edit survive a desktop restart: the restart
             // rebuilds the WindowState and traverses into here, but it never re-creates the hook.
@@ -763,6 +780,8 @@ class HomeDockWindow : BaseHook() {
                 // object reference and nothing else.
                 glassClient.bindDiagnostics(service!!.getObjectFieldAs<Context>("mContext"))
                 if (revealStyleWindow.get() !== window) {
+                    capsuleEntry.reset()
+                    xiaoheiziLayer.hide()
                     revealStyleWindow = WeakReference(window)
                     // system_server survives a launcher restart. Bypass its old 30 s style limit
                     // once per new window, asynchronously, never query under WMS/layers locks.
@@ -770,9 +789,40 @@ class HomeDockWindow : BaseHook() {
                     glassClient.refreshGeometry(force = true)
                 }
                 registerDisplayListener()
+                updateCapsule(window)
                 updateLayer(window)
                 scheduleNativeBindSweep()
             }
+        }
+
+        private fun updateCapsule(window: Any) {
+            // A cached wallpaper-backed launcher can stay visible behind a fully opaque app.
+            // WMS updates mObscured during traversal before prepareSurfaces.
+            if (!xiaoheiziLayer.enabled) {
+                capsuleEntry.reset()
+                xiaoheiziLayer.hide()
+                return
+            }
+            if (!screenInteractive() || window.callMethod("isVisible") != true
+                || obscuredField?.getBoolean(window) == true) {
+                xiaoheiziLayer.hide()
+                return
+            }
+            xiaoheiziLayer.retireChangedMode()
+            if (xiaoheiziLayer.hasEntry || !capsuleEntry.ready(SystemClock.uptimeMillis())) return
+            if (displayFocusField?.let { it.get(window.callMethod("getDisplayContent")) !== window } == true) return
+            val parent = window.callMethod("getSurfaceControl") as? SurfaceControl
+            val frame = window.callMethod("getFrame") as Rect
+            val config = settings
+            val density = (window.callMethod("getConfiguration") as Configuration).densityDpi / 160f
+            val dock = DockWindowPolicy.layout(frame.width(), frame.height(), density,
+                config.height, config.margin, config.bottom, config.radius)
+            if (parent == null || !parent.isValid || dock == null) {
+                xiaoheiziLayer.hide()
+                return
+            }
+            capsuleEntry.reset()
+            xiaoheiziLayer.show(parent, frame.width(), dock.y(), density)
         }
 
         private fun isLauncher(window: Any, attrs: WindowManager.LayoutParams): Boolean =
@@ -802,17 +852,22 @@ class HomeDockWindow : BaseHook() {
 
         private fun wallpaperCommand(endpoint: DockWallpaperEndpoint.Endpoint, param: HookParam,
             captureOnly: Boolean = false) {
-            if (stopped || !settings.enabled) return
+            if (stopped || (!settings.enabled && !xiaoheiziLayer.enabled)) return
             val wm = service ?: return
             // Session callbacks may run after WMS releases its lock. Preserve WM -> layer lock order.
             synchronized(wm.getObjectFieldAs<Any>(WM_LOCK)) {
                 synchronized(layers) {
-                    if (stopped || !settings.enabled) return
+                    if (stopped || (!settings.enabled && !xiaoheiziLayer.enabled)) return
                     val window = if (endpoint.sessionScoped()) {
                         layers.entries.firstOrNull { (_, layer) ->
                             DockWallpaperEndpoint.ownsWindow(layer.motionSession, layer.motionClient,
                                 param.thisObject, param.args[0])
-                        }?.key ?: return
+                        }?.key ?: revealStyleWindow.get()?.takeIf { target ->
+                            xiaoheiziLayer.enabled && DockWallpaperEndpoint.ownsWindow(
+                                target.getObjectFieldAs<Any>("mSession"),
+                                target.getObjectFieldAs<Any>("mClient").callMethod("asBinder"),
+                                param.thisObject, param.args[0])
+                        } ?: return
                     } else param.args[0] ?: return
                     val attrs = attrsField.get(window) as WindowManager.LayoutParams
                     if (!isLauncher(window, attrs)) return
@@ -825,6 +880,16 @@ class HomeDockWindow : BaseHook() {
                     val scale = (extras.get("scale_to") as? Number)?.toDouble() ?: return
                     val sceneAction = extras.getString("action")
                     val command = param.args[1] as String
+                    if (!captureOnly && xiaoheiziLayer.enabled && revealStyleWindow.get() === window) {
+                        when (capsuleEntry.onCommand(command, sceneAction, scale, SystemClock.uptimeMillis())) {
+                            XiaoheiziEntryGate.Decision.ARM ->
+                                wm.getObjectFieldAs<Handler>(WM_HANDLER)
+                                    .postDelayed(::requestTraversal, XiaoheiziEntryGate.SETTLE_MS)
+                            XiaoheiziEntryGate.Decision.CANCEL -> xiaoheiziLayer.hide()
+                            XiaoheiziEntryGate.Decision.IGNORE -> Unit
+                        }
+                    }
+                    if (!settings.enabled) return
                     val isSetTo = sceneAction == "setTo"
                     val overview = DockRecentsMotion.overviewTarget(command, sceneAction, scale) ?: return
                     if (captureOnly) {
@@ -987,6 +1052,10 @@ class HomeDockWindow : BaseHook() {
         fun isDisplayRotated(): Boolean = rotation.isRotated()
 
         fun update(window: Any) {
+            // The admission controller owns retirement and its commit. A
+            // traversal that passed the earlier gate must not remove a layer
+            // ahead of that controller's acknowledged transaction.
+            if (HomeDockBackendOS4.INSTANCE.suppressed()) return
             // Already re-read by prepareWindow (every launcher traversal) and by the 1 Hz sweep,
             // so this is the live configuration rather than the value captured at hook init.
             // Nothing below caches it across traversals: changing a parameter and re-laying the
@@ -1429,15 +1498,70 @@ class HomeDockWindow : BaseHook() {
                 override fun onDisplayAdded(displayId: Int) = onDisplayChanged(displayId)
                 override fun onDisplayRemoved(displayId: Int) = Unit
                 override fun onDisplayChanged(displayId: Int) {
-                    if (displayId == Display.DEFAULT_DISPLAY && layerUpdate.refreshRotationGate()) {
-                        requestTraversal()
+                    if (displayId != Display.DEFAULT_DISPLAY) return
+                    if (xiaoheiziLayer.rage && !screenInteractive()) {
+                        synchronized(layers) { xiaoheiziLayer.hide() }
                     }
+                    if (layerUpdate.refreshRotationGate()) requestTraversal()
                 }
             }, handler)
             glassClient.record("display listener registered")
         }.onFailure {
             glassClient.record("display listener unavailable=${it.javaClass.simpleName}")
         }
+    }
+
+    private val backendController = object : HomeDockBackendOS4.Legacy {
+        override fun retire(window: Any, committed: java.util.function.Consumer<Boolean>) {
+            // The capsule is still driven by legacy traversal. Keep its
+            // execution backend until that feature has its native controller.
+            if (xiaoheiziLayer.enabled) { committed.accept(false); return }
+            val wm = window.getObjectFieldAs<Any>("mWmService")
+            val handler = wm.getObjectFieldAs<Handler>(WM_HANDLER)
+            if (!handler.post {
+                runCatching {
+                    synchronized(wm.getObjectFieldAs<Any>(WM_LOCK)) {
+                        synchronized(layers) {
+                            if (xiaoheiziLayer.enabled) {
+                                committed.accept(false)
+                                return@post
+                            }
+                            service = wm
+                            recentsStatusBar.bind(window, wm)
+                            cancelScheduledFrame()
+                            val retired = layers.values.toList()
+                            retired.forEach { it.glass?.let(glassClient::release) }
+                            if (retired.isEmpty()) {
+                                committed.accept(true)
+                            } else {
+                                SurfaceControl.Transaction().use { transaction ->
+                                    retired.forEach { layer ->
+                                        val tint = layer.tint as SurfaceControl
+                                        val effect = layer.effect as SurfaceControl
+                                        transaction.setVisibility(tint, false)
+                                        transaction.reparent(tint, null)
+                                        transaction.setVisibility(effect, false)
+                                        transaction.reparent(effect, null)
+                                    }
+                                    transaction.addTransactionCommittedListener({ it.run() }) { committed.accept(true) }
+                                    transaction.apply()
+                                }
+                                layers.clear()
+                                retired.forEach { layer ->
+                                    (layer.tint as SurfaceControl).release()
+                                    (layer.effect as SurfaceControl).release()
+                                }
+                            }
+                        }
+                    }
+                }.onFailure { error ->
+                    glassClient.record("native admission retirement failed=${error.javaClass.simpleName}")
+                    committed.accept(false)
+                }
+            }) committed.accept(false)
+        }
+
+        override fun resume(window: Any) { requestTraversal() }
     }
 
     private fun removeLayer(window: Any) {
@@ -2103,12 +2227,13 @@ class HomeDockWindow : BaseHook() {
      * second of delay.
      */
     private fun scheduleNativeBindSweep() {
+        if (HomeDockBackendOS4.INSTANCE.suppressed()) return
         val wm = service ?: return
         if (stopped || !nativeBindSweepScheduled.compareAndSet(false, true)) return
         val handler = wm.getObjectFieldAs<Handler>(WM_HANDLER)
         handler.postDelayed({
             nativeBindSweepScheduled.set(false)
-            if (stopped) return@postDelayed
+            if (stopped || HomeDockBackendOS4.INSTANCE.suppressed()) return@postDelayed
             var keepGoing = false
             runCatching {
                 // A covered launcher is as idle as a sleeping panel: neither the native identity

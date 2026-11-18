@@ -64,8 +64,15 @@ bool MapSnapshot(std::vector<MapRow>& rows, ImageDiscoveryDiagnostic* diagnostic
 }
 uint64_t Device(const nhk::FileMapping& m){return uint64_t(makedev(m.device_major,m.device_minor));}
 bool StatMatches(const Image& image,const struct stat& st) {
-    if(!S_ISREG(st.st_mode)||st.st_size<0||uint64_t(st.st_dev)!=image.sourceDevice
-        ||uint64_t(st.st_ino)!=image.sourceInode)return false;
+    // HyperOS composes /product/priv-app (and siblings) from stacked EROFS lowerdirs via
+    // overlayfs. The kernel maps pages straight from the backing lower file, so
+    // /proc/self/maps reports the backing device (observed fe:27 on dada 8607), while an
+    // open+stat of the very same overlay path returns the overlay superblock's st_dev
+    // (52) with the lower file's inode preserved. A device match is therefore impossible
+    // by construction there; identity closes through the maps rows (which all agree on
+    // one backing device+inode) plus the disk-vs-live ELF header proof below. The inode
+    // and window-size checks stay mandatory.
+    if(!S_ISREG(st.st_mode)||st.st_size<0||uint64_t(st.st_ino)!=image.sourceInode)return false;
     const uint64_t origin=image.fromApkEntry?image.apkEntryOffset:0;
     return origin<=uint64_t(st.st_size)&&image.fileViewBytes<=uint64_t(st.st_size)-origin;
 }
@@ -91,15 +98,16 @@ bool MappedImage(const std::vector<MapRow>& inventory,const std::string& path,
     if(maps.empty())return fail("image-not-mapped");
     if(diagnostic)diagnostic->reason="image-elf-header";
     Elf64_Ehdr header{};
-    if(!ReadImageFile(result,0,&header,sizeof header)
-        ||memcmp(header.e_ident,ELFMAG,SELFMAG)||header.e_ident[EI_CLASS]!=ELFCLASS64
+    if(!ReadImageFile(result,0,&header,sizeof header)){if(diagnostic)diagnostic->reason="image-header-read";return false;}
+    if(memcmp(header.e_ident,ELFMAG,SELFMAG)||header.e_ident[EI_CLASS]!=ELFCLASS64
         ||header.e_ident[EI_DATA]!=ELFDATA2LSB||header.e_ident[EI_VERSION]!=EV_CURRENT
         ||header.e_version!=EV_CURRENT||header.e_type!=ET_DYN||header.e_machine!=EM_AARCH64
         ||header.e_ehsize!=sizeof header||header.e_phentsize!=sizeof(Elf64_Phdr)
         ||header.e_phnum==0||header.e_phnum>64||header.e_phoff<sizeof header||header.e_phoff>4096)return false;
     const size_t tableEnd=size_t(header.e_phoff)+size_t(header.e_phnum)*sizeof(Elf64_Phdr);
     std::array<std::byte,8192> disk{},live{};
-    if(tableEnd>disk.size()||!ReadImageFile(result,0,disk.data(),tableEnd))return false;
+    if(tableEnd>disk.size()){if(diagnostic)diagnostic->reason="image-program-table";return false;}
+    if(!ReadImageFile(result,0,disk.data(),tableEnd)){if(diagnostic)diagnostic->reason="image-program-read";return false;}
     if(diagnostic)diagnostic->reason="image-program-headers";
     const auto decoded=nhk::elf::parse_program_segments(std::span(disk.data(),tableEnd),true);
     if(!decoded)return false;

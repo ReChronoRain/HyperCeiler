@@ -345,6 +345,7 @@ const TargetFunction kTargets[] = {
         {"RxObjectMixin.value", "RxObjectMixin.value", "文件夹配置接收对象校验"},
         {"FolderHeaderWidget._buildText", "FolderHeaderWidget._buildText", "文件夹原逻辑布局"},
         {"FolderHeaderWidget._buildEditor", "FolderHeaderWidget._buildEditor", "文件夹原逻辑布局"},
+        {"FolderHeaderWidget._textStyle", "FolderHeaderWidget._textStyle", "文件夹标题文字闭包调用关系"},
         {"_FlutterTextViewState._resolveEffectiveTextAlign", "_FlutterTextViewState._resolveEffectiveTextAlign", "文件夹原逻辑布局"},
         {"FolderGridViewGetxController.folderGridPaddingTop",
          "FolderGridViewGetxController.folderGridPaddingTop", "候选 文件夹网格上边距"},

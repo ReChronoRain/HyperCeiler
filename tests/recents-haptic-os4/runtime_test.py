@@ -11,5 +11,5 @@ with tempfile.TemporaryDirectory(prefix='hc-haptic-worker-') as work:
         '-Wl,-export_dynamic' if sys.platform=='darwin' else '-Wl,--export-dynamic',
         '-I'+str(HERE/'runtime-stubs'),'-I'+str(ROOT/'app/src/main/cpp'),
         str(HERE/'runtime_test.cpp'),str(ROOT/'app/src/main/cpp/targets/home/home_recents_haptic_runtime.cpp'),'-o',binary],check=True)
-    for scenario in sys.argv[1:] or ['both','scroll','close','off','v1']:
+    for scenario in sys.argv[1:] or ['both','scroll','close','off','v1','local','local-scroll','local-close','local-unavailable','local-failure','observer']:
         subprocess.run([binary,scenario],check=True)

@@ -29,6 +29,15 @@ public final class PrefsTest {
         for(Object invalid:new Object[]{"bad",-1,4})check(HomeRecentsHapticPrefs.cursor(new Physical(Map.of("prefs_key_home_recent_card_haptic_type",invalid)))==null);
         for(int invalid:new int[]{9,101})check(HomeRecentsHapticPrefs.cursor(new Physical(Map.of("prefs_key_home_recent_card_haptic_strength",invalid)))==null);
         check(HomeRecentsHapticPrefs.cursor(null)==null);
+        for(String id:new String[]{"0","521","0x209","2147483647"}) {
+            var p=HomeRecentsHapticPrefs.profile(Map.of("prefs_key_home_recent_card_haptic_custom",true,
+                "prefs_key_home_recent_card_haptic_effect_id",id));
+            check(p!=null&&p.custom()&&p.effectId()==Integer.decode(id));
+            check(HomeRecentsHapticPrefs.decodeProfile(p.encoded()).strength()==p.strength());
+        }
+        for(String invalid:new String[]{"-1","0x80000000","x","2147483648"})
+            check(HomeRecentsHapticPrefs.profile(Map.of("prefs_key_home_recent_card_haptic_custom",true,
+                "prefs_key_home_recent_card_haptic_effect_id",invalid))==null);
         System.out.println("haptic physical preference snapshot PASS: 96 switch/type/strength combinations, both master gates, one getAll read, V1 column compatibility and invalid/default values");
     }
 }

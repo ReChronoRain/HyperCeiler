@@ -21,6 +21,7 @@
 #pragma once
 
 #include "nhk_base.h"
+#include "android_relocations.h"
 
 #include <cstdint>
 #include <cstdio>
@@ -42,6 +43,9 @@ inline constexpr uint32_t kDynamicSyment = 11;   // DT_SYMENT
 inline constexpr uint32_t kDynamicRela = 7;      // DT_RELA
 inline constexpr uint32_t kDynamicRelasz = 8;    // DT_RELASZ
 inline constexpr uint32_t kDynamicRelaent = 9;   // DT_RELAENT
+inline constexpr uint32_t kDynamicRelrsz = 35;   // DT_RELRSZ
+inline constexpr uint32_t kDynamicRelr = 36;     // DT_RELR
+inline constexpr uint32_t kDynamicRelrent = 37;  // DT_RELRENT
 inline constexpr uint32_t kDynamicJmprel = 23;   // DT_JMPREL
 inline constexpr uint32_t kDynamicPltrelsz = 2;  // DT_PLTRELSZ
 inline constexpr uint32_t kDynamicPltrel = 20;   // DT_PLTREL
@@ -182,6 +186,13 @@ struct GotSlot {
     uint32_t symbol_index;   // Index into the dynamic symbol table.
 };
 
+// Data-table linkage is distinct from a PLT/GOT hook slot. In particular an
+// ABS64 SDK vtable reference must never become a writable GOT-hook candidate.
+struct DataReference {
+    uint64_t rva=0;
+    std::string_view external;
+};
+
 /**
  * Metadata view over one mapped ELF64 image.
  *
@@ -245,6 +256,20 @@ public:
         return find_by_linear_scan(name);
     }
 
+    // Ignore Rust crate disambiguators, but require a unique executable definition.
+    template<class Predicate> std::optional<Symbol> unique_executable_symbol(Predicate matches) const {
+        std::optional<Symbol> result;
+        for(uint32_t index=1;index<symbol_count_;++index) {
+            const auto name=symbol_name_at(index);
+            if(!name||!matches(*name))continue;
+            const auto symbol=symbol_at(index);
+            if(!symbol||!contains(symbol->rva,4,kFlagExecute))continue;
+            if(result)return {};
+            result=symbol;
+        }
+        return result;
+    }
+
     /** Import address of a symbol that must be present and defined. */
     std::optional<uint64_t> find_symbol_rva(std::string_view name) const {
         const auto symbol = find_symbol(name);
@@ -301,6 +326,87 @@ public:
         return slots.front();
     }
 
+    /** Name carried by a unique pointer relocation at this RVA. Used to follow
+     * the image's own PLT linkage, never as a private feature-name signature. */
+    std::optional<std::string_view> import_name(uint64_t slot) const {
+        if(!slot||!contains(slot,sizeof(void*),0))return {};
+        std::optional<std::string_view> result;
+        bool invalid=false;
+        const auto scan=[&](uint64_t table,uint64_t size) {
+            if(!table||!size)return;
+            if(!in_image(image_.size(),table,size)){invalid=true;return;}
+            for(uint64_t at=0;at<size;at+=kRelaBytes) {
+                const auto* entry=image_.data()+table+at;
+                if(load_le64(entry)!=slot)continue;
+                const auto info=load_le64(entry+8);
+                const auto type=static_cast<uint32_t>(info);
+                if(type!=kRelocJumpSlot&&type!=kRelocGlobDat){invalid=true;continue;}
+                const auto name=symbol_name_at(static_cast<uint32_t>(info>>32));
+                if(result||!name||name->empty()){invalid=true;continue;}
+                result=name;
+            }
+        };
+        scan(jmprel_offset_,jmprel_bytes_);scan(rela_offset_,rela_bytes_);
+        return invalid?std::nullopt:result;
+    }
+
+    /** Resolve a unique SDK data-pointer relocation without private-name matching. */
+    std::optional<DataReference> data_reference(uint64_t slot) const {
+        if(!slot||!contains(slot,8,kFlagRead))return {};
+        std::optional<DataReference> result;bool invalid=false;
+        const auto reference=[&](uint64_t offset,uint64_t info,uint64_t addend) {
+            if(offset!=slot)return;
+            if(result){invalid=true;return;}
+            const auto type=static_cast<uint32_t>(info);
+            if(type==kRelocRelative&&!(info>>32)) {
+                if(!addend||!contains(addend,1,kFlagRead)){invalid=true;return;}
+                result=DataReference{addend,{}};return;
+            }
+            // R_AARCH64_ABS64 is the platform ELF ABI, not a vendor offset.
+            if(type!=257||addend){invalid=true;return;}
+            const auto index=static_cast<uint32_t>(info>>32);
+            const auto name=symbol_name_at(index);
+            if(index>=symbol_count_||!name||name->empty()){invalid=true;return;}
+            const uint64_t symbol_offset=symtab_offset_+uint64_t(index)*kSymBytes;
+            if(!in_image(image_.size(),symbol_offset,kSymBytes)){invalid=true;return;}
+            const auto* raw=image_.data()+symbol_offset;
+            if(load_le16(raw+6)==0) {
+                if(load_le64(raw+8)){invalid=true;return;}
+                result=DataReference{0,*name};return;
+            }
+            const auto symbol=symbol_at(index);
+            if(!symbol){invalid=true;return;}
+            result=DataReference{symbol->rva,{}};
+        };
+        const auto scan=[&](uint64_t table,uint64_t size) {
+            if(!table||!size)return;
+            if(!in_image(image_.size(),table,size)){invalid=true;return;}
+            for(uint64_t at=0;at<size;at+=kRelaBytes) {
+                const auto* entry=image_.data()+table+at;
+                reference(load_le64(entry),load_le64(entry+8),load_le64(entry+16));
+            }
+        };
+        scan(jmprel_offset_,jmprel_bytes_);scan(rela_offset_,rela_bytes_);
+        if(android_rela_offset_||android_rela_bytes_) {
+            if(!android_rela_offset_||!android_rela_bytes_
+                ||!in_image(image_.size(),android_rela_offset_,android_rela_bytes_))return {};
+            if(!android_relocations(image_.subspan(android_rela_offset_,android_rela_bytes_),[&](const AndroidRela& item) {
+                reference(item.offset,item.info,static_cast<uint64_t>(item.addend));return true;
+            }))return {};
+        }
+        if(relr_bytes_) {
+            if(!relative_relocation_offsets(image_.subspan(relr_offset_,relr_bytes_),[&](uint64_t offset) {
+                if(!contains(offset,8,kFlagRead))return false;
+                if(offset!=slot)return true;
+                if(result){invalid=true;return true;}
+                const auto target=normalize_dynamic_pointer(load_le64(image_.data()+offset));
+                if(!target||!*target||!contains(*target,1,kFlagRead)){invalid=true;return true;}
+                result=DataReference{*target,{}};return true;
+            }))return {};
+        }
+        return invalid?std::nullopt:result;
+    }
+
     /** Segment membership test used by every address validation (vaddr domain). */
     bool contains(uint64_t offset, uint64_t bytes, uint32_t required_flags,
         uint32_t forbidden_flags = 0) const {
@@ -328,6 +434,8 @@ private:
     uint64_t jmprel_bytes_ = 0;
     uint64_t rela_offset_ = 0;
     uint64_t rela_bytes_ = 0;
+    uint64_t android_rela_offset_ = 0,android_rela_bytes_ = 0;
+    uint64_t relr_offset_ = 0,relr_bytes_ = 0;
     uint64_t sysv_hash_offset_ = 0;
     uint64_t gnu_hash_offset_ = 0;
     uint32_t symbol_count_ = 0; // Upper bound derived from the hash tables.
@@ -463,6 +571,7 @@ private:
         bool strtab_seen = false;
         bool symtab_seen = false;
         bool syment_ok = false;
+        bool relr_seen=false,relrsz_seen=false,relrent_seen=false;
         const size_t entries = static_cast<size_t>(dynamic_bytes_ / kDynBytes);
         for (size_t i = 0; i < entries; ++i) {
             const std::byte *entry = image_.data() + dynamic_offset_ + i * kDynBytes;
@@ -496,6 +605,24 @@ private:
                 case kDynamicRelasz:
                     rela_bytes_ = value;
                     break;
+                case kDynamicRelr:
+                case 0x6fffe000: { // DT_ANDROID_RELR
+                    if(relr_seen)return false;relr_seen=true;
+                    const auto normalized=normalize_dynamic_pointer(value);if(!normalized)return false;
+                    relr_offset_=*normalized;break;
+                }
+                case kDynamicRelrsz:
+                case 0x6fffe001: // DT_ANDROID_RELRSZ
+                    if(relrsz_seen)return false;relrsz_seen=true;relr_bytes_=value;break;
+                case kDynamicRelrent:
+                case 0x6fffe003: // DT_ANDROID_RELRENT
+                    if(relrent_seen||value!=8)return false;relrent_seen=true;break;
+                case 0x60000011: // DT_ANDROID_RELA
+                    if(auto normalized=normalize_dynamic_pointer(value))android_rela_offset_=*normalized;
+                    break;
+                case 0x60000012: // DT_ANDROID_RELASZ
+                    android_rela_bytes_=value;
+                    break;
                 case kDynamicRelaent:
                     if (value != kRelaBytes) return false;
                     break;
@@ -513,6 +640,10 @@ private:
             }
         }
         if (!strtab_seen || !symtab_seen || !syment_ok) return false;
+        if((relr_seen||relrsz_seen||relrent_seen)
+            &&(!relr_seen||!relrsz_seen||!relrent_seen||relr_bytes_%8
+                ||!in_image(image_.size(),relr_offset_,relr_bytes_)
+                ||(relr_bytes_&&!contains(relr_offset_,relr_bytes_,kFlagRead))))return false;
         if (strtab_offset_ == 0 || symtab_offset_ == 0) return false;
         if (!in_image(image_.size(), strtab_offset_, strtab_bytes_)) return false;
         if (!contains(symtab_offset_, kSymBytes, kFlagRead)) return false;

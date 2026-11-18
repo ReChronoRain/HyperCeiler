@@ -7,9 +7,25 @@ import java.util.Map;
 public class ObjectScaleEndpointTest {
     static void check(boolean value){if(!value)throw new AssertionError();}
     static void expect(int... values){
+        if(values.length==6){values=Arrays.copyOf(values,10);values[7]=values[9]=100;}
         check(Arrays.equals(HomeLayoutNativeEndpointOS4.readPreferences().objectScales(),values));
     }
     public static void main(String[] args)throws Exception{
+        var actual=new HashMap<String,Object>();
+        actual.put("prefs_key_home_layout_medium_folder_horizontal_scale_enable",true);
+        actual.put("prefs_key_home_layout_medium_folder_horizontal_scale",60);
+        actual.put("prefs_key_home_layout_medium_folder_vertical_scale_enable",true);
+        actual.put("prefs_key_home_layout_medium_folder_vertical_scale",140);
+        actual.put("prefs_key_home_recent_card_haptic_custom",true);
+        actual.put("prefs_key_home_recent_card_haptic_effect_id","0x209");
+        var decode=HomeLayoutNativeEndpointOS4.class.getDeclaredMethod("decodeProviderSnapshot",android.database.Cursor.class);decode.setAccessible(true);
+        var scales=HomeLayoutNativeEndpointOS4.class.getDeclaredMethod("readObjectScales",Map.class);scales.setAccessible(true);
+        try(var cursor=com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.cursorValues(actual)) {
+            check(cursor.moveToFirst());var snapshot=decode.invoke(null,cursor);
+            var getter=snapshot.getClass().getDeclaredMethod("values");getter.setAccessible(true);
+            check(Arrays.equals((int[])scales.invoke(null,getter.invoke(snapshot)),new int[]{0,100,0,100,0,100,1,60,1,140}));
+            check(cursor.getExtras().getInt("home_recent_card_haptic_effect_id",-1)==521);
+        }
         var worker=HomeLayoutNativeEndpointOS4.class.getDeclaredField("refresher");
         worker.setAccessible(true);worker.set(null,new Thread());
         ContentResolver.setSpecs(com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.specs());

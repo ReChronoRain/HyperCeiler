@@ -30,6 +30,7 @@ import android.provider.Settings
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HomeShakeOS4
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
@@ -67,6 +68,7 @@ object HomeSettingsOS4 : BaseHook() {
         }.createBeforeHook { param ->
             val activity = param.thisObject as Activity
             if (activity.componentName.className != LAUNCHER_ACTIVITY) return@createBeforeHook
+            HomeShakeOS4.install(activity)
             val resolver = activity.applicationContext.contentResolver
             publishTitleSettings(resolver)
             if (titleObserver != null) return@createBeforeHook

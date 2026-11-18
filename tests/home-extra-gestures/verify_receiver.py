@@ -27,7 +27,7 @@ public class ReceiverTest {
  static class InputEventReceiver {int finishes;InputEvent last;boolean handled;InputEventReceiver(Object channel,Object looper){}public void onInputEvent(InputEvent i){}void finishInputEvent(InputEvent i,boolean h){finishes++;last=i;handled=h;}}
  static class FakeHandler {Map<Runnable,Long> callbacks=new HashMap<>();Object getLooper(){return this;}void removeCallbacks(Runnable r){callbacks.remove(r);}void postAtTime(Runnable r,long t){callbacks.put(r,t);}}
  static class Regions {HomeExtraGestureState.Geometry geometry;HomeExtraGestureState.Geometry current(){return geometry;}}
- boolean closed,available=true;long revision=1;int mask=30,device,source,display,pointer;
+ boolean closed,nativeTouchBlocked,available=true;long revision=1;int mask=30,device,source,display,pointer;
  HomeExtraGestureState touch=new HomeExtraGestureState(12,300,400);FakeHandler main=new FakeHandler();InputMonitor monitor=new InputMonitor();Regions regions=new Regions();HomeExtraGestureState.Geometry geometry;
  Method eventDisplay;List<Integer> events=new ArrayList<>();Runnable longPress=()->{};
  ReceiverTest()throws Exception{eventDisplay=InputEvent.class.getDeclaredMethod("getDisplayId");geometry=new HomeExtraGestureState.Geometry(1000,2000,0,1,1950,70,new HomeExtraGestureState.Region(400,1960,600,2000),new Object());regions.geometry=geometry;}
@@ -48,6 +48,7 @@ public class ReceiverTest {
   a=new ReceiverTest();r=a.new Receiver(a.monitor);input(a,r,new MotionEvent(0,20,1980,100,100));input(a,r,new MotionEvent(2,150,1850,200,100));a.regions.geometry=null;input(a,r,new MotionEvent(1,150,1850,300,100));ok(a.events.isEmpty(),"owner disappeared at UP");
   a=new ReceiverTest();r=a.new Receiver(a.monitor);input(a,r,new MotionEvent(0,20,1980,100,100));input(a,r,new MotionEvent(1,150,1850,300,100));ok(a.events.isEmpty()&&a.monitor.pilfers==0,"UP-only crossing cannot cancel ended stock sequence");
   a=new ReceiverTest();r=a.new Receiver(a.monitor);a.closed=true;input(a,r,new MotionEvent(0,20,1980,100,100));ok(!a.touch.active(),"closed no intake");InputEvent key=new InputEvent();int n=r.finishes;r.onInputEvent(key);ok(r.finishes==n+1&&r.last==key,"non motion finishes too");
+  a=new ReceiverTest();r=a.new Receiver(a.monitor);a.nativeTouchBlocked=true;input(a,r,new MotionEvent(0,20,1980,100,100));ok(!a.touch.active()&&a.monitor.pilfers==0,"native ownership blocks old input");
   System.out.println("EXTRA_RECEIVER_CHECKS="+checks+" FAILED="+failed+"; production adapter methods, framework ownership mocked");if(failed>0)System.exit(1);
  }
 }

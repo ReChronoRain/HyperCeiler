@@ -189,8 +189,12 @@ uint64_t ImageIdentity(const Image& image) {
     if (fd < 0) return 0;
     const auto compute = [&]() -> uint64_t {
         struct stat before{}, after{};
+        // Same overlay caveat as StatMatches: on stacked EROFS lowerdirs the open+stat
+        // device is the overlay superblock, not the backing device the maps rows show.
+        // The inode check and the disk-vs-live header/program-table proofs below carry
+        // identity instead of st_dev.
         if (fstat(fd, &before) != 0 || !S_ISREG(before.st_mode) || before.st_size < 0
-            || uint64_t(before.st_dev) != image.sourceDevice || uint64_t(before.st_ino) != image.sourceInode
+            || uint64_t(before.st_ino) != image.sourceInode
             || origin + image.fileViewBytes > uint64_t(before.st_size)
             || (!image.fromApkEntry && image.fileViewBytes != uint64_t(before.st_size))) return 0;
         Elf64_Ehdr header{}, live{};

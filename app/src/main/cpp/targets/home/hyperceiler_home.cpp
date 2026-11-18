@@ -8,6 +8,9 @@
 
 #include <android/log.h>
 #include "home_process_identity.h"
+#include "home_recent_cards_runtime.h"
+#include "home_native_context.h"
+#include "home_native_window_observer.h"
 #include <dlfcn.h>
 #include <jni.h>
 #include <sys/system_properties.h>
@@ -321,7 +324,7 @@ void on_library_loaded(const char *name, void *) {
      * afterwards it would leave the bank unaware of patches that are already in the code pages,
      * which is how a re-arm attempt lands on an address that is already hooked.
      */
-    if (launcher) home_layout_prepare_for_launcher_child();
+    if (launcher) {home_layout_prepare_for_launcher_child();hc_native_context_prime();hc_native_window_observer_prime();hc_recent_cards_prime();}
     // Patch before the desktop computes its first layout: the image has just been loaded, so every
     // site is available and nothing has read the old constants yet. Scoped to the Dart image, since
     // every other library loaded here would otherwise cost a Binder round trip each.
@@ -539,6 +542,8 @@ NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
     if (is_launcher_process()) resolve_home_layout_targets();
     if (is_launcher_process()) {
         home_layout_prepare_for_launcher_child();
+        hc_native_context_prime();hc_native_window_observer_prime();
+        hc_recent_cards_prime();
         start_home_layout_hooks("native-init", g_hook_function, g_unhook_function);
     }
     if (is_launcher_process()) {

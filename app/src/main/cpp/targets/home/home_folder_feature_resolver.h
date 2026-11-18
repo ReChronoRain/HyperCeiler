@@ -106,7 +106,7 @@ inline bool preview_owner(const Code& code,const Function& function,const std::s
 // stored RVA, instruction offset or first-match fallback is used here. Register
 // roles and the framed Dart call/return ABI are the same explicit ABI constraints
 // checked by small_folder_scale_site / big_folder_scale_site.
-inline bool resolve_folders(const Code& code,uint32_t current,FolderFeatures& out) {
+inline bool resolve_small_folder(const Code& code,uint32_t current,FolderFeatures& out) {
     using namespace home_dynamic;
     using namespace folder_detail;
     if(!current)return false;
@@ -120,7 +120,7 @@ inline bool resolve_folders(const Code& code,uint32_t current,FolderFeatures& ou
                 &&ldw(b[i+1],0,1)&&b[i+2]==0x8b1c8021u&&ldd(b[i+3],1,0)
                 &&ldx(b[i+4],29,1)&&std_(b[i+5],1,0))++config_calls;
         }
-        if(config_calls!=3)continue;
+        if(config_calls!=3&&config_calls!=2)continue;
         // Only the completed producer's base-padding tail call can be the bank.
         // The fourth dimension comes from its actual preview-height callee.
         for(size_t i=0;i+4<b.size();++i){uint32_t base=0;
@@ -130,7 +130,39 @@ inline bool resolve_folders(const Code& code,uint32_t current,FolderFeatures& ou
                 if(!target(b[j],function.va+uint32_t(j*4),preview)||preview==current||preview==base
                     ||!ldx(b[j+1],29,1)||!std_(b[j+2],1,0))continue;
                 SmallFolderScaleSite shape;
-                if(!small_folder_scale_site(b,function.va,base_body,base,current,preview,shape))continue;
+                uint32_t width=0;
+                if(config_calls==2){
+                    Body height,root;
+                    if(!code.body(preview,height)||!code.body(current,root)||height.size()!=10
+                        ||height[0]!=0xa9bf79fdu||height[1]!=0xaa0f03fdu||height[2]!=0xaa0103e0u
+                        ||!ldw(height[4],0,1)||height[5]!=0x8b1c8021u||!ldd(height[6],1,0)
+                        ||height[7]!=0xaa1d03efu||height[8]!=0xa8c179fdu||height[9]!=0xd65f03c0u)continue;
+                    uint32_t root_target=0;
+                    if(!target(height[3],preview+12,root_target)||root_target!=current||root.size()<4)continue;
+                    // Width inlines the very same current-config accessor,
+                    // then unboxes its width. Compare executable dataflow and
+                    // resolved call destinations, not stored fields or RVAs.
+                    unsigned widths=0;const size_t prefix=root.size()-3;
+                    if(root[prefix]!=0xaa1d03efu||root[prefix+1]!=0xa8c179fdu||root[prefix+2]!=0xd65f03c0u)continue;
+                    for(size_t k=0;k+2<b.size();++k){uint32_t to=0;Body candidate;
+                        if(!target(b[k],function.va+uint32_t(k*4),to)||to==preview||to==base
+                            ||!ldx(b[k+1],29,1)||!std_(b[k+2],1,0)||!code.body(to,candidate)
+                            ||candidate.size()!=root.size()+3)continue;
+                        bool same=true;
+                        for(size_t n=0;n<prefix;++n){uint32_t a=0,c=0;
+                            if(target(root[n],current+uint32_t(n*4),a))
+                                same&=target(candidate[n],to+uint32_t(n*4),c)&&a==c;
+                            else same&=candidate[n]==root[n];
+                        }
+                        if(!same||candidate[prefix]!=height[4]||candidate[prefix+1]!=height[5]
+                            ||!ldd(candidate[prefix+2],1,0)||imm9(candidate[prefix+2])==imm9(height[6])
+                            ||candidate[prefix+3]!=root[prefix]||candidate[prefix+4]!=root[prefix+1]
+                            ||candidate[prefix+5]!=root[prefix+2])continue;
+                        width=to;++widths;
+                    }
+                    if(widths!=1)continue;
+                }
+                if(!small_folder_scale_site(b,function.va,base_body,base,current,preview,shape,width))continue;
                 if(++small_hits!=1)return false;
                 next.small=function.va;next.base=base;next.current=current;
                 next.preview_height=preview;next.small_site=shape;
@@ -138,6 +170,12 @@ inline bool resolve_folders(const Code& code,uint32_t current,FolderFeatures& ou
         }
     }
     if(small_hits!=1)return false;
+    out=next;return true;
+}
+inline bool resolve_folders(const Code& code,uint32_t current,FolderFeatures& out) {
+    using namespace home_dynamic;
+    using namespace folder_detail;
+    FolderFeatures next;if(!resolve_small_folder(code,current,next))return false;
     unsigned big_hits=0;
     for(const auto& function:code.functions()){
         const auto& producer=function.words;

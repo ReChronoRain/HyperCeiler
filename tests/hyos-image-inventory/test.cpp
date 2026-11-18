@@ -63,6 +63,9 @@ int main(int argc,char**argv){
             <<" r-xp 0 01:01 123 "<<dir<<"/other-"<<std::dec<<i<<".apk\n";
         return out.str();
     };
+    // The production engine namespace was renamed (hometweaks -> home_layout_engine);
+    // keep a spelling-neutral alias so the fixture text stays readable.
+    namespace hometweaks = home_layout_engine;
     hometweaks::Image image{};hometweaks::ImageDiscoveryDiagnostic diagnostic;
     auto discover=[&]{return hometweaks::FindImageFromMappedApks("libapp.so",&image,&diagnostic);};
     auto reset=[&]{fault=false;mapsText=rows(apk,base,false);image={};image.base=0x55;};
@@ -93,6 +96,23 @@ int main(int argc,char**argv){
     auto identity=std::to_string(metadata.st_ino)+" "+apk;
     pos=mapsText.find(identity);mapsText.replace(pos,identity.size(),std::to_string(metadata.st_ino+1)+" "+apk);
     check(!discover()&&std::string(diagnostic.reason)=="image-source-metadata","mismatched source inode refuses attribution");
+    // HyperOS stacks /product/priv-app on overlayfs over several EROFS lowerdirs: maps
+    // rows carry the backing device while open+stat of the same path returns the overlay
+    // superblock's st_dev. A mismatching stat device with the maps inode must survive
+    // ReadImageFile; the disk-vs-live header proof below still closes identity.
+    auto redevice=[&](std::string text,unsigned major,unsigned minor){
+        std::istringstream input(text);std::ostringstream output;std::string line;
+        while(std::getline(input,line)){
+            size_t at=0;for(int field=0;field<3;++field)at=line.find(' ',at)+1;
+            const size_t tail=line.find(' ',at);
+            std::ostringstream device;device<<std::hex<<major<<':'<<minor;
+            line=line.substr(0,at)+device.str()+line.substr(tail);
+            output<<line<<'\n';
+        }
+        return output.str();
+    };
+    reset();mapsText=redevice(rows(apk,base,false),0xfe,0x27);
+    check(discover()&&image.base==base,"overlayfs stat-vs-maps device mismatch keeps the inode-verified image");
     reset();
     auto shifted=rows(apk,base+0x100000000ULL,false);
     mapsText.replace(0,mapsText.find('\n')+1,shifted.substr(0,shifted.find('\n')+1));

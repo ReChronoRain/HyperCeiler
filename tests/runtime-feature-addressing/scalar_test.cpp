@@ -18,6 +18,42 @@ static auto identify(const Functions& f,uint32_t current) {
     const auto bytes=image(f);const auto c=Code::parse(bytes);assert(c);return identify(*c,current);
 }
 int main(int argc,char** argv) {
+    {
+        const auto original=inline_scalar_fixture();
+        auto bytes=image(original);auto code=Code::parse(bytes);assert(code);
+        const auto config=inline_roots.at("current");
+        auto margin=layout_scalar_feature(*code,config,true);
+        assert(margin&&margin->source.target==inline_roots.at("margin")&&margin->margin_callers.size()==10);
+        // Origin and centre must follow the moved row; shared workspace stays stock.
+        for(const auto* key:{"origin","center","shared"}) {
+            const auto owner=std::find_if(original.begin(),original.end(),[&](const auto& f){return f.va==inline_roots.at(key);});
+            bool admitted=false;
+            for(auto pc:margin->margin_callers)if(pc>owner->va&&pc<=owner->va+owner->words.size()*4)admitted=true;
+            assert(admitted==(std::string(key)!="shared"));
+        }
+        std::map<uint32_t,uint32_t> mapping;const auto moved=relocated(original,mapping);
+        bytes=image(moved);code=Code::parse(bytes);assert(code);
+        auto translated=layout_scalar_feature(*code,mapping.at(config),true);
+        assert(translated&&translated->source.target==mapping.at(margin->source.target));
+        assert(translated->margin_callers.size()==margin->margin_callers.size());
+        for(auto pc:margin->margin_callers) {
+            const auto owner=std::find_if(original.begin(),original.end(),[&](const auto& f){return pc>f.va&&pc<=f.va+f.words.size()*4;});
+            assert(std::find(translated->margin_callers.begin(),translated->margin_callers.end(),mapping.at(owner->va)+pc-owner->va)!=translated->margin_callers.end());
+        }
+        // A different static producer or Rx field cannot impersonate the config.
+        for(bool field:{false,true}) {
+            auto broken=original;
+            for(auto& f:broken)if(f.va==inline_roots.at("margin"))
+                for(auto& w:f.words)if(field?home_dynamic::ldw(w,0,1):w==0xf9403f40u) {
+                    w+=field?(8u<<12):(1u<<10);break;
+                }
+            assert(!identify(broken,config).count("margin"));
+        }
+        auto missing=original;
+        std::erase_if(missing,[&](const auto& f){return f.va==inline_roots.at("screen");});
+        assert(!identify(missing,config).count("margin"));
+        std::cout<<"INLINE_SCALAR PASS: 9239 executable fixture, independent relocation, Dock-only callers, producer mismatch and missing screen rejection\n";
+    }
     const auto fixture=scalar_fixture();const uint32_t current=scalar_roots.at("current");
     const std::map<std::string,uint32_t> expected{{"margin",scalar_roots.at("margin")},{"row",scalar_roots.at("row")},
         {"margin_field",59},{"margin_payload",31},{"row_field",115},{"row_payload",7}};

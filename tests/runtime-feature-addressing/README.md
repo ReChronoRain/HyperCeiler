@@ -112,6 +112,17 @@ duplicate candidates, remove links and corrupt control flow. The original
 words come from launcher RELEASE-8.01.02.7751; the fixture contains its SHA256.
 `verify_fixture.py` uses symbols solely as an independent test oracle.
 
+The scalar suite also includes executable words from launcher 9239. Its AOT
+compiler inlines the config producer into margin, screen inset and row-height
+accessors. The resolver matches the current image's complete config body,
+resolves call destinations, and validates the scalar's original return flow.
+Dock rectangle consumers prove the row-height accessor before origin and centre
+helpers can receive the margin override. The fixture verifies ten Dock callers,
+excludes the shared workspace caller, relocates functions independently, and
+rejects mismatched static/Rx producers or a missing screen-inset dependency.
+No version, symbol name, function address or business-field offset is used by
+the production resolver. These tests do not establish on-device rendering.
+
 This is not a repository-wide no-symbol claim. Remaining name-dependent desktop
 paths are listed in [AUDIT.md](AUDIT.md). Actual widget appearance, inverse hit
 testing, custom model transforms, phone/tablet variants and animations still

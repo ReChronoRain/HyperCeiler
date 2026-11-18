@@ -12,6 +12,7 @@ stubs="$project_dir/tests/home-layout-native/stubs"
 javac -d "$classes_dir" \
     "$project_dir/tests/home-dock-window/stubs/android/os/Binder.java" \
     "$project_dir/tests/home-dock-window/stubs/android/os/IBinder.java" \
+    "$stubs/android/os/RemoteException.java" \
     "$project_dir/tests/home-dock-window/stubs/android/os/Parcel.java" \
     "$stubs/android/util/DisplayMetrics.java" \
     "$stubs/android/util/Log.java" \

@@ -1,7 +1,8 @@
 package android.os;
 
 public final class Parcel {
-    private final String descriptor;
+    private String descriptor;
+    private IBinder binder;
     private byte[] bytes = new byte[256];
     private int size;
     private int position;
@@ -15,6 +16,13 @@ public final class Parcel {
     public void enforceInterface(String expected) {
         if (!expected.equals(descriptor)) throw new SecurityException("descriptor mismatch");
     }
+
+    public static Parcel obtain() { return new Parcel(null); }
+    public void recycle() { }
+    public void writeInterfaceToken(String value) { descriptor = value; }
+    public void writeNoException() { writeInt(0); }
+    public void writeStrongBinder(IBinder value) { binder = value; writeInt(value == null ? 0 : 1); }
+    public IBinder readStrongBinder() { return readInt() == 0 ? null : binder; }
 
     public int dataAvail() { return size - position; }
     public int dataPosition() { return position; }

@@ -77,6 +77,7 @@ javac -d "$dock_test_dir" \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockRotationPolicy.java \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockGlassGeometry.java \
   tests/home-dock-window/stubs/android/os/IBinder.java \
+  tests/home-layout-native/stubs/android/os/RemoteException.java \
   tests/home-dock-window/stubs/android/os/Binder.java \
   tests/home-dock-window/stubs/android/os/Parcel.java \
   tests/home-dock-window/DockWindowPolicyTest.java \

@@ -25,20 +25,55 @@ for version in ('7751','8583','8584'):
         run(['c++','-std=c++20','-O2','-Wall','-Wextra','-Werror','-I'+str(ROOT/'app/src/main/cpp'),'-I'+str(out),HERE/'native_test.cpp','-o',out/'native'])
         run([out/'native']+([source]if source else[]))
 hooks=(ROOT/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
-def function(name):
-    at=hooks.index(name+' {');start=hooks.index('{',at);depth=1;end=start+1
+def function(name, source=hooks):
+    at=source.index(name+' {');start=source.index('{',at);depth=1;end=start+1
     while depth:
-        depth+=(hooks[end]=='{')-(hooks[end]=='}');end+=1
-    return hooks[at:end]
+        depth+=(source[end]=='{')-(source[end]=='}');end+=1
+    return source[at:end]
 bootstrap=function('void prime_home_layout_first_render_locked()')
+guard_source=(ROOT/'app/src/main/cpp/targets/home/dock_native_hooks.cpp').read_text()
+guard=function('void maybe_install_madvise_guard_locked(bool first_render = false)',guard_source)
+guard=guard[:guard.index('    std::vector<nhk::FileMapping> all;')]+r"""
+    ++guard_probes;
+    if (!runtime_valid) { stay_pending("fixture: runtime changed"); return; }
+    if (madvise_guard_attempts == UINT32_MAX) { give_up("fixture: terminal"); return; }
+    pending_failures=0;
+    retry_at_ns=0;
+    madvise_guard_state=1;
+}
+"""
+guard+=function('bool home_madvise_prepare_first_render()',guard_source)
+
 early=function('bool ensure_runtime_features()')
 early=early[early.index('if(g_first_render_discovery) {'):early.index('RuntimeFeatures found;')]
 assert 'columns_feature(*code' in early and 'grid_autofit_feature(*code)' in early
 assert 'grid_geometry_feature(*code)' in early
 assert 'query_config(' not in bootstrap and 'delay_ms(' not in bootstrap and 'HomeLayoutEngineFindSymbol' not in bootstrap
 with tempfile.TemporaryDirectory(prefix='hc-layout-first-render-')as work:
-    out=Path(work);src=(HERE/'bootstrap_test.inc').read_text()+function('void bind_workspace_geometry_first_render()')+bootstrap+r'''
+    out=Path(work);src=(HERE/'bootstrap_test.inc').read_text()+guard+function('void bind_workspace_geometry_first_render()')+bootstrap+r'''
 int main(){
+    // A background scan saw incomplete Flutter mappings. The image is ready by the
+    // time first layout needs it, even though the background retry isn't due yet.
+    reset();madvise_guard_state=0;guard_clock=1;runtime_valid=false;
+    maybe_install_madvise_guard_locked();assert(guard_probes==1&&madvise_guard_state==0);
+    runtime_valid=true;maybe_install_madvise_guard_locked();assert(guard_probes==1);
+    cached.drawer_hide_search=true;prime_home_layout_first_render_locked();
+    assert(guard_probes==2&&g_drawer_search_ready&&install_calls==1);
+
+    reset();madvise_guard_state=0;runtime_valid=false;
+    cached.drawer_hide_search=true;prime_home_layout_first_render_locked();
+    assert(guard_probes==3&&!g_drawer_search_ready&&install_calls==0&&g_first_render_finished);
+    assert(g_slots[kDrawerSearchSlot].address&&g_slots[kDrawerSearchSlot+1].address);
+    for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();
+    assert(guard_probes==3&&install_calls==0);
+
+    reset();madvise_guard_state=4;cached.drawer_hide_search=true;
+    prime_home_layout_first_render_locked();
+    assert(guard_probes==3&&!g_drawer_search_ready&&install_calls==0);
+    runtime_valid=true;madvise_guard_state=1;
+
+    reset();cached.tweaks.icon_scale_enabled=false;cached.object_scales[2].enabled=false;
+    prime_home_layout_first_render_locked();assert(!hc_icon_render_enabled&&!hc_widget_scale_enabled&&hc_folder_icon_scale_enabled);
     reset();cached.drawer_hide_search=true;cached.tweaks.icon_scale_enabled=true;cached.knobs[0]={true,35};
     prime_home_layout_first_render_locked();
     assert(g_slots[kDockPositionSlotBase].ready&&g_slots[kDockPositionSlotBase+1].ready);
@@ -46,7 +81,7 @@ int main(){
     assert(hc_hotseat_margin_caller_count==2&&hc_hotseat_margin_callers[0]==0x102e&&hc_hotseat_margin_callers[1]==0x1032);
     for(unsigned i=0;i<500;++i)prime_home_layout_first_render_locked();
     assert(config_reads==1&&discoveries==1&&install_calls==1&&image_reads==1);
-    reset();cached.knobs[0]={true,0};prime_home_layout_first_render_locked();assert(scale==1&&margin==70);
+    reset();cached.tweaks.icon_scale_enabled=false;cached.knobs[0]={true,0};prime_home_layout_first_render_locked();assert(scale==1&&margin==70);
     // Unsupported optional families cannot make every subsequent property read
     // retry a bank install or reread its configuration on the rendering thread.
     for(unsigned missing=0;missing<3;++missing){reset();cached.drawer_hide_search=true;
@@ -129,6 +164,7 @@ preferences=[p for p in root.iter() if p.get(android+'key')=='prefs_key_home_dra
 assert len(preferences)==1 and preferences[0].get(android+'defaultValue')=='false'
 provider=(ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeLayoutPrefsSnapshot.java').read_text()
 assert 'home_drawer_hide_search' in provider
-writer=(ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeDockWindow.kt').read_text()
-assert 'HomeLayoutNativeEndpointOS4.writeDrawer(reply, result?.drawerHideSearch() ?: false)' in writer
+dock=ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock'
+assert 'HomeLayoutWire.write(reply, result,' in (dock/'HomeDockWindow.kt').read_text()
+assert 'HomeLayoutNativeEndpointOS4.writeDrawer(reply, value != null && value.drawerHideSearch())' in (dock/'HomeLayoutWire.java').read_text()
 print('first-render/drawer production integration PASS: early callback + worker adoption, UI/provider/Binder writer, executable-only bank')

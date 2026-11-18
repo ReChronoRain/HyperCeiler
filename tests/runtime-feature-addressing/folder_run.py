@@ -3,9 +3,9 @@
 import argparse
 import json
 from pathlib import Path
-import shutil
 import subprocess
 import tempfile
+import os, shlex
 
 ROOT = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='hc-folder-feature-') as temp:
     # The fixture is emitted after the Function aliases, with no production names
     # in its ELF. Tests use these original VA constants only as expected outputs.
     (folder/'folder_fixture.h').write_text(header.replace('Functions folder_fixture()', 'std::vector<home_layout::features::Function> folder_fixture()'))
-    subprocess.run([shutil.which('c++'), '-std=c++20', '-O2', '-I'+str(ROOT/'app/src/main/cpp'),
+    subprocess.run([*shlex.split(os.environ.get('CXX','c++')), '-std=c++20', '-O2', '-UNDEBUG', '-I'+str(ROOT/'app/src/main/cpp'),
                     '-I'+str(folder), str(Path(__file__).with_name('folder_test.cpp')),
                     '-o', str(folder/'test')], check=True)
     subprocess.run([str(folder/'test')]+([str(args.image)] if args.image else []), check=True)

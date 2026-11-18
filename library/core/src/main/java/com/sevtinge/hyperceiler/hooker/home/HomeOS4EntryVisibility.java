@@ -17,6 +17,10 @@ public final class HomeOS4EntryVisibility {
                 || "prefs_key_home_layout_small_folder_scale".equals(key)
                 || "prefs_key_home_layout_big_folder_scale_enable".equals(key)
                 || "prefs_key_home_layout_big_folder_scale".equals(key)
+                || "prefs_key_home_layout_medium_folder_horizontal_scale_enable".equals(key)
+                || "prefs_key_home_layout_medium_folder_horizontal_scale".equals(key)
+                || "prefs_key_home_layout_medium_folder_vertical_scale_enable".equals(key)
+                || "prefs_key_home_layout_medium_folder_vertical_scale".equals(key)
                 || "prefs_key_home_layout_widget_scale_enable".equals(key)
                 || "prefs_key_home_layout_widget_scale".equals(key)) return false;
         } else if (xml == R.xml.home_layout) {

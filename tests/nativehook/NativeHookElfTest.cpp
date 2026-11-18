@@ -68,6 +68,11 @@ int main() {
         const auto unique = image->unique_slot("madvise");
         check(unique.has_value() && unique->rva == 0xc00, "unique slot resolves");
         check(unique && unique->type == nhk::elf::kRelocJumpSlot, "slot type preserved");
+        check(image->import_name(0xc00) == "madvise", "PLT linkage name resolves by slot");
+        check(image->import_name(0xc08) == "memcpy", "two slots can name the same import");
+        check(!image->import_name(0xc80), "an unknown slot has no import identity");
+        check(!image->import_name(0), "a null slot has no import identity");
+        check(!image->import_name(UINT64_MAX), "an unmapped slot has no import identity");
 
         const auto memcpy_slots = image->collect_slots("memcpy");
         check(memcpy_slots.size() == 2, "memcpy exposes both slots");
@@ -97,6 +102,7 @@ int main() {
             check(image->collect_slots("madvise").size() == 2, "both reloc kinds found");
             check(!image->unique_slot("madvise").has_value(),
                 "mixed kinds cannot be disambiguated from metadata alone");
+            check(image->import_name(0xc18) == "madvise", "GLOB_DAT linkage identity resolves");
         }
     }
 
@@ -112,7 +118,81 @@ int main() {
         if (image) {
             check(image->collect_slots("madvise").empty(),
                 "RELATIVE entries are not collected as import slots");
+            check(!image->import_name(0xc00), "RELATIVE relocation is not callable linkage");
         }
+    }
+    {
+        auto duplicate = elf_fixture::build_with_glob_dat({"dock_target"},
+            {{"madvise", nhk::elf::kRelocJumpSlot, 0xc00}},
+            {{"memcpy", nhk::elf::kRelocGlobDat, 0xc00}});
+        check(duplicate.has_value(), "conflicting slot fixture builds");
+        const auto parsed=ElfImage::make(0,std::span<const std::byte>(
+            reinterpret_cast<const std::byte*>(duplicate->data()),duplicate->size()));
+        check(parsed&&!parsed->import_name(0xc00), "conflicting relocation identities refused");
+    }
+
+    // Data vtables have ABS64/RELATIVE references, not writable GOT slots.
+    {
+        auto fixture=elf_fixture::build({"sdk_drop"},{{"sdk_import",nhk::elf::kRelocJumpSlot,0xc00}});
+        check(fixture.has_value(),"SDK table fixture builds");
+        auto parse=[&]{return ElfImage::make(0,std::as_bytes(std::span(fixture->bytes)));};
+        elf_fixture::put64(fixture->bytes,0xa08,(uint64_t(1)<<32)|257u);
+        auto image=parse();const auto defined=image?image->find_symbol("sdk_drop"):std::nullopt;
+        const auto own=image?image->data_reference(0xc00):std::nullopt;
+        check(defined&&own&&own->rva==defined->rva&&own->external.empty(),"ABS64 follows actual definition");
+        check(image&&image->collect_slots("sdk_drop").empty(),"data pointer is never a GOT hook candidate");
+        elf_fixture::put64(fixture->bytes,0xa08,(uint64_t(2)<<32)|257u);
+        image=parse();const auto external=image?image->data_reference(0xc00):std::nullopt;
+        check(external&&external->external=="sdk_import"&&!external->rva,"ABS64 preserves actual external linkage");
+        elf_fixture::put64(fixture->bytes,0xa08,nhk::elf::kRelocRelative);
+        elf_fixture::put64(fixture->bytes,0xa10,defined->rva);
+        image=parse();const auto relative=image?image->data_reference(0xc00):std::nullopt;
+        check(relative&&relative->rva==defined->rva,"RELATIVE table pointer resolves in its own image");
+        elf_fixture::put64(fixture->bytes,0xa10,0xfffffff0);
+        image=parse();check(image&&!image->data_reference(0xc00),"unmapped table target refused");
+        elf_fixture::put64(fixture->bytes,0xa08,(uint64_t(1)<<32)|nhk::elf::kRelocRelative);
+        elf_fixture::put64(fixture->bytes,0xa10,defined->rva);
+        image=parse();check(image&&!image->data_reference(0xc00),"RELATIVE cannot carry a symbol index");
+    }
+
+    // SDK callback tables use RELR as well as RELA/APS2. Raw words without
+    // relocation provenance must not authorize an executable target.
+    for(bool android:{false,true}) {
+        auto fixture=elf_fixture::build({"sdk_drop"},{{"sdk_import",nhk::elf::kRelocJumpSlot,0xc00}});
+        check(bool(fixture),"RELR fixture builds");
+        const auto initial=ElfImage::make(0,std::as_bytes(std::span(fixture->bytes)));
+        const auto symbol=initial?initial->find_symbol("sdk_drop"):std::nullopt;
+        check(bool(symbol),"RELR reference symbol exists");
+        size_t end=0x200;
+        while(nhk::load_le64(reinterpret_cast<const std::byte*>(fixture->data())+end))end+=16;
+        const auto tag=android?UINT64_C(0x6fffe000):UINT64_C(36);
+        elf_fixture::put64(fixture->bytes,end,tag);elf_fixture::put64(fixture->bytes,end+8,0xb00);
+        elf_fixture::put64(fixture->bytes,end+16,android?0x6fffe001:35);elf_fixture::put64(fixture->bytes,end+24,16);
+        elf_fixture::put64(fixture->bytes,end+32,android?0x6fffe003:37);elf_fixture::put64(fixture->bytes,end+40,8);
+        elf_fixture::put64(fixture->bytes,end+48,0);
+        elf_fixture::put64(fixture->bytes,0xb00,0xc20);elf_fixture::put64(fixture->bytes,0xb08,11);
+        for(auto slot:{0xc20,0xc28,0xc30,0xc38})elf_fixture::put64(fixture->bytes,slot,symbol->rva);
+        auto image=ElfImage::make(0,std::as_bytes(std::span(fixture->bytes)));
+        for(auto slot:{0xc20,0xc28,0xc38}) {
+            const auto reference=image?image->data_reference(slot):std::nullopt;
+            check(reference&&reference->rva==symbol->rva,"RELR address/bitmap target resolves");
+        }
+        check(image&&!image->data_reference(0xc30),"unrelocated raw pointer refused");
+        constexpr uint64_t base=0x7100000000ULL;
+        for(auto slot:{0xc20,0xc28,0xc38})elf_fixture::put64(fixture->bytes,slot,base+symbol->rva);
+        image=ElfImage::make(base,std::as_bytes(std::span(fixture->bytes)));
+        const auto relocated=image?image->data_reference(0xc28):std::nullopt;
+        check(relocated&&relocated->rva==symbol->rva,"live RELR addend normalized by actual load base");
+        auto changed=*fixture;
+        elf_fixture::put64(changed.bytes,end+40,16);
+        check(!ElfImage::make(base,std::as_bytes(std::span(changed.bytes))),"wrong RELR entry width refused");
+        changed=*fixture;elf_fixture::put64(changed.bytes,end+24,15);
+        check(!ElfImage::make(base,std::as_bytes(std::span(changed.bytes))),"partial RELR entry refused");
+        changed=*fixture;elf_fixture::put64(changed.bytes,end+32,0);
+        check(!ElfImage::make(base,std::as_bytes(std::span(changed.bytes))),"incomplete RELR metadata refused");
+        changed=*fixture;elf_fixture::put64(changed.bytes,0xb08,0xc20);
+        image=ElfImage::make(base,std::as_bytes(std::span(changed.bytes)));
+        check(image&&!image->data_reference(0xc20),"duplicate RELR relocation refused");
     }
 
     // --- Hashless image: symbol count falls back to the symtab/strtab gap. ---

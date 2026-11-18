@@ -38,5 +38,40 @@ int main(){
     }
     recent::Plan collision;collision.sites.push_back(bank.sites[1]);recent::close_haptic_graph(*code,collision);
     assert(collision.sites.size()==1&&!collision.close_haptic);
-    std::cout<<"close haptic PASS: "<<corruptions<<" full-CFG corruptions, independent relocation and tagged field/frame changes, shared-field mismatch and missing/ambiguous graph refusal, accepted-only owner, two safe no-BL replay windows and atomic bank admission\n";
+    /*
+     * 8607-style wrapper ambiguity. The impact body is instantiated once per specialization,
+     * and every copy's shared-stub tail branch is a long B whose displacement follows the image
+     * layout. Masking that displacement makes the shape structurally ambiguous, so resolution
+     * must keep working through the owner's call linkage alone: any number of unreferenced
+     * copies must not change the plan, while removing the invoked one must still refuse.
+     */
+    auto impact_fn=std::find_if(fs.begin(),fs.end(),[](const auto& f){return f.words.size()==20;});
+    assert(impact_fn!=fs.end());
+    const uint32_t impact_va=impact_fn->va;
+    auto retarget=[&](Function copy,uint32_t new_va){
+        for(size_t i=0;i<copy.words.size();++i){
+            const uint32_t at=impact_va+uint32_t(i*4);
+            if((copy.words[i]&0xfc000000u)==0x94000000u){
+                uint32_t to=0;assert(home_dynamic::target(copy.words[i],at,to));
+                const int64_t delta=int64_t(to)-(new_va+int64_t(i*4));
+                assert(delta%4==0&&delta>=-(1ll<<27)&&delta<(1ll<<27));
+                copy.words[i]=0x94000000u|(uint32_t(delta/4)&0x03ffffffu);
+            }
+            if((copy.words[i]&0xfc000000u)==0x14000000u){
+                const int64_t delta=int64_t(impact_va)-(new_va+int64_t(i*4));
+                assert(delta%4==0&&delta>=-(1ll<<27)&&delta<(1ll<<27));
+                copy.words[i]=0x14000000u|(uint32_t(delta/4)&0x03ffffffu);
+            }
+        }
+        copy.va=new_va;return copy;
+    };
+    Functions wrappers=fs;
+    wrappers.push_back(retarget(*impact_fn,impact_va+0x400));
+    auto ambiguous=identify(wrappers);
+    assert(ambiguous&&ambiguous->commit==p->commit&&ambiguous->stock==p->stock&&ambiguous->after_stock==p->after_stock);
+    wrappers.push_back(retarget(*impact_fn,impact_va+0x800));
+    auto more=identify(wrappers);
+    assert(more&&more->commit==p->commit&&more->stock==p->stock&&more->after_stock==p->after_stock);
+    auto no_wrapper=fs;no_wrapper.erase(no_wrapper.begin()+(impact_fn-fs.begin()));assert(!identify(no_wrapper));
+    std::cout<<"close haptic PASS: "<<corruptions<<" full-CFG corruptions, independent relocation and tagged field/frame changes, shared-field mismatch and missing/ambiguous graph refusal, accepted-only owner, two safe no-BL replay windows, atomic bank admission and "<<(fs.size()+2)<<"-wrapper call-linkage disambiguation\n";
 }

@@ -3,7 +3,7 @@
 #include "home_recents_haptic_render.h"
 
 extern "C" uint32_t hc_recents_haptic_gate;
-void hc_recents_haptic_refresh();
+void hc_recents_haptic_refresh(bool force = false);
 bool hc_recents_haptic_enabled();
 bool hc_recents_haptic_scroll_enabled();
 bool hc_recents_close_haptic_enabled();

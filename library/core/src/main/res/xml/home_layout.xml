@@ -130,6 +130,20 @@
             app:maxValue="700"
             app:minValue="-300"
             app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_xiaoheizi_enable"
+            android:summary="@string/home_layout_xiaoheizi_desc"
+            android:title="@string/home_layout_xiaoheizi_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_layout_xiaoheizi_enable"
+            android:key="prefs_key_home_layout_xiaoheizi_rage"
+            android:summary="@string/home_layout_xiaoheizi_rage_desc"
+            android:title="@string/home_layout_xiaoheizi_rage_title"
+            app:isPreferenceVisible="false" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_layout_hotseats_title">

@@ -1,5 +1,8 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_recent_statusbar.h"
+#include "home_native_glass_motion.h"
+#include "home_local_config_channel.h"
+#include <sys/system_properties.h>
 #include <android/log.h>
 #include <android/binder_ibinder.h>
 #include <android/binder_parcel.h>
@@ -57,8 +60,10 @@ std::atomic<uint64_t> motion_sequence{0};
 std::atomic<uint64_t> auto_aim_sequence{0};
 std::atomic<uint64_t> bar_sequence{0};
 
-void retry_delay() {
-    timespec delay{0, 500000000};
+void retry_delay(unsigned failures) {
+    constexpr unsigned milliseconds[]={500,2000,10000,30000};
+    const unsigned wait=milliseconds[failures<3?failures:3];
+    timespec delay{wait/1000,long(wait%1000)*1000000};
     while (nanosleep(&delay, &delay) != 0 && errno == EINTR) {}
 }
 
@@ -274,6 +279,10 @@ bool dock_motion_feature_active() {
 #ifdef HYPERCEILER_HYOS_BACKEND
     if (hyos_control::active() && !hyos_control::feature_enabled(hyos_control::kDock)) return false;
 #endif
+#ifndef HYPERCEILER_HYOS_BACKEND
+    char mode[PROP_VALUE_MAX]={};__system_property_get("debug.hyperceiler.home_glass_backend",mode);
+    if(home_local_config::requested()&&std::strcmp(mode,"app-visible-probe")==0)return true;
+#endif
     return dock_motion_feature_enabled.load(std::memory_order_acquire);
 }
 
@@ -347,7 +356,7 @@ uint64_t active_dock_motion_callbacks() {
 bool revalidate_dock_motion_hooks();
 
 void run_dock_motion() {
-    const int event = dock_motion_event;
+    const int event = hc_native_glass_motion_begin(dock_motion_event);
     if (event < 0) return;
     constexpr int kPollMs = 1000;
     /*
@@ -362,7 +371,7 @@ void run_dock_motion() {
     constexpr uint64_t kKeepAliveNs = 5000000000ULL;
     constexpr uint64_t kRevalidationRetryNs = 750000000ULL;
     constexpr uint64_t kSuspendGapNs = 5000000000ULL;
-    unsigned reconnects = 0;
+    unsigned reconnects = 0, failures = 0;
     bool unavailable_reported = false;
     // Persist across Binder reconnects. An old projection must never be re-timestamped as a new
     // unlock sample merely because system_server replaced the endpoint.
@@ -382,7 +391,7 @@ void run_dock_motion() {
                     "motion Binder transport unavailable; retrying in background");
                 unavailable_reported = true;
             }
-            retry_delay();
+            retry_delay(failures++);
             continue;
         }
         Sample auto_aim{};
@@ -391,13 +400,14 @@ void run_dock_motion() {
             const auto sent = transport.send(auto_aim, kAutoAimTransaction);
             if (sent == WindowBinderTransport::SendResult::failed) {
                 ++reconnects;
-                retry_delay();
+                retry_delay(failures++);
                 continue;
             }
             last_auto_aim_value = auto_aim.value;
             last_auto_aim_publish_hits = auto_aim.publish_hits;
             report_auto_aim_sample(auto_aim, auto_aim_reports);
         }
+        failures=0;
         bool revalidation_pending = initial == WindowBinderTransport::SendResult::revalidate;
         uint64_t last_revalidation_ns = 0;
         if (revalidation_pending) {
@@ -423,7 +433,7 @@ void run_dock_motion() {
             // it, so real-time following stayed dead until the desktop was restarted.
             // Rebuild the transport instead and keep the worker alive.
             ++reconnects;
-            retry_delay();
+            retry_delay(failures++);
             continue;
         }
         while (!disconnected) {
@@ -465,7 +475,9 @@ void run_dock_motion() {
             last_mono_ns = mono_ns;
             if (descriptor.revents & POLLIN) {
                 eventfd_t count = 0;
-                if (eventfd_read(event, &count) != 0) {
+                const int read_result=eventfd_read(event, &count);
+                if(event!=dock_motion_event)hc_native_glass_motion_consumed();
+                if (read_result != 0) {
                     disconnected = true;
                     continue;
                 }
@@ -550,6 +562,6 @@ void run_dock_motion() {
                 "motion Binder transport disconnected; reconnecting");
         }
         ++reconnects;
-        retry_delay();
+        retry_delay(failures++);
     }
 }

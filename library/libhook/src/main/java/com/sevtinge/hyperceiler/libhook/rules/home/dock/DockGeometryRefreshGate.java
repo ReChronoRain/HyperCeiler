@@ -48,7 +48,8 @@ final class DockGeometryRefreshGate {
         return switch (key) {
             case "home_dock_bg_custom_enable", "home_dock_add_blur", "home_dock_bg_color",
                  "home_dock_bg_height", "home_dock_bg_margin_horizontal", "home_dock_bg_margin_bottom",
-                 "home_dock_bg_radius", "home_other_home_mode" -> true;
+                 "home_dock_bg_radius", "home_other_home_mode", "home_layout_xiaoheizi_enable",
+                 "home_layout_xiaoheizi_rage" -> true;
             default -> false;
         };
     }
