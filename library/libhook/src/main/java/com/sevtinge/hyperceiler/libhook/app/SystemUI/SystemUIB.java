@@ -73,6 +73,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.other.BrightnessPct;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.DisableBottomBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.DisableInfinitymodeGesture;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.DisableMiuiMultiWinSwitch;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.other.ForceFreeformResize;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.GuidedAccessDialogBlock;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.NotificationFreeform;
@@ -311,5 +312,7 @@ public class SystemUIB extends BaseLoad {
     private void isPadLoaded() {
         // Other
         initHook(DisableInfinitymodeGesture.INSTANCE, PrefsBridge.getBoolean("system_ui_disable_infinitymode_gesture"));
+        // 强制所有应用支持无极缩放 2.0
+        initHook(new ForceFreeformResize(), PrefsBridge.getBoolean("system_ui_force_freeform_resize"));
     }
 }

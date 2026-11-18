@@ -943,6 +943,8 @@
     <string name="system_ui_remove_miui_multi_win_switch">禁用快捷窗口按钮</string>
     <string name="system_ui_disable_infinitymode_gesture">禁用无极缩放手势</string>
     <string name="system_ui_disable_infinitymode_gesture_sum">仅供 Pad 使用</string>
+    <string name="system_ui_force_freeform_resize">强制所有应用支持无极缩放</string>
+    <string name="system_ui_force_freeform_resize_sum">让所有小窗都能自由调整宽高比，而不是只有固定几档等比尺寸。仅供 Pad 使用。</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">隐藏常驻的三个小点，包括小窗顶部和 HyperOS for Pad 横屏顶部中间的按钮 (不影响功能使用)</string>
     <string name="system_ui_disable_bottombar">隐藏小窗的手势提示线</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
