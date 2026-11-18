@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery;
 
+import android.widget.TextView;
+
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
@@ -79,21 +81,16 @@ public class PowerConsumptionRanking extends BaseHook {
 
     @Override
     public void init() {
-        /*ClassDataList data = bridge.findClass(
-            FindClass.create()
-                .matcher(ClassMatcher.create()
-                    .usingStrings("%d %s %d %s")
-                )
-        );
-        MethodDataList methodDataList = bridge.findMethod(
-            FindMethod.create()
-                .matcher(MethodMatcher.create()
-                    .declaredClass(ClassMatcher.create()
-                        .usingStrings("ro.miui.ui.version.code"))
-                    .usingNumbers(9)
-                    .returnType(boolean.class)
-                )
-        );*/
+        findAndHookMethod(TextView.class, "setText", CharSequence.class, TextView.BufferType.class, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                Object text = param.getArgs()[0];
+                if (text instanceof CharSequence && text.toString().contains("  |")) {
+                    param.getArgs()[0] = text.toString().replace("  |", " |");
+                }
+            }
+        });
+
         for (Class<?> clazz : mMatcher1ClazzList) {
             XposedLog.d(TAG, getPackageName(), "Current hooking clazz is " + clazz);
             try {

@@ -72,7 +72,7 @@ object ShowBatteryTemperatureNew : BaseHook() {
     private fun newBatteryTemperature() {
         smartChargeClazz.createHook {
             after {
-                it.result = getBatteryTemperature(it.args[0] as Context).toString() + " ℃"
+                it.result = getBatteryTemperature(it.args[0] as Context).toString() + "℃"
             }
         }
     }
