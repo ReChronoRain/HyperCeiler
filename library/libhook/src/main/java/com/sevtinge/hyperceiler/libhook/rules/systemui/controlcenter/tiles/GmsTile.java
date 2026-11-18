@@ -65,8 +65,12 @@ public class GmsTile extends TileUtils {
 
         boolean isCurrentlyEnabled = isGmsEnabled(context);
 
+        // MIUI 的“谷歌基础服务”页面（com.miui.securitycenter，
+        // com.miui.googlebase.ui.GmsCoreSettings）只把
+        // COMPONENT_ENABLED_STATE_DISABLED(2) 识别为关闭，DISABLED_USER(3)
+        // 会让 MIUI 开关仍显示“开启”，因此这里与 MIUI 保持一致。
         int newState = isCurrentlyEnabled
-            ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER
+            ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED
             : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
 
         int successCount = 0;
