@@ -472,6 +472,7 @@
     <string name="system_framework_core_title">Core underneath</string>
     <string name="system_framework_hook_entry">Unlock navigation auto-disconnect protection limit</string>
     <string name="system_framework_hook_entry_desc">Allow navigation auto-disconnect protection to be used in non-navigation scenarios</string>
+    <string name="system_framework_back_tap_when_locked">Keep back-tap working on lock screen</string>
     <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
     <string name="system_framework_allow_untrusted_touch">Allow untrusted touch</string>
