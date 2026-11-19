@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit;
 
+import androidx.annotation.Nullable;
+
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.result.base.BaseData;
 
@@ -25,5 +27,11 @@ import org.luckypray.dexkit.result.base.BaseData;
  * @author 焕晨HChen
  */
 public interface IDexKit {
+    /**
+     * 查询单个成员。
+     *
+     * @return 命中的成员；未命中时返回 {@code null}，{@code optionalMember} 依赖此语义
+     */
+    @Nullable
     BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException;
 }

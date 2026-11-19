@@ -145,12 +145,14 @@ internal object DexKitCacheManager {
         val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
         var result: Any? = null
         currentBridge.withBridge { rawBridge ->
-            val baseData: BaseData = try {
+            val baseData: BaseData? = try {
                 iDexKit.dexkit(rawBridge)
             } catch (e: ReflectiveOperationException) {
                 throw RuntimeException(e)
             }
-            result = resolveAndCache(baseData, key, classLoader)
+            // finder 返回 null 表示「没有命中」，这是 optionalMember 的正常路径，
+            // 不能当成错误，也不写入缓存
+            result = baseData?.let { resolveAndCache(it, key, classLoader) }
         }
 
         return result as T
