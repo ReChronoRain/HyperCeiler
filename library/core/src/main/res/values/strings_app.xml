@@ -1702,6 +1702,10 @@
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Bypass MTB authentication</string>
     <string name="mtb_auth_desc">This is a high-risk feature; any issues resulting from it will be the user\'s responsibility. Please ensure you back up your baseband. Enter *#*#MODEMTEST#*#* on the phone dialer to open MTB Settings.</string>
+    <!--MI FIDO-->
+    <string name="fido_asm">MI FIDO</string>
+    <string name="unlock_passkeys">Unlock Passkeys</string>
+    <string name="unlock_passkeys_desc">Allow third-party applications to create and authenticate passkeys</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
