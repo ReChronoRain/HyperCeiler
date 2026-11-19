@@ -46,7 +46,7 @@ struct ViewState {
 std::array<ViewState, 2> views;
 std::mutex view_lock;
 struct FrameRequest {
-    uint64_t session, generation;
+    uint64_t generation;
     unsigned side;
 };
 struct Cache {
@@ -183,6 +183,13 @@ void refresh_frame(int64_t, void *data) {
         reinterpret_cast<void (*)(void *)>(shape.arc_drop)(arc);
     }
 }
+bool post_frame(AChoreographer *scheduler, FrameRequest *request) {
+    if (!request)
+        return false;
+    // refresh_frame takes ownership when the choreographer delivers the callback.
+    AChoreographer_postFrameCallback64(scheduler, refresh_frame, request);
+    return true;
+}
 } // namespace
 
 extern "C" void hc_back_view_vsync(void *view) {
@@ -234,12 +241,8 @@ void hc_back_arrow_refresh() {
         auto visual = hc_back_feedback_visual(side == 0);
         if (!state.view || !state.choreographer || state.frame_pending || !visual.session)
             continue;
-        std::unique_ptr<FrameRequest> request(
-            new (std::nothrow) FrameRequest{visual.session, state.generation, side});
-        if (request) {
-            state.frame_pending = true;
-            AChoreographer_postFrameCallback64(state.choreographer, refresh_frame, request.release());
-        }
+        state.frame_pending = post_frame(state.choreographer,
+            new (std::nothrow) FrameRequest{state.generation, side});
     }
 }
 

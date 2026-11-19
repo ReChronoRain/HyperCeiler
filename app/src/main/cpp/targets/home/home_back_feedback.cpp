@@ -97,9 +97,8 @@ AIBinder *window_service() {
 bool read_bytes(void *object, int32_t length, int8_t **out) {
     if (length < 8 || length > 32 + 128 * 128 * 4)
         return false;
-    auto *bytes = static_cast<std::vector<int8_t> *>(object);
-    bytes->resize(size_t(length));
-    *out = bytes->data();
+    static_cast<std::vector<int8_t> *>(object)->resize(static_cast<size_t>(length));
+    *out = static_cast<std::vector<int8_t> *>(object)->data();
     return true;
 }
 
