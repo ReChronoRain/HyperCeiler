@@ -26,11 +26,27 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 public class DisableAnim extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.systemui.statusbar.policy.FakeStatusBarClockController", "onPanelStretchChanged", float.class, boolean.class, new IMethodHook() {
-            @Override
-            public void before(final HookParam param) {
-                param.setResult(null);
-            }
-        });
+        // 三版固件里都没有 FakeStatusBarClockController（ROM DEX 核验），因此不能再用硬 findClass：
+        // 它会在下面的 OS4 挂点注册之前抛断。类存在才挂，不存在则静默跳过。
+        Class<?> legacyClockController = findClassIfExists("com.android.systemui.statusbar.policy.FakeStatusBarClockController");
+        if (legacyClockController != null) {
+            findAndHookMethod(legacyClockController, "onPanelStretchChanged", float.class, boolean.class, new IMethodHook() {
+                @Override
+                public void before(final HookParam param) {
+                    param.setResult(null);
+                }
+            });
+        }
+
+        // OS4: 下拉拉伸回调迁到 ControlCenterExpandControllerDelegate（ROM DEX 核验：onStretchHeightChanged(float)）
+        Class<?> os4ExpandDelegate = findClassIfExists("com.miui.systemui.controlcenter.container.ControlCenterExpandControllerDelegate");
+        if (os4ExpandDelegate != null) {
+            findAndHookMethod(os4ExpandDelegate, "onStretchHeightChanged", float.class, new IMethodHook() {
+                @Override
+                public void before(final HookParam param) {
+                    param.setResult(null);
+                }
+            });
+        }
     }
 }
