@@ -40,7 +40,10 @@ public class DisableUploadAppListNew extends BaseHook {
     protected boolean initDexKit() {
         mAntiDefraudAppManagerMethod = requiredMember("AntiDefraudAppManager", bridge -> bridge.findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
-                .usingStrings("AntiDefraudAppManager", "https://flash.sec.miui.com/detect/app")
+                // HyperOS 4 moved the manager name and request URL into different methods.
+                .usingStrings("https://flash.sec.miui.com/detect/app")
+                .returnType(String.class)
+                .paramCount(2)
             )).singleOrNull());
         return true;
     }
