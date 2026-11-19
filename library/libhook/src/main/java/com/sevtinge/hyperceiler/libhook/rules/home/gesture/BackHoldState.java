@@ -25,9 +25,7 @@ final class BackHoldState {
 
     boolean update(long receiver, int action, int pointers, float px, float py, long time,
         float scale, float screenWidth, long config) {
-        if (pointers != 1 || !Float.isFinite(px) || !Float.isFinite(py)
-            || !Float.isFinite(scale) || scale < .5f || scale > 8
-            || !Float.isFinite(screenWidth) || screenWidth <= 0 || time <= 0
+        if (!validInput(pointers, px, py, time, scale, screenWidth)
             || action == 3 || action == 5 || action == 6) {
             reset();
             return false;
@@ -58,6 +56,13 @@ final class BackHoldState {
             anchorY = y;
         }
         return true;
+    }
+
+    private static boolean validInput(int pointers, float px, float py, long time,
+        float scale, float screenWidth) {
+        return pointers == 1 && Float.isFinite(px) && Float.isFinite(py)
+            && Float.isFinite(scale) && scale >= .5f && scale <= 8
+            && Float.isFinite(screenWidth) && screenWidth > 0 && time > 0;
     }
 
     boolean left() {

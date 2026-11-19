@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 import shlex
 import shutil
-import subprocess
+import subprocess  # nosec B404: local test runner invokes compilers and test executables.
 
 ROOT = Path(__file__).resolve().parents[2]
 TESTS = ROOT / "tests/home-back-feedback"
@@ -15,7 +15,8 @@ MODULE_LOG = ROOT / "library/common/src/main/java/com/sevtinge/hyperceiler/commo
 
 
 def run(command):
-    subprocess.run([str(value) for value in command], check=True)
+    # Arguments come from this runner or its invoking developer; no shell is used.
+    subprocess.run([str(value) for value in command], check=True)  # nosec B603
 
 
 def main():
@@ -37,8 +38,10 @@ def main():
     run([output / "hold-test"])
     java_output = output / "java"
     java_output.mkdir(exist_ok=True)
-    run(["javac", "-d", java_output, JAVA / "BackHoldState.java", TESTS / "StateTest.java"])
-    run(["java", "-cp", java_output, "com.sevtinge.hyperceiler.libhook.rules.home.gesture.StateTest"])
+    run(["javac", "-d", java_output, JAVA / "BackHoldState.java", JAVA / "BackFeedbackProtocol.java",
+         TESTS / "StateTest.java", TESTS / "ProtocolTest.java"])
+    for test in ("StateTest", "ProtocolTest"):
+        run(["java", "-cp", java_output, "com.sevtinge.hyperceiler.libhook.rules.home.gesture." + test])
     if args.launcher_library:
         run([*common, TESTS / "ArrowResolverTest.cpp", "-o", output / "resolver-test"])
         for fixture in args.launcher_library:
@@ -49,13 +52,15 @@ def main():
         classes.mkdir(exist_ok=True)
         dex.mkdir(exist_ok=True)
         run(["javac", "-cp", args.android_jar, "-d", classes, JAVA / "BackHoldState.java",
-             JAVA / "Os4BackFeedback.java", MODULE_LOG, TESTS / "BinderProtocolTest.java"])
+             JAVA / "Os4BackFeedback.java", JAVA / "BackFeedbackProtocol.java",
+             MODULE_LOG, TESTS / "BinderProtocolTest.java"])
         dex_file = dex / "classes.dex"
         dex_file.unlink(missing_ok=True)
         run(["java", "-cp", args.r8_jar, "com.android.tools.r8.D8", "--min-api", "34",
              "--output", dex, *sorted(classes.rglob("*.class"))])
         dex_file.chmod(0o444)
-        command = "CLASSPATH=" + shlex.quote(str(dex_file)) + " app_process /system/bin BinderProtocolTest"
+        command = ("CLASSPATH=" + shlex.quote(str(dex_file))
+                   + " app_process /system/bin com.sevtinge.hyperceiler.libhook.rules.home.gesture.BinderProtocolTest")
         run(["su", "-c", command])
 
 

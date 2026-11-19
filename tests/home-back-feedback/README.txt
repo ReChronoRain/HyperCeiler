@@ -29,7 +29,7 @@ Behavioral references:
   transition. Background animation from that implementation is not ported.
   https://github.com/Little-W/miui-home-sourse/tree/c55b688eac734faac3d6870c6378ef127a2a10c4/smali_classes4/com/miui/home/recents
 
-Run portable state checks from the repository root:
+Run portable state and wire-format checks from the repository root:
 
     python3 tests/home-back-feedback/run.py
 
@@ -50,14 +50,16 @@ Optional Android Parcel checks need android.jar, R8 and privileged app_process:
 
     python3 tests/home-back-feedback/run.py --device --android-jar /path/to/android.jar --r8-jar /path/to/r8.jar
 
-These checks exercise request peeking, rejection, preview serialization and the
+The portable checks exercise preview serialization and packet validation without
+reflecting into private handlers. Android checks exercise request peeking, rejection and the
 live WMS endpoint's refusal of a non-launcher UID. They do not inject touch or
 validate a successful launcher-authorized task switch. Live gesture verification
 is a separate device check. Standard Gradle assembleDebug remains the full build
 check; focused tests do not replace it.
 
 TouchProbe is an optional privileged device probe. Compile against android.jar,
-convert with D8, and run with app_process and input-injection permission. It uses
+convert with D8, and run com.sevtinge.hyperceiler.libhook.rules.home.gesture.TouchProbe
+with app_process and input-injection permission. It uses
 1200x2608 coordinates and actively operates the screen. Arguments are:
 
   side(left/right) holdMs finish(release/retract/rearm/cancel) stepMs distancePx retreatPx

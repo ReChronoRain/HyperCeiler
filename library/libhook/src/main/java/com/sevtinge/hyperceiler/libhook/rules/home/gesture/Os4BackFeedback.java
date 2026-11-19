@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** Preview and commit use the same task snapshot; native code owns back-event cancellation. */
 public final class Os4BackFeedback {
     private static final String TAG = "HyperCeiler.BackFeedback";
+    private static final int BINDER_EVENT = 13;
     private static final BackHoldState state = new BackHoldState();
     private static volatile Handler main;
     private static Handler worker;
@@ -54,9 +55,6 @@ public final class Os4BackFeedback {
     private static final Runnable expire = Os4BackFeedback::reset;
 
     private Os4BackFeedback() {}
-
-    private static final int BINDER_EVENT = 13;
-    private static final int MAGIC = 0x48434248;
 
     private static void install(Context context) {
         if (main != null) {
@@ -119,31 +117,7 @@ public final class Os4BackFeedback {
             if (reply == null || (flags & IBinder.FLAG_ONEWAY) != 0) {
                 return true;
             }
-            long stamp = data.readLong();
-            long now = SystemClock.uptimeMillis();
-            if (data.dataAvail() != 68) {
-                reply.writeByteArray(ack(false));
-                return true;
-            }
-            byte[] packet = data.createByteArray();
-            if ((flags & IBinder.FLAG_ONEWAY) != 0 || android.os.Process.myUid() != 1000 || stamp <= 0
-                || stamp > now || now - stamp > 750 || data.dataAvail() != 0 || packet == null
-                || packet.length != 64) {
-                reply.writeByteArray(ack(false));
-                return true;
-            }
-            Context context = app != null ? app : systemContext();
-            if (context == null || !launcher(context, Binder.getCallingUid(), Binder.getCallingPid())) {
-                reply.writeByteArray(ack(false));
-                return true;
-            }
-            long identity = Binder.clearCallingIdentity();
-            try {
-                install(context);
-                reply.writeByteArray(dispatch(packet));
-            } finally {
-                Binder.restoreCallingIdentity(identity);
-            }
+            reply.writeByteArray(receive(data));
         } catch (Exception error) {
             if (selected) {
                 ModuleLog.w(TAG, "feedback Binder request failed", error);
@@ -157,19 +131,45 @@ public final class Os4BackFeedback {
         return selected;
     }
 
+    private static byte[] readPacket(Parcel data) {
+        long stamp = data.readLong();
+        long now = SystemClock.uptimeMillis();
+        if (android.os.Process.myUid() != 1000 || stamp <= 0 || stamp > now || now - stamp > 750
+            || data.dataAvail() != 4 + BackFeedbackProtocol.PACKET_BYTES) {
+            return null;
+        }
+        byte[] packet = data.createByteArray();
+        return data.dataAvail() == 0 && BackFeedbackProtocol.validPacket(packet) ? packet : null;
+    }
+
+    private static byte[] receive(Parcel data) throws Exception {
+        byte[] packet = readPacket(data);
+        if (packet == null) {
+            return ack(false);
+        }
+        Context context = app != null ? app : systemContext();
+        if (context == null || !launcher(context, Binder.getCallingUid(), Binder.getCallingPid())) {
+            return ack(false);
+        }
+        long identity = Binder.clearCallingIdentity();
+        try {
+            install(context);
+            return dispatch(packet);
+        } finally {
+            Binder.restoreCallingIdentity(identity);
+        }
+    }
+
     private static byte[] ack(boolean accepted) {
-        return ByteBuffer.allocate(8)
-            .order(ByteOrder.LITTLE_ENDIAN)
-            .putInt(MAGIC)
-            .putInt(accepted ? 1 : 0)
-            .array();
+        return BackFeedbackProtocol.acknowledgement(accepted);
     }
 
     private static byte[] dispatch(byte[] packet) throws InterruptedException {
-        ByteBuffer data = ByteBuffer.wrap(packet).order(ByteOrder.LITTLE_ENDIAN);
-        if (data.getInt() != MAGIC) {
+        if (!BackFeedbackProtocol.validPacket(packet)) {
             return ack(false);
         }
+        ByteBuffer data = ByteBuffer.wrap(packet).order(ByteOrder.LITTLE_ENDIAN);
+        data.getInt();
         int operation = data.getInt();
         boolean accepted = false;
         if (operation == 1) {
@@ -199,20 +199,9 @@ public final class Os4BackFeedback {
         } else if (operation == 4) {
             long known = data.getLong();
             NativePreview snapshot = nativePreview;
-            long session = snapshot == null ? 0 : snapshot.session;
-            byte[] pixels = snapshot == null || known == session ? new byte[0] : snapshot.pixels;
-            int previewFlags = snapshot == null ? 0 : 1 | (snapshot.left ? 2 : 0);
-            return ByteBuffer.allocate(32 + pixels.length)
-                .order(ByteOrder.LITTLE_ENDIAN)
-                .putInt(MAGIC)
-                .putInt(previewFlags)
-                .putLong(session)
-                .putInt(snapshot == null ? 0 : 96)
-                .putInt(snapshot == null ? 0 : 96)
-                .putInt(pixels.length)
-                .putInt(0)
-                .put(pixels)
-                .array();
+            return snapshot == null
+                ? BackFeedbackProtocol.preview(0, false, null, known)
+                : BackFeedbackProtocol.preview(snapshot.session, snapshot.left, snapshot.pixels, known);
         } else if (operation == 5) {
             long session = data.getLong();
             main.post(() -> presented(session));
@@ -255,10 +244,8 @@ public final class Os4BackFeedback {
             main.removeCallbacks(expire);
             return commit;
         }
-        if (armed) {
-            if (!state.geometry(true)) {
-                disarm();
-            }
+        if (armed && !state.geometry(true)) {
+            disarm();
         }
         return false;
     }
@@ -433,6 +420,16 @@ public final class Os4BackFeedback {
         return null;
     }
 
+    private static boolean containsTarget(Object service, Target selected) throws Exception {
+        for (Object task : recent(service, selected.user)) {
+            if (integer(task, "taskId") == selected.id && integer(task, "userId") == selected.user
+                && selected.component.equals(component(task))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static void launch(Target selected, long released, long generation) {
         try {
             if (generation != cancellation || SystemClock.uptimeMillis() - released > 750 || !interactive()) {
@@ -444,15 +441,8 @@ public final class Os4BackFeedback {
                 return;
             }
             Object service = service();
-            boolean valid = false;
-            for (Object task : recent(service, selected.user)) {
-                if (integer(task, "taskId") == selected.id && integer(task, "userId") == selected.user
-                    && selected.component.equals(component(task))) {
-                    valid = true;
-                    break;
-                }
-            }
-            if (!valid || generation != cancellation || SystemClock.uptimeMillis() - released > 750) {
+            if (!containsTarget(service, selected) || generation != cancellation
+                || SystemClock.uptimeMillis() - released > 750) {
                 return;
             }
             Object result = Class.forName("android.app.IActivityTaskManager")

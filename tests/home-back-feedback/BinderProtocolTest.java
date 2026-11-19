@@ -1,11 +1,11 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
+package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
+
 import android.os.Parcel;
 import android.os.IBinder;
 import android.os.SystemClock;
-import com.sevtinge.hyperceiler.libhook.rules.home.gesture.Os4BackFeedback;
-import java.lang.reflect.*;
-import java.nio.*;
-import java.util.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 public class BinderProtocolTest {
     static int checks;
     static void check(boolean ok, String label) {
@@ -22,7 +22,8 @@ public class BinderProtocolTest {
             .array();
     }
     public static void main(String[] args) throws Exception {
-        Parcel request = Parcel.obtain(), reply = Parcel.obtain();
+        Parcel request = Parcel.obtain();
+        Parcel reply = Parcel.obtain();
         try {
             request.writeInterfaceToken("android.view.IWindowManager");
             request.writeInt(6);
@@ -70,40 +71,6 @@ public class BinderProtocolTest {
             request.recycle();
             reply.recycle();
         }
-        Method dispatch = Os4BackFeedback.class.getDeclaredMethod("dispatch", byte[].class);
-        dispatch.setAccessible(true);
-        byte[] empty = (byte[])dispatch.invoke(null, (Object)packet(4, 0));
-        check(empty.length == 32 && ByteBuffer.wrap(empty).order(ByteOrder.LITTLE_ENDIAN).getInt(4) == 0,
-              "empty preview wire format");
-        Class<?> preview = Class.forName(Os4BackFeedback.class.getName() + "$NativePreview");
-        Constructor<?> ctor = preview.getDeclaredConstructor(long.class, boolean.class, byte[].class);
-        ctor.setAccessible(true);
-        byte[] pixels = new byte[96 * 96 * 4];
-        for (int i = 0; i < pixels.length; i++)
-            pixels[i] = (byte)i;
-        Field field = Os4BackFeedback.class.getDeclaredField("nativePreview");
-        field.setAccessible(true);
-        field.set(null, ctor.newInstance(77L, true, pixels));
-        try {
-            byte[] full = (byte[])dispatch.invoke(null, (Object)packet(4, 0));
-            ByteBuffer data = ByteBuffer.wrap(full).order(ByteOrder.LITTLE_ENDIAN);
-            check(full.length == 32 + pixels.length && data.getInt(0) == 0x48434248 && data.getInt(4) == 3 &&
-                      data.getLong(8) == 77,
-                  "preview identity and flags");
-            check(data.getInt(16) == 96 && data.getInt(20) == 96 && data.getInt(24) == pixels.length,
-                  "preview dimensions and length");
-            check(Arrays.equals(Arrays.copyOfRange(full, 32, full.length), pixels),
-                  "pixel payload preserved");
-            byte[] cached = (byte[])dispatch.invoke(null, (Object)packet(4, 77));
-            check(cached.length == 32 &&
-                      ByteBuffer.wrap(cached).order(ByteOrder.LITTLE_ENDIAN).getInt(24) == 0,
-                  "cached preview does not repeat pixels");
-        } finally {
-            field.set(null, null);
-        }
-        byte[] invalid = packet(4, 0);
-        invalid[0] = 0;
-        check(((byte[])dispatch.invoke(null, (Object)invalid)).length == 8, "bad protocol magic rejected");
         Class<?> activityThread = Class.forName("android.app.ActivityThread");
         check(activityThread.getMethod("currentActivityThread") != null &&
                   activityThread.getMethod("getSystemContext") != null,

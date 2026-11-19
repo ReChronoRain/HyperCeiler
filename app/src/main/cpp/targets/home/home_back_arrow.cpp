@@ -234,10 +234,11 @@ void hc_back_arrow_refresh() {
         auto visual = hc_back_feedback_visual(side == 0);
         if (!state.view || !state.choreographer || state.frame_pending || !visual.session)
             continue;
-        auto *request = new (std::nothrow) FrameRequest{visual.session, state.generation, side};
+        std::unique_ptr<FrameRequest> request(
+            new (std::nothrow) FrameRequest{visual.session, state.generation, side});
         if (request) {
             state.frame_pending = true;
-            AChoreographer_postFrameCallback64(state.choreographer, refresh_frame, request);
+            AChoreographer_postFrameCallback64(state.choreographer, refresh_frame, request.release());
         }
     }
 }

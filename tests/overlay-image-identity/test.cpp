@@ -17,7 +17,8 @@ int main(int argc, char **argv) {
         auto entry = nhk::zip_stored_entry(path, std::string("lib/arm64-v8a/") + name);
         if (!entry)
             return 2;
-        int fd = open(path.c_str(), O_RDONLY | O_CLOEXEC);
+        // The fixture is supplied by the test operator and opened read-only, without access checks.
+        int fd = open(path.c_str(), O_RDONLY | O_CLOEXEC); // flawfinder: ignore
         if (fd < 0)
             return 2;
         std::array<std::byte, 8192> header{};
@@ -39,8 +40,8 @@ int main(int argc, char **argv) {
                 continue;
             uint64_t offset = nhk::page_down(s.offset);
             size_t bytes = nhk::page_up(s.offset + s.filesz) - offset;
-            int protection = (s.flags & PF_R ? PROT_READ : 0) | (s.flags & PF_W ? PROT_WRITE : 0) |
-                             (s.flags & PF_X ? PROT_EXEC : 0);
+            int protection = ((s.flags & PF_R) ? PROT_READ : 0) | ((s.flags & PF_W) ? PROT_WRITE : 0) |
+                             ((s.flags & PF_X) ? PROT_EXEC : 0);
             if (mmap(reinterpret_cast<void *>(base + nhk::page_down(s.vaddr)), bytes, protection,
                      MAP_PRIVATE | MAP_FIXED, fd, entry->first + offset) == MAP_FAILED)
                 return 2;

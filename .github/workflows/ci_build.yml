@@ -40,6 +40,9 @@ jobs:
       )
     runs-on: macos-latest
     name: Build App
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout Git Repository
         uses: actions/checkout@v6
@@ -80,6 +83,9 @@ jobs:
       - name: Build with Gradle (Debug)
         if: github.event_name == 'pull_request'
         shell: bash
+        env:
+          GIT_ACTOR: ${{ github.actor }}
+          GIT_TOKEN: ${{ github.token }}
         run: |
           ./gradlew assembleDebug
           echo "IS_DEBUG=true" >> $GITHUB_ENV
@@ -378,6 +384,9 @@ jobs:
       - name: Run host native tests
         shell: bash
         run: bash tests/run_host_native_tests.sh
+
+      - name: Verify back gesture state and protocol
+        run: python3 tests/home-back-feedback/run.py
 
       - name: Upload test logs
         if: failure()
