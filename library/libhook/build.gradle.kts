@@ -51,6 +51,7 @@ kotlin {
 }
 
 dependencies {
+    testImplementation("junit:junit:4.13.2")
     api(libs.core)
     api(libs.fragment)
     api(libs.recyclerview)

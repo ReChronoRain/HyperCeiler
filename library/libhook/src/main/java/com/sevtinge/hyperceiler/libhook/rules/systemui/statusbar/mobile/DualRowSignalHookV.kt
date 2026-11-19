@@ -221,7 +221,8 @@ class DualRowSignalHookV : MobileSignalHook() {
         syncDualSignalVisibility(rootView, true)
 
         if (simSignalLevels.isNotEmpty()) {
-            refreshDualIconsForView(rootView, isUseTint = false, isLight = true)
+            val dark = viewDarkState[System.identityHashCode(rootView)]
+            refreshDualIconsForView(rootView, dark?.isUseTint ?: false, dark?.isLight ?: true, dark?.color)
         }
 
         setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_half_to_top_distance", 3f)
@@ -235,9 +236,11 @@ class DualRowSignalHookV : MobileSignalHook() {
         val subId = try {
             getIntField(rootView, "subId")
         } catch (_: Throwable) { -1 }
-        if (subId == -1 || simSignalLevels.isEmpty()) return
+        if (subId == -1) return
 
+        // 颜色与信号强度独立到达，先保存颜色，避免首次信号回调把图标恢复成默认白色。
         viewDarkState[System.identityHashCode(rootView)] = darkInfo
+        if (simSignalLevels.isEmpty()) return
 
         refreshDualIconsForView(rootView, darkInfo.isUseTint, darkInfo.isLight, darkInfo.color)
     }
