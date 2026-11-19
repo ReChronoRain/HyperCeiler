@@ -34,7 +34,8 @@ void prime_home_layout_probe(int (*hook)(void *, void *, void **), int (*unhook)
 void home_layout_prepare_for_launcher_child();
 void prime_home_layout_knobs(int (*hook)(void *, void *, void **), int (*unhook)(void *));
 void prime_home_layout_first_render(int (*hook)(void *, void *, void **),int (*unhook)(void *));
-void prime_home_layout_first_render_from_property(int (*hook)(void *, void *, void **),int (*unhook)(void *));
+
+void notify_home_layout_library_loaded();
 void home_layout_set_desktop_title_size(int sp);
 void home_layout_set_drawer_title_size(int sp);
 void home_layout_set_title_color(int argb);
@@ -42,7 +43,6 @@ void home_layout_set_title_color(int argb);
 namespace home_layout_engine {
 void StartHomeLayoutEngine();
 void HomeLayoutEngineOnLibraryLoaded(const char *name);
-bool HomeLayoutEnginePrimeCachedSymbols();
 void HomeLayoutEnginePrepareForLauncherChild();
 }
 
@@ -190,7 +190,6 @@ int hooked_system_property_get(const char *name, char *value) {
         start_motion_after_specialization();
         if (g_hook_function != nullptr && is_launcher_process()) {
             home_layout_prepare_for_launcher_child();
-            prime_home_layout_first_render_from_property(g_hook_function,g_unhook_function);
             start_home_layout_hooks("property", g_hook_function, g_unhook_function);
             home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
             home_layout_engine::StartHomeLayoutEngine();
@@ -312,47 +311,26 @@ void on_library_loaded(const char *name, void *) {
     const bool launcher = is_launcher_process();
 #ifdef HYPERCEILER_HYOS_BACKEND
     // Loader notifications are drained by the control worker. The exact Dart
-    // snapshot observer owns first layout; never start legacy layout writers here.
+    // snapshot observer owns first layout; retain the property-hook fallback.
     if (launcher && is_library(name, "libapp_launcher.so")) install_property_hook();
 #else
-    /*
-     * Adopt the fork handoff before anything primes. prime_home_layout_probe/knobs below publish
-     * hook state (armed flags, registered slots), and the adoption reset wipes exactly that: run
-     * afterwards it would leave the bank unaware of patches that are already in the code pages,
-     * which is how a re-arm attempt lands on an address that is already hooked.
-     */
+    // Keep the fork handoff before worker startup. This is pid-stamped and is
+    // a no-op after native_init/setprogname has adopted the launcher child.
     if (launcher) home_layout_prepare_for_launcher_child();
-    // Patch before the desktop computes its first layout: the image has just been loaded, so every
-    // site is available and nothing has read the old constants yet. Scoped to the Dart image, since
-    // every other library loaded here would otherwise cost a Binder round trip each.
-    if (std::string_view(name).ends_with("libapp.so")) {
-        if (launcher) {
-            prime_home_layout_first_render(g_hook_function,g_unhook_function);
-            home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
-            prime_home_layout_engine();
-            (void)home_layout_engine::HomeLayoutEnginePrimeCachedSymbols();
-        }
-        // Patch before the dart runtime runs: the probe target is called exactly once, at start-up.
-        prime_home_layout_probe(g_hook_function, g_unhook_function);
-        prime_home_layout_knobs(g_hook_function, g_unhook_function);
-        home_layout_engine::HomeLayoutEngineOnLibraryLoaded(name);
-    }
     const std::string_view library_name(name);
-    if ((launcher || is_hyos_spawner_process())
-        && is_library(library_name, "libapp_launcher.so")) {
-        install_property_hook();
-    }
-    if (launcher) {
-        start_home_layout_hooks("library", g_hook_function, g_unhook_function);
-    }
+    const bool dart_library = is_library(library_name, "libapp.so");
+    const bool launcher_library = is_library(library_name, "libapp_launcher.so");
+    if (launcher) start_home_layout_hooks("library", g_hook_function, g_unhook_function);
+    if (launcher && (dart_library || launcher_library)) notify_home_layout_library_loaded();
+    if (launcher && dart_library) home_layout_engine::HomeLayoutEngineOnLibraryLoaded(name);
     if (launcher) {
         home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
         home_layout_engine::StartHomeLayoutEngine();
     }
+    if ((launcher || is_hyos_spawner_process()) && launcher_library) install_property_hook();
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
-    // HYOS can map libapp.so outside the normal linker callback path. Any later
-    // library load is enough to identify the specialized launcher; the worker
-    // itself waits for and dynamically resolves libapp.so.
+    // HYOS can map libapp.so outside the ordinary linker callback path. Keep
+    // the specialization and property-hook fallback on later library loads.
     if (launcher) {
         install_property_hook();
         start_dock_native_motion(g_hook_function, g_unhook_function);

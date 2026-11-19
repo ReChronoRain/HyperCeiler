@@ -1062,33 +1062,17 @@ void MonitorLoop() {
     }
 }
 
-void FastPatchOnLibraryLoad() {
-    // PrimeCachedSymbols already publishes the image. A cache/lock miss falls to
-    // the worker; never discover/wait under the Android linker callback lock.
-    if (!g_imageKnown.load(std::memory_order_acquire)) return;
-    std::unique_lock<std::mutex> work(g_workMutex, std::try_to_lock);
-    if (!work.owns_lock()) return;
-    State* state = &g_state;
-    if (!state->imageFound) return;
-    if (!state->applied.empty()) return;
-    if (!RefreshConfigLocked(state, true, true)) return;
-    SettleLocked(state, false);
-}
-
 void OnNativeLibraryLoaded(const char* name, void* ) {
     g_loadedCount.fetch_add(1);
     if (name == nullptr) return;
     const size_t len = strlen(name);
     const size_t want = strlen(kTargetLibName);
     if (len < want || strcmp(name + (len - want), kTargetLibName) != 0) return;
-    LOGI("检测到 %s 加载，立即落补丁", name);
-
-    FastPatchOnLibraryLoad();
-
-    {
-        std::lock_guard<std::mutex> lock(g_wakeMutex);
-        g_wakeFlag = true;
-    }
+    // Wake only; discovery and patching run after the linker callback returns.
+    std::unique_lock<std::mutex> wake(g_wakeMutex, std::try_to_lock);
+    if (!wake.owns_lock()) return; // The monitor's bounded timeout is the fallback.
+    g_wakeFlag = true;
+    wake.unlock();
     g_wakeCv.notify_all();
 }
 
@@ -1106,7 +1090,7 @@ namespace {
 
 void WakeMonitor() {
     {
-        std::lock_guard<std::mutex> lock(g_wakeMutex);
+        std::lock_guard<std::mutex> wake(g_wakeMutex);
         g_wakeFlag = true;
     }
     g_wakeCv.notify_all();

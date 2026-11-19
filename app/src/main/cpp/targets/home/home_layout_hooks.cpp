@@ -568,6 +568,7 @@ home_layout::infinite_scroll::ReleaseTrace g_infinite_trace;
 std::atomic_uint g_report_bind_failure{0};
 std::atomic_uint64_t g_report_hits{0},g_report_applied{0};
 std::atomic_bool g_started{false};
+    std::atomic_bool g_library_load_notified{false};
 /*
  * Field writes into the launcher's live objects are off by default: a wrong path there is a launcher
  * crash, not a no-op. Hook-based knobs (adjust a function's return value) do not need this gate.
@@ -4825,7 +4826,8 @@ size_t arm_hooks(std::vector<size_t> &order) {
     if(g_slots[kDartColumnsSlot].address && std::find(order.begin(),order.end(),kDartColumnsSlot)==order.end()) {
         order.push_back(kDartColumnsSlot);++added;
     }
-    if (g_slots[kNativeColumnsSlot].address &&
+    if ((__atomic_load_n(&hc_native_columns_request, __ATOMIC_ACQUIRE) & 1u)
+        && g_slots[kNativeColumnsSlot].address &&
         std::find(order.begin(), order.end(), kNativeColumnsSlot) == order.end()) {
         order.push_back(kNativeColumnsSlot); ++added;
     }
@@ -5323,6 +5325,12 @@ void *worker(void *) {
     bool queried = false;
     for (int attempt = 0; attempt < 20; ++attempt) {
         if (home_layout::query_config(config)) { queried = true; break; }
+        if (g_library_load_notified.load(std::memory_order_acquire)
+            && home_layout::query_bootstrap_config(config)) {
+            queried = true;
+            g_library_load_notified.store(false, std::memory_order_release);
+            break;
+        }
         delay_ms(100);
     }
     hc_recents_haptic_refresh();
@@ -5340,12 +5348,9 @@ void *worker(void *) {
             "layout config unavailable; leaving launcher unmodified");
         return attempt_finished();
     }
-    // The early loader callback must win first layout. Bounded startup wait,
-    // not a new polling thread; the existing worker adopts the loader's slots.
-    for (int attempt = 0; attempt < 200
-        && !g_loader_prime_finished.load(std::memory_order_acquire); ++attempt) delay_ms(25);
-    // The same lease covers loader priming, pending cleanup and worker bank setup.
-    // Main-thread priming never waits; only this existing worker waits for the lease.
+    // Loader notifications only wake this worker; the worker itself owns all
+    // image discovery and hook installation.
+    // The same lease covers pending cleanup and worker bank setup.
     while (g_loader_priming.test_and_set(std::memory_order_acquire)) delay_ms(25);
     struct SetupLease {
         bool held=true;
@@ -5410,6 +5415,11 @@ void *worker(void *) {
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
         || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close || config.dock_show_title
+                                                                                                      ||
+                                                                                                      config.back_gesture.height !=
+                                                                                                      60 ||
+                                                                                                      config.back_gesture.width !=
+                                                                                                      100
         || config.folder.full_width || config.folder.title_center
         || nhk::source_words_owned(g_dock_title_words);
     if (!kDockEditPolicy && !config.grid_enabled && !any_knob && !top_probe && !any_tweak
@@ -5429,11 +5439,12 @@ void *worker(void *) {
     prime_home_layout_first_render_locked();
     std::optional<Located> located;
     for (int attempt = 0; attempt < 60; ++attempt) {
-        // A late Dart mapping must be primed by this worker, not by input-thread
-        // property queries while the native image is still being discovered.
+        // A late Dart mapping is discovered and primed here, off the loader and
+        // input threads. Keep waiting for it when the Rust image appears first.
         if(!g_first_render_finished.load(std::memory_order_acquire))prime_home_layout_first_render_locked();
         located = locate();
         if (located) break;
+        if (g_library_load_notified.exchange(false, std::memory_order_acq_rel)) continue;
         delay_ms(100);
     }
     if (!located) {
@@ -5696,12 +5707,75 @@ void *worker(void *) {
             }
         }
         delay_ms(kPassIntervalMs);
-        // A late libapp mapping can still arrive through the loader/property
-        // callback after the Rust bank was initialized. Share the setup lease
-        // with that first-render pass so neither side replaces live slot state.
+        // A late libapp or Rust mapping can still arrive after the first setup.
+        // Process its notification under the same lease before admitting slots.
         if(g_loader_priming.test_and_set(std::memory_order_acquire))continue;
         struct PassLease {~PassLease(){g_loader_priming.clear(std::memory_order_release);}} pass_lease;
         ++iterations;
+        if (g_library_load_notified.exchange(false, std::memory_order_acq_rel)) {
+            // A matching image can arrive after the initial Rust/Dart snapshot.
+            // Re-discover it on this worker, then let the existing bank path
+            // admit and install any newly available sites.
+            auto refreshed = locate();
+            if (refreshed) {
+                if (!located) located.emplace();
+                if (refreshed->x != 0) {
+                    located->x = refreshed->x;
+                    located->x_source = refreshed->x_source;
+                    located->x_words = refreshed->x_words;
+                }
+                if (refreshed->y != 0) {
+                    located->y = refreshed->y;
+                    located->y_source = refreshed->y_source;
+                    located->y_words = refreshed->y_words;
+                }
+                if (config.grid_enabled && located->x != 0 && located->y != 0) {
+                    if (!g_slots[0].backend_owned)
+                        g_slots[0] = {located->x,
+                                      reinterpret_cast<void *>(cell_x_replacement), &g_original_x,
+                                      located->x_source, located->x_words};
+                    if (!g_slots[1].backend_owned)
+                        g_slots[1] = {located->y,
+                                      reinterpret_cast<void *>(cell_y_replacement), &g_original_y,
+                                      located->y_source, located->y_words};
+                    if (std::find(order.begin(), order.end(), size_t{0}) == order.end())
+                        order.push_back(0);
+                    if (std::find(order.begin(), order.end(), size_t{1}) == order.end())
+                        order.push_back(1);
+                    g_ready.store(true, std::memory_order_release);
+                }
+                if (refreshed->animation != 0) {
+                    located->animation = refreshed->animation;
+                    located->animation_source = refreshed->animation_source;
+                    located->animation_words = refreshed->animation_words;
+                }
+                if (refreshed->magic != 0) {
+                    located->magic = refreshed->magic;
+                    located->magic_source = refreshed->magic_source;
+                    located->magic_words = refreshed->magic_words;
+                }
+                if (!refreshed->container_path.empty()) {
+                    located->container_path = refreshed->container_path;
+                    located->view_begin = refreshed->view_begin;
+                    located->view_end = refreshed->view_end;
+                }
+                if (!refreshed->dart_container_path.empty()) {
+                    located->dart_container_path = refreshed->dart_container_path;
+                    located->dart_view_begin = refreshed->dart_view_begin;
+                    located->dart_view_end = refreshed->dart_view_end;
+                }
+                if (!g_first_render_finished.load(std::memory_order_acquire))
+                    prime_home_layout_first_render_locked();
+                g_container_path = located->container_path;
+                g_view_begin = located->view_begin;
+                g_view_end = located->view_end;
+                g_dart_container_path = located->dart_container_path;
+                g_dart_view_begin = located->dart_view_begin;
+                g_dart_view_end = located->dart_view_end;
+                if (arm_hooks(order) != 0 || publish_hooks() != 0)
+                    g_dart_ready.store(true, std::memory_order_release);
+            }
+        }
         hc_recents_haptic_refresh();
         /*
          * Probe readout: the passthrough stub records every call into these globals, and this is
@@ -5733,12 +5807,9 @@ void *worker(void *) {
          * extra four calls per five seconds cost nothing measurable.
          */
         if (iterations % 2 == 0) {
-            // Rust back-region hooks can make locate() succeed before libapp.so
-            // is mapped. If the one-shot loader callback then misses the setup
-            // lease, no Dart binder below can recover by itself. Discover the
-            // image on this existing worker, independently of preference I/O;
-            // ensure_dart_library retains the validated identity/mapping checks.
-            // Never replace the Rust slots or their container during this handoff.
+            // Rust may be mapped before Dart. Discover the Dart image on this
+            // worker independently of preference I/O; retain the validated
+            // identity/mapping checks before retrying render bindings.
             if (!g_dart && ensure_dart_library()) {
                 if (!located) located.emplace();
                 located->dart_container_path = g_dart->path;
@@ -6888,6 +6959,7 @@ bool adopt_layout_state() {
 #endif
 
     g_started.store(false, std::memory_order_release);
+    g_library_load_notified.store(false, std::memory_order_release);
     g_attempts.store(0, std::memory_order_release);
     g_ready.store(false, std::memory_order_release);
     g_dart_ready.store(false, std::memory_order_release);
@@ -7650,8 +7722,8 @@ void start_home_layout_hooks(const char *site, HookFunction hook, UnhookFunction
         &&(g_started.load(std::memory_order_acquire)||g_ready.load(std::memory_order_acquire)
             ||g_dart_ready.load(std::memory_order_acquire)
             ||g_attempts.load(std::memory_order_acquire)>=kMaxWorkerAttempts))return;
-    if(site&&(std::strcmp(site,"property")==0||std::strcmp(site,"library")==0))prime_native_columns(hook,unhook);
-    if(site&&(std::strcmp(site,"property")==0||std::strcmp(site,"library")==0))prime_back_regions(hook,unhook);
+    // Property and library notifications only start/wake the worker. Mapping
+    // discovery, stable reads and native hook installation stay off the caller.
     // A property call made recursively by the primer must not start a competing worker.
     if(g_loader_priming.test(std::memory_order_acquire))return;
     const int attempts = g_attempts.load(std::memory_order_acquire);
@@ -7687,4 +7759,8 @@ void start_home_layout_hooks(const char *site, HookFunction hook, UnhookFunction
         g_started.store(false, std::memory_order_release);
         __android_log_print(ANDROID_LOG_ERROR, kTag, "layout worker unavailable=%d", created);
     }
+}
+
+void notify_home_layout_library_loaded() {
+    g_library_load_notified.store(true, std::memory_order_release);
 }
