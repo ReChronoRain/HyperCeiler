@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_gestures_os4.h"
+#include "home_back_feedback.h"
 #include "home_workspace_swipe.h"
 #include <android/log.h>
 #include <android/binder_ibinder.h>
@@ -122,6 +123,7 @@ bool start_worker_locked() {
 }
 void emit(int event,uint64_t revision) {
     if(!event)return;
+    if(event==home_gestures::Previous) {hc_back_feedback_commit();return;}
     timespec now{};if(clock_gettime(CLOCK_MONOTONIC,&now)!=0)return;
     int fd=-1;
     {
@@ -135,6 +137,7 @@ void emit(int event,uint64_t revision) {
 home_gestures::Decision observe(void *owner,void *event,bool back) {
     std::lock_guard guard(lock);
     if(!api.masked||(!settings.mask&&!settings.quick))return {};
+    if(back&&!settings.quick) {hc_back_feedback_cancel();return {};}
     if(!back) {
 #if defined(HYPERCEILER_DOCK_NATIVE_MOTION)
         if(dock_edit_packed.load(std::memory_order_acquire)&1u) {home_state.reset();return {};}
@@ -146,18 +149,24 @@ home_gestures::Decision observe(void *owner,void *event,bool back) {
     auto &state=back?back_state:home_state;
     const int action=api.masked(event);
     if(action==3||action<0||action>6||action==4) {
+        if(back)hc_back_feedback_cancel();
         if(probe.load(std::memory_order_relaxed))__android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeGesture","probe back=%d a=%d reset owner=%p",back,action,owner);
         state.reset();return {};
     }
     const size_t pointers=api.pointers(event);
-    if(pointers<1||pointers>10) {state.reset();return {};}
+    if(pointers<1||pointers>10) {if(back)hc_back_feedback_cancel();state.reset();return {};}
     home_gestures::Sample e{action,static_cast<int>(pointers),
         api.x(event,0),api.y(event,0),api.time(event),reinterpret_cast<uintptr_t>(owner)};
     auto effective=settings;
     // A genuine workspace consumer owns double tap once its bank is ready.
     // The Rust recents/window route must not emit a second copy of that action.
     if(!back)effective.mask=0; // normal workspace is owned by its real scene, never recents
-    const auto decision=state.accept(e,effective,back);
+    home_gestures::Decision decision;
+    if(back) {
+        if(hc_back_feedback_touch(e.owner,e.action,e.pointers,e.x,e.y,e.time,
+                                 effective.density,effective.width,effective.revision))
+            decision={true,true,home_gestures::Previous,effective.revision};
+    } else decision=state.accept(e,effective,false);
     if(probe.load(std::memory_order_relaxed))__android_log_print(ANDROID_LOG_INFO,"HyperCeiler.HomeGesture",
         "probe back=%d a=%d n=%zu x=%.1f y=%.1f t=%lld owner=%p decision=%d/%d/%d rv=%llu",
         back,action,pointers,e.x,e.y,static_cast<long long>(e.time),owner,
@@ -201,6 +210,7 @@ extern "C" void hc_back_touch(void *owner,void *event) {
 }
 
 bool hc_gestures_bind(uintptr_t base,const home_gestures::Targets&t) {
+    hc_back_feedback_start();
     std::lock_guard guard(lock);
     if(api.masked)return true; // Live bank owns this generation; never overwrite its ABI pointers.
     for(auto v:t.imports)if(!v||base>UINTPTR_MAX-v)return false;
@@ -220,6 +230,8 @@ bool hc_gestures_bind(uintptr_t base,const home_gestures::Targets&t) {
     return true;
 }
 void hc_gestures_config(const home_gestures::Config &config) {
+    if(config.quick)hc_back_feedback_start();
+    if(!config.quick)hc_back_feedback_cancel();
     char diagnostic[PROP_VALUE_MAX]{};
     probe.store(__system_property_get("debug.hyperceiler.gesture_probe",diagnostic)>0&&diagnostic[0]=='1',std::memory_order_relaxed);
     std::lock_guard guard(lock);
