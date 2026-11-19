@@ -22,11 +22,13 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.downloadsui.AlwaysShowDownloadLink;
+import com.sevtinge.hyperceiler.libhook.rules.downloads.DisableXunleiEngine;
 
 @HookBase(targetPackage = "com.android.providers.downloads.ui")
 public class DownloadsUI extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new AlwaysShowDownloadLink(), PrefsBridge.getBoolean("downloads_ui_always_show_link"));
+        initHook(new DisableXunleiEngine(), PrefsBridge.getBoolean("downloads_disable_xunlei_engine"));
     }
 }
