@@ -211,7 +211,7 @@ public class HomePhone extends BaseLoad {
         initHook(AllowMoveAllWidgetToMinus.INSTANCE, PrefsBridge.getBoolean("home_widget_allow_moved_to_minus_one_screen"));
 
         // 其他
-        initHook(new FreeformShortcutMenu(), (PrefsBridge.getBoolean("home_other_freeform_shortcut_menu") || (PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"))));
+        initHook(new FreeformShortcutMenu(), (PrefsBridge.getBoolean("home_other_freeform_shortcut_menu") || PrefsBridge.getBoolean("home_other_tasks_shortcut_menu") || PrefsBridge.getBoolean("home_other_force_stop_shortcut_menu")));
         initHook(new AllowShareApk(), PrefsBridge.getBoolean("home_other_allow_share_apk"));
         initHook(ShortcutItemCount.INSTANCE, PrefsBridge.getBoolean("home_other_shortcut_remove_restrictions"));
 
