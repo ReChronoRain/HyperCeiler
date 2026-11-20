@@ -1400,7 +1400,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">垂直邊距</string>
     <string name="security">手機管家</string>
     <string name="security_app_title">顯示更多應用程式資訊</string>
-    <string name="security_app_summary">增加新欄位到應用程式資訊頁面:\n- 版本號碼\n- Apk 完整目錄\n- 數據目錄\n- 用戶標識符\n- 最低 SDK 版本\n- 目標 SDK 版本\n- 連結到應用程式商店頁面\n- 啟動應用程式</string>
+    <string name="security_app_summary">增加新欄位到應用程式資訊頁面:\n- 版本號碼\n- Apk 完整目錄\n- 數據目錄\n- 用戶標識符\n- 最低 SDK 版本\n- 目標 SDK 版本\n- 連結到應用程式商店頁面\n- 啟動應用程式\n- 分享應用程式安裝包</string>
     <string name="security_app_sort_title">應用程式管理列表排序</string>
     <string name="security_app_sort_summary">修改應用程式管理列表預設排序</string>
     <string name="security_restrict_app_title">全限制</string>

@@ -119,6 +119,10 @@
     <string name="various_install_app_size">应用大小</string>
     <string name="app_details_playstore">使用应用商店打开</string>
     <string name="app_details_launch">启动</string>
+    <string name="app_details_share_apk">分享安装包</string>
+    <string name="app_details_share_apk_preparing">正在准备安装包文件…</string>
+    <string name="app_details_share_apk_preparing_split">正在打包 Split APK (%1$d 个文件)…</string>
+    <string name="app_details_share_apk_failed">分享安装包失败</string>
     <string name="app_details_nolaunch">应用没有默认可启动的活动</string>
     <string name="app_details_apk_file">APK 目录</string>
     <string name="app_details_apk_version_code">应用版本号</string>
