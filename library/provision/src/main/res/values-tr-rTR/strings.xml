@@ -66,5 +66,5 @@
     <string name="provision_system_preparing">Sistem hazırlanıyor…</string>
     <string name="provision_system_complete">Kurulum tamamlandı</string>
     <string name="provision_scope_open_failed">Sayfa açılamıyor</string>
-    <string name="provision_get_md_failed">## İçerik alınamadı\n - Orijinal içeriği görüntülemek için [buraya](%URL%) tıklayabilirsiniz.\n- Ya da bu sayfayı [yenilemeyi](hyperceiler://refresh) deneyin.</string>
+    <string name="provision_get_md_failed" formatted="false">## İçerik alınamadı\n - Orijinal içeriği görüntülemek için [buraya](%URL%) tıklayabilirsiniz.\n- Ya da bu sayfayı [yenilemeyi](hyperceiler://refresh) deneyin.</string>
 </resources>
