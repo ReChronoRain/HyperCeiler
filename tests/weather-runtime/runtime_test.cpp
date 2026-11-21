@@ -41,7 +41,8 @@ Words reply{};
 std::atomic<int> transacts{0}, prepares{0}, deletes{0}, releases{0}, reads{0}, threads{0}, resolve_calls{0}, verify_dart_calls{0};
 std::atomic_bool release_binder{false}, blocked{false};
 std::mutex mu;std::condition_variable cv;
-int parcel_bytes=48,fail_read=-1,transact_status=0,prepare_status=0,create_status=0;
+int parcel_bytes=48,fail_read=-1,transact_status=0,prepare_status=0,create_status=0,initial_unavailable=0,unavailable_at=0;
+std::chrono::steady_clock::time_point provider_ready_at{};
 bool service_present=true,class_null=false,descriptor_null=false,association=true,define_present=true,output_null=false,readable_weather=true,readable_dart=true,resolve_ok=true,clock_error=false;
 std::string descriptor="android.view.IWindowManager";
 bool block_binder=false;int64_t query_duration=0;
@@ -134,11 +135,13 @@ const AIBinder_Class *AIBinder_Class_define(const char*d,void*(*)(void*),void(*)
 bool AIBinder_associateClass(AIBinder*,const AIBinder_Class*c){CHECK(std::string(c->descriptor)=="android.view.IWindowManager");return fx::association;}
 binder_status_t AIBinder_prepareTransaction(AIBinder*,AParcel**p){++fx::prepares;if(fx::prepare_status)return fx::prepare_status;*p=new AParcel;return 0;}
 binder_status_t AIBinder_transact(AIBinder*,transaction_code_t c,AParcel**in,AParcel**out,uint32_t flags){
- CHECK(c==weather_snapshot::kTransaction&&flags==0);++fx::transacts;
+ CHECK(c==weather_snapshot::kTransaction&&flags==0);const int index=++fx::transacts;
  delete *in;*in=nullptr; // Binder consumes the prepared input parcel.
  if(fx::block_binder){fx::blocked=true;fx::cv.notify_all();std::unique_lock l(fx::mu);fx::cv.wait(l,[]{return fx::release_binder.load();});}
  fx::time_ns+=fx::query_duration;
- if(!fx::output_null){*out=new AParcel;auto*p=*out;p->bytes=fx::parcel_bytes;p->fail_index=fx::fail_read;std::copy(fx::reply.begin(),fx::reply.end(),p->values);}
+ const auto received=std::chrono::steady_clock::now();
+ if(index==fx::unavailable_at)fx::provider_ready_at=received+std::chrono::milliseconds(100);
+ if(!fx::output_null){*out=new AParcel;auto*p=*out;p->bytes=fx::parcel_bytes;p->fail_index=fx::fail_read;const auto words=(index<=fx::initial_unavailable||received<fx::provider_ready_at)?weather_snapshot::unavailable_words():fx::reply;std::copy(words.begin(),words.end(),p->values);}
  return fx::transact_status;
 }
 void AIBinder_decStrong(AIBinder*){++fx::releases;}
@@ -151,7 +154,7 @@ void verify(){observe_snapshot("_kDartVmSnapshotData",(void*)(fx::dart_base+weat
 void installed(){CHECK(start_before_entry(fx::weather_base));CHECK(g_phase==Phase::Installed);CHECK(*fx::slot==(uintptr_t)hooked_device_level);CHECK(fx::ready_seen);CHECK(nhk::read_protection((uintptr_t)fx::slot)==PROT_READ);}
 void *call(int32_t s=1){return site_call((void*)0x34567,s,(void*)*fx::slot);}
 void wait_for(std::function<bool()>p){for(int i=0;i<200&&!p();++i)std::this_thread::sleep_for(std::chrono::milliseconds(5));CHECK(p());}
-void neutral(){weather_snapshot::Snapshot s;CHECK(!g_cache.read(fx::time_ns,s)||!s.available||!s.allowed);}
+void neutral(){weather_snapshot::Snapshot s;CHECK(!g_cache.load_snapshot(fx::time_ns,s)||!s.available||!s.allowed);}
 struct Case{std::string name;std::function<void()> run;};
 }
 int main(){std::vector<Case> cases;
@@ -175,7 +178,7 @@ int main(){std::vector<Case> cases;
  add("malformed denied payload rejected",[]{fx::reply[2]=0;poll();neutral();});
  add("canonical denied remains inactive",[]{fx::reply=weather_snapshot::unavailable_words();fx::reply[1]=1;fx::put_long(fx::reply,3,7);fx::put_long(fx::reply,5,1);CHECK(start_before_entry(fx::weather_base));CHECK(g_phase==Phase::Inactive&&g_stop);CHECK(*fx::slot==(uintptr_t)fx::original);});
  add("default cannot late install",[]{fx::reply=fx::active(3);CHECK(start_before_entry(fx::weather_base));CHECK(g_phase==Phase::Inactive&&g_stop);g_cache.publish(fx::active(0,2),fx::time_ns);CHECK(start_before_entry(fx::weather_base));CHECK(*fx::slot==(uintptr_t)fx::original&&fx::threads==1);});
- add("unavailable startup missed",[]{fx::reply=weather_snapshot::unavailable_words();CHECK(!start_before_entry(fx::weather_base));CHECK(g_phase==Phase::Missed&&g_stop);});
+ add("unavailable startup missed within retry budget",[]{fx::reply=weather_snapshot::unavailable_words();const auto began=std::chrono::steady_clock::now();CHECK(!start_before_entry(fx::weather_base));CHECK(std::chrono::steady_clock::now()-began<std::chrono::milliseconds(1500));CHECK(g_phase==Phase::Missed&&g_stop&&fx::threads==1&&fx::transacts>1&&fx::transacts<=20);});
  add("invalid Weather no worker",[]{fx::readable_weather=false;CHECK(!start_before_entry(fx::weather_base)&&fx::threads==0);});
  add("thread failure no write",[]{fx::create_status=EAGAIN;CHECK(!start_before_entry(fx::weather_base));CHECK(g_phase==Phase::Rejected&&*fx::slot==(uintptr_t)fx::original);});
  add("one worker under parallel entry",[]{std::vector<std::thread> ts;for(int i=0;i<8;++i)ts.emplace_back([]{start_before_entry(fx::weather_base);});for(auto&t:ts)t.join();CHECK(fx::threads==1&&g_phase==Phase::Installed);});
@@ -256,6 +259,10 @@ int main(){std::vector<Case> cases;
  add("early lifetime residue remains terminal after adapter clears",[]{fx::reply[10]=3;lifetime_fixture::residue=true;CHECK(!start_before_entry(fx::weather_base));lifetime_fixture::residue=false;CHECK(!start_before_entry(fx::weather_base));observe_snapshot("_kDartVmSnapshotData",(void*)(fx::dart_base+weather_guard::kDartVmDataVa));on_first_card_snapshot(fx::dart_base,0x400000);CHECK(g_phase==Phase::Residue&&fx::threads==0&&fx::transacts==0&&card_fixture::prepares==0&&card_fixture::installs==0&&lifetime_fixture::checks==1);CHECK(*fx::slot==(uintptr_t)fx::original&&!g_level_installed);});
  add("parallel early lifetime residue attempts create zero workers",[]{lifetime_fixture::residue=true;std::atomic<int>accepted{0};std::vector<std::thread>ts;for(int i=0;i<8;++i)ts.emplace_back([&]{if(start_before_entry(fx::weather_base))++accepted;});for(auto&t:ts)t.join();CHECK(accepted==0&&g_phase==Phase::Residue&&fx::threads==0&&fx::transacts==0&&lifetime_fixture::checks==1);CHECK(card_fixture::prepares==0&&fx::material_installs==0&&fx::mprotect_calls==0);});
  CHECK(cases.size()==121);
+ add("cold startup retries unavailable until a configuration arrives",[]{fx::initial_unavailable=2;installed();CHECK(fx::threads==1&&fx::transacts==3);});
+ add("malformed startup reply does not trigger cache-fill retry",[]{fx::reply=weather_snapshot::unavailable_words();fx::reply[9]=0;CHECK(!start_before_entry(fx::weather_base));CHECK(g_phase==Phase::Missed&&g_stop&&fx::transacts==1);});
+ add("regular poll retries once after a delayed provider refresh",[]{fx::reply=fx::active(3);fx::reply[10]=2;fx::unavailable_at=2;CHECK(start_before_entry(fx::weather_base));verify();on_first_card_snapshot(fx::dart_base,0x400000);fx::time_ns+=5'000'000'000LL;fx::reply=fx::active(3,2);fx::reply[10]=3;poll_running();CHECK(fx::transacts==3&&card_fixture::service_read&&card_fixture::at_service.card_type==3);fx::reply=weather_snapshot::unavailable_words();poll_running();CHECK(fx::transacts==5&&fx::threads==1);neutral();});
+ CHECK(cases.size()==124);
  int failed=0;for(auto &c:cases){pid_t child=fork();if(child==0){try{fx::setup();c.run();std::cout<<"PASS "<<c.name<<std::endl;_exit(0);}catch(const std::exception&e){std::cerr<<"FAIL "<<c.name<<": "<<e.what()<<std::endl;_exit(1);}}CHECK(child>0);int status=0;CHECK(waitpid(child,&status,0)==child);if(!WIFEXITED(status)||WEXITSTATUS(status)!=0){++failed;if(!WIFEXITED(status))std::cerr<<"SIGNAL "<<c.name<<" status="<<status<<std::endl;}}
  std::cout<<"RESULT cases="<<cases.size()<<" failed="<<failed<<std::endl;return failed?1:0;
 }

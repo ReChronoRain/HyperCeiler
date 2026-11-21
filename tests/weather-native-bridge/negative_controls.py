@@ -5,7 +5,7 @@ import argparse,concurrent.futures,hashlib,json,subprocess,sys
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True);b=Path(__file__).resolve().parent;r=b.parents[1];src=r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/weather/WeatherNativeEndpointOS4.java';original=src.read_text()
 cases=[
  ('drop_caller_verifier',' || !verifier.isWeather(uid, pid)',''),
- ('renew_lease_after_query','published = new Published(values, epoch, ++revision, started + LEASE_NS);','published = new Published(values, epoch, ++revision, now + LEASE_NS);'),
+ ('renew_lease_after_query','published = new Published(pid, values, epoch, ++revision, started + LEASE_NS);','published = new Published(pid, values, epoch, ++revision, now + LEASE_NS);'),
  ('drop_global_gate','boolean allowed = v.allow() && FrameworkHookGate','boolean allowed = FrameworkHookGate'),
  ('default_level_zero','number(row[0], 3)','number(row[0], 0)'),
  ('map_raw_level_plus_one','new Values(level, card, blur,','new Values(level + 1, card, blur,'),
