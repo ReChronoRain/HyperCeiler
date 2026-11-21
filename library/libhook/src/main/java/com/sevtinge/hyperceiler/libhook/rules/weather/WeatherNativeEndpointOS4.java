@@ -23,21 +23,10 @@ public final class WeatherNativeEndpointOS4 {
     public static final int ACK = 0x48575331;
     public static final int REPLY_BYTES = 48;
     private static final long LEASE_NS = 5_000_000_000L;
-    /** Interactive cadence; the card can only show a fresher lease while the panel is drawing. */
-    private static final long ACTIVE_REFRESH_MS = 1500;
-    /**
-     * Cadence while the panel is non-interactive: a cycle is a cross-process query into the module
-     * app, which the platform has most likely reclaimed by then, and a doze card cannot observe the
-     * fresher lease it buys. 30 s is the cap this class already uses for provider failure.
-     */
-    private static final long DOZE_REFRESH_MS = 30000;
-    /**
-     * Idle periods are slept in slices this long so the first interactive cycle, and with it the
-     * first lease the wake can use, starts within a slice of the wake rather than up to
-     * {@link #DOZE_REFRESH_MS} after it. A slice is a local read of this process's own power
-     * service, which is what keeps a 20x reduced idle cadence from costing a stale card at unlock.
-     */
-    private static final long IDLE_SLICE_MS = 1000;
+    private static final long ACTIVE_REFRESH_NS = 1_500_000_000L;
+    // Give a transient failure one retry within the native client's one-second startup budget.
+    private static final long QUICK_RETRY_NS = 250_000_000L;
+    private static final long MAX_REFRESH_DELAY_NS = 30_000_000_000L;
     private static final String PACKAGE = "com.miui.weather2";
     private static final String[][] SPECS = WeatherPrefsSnapshot.specs();
     private static final Object WORKER_LOCK = new Object();
@@ -53,31 +42,55 @@ public final class WeatherNativeEndpointOS4 {
     private long epoch;
     private long revision;
     private long ticket;
+    // Guarded by WORKER_LOCK. The queued PID remains set until the query finishes.
+    private int refreshPid;
+    private long lastRefreshNs;
+    private long retryDelayNs = ACTIVE_REFRESH_NS;
 
     @FunctionalInterface interface CallerVerifier { boolean isWeather(int uid, int pid); }
     private record Values(int level, int card, int blur, boolean allow, boolean frameworkAllow,
         String reason, FrameworkHookGate.Fingerprint framework) { }
-    private record Published(Values values, long epoch, long revision, long deadline) { }
+    private record Published(int pid, Values values, long epoch, long revision, long deadline) { }
     public record Snapshot(int available, int flags, long epoch, long revision, long deadline,
         int deviceLevel, int cardType, int blur) { }
 
     public WeatherNativeEndpointOS4() { this(WeatherNativeEndpointOS4::verifyWeatherProcess); }
     WeatherNativeEndpointOS4(CallerVerifier verifier) { this.verifier = verifier; }
 
-    /** Install routing first. Neither receive nor readSnapshot starts or waits for this worker. */
-    public void startPrefetch() {
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    void activate() {
         synchronized (WORKER_LOCK) {
             if (retired || (owner != null && owner != this && !owner.retired)) return;
             owner = this;
-            if (worker != null) return;
-            worker = new Thread(WeatherNativeEndpointOS4::workerLoop, "hc-weather-prefs");
-            worker.setDaemon(true);
-            worker.start();
         }
     }
 
-    // Owner changes are lifecycle transitions between endpoint instances, irrespective of equality.
+    private static void startWorkerLocked() {
+        if (worker != null) return;
+        Thread next = new Thread(WeatherNativeEndpointOS4::workerLoop, "hc-weather-prefs");
+        next.setDaemon(true);
+        next.start();
+        worker = next;
+    }
+
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    private void requestRefresh(int pid) {
+        boolean interactive = screenInteractive();
+        long now = SystemClock.elapsedRealtimeNanos();
+        synchronized (WORKER_LOCK) {
+            if (owner != this || retired || refreshPid != 0 || now <= 0) return;
+            Published value = published;
+            boolean cold = value == null || value.pid() != pid;
+            long delay = interactive || cold ? retryDelayNs : MAX_REFRESH_DELAY_NS;
+            // A new PID can bypass periodic throttling, but not provider failure backoff.
+            if (cold && delay == ACTIVE_REFRESH_NS) delay = QUICK_RETRY_NS;
+            if (lastRefreshNs > 0 && now - lastRefreshNs < delay) return;
+            startWorkerLocked();
+            refreshPid = pid;
+            WORKER_LOCK.notifyAll();
+        }
+    }
+
     private static boolean screenInteractive() {
         try {
             android.os.PowerManager manager = powerManager;
@@ -95,56 +108,46 @@ public final class WeatherNativeEndpointOS4 {
         }
     }
 
-    /**
-     * Sleep a period, but in {@link #IDLE_SLICE_MS} slices while the panel is non-interactive, so an
-     * owner change (which interrupts this thread) and the first interactive cycle both take effect on
-     * the next slice rather than after the whole idle period.
-     */
-    private static void sleepWithIdleGate(long delay) throws InterruptedException {
-        if (delay <= IDLE_SLICE_MS || screenInteractive()) {
-            Thread.sleep(delay);
-            return;
-        }
-        long remaining = delay;
-        while (remaining > 0) {
-            Thread.sleep(Math.min(remaining, IDLE_SLICE_MS));
-            if (screenInteractive()) return;
-            remaining -= IDLE_SLICE_MS;
-        }
-    }
-
-    /**
-     * Cadence for the next cycle: the retry ladder is exactly what it was while the panel is
-     * interactive, and doze only raises the floor to {@link #DOZE_REFRESH_MS}.
-     */
-    static long nextDelay(long previousDelay, boolean refreshed, boolean interactive) {
-        final long ladder = refreshed ? ACTIVE_REFRESH_MS
-            : Math.min(Math.max(previousDelay, ACTIVE_REFRESH_MS) * 2, DOZE_REFRESH_MS);
-        return interactive ? ladder : Math.max(ladder, DOZE_REFRESH_MS);
-    }
-
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     private static void workerLoop() {
-        long delay = ACTIVE_REFRESH_MS;
         try {
             for (;;) {
                 final WeatherNativeEndpointOS4 current;
+                final int pid;
                 synchronized (WORKER_LOCK) {
+                    while (owner != null && owner.refreshPid == 0) {
+                        try { WORKER_LOCK.wait(); } catch (InterruptedException changedOwner) { }
+                    }
                     current = owner;
                     if (current == null) return;
+                    pid = current.refreshPid;
+                    Thread.interrupted();
                 }
-                Thread.interrupted();
-                // The failure ladder is unchanged while the panel is interactive; doze only lifts
-                // the floor, and the slice loop below returns early the moment it stops being doze.
-                delay = nextDelay(delay, current.refreshFromProvider(), screenInteractive());
-                synchronized (WORKER_LOCK) { if (owner != current) continue; }
-                try { sleepWithIdleGate(delay); } catch (InterruptedException changedOwner) { }
+                final long started = SystemClock.elapsedRealtimeNanos();
+                boolean refreshed = false;
+                try {
+                    refreshed = current.refreshFromProvider(pid);
+                } finally {
+                    synchronized (WORKER_LOCK) {
+                        current.lastRefreshNs = refreshed ? started : SystemClock.elapsedRealtimeNanos();
+                        if (refreshed) {
+                            current.retryDelayNs = ACTIVE_REFRESH_NS;
+                        } else if (current.retryDelayNs == ACTIVE_REFRESH_NS) {
+                            current.retryDelayNs = QUICK_RETRY_NS;
+                        } else {
+                            current.retryDelayNs = Math.min(Math.max(current.retryDelayNs, ACTIVE_REFRESH_NS) * 2,
+                                MAX_REFRESH_DELAY_NS);
+                        }
+                        current.refreshPid = 0;
+                    }
+                }
             }
         } finally {
             synchronized (WORKER_LOCK) {
                 if (worker == Thread.currentThread()) {
                     worker = null;
-                    // A replacement may have arrived between the null-owner check and finally.
-                    if (owner != null && !owner.retired) owner.startPrefetch();
+                    // A replacement may have queued demand between the null-owner check and finally.
+                    if (owner != null && !owner.retired && owner.refreshPid != 0) startWorkerLocked();
                 }
             }
         }
@@ -167,10 +170,11 @@ public final class WeatherNativeEndpointOS4 {
 
     private void invalidateLocked() {
         if (epoch == 0 || revision == Long.MAX_VALUE) { published = null; return; }
-        published = new Published(null, epoch, ++revision, 0);
+        Published previous = published;
+        published = new Published(previous == null ? 0 : previous.pid(), null, epoch, ++revision, 0);
     }
 
-    boolean refreshFromProvider() {
+    boolean refreshFromProvider(int pid) {
         final long attempt;
         synchronized (lock) {
             if (retired) return false;
@@ -182,7 +186,7 @@ public final class WeatherNativeEndpointOS4 {
         }
         final long started = SystemClock.elapsedRealtimeNanos();
         boolean success;
-        try { success = refresh(attempt, started); }
+        try { success = refresh(pid, attempt, started); }
         catch (RuntimeException | Error unavailable) { success = false; }
         synchronized (lock) {
             if (!success && ticket == attempt && !retired) invalidateLocked();
@@ -190,7 +194,7 @@ public final class WeatherNativeEndpointOS4 {
         return success;
     }
 
-    private boolean refresh(long attempt, long started) {
+    private boolean refresh(int pid, long attempt, long started) {
         if (started <= 0 || started > Long.MAX_VALUE - LEASE_NS) return false;
         Values values = queryProviderValues();
         if (values == null) return false;
@@ -201,7 +205,7 @@ public final class WeatherNativeEndpointOS4 {
             if (retired || ticket != attempt || revision == Long.MAX_VALUE
                 || now < started || now >= started + LEASE_NS) return false;
             if (epoch == 0) epoch = nonce;
-            published = new Published(values, epoch, ++revision, started + LEASE_NS);
+            published = new Published(pid, values, epoch, ++revision, started + LEASE_NS);
         }
         return true;
     }
@@ -269,20 +273,20 @@ public final class WeatherNativeEndpointOS4 {
             value == null ? 0 : value.revision(), 0, 3, 0, 0);
     }
 
-    Snapshot readSnapshot() {
-        Snapshot result = tryReadSnapshot();
+    Snapshot readSnapshot(int pid) {
+        Snapshot result = tryReadSnapshot(pid);
         if (result != null) return result;
-        result = tryReadSnapshot();
+        result = tryReadSnapshot(pid);
         return result == null ? unavailable(published) : result;
     }
 
     /** Null requests one retry after retirement or a concurrent publication. */
     // A refreshed record with equal contents is still a new publication; validate its identity.
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
-    private Snapshot tryReadSnapshot() {
+    private Snapshot tryReadSnapshot(int pid) {
         Published value = published;
         long now = SystemClock.elapsedRealtimeNanos();
-        if (!isLeaseLive(value, now)) return unavailable(value);
+        if (!isLeaseLive(value, now) || value.pid() != pid) return unavailable(value);
         Values v = value.values();
         boolean allowed = isAllowed(v);
         long finished = SystemClock.elapsedRealtimeNanos();
@@ -313,7 +317,8 @@ public final class WeatherNativeEndpointOS4 {
         int uid = Binder.getCallingUid();
         int pid = Binder.getCallingPid();
         if (uid < 10000 || pid <= 0 || !verifier.isWeather(uid, pid)) return unavailable(null);
-        return readSnapshot();
+        requestRefresh(pid);
+        return readSnapshot(pid);
     }
 
     /** Fixed wire, neutral default level=3 (level=0 would incorrectly force low). */

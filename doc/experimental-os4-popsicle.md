@@ -34,6 +34,9 @@ are not counted as additional user features.
 - Home and Weather use a **separate experimental native companion** with Zygisk
   Next API 4 / Hyos Runtime API 1. Building or installing the APK alone does not
   deliver these native paths. The APK's system scope supplies their configuration.
+  Update the APK and companion together from the same revision: the on-demand
+  Weather bridge can return an unavailable first reply, which older companions
+  do not retry before deciding whether to install their startup hooks.
 - Native paths depend on exact image/build IDs, instruction/import guards,
   startup ordering and expiring coherent snapshots. Mismatches are declined.
   The companion installer is restricted to the stated device/ROM.
