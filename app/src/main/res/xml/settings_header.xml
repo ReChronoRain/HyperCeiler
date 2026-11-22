@@ -424,6 +424,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/miui_passwords"
+        android:summary="com.miui.passwords"
+        android:title="@string/miui_passwords"
+        app:inflatedXml="@xml/miui_passwords"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/scanner"
         android:summary="com.xiaomi.scanner"
         android:title="@string/scanner_hyper"
