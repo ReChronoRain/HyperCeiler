@@ -34,6 +34,6 @@ public final class WeatherNativeBridgeOS4 extends BaseHook {
                 }
             });
         registerHotReloadCleanup(endpoint::retire);
-        endpoint.startPrefetch();
+        endpoint.activate();
     }
 }

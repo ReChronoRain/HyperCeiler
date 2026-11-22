@@ -1518,6 +1518,8 @@
     <string name="screenshot_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
     <string name="screenshot_unlock_copy_to_clipboard">Unlock auto-copy screenshot to clipboard</string>
     <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
+    <string name="screenshot_save_mode_keep_both">Keep original screenshot</string>
+    <string name="screenshot_save_mode_keep_both_desc">Keep the original screenshot when saving edited screenshots</string>
     <string name="screenshot_save_to_pictures_desc">Set screenshot save location to /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Custom screenshot model shell</string>
     <string name="screenshot_device_customize_desc">Please enter the device code, and the colored device should be filled with a suffix, for example:\n• Xiaomi 13, fill in the content is fuxi\n• Xiaomi 14 pink version, fill in the content is houji_PK</string>
@@ -1621,6 +1623,14 @@
     <string name="security_center_sidebar_videobox_title">Video toolbox</string>
     <string name="security_center_sidebar_gamebox_title">Gamebox</string>
     <string name="security_center_sidebar_function_title">Sidebar function</string>
+    <string name="security_center_sidebar_bgm_title">BGM recognition</string>
+    <string name="security_center_sidebar_bgm_enable">Custom BGM recognition app</string>
+    <string name="security_center_sidebar_bgm_target_activity">Custom recognition Activity</string>
+    <string name="security_center_sidebar_bgm_target_activity_summary">Enter a component, e.g. com.example.app/.RecognitionActivity. Default: NetEase Cloud Music recognition Activity.</string>
+    <string name="security_center_sidebar_bgm_hook_route_title">Interception route</string>
+    <string name="security_center_sidebar_bgm_hook_route_summary">Switch hook point. Intercepts the Intent Security Center is about to send, then rebuilds it.</string>
+    <string name="security_center_sidebar_bgm_route_security_center_instrumentation">Instrumentation: intercept in-app Activity launch requests</string>
+    <string name="security_center_sidebar_bgm_route_security_center_binder">ActivityTaskManager Binder: IPC for sending launch requests to system services</string>
     <string name="security_center_game_speed">Launch the game quickly</string>
     <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games.</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Bypass Xiaomi Account SIM security</string>
@@ -1706,6 +1716,10 @@
     <string name="miui_passwords">Passwords</string>
     <string name="totp_sync">Sync TOTP Tokens</string>
     <string name="totp_sync_desc">Complete sync TOTP Tokens functions</string>
+    <!--MI FIDO-->
+    <string name="fido_asm">MI FIDO</string>
+    <string name="unlock_passkeys">Unlock Passkeys</string>
+    <string name="unlock_passkeys_desc">Allow third-party applications to create and authenticate passkeys</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>

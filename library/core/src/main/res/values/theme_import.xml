@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="theme_manager_restore_local_import">Restore local theme import</string>
+    <string name="theme_manager_restore_local_import_desc">Restore the native import button in the local theme list. Restart Themes after changing this option. Experimental: compatibility depends on the app structure; theme validation is unchanged.</string>
+</resources>

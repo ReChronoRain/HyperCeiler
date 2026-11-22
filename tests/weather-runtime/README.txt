@@ -5,9 +5,10 @@ Run from project root into a new evidence directory:
 
 The source includes complete production weather_runtime.cpp, HWS1 Cache/decode
 and DeviceLevel policy. All prior 92 controller cases remain and are asserted
-before adding 25 card-routing cases. Those117 cases are retained unchanged,
-then four early-lifetime-residue admission cases bring the expected total to121.
-All19 prior mutations remain; one new mutation removes the real early gate.
+before adding 25 card-routing cases, four early-lifetime-residue cases and
+three refresh retry cases, for 124 total. A valid unavailable reply can be
+retried within the original one-second startup budget or once per regular
+poll. Malformed replies are not retried.
 
 weather_card_runtime is explicitly replaced by card_adapter.h for this suite.
 Its configurable prepare/install result and cancellation state let tests check

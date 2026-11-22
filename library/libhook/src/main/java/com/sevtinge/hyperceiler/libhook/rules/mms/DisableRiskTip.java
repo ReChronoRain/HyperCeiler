@@ -48,7 +48,11 @@ public class DisableRiskTip extends BaseHook {
 
     @Override
     protected boolean initDexKit() {
-        mMethod1 = requiredMember("Method1", new IDexKit() {
+        // 改动日志 (2026.11.06)：
+        // Method1 的锚点串在 OS3.0.319 / OS4.0.0.44 / OS4.0.5.0 三版里都只命中 1 个方法（B1/a#b 与 x3/a#b），
+        // 保持不动；但 requiredMember 在查不到时会抛异常，把同一条规则里与 DexKit 完全无关的反射 Hook 一并带坑，
+        // 所以降为 optionalMember，并在 init() 里逐个判空。
+        mMethod1 = optionalMember("Method1", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -58,14 +62,21 @@ public class DisableRiskTip extends BaseHook {
                 return methodData;
             }
         });
-        mMethod2 = requiredMember("Method2", new IDexKit() {
+        mMethod2 = optionalMember("Method2", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                // 原查询（usingStrings("fillYellowPageContact: ", "ContactFetcher") + void + 2 参）只在 OS3 命中；
+                // OS4.0.0.44 与 OS4.0.5.0 里“ContactFetcher”这个日志标签已被移除，两串 AND 后 0 命中，
+                // 整条规则被跳过。改用“类名 + 方法名 + 精确入参类型 + void”这个结构不变量：
+                // YellowpageContactFetcher#fillYellowPageContact(SmartContact, YellowPagePhone)V 在三版里名字与签名均未漂。
+                // 已在三版反汇编上离线复算：三版均收敛为 1 个命中。
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                     .matcher(MethodMatcher.create()
-                        .usingStrings("fillYellowPageContact: ", "ContactFetcher")
+                        .declaredClass("com.miui.smsextra.internal.sdk.xiaomi.YellowpageContactFetcher")
+                        .name("fillYellowPageContact")
+                        .paramTypes("com.miui.smsextra.sdk.SmartContact",
+                                "com.miui.smsextra.internal.sdk.xiaomi.YellowPagePhone")
                         .returnType(void.class)
-                        .paramCount(2)
                     )).singleOrNull();
                 return methodData;
             }
@@ -102,7 +113,7 @@ public class DisableRiskTip extends BaseHook {
                     }
                 });
         }
-        hookMethod(mMethod1, new IMethodHook() {
+        if (mMethod1 != null) hookMethod(mMethod1, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 // XposedLog.d("smsrisk g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
@@ -112,7 +123,7 @@ public class DisableRiskTip extends BaseHook {
                 // XposedLog.d("smsrisk 2 g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
             }
         });
-        hookMethod(mMethod2, new IMethodHook() {
+        if (mMethod2 != null) hookMethod(mMethod2, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 // XposedLog.d("smsrisk n6.p "+getObjectField(param.getArgs()[0], "mRiskType"));

@@ -38,6 +38,12 @@
             android:key="prefs_key_theme_manager_unlock_ai_wallpaper"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:title="@string/theme_manager_restore_local_import"
+            android:summary="@string/theme_manager_restore_local_import_desc"
+            android:key="prefs_key_theme_manager_restore_local_import"
+            android:defaultValue="false" />
+
         <fan.preference.DropDownPreference
             android:key="prefs_key_theme_manager_new_version_code_modify"
             android:summary="@string/theme_manager_version_code_modify_desc"

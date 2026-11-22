@@ -428,6 +428,13 @@
         android:summary="com.miui.passwords"
         android:title="@string/miui_passwords"
         app:inflatedXml="@xml/miui_passwords"/>
+  
+     <header
+        android:icon="@drawable/ic_default" 
+        android:id="@+id/fido"
+        android:summary="com.fido.asm"
+        android:title="@string/fido_asm"
+        app:inflatedXml="@xml/fido_asm"/>
 
     <header
         android:icon="@drawable/ic_default"
