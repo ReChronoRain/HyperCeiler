@@ -430,8 +430,19 @@ object AmbientLightOS4 : BaseHook() {
         slot.syncing = true
         try {
             val params = view.layoutParams
-            if (params.width != original.width || params.height != original.height) {
-                params.width = original.width; params.height = original.height; view.layoutParams = params
+            val originalParams = original.layoutParams
+            val width = if (originalParams != null && originalParams.width > 0) {
+                originalParams.width
+            } else {
+                original.width
+            }
+            val height = if (originalParams != null && originalParams.height > 0) {
+                originalParams.height
+            } else {
+                original.height
+            }
+            if (params.width != width || params.height != height) {
+                params.width = width; params.height = height; view.layoutParams = params
             }
             view.x = original.x; view.y = original.y
         } finally { slot.syncing = false }
