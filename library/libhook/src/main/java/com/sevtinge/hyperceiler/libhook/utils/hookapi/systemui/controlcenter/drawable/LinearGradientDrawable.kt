@@ -33,6 +33,7 @@ class LinearGradientDrawable(
     useAnim: Boolean = true
 ) : MediaControlBgDrawable(artwork, colorConfig, useAnim) {
     private var gradient: GradientDrawable = GradientDrawable()
+    private val gradientColors = IntArray(2)
 
     private var sourceColor: Int = colorConfig.bgStartColor
     private var currentColor: Int = colorConfig.bgStartColor
@@ -43,10 +44,9 @@ class LinearGradientDrawable(
         gradient.orientation = GradientDrawable.Orientation.LEFT_RIGHT
         gradient.shape = GradientDrawable.RECTANGLE
         background.color = currentColor
-        gradient.colors = intArrayOf(
-            currentColor and 0x00ffffff or (51 shl 24),
-            currentColor and 0x00ffffff or (51 shl 24)
-        )
+        gradientColors[0] = currentColor and 0x00ffffff or (51 shl 24)
+        gradientColors[1] = currentColor and 0x00ffffff or (51 shl 24)
+        gradient.colors = gradientColors
     }
 
     override fun onBoundsChange(bounds: Rect) {
@@ -103,10 +103,9 @@ class LinearGradientDrawable(
                 it.alpha = 255
             }
         }
-        gradient.colors = intArrayOf(
-            currentColor,
-            currentColor and 0x00ffffff or (51 shl 24),
-        )
+        gradientColors[0] = currentColor
+        gradientColors[1] = currentColor and 0x00ffffff or (51 shl 24)
+        gradient.colors = gradientColors
         gradient.setBounds(bounds.width() - currentSize, 0, bounds.width(), bounds.height())
         gradient.draw(p0)
         scheduleNextFrameIfAnimating()

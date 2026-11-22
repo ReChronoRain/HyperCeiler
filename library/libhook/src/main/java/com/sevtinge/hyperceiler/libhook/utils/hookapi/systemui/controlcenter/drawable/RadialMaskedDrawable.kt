@@ -33,6 +33,7 @@ class RadialMaskedDrawable(
     private var endColor: Int = Color.BLACK
 ) : Drawable() {
     private var gradient: GradientDrawable = GradientDrawable()
+    private val gradientColors = IntArray(2)
     private var background: ColorDrawable = ColorDrawable()
 
     init {
@@ -54,10 +55,9 @@ class RadialMaskedDrawable(
         background.draw(p0)
         artwork.setBounds(0, 0, bounds.width(), bounds.height())
         artwork.draw(p0)
-        gradient.colors = intArrayOf(
-            startColor and 0x00ffffff or (64 shl 24),
-            endColor and 0x00ffffff or (255 shl 24)
-        )
+        gradientColors[0] = startColor and 0x00ffffff or (64 shl 24)
+        gradientColors[1] = endColor and 0x00ffffff or (255 shl 24)
+        gradient.colors = gradientColors
         gradient.setBounds(0, 0, bounds.width(), bounds.height())
         gradient.gradientRadius = max(bounds.width(), bounds.height()).toFloat()
         gradient.draw(p0)

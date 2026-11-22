@@ -35,6 +35,7 @@ class RadialGradientDrawable(
     useAnim: Boolean = true
 ) : MediaControlBgDrawable(artwork, colorConfig, useAnim) {
     private var gradient: GradientDrawable = GradientDrawable()
+    private val gradientColors = IntArray(2)
 
     private var sourceStartColor: Int = colorConfig.bgStartColor
     private var currentStartColor: Int = colorConfig.bgStartColor
@@ -112,10 +113,9 @@ class RadialGradientDrawable(
                     it.alpha = 255
                 }
             }
-            gradient.colors = intArrayOf(
-                currentStartColor and 0x00ffffff or (64 shl 24),
-                currentEndColor and 0x00ffffff or (255 shl 24)
-            )
+            gradientColors[0] = currentStartColor and 0x00ffffff or (64 shl 24)
+            gradientColors[1] = currentEndColor and 0x00ffffff or (255 shl 24)
+            gradient.colors = gradientColors
             gradient.bounds = drawBoundsRect
             gradient.draw(this)
 
