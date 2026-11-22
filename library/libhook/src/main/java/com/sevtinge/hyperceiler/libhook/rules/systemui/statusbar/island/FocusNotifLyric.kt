@@ -44,11 +44,17 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setLongField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 // author git@wuyou-123
 // co-author git@lingqiqi5211
 object FocusNotifLyric : MusicBaseHook() {
+    private val notificationScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private val notificationJobLock = Any()
+    private var notificationJob: Job? = null
     private const val STATE_SCROLLING_TEXT_VIEW = "FocusNotifLyric.scrollingTextView"
     private var speed = -0.1f
     private var lastLyric: String? = ""
@@ -72,6 +78,7 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     override fun init() {
+        registerHotReloadCleanup(notificationScope::cancel)
         getHotReloadRuntimeState(STATE_SCROLLING_TEXT_VIEW, TextView::class.java)
             ?.let(::installNoopRestartCallback)
         registerHotReloadCleanup {
@@ -193,8 +200,11 @@ object FocusNotifLyric : MusicBaseHook() {
         }
 
         if (!isShowApp && data.lyric!!.text.isNotEmpty()) {
-            CoroutineScope(Dispatchers.Main).launch {
-                sendNotification(data.lyric!!.text, data)
+            synchronized(notificationJobLock) {
+                notificationJob?.cancel()
+                notificationJob = notificationScope.launch {
+                    sendNotification(data.lyric!!.text, data)
+                }
             }
         }
     }

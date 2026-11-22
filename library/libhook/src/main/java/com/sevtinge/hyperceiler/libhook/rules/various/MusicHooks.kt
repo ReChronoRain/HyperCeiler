@@ -23,11 +23,18 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 object MusicHooks : MusicBaseHook() {
+    private val notificationScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private val notificationJobLock = Any()
+    private var notificationJob: Job? = null
 
     override fun init() {
+        registerHotReloadCleanup(notificationScope::cancel)
         /*if (lpparam.packageName == "com.salt.music") {
             val clazz = loadClassOrNull("cn.lyric.getter.api.API")
             clazz?.constructorFinder()?.first()?.createHook {
@@ -52,8 +59,11 @@ object MusicHooks : MusicBaseHook() {
     override fun onSuperLyric(packageName: String?, data: SuperLyricData) {
         if (packageName == context.packageName && PrefsBridge.getBoolean("system_ui_statusbar_music_show_app")) {
             if (data.lyric!!.text.isNotEmpty()) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    sendNotification(data.lyric!!.text, data)
+                synchronized(notificationJobLock) {
+                    notificationJob?.cancel()
+                    notificationJob = notificationScope.launch {
+                        sendNotification(data.lyric!!.text, data)
+                    }
                 }
             }
         }
