@@ -73,7 +73,7 @@ public class FuckMiuiUpload extends BaseHook {
             }
         });
 
-        mNetworkUtil = requiredMember("NetworkUtil", new IDexKit() {
+        mNetworkUtil = optionalMember("NetworkUtil", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -84,7 +84,12 @@ public class FuckMiuiUpload extends BaseHook {
             }
         });
 
-        mNetworkA = requiredMember("NetworkA", new IDexKit() {
+        if (mNetworkUtil == null) {
+            XposedLog.w(TAG, getPackageName(), "NetworkUtil not found; keeping usage hooks active");
+            return true;
+        }
+
+        mNetworkA = optionalMember("NetworkA", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -97,7 +102,7 @@ public class FuckMiuiUpload extends BaseHook {
             }
         });
 
-        mNetworkB = requiredMember("NetworkB", new IDexKit() {
+        mNetworkB = optionalMember("NetworkB", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -110,7 +115,7 @@ public class FuckMiuiUpload extends BaseHook {
             }
         });
 
-        mNetworkC = requiredMember("NetworkC", new IDexKit() {
+        mNetworkC = optionalMember("NetworkC", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -142,26 +147,46 @@ public class FuckMiuiUpload extends BaseHook {
             }
         }
 
-        hookMethod(mNetworkA, new IMethodHook() {
+        if (mNetworkA != null) hookMethod(mNetworkA, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(0);
             }
         });
 
-        hookMethod(mNetworkB, new IMethodHook() {
+        if (mNetworkB != null) hookMethod(mNetworkB, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult("NONE");
             }
         });
 
-        hookMethod(mNetworkC, new IMethodHook() {
+        if (mNetworkC != null) hookMethod(mNetworkC, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(false);
             }
         });
+
+        // HyperOS 4 merged NetworkUtil into this utility class. Its network
+        // state methods can still be identified by their verified signatures.
+        if (mNetworkUtil == null) {
+            Class<?> mergedNetworkUtil = findClassIfExists("a.b.a.a.a.c.a");
+            if (mergedNetworkUtil != null) {
+                findAndHookMethod(mergedNetworkUtil, "V", Context.class, new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        param.setResult("NONE");
+                    }
+                });
+                findAndHookMethod(mergedNetworkUtil, "l0", new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        param.setResult(false);
+                    }
+                });
+            }
+        }
 
         /*int needmod = 0;
         Class<?> classs = null;
@@ -241,4 +266,3 @@ public class FuckMiuiUpload extends BaseHook {
         }*/
     }
 }
-
