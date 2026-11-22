@@ -7,30 +7,60 @@ import android.net.Uri
 import android.os.Handler
 import android.provider.Settings
 import android.view.Surface
+import android.view.View
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
-import io.github.lingqiqi5211.ezhooktool.core.findMethod
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
-import io.github.lingqiqi5211.ezhooktool.core.loadClass
-import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import java.util.function.Supplier
 
+/**
+ * Android 16+（SDK >= 36）分支的旋转建议按钮规则。
+ *
+ * 本加载器（SystemUIB，minSdk = 36）要同时覆盖 Android 16（OS3）与 Android 17（OS4），
+ * 两个世代的 ROM 又各自被 R8 反复脱糖/内联，所以这里不再钉死任何一类"版本特征"：
+ *  - 不写脱糖 lambda 的编号（NavigationBarView 的方向 Supplier 在 OS3 上是
+ *    $$ExternalSyntheticLambda1，在 OS4 的 44/405 上漂移到了 $$ExternalSyntheticLambda0，
+ *    编号完全不可靠；硬编码 1 曾导致 OS4 上 findMethod("get") 落空、整个 init 中断）；
+ *  - 不按 Android / ROM 版本号挑选挂钩目标；
+ *  - 只按编译器保证的结构特征匹配：函数式接口 + 方法名与参数表 + 捕获字段类型 = 宿主类。
+ *
+ * 上述三条不变量已在 OS 3.0.319.0（Android 16）、OS 4.0.0.44 与 OS 4.0.5.0（Android 17）
+ * 三份固件的 dexdump 上逐一核验，均命中且各自唯一。
+ * 另外每个挂钩点独立注册、各自兜底：某一点在本版本缺失时只跳过它自己，
+ * 绝不连带同一规则里的其余挂钩一起失败。
+ *
+ * 实现要点（原属各私有常量的说明，移至此处以免触发 lint）:
+ *  - NavigationBar / NavigationBarView 在挪包重构前后各有一个包名，都试，与版本号无关
+ *  - 脱糖类的编号上界：只用来限制穷举范围，不作为任何版本判据
+ *  - 编译期脱糖类的统一前缀；编号会随版本漂移，前缀本身是编译器写死的
+ */
 object RotationButtonB : BaseHook() {
 
     private const val STATE_NAVIGATION_BAR = "RotationButtonB.navigationBar"
     private const val STATE_CONTEXT = "RotationButtonB.context"
 
-    var isListen: Boolean = false
-    private val enable by lazy {
-        PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1
-    }
-    private val navigationBar by lazy {
-        loadClass("com.android.systemui.navigationbar.views.NavigationBar")
-    }
+    private val NAV_BAR_CANDIDATES = arrayOf(
+        "com.android.systemui.navigationbar.views.NavigationBar",
+        "com.android.systemui.navigationbar.NavigationBar",
+    )
+    private val NAV_BAR_VIEW_CANDIDATES = arrayOf(
+        "com.android.systemui.navigationbar.views.NavigationBarView",
+        "com.android.systemui.navigationbar.NavigationBarView",
+    )
+    private const val ROTATION_CONTROLLER =
+        "com.android.systemui.shared.rotation.RotationButtonController"
+    private const val MAX_LAMBDA_INDEX = 64
+    private const val DESUGARED_PREFIX = "\$\$ExternalSyntheticLambda"
+
+    var isListen = false
+
+    private val enable: Boolean
+        get() = PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1
 
     override fun init() {
         if (enable) {
@@ -44,51 +74,311 @@ object RotationButtonB : BaseHook() {
             }
         }
 
-        Constructors.find(navigationBar)
-            .toList().createAfterHooks {
-                if (!enable) return@createAfterHooks
-
-                val mContext =
-                    it.thisObject.getObjectFieldAs("mContext") as Context?
-                ensureRotationObserver(it.thisObject, mContext)
-            }
-
-        loadClass($$$"com.android.systemui.navigationbar.views.NavigationBarView$$ExternalSyntheticLambda1").findMethod { name("get") }.createBeforeHook {
-                if (!enable) return@createBeforeHook
-
-                val navigationBarView = it.thisObject.getObjectField("f$0") ?: return@createBeforeHook
-                val mLightContext =
-                    navigationBarView.getObjectField("mLightContext") as Context
-                val intValue = when (getScreenOrientation(mLightContext)) {
-                    0 -> 1
-                    1 -> 0
-                    else -> -1
+        val navigationBarClass = findFirstClass(NAV_BAR_CANDIDATES)
+        if (navigationBarClass != null) {
+            hookAllConstructors(navigationBarClass, object : IMethodHook {
+                override fun after(param: HookParam) {
+                    if (!enable) return
+                    ensureRotationObserver(param.thisObject, resolveContext(param.thisObject))
                 }
-                if (intValue == -1) {
-                    XposedLog.e(TAG, lpparam.packageName, "Unknown parameters, unable to continue execution, execute the original method!")
-                    return@createBeforeHook
-                }
-                it.result = intValue
-            }
-
-        navigationBar.findMethod { name("onRotationProposal") }.createBeforeHook {
-                if (!enable) {
-                    it.result = null
-                }
-            }
-
-        loadClass($$$"com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda5").findMethod { name("onClick") }.createBeforeHook {
-                if (enable) {
-                    val rotationButtonController =
-                        it.thisObject.getObjectField("f$0") ?: return@createBeforeHook
-
-                    rotationButtonController.callMethod(
-                        "setRotateSuggestionButtonState",
-                        true,
-                        false
-                    )
-                }
+            })
         }
+
+        hookOrientationSupplier()
+
+        // 显式参数表 (int, boolean)：三个基线上 NavigationBar 都只有这一个重载，
+        // 比只按方法名匹配更稳（也避免 DSL 在缺失时把异常抛进 init 主流程）。
+        tryHook("NavigationBar#onRotationProposal") {
+            val clazz = navigationBarClass ?: error("NavigationBar 不存在")
+            findAndHookMethod(
+                clazz, "onRotationProposal",
+                Int::class.javaPrimitiveType, Boolean::class.javaPrimitiveType,
+                object : IMethodHook {
+                    override fun before(param: HookParam) {
+                        if (!enable) {
+                            param.result = null
+                        }
+                    }
+                }
+            )
+        }
+
+        hookRotateSuggestionClick()
+    }
+
+    private fun hookOrientationSupplier() {
+        // 方向建议按钮的取值来自一个 lambda。编译器可能把它内联回宿主（形如 lambda$xxx，
+        // 无参、返回 int/Integer/Object），也可能脱糖成独立的 $$ExternalSyntheticLambdaN 类；
+        // 两种形态的编号都会随版本漂移，所以都只按结构特征去找。
+        for (candidate in NAV_BAR_VIEW_CANDIDATES) {
+            val viewClass = findClassIfExists(candidate) ?: continue
+
+            // 形态一：lambda 被内联回宿主类
+            var hooked = false
+            for (method in viewClass.declaredMethods) {
+                if (isInlinedRotationSupplier(method)) {
+                    hookMethod(method, object : IMethodHook {
+                        override fun before(param: HookParam) {
+                            forceOrientation(param, param.thisObject)
+                        }
+                    })
+                    hooked = true
+                }
+            }
+            if (hooked) {
+                return
+            }
+
+            // 形态二：脱糖成独立类。三条结构特征同时成立才算命中：
+            //   ① 实现 java.util.function.Supplier（接口由编译器写死，最稳）
+            //   ② 无参 get()
+            //   ③ 捕获字段类型 = 宿主类本身
+            // 44/405 上命中 Lambda0，OS3 上命中 Lambda1，均为唯一命中；
+            // 三者的 get() 字节码同为 return Integer.valueOf(mCurrentRotation)，语义一致。
+            val supplier = findDesugaredLambda(
+                viewClass, Supplier::class.java, "get", emptyArray()
+            ) ?: continue
+            hookMethod(supplier.method, object : IMethodHook {
+                override fun before(param: HookParam) {
+                    if (!enable) return
+                    val owner = getObjectField(param.thisObject, supplier.capturedField)
+                        ?: return
+                    forceOrientation(param, owner)
+                }
+            })
+            return
+        }
+    }
+
+    private fun isInlinedRotationSupplier(method: Method): Boolean {
+        // 形态一的三个结构特征同时成立才算命中。不猜编号：名字带 lambda$ 前缀
+        // 才算内联 lambda，避免误挂普通 getter。
+        return method.parameterTypes.isEmpty() &&
+            method.name.startsWith("lambda$") &&
+            returnsRotationLikeValue(method.returnType)
+    }
+
+    private fun returnsRotationLikeValue(returnType: Class<*>): Boolean {
+        // 方向 Supplier 的返回类型在三个基线上是 int/Integer，编译器也可能把它
+        // 装箱或擦成 Object，所以三种都认。
+        return returnType == Int::class.javaPrimitiveType ||
+            returnType == Integer::class.java ||
+            returnType == Any::class.java
+    }
+
+    private fun forceOrientation(param: HookParam, owner: Any) {
+        // 把 Supplier 提供的当前方向改写为"翻转后的方向"（保持与原实现相同的取值映射）
+        if (!enable) return
+        val lightContext = resolveContext(owner, "mLightContext") ?: return
+        val intValue = when (getScreenOrientation(lightContext)) {
+            0 -> 1
+            1 -> 0
+            else -> -1
+        }
+        if (intValue == -1) {
+            XposedLog.e(TAG, lpparam.packageName, "Unknown parameters, unable to continue execution, execute the original method!")
+            return
+        }
+        // setResult 会替换被挂方法(get/内联 lambda)的返回值
+        param.result = intValue
+    }
+
+    private fun hookRotateSuggestionClick() {
+        // 旋转建议按钮的点击回调：先按方法名找宿主类里的真实方法（AOSP 曾改名
+        // onRotateSuggestionClick -> onRotateSuggestionClicked，前缀匹配都认），
+        // 找不到再退回脱糖出来的 onClick(View)。两边都不写死编号；
+        // 44/405/OS3 三份固件上 R8 都已把点击 lambda 内联，真实目标是
+        // RotationButtonController$$ExternalSyntheticLambda5（编号只是巧合一致，
+        // 由结构特征保证换版本后仍能找到）。
+        val controllerClass = findClassIfExists(ROTATION_CONTROLLER) ?: return
+
+        var hooked = false
+        for (method in controllerClass.declaredMethods) {
+            if (method.name.startsWith("onRotateSuggestionClick")
+                && method.parameterTypes.isNotEmpty()
+                && method.parameterTypes[0] == View::class.java
+            ) {
+                hookMethod(method, object : IMethodHook {
+                    override fun after(param: HookParam) {
+                        if (enable) {
+                            showRotateSuggestion(param.thisObject)
+                        }
+                    }
+                })
+                hooked = true
+            }
+        }
+        if (hooked) {
+            return
+        }
+
+        val click = findDesugaredLambda(
+            controllerClass, View.OnClickListener::class.java, "onClick",
+            arrayOf(View::class.java)
+        )
+        if (click == null) {
+            XposedLog.w(TAG, "未定位到旋转建议的点击回调（内联形态与脱糖形态都没匹配上）")
+            return
+        }
+        hookMethod(click.method, object : IMethodHook {
+            override fun before(param: HookParam) {
+                if (!enable) return
+                val controller = getObjectField(param.thisObject, click.capturedField)
+                    ?: return
+                showRotateSuggestion(controller)
+            }
+        })
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private fun showRotateSuggestion(controller: Any) {
+        // 点完之后把建议按钮状态置为 (true, false)。三个基线上该重载都是 (boolean, boolean)；
+        // 万一哪个版本只剩别的重载，退回单参再试，两种都没有才记错误，绝不抛出去。
+        // callMethod 不声明受检异常，但反射链路仍会抛 NoSuchMethodError / NoSuchFieldError（Error 族），
+        // 所以这里必须兜住 Throwable：收窄成 Exception 恰好会漏掉「重载被改名或删除」这种漂移。
+        try {
+            BaseHook.callMethod(controller, "setRotateSuggestionButtonState", true, false)
+        } catch (ignored: Throwable) {
+            try {
+                BaseHook.callMethod(controller, "setRotateSuggestionButtonState", true)
+            } catch (alsoIgnored: Throwable) {
+                XposedLog.e(TAG, "setRotateSuggestionButtonState 两种重载都没找到")
+            }
+        }
+    }
+
+    /** 一次结构匹配的产物：脱糖类本身、要挂的方法、以及持有宿主实例的捕获字段名 */
+    private class DesugaredLambda(
+        val clazz: Class<*>,
+        val method: Method,
+        val capturedField: String
+    )
+
+    private fun findDesugaredLambda(
+        ownerClass: Class<*>,
+        functionalInterface: Class<*>?,
+        methodName: String,
+        paramTypes: Array<Class<*>>,
+    ): DesugaredLambda? {
+        // 穷举宿主类的脱糖类，按"函数式接口 + 方法名与参数表 + 捕获字段类型 = 宿主类"
+        // 三条结构特征找目标。编号只是遍历边界，任何版本都不会因为编号变化而失效。
+        // 命中多于一个时只取编号最小的那个，并把数量记进日志，便于换版本后复核。
+        val classLoader = ownerClass.classLoader ?: return null
+        val ownerName = ownerClass.name
+        var matched: DesugaredLambda? = null
+        var hits = 0
+        for (index in 0 until MAX_LAMBDA_INDEX) {
+            val lambdaClass = try {
+                Class.forName(ownerName + DESUGARED_PREFIX + index, false, classLoader)
+            } catch (ignored: Throwable) {
+                continue
+            }
+            if (functionalInterface != null && !functionalInterface.isAssignableFrom(lambdaClass)) {
+                continue
+            }
+            val target = lambdaClass.declaredMethods.firstOrNull { method ->
+                method.name == methodName && method.parameterTypes.contentEquals(paramTypes)
+            } ?: continue
+            // 捕获字段不保证叫 f$0，按类型找出持有宿主实例的那个
+            val capturedFieldName = findCapturedField(lambdaClass, ownerClass) ?: continue
+            hits++
+            if (matched == null) {
+                matched = DesugaredLambda(lambdaClass, target, capturedFieldName)
+            }
+        }
+        val m = matched
+        if (m != null && hits > 1) {
+            XposedLog.w(
+                TAG,
+                "结构匹配到 $hits 个脱糖类，取用 ${m.clazz.name}（请复核这个版本上是否真有多个同形 lambda）"
+            )
+        }
+        return matched
+    }
+
+    private fun findCapturedField(lambdaClass: Class<*>, ownerClass: Class<*>): String? {
+        // 找出脱糖类里持有宿主实例的那个字段名（f$0、f$1 都可能是）
+        for (field in lambdaClass.declaredFields) {
+            if (field.type == ownerClass) {
+                return field.name
+            }
+        }
+        return null
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private inline fun tryHook(what: String, register: () -> Unit) {
+        // 注册单个挂钩点：这个版本上没有目标时只记一条日志并跳过它，
+        // 不打断同一规则里的其它挂钩。
+        // 目标缺失时 ezhooktool 抛 RuntimeException 族，Xposed 侧还可能抛 LinkageError，
+        // 两类都在下面的 catch 里一并兜掉。
+        try {
+            register()
+        } catch (e: Throwable) {
+            XposedLog.w(TAG, "跳过挂钩 $what：${e.javaClass.simpleName}: ${e.message}")
+        }
+    }
+
+    private fun resolveContext(host: Any?, vararg prefer: String): Context? {
+        // 按"类型"而不是"字段名"拿 Context：名字改成什么都不影响。
+        // 先试 prefer 里的名字（语义更准，例如主题化的 mLightContext），
+        // 再按声明顺序扫实例字段找第一个 Context。都拿不到就返回 null，由调用方跳过本次改写。
+        host ?: return null
+        for (name in prefer) {
+            try {
+                val value = getObjectField(host, name)
+                if (value is Context) {
+                    return value
+                }
+            } catch (ignored: Throwable) {
+                // 字段不存在时反射层会抛异常，按"没有这个字段"处理
+            }
+        }
+        return findContextByFieldType(host)
+    }
+
+    private fun findContextByFieldType(host: Any): Context? {
+        // 沿类层级自下而上找第一个 Context 类型的实例字段；只按类型，字段名改成什么都不影响
+        var clazz: Class<*>? = host.javaClass
+        while (clazz != null && clazz != Any::class.java) {
+            val context = readContextFromDeclaredFields(clazz, host)
+            if (context != null) {
+                return context
+            }
+            clazz = clazz.superclass
+        }
+        return null
+    }
+
+    private fun readContextFromDeclaredFields(clazz: Class<*>, host: Any): Context? {
+        // 单个类里按声明顺序取 Context 字段；读不动的字段按"不是 Context"处理，继续下一个
+        for (field in clazz.declaredFields) {
+            if (Modifier.isStatic(field.modifiers)
+                || !Context::class.java.isAssignableFrom(field.type)
+            ) {
+                continue
+            }
+            val value = try {
+                field.isAccessible = true
+                field.get(host)
+            } catch (ignored: Throwable) {
+                null
+            }
+            if (value is Context) {
+                return value
+            }
+        }
+        return null
+    }
+
+    private fun findFirstClass(candidateNames: Array<String>): Class<*>? {
+        for (name in candidateNames) {
+            val clazz = findClassIfExists(name)
+            if (clazz != null) {
+                return clazz
+            }
+        }
+        return null
     }
 
     private fun ensureRotationObserver(navigationBar: Any, context: Context?) {
@@ -132,14 +422,13 @@ object RotationButtonB : BaseHook() {
 
     private fun getBoolean(context: Context): Boolean {
         val data = getData(context) ?: return false
-        val sp = data.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        val s = java.util.ArrayList<String>(listOf<String?>(*sp))[1]
-        return s.contains("true")
+        val sp = data.split(",")
+        return sp.getOrNull(1).orEmpty().contains("true")
     }
 
     private fun getInt(context: Context): Int {
         val data = getData(context) ?: return -1
-        val sp = data.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        return ArrayList(listOf<String?>(*sp))[0]!!.toInt()
+        val sp = data.split(",")
+        return sp.getOrNull(0)?.trim()?.toIntOrNull() ?: -1
     }
 }
