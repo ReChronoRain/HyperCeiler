@@ -88,6 +88,8 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getValueByField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.replaceHookMethod as replaceMethod
+import java.util.Collections
+import java.util.LinkedHashMap
 
 object CustomBackground : BaseHook() {
     private const val KEY_VIEW_HOLDER_WRAPPER = "KEY_VIEW_HOLDER_WRAPPER"
@@ -130,6 +132,14 @@ object CustomBackground : BaseHook() {
         mediaData?.findField("packageName")
     }
 
+    private val seekBarColorFilters = Collections.synchronizedMap(
+        object : LinkedHashMap<Int, PorterDuffColorFilter>(32, 0.75f, true) {
+            override fun removeEldestEntry(
+                eldest: MutableMap.MutableEntry<Int, PorterDuffColorFilter>
+            ): Boolean = size > 32
+        }
+    )
+
     val isIsland by lazy {
         (isMoreSmallVersion(300, 3f) && isPad()) || !isPad()
     }
@@ -163,22 +173,30 @@ object CustomBackground : BaseHook() {
     }
 
     private fun hookHyperProgressSeekBar() {
+        registerHotReloadCleanup(seekBarColorFilters::clear)
         hyperProgressSeekBar?.beforeHookMethod("onDraw") { param ->
             val tintColor = param.thisObject.getAdditionalInstanceFieldAs<Int?>(KEY_SEEKBAR_TINT_COLOR)
                 ?: return@beforeHookMethod
             val mPaint = param.thisObject.getObjectFieldOrNullAs<Paint?>("mPaint") ?: return@beforeHookMethod
-            mPaint.colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+            val tintColorFilter = seekBarColorFilter(tintColor)
+            mPaint.colorFilter = tintColorFilter
 
             val progressDrawable = param.thisObject.getObjectFieldOrNullAs<Drawable?>("mProgressDrawable")
-            progressDrawable?.colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+            progressDrawable?.colorFilter = tintColorFilter
 
             val bgDrawable = param.thisObject.getObjectFieldOrNullAs<Drawable?>("mBackgroundDrawable")
-            bgDrawable?.colorFilter = PorterDuffColorFilter(
-                (tintColor and 0x00FFFFFF) or (0x33 shl 24),
-                PorterDuff.Mode.SRC_IN
+            bgDrawable?.colorFilter = seekBarColorFilter(
+                (tintColor and 0x00FFFFFF) or (0x33 shl 24)
             )
         }
     }
+
+    private fun seekBarColorFilter(color: Int): PorterDuffColorFilter =
+        synchronized(seekBarColorFilters) {
+            seekBarColorFilters.getOrPut(color) {
+                PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            }
+        }
 
     // ==================== OS3 通知中心 ====================
 
