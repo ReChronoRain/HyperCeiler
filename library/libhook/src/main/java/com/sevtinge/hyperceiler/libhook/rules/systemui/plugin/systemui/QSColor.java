@@ -42,6 +42,9 @@ public class QSColor extends BaseHook {
 
     private static int bigBgColor = -1;
     private static int bigColor = -1;
+    private static int titleId = -1;
+    private static int statusId = -1;
+    private static volatile boolean useCachedViewById = true;
 
     public static void pluginHook(ClassLoader classLoader) {
         String TAG = "QSColor";
@@ -140,18 +143,26 @@ public class QSColor extends BaseHook {
                     int i = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(state, "state");
                     if (i == 2) {
                         Context context = ((LinearLayout) param.getThisObject()).getContext();
+                        resolveCardTextIds(context);
                         TextView textView, textView1;
 
-                        try {
-                            int title = context.getResources().getIdentifier("title", "id", "miui.systemui.plugin");
-                            int status = context.getResources().getIdentifier("status", "id", "miui.systemui.plugin");
+                        if (useCachedViewById) {
+                            try {
+                                textView = (TextView) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "_$_findCachedViewById", titleId);
+                                textView1 = (TextView) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "_$_findCachedViewById", statusId);
+                            } catch (Throwable ignore) {
+                                useCachedViewById = false;
+                                textView = null;
+                                textView1 = null;
+                            }
+                        } else {
+                            textView = null;
+                            textView1 = null;
+                        }
 
-                            textView = (TextView) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "_$_findCachedViewById", title);
-                            textView1 = (TextView) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "_$_findCachedViewById", status);
-                        } catch (Throwable ignore) {
+                        if (textView == null || textView1 == null) {
                             // 17.0.1.19.4 变更
                             Object binding = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "getBinding");
-
                             textView = (TextView) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(binding, "title");
                             textView1 = (TextView) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(binding, "status");
                         }
@@ -170,6 +181,15 @@ public class QSColor extends BaseHook {
                     }
                 });
             } catch (Throwable ignore) {}
+        }
+    }
+
+    private static void resolveCardTextIds(Context context) {
+        if (titleId == -1) {
+            titleId = context.getResources().getIdentifier("title", "id", "miui.systemui.plugin");
+        }
+        if (statusId == -1) {
+            statusId = context.getResources().getIdentifier("status", "id", "miui.systemui.plugin");
         }
     }
 
