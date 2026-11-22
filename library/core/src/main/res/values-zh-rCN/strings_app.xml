@@ -1663,6 +1663,10 @@
     <string name="mtb">鲁班 (MTB)</string>
     <string name="mtb_auth">绕过鲁班 (MTB) 鉴权</string>
     <string name="mtb_auth_desc">这是一个高危险性的功能，由此引发的后果全部由用户本人承担，请及时备份基带。</string>
+    <!--密码管理-->
+    <string name="miui_passwords">密码管理</string>
+    <string name="totp_sync">同步动态令牌</string>
+    <string name="totp_sync_desc">补全 动态令牌云同步 功能</string>
     <!--MI FIDO-->
     <string name="fido_asm">MI FIDO</string>
     <string name="unlock_passkeys">解锁通行密钥</string>

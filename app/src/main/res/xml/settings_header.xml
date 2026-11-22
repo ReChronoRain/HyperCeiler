@@ -149,6 +149,13 @@
         android:title="@string/remotecontroller"
         app:inflatedXml="@xml/remotecontroller"/>
 
+     <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/fido"
+        android:summary="com.fido.asm"
+        android:title="@string/fido_asm"
+        app:inflatedXml="@xml/fido_asm"/>
+
     <header
         android:icon="@drawable/ic_default"
         android:id="@+id/lbe"
@@ -297,6 +304,13 @@
         app:inflatedXml="@xml/package_installer"/>
 
     <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/miui_passwords"
+        android:summary="com.miui.passwords"
+        android:title="@string/miui_passwords"
+        app:inflatedXml="@xml/miui_passwords"/>
+
+    <header
         android:fragment="com.sevtinge.hyperceiler.hooker.PersonalAssistantFragment"
         android:icon="@drawable/ic_default"
         android:id="@+id/home_personal_assistant"
@@ -422,12 +436,6 @@
         android:title="@string/mtb"
         app:inflatedXml="@xml/mtb"/>
 
-    <header
-        android:icon="@drawable/ic_default"
-        android:id="@+id/fido"
-        android:summary="com.fido.asm"
-        android:title="@string/fido_asm"
-        app:inflatedXml="@xml/fido_asm"/>
 
     <header
         android:icon="@drawable/ic_default"
