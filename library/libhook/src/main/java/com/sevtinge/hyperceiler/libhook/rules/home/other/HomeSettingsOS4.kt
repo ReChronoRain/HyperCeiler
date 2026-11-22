@@ -39,10 +39,13 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 object HomeSettingsOS4 : BaseHook() {
     private const val LAUNCHER_ACTIVITY = "com.miui.home.launcher.Launcher"
     private const val RECENTS_MEMORY_INFO = "miui_recents_show_mem_info"
+    private const val STATE_TITLE_RESOLVER = "HomeSettingsOS4.titleResolver"
 
     override fun init() {
         hookHomeMode()
         hookMemoryInfoSetting()
+        BaseHook.getHotReloadRuntimeState(STATE_TITLE_RESOLVER, ContentResolver::class.java)
+            ?.let(::registerTitleObserver)
         hookTitleSettings()
     }
 
@@ -69,28 +72,38 @@ object HomeSettingsOS4 : BaseHook() {
             if (activity.componentName.className != LAUNCHER_ACTIVITY) return@createBeforeHook
             val resolver = activity.applicationContext.contentResolver
             publishTitleSettings(resolver)
-            if (titleObserver != null) return@createBeforeHook
-            val handler = Handler(Looper.getMainLooper())
-            val update = Runnable { publishTitleSettings(resolver) }
-            val observer = object : ContentObserver(handler) {
-                override fun onChange(selfChange: Boolean, uri: Uri?) {
-                    val segment = uri?.lastPathSegment
-                    if (segment != null && segment != "prefs_key_home_title_font_size"
-                        && segment != "home_title_font_size"
-                        && segment != "prefs_key_home_drawer_title_font_size"
-                        && segment != "home_drawer_title_font_size"
-                        && segment != "prefs_key_home_title_title_color"
-                        && segment != "home_title_title_color") return
-                    handler.removeCallbacks(update)
-                    handler.postDelayed(update, 150)
-                }
+            registerTitleObserver(resolver)
+        }
+    }
+
+    private fun registerTitleObserver(resolver: ContentResolver) {
+        if (titleObserver != null) return
+        val handler = Handler(Looper.getMainLooper())
+        val update = Runnable { publishTitleSettings(resolver) }
+        val observer = object : ContentObserver(handler) {
+            override fun onChange(selfChange: Boolean, uri: Uri?) {
+                val segment = uri?.lastPathSegment
+                if (segment != null && segment != "prefs_key_home_title_font_size"
+                    && segment != "home_title_font_size"
+                    && segment != "prefs_key_home_drawer_title_font_size"
+                    && segment != "home_drawer_title_font_size"
+                    && segment != "prefs_key_home_title_title_color"
+                    && segment != "home_title_title_color") return
+                handler.removeCallbacks(update)
+                handler.postDelayed(update, 150)
             }
-            runCatching {
-                resolver.registerContentObserver(titleChangesUri, true, observer)
-                titleObserver = observer
-            }.onFailure {
-                XposedLog.e(TAG, lpparam.packageName, "OS4 title observer unavailable", it)
+        }
+        runCatching {
+            resolver.registerContentObserver(titleChangesUri, true, observer)
+            titleObserver = observer
+            BaseHook.putHotReloadRuntimeState(STATE_TITLE_RESOLVER, resolver)
+            BaseHook.registerContentObserverHotReloadCleanup(resolver, observer)
+            BaseHook.registerHotReloadCleanup {
+                handler.removeCallbacks(update)
+                titleObserver = null
             }
+        }.onFailure {
+            XposedLog.e(TAG, lpparam.packageName, "OS4 title observer unavailable", it)
         }
     }
 
