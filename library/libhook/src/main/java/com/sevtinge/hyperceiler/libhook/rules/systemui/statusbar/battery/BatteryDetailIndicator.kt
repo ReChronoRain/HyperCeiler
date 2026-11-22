@@ -50,8 +50,11 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import java.io.FileInputStream
+import java.lang.ref.WeakReference
+import java.util.Collections
 import java.util.Locale
 import java.util.Properties
+import java.util.WeakHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -160,6 +163,8 @@ object BatteryDetailIndicator : BaseHook() {
 
     private val textIconTagId = getFakeResId("battery_text_icon_tag")
     private val mStatusbarTextIcons = CopyOnWriteArrayList<View>()
+    private val clockCache = Collections.synchronizedMap(WeakHashMap<View, WeakReference<TextView>>())
+    @Volatile private var cachedClockId = -1
 
     private var workerThread: HandlerThread? = null
     private var workerHandler: Handler? = null
@@ -198,6 +203,8 @@ object BatteryDetailIndicator : BaseHook() {
             mainHandler?.removeCallbacksAndMessages(null)
             mainHandler = null
             mStatusbarTextIcons.clear()
+            clockCache.clear()
+            cachedClockId = -1
         }
     }
 
@@ -253,11 +260,7 @@ object BatteryDetailIndicator : BaseHook() {
     }
 
     private fun syncColorWithClock(iconView: View, clockView: TextView? = null) {
-        val clock = clockView
-            ?: (iconView.parent as? ViewGroup)?.let { container ->
-                val clockId = container.resources.getIdentifier(ID_CLOCK, "id", PKG_SYSTEMUI)
-                if (clockId != 0) container.findViewById<TextView>(clockId) else null
-            }
+        val clock = clockView ?: findCachedClock(iconView)
         val number = iconView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_NUMBER_TEXT)
             ?: (iconView as? TextView)
         if (number != null && clock != null) {
@@ -265,6 +268,29 @@ object BatteryDetailIndicator : BaseHook() {
             if (colors != null) {
                 number.setTextColor(colors)
             }
+        }
+    }
+
+    private fun findCachedClock(iconView: View): TextView? {
+        val container = iconView.parent as? ViewGroup ?: return null
+        synchronized(clockCache) {
+            clockCache[iconView]?.get()?.let { cached ->
+                if (cached.parent === container) return cached
+                clockCache.remove(iconView)
+            }
+
+            if (cachedClockId == -1) {
+                cachedClockId = container.resources.getIdentifier(ID_CLOCK, "id", PKG_SYSTEMUI)
+            }
+            val clock = if (cachedClockId != 0) {
+                container.findViewById<TextView>(cachedClockId)
+            } else {
+                null
+            }
+            if (clock != null) {
+                clockCache[iconView] = WeakReference(clock)
+            }
+            return clock
         }
     }
 
