@@ -455,6 +455,9 @@ object NotificationWeather : BaseHook() {
         }
 
         parent.addOnLayoutChangeListener(listener)
+        BaseHook.registerHotReloadCleanup {
+            parent.removeOnLayoutChangeListener(listener)
+        }
 
         /*
          * 强制触发一次 layout。
