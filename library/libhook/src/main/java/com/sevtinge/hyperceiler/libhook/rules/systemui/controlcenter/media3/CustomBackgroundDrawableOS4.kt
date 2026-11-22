@@ -177,8 +177,10 @@ class CustomBackgroundDrawableOS4(
         fillPaint.color = currentBgStartColor
         canvas.drawRect(0f, 0f, width, height, fillPaint)
         val size = currentSize.toInt().coerceAtLeast(1)
-        if (style == 4) imageRect.set(bounds.width() - size, 0, bounds.width(), size)
-        else {
+        if (style == 4) {
+            val top = (bounds.height() - size) / 2
+            imageRect.set(bounds.width() - size, top, bounds.width(), top + size)
+        } else {
             val left = (bounds.width() - size) / 2
             val top = (bounds.height() - size) / 2
             imageRect.set(left, top, left + size, top + size)

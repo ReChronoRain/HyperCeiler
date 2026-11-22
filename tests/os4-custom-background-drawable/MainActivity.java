@@ -36,6 +36,12 @@ public final class MainActivity extends Activity {
    d.dispose();before=invalidations[0];d.update(new ColorDrawable(Color.RED),colors(Color.RED),false);Bitmap gone=render(d);check("style "+style+" disposal is terminal and blank",gone.getPixel(100,50)==0&&invalidations[0]==before&&d.getCallback()==null);
    full.recycle();half.recycle();zero.recycle();filter.recycle();update.recycle();gone.recycle();
   }
+  ColorDrawable tallArt=new ColorDrawable(Color.RED);
+  CustomBackgroundDrawableOS4 tall=new CustomBackgroundDrawableOS4(tallArt,colors(Color.BLACK),4,false);tall.setBounds(20,5,80,105);
+  Bitmap tallBitmap=render(tall);
+  check("style 4 tall bounds center artwork top",Color.red(tallBitmap.getPixel(70,24))<8&&Color.red(tallBitmap.getPixel(70,25))>100);
+  check("style 4 tall bounds center artwork bottom",Color.red(tallBitmap.getPixel(70,84))>100&&Color.red(tallBitmap.getPixel(70,85))<8);
+  tallBitmap.recycle();tall.dispose();
   boolean rejected=false;try{new CustomBackgroundDrawableOS4(new ColorDrawable(Color.RED),colors(Color.BLACK),5,false);}catch(IllegalArgumentException e){rejected=true;}check("invalid style rejected",rejected);
  }
  private void prepare(){
