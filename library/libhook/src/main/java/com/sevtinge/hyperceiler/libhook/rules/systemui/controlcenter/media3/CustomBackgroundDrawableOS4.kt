@@ -32,9 +32,10 @@ class CustomBackgroundDrawableOS4(
 ) : Drawable() {
     private var artwork: Drawable? = artwork
     private var incoming: Drawable? = null
-    private var colors = colors
     private var sourceColors = colors
     private var targetColors = colors
+    private var currentBgStartColor = colors.bgStartColor
+    private var currentBgEndColor = colors.bgEndColor
     private var albumStart = -1L
     private var resizeStart = -1L
     private var currentSize = 0f
@@ -49,6 +50,9 @@ class CustomBackgroundDrawableOS4(
     private val fillPaint = Paint()
     private val gradient = GradientDrawable()
     private val imageRect = Rect()
+    private val artworkBounds = Rect()
+    private val radialGradientColors = IntArray(2)
+    private val linearGradientColors = IntArray(2)
 
     init { require(style in 1..4) { "Unknown OS4 media background style" } }
 
@@ -67,12 +71,12 @@ class CustomBackgroundDrawableOS4(
         val animate = useAnim && !skipAnim && canAnimate()
         if (!animate) {
             this.artwork = artwork
-            this.colors = colors
+            setColors(colors)
             sourceColors = colors
             targetColors = colors
         } else {
             incoming = artwork
-            sourceColors = this.colors
+            sourceColors = targetColors
             targetColors = colors
             albumStart = SystemClock.uptimeMillis()
         }
@@ -89,9 +93,8 @@ class CustomBackgroundDrawableOS4(
     fun finishAnimations() {
         incoming?.let { artwork = it }
         incoming = null
-        if (albumStart >= 0) colors = targetColors
-        sourceColors = colors
-        targetColors = colors
+        if (albumStart >= 0) setColors(targetColors)
+        sourceColors = targetColors
         albumStart = -1L
         currentSize = targetSize
         sourceSize = targetSize
@@ -156,18 +159,22 @@ class CustomBackgroundDrawableOS4(
             val width = bounds.width().toFloat()
             val height = bounds.height().toFloat()
             // Alpha and filter cover artwork, solid fill, and gradient together.
-            layerPaint.alpha = opacity
-            layerPaint.colorFilter = filter
-            val layer = canvas.saveLayer(0f, 0f, width, height, layerPaint)
-            try {
+            if (opacity == 255 && filter == null) {
                 drawLayer(canvas, width, height, progress)
-            } finally { canvas.restoreToCount(layer) }
+            } else {
+                layerPaint.alpha = opacity
+                layerPaint.colorFilter = filter
+                val layer = canvas.saveLayer(0f, 0f, width, height, layerPaint)
+                try {
+                    drawLayer(canvas, width, height, progress)
+                } finally { canvas.restoreToCount(layer) }
+            }
         } finally { canvas.restoreToCount(outer) }
         if (!paused && (albumStart >= 0 || resizeStart >= 0)) invalidateSelf()
     }
 
     private fun drawLayer(canvas: Canvas, width: Float, height: Float, progress: Float) {
-        fillPaint.color = colors.bgStartColor
+        fillPaint.color = currentBgStartColor
         canvas.drawRect(0f, 0f, width, height, fillPaint)
         val size = currentSize.toInt().coerceAtLeast(1)
         if (style == 4) imageRect.set(bounds.width() - size, 0, bounds.width(), size)
@@ -184,13 +191,17 @@ class CustomBackgroundDrawableOS4(
         if (style == 3) {
             gradient.gradientType = GradientDrawable.RADIAL_GRADIENT
             gradient.gradientRadius = size.toFloat()
-            gradient.colors = intArrayOf(withAlpha(colors.bgStartColor, 64), withAlpha(colors.bgEndColor, 255))
+            radialGradientColors[0] = withAlpha(currentBgStartColor, 64)
+            radialGradientColors[1] = withAlpha(currentBgEndColor, 255)
+            gradient.colors = radialGradientColors
             gradient.bounds = imageRect
             gradient.draw(canvas)
         } else if (style == 4) {
             gradient.gradientType = GradientDrawable.LINEAR_GRADIENT
             gradient.orientation = GradientDrawable.Orientation.LEFT_RIGHT
-            gradient.colors = intArrayOf(colors.bgStartColor, withAlpha(colors.bgStartColor, 51))
+            linearGradientColors[0] = currentBgStartColor
+            linearGradientColors[1] = withAlpha(currentBgStartColor, 51)
+            gradient.colors = linearGradientColors
             gradient.setBounds(imageRect.left, 0, bounds.width(), bounds.height())
             gradient.draw(canvas)
         }
@@ -200,17 +211,13 @@ class CustomBackgroundDrawableOS4(
         var progress = 0f
         if (albumStart >= 0) {
             progress = ((now - albumStart) / 333f).coerceIn(0f, 1f)
-            colors = MediaViewColorConfig(
-                blend(sourceColors.textPrimary, targetColors.textPrimary, progress),
-                blend(sourceColors.textSecondary, targetColors.textSecondary, progress),
-                blend(sourceColors.bgStartColor, targetColors.bgStartColor, progress),
-                blend(sourceColors.bgEndColor, targetColors.bgEndColor, progress)
-            )
+            currentBgStartColor = blend(sourceColors.bgStartColor, targetColors.bgStartColor, progress)
+            currentBgEndColor = blend(sourceColors.bgEndColor, targetColors.bgEndColor, progress)
             if (progress >= 1f) {
                 artwork = incoming ?: artwork
                 incoming = null
                 albumStart = -1L
-                colors = targetColors
+                setColors(targetColors)
                 progress = 0f
             }
         }
@@ -223,8 +230,13 @@ class CustomBackgroundDrawableOS4(
     }
 
     private fun drawArtwork(canvas: Canvas, value: Drawable) {
-        val old = Rect(value.bounds)
-        try { value.bounds = imageRect; value.draw(canvas) } finally { value.bounds = old }
+        artworkBounds.set(value.bounds)
+        try { value.bounds = imageRect; value.draw(canvas) } finally { value.bounds = artworkBounds }
+    }
+
+    private fun setColors(value: MediaViewColorConfig) {
+        currentBgStartColor = value.bgStartColor
+        currentBgEndColor = value.bgEndColor
     }
 
     override fun setAlpha(alpha: Int) { opacity = alpha.coerceIn(0, 255); invalidateSelf() }
@@ -236,12 +248,15 @@ class CustomBackgroundDrawableOS4(
 
     private fun withAlpha(color: Int, alpha: Int) = (color and 0x00ffffff) or (alpha shl 24)
     private fun blend(from: Int, to: Int, fraction: Float): Int {
-        var result = 0
-        for (shift in intArrayOf(24, 16, 8, 0)) {
-            val start = (from ushr shift) and 255
-            val end = (to ushr shift) and 255
-            result = result or ((start + (end - start) * fraction).toInt().coerceIn(0, 255) shl shift)
-        }
-        return result
+        val alpha = blendChannel(from ushr 24, to ushr 24, fraction)
+        val red = blendChannel(from ushr 16, to ushr 16, fraction)
+        val green = blendChannel(from ushr 8, to ushr 8, fraction)
+        val blue = blendChannel(from, to, fraction)
+        return (alpha shl 24) or (red shl 16) or (green shl 8) or blue
     }
+
+    private fun blendChannel(from: Int, to: Int, fraction: Float): Int =
+        ((from and 255) + ((to and 255) - (from and 255)) * fraction)
+            .toInt()
+            .coerceIn(0, 255)
 }
