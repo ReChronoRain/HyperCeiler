@@ -18,77 +18,83 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object DisableCleaner : BaseHook() {
     override fun init() {
-        findClass("com.android.server.am.ActivityManagerService")
-            .findAllMethods { name("checkExcessivePowerUsage") }
-            .createBeforeHooks {
-                it.result = null
+        hookBefore("com.android.server.am.ActivityManagerService", "checkExcessivePowerUsage") {
+            it.result = null
+        }
+
+        hookBefore("com.android.server.am.ActivityManagerShellCommand", "runKillAll") {
+            it.result = null
+        }
+
+        hookBefore("com.android.server.am.CameraBooster", "boostCameraIfNeeded") {
+            it.result = null
+        }
+
+        hookBefore("com.android.server.am.OomAdjuster", "shouldKillExcessiveProcesses") {
+            it.result = false
+        }
+
+        hookBefore("com.android.server.am.OomAdjuster", "updateAndTrimProcessLSP") {
+            it.args[2] = 0
+        }
+
+        hookBefore("com.android.server.am.PhantomProcessList", "trimPhantomProcessesIfNecessary") {
+            it.result = null
+        }
+
+        hookBefore("com.android.server.am.ProcessMemoryCleaner", "checkBackgroundProcCompact") {
+            it.result = null
+        }
+
+        hookBefore("com.android.server.am.ProcessPowerCleaner", "handleAutoLockOff") {
+            it.result = null
+        }
+
+        hookBefore("com.android.server.am.SystemPressureController", "nStartPressureMonitor") {
+            it.result = null
+        }
+
+        hookBefore("com.android.server.wm.RecentTasks", "trimInactiveRecentTasks") {
+            it.result = null
+        }
+
+        hookBefore("com.miui.cameraopt.adapter.ProcessManagerAdapter", "killApplication") {
+            it.result = null
+        }
+    }
+
+    // Not every ROM ships all of these classes and methods, so a missing
+    // target must only skip its own hook instead of aborting the rest.
+    private fun hookBefore(
+        className: String,
+        methodName: String,
+        callback: (HookParam) -> Unit
+    ) {
+        // findClassIfExists() returns null for missing or unlinkable classes;
+        // anything else it throws must not abort the remaining hooks either.
+        try {
+            val clazz = findClassIfExists(className)
+            if (clazz == null) {
+                XposedLog.w(TAG, packageName, "Skip $className.$methodName: class not found")
+                return
             }
 
-        findClass("com.android.server.am.ActivityManagerShellCommand")
-            .findAllMethods { name("runKillAll") }
-            .createBeforeHooks {
-                it.result = null
+            val methods = clazz.findAllMethods { name(methodName) }
+            if (methods.isEmpty()) {
+                XposedLog.w(TAG, packageName, "Skip $className.$methodName: method not found")
+                return
             }
-
-        findClass("com.android.server.am.CameraBooster")
-            .findAllMethods { name("boostCameraIfNeeded") }
-            .createBeforeHooks {
-                it.result = null
-            }
-
-        findClass("com.android.server.am.OomAdjuster")
-            .findAllMethods { name("shouldKillExcessiveProcesses") }
-            .createBeforeHooks {
-                it.result = false
-            }
-
-        findClass("com.android.server.am.OomAdjuster")
-            .findAllMethods { name("updateAndTrimProcessLSP") }
-            .createBeforeHooks {
-                it.args[2] = 0
-            }
-
-        findClass("com.android.server.am.PhantomProcessList")
-            .findAllMethods { name("trimPhantomProcessesIfNecessary") }
-            .createBeforeHooks {
-                it.result = null
-            }
-
-        findClass("com.android.server.am.ProcessMemoryCleaner")
-            .findAllMethods { name("checkBackgroundProcCompact") }
-            .createBeforeHooks {
-                it.result = null
-            }
-
-        findClass("com.android.server.am.ProcessPowerCleaner")
-            .findAllMethods { name("handleAutoLockOff") }
-            .createBeforeHooks {
-                it.result = null
-            }
-
-        findClass("com.android.server.am.SystemPressureController")
-            .findAllMethods { name("nStartPressureMonitor") }
-            .createBeforeHooks {
-                it.result = null
-            }
-
-        findClass("com.android.server.wm.RecentTasks")
-            .findAllMethods { name("trimInactiveRecentTasks") }
-            .createBeforeHooks {
-                it.result = null
-            }
-
-        findClass("com.miui.cameraopt.adapter.ProcessManagerAdapter")
-            .findAllMethods { name("killApplication") }
-            .createBeforeHooks {
-                it.result = null
-            }
-
+            methods.createBeforeHooks(callback = callback)
+        } catch (t: Throwable) {
+            XposedLog.e(TAG, packageName, "Hook Failed in $className.$methodName: ", t)
+        }
     }
 }
