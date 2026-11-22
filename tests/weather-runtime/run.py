@@ -99,8 +99,8 @@ with tempfile.TemporaryDirectory(prefix='hc-weather-runtime-') as t:
     after = {str(f): sha(f) for f in files}
     same = before == after
     result = {
-        'passed': fixed['compile_exit'] == 0 and fixed.get('exit_code') == 0 and fixed.get('failed') == 0 and fixed.get('cases') == 121 and same and all(n['detected'] for n in negatives),
-        'expected_cases': 121, 'preserved_prior_cases': 117, 'retained_original_controller_cases': 92, 'retained_card_routing_cases': 25, 'new_lifetime_admission_cases': 4, 'fixed': fixed, 'negative_controls': negatives, 'negative_controls_requested': a.negative_controls,
+        'passed': fixed['compile_exit'] == 0 and fixed.get('exit_code') == 0 and fixed.get('failed') == 0 and fixed.get('cases') == 124 and same and all(n['detected'] for n in negatives),
+        'expected_cases': 124, 'preserved_prior_cases': 121, 'retained_original_controller_cases': 92, 'retained_card_routing_cases': 25, 'new_lifetime_admission_cases': 4, 'refresh_retry_cases': 3, 'fixed': fixed, 'negative_controls': negatives, 'negative_controls_requested': a.negative_controls,
         'inputs': before, 'inputs_unchanged': same,
         'boundary': [
             'Actual production weather_runtime.cpp included directly; actual weather_snapshot Cache/decode and weather_device_level policy execute.',

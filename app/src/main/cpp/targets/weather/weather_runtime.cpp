@@ -23,6 +23,7 @@
 #include <span>
 #include <sys/syscall.h>
 #include <sys/uio.h>
+#include <thread>
 #include <time.h>
 #include <unistd.h>
 
@@ -42,6 +43,11 @@ weather_snapshot::Cache g_cache;
 std::mutex g_initial_mutex;
 std::condition_variable g_initial_condition;
 bool g_initial_completed = false;
+using StartupClock = std::chrono::steady_clock;
+constexpr auto kStartupBudget = std::chrono::milliseconds(1000);
+constexpr auto kStartupRetry = std::chrono::milliseconds(50);
+constexpr auto kRunningRetry = std::chrono::milliseconds(250);
+StartupClock::time_point g_initial_deadline; // Set before creating the worker.
 std::atomic<unsigned> g_queries{0}, g_applied{0}, g_allocation_failed{0}, g_refused{0};
 
 int64_t now() {
@@ -101,33 +107,47 @@ bool query(weather_snapshot::Words &words) {
     return valid;
 }
 
-void poll() {
+// Only a valid unavailable reply can mean that the system worker is filling its cache.
+bool poll() {
     weather_snapshot::Words words{};
     const auto began = now();
     const bool received = query(words);
     const auto ended = now();
     const bool timely = received && began > 0 && ended >= began
         && ended - began < weather_snapshot::kMaxLeaseNanos;
+    bool pending = false;
     if (!timely || g_stop.load(std::memory_order_acquire)) g_cache.revoke();
-    else g_cache.publish(words, ended);
+    else pending = g_cache.publish(words, ended) && words[1] == 0;
     // Reuse this one HWS worker. Card maintenance only checks ownership and
     // publishes an absolute lease; it never installs or repairs live Dart code.
     weather_card_runtime::service();
-    {
-        std::lock_guard lock(g_initial_mutex);
-        g_initial_completed = true;
-    }
-    g_initial_condition.notify_all();
+    return pending;
+}
+
+void poll_running() {
+    if (!poll()) return;
+    std::this_thread::sleep_for(kRunningRetry);
+    if (!g_stop.load(std::memory_order_acquire)) poll();
 }
 
 void *worker(void *) {
     // A stuck Binder call keeps this one worker; there is no replacement worker
     // and no renewal from receipt time. Hook reads independently enforce expiry.
+    while (!g_stop.load(std::memory_order_acquire) && StartupClock::now() < g_initial_deadline && poll()) {
+        const auto retry = StartupClock::now() + kStartupRetry;
+        if (retry >= g_initial_deadline) break;
+        std::this_thread::sleep_until(retry);
+    }
+    if (StartupClock::now() >= g_initial_deadline) g_cache.revoke();
+    {
+        std::lock_guard lock(g_initial_mutex);
+        g_initial_completed = true;
+    }
+    g_initial_condition.notify_all();
     while (!g_stop.load(std::memory_order_acquire)) {
-        poll();
-        if (g_stop.load(std::memory_order_acquire)) break;
         timespec remaining{1, 500'000'000};
         while (nanosleep(&remaining, &remaining) != 0 && errno == EINTR) {}
+        if (!g_stop.load(std::memory_order_acquire)) poll_running();
     }
     return nullptr;
 }
@@ -261,18 +281,20 @@ bool start_before_entry(uintptr_t weather_base) {
     }
     pthread_t thread;
     const bool detached = pthread_attr_setdetachstate(&attributes, PTHREAD_CREATE_DETACHED) == 0;
+    g_initial_deadline = StartupClock::now() + kStartupBudget;
     const bool started = detached && pthread_create(&thread, &attributes, worker, nullptr) == 0;
     pthread_attr_destroy(&attributes);
     if (!started) {
         g_phase.store(Phase::Rejected, std::memory_order_release);
         return false;
     }
+    bool completed;
     {
         std::unique_lock lock(g_initial_mutex);
-        g_initial_condition.wait_for(lock, std::chrono::milliseconds(1000), [] { return g_initial_completed; });
+        completed = g_initial_condition.wait_until(lock, g_initial_deadline, [] { return g_initial_completed; });
     }
     weather_snapshot::Snapshot snapshot;
-    if (!g_cache.load_snapshot(now(), snapshot) || !snapshot.available) {
+    if (!completed || !g_cache.load_snapshot(now(), snapshot) || !snapshot.available) {
         g_phase.store(Phase::Missed, std::memory_order_release);
         g_stop.store(true, std::memory_order_release);
         __android_log_print(ANDROID_LOG_WARN, kTag, "startup configuration unavailable; cold Weather restart required");
