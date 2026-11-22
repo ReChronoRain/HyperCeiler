@@ -205,28 +205,35 @@ class AmbientLightDrawable(
         val w = bounds.width().toFloat()
         val h = currentHeight.toFloat()
         if (w > 0 && h > 0) {
-            val duration = if (pause) {
-                pauseTime - startTime - pauseDuration
-            } else {
-                now - startTime - pauseDuration
-            }
-            val time = duration / 1000f
-            runtimeShader?.apply {
-                setFloatUniform("uTime", time)
-                setFloatUniform("uResolution", w, h)
-                setFloatUniform("uGradientColorPositions", gradientPositions)
-                setFloatUniform("uSdfRadius", 0f)
+            val saved = p0.save()
+            try {
+                p0.clipRect(bounds)
+                p0.translate(bounds.left.toFloat(), bounds.top.toFloat())
+                val duration = if (pause) {
+                    pauseTime - startTime - pauseDuration
+                } else {
+                    now - startTime - pauseDuration
+                }
+                val time = duration / 1000f
+                runtimeShader?.apply {
+                    setFloatUniform("uTime", time)
+                    setFloatUniform("uResolution", w, h)
+                    setFloatUniform("uGradientColorPositions", gradientPositions)
+                    setFloatUniform("uSdfRadius", 0f)
 
-                setIntUniform("uIsLightMode", isLightMode)
+                    setIntUniform("uIsLightMode", isLightMode)
 
-                colorVec4[0] = Color.red(currentColor) / 255f
-                colorVec4[1] = Color.green(currentColor) / 255f
-                colorVec4[2] = Color.blue(currentColor) / 255f
-                colorVec4[3] = (Color.alpha(currentColor) / 255f) *
-                    (duration / LIGHT_ANIM_DURATION).coerceIn(0.0f, 1.0f)
-                setFloatUniform("uGradientColor", colorVec4)
+                    colorVec4[0] = Color.red(currentColor) / 255f
+                    colorVec4[1] = Color.green(currentColor) / 255f
+                    colorVec4[2] = Color.blue(currentColor) / 255f
+                    colorVec4[3] = (Color.alpha(currentColor) / 255f) *
+                        (duration / LIGHT_ANIM_DURATION).coerceIn(0.0f, 1.0f)
+                    setFloatUniform("uGradientColor", colorVec4)
+                }
+                p0.drawRect(0.0f, 0.0f, w, h, paint)
+            } finally {
+                p0.restoreToCount(saved)
             }
-            p0.drawRect(0.0f, 0.0f, w, h, paint)
         }
 
         if (isVisible && (!pause || colorState != AnimationState.DONE || resizeState != AnimationState.DONE)) {
