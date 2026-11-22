@@ -20,6 +20,11 @@ android {
             isMinifyEnabled = false
         }
     }
+    lint {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
 }
 
 java {
