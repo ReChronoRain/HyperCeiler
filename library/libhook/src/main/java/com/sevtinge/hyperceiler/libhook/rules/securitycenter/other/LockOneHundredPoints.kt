@@ -98,6 +98,15 @@ object LockOneHundredPoints : BaseHook() {
             }.findMethod {
                 matcher {
                     addInvoke("Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z")
+                    // 改动日志 (2026.11.06)：
+                    // ScoreManager 里“1 个入参 + void 返回 + 调用 TextUtils#isEmpty”在 OS4 上有两个同构方法：
+                    //   ScoreManager#V(Landroid/content/Context;)V  扫描应用列表（File#exists、List#add、Map#get）
+                    //   ScoreManager#c(Ly4/g;)V                     取名字判空后 Map#put 登记风险应用（才是真正的 addRiskApp）
+                    // 两版都是 2 个命中，.single() 抛 NonUniqueResultException，整条规则被跳过（日志：unique result: 2）。
+                    // OS3.0.319 里只有一个候选（ScoreManager#c(Lcom/miui/antivirus/model/VirusModel;)V），因此不会出现同一错误。
+                    // 两个候选的唯一结构差异在于是否向 Map 里 put（登记），“登记风险应用”这个动作本身就是本 Hook 的意图，
+                    // 所以用 Map#put 调用去歧义。已在 OS3.0.319、OS4.0.0.44、OS4.0.5.0 三版离线复算：均收敛为 1 个命中。
+                    addInvoke("Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;")
                     paramCount = 1
                     returnType = "void"
                 }
