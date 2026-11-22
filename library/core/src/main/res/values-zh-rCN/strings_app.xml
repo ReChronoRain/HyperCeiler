@@ -1663,6 +1663,10 @@
     <string name="mtb">鲁班 (MTB)</string>
     <string name="mtb_auth">绕过鲁班 (MTB) 鉴权</string>
     <string name="mtb_auth_desc">这是一个高危险性的功能，由此引发的后果全部由用户本人承担，请及时备份基带。</string>
+    <!--MI FIDO-->
+    <string name="fido_asm">MI FIDO</string>
+    <string name="unlock_passkeys">解锁通行密钥</string>
+    <string name="unlock_passkeys_desc">允许第三方应用创建和认证通行密钥</string>
     <!--搜狗输入法-->
     <string name="sogou_xiaomi">搜狗输入法小米版</string>
     <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
