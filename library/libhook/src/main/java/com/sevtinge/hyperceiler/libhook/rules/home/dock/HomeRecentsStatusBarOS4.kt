@@ -16,7 +16,10 @@ import java.lang.reflect.Method
 import java.util.concurrent.atomic.AtomicBoolean
 
 /** A temporary Insets request policy, never overwrites the client's requested types. */
-internal class HomeRecentsStatusBarOS4(private val record: (String) -> Unit) {
+internal class HomeRecentsStatusBarOS4(
+    private val screenInteractive: () -> Boolean,
+    private val record: (String) -> Unit
+) {
     companion object {
         const val TRANSACTION = 0x00484354
         const val ACK = 0x48435231
@@ -154,12 +157,20 @@ internal class HomeRecentsStatusBarOS4(private val record: (String) -> Unit) {
         val target = window
         if (stopped || !ready || target == null || !pref.available() || !pref.enabled()
             || SystemClock.elapsedRealtimeNanos() >= pref.deadline() || !state.overview(System.nanoTime())) return false
-        return runCatching {
-            val dc = display.invoke(target)
-            dc != null && focus.get(dc) === target && visible.invoke(target) == true
-                && keyguard.invoke(service) == false
-        }.getOrDefault(false)
+        return isForeground(target)
     }
+    private fun isForeground(target: Any): Boolean = runCatching {
+        val dc = display.invoke(target)
+        dc != null && focus.get(dc) === target && visible.invoke(target) == true
+            && keyguard.invoke(service) == false
+    }.getOrDefault(false)
+
+    private fun foregroundForRetry(): Boolean {
+        if (!screenInteractive()) return false
+        val wmLock = lock ?: return false
+        return synchronized(wmLock) { window?.let(::isForeground) == true }
+    }
+
     fun receive(data: Parcel, reply: Parcel, flags: Int) {
         var pref = HomeLayoutNativeEndpointOS4.RecentsBarPreference(false, false, 0)
         try {
@@ -177,6 +188,11 @@ internal class HomeRecentsStatusBarOS4(private val record: (String) -> Unit) {
                 if (probe || state.accept(Binder.getCallingUid(), Binder.getCallingPid(), sequence,
                         timestamp, mask, revision, confirm, now)) {
                     pref = HomeLayoutNativeEndpointOS4.recentsBarPreference()
+                    // Native cannot report an overview until the preference has been authorized.
+                    if ((!probe && state.overview(now)) || (!pref.available()
+                            && HomeLayoutNativeEndpointOS4.canRequestRetry() && foregroundForRetry())) {
+                        HomeLayoutNativeEndpointOS4.requestRetry()
+                    }
                     preference = pref
                     schedule()
                 }

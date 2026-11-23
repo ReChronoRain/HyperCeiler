@@ -5,7 +5,8 @@ private var checks=0
 private fun c(b:Boolean){checks++;check(b){"check $checks"}}
 fun main(){
  val wm=WindowManagerService();val dc=DisplayContent();val home=WindowState(dc,Session(10123,20));val app=WindowState(dc,Session(10124,30));dc.mCurrentFocus=home
- val logs=mutableListOf<String>();val p=HomeRecentsStatusBarOS4{logs.add(it)}
+ var interactive=true
+ val logs=mutableListOf<String>();val p=HomeRecentsStatusBarOS4({interactive}){logs.add(it)}
  p.install(WindowState::class.java);p.bind(home,wm);wm.mH.drain()
  c(logs.any{it.contains("installed")});c(home.getRequestedVisibleTypes()==15)
  c(com.sevtinge.hyperceiler.libhook.base.BaseHook.deoptimized.map{it.name}.toSet()==
@@ -17,7 +18,19 @@ fun main(){
   val input=Parcel(descriptor,*values.toLongArray());val out=Parcel("")
   p.receive(input,out,flags);wm.mH.drain();out.setDataPosition(0);c(out.readInt()==HomeRecentsStatusBarOS4.ACK);val available=out.readInt();val enabled=out.readInt();c(enabled==0||available==1);c(out.dataAvail()==0);return enabled
  }
- c(send(9)==1);c(home.getRequestedVisibleTypes()==14);c(!home.isRequestedVisible(1));c(home.isRequestedVisible(2));c(home.types==15);c(dc.policy.appliedTypes==14)
+ val enabledPref = HomeLayoutNativeEndpointOS4.pref
+ HomeLayoutNativeEndpointOS4.pref = HomeLayoutNativeEndpointOS4.RecentsBarPreference(false,false,0)
+ c(send(0,revision=0)==0);c(HomeLayoutNativeEndpointOS4.retryRequests==0)
+ HomeLayoutNativeEndpointOS4.retryAllowed = true
+ interactive=false;c(send(0,revision=0)==0);c(HomeLayoutNativeEndpointOS4.retryRequests==0)
+ interactive=true;dc.mCurrentFocus=app;c(send(0,revision=0)==0);c(HomeLayoutNativeEndpointOS4.retryRequests==0)
+ dc.mCurrentFocus=home;wm.locked=true;c(send(0,revision=0)==0);c(HomeLayoutNativeEndpointOS4.retryRequests==0)
+ wm.locked=false;c(send(0,revision=0)==0);c(HomeLayoutNativeEndpointOS4.retryRequests==1)
+ HomeLayoutNativeEndpointOS4.pref = enabledPref
+ c(send(0)==1);c(HomeLayoutNativeEndpointOS4.retryRequests==1)
+ c(send(9)==1);c(HomeLayoutNativeEndpointOS4.retryRequests==2)
+ c(send(0,revision=0)==1);c(HomeLayoutNativeEndpointOS4.retryRequests==2)
+ c(home.getRequestedVisibleTypes()==14);c(!home.isRequestedVisible(1));c(home.isRequestedVisible(2));c(home.types==15);c(dc.policy.appliedTypes==14)
  c(dc.policy.statusOwner=="platform-hiding");c(!dc.policy.statusSurfaceVisible);c(dc.policy.forcedTypes==0)
  c(!dc.policy.areTypesForciblyHidden(2));c(!dc.policy.areTypesForciblyHidden(3))
  val other=DisplayContent();c(!other.policy.areTypesForciblyHidden(1))

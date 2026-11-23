@@ -501,29 +501,30 @@ public class PrefsBridge {
         if (!commitClear(mPhysicalPrefs, "physical")) {
             return;
         }
-        Map<String, ?> remoteEntries = mRemotePrefs == null ? Collections.emptyMap() : new HashMap<>(mRemotePrefs.getAll());
         clearHookCache();
-        if (mRemotePrefs == null) {
-            return;
-        }
-
-        LinkedHashSet<String> changedKeys = new LinkedHashSet<>();
-        changedKeys.addAll(localEntries.keySet());
+        Map<String, ?> remoteEntries = clearRemotePrefs(mRemotePrefs);
+        LinkedHashSet<String> changedKeys = new LinkedHashSet<>(localEntries.keySet());
         changedKeys.addAll(remoteEntries.keySet());
-        if (!changedKeys.isEmpty()) {
-            SharedPreferences.Editor remoteEdit = mRemotePrefs.edit();
-            for (String key : remoteEntries.keySet()) {
-                remoteEdit.remove(key);
-            }
-            if (!commitEditor(remoteEdit, "remote", "clear remote prefs")) {
-                return;
-            }
-        }
-
         for (String key : changedKeys) {
             Object value = localEntries.containsKey(key) ? localEntries.get(key) : remoteEntries.get(key);
             notifyPrefChanged(key, resolvePrefType(value));
         }
+    }
+
+    private static Map<String, ?> clearRemotePrefs(@Nullable SharedPreferences remote) {
+        if (remote == null) return Collections.emptyMap();
+        try {
+            Map<String, ?> entries = new HashMap<>(remote.getAll());
+            if (entries.isEmpty()) return entries;
+            SharedPreferences.Editor editor = remote.edit();
+            for (String key : entries.keySet()) {
+                editor.remove(key);
+            }
+            if (commitEditor(editor, "remote", "clear remote prefs")) return entries;
+        } catch (RuntimeException e) {
+            AndroidLog.w(TAG, "Failed to prepare clear on remote prefs.", e);
+        }
+        return Collections.emptyMap();
     }
 
     /**

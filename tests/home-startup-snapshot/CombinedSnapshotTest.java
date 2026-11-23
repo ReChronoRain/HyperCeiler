@@ -114,11 +114,13 @@ public final class CombinedSnapshotTest {
   run("oneway trailing payload never gets authorization",()->{publish(prefs("allow_hook",true));inactive(endpoint().receiveCombinedSnapshot(new Parcel(DESC),1),0);inactive(endpoint().receiveCombinedSnapshot(new Parcel(DESC,7),0),0);});
   for(int[] id:new int[][]{{9999,42},{10100,0},{10100,-1},{10101,42},{10100,43}})run("caller auth required "+Arrays.toString(id),()->{publish(prefs("allow_hook",true));Binder.setCallingIdentityForTest(id[0],id[1]);inactive(read(),0);});
   run("default production verifier rejects non-Home process",()->{publish(prefs("allow_hook",true));Binder.setCallingIdentityForTest(10100,(int)ProcessHandle.current().pid());inactive(new HomeLayoutNativeEndpointOS4().receiveCombinedSnapshot(new Parcel(DESC),0),0);});
-  run("prefetch worker renews leases without a preference notification",()->{
+  run("experimental Home prefetch renews leases without a preference notification",()->{
    set("refresher",null);SystemClock.source=System::nanoTime;ContentResolver.values=prefs("allow_hook",true);
    Gate invalidation=new Gate();
-   HomeLayoutNativeEndpointOS4.startCombinedPrefetch();
+   String device=android.os.Build.DEVICE;
+   android.os.Build.DEVICE="popsicle";
    try {
+    HomeLayoutNativeEndpointOS4.startCombinedPrefetch();
     long until=System.nanoTime()+TimeUnit.SECONDS.toNanos(7);
     while(ContentResolver.queries.get()<4&&System.nanoTime()<until)Thread.sleep(20);
     check(ContentResolver.queries.get()>=4);eq(read().flags(),1);
@@ -128,7 +130,7 @@ public final class CombinedSnapshotTest {
     for(int i=0;i<100&&read().available()==0;i++)Thread.sleep(10);
     inactive(read(),1);
    } catch(InterruptedException e){throw new AssertionError(e);}
-   finally {invalidation.release.countDown();check(HomeLayoutNativeEndpointOS4.pauseForHotReload());}
+   finally {invalidation.release.countDown();android.os.Build.DEVICE=device;check(HomeLayoutNativeEndpointOS4.pauseForHotReload());}
   });
   System.out.println("RESULT passes="+passed+" failures="+failed+"; production Java endpoint/provider/gate and wire writer, simulated Android/clock; device NOT_TESTED");
   if(failed>0)System.exit(1);

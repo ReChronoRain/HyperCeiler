@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.SystemClock;
@@ -51,8 +52,7 @@ public final class HomeLayoutNativeEndpointOS4 {
      * on a binder call. A refresh can start the module app, so idle refreshes must be sparse.
      */
     private static final String PREFS_AUTHORITY = "com.sevtinge.hyperceiler.provider.sharedprefs";
-    // HCS1 authorization expires after five BOOTTIME seconds, even without a settings write.
-    // Renew on the existing worker; notifications still coalesce slider updates promptly.
+    private static final String PREFS_CHANGES_URI = "content://" + PREFS_AUTHORITY + "/pref";
     private static final long PREFS_REFRESH_MS = 1500;
     private static final long INITIAL_RETRY_MS = 1500;
     private static final long CHANGE_MIN_INTERVAL_NS = 150_000_000L;
@@ -97,6 +97,8 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static volatile boolean paused;
     private static long refreshEpoch;
     private static long notificationVersion;
+    private static volatile boolean acceptsRetryRequests;
+    private static boolean retryRequested;
     private static long refreshTicket;
     private static long combinedEpoch;
     private static long combinedRevision;
@@ -148,6 +150,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static boolean isLayoutChange(Uri uri) {
         if (uri == null) return true; // A broad invalidation must never be dropped.
         final String path = uri.toString();
+        if (PREFS_CHANGES_URI.equals(path)) return true;
         final int slash = path.lastIndexOf('/');
         final String segment = path.substring(slash + 1);
         final String key = segment.startsWith("prefs_key_")
@@ -236,6 +239,42 @@ public final class HomeLayoutNativeEndpointOS4 {
         return true;
     }
 
+    private static boolean needsLeaseRefresh() {
+        // The experimental popsicle companion needs a live HCS1 snapshot before Home's entry point.
+        if ("popsicle".equals(Build.DEVICE)) return true;
+        final var values = cachedValues;
+        return values != null && readBoolean(values, "allow_hook", false)
+            && readBoolean(values, HomeLayoutPrefsSnapshot.RECENTS_BAR_KEY, false);
+    }
+
+    private static ContentObserver registerObserver(ContentResolver resolver) {
+        final ContentObserver observer = new ContentObserver(null) {
+            @Override public void onChange(boolean selfChange, Uri uri) {
+                if (!isLayoutChange(uri)) return;
+                synchronized (refresherLock) {
+                    ++notificationVersion;
+                    invalidateCombinedLocked();
+                    refresherLock.notifyAll();
+                }
+            }
+        };
+        resolver.registerContentObserver(Uri.parse(PREFS_CHANGES_URI), true, observer);
+        return observer;
+    }
+
+    static boolean canRequestRetry() {
+        return acceptsRetryRequests && !paused;
+    }
+
+    static void requestRetry() {
+        if (!canRequestRetry()) return;
+        synchronized (refresherLock) {
+            if (!canRequestRetry() || retryRequested) return;
+            retryRequested = true;
+            refresherLock.notifyAll();
+        }
+    }
+
     private static void ensureRefresher() {
         restoreProviderSnapshot();
         synchronized (refresherLock) {
@@ -247,34 +286,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                 long retry = INITIAL_RETRY_MS;
                 long lastQueryAtNanos = 0;
                 try {
-                    try {
-                        final android.content.Context context =
-                            com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
-                                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
-                        if (context != null) {
-                            resolver = context.getContentResolver();
-                        }
-                        if (resolver != null) {
-                            final ContentObserver candidate = new ContentObserver(null) {
-                                @Override public void onChange(boolean selfChange, Uri uri) {
-                                    if (!isLayoutChange(uri)) return;
-                                    synchronized (refresherLock) {
-                                        ++notificationVersion;
-                                        invalidateCombinedLocked();
-                                        refresherLock.notifyAll();
-                                    }
-                                }
-                            };
-                            resolver.registerContentObserver(Uri.parse(
-                                "content://" + PREFS_AUTHORITY + "/pref"), true, candidate);
-                            observer = candidate;
-                        }
-                    } catch (RuntimeException | Error unavailable) {
-                        // A broken content service must not crash system_server's worker.
-                        // Unobserved systems continue with a bounded five-second fallback.
-                    }
                     for (;;) {
-                        final long beforeQuery;
                         synchronized (refresherLock) {
                             if (paused || refreshEpoch != epoch) return;
                             // Slider drags may emit dozens of writes per second. Coalesce them
@@ -287,9 +299,27 @@ public final class HomeLayoutNativeEndpointOS4 {
                                     continue;
                                 }
                             }
+                        }
+                        if (observer == null) {
+                            try {
+                                final android.content.Context context =
+                                    com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                                        com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+                                if (context != null) resolver = context.getContentResolver();
+                                if (resolver != null) observer = registerObserver(resolver);
+                            } catch (RuntimeException | Error unavailable) {
+                                // A broken content service must not crash system_server's worker.
+                            }
+                        }
+                        final long beforeQuery;
+                        synchronized (refresherLock) {
+                            if (paused || refreshEpoch != epoch) return;
+                            retryRequested = false;
+                            acceptsRetryRequests = true;
                             beforeQuery = notificationVersion;
                         }
                         final boolean success = refreshFromProvider();
+                        final boolean firstFailure = !success && retry == INITIAL_RETRY_MS;
                         lastQueryAtNanos = System.nanoTime();
                         final long period;
                         if (success) {
@@ -301,9 +331,26 @@ public final class HomeLayoutNativeEndpointOS4 {
                         }
                         synchronized (refresherLock) {
                             if (paused || refreshEpoch != epoch) return;
+                            final boolean renewLease = needsLeaseRefresh();
+                            acceptsRetryRequests = !renewLease && (!success || observer == null);
+                            if (!acceptsRetryRequests) retryRequested = false;
                             // A write during the query needs a new whole-file revision now.
                             if (notificationVersion != beforeQuery) continue;
-                            idleGateElapsed(idlePeriod(period, screenInteractive()), epoch);
+                            if (renewLease) {
+                                idleGateElapsed(idlePeriod(period, screenInteractive()), epoch);
+                            } else {
+                                // The launcher's initial Binder retry window is shorter than the backoff.
+                                final long retryAt = lastQueryAtNanos + (firstFailure ? 0 : period * 1_000_000L);
+                                while (!paused && refreshEpoch == epoch && notificationVersion == beforeQuery) {
+                                    if (!retryRequested) {
+                                        refresherLock.wait();
+                                    } else {
+                                        final long remaining = retryAt - System.nanoTime();
+                                        if (remaining <= 0) break;
+                                        refresherLock.wait(Math.max(1, (remaining + 999_999) / 1_000_000));
+                                    }
+                                }
+                            }
                         }
                     }
                 } catch (InterruptedException cancelled) {
@@ -314,7 +361,11 @@ public final class HomeLayoutNativeEndpointOS4 {
                         catch (RuntimeException | Error unavailable) { /* Retiring after provider death. */ }
                     }
                     synchronized (refresherLock) {
-                        if (refresher == Thread.currentThread()) refresher = null;
+                        if (refresher == Thread.currentThread()) {
+                            acceptsRetryRequests = false;
+                            retryRequested = false;
+                            refresher = null;
+                        }
                     }
                 }
             }, "hc-layout-prefs");
@@ -349,8 +400,9 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     /** A missing provider revision is NOT an authoritative zero/default native configuration. */
-    private static Snapshot readReadyPreferences() {
+    static Snapshot readReadyPreferences() {
         ensureRefresher();
+        requestRetry();
         if (cachedValues == null) return null;
         return readPreferences();
     }
@@ -656,6 +708,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         final int uid = Binder.getCallingUid();
         final int pid = Binder.getCallingPid();
         if (uid < 10000 || pid <= 0 || !verifier.isLauncher(uid, pid)) return -1;
+        requestRetry();
         return readHyosFlags();
     }
 
@@ -707,6 +760,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         final int pid = Binder.getCallingPid();
         if (uid < 10000 || pid <= 0 || !verifier.isLauncher(uid, pid))
             return unavailableCombined(null);
+        requestRetry();
         return readCombinedSnapshot();
     }
 
