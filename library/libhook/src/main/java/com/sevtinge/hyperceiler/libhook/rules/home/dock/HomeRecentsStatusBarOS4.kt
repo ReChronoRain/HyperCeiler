@@ -188,8 +188,9 @@ internal class HomeRecentsStatusBarOS4(
                 if (probe || state.accept(Binder.getCallingUid(), Binder.getCallingPid(), sequence,
                         timestamp, mask, revision, confirm, now)) {
                     pref = HomeLayoutNativeEndpointOS4.recentsBarPreference()
+                    val overviewNeedsRetry = !probe && state.overview(now)
                     // Native cannot report an overview until the preference has been authorized.
-                    if ((!probe && state.overview(now)) || (!pref.available()
+                    if (overviewNeedsRetry || (!pref.available()
                             && HomeLayoutNativeEndpointOS4.canRequestRetry() && foregroundForRetry())) {
                         HomeLayoutNativeEndpointOS4.requestRetry()
                     }

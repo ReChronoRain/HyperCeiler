@@ -35,7 +35,12 @@ with tempfile.TemporaryDirectory(prefix="hc-idle-snapshot-") as out:
     if result.returncode:
         print(result.stderr); sys.exit(result.returncode)
     for name, *args in cases:
-        result = subprocess.run([str(test_paths.java_tool('java')), "-ea", "-cp", out, "com.sevtinge.hyperceiler.libhook.rules.home.dock." + name, *args], capture_output=True, text=True)
+        # Test classes and modes come only from the fixed cases above.
+        result = subprocess.run(  # nosec B603
+            [str(test_paths.java_tool('java')), "-ea", "-cp", out,
+             "com.sevtinge.hyperceiler.libhook.rules.home.dock." + name, *args],
+            capture_output=True, text=True,
+        )
         print(result.stdout, end=""); print(result.stderr, end="")
         if result.returncode: sys.exit(result.returncode)
         if name == "HomeLayoutNativeEndpointOS4Test": print("Existing layout endpoint regression: PASS")

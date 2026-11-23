@@ -361,7 +361,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                         catch (RuntimeException | Error unavailable) { /* Retiring after provider death. */ }
                     }
                     synchronized (refresherLock) {
-                        if (refresher == Thread.currentThread()) {
+                        if (Thread.currentThread().equals(refresher)) {
                             acceptsRetryRequests = false;
                             retryRequested = false;
                             refresher = null;
