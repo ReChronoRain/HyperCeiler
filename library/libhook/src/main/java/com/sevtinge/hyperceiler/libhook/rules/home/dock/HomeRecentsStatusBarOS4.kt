@@ -165,8 +165,8 @@ internal class HomeRecentsStatusBarOS4(
             && keyguard.invoke(service) == false
     }.getOrDefault(false)
 
-    private fun foregroundForRetry(): Boolean {
-        if (!screenInteractive()) return false
+    private fun canRetryInForeground(): Boolean {
+        if (!HomeLayoutNativeEndpointOS4.canRequestRetry() || !screenInteractive()) return false
         val wmLock = lock ?: return false
         return synchronized(wmLock) { window?.let(::isForeground) == true }
     }
@@ -190,8 +190,7 @@ internal class HomeRecentsStatusBarOS4(
                     pref = HomeLayoutNativeEndpointOS4.recentsBarPreference()
                     val overviewNeedsRetry = !probe && state.overview(now)
                     // Native cannot report an overview until the preference has been authorized.
-                    if (overviewNeedsRetry || (!pref.available()
-                            && HomeLayoutNativeEndpointOS4.canRequestRetry() && foregroundForRetry())) {
+                    if (overviewNeedsRetry || (!pref.available() && canRetryInForeground())) {
                         HomeLayoutNativeEndpointOS4.requestRetry()
                     }
                     preference = pref
