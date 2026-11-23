@@ -149,13 +149,6 @@
         android:title="@string/remotecontroller"
         app:inflatedXml="@xml/remotecontroller"/>
 
-     <header
-        android:icon="@drawable/ic_default"
-        android:id="@+id/fido"
-        android:summary="com.fido.asm"
-        android:title="@string/fido_asm"
-        app:inflatedXml="@xml/fido_asm"/>
-
     <header
         android:icon="@drawable/ic_default"
         android:id="@+id/lbe"
@@ -435,7 +428,6 @@
         android:summary="com.xiaomi.mtb"
         android:title="@string/mtb"
         app:inflatedXml="@xml/mtb"/>
-
 
     <header
         android:icon="@drawable/ic_default"

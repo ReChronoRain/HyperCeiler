@@ -1667,10 +1667,6 @@
     <string name="miui_passwords">密码管理</string>
     <string name="totp_sync">同步动态令牌</string>
     <string name="totp_sync_desc">补全 动态令牌云同步 功能</string>
-    <!--MI FIDO-->
-    <string name="fido_asm">MI FIDO</string>
-    <string name="unlock_passkeys">解锁通行密钥</string>
-    <string name="unlock_passkeys_desc">允许第三方应用创建和认证通行密钥</string>
     <!--搜狗输入法-->
     <string name="sogou_xiaomi">搜狗输入法小米版</string>
     <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
