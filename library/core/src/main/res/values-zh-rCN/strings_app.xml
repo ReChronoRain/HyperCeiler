@@ -847,6 +847,7 @@
     <string name="system_ui_control_center_notification_disable_transparent">禁用透明模式</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">禁止设置通知背景为非模糊或透明样式</string>
     <string name="system_ui_control_center_media_control_progress">媒体进度条样式</string>
+    <string name="system_ui_control_center_media_control_progress_color_from_media">跟随媒体取色</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
     <string name="system_ui_control_center_media_control_progress_sleek">圆滑</string>
     <string name="system_ui_control_center_media_control_progress_thumb">媒体进度条按钮样式</string>

@@ -83,6 +83,9 @@ object MediaSeekBar : BaseHook() {
     private val ncProgressRound by lazy {
         PrefsBridge.getBoolean("system_ui_control_center_media_control_progress_round")
     }
+    private val ncProgressColorFromMedia by lazy {
+        PrefsBridge.getBoolean("system_ui_control_center_media_control_progress_color_from_media", true)
+    }
 
     private val ncCustomThumbStyle by lazy {
         when (ncThumbMode) {
@@ -267,7 +270,11 @@ object MediaSeekBar : BaseHook() {
                 val enableFullAod = fldEnableFullAod?.get(controller) == true
                 val isDark = enableFullAod || isDarkMode() || (ncBackgroundStyle == 0 && ncAlwaysDark)
                 val seekBar = getOrCreateRealSeekBar(holder, false) ?: return@afterHookMethod
-                val mediaColor = CustomBackgroundOS4.seekBarColor(holder)
+                val mediaColor = if (ncProgressColorFromMedia) {
+                    CustomBackgroundOS4.seekBarColor(holder)
+                } else {
+                    null
+                }
                 val fallbackColor = if (isDark) Color.WHITE else Color.BLACK
                 seekBar.progressTintList = ColorStateList.valueOf(mediaColor ?: fallbackColor)
                 XposedLog.d(TAG, lpparam.packageName, "updateForegroundColors: isDark=$isDark (fullAod=$enableFullAod, alwaysDark=$ncAlwaysDark, mediaColor=$mediaColor)")

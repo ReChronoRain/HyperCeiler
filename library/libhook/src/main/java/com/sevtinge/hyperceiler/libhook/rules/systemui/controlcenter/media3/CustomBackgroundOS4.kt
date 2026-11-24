@@ -725,10 +725,16 @@ object CustomBackgroundOS4 : BaseHook() {
                 val values = listOf(color.textPrimary, disabled, background, background)
                 group.seekColors.forEachIndexed { i, (field, setter) -> tint(slot, seek, 5 + i, values[i], field, setter) }
             }
-            holder.getAdditionalInstanceFieldAs<SeekBar?>(CustomBackground.KEY_REAL_PROGRESS_BAR)?.let { alternate ->
-                if (alternate.parent != null) {
-                    tint(slot, alternate, 2, primary); tint(slot, alternate, 3, primary)
-                    tint(slot, alternate, 4, ColorStateList.valueOf((color.textPrimary and 0x00ffffff) or (0x33 shl 24)))
+            val colorFromMedia = PrefsBridge.getBoolean(
+                (if (group.island) DP else NP) + "_progress_color_from_media",
+                true
+            )
+            if (colorFromMedia) {
+                holder.getAdditionalInstanceFieldAs<SeekBar?>(CustomBackground.KEY_REAL_PROGRESS_BAR)?.let { alternate ->
+                    if (alternate.parent != null) {
+                        tint(slot, alternate, 2, primary); tint(slot, alternate, 3, primary)
+                        tint(slot, alternate, 4, ColorStateList.valueOf((color.textPrimary and 0x00ffffff) or (0x33 shl 24)))
+                    }
                 }
             }
         }

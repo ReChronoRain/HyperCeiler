@@ -215,6 +215,12 @@
             app:entries="@array/system_ui_control_center_media_control_progress_mode"
             app:entryValues="@array/system_ui_control_center_media_control_progress_mode_value" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="prefs_key_system_ui_control_center_media_control_progress_on"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_color_from_media"
+            android:title="@string/system_ui_control_center_media_control_progress_color_from_media" />
+
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_control_center_media_control_progress_thumb_mode"
