@@ -22,12 +22,14 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.mishare.NoAutoTurnOff;
+import com.sevtinge.hyperceiler.libhook.rules.mishare.OpenLinksInDefaultBrowser;
 
 @HookBase(targetPackage = "com.miui.mishare.connectivity")
 public class MiShare extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        initHook(OpenLinksInDefaultBrowser.INSTANCE, PrefsBridge.getBoolean("mishare_use_default_browser"));
         initHook(NoAutoTurnOff.INSTANCE, PrefsBridge.getBoolean("disable_mishare_auto_off")); // 禁用 10 分钟自动关闭
     }
 }

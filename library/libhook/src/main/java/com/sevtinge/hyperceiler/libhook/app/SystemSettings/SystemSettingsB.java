@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app.SystemSettings;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AddGoogleListHeader;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AllowManageAllNotifications;
@@ -36,6 +37,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemsettings.MoreNotificationSet
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.MoreVpnTypes;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.NewNFCPage;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.NoveltyHaptic;
+import com.sevtinge.hyperceiler.libhook.rules.systemsettings.OpenRouterInDefaultBrowser;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.QuickManageOverlayPermission;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.QuickManagerAccessibilityPermission;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.RunningServices;
@@ -50,13 +52,13 @@ import com.sevtinge.hyperceiler.libhook.rules.systemsettings.ViewWifiPasswordHoo
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.aiimage.UnlockAi;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.aiimage.UnlockMemc;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.aiimage.UnlockSuperResolution;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.settings", minSdk = 36)
 public class SystemSettingsB extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        initHook(OpenRouterInDefaultBrowser.INSTANCE, PrefsBridge.getBoolean("system_settings_router_use_default_browser"));
         // 首页
         initHook(new HyperCeilerSettings(), PrefsBridge.getStringAsInt("settings_icon", 0) != 0);
         initHook(new InternationalBuild(), PrefsBridge.getBoolean("system_settings_international_build"));
