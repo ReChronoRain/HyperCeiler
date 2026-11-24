@@ -1,0 +1,48 @@
+name: Fork Build APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-overwrite-existing: true
+
+      - name: Fix gradlew permission
+        run: chmod +x ./gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Find APK
+        id: find
+        run: |
+          APK=$(find app/build/outputs/apk/debug -name '*.apk' | head -1)
+          echo "APK=$APK" >> $GITHUB_OUTPUT
+          echo "NAME=$(basename "$APK" .apk)" >> $GITHUB_OUTPUT
+          echo "found: $APK"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.find.outputs.NAME }}
+          path: ${{ steps.find.outputs.APK }}
+          compression-level: 9
