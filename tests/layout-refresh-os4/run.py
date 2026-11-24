@@ -118,7 +118,7 @@ int main(){
     run(['c++','-std=c++20','-I'+str(ROOT/'app/src/main/cpp'),out/'bootstrap.cpp','-o',out/'bootstrap']);run([out/'bootstrap'])
 entry=(ROOT/'app/src/main/cpp/targets/home/hyperceiler_home.cpp').read_text()
 callback=entry[entry.index('void on_library_loaded('):]
-assert callback.index('prime_home_layout_first_render(')<callback.index('prime_home_layout_knobs(')
+assert callback.index('notify_home_layout_library_loaded()')<callback.index('start_home_layout_hooks("library"')
 worker=hooks[hooks.index('void *worker('):hooks.index('void prime_home_layout_first_render_locked() {')]
 assert worker.index('prime_home_layout_first_render_locked();')<worker.index('std::optional<Located> located')
 binding=function('bool bind_drawer_search()')
@@ -131,4 +131,4 @@ provider=(ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/p
 assert 'home_drawer_hide_search' in provider
 writer=(ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeDockWindow.kt').read_text()
 assert 'HomeLayoutNativeEndpointOS4.writeDrawer(reply, result?.drawerHideSearch() ?: false)' in writer
-print('first-render/drawer production integration PASS: early callback + worker adoption, UI/provider/Binder writer, executable-only bank')
+print('first-render/drawer production integration PASS: library notification and worker adoption, UI/provider/Binder writer, executable-only bank')

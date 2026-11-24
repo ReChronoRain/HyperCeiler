@@ -7,6 +7,10 @@
 #include <iostream>
 #define __android_log_print(...) 0
 #define ANDROID_LOG_INFO 4
+namespace nhk::home_safe_mode {
+struct Decision { bool blocked = false; };
+Decision decision() { return {}; }
+}
 constexpr int kTag=0;
 constexpr unsigned kIconRenderSlotBase=0,kProgressIconSlotBase=6,kKnobHookSlotBase=53,kDrawerSearchSlot=11;
 constexpr unsigned kFolderIconScaleSlot=13,kFolderAnimScaleSlotBase=14,kFolderAnimScaleSlotCount=5,kFolderReturnScaleSlotBase=19,kWidgetScaleSlot=21,kWidgetScaleSlotCount=23;
