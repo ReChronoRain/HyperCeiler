@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.appbase.systemui;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -89,6 +90,8 @@ public abstract class TileUtils extends BaseHook {
     private static final String CLASS_EXPANDABLE = "com.android.systemui.animation.Expandable";
     private static final String CLASS_CONTROL_CENTER_UTILS = "com.android.systemui.controlcenter.utils.ControlCenterUtils";
     private static final String CLASS_SYSTEMUI_APP = "com.android.systemui.SystemUIApplication";
+    private static final String CLASS_MIUI_QS_HOST_ADAPTER =
+        "com.android.systemui.qs.pipeline.domain.adapter.MiuiQSHostAdapter";
 
     private static final String FIELD_CUSTOM_NAME = "hc_customTileName";
     private static final String METHOD_CREATE_TILE = "createTile";
@@ -250,6 +253,8 @@ public abstract class TileUtils extends BaseHook {
      * 注册自定义磁贴到系统
      */
     private void registerCustomTile() {
+        if (isMoreHyperOSVersion(4f) && registerCustomTileWithHost()) return;
+
         findAndHookMethod(CLASS_SYSTEMUI_APP, "onCreate", new IMethodHook() {
             @Override
             public void after(HookParam param) {
@@ -261,6 +266,24 @@ public abstract class TileUtils extends BaseHook {
                 registerTileToStock(context);
             }
         });
+    }
+
+    private boolean registerCustomTileWithHost() {
+        Class<?> hostClass = findClassIfExists(CLASS_MIUI_QS_HOST_ADAPTER);
+        if (hostClass == null) return false;
+
+        var stockTilesMethod = findMethodExactIfExists(hostClass, "getStockTiles", new Class<?>[0]);
+        if (stockTilesMethod == null || stockTilesMethod.getReturnType() != String.class) return false;
+
+        String tileName = mConfig.getTileName();
+        return chain(stockTilesMethod, invocation -> {
+            String stockTiles = (String) invocation.proceed();
+            if (stockTiles == null || stockTiles.isEmpty()) return tileName;
+            for (String spec : stockTiles.split(",")) {
+                if (tileName.equals(spec.trim())) return stockTiles;
+            }
+            return stockTiles + "," + tileName;
+        }) != null;
     }
 
     @SuppressLint("DiscouragedApi")
