@@ -19,7 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newStateFlow
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
@@ -30,6 +35,15 @@ object WifiNetworkIndicator : BaseHook() {
     }
 
     override fun init() {
+        if (isMoreAndroidVersion(37)) {
+            // OS4 uses resource ID 0 when neither direction is active.
+            val inactive = newStateFlow(0)
+            loadClass("com.android.systemui.statusbar.pipeline.wifi.ui.viewmodel.WifiViewModel")
+                .findMethod { name("getActivityInOutRes") }
+                .createHook { returnConstant(inactive) }
+            return
+        }
+
         mStatusBarWifiViewNew.hookAllConstructors {
             after {
                 it.thisObject.setObjectField(

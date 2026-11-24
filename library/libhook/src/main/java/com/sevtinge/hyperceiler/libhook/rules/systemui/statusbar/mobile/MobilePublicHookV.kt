@@ -28,12 +28,14 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.telephony.SubscriptionManager
 import androidx.annotation.RequiresPermission
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newStateFlow
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.miuiMobileIconBinder
@@ -51,6 +53,7 @@ import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
@@ -92,6 +95,14 @@ class MobilePublicHookV : BaseHook() {
      */
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
     private fun hookOs4Visibility() {
+        if (hideIndicator) {
+            runCatching {
+                val hidden = newStateFlow(false)
+                loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiMobileIconVMImpl")
+                    .findMethod { name("getInOutVisible") }
+                    .createHook { returnConstant(hidden) }
+            }.onFailure { XposedLog.w(TAG, lpparam.packageName, "Mobile activity visibility unavailable: ${it.message}") }
+        }
         miuiMobileIconBinder.findMethod { name("bind") }
             .createAfterHook { param ->
                 val vmImpl = param.args[2] ?: return@createAfterHook
@@ -154,7 +165,7 @@ class MobilePublicHookV : BaseHook() {
             }
         }
 
-        if (hideIndicator) {
+        if (hideIndicator && !isMoreAndroidVersion(37)) {
             runCatching {
                 cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
             }
