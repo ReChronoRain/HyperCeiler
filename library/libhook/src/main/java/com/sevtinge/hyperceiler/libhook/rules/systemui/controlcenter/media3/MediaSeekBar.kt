@@ -21,6 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.text.format.DateUtils
 import android.view.View
 import android.view.ViewGroup
@@ -280,7 +283,9 @@ object MediaSeekBar : BaseHook() {
                     null
                 }
                 val fallbackColor = if (isDark) Color.WHITE else Color.BLACK
-                seekBar.progressTintList = ColorStateList.valueOf(mediaColor ?: fallbackColor)
+                if (!applySeekBarColor(holder, mediaColor ?: fallbackColor, false)) {
+                    seekBar.progressTintList = ColorStateList.valueOf(mediaColor ?: fallbackColor)
+                }
                 XposedLog.d(TAG, lpparam.packageName, "updateForegroundColors: isDark=$isDark (fullAod=$enableFullAod, alwaysDark=$ncAlwaysDark, mediaColor=$mediaColor)")
             }
         }
@@ -352,8 +357,29 @@ object MediaSeekBar : BaseHook() {
     fun applySeekBarColor(holder: Any, color: Int, isDynamicIsland: Boolean): Boolean {
         val enabled = if (isDynamicIsland) diProgressColorFromMedia else ncProgressColorFromMedia
         if (!enabled) return false
-        val seekBar = holder.getAdditionalInstanceField(KEY_REAL_SEEKBAR) as? SeekBar ?: return false
+        val seekBar = holder.getAdditionalInstanceField(KEY_REAL_SEEKBAR) as? SeekBar
+            ?: if (isDynamicIsland) {
+                holder.getMediaViewHolderFieldAs<SeekBar>("seekBar", true)
+            } else {
+                holder.getObjectFieldOrNullAs<SeekBar>("seekBar")
+            } ?: return false
         seekBar.progressTintList = ColorStateList.valueOf(color)
+
+        if (hyperProgressSeekBar?.isInstance(seekBar) == true) {
+            seekBar.getObjectFieldOrNullAs<Paint>("mPaint")?.colorFilter =
+                PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            val alpha = color ushr 24
+            val disabled = (color and 0x00ffffff) or ((alpha * 0.3f).toInt() shl 24)
+            val background = (color and 0x00ffffff) or ((alpha * 0.2f).toInt() shl 24)
+            runCatching {
+                BaseHook.callMethod(seekBar, "setForegroundPrimaryColor", color)
+                BaseHook.callMethod(seekBar, "setForegroundPrimaryDisableColor", disabled)
+                BaseHook.callMethod(seekBar, "setBackgroundPrimaryColor", background)
+                BaseHook.callMethod(seekBar, "setBackgroundPrimaryDisableColor", background)
+            }.onFailure {
+                XposedLog.e(TAG, lpparam.packageName, "Unable to apply media color to HyperProgressSeekBar", it)
+            }
+        }
         return true
     }
 
