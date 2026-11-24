@@ -6,7 +6,11 @@ import java.util.*;
 import com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot;
 public final class BackGestureEndpointTest {
  static int checks; static void check(boolean b){++checks;if(!b)throw new AssertionError("check "+checks);}
- public static void main(String[] args){
+ public static void main(String[] args) throws ReflectiveOperationException {
+  // Drive provider refreshes explicitly so the background worker cannot supersede a test query.
+  var refresher = HomeLayoutNativeEndpointOS4.class.getDeclaredField("refresher");
+  refresher.setAccessible(true);
+  refresher.set(null, new Thread());
   ContentResolver.setSpecs(HomeLayoutPrefsSnapshot.specs());
   for(int height:new int[]{10,25,60,100,9,101})for(int width:new int[]{100,200,400,99,401}){
    ContentResolver.setRows(Map.of("prefs_key_home_navigation_back_area_height",height,"prefs_key_home_navigation_back_area_width",width));

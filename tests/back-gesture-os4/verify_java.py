@@ -1,15 +1,30 @@
 from pathlib import Path
-import json,re,subprocess,sys
+import json,os,re,subprocess,sys,tempfile
 D=Path(__file__).resolve().parent;W=D.parents[1];R=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else W
-out=D/('java-'+R.name);out.mkdir(exist_ok=True)
-jdk=Path('D:/build-tools/jdk-25.0.4.1+1/bin')
-sources=list((W/'tests/home-layout-native/stubs').rglob('*.java'))+list((W/'tests/home-dock-window/stubs').rglob('*.java'))+[R/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeLayoutPrefsSnapshot.java',R/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java',D/'BackGestureEndpointTest.java']
-r=subprocess.run([str(jdk/'javac.exe'),'-encoding','UTF-8','-d',str(out)]+list(map(str,sources)),capture_output=True,text=True);print(r.stdout+r.stderr,end='')
+build=tempfile.TemporaryDirectory(prefix='hc-back-gesture-java-')
+out=Path(build.name)
+def java_tool(name):
+    jdk=os.environ.get('JAVA_HOME')
+    return str(Path(jdk)/'bin'/(name+('.exe' if os.name=='nt' else ''))) if jdk else name
+
+source_root=R/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'
+sources=list((W/'tests/home-layout-native/stubs').rglob('*.java'))
+sources+=list((W/'tests/home-dock-window/stubs').rglob('*.java'))
+sources+=[source_root/'base/FrameworkHookGate.java',
+    source_root/'provider/HomeGesturePrefsSnapshot.java',
+    source_root/'provider/HomeLayoutPrefsSnapshot.java',
+    source_root/'rules/home/dock/HomeLayoutNativeEndpointOS4.java',
+    D/'BackGestureEndpointTest.java']
+r=subprocess.run([java_tool('javac'),'-encoding','UTF-8','-d',str(out)]+list(map(str,sources)),capture_output=True,text=True);print(r.stdout+r.stderr,end='')
 if r.returncode:sys.exit(r.returncode)
-r=subprocess.run([str(jdk/'java.exe'),'-ea','-cp',str(out),'com.sevtinge.hyperceiler.libhook.rules.home.dock.BackGestureEndpointTest'],capture_output=True,text=True);print(r.stdout+r.stderr,end='')
+r=subprocess.run([java_tool('java'),'-ea','-cp',str(out),'com.sevtinge.hyperceiler.libhook.rules.home.dock.BackGestureEndpointTest'],capture_output=True,text=True);print(r.stdout+r.stderr,end='')
 if r.returncode:sys.exit(r.returncode)
 # Run actual settings and adaptation gate with Android preference stubs.
-stubs=json.loads((W/'tests/home-os4-gate-controls/stubs.json').read_text(encoding="utf8"));base=R/'library/core/src/main/java/com/sevtinge/hyperceiler/hooker/home';sources=[base/(n+'.java') for n in ['HomeGestureSettings','HomeOS4AdaptationGate']]
+ui_stubs=W/'tests/home-os4-gate-controls/stubs.json'
+if not ui_stubs.is_file():
+    print('BACK_GESTURE_UI=skipped (no settings stubs)')
+    sys.exit(0)
+stubs=json.loads(ui_stubs.read_text(encoding="utf8"));base=R/'library/core/src/main/java/com/sevtinge/hyperceiler/hooker/home';sources=[base/(n+'.java') for n in ['HomeGestureSettings','HomeOS4AdaptationGate']]
 res={}
 for kind,name in re.findall(r'R\.(\w+)\.(\w+)', ''.join(p.read_text(encoding="utf8") for p in sources)):res.setdefault(kind,set()).add(name)
 stubs['com/sevtinge/hyperceiler/core/R.java']='package com.sevtinge.hyperceiler.core;public class R {'+''.join('public static class '+k+'{'+''.join('public static final int '+n+'='+str(i)+';' for i,n in enumerate(sorted(v),1))+'}' for k,v in res.items())+'}'
@@ -33,6 +48,6 @@ public class BackGestureGateTest {
  }System.out.println("BACK_GESTURE_UI="+checks+" checks; failed=0");}
 }'''
 for n,s in stubs.items():p=out/'stubs'/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(s)
-r=subprocess.run([str(jdk/'javac.exe'),'-encoding','UTF-8','-d',str(out/'gate')]+list(map(str,sources))+list(map(str,(out/'stubs').rglob('*.java'))),capture_output=True,text=True);print(r.stdout+r.stderr,end='')
+r=subprocess.run([java_tool('javac'),'-encoding','UTF-8','-d',str(out/'gate')]+list(map(str,sources))+list(map(str,(out/'stubs').rglob('*.java'))),capture_output=True,text=True);print(r.stdout+r.stderr,end='')
 if r.returncode:sys.exit(r.returncode)
-r=subprocess.run([str(jdk/'java.exe'),'-ea','-cp',str(out/'gate'),'BackGestureGateTest'],capture_output=True,text=True);print(r.stdout+r.stderr,end='');sys.exit(r.returncode)
+r=subprocess.run([java_tool('java'),'-ea','-cp',str(out/'gate'),'BackGestureGateTest'],capture_output=True,text=True);print(r.stdout+r.stderr,end='');sys.exit(r.returncode)
