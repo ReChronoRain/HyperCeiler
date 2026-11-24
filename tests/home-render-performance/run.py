@@ -20,7 +20,7 @@ def body(name):
  return source[at:end].replace('std::ifstream maps("/proc/self/maps")','std::istringstream maps("")').replace('getpid()','fixture_pid()').replace('gettid()','fixture_tid()')
 with tempfile.TemporaryDirectory(prefix='hc-native-primer-perf-')as work:
  src=Path(work)/'primers.cpp';binary=Path(work)/'primers'
- src.write_text((HERE/'native_primers.inc').read_text()+body('void prime_native_columns(HookFunction hook, UnhookFunction unhook)')+'\n'+body('void prime_back_regions(HookFunction hook,UnhookFunction unhook)')+(HERE/'native_primers_test.inc').read_text())
+ src.write_text((HERE/'native_primers.inc').read_text()+body('void prime_native_columns(HookFunction hook, UnhookFunction unhook)')+'\n'+(HERE/'native_primers_test.inc').read_text())
  subprocess.run(['c++','-std=c++20','-O2','-I'+str(ROOT/'app/src/main/cpp'),str(src),'-o',str(binary)],check=True)
  subprocess.run([str(binary)],check=True)
 

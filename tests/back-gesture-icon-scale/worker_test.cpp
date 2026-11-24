@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_layout_config.h"
+#include "targets/home/home_binding_retry.h"
 #include "nativehook/hook_bank.h"
 #include <algorithm>
 #include <atomic>
@@ -55,6 +56,15 @@ bool ensure_dart_library() {
     return true;
 }
 void sync_title_config(const home_layout::Config &config) { published = config; }
+void prime_home_layout_first_render_locked() {}
+void bind_folder_preview_return() {}
+void bind_dock_position() {}
+home_layout::BindingRetry g_scale_bind_retry;
+void reset_binding_retries() { g_scale_bind_retry.reset(); }
+uint64_t monotonic_ms() {
+    static uint64_t now = 0;
+    return now += 30000;
+}
 void publish_animation_rate(const home_layout::TweaksConfig &) {}
 void push_tweaks(const home_layout::Config &) {}
 bool bind_animation_consumer(Located &) { return false; }
@@ -95,7 +105,7 @@ bool bind_title_hide() { return false; }
 size_t arm_hooks(std::vector<size_t> &order) {
     size_t added = 0;
     for (size_t i = 0; i < g_slots.size(); ++i)
-        if (g_slots[i].address && std::find(order.begin(), order.end(), i) == order.end()) {
+        if (i != kBackGestureSlot && i != kBackWindowSlot && g_slots[i].address && std::find(order.begin(), order.end(), i) == order.end()) {
             order.push_back(i);
             ++added;
         }
@@ -148,6 +158,7 @@ void reset(int height, int width, int scale, bool early_rust) {
     symbols_ready = provider_ready = true;
     icons_enabled = false;
     discoveries = installations = 0;
+    reset_binding_retries();
     g_ready.store(false);
     g_dart_ready.store(false);
     g_animation_hook_armed = g_magic_hook_armed = false;

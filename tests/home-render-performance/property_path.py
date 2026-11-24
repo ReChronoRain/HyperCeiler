@@ -21,6 +21,8 @@ prefix=r'''
 using HookFunction=int(*)(void*,void*,void**);using UnhookFunction=int(*)(void*);
 constexpr int ANDROID_LOG_ERROR=6;constexpr const char* kTag="test";
 void __android_log_print(int,const char*,const char*,...){}
+namespace nhk::home_safe_mode { struct Decision { bool blocked; }; Decision decision(){return {false};} }
+bool native_installation_blocked(){return false;}
 unsigned identity_reads=0,motion_calls=0,prepares=0,first_calls=0,columns=0,back=0,threads=0,adoptions=0;
 bool launcher=true,recursive=false;int process_pid=100,process_tid=0,create_result=0;
 int fixture_pid(){return process_pid;}
@@ -77,17 +79,17 @@ int main(){
     // A failed layout worker creation retains its retry path and budget.
     g_started=false;g_attempts=0;threads=0;columns=back=0;
     create_result=1;start_home_layout_hooks("property",hook,nullptr);
-    assert(threads==1&&columns==1&&back==1&&!g_started&&g_attempts==1);
+    assert(threads==1&&columns==0&&back==0&&!g_started&&g_attempts==1);
     create_result=0;threads=0;columns=back=0;
-    start_home_layout_hooks("property",hook,nullptr);assert(threads==1&&columns==1&&back==1);
+    start_home_layout_hooks("property",hook,nullptr);assert(threads==1&&columns==0&&back==0);
     for(unsigned i=0;i<10000;++i)start_home_layout_hooks("property",hook,nullptr);
-    assert(threads==1&&columns==1&&back==1);
+    assert(threads==1&&columns==0&&back==0);
     first_calls=0;for(unsigned i=0;i<10000;++i)prime_home_layout_first_render_from_property(hook,nullptr);
     assert(first_calls==0);
-    start_home_layout_hooks("library",hook,nullptr);assert(columns==2&&back==2);
+    start_home_layout_hooks("library",hook,nullptr);assert(columns==0&&back==0);
     g_started=false;g_attempts=kMaxWorkerAttempts;
     start_home_layout_hooks("property",hook,nullptr);prime_home_layout_first_render_from_property(hook,nullptr);
-    assert(columns==2&&back==2&&first_calls==0);
+    assert(columns==0&&back==0&&first_calls==0);
     g_attempts=0;g_back_setup_complete=false;
     prime_home_layout_first_render_from_property(hook,nullptr);assert(first_calls==1);
     g_started=true;g_high_device_level=true;recursive=true;
@@ -99,7 +101,7 @@ int main(){
     assert(hooked_system_property_get("persist.sys.usap_pool_enabled",value)==5&&std::strcmp(value,"false")==0);
     recursive=false;g_high_device_level=false;g_disable_prestart=false;
     for(unsigned i=0;i<10000;++i)assert(hooked_system_property_get("ordinary.property",value)==3);
-    assert(identity_reads==4&&threads==before_threads&&first_calls==1&&columns==2&&back==2);
+    assert(identity_reads==4&&threads==before_threads&&first_calls==1&&columns==0&&back==0);
     // The reporter's raster thread reached module file reads during Impeller
     // initialization. Warm-only tests miss the cold/failed-worker route.
     g_started=false;g_ready=false;g_dart_ready=false;g_back_setup_complete=false;g_attempts=0;
@@ -124,7 +126,7 @@ int main(){
     assert(!g_started&&g_attempts==0&&!home_layout_engine::g_layoutEngineStarted);
     process_tid=0;
     assert(hooked_system_property_get("ordinary.property",value)==3);
-    assert(first_calls==cold_first+1&&columns==cold_columns+1&&back==cold_back+1);
+    assert(first_calls==cold_first&&columns==cold_columns&&back==cold_back);
     assert(threads==cold_threads+2&&g_started&&home_layout_engine::g_layoutEngineStarted);
     std::cout<<"property shipping path PASS: 10000 warm and 10000 cold raster queries -> no discovery/I/O/start attempts on raster; scalar overrides, main-thread first frame, recursion, fork, failed worker creation and loader fallback retained\n";
 }

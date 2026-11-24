@@ -10,7 +10,8 @@ root = Path(__file__).resolve().parents[2]
 here = Path(__file__).resolve().parent
 source = (root / 'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text()
 worker = source.index('void *worker(void *) {')
-start = source.index('        if (iterations % 10 == 0) {', worker)
+late = source.index('            if (!g_dart && ensure_dart_library()) {', worker)
+start = source.rindex('        if (iterations % 2 == 0) {', worker, late)
 end = source.index('        if ((any_knob || top_probe)', start)
 constants = source[source.index('constexpr size_t kConfigCaptureSlot'):source.index('using Slot =')]
 located = source[source.index('struct Located {'):source.index('\n};', source.index('struct Located {')) + 3]

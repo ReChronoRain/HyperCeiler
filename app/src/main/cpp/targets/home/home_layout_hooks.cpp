@@ -29,6 +29,9 @@ extern "C" void hc_home_diagnostic_sample();
 #include "home_layout_config.h"
 #include "home_back_gesture.h"
 #include "home_back_region_hooks.h"
+#ifdef HYPERCEILER_HYOS_BACKEND
+#include "targets/hyos/hyos_control.h"
+#endif
 #include "home_gestures_os4.h"
 #include "home_workspace_gesture.h"
 #include "home_workspace_swipe.h"
@@ -683,7 +686,9 @@ std::atomic_uint64_t g_back_stock_width{0};
 std::atomic_uint32_t g_back_stock_sequence{0};
 std::atomic_uint32_t g_back_stock_config{0};
 std::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;
-std::atomic_uint32_t g_back_prime_stage{0};
+home_layout::BindingRetry g_back_discovery_retry;
+home_layout::BindingRetry g_back_install_retry;
+std::atomic_bool g_back_library_notified{false};
 std::atomic_uint32_t g_back_window_applied[2]{{60u|(100u<<16)},{60u|(100u<<16)}};
 home_layout::BackWindowShape g_back_window_shape{};
 
@@ -800,7 +805,7 @@ bool g_magic_hook_armed = false;
 std::array<Slot, kSlotCount> g_slots{};
 home_layout::NativeColumns g_native_columns;
 uint64_t g_native_columns_prime_next = 0;
-std::atomic_bool g_native_columns_prime_attempted{false},g_back_prime_attempted{false};
+std::atomic_bool g_native_columns_prime_attempted{false};
 extern "C" void hc_native_columns_body(std::byte *saved) {
     uint32_t old = 0;
     const auto requested = __atomic_load_n(&hc_native_columns_request, __ATOMIC_ACQUIRE);
@@ -813,10 +818,19 @@ extern "C" void hc_native_columns_body(std::byte *saved) {
             old, requested >> 8, g_native_columns.slot);
     }
 }
+bool back_regions_enabled() {
+    if (!g_back_regions_ready.load(std::memory_order_acquire)) return false;
+#ifdef HYPERCEILER_HYOS_BACKEND
+    return hyos_control::allowed();
+#else
+    return true;
+#endif
+}
+
 extern "C" void hc_back_gesture_entry();
 extern "C" void *hc_back_gesture_original = nullptr;
 extern "C" void hc_back_gesture_body(std::byte *saved) {
-    if (!g_back_regions_ready.load(std::memory_order_acquire)) return;
+    if (!back_regions_enabled()) return;
     const auto packed=g_back_gesture_config.load(std::memory_order_acquire);
     const auto integer=[&](unsigned reg){int32_t value;std::memcpy(&value,saved+reg*8,4);return value;};
     float width;std::memcpy(&width,saved+256+8*16,4); // native S8 (not Dart register roles)
@@ -845,7 +859,7 @@ Slot g_back_window_update{};
 bool stable_back_read(const Slot &, Words &);
 extern "C" void hc_back_window_body(std::byte *saved){
     static thread_local bool nested=false;
-    if (nested || !g_back_regions_ready.load(std::memory_order_acquire)) return;
+    if (nested || !back_regions_enabled()) return;
     const auto seq=g_back_stock_sequence.load(std::memory_order_acquire);if(seq&1)return;
     const auto stock=g_back_stock.load(std::memory_order_acquire);
     const auto stock_width = g_back_stock_width.load(std::memory_order_acquire);
@@ -874,7 +888,7 @@ extern "C" void hc_back_window_body(std::byte *saved){
     // Preserve another app's stricter exclusion/side region, and never multiply a prior width.
     if((!nominal||current!=*nominal)&&(!old||current!=*old))return;
     Words live{};if(!stable_back_read(g_back_window_update,live)||live!=g_back_window_update.original_words)return;
-    if (!g_back_regions_ready.load(std::memory_order_acquire)
+    if (!back_regions_enabled()
             || seq != g_back_stock_sequence.load(std::memory_order_acquire)
             || packed != g_back_gesture_config.load(std::memory_order_acquire)) return;
     nested=true;
@@ -2133,6 +2147,17 @@ const std::vector<size_t> &back_region_order() {
     return order;
 }
 
+struct BackImageIdentity {
+    uint64_t load_base;
+    uint32_t device_major;
+    uint32_t device_minor;
+    uint64_t inode;
+    uint64_t container_offset;
+    bool operator==(const BackImageIdentity &) const = default;
+};
+std::optional<BackImageIdentity> g_back_image;
+bool g_back_image_supported = false;
+
 bool bind_back_regions(const Library &library) {
     auto &core = g_slots[kBackGestureSlot];
     auto &window = g_slots[kBackWindowSlot];
@@ -2140,6 +2165,16 @@ bool bind_back_regions(const Library &library) {
             || nhk::slot_has_pending(window)) {
         return core.address != 0 && window.address != 0;
     }
+
+    const auto &mapping = library.owned.front();
+    const BackImageIdentity identity{library.load_base, mapping.device_major,
+        mapping.device_minor, mapping.inode, library.view_begin};
+    if (g_back_image == identity) return g_back_image_supported;
+    g_back_image = identity;
+    g_back_install_retry.reset();
+    g_back_image_supported = false;
+    core = {};
+    window = {};
 
     const auto image = home_layout::elf_targets::parse(library.bytes);
     if (!image) return false;
@@ -2164,11 +2199,12 @@ bool bind_back_regions(const Library &library) {
     g_back_window_update = update;
     core = core_target;
     window = window_target;
+    g_back_image_supported = true;
     __android_log_print(ANDROID_LOG_INFO, kTag, "back regions contract resolved");
     return true;
 }
 
-void maintain_back_regions(bool verify_mapping = false) {
+void maintain_back_regions(uint64_t now, bool verify_mapping = false) {
     const auto &order = back_region_order();
     const auto &core = g_slots[kBackGestureSlot];
     const auto &window = g_slots[kBackWindowSlot];
@@ -2196,10 +2232,12 @@ void maintain_back_regions(bool verify_mapping = false) {
 
     g_back_regions_ready.store(false, std::memory_order_release);
     if (ready) {
+        g_back_install_retry.reset();
         g_back_window_observed.store(false, std::memory_order_relaxed);
         g_back_window_reported = false;
         __android_log_print(ANDROID_LOG_WARN, kTag, "back regions readiness lost");
     }
+    if (!g_back_install_retry.due(now)) return;
     Words update{};
     static const auto host = [] {
         auto result = slot_host();
@@ -2219,6 +2257,31 @@ void maintain_back_regions(bool verify_mapping = false) {
         // remains an OEM pass-through with its continuation intact.
         g_back_cleanup_reported = true;
         __android_log_print(ANDROID_LOG_WARN, kTag, "back regions effects disabled; backend records retained");
+    }
+}
+
+void discover_back_regions(uint64_t now) {
+    if (g_back_library_notified.exchange(false, std::memory_order_acq_rel))
+        g_back_discovery_retry.reset();
+    if (g_back_regions_ready.load(std::memory_order_acquire)
+            || g_back_gesture_config.load(std::memory_order_acquire) == (60u | (100u << 16))) return;
+    const auto &core = g_slots[kBackGestureSlot];
+    const auto &window = g_slots[kBackWindowSlot];
+    if (core.backend_owned || window.backend_owned
+            || nhk::slot_has_pending(core) || nhk::slot_has_pending(window)
+            || !g_back_discovery_retry.due(now)) return;
+
+    // Reuse a bound target while its executable source is still mapped.
+    nhk::CodePage page{};
+    if (core.address && nhk::SourceWordOps{core.address, core.source}.Page(
+            core.address, sizeof(Words), page) && (page.protection & PROT_EXEC)) return;
+    std::ifstream maps("/proc/self/maps");
+    if (!maps) return;
+    const auto all = nhk::parse_file_mappings(maps);
+    const auto path = launcher_apk(all);
+    if (!path) return;
+    if (const auto image = open_library(*path, "libapp_launcher.so", all)) {
+        (void)bind_back_regions(*image);
     }
 }
 
@@ -5702,7 +5765,7 @@ void *worker(void *) {
     (void) bind_widget_scale();
     (void) bind_title_hide();
     arm_hooks(order);
-    maintain_back_regions();
+    maintain_back_regions(monotonic_ms());
     publish_hooks();
     (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
     (void) sync_widget_move(config.widget_allow_move);
@@ -6215,9 +6278,10 @@ void *worker(void *) {
             && capacity_config.tweaks.hotseat_unlimited;
 #endif
         (void)sync_hotseat_capacity(capacity_enabled);
+        discover_back_regions(now);
         const bool verify_back = interval_due(last_back_generation_check, now, kGenerationCheckMs);
         if (verify_back) last_back_generation_check = now;
-        maintain_back_regions(verify_back);
+        maintain_back_regions(now, verify_back);
         bool live = bank_live(order);
         /*
          * Periodic generation proof, at the backstop cadence rather than per pass: one inventory for
@@ -7189,14 +7253,17 @@ bool adopt_layout_state() {
     __atomic_store_n(&hc_dart_columns_applied,0u,__ATOMIC_RELAXED);
     g_native_columns_prime_next = 0;
     g_native_columns_prime_attempted.store(false,std::memory_order_release);
-    g_back_prime_attempted.store(false,std::memory_order_release);
+    g_back_library_notified.store(false, std::memory_order_release);
+    g_back_discovery_retry.reset();
+    g_back_install_retry.reset();
+    g_back_image.reset();
+    g_back_image_supported = false;
     if (!g_slots[kBackWindowSlot].backend_owned && !nhk::slot_has_pending(g_slots[kBackWindowSlot])) {
         hc_back_window_original = nullptr;
     }
     g_back_stock.store(0,std::memory_order_release);g_back_stock_width.store(0,std::memory_order_release);
     g_back_stock_config.store(0, std::memory_order_release);
     g_back_stock_sequence.store(0,std::memory_order_release);g_back_stock_writer.clear(std::memory_order_release);
-    g_back_prime_stage.store(0,std::memory_order_release);
     for(auto &applied:g_back_window_applied)applied.store(60u|(100u<<16),std::memory_order_release);
     g_back_gesture_config.store(60u | (100u << 16), std::memory_order_release);
     g_grid_field = {};
@@ -7728,36 +7795,6 @@ void report_start_verdict(const char *site, const char *verdict, bool adopted, i
  * `site` names the signal that asked for the worker (native-init / property / setprogname / library /
  * configure), so the log above can say which of the five call sites got what verdict.
  */
-void prime_back_regions(HookFunction hook,UnhookFunction unhook){
-    if(!hook||gettid()!=getpid()||g_dart_ready.load(std::memory_order_acquire)
-        ||g_back_setup_complete.load(std::memory_order_acquire)
-        ||g_back_prime_attempted.load(std::memory_order_acquire))return;
-    if(g_loader_priming.test_and_set(std::memory_order_acquire))return;
-    struct Release{~Release(){g_loader_priming.clear(std::memory_order_release);}} release;
-    if(g_back_setup_complete.load(std::memory_order_acquire)||g_slots[kBackWindowSlot].backend_owned)return;
-    g_back_prime_stage.store(1,std::memory_order_relaxed);
-    home_layout::Config config;if(!home_layout::query_bootstrap_config(config))return;
-    g_back_prime_stage.store(2,std::memory_order_relaxed);
-    if(config.back_gesture.height==60&&config.back_gesture.width==100)return;
-    std::ifstream maps("/proc/self/maps");if(!maps)return;
-    const auto all=nhk::parse_file_mappings(maps);const auto path=launcher_apk(all);if(!path)return;
-    g_back_prime_stage.store(3,std::memory_order_relaxed);
-    const auto rust=open_library(*path,"libapp_launcher.so",all);if(!rust)return;
-    // Once a complete image is readable, decoding/install retries belong to
-    // the worker. An unsupported contract is not a reason to scan per property.
-    g_back_prime_attempted.store(true,std::memory_order_release);
-    g_back_prime_stage.store(4,std::memory_order_relaxed);
-    if (!bind_back_regions(*rust)) return;
-    g_back_prime_stage.store(5,std::memory_order_relaxed);
-    g_hook_function=hook;g_unhook_function=unhook;
-    g_container_path=rust->path;g_view_begin=rust->view_begin;g_view_end=rust->view_end;
-    g_back_gesture_config.store(uint32_t(config.back_gesture.height)|(uint32_t(config.back_gesture.width)<<16),std::memory_order_release);
-    maintain_back_regions();
-    const bool live = g_back_regions_ready.load(std::memory_order_acquire);
-    g_back_prime_stage.store(live?7:6,std::memory_order_release);
-    __android_log_print(ANDROID_LOG_INFO,kTag,"back original regions pre-init stage=%d",live?7:6);
-}
-
 void prime_native_columns(HookFunction hook, UnhookFunction unhook) {
     if (!hook || gettid()!=getpid() || g_slots[kNativeColumnsSlot].backend_owned
         ||g_native_columns_prime_attempted.load(std::memory_order_acquire)
@@ -7861,3 +7898,25 @@ void start_home_layout_hooks(const char *site, HookFunction hook, UnhookFunction
 void notify_home_layout_library_loaded() {
     g_library_load_notified.store(true, std::memory_order_release);
 }
+
+void notify_home_back_launcher_loaded() {
+    g_back_library_notified.store(true, std::memory_order_release);
+}
+
+#ifdef HYPERCEILER_HYOS_BACKEND
+void maintain_hyos_back_regions(HookFunction hook, UnhookFunction unhook) {
+    if (!hook || !hyos_control::allowed()) return;
+    home_layout::Config config;
+    if (!hyos_control::layout_config(config)) return;
+    g_back_gesture_config.store(uint32_t(config.back_gesture.height)
+        | (uint32_t(config.back_gesture.width) << 16), std::memory_order_release);
+    g_hook_function = hook;
+    g_unhook_function = unhook;
+    static uint64_t last_check = 0;
+    const auto now = monotonic_ms();
+    discover_back_regions(now);
+    const bool verify_mapping = interval_due(last_check, now, kGenerationCheckMs);
+    if (verify_mapping) last_check = now;
+    maintain_back_regions(now, verify_mapping);
+}
+#endif

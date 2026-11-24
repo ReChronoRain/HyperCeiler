@@ -36,6 +36,10 @@ void prime_home_layout_knobs(int (*hook)(void *, void *, void **), int (*unhook)
 void prime_home_layout_first_render(int (*hook)(void *, void *, void **),int (*unhook)(void *));
 
 void notify_home_layout_library_loaded();
+void notify_home_back_launcher_loaded();
+#ifdef HYPERCEILER_HYOS_BACKEND
+void maintain_hyos_back_regions(home_native::HookFunction hook, home_native::UnhookFunction unhook);
+#endif
 void home_layout_set_desktop_title_size(int sp);
 void home_layout_set_drawer_title_size(int sp);
 void home_layout_set_title_color(int argb);
@@ -312,7 +316,10 @@ void on_library_loaded(const char *name, void *) {
 #ifdef HYPERCEILER_HYOS_BACKEND
     // Loader notifications are drained by the control worker. The exact Dart
     // snapshot observer owns first layout; retain the property-hook fallback.
-    if (launcher && is_library(name, "libapp_launcher.so")) install_property_hook();
+    if (launcher && is_library(name, "libapp_launcher.so")) {
+        notify_home_back_launcher_loaded();
+        install_property_hook();
+    }
 #else
     // Keep the fork handoff before worker startup. This is pid-stamped and is
     // a no-op after native_init/setprogname has adopted the launcher child.
@@ -320,8 +327,9 @@ void on_library_loaded(const char *name, void *) {
     const std::string_view library_name(name);
     const bool dart_library = is_library(library_name, "libapp.so");
     const bool launcher_library = is_library(library_name, "libapp_launcher.so");
-    if (launcher) start_home_layout_hooks("library", g_hook_function, g_unhook_function);
     if (launcher && (dart_library || launcher_library)) notify_home_layout_library_loaded();
+    if (launcher && launcher_library) notify_home_back_launcher_loaded();
+    if (launcher) start_home_layout_hooks("library", g_hook_function, g_unhook_function);
     if (launcher && dart_library) home_layout_engine::HomeLayoutEngineOnLibraryLoaded(name);
     if (launcher) {
         home_layout_engine::HomeLayoutEnginePrepareForLauncherChild();
@@ -389,6 +397,7 @@ void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
 #ifdef HYPERCEILER_HYOS_BACKEND
 void hyperceiler_home_after_startup() {
     if (native_installation_blocked()) return;
+    maintain_hyos_back_regions(g_hook_function, g_unhook_function);
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     if (hyos_control::feature_enabled(hyos_control::kDock))
         start_dock_native_motion(g_hook_function, g_unhook_function);

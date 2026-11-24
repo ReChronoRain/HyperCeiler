@@ -7,7 +7,8 @@
 int main(){
  home_layout::LauncherProcessIdentity cache;std::string name("com.miui.home\0extra",19);unsigned reads=0;
  auto read=[&](char* buffer,size_t capacity){++reads;assert(name.size()<capacity);memcpy(buffer,name.data(),name.size());return name.size();};
- for(unsigned i=0;i<10000;++i)assert(cache.matches(100,true,read));assert(reads==1);
+ for(unsigned i=0;i<10000;++i)assert(cache.matches(100,true,read));
+ assert(reads==1);
  name="other.application";assert(!cache.matches(101,true,read));assert(reads==2);assert(!cache.matches(101,true,read));assert(reads==2);
  // The same PID must be re-evaluated across an inherited setprogname hook.
  cache.invalidate();name="com.miui.home";assert(cache.matches(101,true,read));assert(reads==3);

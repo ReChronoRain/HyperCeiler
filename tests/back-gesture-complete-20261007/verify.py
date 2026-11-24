@@ -6,10 +6,10 @@ p=R/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/system
 if not p.exists():
  print('SYSTEMUI_WIDTH=original97 < requested136/273; width consumer absent');print('SETUP_LEASE=absent; initializer/worker bank serialization missing');sys.exit(1)
 worker=s[s.index('void *worker('):s.index('bool adopt_layout_state') if 'bool adopt_layout_state' in s else s.index('void prime_home_layout_knobs')]
-assert worker.index('while (g_loader_priming.test_and_set')<worker.index('for (Slot &slot : g_slots)')
+assert worker.index('while (g_loader_priming.test_and_set')<worker.index('nhk::settle_slot_pending(slot, slot_host())')
 assert worker.index('g_back_setup_complete.store(true')<worker.index('setup_lease.release()')<worker.index('for (;;)')
-prime=s[s.index('void prime_back_regions('):s.index('void start_home_layout_hooks(')]
-assert prime.index('g_loader_priming.test_and_set')<prime.index('g_slots[kBackWindowSlot].backend_owned')
+assert 'void prime_back_regions(' not in s
+assert 'discover_back_regions(now);' in worker
 assert 'g_back_setup_complete.store(false' in s
 lease=re.search(r'struct SetupLease \{(.*?)\} setup_lease;',worker,re.S).group(0).replace('} setup_lease;','};')
 cpp='#include <atomic>\n#include <thread>\n#include <cstdio>\nstd::atomic_flag g_loader_priming=ATOMIC_FLAG_INIT;\n'+lease+r"""
