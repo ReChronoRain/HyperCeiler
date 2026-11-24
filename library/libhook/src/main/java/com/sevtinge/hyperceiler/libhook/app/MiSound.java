@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.app;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
+
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
@@ -31,6 +33,7 @@ public class MiSound extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new NewAutoSEffSwitch(), PrefsBridge.getBoolean("misound_bluetooth"));
-        initHook(IncreaseSamplingRate.INSTANCE, PrefsBridge.getBoolean("misound_increase_sampling_rate"));
+        initHook(IncreaseSamplingRate.INSTANCE, !isMoreHyperOSVersion(4f)
+            && PrefsBridge.getBoolean("misound_increase_sampling_rate"));
     }
 }

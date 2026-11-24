@@ -18,11 +18,13 @@
  */
 package com.sevtinge.hyperceiler.hooker;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_CONFIG_DEFAULT_EFFECT;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_CONFIG_LOCK_SELECTION;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_CONFIG_REMEMBER_DEVICE;
 import static com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd;
 
+import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
@@ -49,6 +51,12 @@ public class MiSoundFragment extends DashboardFragment {
         mLockSelection = findPreference("prefs_key_misound_bluetooth_lock_selection");
         mRememberDevices = findPreference("prefs_key_misound_bluetooth_remember_device");
         mDefaultEffect = findPreference("prefs_key_misound_bluetooth_default_effect");
+
+        Preference samplingRate = findPreference("prefs_key_misound_increase_sampling_rate");
+        if (samplingRate != null && isMoreHyperOSVersion(4f)) {
+            samplingRate.setEnabled(false);
+            samplingRate.setSummary(R.string.unsupported_system_func);
+        }
 
         if (mLockSelection != null) {
             mLockSelection.setOnPreferenceChangeListener((preference, newValue) -> {
