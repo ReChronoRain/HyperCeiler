@@ -4,27 +4,27 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3
 
-import android.content.Context
 import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.ColorStateList
-import android.os.PowerManager
-import android.view.ViewTreeObserver
-import android.widget.TextView
-import android.widget.SeekBar
-import android.widget.ImageButton
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.HostExecutor
 import io.github.libxposed.api.XposedInterface
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import java.lang.ref.WeakReference
 import java.lang.reflect.Constructor
