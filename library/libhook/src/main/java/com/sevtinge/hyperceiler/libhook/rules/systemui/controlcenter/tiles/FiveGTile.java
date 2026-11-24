@@ -41,16 +41,24 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.TelephonyManager;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class FiveGTile extends TileUtils {
 
@@ -59,16 +67,13 @@ public class FiveGTile extends TileUtils {
     private static final String SETTING_DUAL_NR_ENABLED = "dual_nr_enabled";
     private static final String FIELD_CONTENT_OBSERVER = "fiveGContentObserver";
 
-    private Class<?> mDetailContentClass;
-    private Class<?> mItemClass;
-    private Constructor<?> mDividerConstructor;
-    private Constructor<?> mToggleConstructor3;
-    private Constructor<?> mToggleConstructor4;
+    private final List<WeakReference<Object>> customToggles = new ArrayList<>();
+    private final Map<View, DetailHeightAdjustment> detailHeights = new WeakHashMap<>();
+    private final AtomicBoolean detailInsertionErrorLogged = new AtomicBoolean();
 
     private final int mode = PrefsBridge.getStringAsInt("system_control_center_5g_new_tile", 0);
     private ContentObserver contentObserver;
     private boolean isDetailHooked = false;
-    private String fiveGLabel = null;
 
     @NonNull
     @Override
@@ -171,256 +176,272 @@ public class FiveGTile extends TileUtils {
         if (isDetailHooked) return;
 
         try {
-            mDetailContentClass = findClassIfExists("com.android.systemui.qs.QSDetailContent");
-            if (mDetailContentClass == null) {
-                XposedLog.e(TAG, "QSDetailContent class not found");
-                return;
-            }
+            Class<?> detailClass = findClass("com.android.systemui.qs.QSDetailContent");
+            String detailName = detailClass.getName();
+            Class<?> itemClass = findClass(detailName + "$Item");
+            Class<?> selectableClass = findClass(detailName + "$SelectableItem");
+            Class<?> toggleClass = findClass(detailName + "$ToggleItem");
+            Constructor<?> dividerConstructor = findClass(detailName + "$TextDividerItem")
+                .getConstructor(CharSequence.class);
+            ToggleItemFactory toggleFactory = new ToggleItemFactory(itemClass, toggleClass);
+            Field suffix = detailClass.getDeclaredField("suffix");
+            suffix.setAccessible(true);
 
-            String itemClzName = mDetailContentClass.getName() + "$Item";
-            mItemClass = findClassIfExists(itemClzName);
-            if (mItemClass == null) {
-                XposedLog.e(TAG, "QSDetailContent$Item class not found");
-                return;
-            }
+            Class<?> adapterClass = findClass(
+                "com.android.systemui.qs.tiles.MiuiCellularTile$CellularDetailAdapter");
+            Method createDetailView = adapterClass.getDeclaredMethod(
+                "createDetailView", Context.class, View.class, ViewGroup.class);
+            Method onDetailItemClick = adapterClass.getDeclaredMethod("onDetailItemClick", itemClass);
+            Method setItems = detailClass.getDeclaredMethod("setItems", Array.newInstance(itemClass, 0).getClass());
+            Method updateItems = toggleFactory.checked == null ? null : adapterClass.getDeclaredMethod("updateItems");
+            if (updateItems != null) updateItems.setAccessible(true);
 
-            prepareReflections();
+            hookMethod(onDetailItemClick, new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    Object item = param.getArgs()[0];
+                    if (item == null || !isCustomToggle(item)) return;
 
-            findAndHookMethod(
-                "com.android.systemui.qs.tiles.MiuiCellularTile$CellularDetailAdapter",
-                "createDetailView",
-                Context.class, View.class, ViewGroup.class,
-                new IMethodHook() {
-                    @Override
-                    public void after(HookParam param) {
-                        Context context = (Context) param.getArgs()[0];
-                        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            return;
+                    // A ToggleItem reaching the original callback would operate the intelligent dual-SIM switch.
+                    param.setResult(null);
+                    try {
+                        if (updateItems == null) {
+                            toggleFiveG();
+                        } else {
+                            boolean checked = toggleFactory.checked.getBoolean(item);
+                            TelephonyManager.getDefault().setUserFiveGEnabled(checked);
+                            XposedLog.d(TAG, "Requested detail 5G state: " + checked);
+                            updateItems.invoke(param.getThisObject());
                         }
-                        View content = (View) param.getResult();
-                        adjustDetailViewHeight(content);
+                    } catch (ReflectiveOperationException | RuntimeException e) {
+                        XposedLog.e(TAG, "Failed to handle detail 5G click", e);
+                    }
+                }
+            });
 
-                        if (fiveGLabel == null) {
-                            try {
-                                Resources modRes = AppsTool.getModuleRes(context);
-                                if (modRes != null) {
-                                    fiveGLabel = modRes.getString(R.string.dashboard_5g);
-                                }
-                            } catch (Throwable t) {
-                                XposedLog.e(TAG, "Failed to get 5G label", t);
-                            }
+            hookMethod(createDetailView, new IMethodHook() {
+                @Override
+                public void after(HookParam param) {
+                    if (param.getResult() instanceof View view) {
+                        trackDetailHeight(view);
+                    }
+                }
+            });
+
+            // Install insertion after the click handler so every inserted row can be handled safely.
+            hookMethod(setItems, new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    try {
+                        ViewGroup content = (ViewGroup) param.getThisObject();
+                        if (!"Cellular".equals(suffix.get(content))) return;
+                        Object[] items = (Object[]) param.getArgs()[0];
+                        if (items == null || items.length == 0) return;
+
+                        int insertIndex = findInsertIndex(items, selectableClass);
+                        if (insertIndex < 0) return;
+
+                        TelephonyManager manager = TelephonyManager.getDefault();
+                        if (!manager.isFiveGCapable()) return;
+                        Resources modRes = AppsTool.getModuleRes(content.getContext());
+                        if (modRes == null) return;
+
+                        Object divider = dividerConstructor.newInstance(
+                            modRes.getString(R.string.system_framework_phone_network_title));
+                        Object toggle = toggleFactory.create(modRes.getString(R.string.dashboard_5g),
+                            manager.isUserFiveGEnabled());
+                        Object[] newItems = (Object[]) Array.newInstance(itemClass, items.length + 2);
+                        System.arraycopy(items, 0, newItems, 0, insertIndex);
+                        newItems[insertIndex] = divider;
+                        newItems[insertIndex + 1] = toggle;
+                        System.arraycopy(items, insertIndex, newItems, insertIndex + 2, items.length - insertIndex);
+                        rememberCustomToggle(toggle);
+                        param.getArgs()[0] = newItems;
+                    } catch (ReflectiveOperationException | RuntimeException | LinkageError e) {
+                        if (detailInsertionErrorLogged.compareAndSet(false, true)) {
+                            XposedLog.e(TAG, "Failed to insert detail 5G toggle", e);
                         }
                     }
                 }
-            );
+            });
 
-            findAndHookMethod(
-                "com.android.systemui.qs.tiles.MiuiCellularTile$CellularDetailAdapter",
-                "onDetailItemClick",
-                mItemClass,
-                new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        Object item = param.getArgs()[0];
-                        String className = item.getClass().getSimpleName();
-
-                        if (!className.contains("ToggleItem")) {
-                            XposedLog.d(TAG, "Not a ToggleItem, skip");
-                            return;
-                        }
-
-                        try {
-                            CharSequence title = getItemTitle(item);
-
-                            if (title != null && fiveGLabel != null &&
-                                title.toString().equals(fiveGLabel)) {
-                                XposedLog.d(TAG, "5G toggle clicked!");
-                                toggleFiveG();
-                                param.setResult(null);
-                            }
-                        } catch (Throwable t) {
-                            XposedLog.e(TAG, "Error handling click", t);
-                        }
-                    }
+            registerHotReloadCleanup(() -> {
+                detailHeights.forEach((view, adjustment) -> {
+                    view.removeOnAttachStateChangeListener(adjustment);
+                    adjustment.restoreHeight();
+                });
+                detailHeights.clear();
+                synchronized (customToggles) {
+                    customToggles.clear();
                 }
-            );
-
-            Class<?> itemArrayClass = Array.newInstance(mItemClass, 0).getClass();
-            findAndHookMethod(
-                mDetailContentClass,
-                "setItems",
-                itemArrayClass,
-                new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        try {
-                            handleSetItems(param);
-                        } catch (InvocationTargetException | IllegalAccessException |
-                                 InstantiationException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            );
-
+            });
             isDetailHooked = true;
             XposedLog.d(TAG, "Detail page hooks applied successfully");
-
-        } catch (Throwable t) {
-            XposedLog.e(TAG, "Error in hookDetailPage", t);
+        } catch (ReflectiveOperationException | RuntimeException | LinkageError e) {
+            XposedLog.e(TAG, "Failed to initialize detail 5G toggle", e);
         }
     }
 
-    private void adjustDetailViewHeight(View content) {
-        View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(@NonNull View v) {
-                View view = v;
-                while (view.getParent() instanceof View) {
-                    view = (View) view.getParent();
-                    if (view.getId() != View.NO_ID) {
-                        String idName = view.getResources().getResourceName(view.getId());
-                        if (idName.endsWith("detail_container")) {
-                            int maxHeight = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(view, "getMaxHeight");
-                            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(view, "setMaxHeight", maxHeight + DisplayUtils.dp2px(45f));
-                            break;
-                        }
-                    }
-                }
-                v.removeOnAttachStateChangeListener(this);
+    private synchronized void trackDetailHeight(View view) {
+        if (detailHeights.containsKey(view)) return;
+        DetailHeightAdjustment adjustment = new DetailHeightAdjustment();
+        detailHeights.put(view, adjustment);
+        view.addOnAttachStateChangeListener(adjustment);
+        if (view.isAttachedToWindow()) adjustment.onViewAttachedToWindow(view);
+    }
+
+    private int findInsertIndex(Object[] items, Class<?> selectableClass) {
+        int insertIndex = -1;
+        for (int i = items.length - 1; i >= 0; i--) {
+            Object item = items[i];
+            if (item != null && isCustomToggle(item)) return -1;
+            if (insertIndex < 0 && selectableClass.isInstance(item)) {
+                insertIndex = i + 1;
             }
-
-            @Override
-            public void onViewDetachedFromWindow(@NonNull View v) {}
-        };
-        content.addOnAttachStateChangeListener(listener);
-        BaseHook.registerHotReloadCleanup(
-            () -> content.removeOnAttachStateChangeListener(listener)
-        );
+        }
+        return insertIndex;
     }
 
-    private void handleSetItems(HookParam param) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-        ViewGroup content = (ViewGroup) param.getThisObject();
-        Object suffix = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(content, "suffix");
-
-        if (!"Cellular".equals(suffix)) return;
-
-        Object[] rawItems = (Object[]) param.getArgs()[0];
-        if (rawItems == null || rawItems.length == 0) return;
-
-        // 如果不支持 5G，直接返回，不添加选项
-        if (!TelephonyManager.getDefault().isFiveGCapable()) {
-            return;
+    private void rememberCustomToggle(Object item) {
+        synchronized (customToggles) {
+            customToggles.removeIf(reference -> reference.get() == null);
+            customToggles.add(new WeakReference<>(item));
         }
+    }
 
-        int insertIndex = findInsertIndex(rawItems);
-        if (insertIndex == -1) {
-            XposedLog.d(TAG, "Insert index not found");
-            return;
+    private boolean isCustomToggle(Object item) {
+        synchronized (customToggles) {
+            for (WeakReference<Object> reference : customToggles) {
+                if (reference.get() == item) return true;
+            }
+            return false;
         }
+    }
 
-        if (mDividerConstructor == null || (mToggleConstructor3 == null && mToggleConstructor4 == null)) {
-            prepareReflections();
-            if (mDividerConstructor == null) {
-                XposedLog.e(TAG, "Constructors not ready");
+    private static final class DetailHeightAdjustment implements View.OnAttachStateChangeListener {
+        private WeakReference<View> container;
+        private int originalHeight;
+        private int adjustedHeight;
+
+        @Override
+        public void onViewAttachedToWindow(@NonNull View view) {
+            if (view.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                return;
+            }
+            for (View child = view; child.getParent() instanceof View parent; child = parent) {
+                try {
+                    if (parent.getId() == View.NO_ID
+                        || !"detail_container".equals(parent.getResources().getResourceEntryName(parent.getId()))) {
+                        continue;
+                    }
+                    int height = (int) callMethod(parent, "getMaxHeight");
+                    int extraHeight = DisplayUtils.dp2px(45f);
+                    if (height > 0 && height <= Integer.MAX_VALUE - extraHeight) {
+                        callMethod(parent, "setMaxHeight", height + extraHeight);
+                        container = new WeakReference<>(parent);
+                        originalHeight = height;
+                        adjustedHeight = height + extraHeight;
+                        parent.requestLayout();
+                    }
+                } catch (Resources.NotFoundException e) {
+                    // A generated view ID has no resource name.
+                    continue;
+                } catch (RuntimeException | LinkageError e) {
+                    // The height adjustment is optional for hosts without the matching container methods.
+                }
                 return;
             }
         }
 
-        Resources modRes = AppsTool.getModuleRes(content.getContext());
-        if (modRes == null) {
-            XposedLog.e(TAG, "Module resources is null");
-            return;
+        @Override
+        public void onViewDetachedFromWindow(@NonNull View view) {
+            restoreHeight();
         }
 
-        String fiveGLabel = modRes.getString(R.string.dashboard_5g);
-        String networkTitle = modRes.getString(R.string.system_framework_phone_network_title);
-
-        Object[] newItems = (Object[]) Array.newInstance(mItemClass, rawItems.length + 2);
-
-        System.arraycopy(rawItems, 0, newItems, 0, insertIndex);
-
-        newItems[insertIndex] = mDividerConstructor.newInstance(networkTitle);
-
-        Object toggleItem = createToggleItem(fiveGLabel);
-        if (toggleItem != null) {
-            // 因为会被 GC 回收导致第一次调用会 null, 设置强引用或者字符串判断为佳
-            // com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(toggleItem, FIELD_IS_CUSTOM_5G, true);
-            newItems[insertIndex + 1] = toggleItem;
-        } else {
-            XposedLog.e(TAG, "Failed to create toggle item");
-            return;
-        }
-
-        if (insertIndex < rawItems.length) {
-            System.arraycopy(rawItems, insertIndex, newItems, insertIndex + 2, rawItems.length - insertIndex);
-        }
-
-        param.getArgs()[0] = newItems;
-        XposedLog.d(TAG, "5G item injected");
-    }
-
-    private CharSequence getItemTitle(Object item) {
-        String[] possibleFields = {"title", "mTitle", "label", "mLabel", "name", "mName", "text"};
-
-        for (String fieldName : possibleFields) {
+        void restoreHeight() {
+            View view = container == null ? null : container.get();
+            container = null;
+            if (view == null) return;
             try {
-                Object value = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(item, fieldName);
-                if (value instanceof CharSequence) {
-                    return (CharSequence) value;
+                if ((int) callMethod(view, "getMaxHeight") == adjustedHeight) {
+                    callMethod(view, "setMaxHeight", originalHeight);
+                    view.requestLayout();
                 }
-            } catch (Throwable ignored) {}
-        }
-        return null;
-    }
-
-    private int findInsertIndex(Object[] items) {
-        for (int i = items.length - 1; i >= 0; i--) {
-            if (items[i].getClass().getName().endsWith("SelectableItem")) {
-                return i + 1;
+            } catch (RuntimeException | LinkageError ignored) {
+                // The host owns the container and may have disposed it already.
             }
         }
-        return -1;
     }
 
-    private void prepareReflections() {
-        if (mDividerConstructor != null) return;
+    private static final class ToggleItemFactory {
+        private final Class<?> type;
+        private final Constructor<?> constructor;
+        private final Object unsafe;
+        private final Method allocateInstance;
+        private final Field title;
+        private final Field summary;
+        private final Field checked;
 
-        try {
-            Class<?> dividerClass = findClassIfExists(mDetailContentClass.getName() + "$TextDividerItem");
-            if (dividerClass != null) {
-                mDividerConstructor = dividerClass.getConstructor(CharSequence.class);
+        ToggleItemFactory(Class<?> itemClass, Class<?> type) throws ReflectiveOperationException {
+            if (!itemClass.isAssignableFrom(type)) {
+                throw new NoSuchMethodException("Unexpected ToggleItem type: " + type.getName());
+            }
+
+            this.type = type;
+            Constructor<?>[] constructors = type.getDeclaredConstructors();
+            if (constructors.length == 0 && type.getSuperclass() == Object.class
+                && Modifier.isFinal(type.getModifiers()) && type.getFields().length == 3) {
+                // OS4's DEX allocates the item and initializes these fields directly.
+                title = requireField(type, "title", CharSequence.class);
+                summary = requireField(type, "summary", CharSequence.class);
+                checked = requireField(type, "isChecked", boolean.class);
+                Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
+                Field singleton = unsafeClass.getDeclaredField("theUnsafe");
+                singleton.setAccessible(true);
+                unsafe = singleton.get(null);
+                allocateInstance = unsafeClass.getMethod("allocateInstance", Class.class);
+                constructor = null;
             } else {
-                XposedLog.e(TAG, "TextDividerItem class not found");
+                constructor = findLegacyConstructor(type);
+                unsafe = null;
+                allocateInstance = null;
+                title = null;
+                summary = null;
+                checked = null;
             }
+        }
 
-            Class<?> toggleClass = findClassIfExists(mDetailContentClass.getName() + "$ToggleItem");
-            if (toggleClass != null) {
-                try {
-                    mToggleConstructor3 = toggleClass.getConstructor(CharSequence.class, CharSequence.class, boolean.class);
-                } catch (NoSuchMethodException e) {
-                    mToggleConstructor4 = toggleClass.getConstructor(CharSequence.class, CharSequence.class, boolean.class, Object.class);
+        private static Constructor<?> findLegacyConstructor(Class<?> type) throws NoSuchMethodException {
+            try {
+                return type.getConstructor(CharSequence.class, CharSequence.class, boolean.class);
+            } catch (NoSuchMethodException e) {
+                return type.getConstructor(CharSequence.class, CharSequence.class, boolean.class, Object.class);
+            }
+        }
+
+        private static Field requireField(Class<?> owner, String name, Class<?> type) throws NoSuchFieldException {
+            Field field = owner.getDeclaredField(name);
+            int modifiers = field.getModifiers();
+            if (field.getType() != type || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
+                throw new NoSuchFieldException("Unexpected ToggleItem field: " + field);
+            }
+            field.setAccessible(true);
+            return field;
+        }
+
+        Object create(CharSequence label, boolean enabled) throws ReflectiveOperationException {
+            if (constructor != null) {
+                if (constructor.getParameterCount() == 3) {
+                    return constructor.newInstance(label, null, enabled);
                 }
-            } else {
-                XposedLog.e(TAG, "ToggleItem class not found");
+                return constructor.newInstance(label, null, enabled, null);
             }
-        } catch (Exception e) {
-            XposedLog.e(TAG, "Failed to prepare reflections", e);
+            Object item = allocateInstance.invoke(unsafe, type);
+            title.set(item, label);
+            summary.set(item, null);
+            checked.setBoolean(item, enabled);
+            return item;
         }
-    }
-
-    private Object createToggleItem(String label) {
-        boolean enabled = TelephonyManager.getDefault().isUserFiveGEnabled();
-        try {
-            if (mToggleConstructor3 != null) {
-                return mToggleConstructor3.newInstance(label, null, enabled);
-            } else if (mToggleConstructor4 != null) {
-                return mToggleConstructor4.newInstance(label, null, enabled, null);
-            }
-        } catch (Exception e) {
-            XposedLog.e(TAG, "Failed to create toggle item instance", e);
-        }
-        return null;
     }
 
     private void toggleFiveG() {
