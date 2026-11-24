@@ -337,9 +337,24 @@ object MediaSeekBar : BaseHook() {
     }
 
     private fun bindSeekBarListener(holder: Any, seekBarViewModel: Any, isDynamicIsland: Boolean) {
+        val seekBar = getOrCreateRealSeekBar(holder, isDynamicIsland) ?: return
+        val attachTouchHandlers = clzSeekBarViewModel?.declaredMethods?.firstOrNull {
+            it.name == "attachTouchHandlers" && it.parameterCount == 1 &&
+                it.parameterTypes[0] == SeekBar::class.java
+        }
+        if (attachTouchHandlers != null) {
+            runCatching {
+                attachTouchHandlers.isAccessible = true
+                attachTouchHandlers.invoke(seekBarViewModel, seekBar)
+            }.onFailure {
+                XposedLog.e(TAG, lpparam.packageName, "Unable to bind OEM seek listener", it)
+            }
+            return
+        }
+
         val falsingManager = fldFalsingManager?.get(seekBarViewModel)
         val listener = ctorSeekBarChangeListener?.newInstance(seekBarViewModel, falsingManager) as? SeekBar.OnSeekBarChangeListener
-        getOrCreateRealSeekBar(holder, isDynamicIsland)?.setOnSeekBarChangeListener(listener)
+        seekBar.setOnSeekBarChangeListener(listener)
     }
 
     @SuppressLint("SetTextI18n")
