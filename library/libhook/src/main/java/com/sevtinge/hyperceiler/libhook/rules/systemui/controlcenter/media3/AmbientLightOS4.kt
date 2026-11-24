@@ -59,7 +59,7 @@ object AmbientLightOS4 : BaseHook() {
             val loader = checkNotNull(required(if (notification) NC + "MiuiMediaViewControllerImpl" else DI + "MiuiIslandMediaViewBinderImpl").classLoader)
             val custom = notification || mode == 2
             val resolver = if (custom) checkNotNull(AmbientColorResolverOS4.create(loader,
-                notification && !ncOpt || mode == 2 && !diOpt, ncOpt || diOpt)) { "OS4 ambient color ABI unavailable" } else null
+                true, ncOpt || diOpt)) { "OS4 ambient color ABI unavailable" } else null
             if (notification) groups.add(plan(false, 2, ncOpt, PrefsBridge.getBoolean(NP + "_always_dark"), active, resolver))
             if (island) groups.add(plan(true, mode, diOpt, false, active, resolver))
             foregroundGroups = groups.toList()
@@ -489,7 +489,11 @@ object AmbientLightOS4 : BaseHook() {
             if (resize) drawable.animateNextResize()
             if (!group.island) followBounds(slot)
             else if (slot.role == 1) view.translationY = group.offset!!.getFloat(owner)
-            session.colors?.let { drawable.setGradientColor(if (dark) it.dark else it.light) }
+            session.colors?.let {
+                val seekBarColor = if (dark) it.dark else it.light
+                drawable.setGradientColor(seekBarColor)
+                MediaSeekBar.applySeekBarColor(slot.holder.get() ?: return@let, seekBarColor, group.island)
+            }
             drawable.setLightMode(!dark)
             val canAnimate = playing && !aod && view.isAttachedToWindow
             val dragAllowsAnimation = !session.dragging || slot.role != 0

@@ -117,6 +117,9 @@ object MediaSeekBar : BaseHook() {
     private val diProgressRound by lazy {
         PrefsBridge.getBoolean("system_ui_island_media_control_progress_round")
     }
+    private val diProgressColorFromMedia by lazy {
+        PrefsBridge.getBoolean("system_ui_island_media_control_progress_color_from_media", true)
+    }
 
     private val diCustomThumbStyle by lazy {
         when (diThumbMode) {
@@ -344,6 +347,14 @@ object MediaSeekBar : BaseHook() {
         if (height % 2 != 0) height -= 1
         fldProgressSeekBarMinHeight?.apply { isAccessible = true }?.set(seekBar, height)
         fldProgressHeight?.apply { isAccessible = true }?.set(seekBar, height)
+    }
+
+    fun applySeekBarColor(holder: Any, color: Int, isDynamicIsland: Boolean): Boolean {
+        val enabled = if (isDynamicIsland) diProgressColorFromMedia else ncProgressColorFromMedia
+        if (!enabled) return false
+        val seekBar = holder.getAdditionalInstanceField(KEY_REAL_SEEKBAR) as? SeekBar ?: return false
+        seekBar.progressTintList = ColorStateList.valueOf(color)
+        return true
     }
 
     private fun bindSeekBarListener(holder: Any, seekBarViewModel: Any, isDynamicIsland: Boolean) {
