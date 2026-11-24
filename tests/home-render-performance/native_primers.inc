@@ -43,5 +43,17 @@ std::optional<std::string> launcher_apk(const std::vector<int>&){return "fixture
 struct Lib{std::string path="fixture.apk";uint64_t view_begin=4096,view_end=8192;std::vector<std::byte> bytes;};
 std::optional<Lib> open_library(const std::string&,const char*,const std::vector<int>&){++image_reads;return image_available?std::optional<Lib>{Lib{}}:std::nullopt;}
 bool bind_target(const Lib&,uint64_t target,uintptr_t& address,int&,Words&){address=target;return true;}
+std::atomic_bool g_back_regions_ready{false};
+bool bind_back_regions(const Lib&) {
+    ++back_scans;
+    if (!back_ok) return false;
+    g_slots[kBackGestureSlot].address = 64;
+    g_slots[kBackWindowSlot].address = 128;
+    return true;
+}
+void maintain_back_regions() {
+    const bool live = nhk::ensure_slots_live(g_slots, 0, {kBackGestureSlot, kBackWindowSlot});
+    g_back_regions_ready.store(live);
+}
 int slot_host(){return 0;}int hook(void*,void*,void**){return 0;}
 void reset(){for(auto& s:g_slots)s={};g_back_window_update={};g_back_setup_complete=false;g_dart_ready=false;g_native_columns_prime_attempted=false;g_back_prime_attempted=false;g_loader_priming.clear();g_native_columns_prime_next=0;clock_ms+=1000;map_reads=image_reads=column_scans=back_scans=installs=0;config_ok=image_available=columns_ok=back_ok=allow_install=true;thread_id=1;home_layout::cfg={};home_layout::cfg.grid_enabled=true;home_layout::cfg.back_gesture={80,100};}

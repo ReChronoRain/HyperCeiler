@@ -12,14 +12,15 @@ c=r"""
 #include <iostream>
 using Words=std::array<uint32_t,4>;
 struct Slot{uintptr_t address=0;Words original_words{};};
-std::atomic_uint32_t g_back_gesture_config{60u|(100u<<16)},g_back_stock_sequence{0};
+std::atomic_uint32_t g_back_gesture_config{60u|(100u<<16)},g_back_stock_sequence{0},g_back_stock_config{0};
 std::atomic_uint64_t g_back_stock_width{0};
+std::atomic_bool g_back_regions_ready{true},g_back_window_observed{false};
 std::atomic_uint64_t g_back_stock{0};
 std::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;
 std::atomic_uint32_t g_back_window_applied[2]{{60u|(100u<<16)},{60u|(100u<<16)}};
 home_layout::BackWindowShape g_back_window_shape{};Slot g_back_window_update{};
 bool read_ok=true,words_ok=true;
-bool stable_read(const Slot &s,Words &out){out=s.original_words;if(!words_ok)out[0]^=1;return read_ok;}
+bool stable_back_read(const Slot &s,Words &out){out=s.original_words;if(!words_ok)out[0]^=1;return read_ok;}
 BODY
 CORE
 unsigned calls=0,checks=0,failed=0;std::byte *saved_for_nested=nullptr;home_layout::BackWindowRect applied{};

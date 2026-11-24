@@ -28,6 +28,7 @@ extern "C" void hc_home_diagnostic_sample();
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
 #include "home_back_gesture.h"
+#include "home_back_region_hooks.h"
 #include "home_gestures_os4.h"
 #include "home_workspace_gesture.h"
 #include "home_workspace_swipe.h"
@@ -673,10 +674,14 @@ void sync_folder_layout(const home_layout::Config &config) {
     }
 }
 std::atomic_uint32_t g_back_gesture_config{60u | (100u << 16)};
-home_layout::BackGestureShape g_back_gesture_shape{};
+std::atomic_bool g_back_regions_ready{false};
+std::atomic_bool g_back_window_observed{false};
+bool g_back_window_reported = false;
+bool g_back_cleanup_reported = false;
 std::atomic_uint64_t g_back_stock{0};
 std::atomic_uint64_t g_back_stock_width{0};
 std::atomic_uint32_t g_back_stock_sequence{0};
+std::atomic_uint32_t g_back_stock_config{0};
 std::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;
 std::atomic_uint32_t g_back_prime_stage{0};
 std::atomic_uint32_t g_back_window_applied[2]{{60u|(100u<<16)},{60u|(100u<<16)}};
@@ -811,6 +816,7 @@ extern "C" void hc_native_columns_body(std::byte *saved) {
 extern "C" void hc_back_gesture_entry();
 extern "C" void *hc_back_gesture_original = nullptr;
 extern "C" void hc_back_gesture_body(std::byte *saved) {
+    if (!g_back_regions_ready.load(std::memory_order_acquire)) return;
     const auto packed=g_back_gesture_config.load(std::memory_order_acquire);
     const auto integer=[&](unsigned reg){int32_t value;std::memcpy(&value,saved+reg*8,4);return value;};
     float width;std::memcpy(&width,saved+256+8*16,4); // native S8 (not Dart register roles)
@@ -824,6 +830,7 @@ extern "C" void hc_back_gesture_body(std::byte *saved) {
         std::memcpy(&width_bits, &in.width_dp, sizeof(width_bits));
         g_back_stock_width.store(uint64_t(width_bits) | (uint64_t(in.density) << 32),
             std::memory_order_release);
+        g_back_stock_config.store(packed, std::memory_order_release);
         g_back_stock_sequence.fetch_add(1, std::memory_order_release);
         g_back_stock_writer.clear(std::memory_order_release);
     }
@@ -835,13 +842,14 @@ extern "C" void hc_back_gesture_body(std::byte *saved) {
 extern "C" void hc_back_window_entry();
 extern "C" void *hc_back_window_original=nullptr;
 Slot g_back_window_update{};
-bool stable_read(const Slot &,Words &);
+bool stable_back_read(const Slot &, Words &);
 extern "C" void hc_back_window_body(std::byte *saved){
     static thread_local bool nested=false;
-    if(nested||!g_back_window_update.address)return;
+    if (nested || !g_back_regions_ready.load(std::memory_order_acquire)) return;
     const auto seq=g_back_stock_sequence.load(std::memory_order_acquire);if(seq&1)return;
     const auto stock=g_back_stock.load(std::memory_order_acquire);
     const auto stock_width = g_back_stock_width.load(std::memory_order_acquire);
+    const auto sampled_config = g_back_stock_config.load(std::memory_order_acquire);
     if (seq != g_back_stock_sequence.load(std::memory_order_acquire)) return;
     const auto width_bits = static_cast<uint32_t>(stock_width);
     float width_dp;
@@ -854,6 +862,7 @@ extern "C" void hc_back_window_body(std::byte *saved){
     uintptr_t receiver=0;std::memcpy(&receiver,saved+20*8,8);if(!receiver)return;
     unsigned char side=0;std::memcpy(&side,reinterpret_cast<const void*>(receiver+g_back_window_shape.side_field),1);if(side>1)return;
     const auto packed=g_back_gesture_config.load(std::memory_order_acquire);
+    if (packed != sampled_config && packed != (60u | (100u << 16))) return;
     const auto desired=home_layout::back_window_rect(input,side,{int(packed&0xffffu),int(packed>>16)});
     if(!desired)return;
     auto *scratch=saved+784+g_back_window_shape.rect_sp;
@@ -864,7 +873,10 @@ extern "C" void hc_back_window_body(std::byte *saved){
     const auto old=home_layout::back_window_rect(input,side,{int(previous&0xffffu),int(previous>>16)});
     // Preserve another app's stricter exclusion/side region, and never multiply a prior width.
     if((!nominal||current!=*nominal)&&(!old||current!=*old))return;
-    Words live{};if(!stable_read(g_back_window_update,live)||live!=g_back_window_update.original_words)return;
+    Words live{};if(!stable_back_read(g_back_window_update,live)||live!=g_back_window_update.original_words)return;
+    if (!g_back_regions_ready.load(std::memory_order_acquire)
+            || seq != g_back_stock_sequence.load(std::memory_order_acquire)
+            || packed != g_back_gesture_config.load(std::memory_order_acquire)) return;
     nested=true;
     reinterpret_cast<void(*)(uint32_t,const home_layout::BackWindowRect*)>(g_back_window_update.address)(side,&*desired);
     nested=false;
@@ -873,6 +885,7 @@ extern "C" void hc_back_window_body(std::byte *saved){
     window_width=std::max(window_width,desired->right-desired->left);
     std::memcpy(saved+19*8,&window_width,4);
     g_back_window_applied[side].store(packed,std::memory_order_release);
+    g_back_window_observed.store(true, std::memory_order_relaxed);
 }
 std::string g_container_path;
 uint64_t g_view_begin = 0;
@@ -2105,6 +2118,110 @@ bool bind_magic_consumer(Located &located) {
     return true;
 }
 
+bool stable_back_read(const Slot &slot, Words &words) {
+    nhk::SourceWordOps source{slot.address, slot.source};
+    nhk::CodePage before{}, after{};
+    const auto size = sizeof(words);
+    return source.Page(slot.address, size, before) && (before.protection & PROT_EXEC)
+        && nhk::safe_read(slot.address, std::as_writable_bytes(std::span(&words, 1)))
+        && source.Page(slot.address, size, after) && (after.protection & PROT_EXEC)
+        && before.begin == after.begin && before.size == after.size;
+}
+
+const std::vector<size_t> &back_region_order() {
+    static const std::vector<size_t> order{kBackGestureSlot, kBackWindowSlot};
+    return order;
+}
+
+bool bind_back_regions(const Library &library) {
+    auto &core = g_slots[kBackGestureSlot];
+    auto &window = g_slots[kBackWindowSlot];
+    if (core.backend_owned || window.backend_owned || nhk::slot_has_pending(core)
+            || nhk::slot_has_pending(window)) {
+        return core.address != 0 && window.address != 0;
+    }
+
+    const auto image = home_layout::elf_targets::parse(library.bytes);
+    if (!image) return false;
+    const auto core_shape = home_layout::resolve_back_gesture(*image);
+    const auto window_shape = home_layout::resolve_back_window(*image);
+    Slot core_target{}, window_target{}, update{};
+    if (!core_shape || !window_shape || core_shape->splice == window_shape->splice
+            || !bind_target(library, core_shape->splice, core_target.address,
+                core_target.source, core_target.original_words)
+            || !bind_target(library, window_shape->splice, window_target.address,
+                window_target.source, window_target.original_words)
+            || !bind_target(library, window_shape->update, update.address,
+                update.source, update.original_words)) {
+        __android_log_print(ANDROID_LOG_WARN, kTag, "back regions contract not validated");
+        return false;
+    }
+    core_target.replacement = reinterpret_cast<void *>(hc_back_gesture_entry);
+    core_target.original = &hc_back_gesture_original;
+    window_target.replacement = reinterpret_cast<void *>(hc_back_window_entry);
+    window_target.original = &hc_back_window_original;
+    g_back_window_shape = *window_shape;
+    g_back_window_update = update;
+    core = core_target;
+    window = window_target;
+    __android_log_print(ANDROID_LOG_INFO, kTag, "back regions contract resolved");
+    return true;
+}
+
+void maintain_back_regions(bool verify_mapping = false) {
+    const auto &order = back_region_order();
+    const auto &core = g_slots[kBackGestureSlot];
+    const auto &window = g_slots[kBackWindowSlot];
+    if (nhk::home_safe_mode::decision().blocked) {
+        g_back_regions_ready.store(false, std::memory_order_release);
+        return;
+    }
+    if (!core.address || !window.address) return;
+    const bool ready = g_back_regions_ready.load(std::memory_order_acquire);
+    if (ready && g_back_window_observed.load(std::memory_order_relaxed) && !g_back_window_reported) {
+        g_back_window_reported = true;
+        __android_log_print(ANDROID_LOG_INFO, kTag, "back regions first window update observed");
+    }
+    if (ready && bank_live(order)) {
+        if (!verify_mapping) return;
+        Words update{};
+        Words core_live{}, window_live{};
+        if (stable_back_read(core, core_live) && core_live == core.patch_words
+                && stable_back_read(window, window_live) && window_live == window.patch_words
+                && stable_back_read(g_back_window_update, update)
+                && update == g_back_window_update.original_words) return;
+    }
+    if (!ready && !core.backend_owned && !window.backend_owned
+            && g_back_gesture_config.load(std::memory_order_acquire) == (60u | (100u << 16))) return;
+
+    g_back_regions_ready.store(false, std::memory_order_release);
+    if (ready) {
+        g_back_window_observed.store(false, std::memory_order_relaxed);
+        g_back_window_reported = false;
+        __android_log_print(ANDROID_LOG_WARN, kTag, "back regions readiness lost");
+    }
+    Words update{};
+    static const auto host = [] {
+        auto result = slot_host();
+        result.read_slot = stable_back_read;
+        return result;
+    }();
+    const bool valid = stable_back_read(g_back_window_update, update)
+        && update == g_back_window_update.original_words;
+    if (valid && home_layout::install_back_region_pair(g_slots, host, order)
+            && bank_live(order)) {
+        g_back_cleanup_reported = false;
+        g_back_regions_ready.store(true, std::memory_order_release);
+        __android_log_print(ANDROID_LOG_INFO, kTag, "back regions installation verified");
+    } else if ((core.backend_owned || window.backend_owned || nhk::slot_has_pending(core)
+            || nhk::slot_has_pending(window)) && !g_back_cleanup_reported) {
+        // No in-flight drain is provided by either backend. A reachable adapter
+        // remains an OEM pass-through with its continuation intact.
+        g_back_cleanup_reported = true;
+        __android_log_print(ANDROID_LOG_WARN, kTag, "back regions effects disabled; backend records retained");
+    }
+}
+
 std::optional<Located> locate() {
     std::ifstream maps("/proc/self/maps");
     if (!maps) return {};
@@ -2130,33 +2247,10 @@ std::optional<Located> locate() {
             } else __android_log_print(ANDROID_LOG_WARN,kTag,"native gesture dispatch validation declined");
         }
 
-        if (!g_slots[kBackGestureSlot].backend_owned) {
-            const auto shape = home_layout::resolve_back_gesture(rust->bytes);
-            uintptr_t address = 0; nhk::CodeSource source{}; Words words{};
-            if (shape && bind_target(*rust, shape->splice, address, source, words)) {
-                g_back_gesture_shape = *shape;
-                g_slots[kBackGestureSlot] = {address, reinterpret_cast<void *>(hc_back_gesture_entry),
-                    &hc_back_gesture_original, source, words};
-                located.container_path = rust->path;
-                located.view_begin = rust->view_begin; located.view_end = rust->view_end;
-                __android_log_print(ANDROID_LOG_INFO, kTag, "back gesture original body resolved va=%#llx splice=%#llx left=%u right=%u screen=%u",
-                    static_cast<unsigned long long>(shape->entry), static_cast<unsigned long long>(shape->splice),
-                    shape->left, shape->right, shape->screen);
-            } else {
-                __android_log_print(ANDROID_LOG_WARN, kTag, "back gesture region body not validated; original retained");
-            }
-        }
-        if(!g_slots[kBackWindowSlot].backend_owned){
-            const auto shape=home_layout::resolve_back_window(rust->bytes);
-            uintptr_t address=0,update=0;nhk::CodeSource source{},update_source{};Words words{},update_words{};
-            if(shape&&bind_target(*rust,shape->splice,address,source,words)
-                &&bind_target(*rust,shape->update,update,update_source,update_words)){
-                g_back_window_shape=*shape;
-                g_back_window_update={update,nullptr,nullptr,update_source,update_words};
-                g_slots[kBackWindowSlot]={address,reinterpret_cast<void*>(hc_back_window_entry),&hc_back_window_original,source,words};
-                __android_log_print(ANDROID_LOG_INFO,kTag,"back window apply source resolved splice=%#llx update=%#llx side=%u",
-                    (unsigned long long)shape->splice,(unsigned long long)shape->update,shape->side_field);
-            }
+        if (bind_back_regions(*rust)) {
+            located.container_path = rust->path;
+            located.view_begin = rust->view_begin;
+            located.view_end = rust->view_end;
         }
         const auto targets = home_layout::elf_targets::resolve(rust->bytes);
         if (targets && !g_slots[kNativeColumnsSlot].backend_owned) {
@@ -4867,16 +4961,6 @@ size_t arm_hooks(std::vector<size_t> &order) {
     if (g_slots[kDockEditSlot].address && std::find(order.begin(),order.end(),kDockEditSlot)==order.end()) {
         order.push_back(kDockEditSlot); ++added;
     }
-    if (g_slots[kBackGestureSlot].address &&
-        (g_slots[kBackGestureSlot].backend_owned || g_back_gesture_config.load(std::memory_order_acquire) != (60u | (100u << 16)))
-        && std::find(order.begin(), order.end(), kBackGestureSlot) == order.end()) {
-        order.push_back(kBackGestureSlot); ++added;
-    }
-    if(g_slots[kBackWindowSlot].address&&(g_slots[kBackWindowSlot].backend_owned
-        ||g_back_gesture_config.load(std::memory_order_acquire)!=(60u|(100u<<16)))
-        &&std::find(order.begin(),order.end(),kBackWindowSlot)==order.end()){
-        order.push_back(kBackWindowSlot);++added;
-    }
     if(g_big_folder_size_bound)for(size_t i=0;i<7;++i){const size_t index=kBigFolderSizeSlotBase+i;
         if(std::find(order.begin(),order.end(),index)==order.end()){order.push_back(index);++added;}}
     if (g_folder_preview_bound) for (size_t i = 0; i < 7; ++i) {
@@ -5365,7 +5449,9 @@ void *worker(void *) {
     } setup_lease;
     // A new worker attempt must not replace a slot with an outstanding backend
     // or write obligation. Retry known cleanup using the existing attempt path.
-    for (Slot &slot : g_slots) {
+    for (size_t index = 0; index < g_slots.size(); ++index) {
+        if (index == kBackGestureSlot || index == kBackWindowSlot) continue;
+        auto &slot = g_slots[index];
         if (nhk::slot_has_pending(slot) && !nhk::settle_slot_pending(slot, slot_host())) {
             __android_log_print(ANDROID_LOG_WARN, kTag,
                 "layout pending slot retained; rebuild deferred address=%p",
@@ -5616,6 +5702,7 @@ void *worker(void *) {
     (void) bind_widget_scale();
     (void) bind_title_hide();
     arm_hooks(order);
+    maintain_back_regions();
     publish_hooks();
     (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
     (void) sync_widget_move(config.widget_allow_move);
@@ -5683,6 +5770,7 @@ void *worker(void *) {
      */
     uint64_t last_panel_query = 0;
     uint64_t last_generation_check = 0;
+    uint64_t last_back_generation_check = 0;
     for (;;) {
         const uint64_t now = monotonic_ms();
         /*
@@ -6127,6 +6215,9 @@ void *worker(void *) {
             && capacity_config.tweaks.hotseat_unlimited;
 #endif
         (void)sync_hotseat_capacity(capacity_enabled);
+        const bool verify_back = interval_due(last_back_generation_check, now, kGenerationCheckMs);
+        if (verify_back) last_back_generation_check = now;
+        maintain_back_regions(verify_back);
         bool live = bank_live(order);
         /*
          * Periodic generation proof, at the backstop cadence rather than per pass: one inventory for
@@ -7075,8 +7166,12 @@ bool adopt_layout_state() {
     if (!g_slots[kDockEditSlot].backend_owned) {
         hc_dock_edit_original=nullptr; hc_dock_edit_controller_field=hc_dock_edit_value_field=0;
     }
-    if (!g_slots[kBackGestureSlot].backend_owned) {
-        hc_back_gesture_original = nullptr; g_back_gesture_shape = {};
+    g_back_regions_ready.store(false, std::memory_order_release);
+    g_back_window_observed.store(false, std::memory_order_relaxed);
+    g_back_window_reported = false;
+    g_back_cleanup_reported = false;
+    if (!g_slots[kBackGestureSlot].backend_owned && !nhk::slot_has_pending(g_slots[kBackGestureSlot])) {
+        hc_back_gesture_original = nullptr;
     }
     if (!g_slots[kNativeColumnsSlot].backend_owned) {
         hc_native_columns_original = nullptr; g_native_columns = {};
@@ -7095,8 +7190,11 @@ bool adopt_layout_state() {
     g_native_columns_prime_next = 0;
     g_native_columns_prime_attempted.store(false,std::memory_order_release);
     g_back_prime_attempted.store(false,std::memory_order_release);
-    if(!g_slots[kBackWindowSlot].backend_owned){hc_back_window_original=nullptr;g_back_window_update={};g_back_window_shape={};}
+    if (!g_slots[kBackWindowSlot].backend_owned && !nhk::slot_has_pending(g_slots[kBackWindowSlot])) {
+        hc_back_window_original = nullptr;
+    }
     g_back_stock.store(0,std::memory_order_release);g_back_stock_width.store(0,std::memory_order_release);
+    g_back_stock_config.store(0, std::memory_order_release);
     g_back_stock_sequence.store(0,std::memory_order_release);g_back_stock_writer.clear(std::memory_order_release);
     g_back_prime_stage.store(0,std::memory_order_release);
     for(auto &applied:g_back_window_applied)applied.store(60u|(100u<<16),std::memory_order_release);
@@ -7231,7 +7329,12 @@ bool adopt_layout_state() {
     g_container_path.clear();
     g_view_begin = 0;
     g_view_end = 0;
-    for (Slot &slot : g_slots) slot = Slot{};
+    for (size_t index = 0; index < g_slots.size(); ++index) {
+        auto &slot = g_slots[index];
+        if ((index == kBackGestureSlot || index == kBackWindowSlot)
+                && (slot.backend_owned || nhk::slot_has_pending(slot))) continue;
+        slot = Slot{};
+    }
     for (KnobRuntime &knob : g_knobs) {
         knob.hook_mode = false;
         knob.hook_address = 0;
@@ -7644,25 +7747,13 @@ void prime_back_regions(HookFunction hook,UnhookFunction unhook){
     // the worker. An unsupported contract is not a reason to scan per property.
     g_back_prime_attempted.store(true,std::memory_order_release);
     g_back_prime_stage.store(4,std::memory_order_relaxed);
-    const auto core=home_layout::resolve_back_gesture(rust->bytes);
-    const auto window=home_layout::resolve_back_window(rust->bytes);
-    if(!core||!window){
-        __android_log_print(ANDROID_LOG_WARN,kTag,"back pre-init contract unavailable; worker owns further discovery");
-        return;
-    }
-    uintptr_t a=0,b=0,c=0;nhk::CodeSource sa{},sb{},sc{};Words wa{},wb{},wc{};
-    if(!bind_target(*rust,core->splice,a,sa,wa)||!bind_target(*rust,window->splice,b,sb,wb)
-        ||!bind_target(*rust,window->update,c,sc,wc))return;
+    if (!bind_back_regions(*rust)) return;
     g_back_prime_stage.store(5,std::memory_order_relaxed);
     g_hook_function=hook;g_unhook_function=unhook;
     g_container_path=rust->path;g_view_begin=rust->view_begin;g_view_end=rust->view_end;
-    g_back_gesture_shape=*core;g_back_window_shape=*window;
-    g_slots[kBackGestureSlot]={a,reinterpret_cast<void*>(hc_back_gesture_entry),&hc_back_gesture_original,sa,wa};
-    g_slots[kBackWindowSlot]={b,reinterpret_cast<void*>(hc_back_window_entry),&hc_back_window_original,sb,wb};
-    g_back_window_update={c,nullptr,nullptr,sc,wc};
     g_back_gesture_config.store(uint32_t(config.back_gesture.height)|(uint32_t(config.back_gesture.width)<<16),std::memory_order_release);
-    const std::vector<size_t> order{kBackGestureSlot,kBackWindowSlot};
-    const bool live=nhk::ensure_slots_live(g_slots,slot_host(),order);
+    maintain_back_regions();
+    const bool live = g_back_regions_ready.load(std::memory_order_acquire);
     g_back_prime_stage.store(live?7:6,std::memory_order_release);
     __android_log_print(ANDROID_LOG_INFO,kTag,"back original regions pre-init stage=%d",live?7:6);
 }

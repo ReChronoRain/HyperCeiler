@@ -54,31 +54,34 @@ inline std::optional<BackGestureShape> back_shape(const elf_targets::Image &imag
     if (!receiver || !screen || !result || *screen + 8 > result->left) return {};
     result->screen = *screen; return result;
 }
-inline std::optional<BackGestureShape> resolve_back_gesture(std::span<const std::byte> bytes) {
-    const auto image=elf_targets::parse(bytes); if(!image)return {};
+inline std::optional<BackGestureShape> resolve_back_gesture(const elf_targets::Image &image) {
     std::optional<BackGestureShape> result;
     for (const char *label : {"update_home_region home_region: ", "update_region is_fold_or_pad: "}) {
-        const auto literal=elf_targets::unique_literal(*image,label);
+        const auto literal=elf_targets::unique_literal(image,label);
         if(!literal) continue;
-        const auto fn=elf_targets::unique_function(*image,*literal);
+        const auto fn=elf_targets::unique_function(image,*literal);
         if(!fn) return {};
-        const auto shape=back_shape(*image,*fn); if(!shape)return {};
+        const auto shape=back_shape(image,*fn); if(!shape)return {};
         if(result && result->entry!=shape->entry)return {};
         result=shape;
     }
     return result;
 }
 
+inline std::optional<BackGestureShape> resolve_back_gesture(std::span<const std::byte> bytes) {
+    const auto image = elf_targets::parse(bytes);
+    return image ? resolve_back_gesture(*image) : std::nullopt;
+}
+
 struct BackWindowShape { uint64_t apply=0,update=0,splice=0;uint32_t rect_sp=0,side_field=0; };
 struct BackWindowRect { int32_t left,top,right,bottom; bool operator==(const BackWindowRect &)const=default; };
-inline std::optional<BackWindowShape> resolve_back_window(std::span<const std::byte> bytes) {
-    const auto image=elf_targets::parse(bytes);if(!image)return {};
-    auto owner=[&](const char *text){auto l=elf_targets::unique_literal(*image,text);
-        return l?elf_targets::unique_function(*image,*l):std::optional<unwind::FunctionBounds>{};};
+inline std::optional<BackWindowShape> resolve_back_window(const elf_targets::Image &image) {
+    auto owner=[&](const char *text){auto l=elf_targets::unique_literal(image,text);
+        return l?elf_targets::unique_function(image,*l):std::optional<unwind::FunctionBounds>{};};
     const auto apply=owner(" apply_touchable_region (local coords): left="),update=owner(" update_valid_gesture_region: ");
     if(!apply||!update)return {};
     bool input=false,copy=false,width=false,call=false;
-    for(auto at=update->begin;at+8<=update->end;at+=4){auto a=image->word(at),b=image->word(at+4);if(!a||!b)return {};
+    for(auto at=update->begin;at+8<=update->end;at+=4){auto a=image.word(at),b=image.word(at+4);if(!a||!b)return {};
         if(at-update->begin<0x40&&*a==0xaa0103f4u)input=true;
         if(*a==0x3dc00280u&&(*b&0xffe00fffu)==0x3c8002c0u)copy=true;
         if(*a==0xb9400a89u&&*b==0xb940028au)width=true;
@@ -87,17 +90,22 @@ inline std::optional<BackWindowShape> resolve_back_window(std::span<const std::b
     }
     if(!input||!copy||!width||!call)return {};
     bool receiver=false,param=false;std::optional<BackWindowShape> result;
-    for(auto at=apply->begin;at+40<=apply->end;at+=4){auto a=image->word(at);if(!a)return {};
+    for(auto at=apply->begin;at+40<=apply->end;at+=4){auto a=image.word(at);if(!a)return {};
         if(at-apply->begin<0x60&&*a==0xaa0003f4u)receiver=true;
         if(at-apply->begin<0x60&&*a==0x2a0103f3u)param=true;
         if(*a!=0xb9401be8u)continue; // LDR W8,[SP,#24], right of copied Rect
-        std::array<uint32_t,10> w{};for(unsigned i=0;i<10;++i){auto v=image->word(at+i*4);if(!v)return {};w[i]=*v;}
+        std::array<uint32_t,10> w{};for(unsigned i=0;i<10;++i){auto v=image.word(at+i*4);if(!v)return {};w[i]=*v;}
         if(w[1]!=0xb94013e9u||w[2]!=0x4b090108u||w[3]!=0x7100051fu
             ||w[4]!=0xb9002fe8u||w[6]!=0x6b080269u||(w[8]&0xffc003ffu)!=0x3940028au)continue;
         if(result){return {};}result=BackWindowShape{apply->begin,update->begin,at,16,(w[8]>>10)&4095};
     }
     return receiver&&param?result:std::nullopt;
 }
+inline std::optional<BackWindowShape> resolve_back_window(std::span<const std::byte> bytes) {
+    const auto image = elf_targets::parse(bytes);
+    return image ? resolve_back_window(*image) : std::nullopt;
+}
+
 struct BackGestureInputs {
     int32_t top, bottom, screen_width, screen_height, density;
     float width_dp;
