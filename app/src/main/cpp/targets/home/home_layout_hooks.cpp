@@ -31,6 +31,7 @@ extern "C" void hc_home_diagnostic_sample();
 #include "home_back_region_hooks.h"
 #ifdef HYPERCEILER_HYOS_BACKEND
 #include "targets/hyos/hyos_control.h"
+#include "home_startup.h"
 #endif
 #include "home_gestures_os4.h"
 #include "home_workspace_gesture.h"
@@ -7416,6 +7417,87 @@ bool adopt_layout_state() {
     }
     return true;
 }
+
+#ifdef HYPERCEILER_HYOS_BACKEND
+// The dedicated Hyos owner never enters the legacy resolver/slot bank. This
+// bridge shares only the already-tested Dart ABI's original pointers and atomic
+// parameters; legacy ART startup and maintenance continue to use their old bank.
+extern "C" {
+#define HC_STARTUP_DECL(n) void hc_home_startup_##n();
+HC_STARTUP_DECL(0) HC_STARTUP_DECL(1) HC_STARTUP_DECL(2) HC_STARTUP_DECL(3)
+HC_STARTUP_DECL(4) HC_STARTUP_DECL(5) HC_STARTUP_DECL(6) HC_STARTUP_DECL(7)
+HC_STARTUP_DECL(8) HC_STARTUP_DECL(9) HC_STARTUP_DECL(10) HC_STARTUP_DECL(11)
+HC_STARTUP_DECL(12) HC_STARTUP_DECL(13) HC_STARTUP_DECL(14)
+#undef HC_STARTUP_DECL
+}
+namespace home_startup::detail {
+HookBinding binding(unsigned index) noexcept {
+    static const HookBinding bindings[] = {
+        {reinterpret_cast<void *>(hc_home_startup_0), &hc_layout_dart_HotseatMargin_original},
+        {reinterpret_cast<void *>(hc_home_startup_1), &hc_layout_dart_FolderRowSpacing_original},
+        {reinterpret_cast<void *>(hc_home_startup_2), &hc_layout_dart_WorkspaceTop_original},
+        {reinterpret_cast<void *>(hc_home_startup_3), &hc_layout_dart_WorkspaceBottom_original},
+        {reinterpret_cast<void *>(hc_home_startup_4), &hc_layout_dart_WorkspaceSide_original},
+        {reinterpret_cast<void *>(hc_home_startup_5), &hc_layout_dart_IndicatorMargin_original},
+        {reinterpret_cast<void *>(hc_home_startup_6), &hc_layout_dart_SearchBarMargin_original},
+        {reinterpret_cast<void *>(hc_home_startup_7), &hc_layout_dart_SearchBarWidth_original},
+        {reinterpret_cast<void *>(hc_home_startup_8), &hc_layout_dart_IndicatorDot_original},
+        {reinterpret_cast<void *>(hc_home_startup_9), &hc_layout_folder_original[0]},
+        {reinterpret_cast<void *>(hc_home_startup_10), &hc_layout_folder_original[1]},
+        {reinterpret_cast<void *>(hc_home_startup_11), &hc_layout_folder_original[2]},
+        {reinterpret_cast<void *>(hc_home_startup_12), &hc_layout_folder_original[3]},
+        {reinterpret_cast<void *>(hc_home_startup_13), &hc_layout_folder_original[4]},
+        {reinterpret_cast<void *>(hc_home_startup_14), &hc_layout_magic_original},
+    };
+    return index < std::size(bindings) ? bindings[index] : HookBinding{};
+}
+void initialize_consumers(uintptr_t base, uintptr_t edit, uintptr_t empty,
+    uintptr_t dots, uintptr_t idle, const uint32_t *resume) noexcept {
+    hc_layout_indicator_edit_call = base + edit;
+    hc_layout_indicator_build_empty = base + empty;
+    hc_layout_indicator_build_dots = base + dots;
+    hc_layout_indicator_idle_caller = base + idle;
+    for (size_t i = 0; i < 5; ++i) hc_layout_folder_resume[i] = base + resume[i];
+}
+void publish_consumers(const home_layout::Config &config, uint64_t applied) noexcept {
+    constexpr uint64_t groups[] = {HotseatMargin, FolderSpacing, Workspace, Workspace,
+        Workspace, CapsuleMargin, IndicatorPolicy, IndicatorPolicy};
+    for (size_t i = 0; i < g_knobs.size(); ++i) {
+        const int delta = (applied & groups[i]) && config.knobs[i].enabled
+            ? config.knobs[i].delta_dp : 0;
+        g_knobs[i].delta_dp.store(delta, std::memory_order_relaxed);
+        const double scaled = static_cast<double>(delta) * kKnobDeltaGain[i];
+        uint64_t bits = 0; std::memcpy(&bits, &scaled, sizeof(bits));
+        // Do not use init_knob_hooks or strings in the startup window.
+        uint64_t *deltas[] = {&hc_layout_dart_HotseatMargin_delta,
+            &hc_layout_dart_FolderRowSpacing_delta, &hc_layout_dart_WorkspaceTop_delta,
+            &hc_layout_dart_WorkspaceBottom_delta, &hc_layout_dart_WorkspaceSide_delta,
+            &hc_layout_dart_IndicatorMargin_delta, &hc_layout_dart_SearchBarMargin_delta,
+            &hc_layout_dart_SearchBarWidth_delta};
+        uint8_t *enabled[] = {&hc_layout_dart_HotseatMargin_enabled,
+            &hc_layout_dart_FolderRowSpacing_enabled, &hc_layout_dart_WorkspaceTop_enabled,
+            &hc_layout_dart_WorkspaceBottom_enabled, &hc_layout_dart_WorkspaceSide_enabled,
+            &hc_layout_dart_IndicatorMargin_enabled, &hc_layout_dart_SearchBarMargin_enabled,
+            &hc_layout_dart_SearchBarWidth_enabled};
+        __atomic_store_n(deltas[i], bits, __ATOMIC_RELAXED);
+        const bool workspace = (i == 2 || i == 3) && (applied & FolderGeometry);
+        __atomic_store_n(enabled[i], static_cast<uint8_t>(workspace || delta != 0), __ATOMIC_RELEASE);
+    }
+    const int mode = config.knobs[6].enabled ? config.knobs[6].delta_dp : 0;
+    __atomic_store_n(&hc_layout_indicator_mode,
+        static_cast<uint32_t>((applied & IndicatorPolicy) && mode >= 0 && mode <= 2 ? mode : 0),
+        __ATOMIC_RELEASE);
+    __atomic_store_n(&hc_layout_folder_enabled, (applied & FolderGeometry) ? 1u : 0u, __ATOMIC_RELEASE);
+    auto tweaks = config.tweaks;
+    tweaks.animation_recents_enabled = false; // Earlier Rust deadline is not established.
+    tweaks.animation_open_enabled = (applied & OpenAnimation) && tweaks.animation_open_enabled;
+    publish_animation_rate(tweaks);
+}
+void clear_consumers() noexcept {
+    publish_consumers(home_layout::Config{}, 0);
+}
+} // namespace home_startup::detail
+#endif
 
 void home_layout_prepare_for_launcher_child() {
     if (nhk::home_safe_mode::decision().blocked) return;
