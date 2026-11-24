@@ -20,7 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.database.ContentObserver;
 import android.os.Handler;
 import android.provider.Settings;
@@ -89,22 +91,7 @@ public class UiLockApp extends BaseHook {
             updateStatusBarVisibility(restoredContext);
         }
 
-        findAndChainMethod("com.android.systemui.SystemUIApplication",
-            "onCreate",
-            new XposedInterface.Hooker() {
-                @Override
-                public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                    Object result = chain.proceed();
-                    try {
-                        Context context = (Context) callMethod(chain.getThisObject(), "getApplicationContext");
-                        registerObserverIfNeeded(context);
-                    } catch (Throwable e) {
-                        XposedLog.w(TAG, "SystemUIApplication onCreate hook E: " + e);
-                    }
-                    return result;
-                }
-            }
-        );
+        hookApplicationOnCreate();
 
         for (String className : STATUS_BAR_WINDOW_CONTROLLER_CLASS_CANDIDATES) {
             hookStatusBarWindowControllerClass(className);
@@ -121,6 +108,30 @@ public class UiLockApp extends BaseHook {
         if (isPad()) {
             hookLauncherProxyStopScreenPinning();
         }
+    }
+
+    private void hookApplicationOnCreate() {
+        ApplicationInfo appInfo = getLpparam().getApplicationInfo();
+        String className = appInfo != null && appInfo.className != null
+            ? appInfo.className : "com.android.systemui.SystemUIApplication";
+        Class<?> applicationClass = findClassIfExists(className);
+        if (applicationClass == null || !Application.class.isAssignableFrom(applicationClass)) return;
+
+        var onCreate = findMethodExactIfExists(applicationClass, "onCreate", new Class<?>[0]);
+        if (onCreate == null || onCreate.getDeclaringClass() == Application.class) return;
+
+        chain(onCreate, invocation -> {
+            Object result = invocation.proceed();
+            if (applicationClass.isInstance(invocation.getThisObject())) {
+                Application application = (Application) invocation.getThisObject();
+                try {
+                    registerObserverIfNeeded(application.getApplicationContext());
+                } catch (Throwable e) {
+                    XposedLog.w(TAG, "SystemUI application onCreate hook E: " + e);
+                }
+            }
+            return result;
+        });
     }
 
     private void hookStatusBarWindowControllerClass(String className) {
@@ -538,7 +549,7 @@ public class UiLockApp extends BaseHook {
         return -1;
     }
 
-    private void registerObserverIfNeeded(Context context) {
+    private synchronized void registerObserverIfNeeded(Context context) {
         if (context == null || mObserverRegistered) return;
         ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
             @Override
