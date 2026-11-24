@@ -26,6 +26,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.telephony.SubscriptionManager
@@ -88,6 +89,9 @@ import java.util.function.Consumer
 
 object MobileTypeSingle2Hook : BaseHook() {
     private const val LAST_BOUND_VIEW_MODEL_KEY = "mobile_type_single2_last_bound_vm"
+    private const val MODE4_FLOW_KEY = "MobileTypeSingle2Hook.mode4Visible"
+    private val useOs4Mode4Flow get() = Build.VERSION.SDK_INT == 37 &&
+        mobileNetworkType == 4 && !showMobileType && !isEnableDouble
     private const val DATA_SIM_CONTEXT_KEY = "MobileTypeSingle2Hook.dataSimContext"
     private const val CELL_PROVIDER_METHOD = "getCellProvider"
     private const val ACTIVITY_VISIBLE_FIELD = "inOutVisible"
@@ -176,14 +180,16 @@ object MobileTypeSingle2Hook : BaseHook() {
                     }
             }
             // Keep the existing pre-bind fallback for previously-created VMs.
-            // All unrelated ViewModel properties are still updated after bind.
+            // Prepare only fields the native binder must see on its first collection.
             miuiMobileIconBinder.findMethod { name("bind") }
                 .createInterceptHook { chain ->
                     if (isEnableDouble && !hideIndicator) {
-                        // Only activity needs pre-bind preparation. The other
-                        // ViewModel changes retain their original after-bind timing.
                         runCatching { prepareOs4ActivityBeforeBind(chain.args.getOrNull(2)) }
                             .onFailure { XposedLog.w(TAG, lpparam.packageName, "Activity pre-bind failed: ${it.message}") }
+                    }
+                    if (useOs4Mode4Flow) {
+                        runCatching { prepareMode4BeforeBind(chain.args.getOrNull(2)) }
+                            .onFailure { XposedLog.w(TAG, lpparam.packageName, "Mode 4 pre-bind failed: ${it.message}") }
                     }
                     val result = chain.proceed() // Native bind must run exactly once.
                     runCatching { applyOs4ViewModelAfterBind(chain.args.getOrNull(2)) }
@@ -292,6 +298,50 @@ object MobileTypeSingle2Hook : BaseHook() {
                     vmImpl.setObjectField(ACTIVITY_RESOURCE_FIELD, proxy)
                 }
             }
+        }
+    }
+
+    @Synchronized
+    private fun prepareMode4BeforeBind(outer: Any?) {
+        // The outer flatMapLatest asks the selected provider for mobileTypeVisible.
+        // Replace only the cellular branch, before either HOME or QS can collect it.
+        val cell = outer?.callMethodAs<Any>(CELL_PROVIDER_METHOD) ?: return
+        val field = cell.javaClass.getDeclaredField("mobileTypeVisible").apply { isAccessible = true }
+        val original = requireNotNull(field.get(cell))
+        if (cell.getAdditionalInstanceFieldAs<Any?>(MODE4_FLOW_KEY) === original) return
+
+        val wifi = outer.getObjectFieldAs<Any>("iconInteractor").getObjectFieldAs<Any>("wifiAvailable")
+        val origin = cell.getObjectFieldAs<Any>("originIconInteractor")
+        val data = requireNotNull(origin.callMethodAs<Any>("isDataConnected"))
+        // The interactor API promises Flow, not synchronous access to its first emission.
+        var connected = runCatching { getStateFlowValue(data) == true }.getOrDefault(false)
+        val flow = newReadonlyStateFlow(connected && getStateFlowValue(wifi) == false)
+        check(field.type.isInstance(flow)) { "Unexpected mobileTypeVisible type: ${field.type.name}" }
+        fun refresh(dataUpdate: Boolean?) = synchronized(flow) {
+            if (dataUpdate != null) connected = dataUpdate
+            setStateFlowValue(flow, connected && getStateFlowValue(wifi) == false)
+        }
+        fun restore() {
+            if (field.get(cell) === flow) field.set(cell, original)
+            if (cell.getAdditionalInstanceFieldAs<Any?>(MODE4_FLOW_KEY) === flow) {
+                BaseHook.removeAdditionalInstanceField(cell, MODE4_FLOW_KEY)
+            }
+        }
+        var wifiJob: KotlinJob? = null
+        var dataJob: KotlinJob? = null
+        try {
+            field.set(cell, flow)
+            check(field.get(cell) === flow) { "mobileTypeVisible was not replaced" }
+            wifiJob = MiuiStub.javaAdapter.alwaysCollectFlow(wifi, Consumer<Boolean> { refresh(null) })
+            dataJob = MiuiStub.javaAdapter.alwaysCollectFlow(data, Consumer<Boolean> { refresh(it) })
+            cell.setAdditionalInstanceField(MODE4_FLOW_KEY, flow)
+            // JavaAdapter registers both jobs for cancellation on hot reload.
+            BaseHook.registerHotReloadCleanup { restore() }
+        } catch (e: Throwable) {
+            runCatching { dataJob?.cancel() }
+            runCatching { wifiJob?.cancel() }
+            restore()
+            throw e
         }
     }
 
@@ -540,7 +590,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             }
             1 -> viewModel.setObjectField("mobileTypeVisible", newReadonlyStateFlow(true))
             3 -> viewModel.setObjectField("mobileTypeVisible", newReadonlyStateFlow(false))
-            4 -> {
+            4 -> if (!useOs4Mode4Flow) {
                 val wifiFlow = viewModel.getObjectFieldAs<Any>("wifiAvailable")
                 val dataConnectedFlow = interactor?.getObjectFieldAs<Any>("isDataConnected")
 
@@ -835,6 +885,24 @@ object MobileTypeSingle2Hook : BaseHook() {
             fallbackVisible = mobileTypeSingleView?.isVisible ?: false,
             forceDualMode = isEnableDouble && (mobileNetworkType == 0 || mobileNetworkType == 2)
         )
+        viewRenderer.applyLargeMobileType(
+            textView = mobileTypeSingleView,
+            showName = renderState.showName,
+            largeTypeVisible = resolvedLargeVisible
+        )
+        if (!visibilityResolver.shouldUseDualRowDataSimSync()) {
+            viewRenderer.applyInOut(
+                indicatorView = inOutView,
+                inOutVisible = renderState.inOutVisible
+            )
+        }
+        if (useOs4Mode4Flow) {
+            // $15 owns visibility, including when the outer VM selects a non-cellular provider.
+            if (mobileTypeSmallView != null && renderState.showName.isNotEmpty()) {
+                updateMobileTypeDrawable(mobileTypeSmallView, renderState.showName)
+            }
+            return
+        }
         val effectiveWifiConnected = if (!showMobileType && mobileNetworkType == 2) {
             safeIsWifiConnected() ?: renderState.wifiConnected
         } else {
@@ -847,17 +915,6 @@ object MobileTypeSingle2Hook : BaseHook() {
             fallbackVisible = mobileTypeSmallView?.isVisible ?: false
         )
 
-        viewRenderer.applyLargeMobileType(
-            textView = mobileTypeSingleView,
-            showName = renderState.showName,
-            largeTypeVisible = resolvedLargeVisible
-        )
-        if (!visibilityResolver.shouldUseDualRowDataSimSync()) {
-            viewRenderer.applyInOut(
-                indicatorView = inOutView,
-                inOutVisible = renderState.inOutVisible
-            )
-        }
         viewRenderer.applySmallMobileType(
             imageView = mobileTypeSmallView,
             smallVisible = resolvedSmallVisible,
