@@ -37,7 +37,8 @@ void report_start_verdict(const char*,const char*,bool,int){}
 void prime_native_columns(HookFunction,UnhookFunction){++columns;}
 void prime_back_regions(HookFunction,UnhookFunction){++back;}
 void* worker(void*){return nullptr;}
-int fixture_create(pthread_t*,const pthread_attr_t*,void*(*)(void*),void*){++threads;return create_result;}
+int fixture_create(pthread_t* thread,const pthread_attr_t*,void*(*)(void*),void*){*thread={};++threads;return create_result;}
+int fixture_detach(pthread_t){return 0;}
 int fixture_setname(pthread_t,const char*){return 0;}
 void home_layout_prepare_for_launcher_child(){++prepares;}
 void prime_home_layout_first_render(HookFunction,UnhookFunction){++first_calls;}
@@ -58,7 +59,7 @@ void MonitorLoop(){}void InstallMadviseGuard(){++guards;}void WakeMonitor(){++wa
 #define LOGE(...) ((void)0)
 #define LOGI(...) ((void)0)
 '''
-engine_start=body(engine,'void StartHomeLayoutEngine()').replace('getpid()','fixture_pid()').replace('pthread_create(','fixture_create(').replace('pthread_setname_np(','fixture_setname(')
+engine_start=body(engine,'void StartHomeLayoutEngine()').replace('getpid()','fixture_pid()').replace('pthread_create(','fixture_create(').replace('pthread_setname_np(','fixture_setname(').replace('pthread_detach(','fixture_detach(')
 def thread_boundaries(source):return source.replace('gettid()','fixture_tid()').replace('getpid()','fixture_pid()')
 start=thread_boundaries(body(hooks,'void start_home_layout_hooks(const char *site, HookFunction hook, UnhookFunction unhook)')).replace('pthread_create(','fixture_create(')
 primer=thread_boundaries(body(hooks,'void prime_home_layout_first_render_from_property(HookFunction hook,UnhookFunction unhook)'))
