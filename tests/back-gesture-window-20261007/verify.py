@@ -12,7 +12,8 @@ c=r"""
 #include <iostream>
 using Words=std::array<uint32_t,4>;
 struct Slot{uintptr_t address=0;Words original_words{};};
-std::atomic_uint32_t g_back_gesture_config{60u|(100u<<16)},g_back_stock_width{0},g_back_stock_sequence{0};
+std::atomic_uint32_t g_back_gesture_config{60u|(100u<<16)},g_back_stock_sequence{0};
+std::atomic_uint64_t g_back_stock_width{0};
 std::atomic_uint64_t g_back_stock{0};
 std::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;
 std::atomic_uint32_t g_back_window_applied[2]{{60u|(100u<<16)},{60u|(100u<<16)}};
@@ -38,11 +39,11 @@ int main(int argc,char**argv){
  g_back_window_shape=*shape;g_back_window_update.address=reinterpret_cast<uintptr_t>(update);saved_for_nested=saved.data();
  for(unsigned side:{0u,1u})for(int height:{10,25,60,100})for(int width:{100,200,400}){
   g_back_gesture_config=uint32_t(height)|(uint32_t(width)<<16);baseline(side);const auto before=saved;const auto old_calls=calls;const auto old_rect=get();
-  hc_back_window_body(saved.data());auto expected=home_layout::back_window_rect(1200,2670,280,2576,68,side,{height,width});ok(expected&&get()==*expected);
+  hc_back_window_body(saved.data());auto expected=home_layout::back_window_rect({280,2576,1200,2670,520,21.0f},side,{height,width});ok(expected&&get()==*expected);
   ok(calls==old_calls+((expected&&old_rect==*expected)?0:1));
   auto after=saved;auto n=calls;hc_back_window_body(saved.data());ok(saved==after&&calls==n);
   // No multiplication of an already-applied 200%/400% width; default restores stock immediately.
-  g_back_gesture_config=60u|(100u<<16);hc_back_window_body(saved.data());auto stock=home_layout::back_window_rect(1200,2670,280,2576,68,side,{});ok(get()==*stock);
+  g_back_gesture_config=60u|(100u<<16);hc_back_window_body(saved.data());auto stock=home_layout::back_window_rect({280,2576,1200,2670,520,21.0f},side,{});ok(get()==*stock);
   for(size_t i=0;i<784;++i)if(i<152||i>=156)ok(saved[i]==before[i]);
  }
  g_back_gesture_config=25u|(200u<<16);baseline(0);auto before=saved;read_ok=false;hc_back_window_body(saved.data());ok(saved==before);read_ok=true;words_ok=false;hc_back_window_body(saved.data());ok(saved==before);words_ok=true;

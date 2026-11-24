@@ -98,35 +98,63 @@ inline std::optional<BackWindowShape> resolve_back_window(std::span<const std::b
     }
     return receiver&&param?result:std::nullopt;
 }
-inline std::optional<BackWindowRect> back_window_rect(int w,int h,int top,int bottom,int stock_width,
-    unsigned side,BackGestureConfig config) {
-    if(w<=0||h<=0||w>32768||h>32768||top<0||top>=bottom||bottom>h
-        ||stock_width<=0||stock_width>w/2||side>1||config.height<10||config.height>100
-        ||config.width<100||config.width>400)return {};
-    int span=std::min(w/2,int(int64_t(stock_width)*config.width/100));
-    if(config.height!=60){int len=int(int64_t(h)*config.height/100);
-        if(h>=w)top=std::max(top,bottom-len);
-        else{int center=(top+bottom)/2;top=std::clamp(center-len/2,0,h-len);bottom=top+len;}}
-    return side==0?BackWindowRect{0,top,span,bottom}:BackWindowRect{w-span,top,w,bottom};
+struct BackGestureInputs {
+    int32_t top, bottom, screen_width, screen_height, density;
+    float width_dp;
+};
+
+inline std::optional<int32_t> back_width_pixels(const BackGestureInputs &input) {
+    if (input.density <= 0 || input.density > 4096) return {};
+    const float pixels = input.width_dp * static_cast<float>(input.density) / 160.0f;
+    if (!(pixels >= 1.0f && pixels < 32769.0f)) return {};
+    return static_cast<int32_t>(pixels);
 }
 
-struct BackGestureInputs { int32_t top, bottom, screen_width, screen_height, density; float width_dp; };
-inline bool adjust_back_gesture_inputs(BackGestureInputs &in, BackGestureConfig config) {
-    if(config.height<10 || config.height>100 || config.width<100 || config.width>400
-        || (config.height==60 && config.width==100)) return false;
-    const int32_t w=in.screen_width,h=in.screen_height;
-    if(w<=0 || h<=0 || w>32768 || h>32768 || in.top<0 || in.bottom>h || in.top>=in.bottom
-        || in.density<=0 || in.density>4096 || !std::isfinite(in.width_dp) || in.width_dp<=0) return false;
-    if(config.width!=100) {
-        // The original body converts dp*density/160 into pixel width after this splice.
-        in.width_dp=std::min(in.width_dp * (config.width/100.0f), (w/2)*160.0f/in.density);
+inline std::optional<BackGestureInputs> back_gesture_geometry(BackGestureInputs input,
+                                                             BackGestureConfig config) {
+    const auto width = back_width_pixels(input);
+    const auto w = input.screen_width;
+    const auto h = input.screen_height;
+    if (w <= 0 || h <= 0 || w > 32768 || h > 32768 || input.top < 0
+        || input.bottom > h || input.top >= input.bottom || !width || *width > w / 2
+        || config.height < 10 || config.height > 100
+        || config.width < 100 || config.width > 400) return {};
+    if (config.width != 100) {
+        const float cap = (w / 2) * 160.0f / input.density;
+        input.width_dp = std::min(input.width_dp * (config.width / 100.0f), cap);
+        if (const auto pixels = back_width_pixels(input); pixels && *pixels > w / 2) {
+            input.width_dp = std::nextafter(input.width_dp, 0.0f);
+        }
     }
-    if(config.height!=60) {
-        const int32_t length=std::min(h,static_cast<int32_t>(int64_t(h)*config.height/100));
-        if(h>=w) in.top=std::max(0,in.bottom-length);
-        else {const int32_t center=(in.top+in.bottom)/2;
-            in.top=std::clamp(center-length/2,0,h-length);in.bottom=in.top+length;}
+    if (config.height != 60) {
+        const auto length = std::max(1, h * config.height / 100);
+        if (h >= w) {
+            input.top = std::max(0, input.bottom - length);
+        } else {
+            const auto center = (input.top + input.bottom) / 2;
+            input.top = std::clamp(center - length / 2, 0, h - length);
+            input.bottom = input.top + length;
+        }
     }
+    return input;
+}
+
+inline std::optional<BackWindowRect> back_window_rect(const BackGestureInputs &stock,
+                                                     unsigned side, BackGestureConfig config) {
+    const auto target = back_gesture_geometry(stock, config);
+    if (!target || side > 1) return {};
+    const auto span = back_width_pixels(*target);
+    if (!span) return {};
+    const auto w = target->screen_width;
+    return side == 0 ? BackWindowRect{0, target->top, *span, target->bottom}
+                     : BackWindowRect{w - *span, target->top, w, target->bottom};
+}
+
+inline bool adjust_back_gesture_inputs(BackGestureInputs &input, BackGestureConfig config) {
+    if (config.height == 60 && config.width == 100) return false;
+    const auto target = back_gesture_geometry(input, config);
+    if (!target) return false;
+    input = *target;
     return true;
 }
 } // namespace home_layout

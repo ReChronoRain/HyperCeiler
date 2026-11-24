@@ -62,7 +62,7 @@ int main(int argc,char**argv){
 source=(R/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text(encoding='utf8')
 a=source.index('extern "C" void hc_back_gesture_body(');b=source.index('extern "C" void hc_back_window_entry();',a) if 'hc_back_window_entry' in source else source.index('std::string g_container_path;',a)
 body=source[a:b]
-c=c.replace('using namespace home_layout;', '#include <atomic>\nstd::atomic_uint32_t g_back_gesture_config{60u | (100u<<16)},g_back_stock_width{0},g_back_stock_sequence{0};\nstd::atomic_uint64_t g_back_stock{0};\nstd::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;\n'+body+'\nusing namespace home_layout;')
+c=c.replace('using namespace home_layout;', '#include <atomic>\nstd::atomic_uint32_t g_back_gesture_config{60u | (100u<<16)},g_back_stock_sequence{0};\nstd::atomic_uint64_t g_back_stock_width{0};\nstd::atomic_uint64_t g_back_stock{0};\nstd::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;\n'+body+'\nusing namespace home_layout;')
 (out/'test.cpp').write_text(c)
 cmd=[str(W/'tests/dynamic-address-audit/runtime/zig-windows-x86_64-0.13.0/zig.exe'),'c++','-std=c++20','-O0','-I'+str(R/'app/src/main/cpp/targets/home'),'-I'+str(W/'app/src/main/cpp/targets/home'),'-I'+str(W/'app/src/main/cpp'),str(out/'test.cpp'),'-o',str(out/'test.exe')]
 p=subprocess.run(cmd,capture_output=True,text=True);print(p.stdout+p.stderr,end='');

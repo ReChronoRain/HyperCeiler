@@ -675,7 +675,7 @@ void sync_folder_layout(const home_layout::Config &config) {
 std::atomic_uint32_t g_back_gesture_config{60u | (100u << 16)};
 home_layout::BackGestureShape g_back_gesture_shape{};
 std::atomic_uint64_t g_back_stock{0};
-std::atomic_uint32_t g_back_stock_width{0};
+std::atomic_uint64_t g_back_stock_width{0};
 std::atomic_uint32_t g_back_stock_sequence{0};
 std::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;
 std::atomic_uint32_t g_back_prime_stage{0};
@@ -815,18 +815,17 @@ extern "C" void hc_back_gesture_body(std::byte *saved) {
     const auto integer=[&](unsigned reg){int32_t value;std::memcpy(&value,saved+reg*8,4);return value;};
     float width;std::memcpy(&width,saved+256+8*16,4); // native S8 (not Dart register roles)
     home_layout::BackGestureInputs in{integer(8),integer(21),integer(24),integer(28),integer(22),width};
-    if(in.screen_width>0&&in.screen_height>0&&in.screen_width<=32768&&in.screen_height<=32768
-        &&in.top>=0&&in.top<in.bottom&&in.bottom<=in.screen_height&&in.density>0&&in.density<=4096
-        &&std::isfinite(in.width_dp)&&in.width_dp>0){
-        const int pixels=int(in.width_dp*in.density/160.0f);
-        if(pixels>0&&pixels<=in.screen_width/2&&!g_back_stock_writer.test_and_set(std::memory_order_acquire)){
-            g_back_stock_sequence.fetch_add(1,std::memory_order_acq_rel);
-            g_back_stock.store(uint64_t(in.screen_width)|(uint64_t(in.screen_height)<<16)
-                |(uint64_t(in.top)<<32)|(uint64_t(in.bottom)<<48),std::memory_order_release);
-            g_back_stock_width.store(uint32_t(pixels),std::memory_order_release);
-            g_back_stock_sequence.fetch_add(1,std::memory_order_release);
-            g_back_stock_writer.clear(std::memory_order_release);
-        }
+    if (home_layout::back_gesture_geometry(in, {})
+            && !g_back_stock_writer.test_and_set(std::memory_order_acquire)) {
+        g_back_stock_sequence.fetch_add(1, std::memory_order_acq_rel);
+        g_back_stock.store(uint64_t(in.screen_width) | (uint64_t(in.screen_height) << 16)
+            | (uint64_t(in.top) << 32) | (uint64_t(in.bottom) << 48), std::memory_order_release);
+        uint32_t width_bits;
+        std::memcpy(&width_bits, &in.width_dp, sizeof(width_bits));
+        g_back_stock_width.store(uint64_t(width_bits) | (uint64_t(in.density) << 32),
+            std::memory_order_release);
+        g_back_stock_sequence.fetch_add(1, std::memory_order_release);
+        g_back_stock_writer.clear(std::memory_order_release);
     }
     if(!home_layout::adjust_back_gesture_inputs(in,
         {static_cast<int>(packed&0xffffu),static_cast<int>(packed>>16)}))return;
@@ -842,20 +841,27 @@ extern "C" void hc_back_window_body(std::byte *saved){
     if(nested||!g_back_window_update.address)return;
     const auto seq=g_back_stock_sequence.load(std::memory_order_acquire);if(seq&1)return;
     const auto stock=g_back_stock.load(std::memory_order_acquire);
-    const int stock_width=int(g_back_stock_width.load(std::memory_order_acquire));
-    if(seq!=g_back_stock_sequence.load(std::memory_order_acquire))return;
-    const int w=int(stock&0xffffu),h=int((stock>>16)&0xffffu),top=int((stock>>32)&0xffffu),bottom=int(stock>>48);
+    const auto stock_width = g_back_stock_width.load(std::memory_order_acquire);
+    if (seq != g_back_stock_sequence.load(std::memory_order_acquire)) return;
+    const auto width_bits = static_cast<uint32_t>(stock_width);
+    float width_dp;
+    std::memcpy(&width_dp, &width_bits, sizeof(width_dp));
+    const home_layout::BackGestureInputs input{
+        int32_t((stock >> 32) & 0xffffu), int32_t(stock >> 48),
+        int32_t(stock & 0xffffu), int32_t((stock >> 16) & 0xffffu),
+        int32_t(stock_width >> 32), width_dp,
+    };
     uintptr_t receiver=0;std::memcpy(&receiver,saved+20*8,8);if(!receiver)return;
     unsigned char side=0;std::memcpy(&side,reinterpret_cast<const void*>(receiver+g_back_window_shape.side_field),1);if(side>1)return;
     const auto packed=g_back_gesture_config.load(std::memory_order_acquire);
-    const auto desired=home_layout::back_window_rect(w,h,top,bottom,stock_width,side,{int(packed&0xffffu),int(packed>>16)});
+    const auto desired=home_layout::back_window_rect(input,side,{int(packed&0xffffu),int(packed>>16)});
     if(!desired)return;
     auto *scratch=saved+784+g_back_window_shape.rect_sp;
     home_layout::BackWindowRect current{};std::memcpy(&current,scratch,16);
     if(current==*desired)return;
-    const auto nominal=home_layout::back_window_rect(w,h,top,bottom,stock_width,side,{});
+    const auto nominal=home_layout::back_window_rect(input,side,{});
     const auto previous=g_back_window_applied[side].load(std::memory_order_acquire);
-    const auto old=home_layout::back_window_rect(w,h,top,bottom,stock_width,side,{int(previous&0xffffu),int(previous>>16)});
+    const auto old=home_layout::back_window_rect(input,side,{int(previous&0xffffu),int(previous>>16)});
     // Preserve another app's stricter exclusion/side region, and never multiply a prior width.
     if((!nominal||current!=*nominal)&&(!old||current!=*old))return;
     Words live{};if(!stable_read(g_back_window_update,live)||live!=g_back_window_update.original_words)return;
