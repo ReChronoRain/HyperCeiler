@@ -45,6 +45,7 @@ object CustomBackgroundOS4 : BaseHook() {
     private const val DI = "com.android.systemui.statusbar.notification.mediaisland."
     private const val NP = "system_ui_control_center_media_control"
     private const val DP = "system_ui_island_media_control"
+    private var foregroundGroups: List<Group> = emptyList()
     private enum class Event { ATTACH, DETACH, BIND, FOREGROUND, AOD, PULL, LAYOUT }
 
     // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
@@ -64,6 +65,7 @@ object CustomBackgroundOS4 : BaseHook() {
             val renderer = checkNotNull(CustomBackgroundRendererOS4.create(loader, styles)) { "OS4 background renderer ABI unavailable" }
             if (notification) groups.add(plan(false, ncStyle, active, renderer))
             if (island) groups.add(plan(true, diStyle, active, renderer))
+            foregroundGroups = groups.toList()
             val shader = MediaSeekBarColorOS4.create(required("miuix.miuixbasewidget.widget.HyperProgressSeekBar"))
             // All selected endpoints preflight before the first registration. A
             // partially installed transaction stays inert, including failed unhooks.
@@ -75,6 +77,7 @@ object CustomBackgroundOS4 : BaseHook() {
             }, { debugCallbackError("custom background shader", it) }))) { "OS4 custom background shader registration failed" })
             registerHotReloadCleanup {
                 active.set(false)
+                foregroundGroups = emptyList()
                 val cleanup = Runnable { cleanAll(groups.map { { it.clear() } }) }
                 if (mainThread()) cleanup.run() else {
                     val finished = CountDownLatch(1)
@@ -89,6 +92,7 @@ object CustomBackgroundOS4 : BaseHook() {
             active.set(true)
         } catch (error: Throwable) {
             active.set(false)
+            foregroundGroups = emptyList()
             for (handle in handles.asReversed()) try { handle.unhook() } catch (rollback: Throwable) { error.addSuppressed(rollback) }
             throw error
         }
@@ -729,6 +733,22 @@ object CustomBackgroundOS4 : BaseHook() {
             }
         }
     }
+    fun seekBarColor(holder: Any): Int? {
+        for (group in foregroundGroups) {
+            for (state in group.states.values.toList()) {
+                val session = state.session ?: continue
+                val owner = session.owner.get() ?: continue
+                if (!current(session, owner)) continue
+                for ((index, slot) in session.slots.withIndex()) {
+                    if (slot.holder.get() === holder) {
+                        return session.frames?.getOrNull(index)?.colors?.textPrimary
+                    }
+                }
+            }
+        }
+        return null
+    }
+
     private fun shaderColor(groups: List<Group>, seek: Any): Int? {
         for (group in groups) {
             for (state in group.states.values.toList()) {

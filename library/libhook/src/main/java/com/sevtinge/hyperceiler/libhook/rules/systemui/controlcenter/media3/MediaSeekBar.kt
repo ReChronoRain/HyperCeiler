@@ -267,8 +267,10 @@ object MediaSeekBar : BaseHook() {
                 val enableFullAod = fldEnableFullAod?.get(controller) == true
                 val isDark = enableFullAod || isDarkMode() || (ncBackgroundStyle == 0 && ncAlwaysDark)
                 val seekBar = getOrCreateRealSeekBar(holder, false) ?: return@afterHookMethod
-                seekBar.progressTintList = ColorStateList.valueOf(if (isDark) Color.WHITE else Color.BLACK)
-                XposedLog.d(TAG, lpparam.packageName, "updateForegroundColors: isDark=$isDark (fullAod=$enableFullAod, alwaysDark=$ncAlwaysDark)")
+                val mediaColor = CustomBackgroundOS4.seekBarColor(holder)
+                val fallbackColor = if (isDark) Color.WHITE else Color.BLACK
+                seekBar.progressTintList = ColorStateList.valueOf(mediaColor ?: fallbackColor)
+                XposedLog.d(TAG, lpparam.packageName, "updateForegroundColors: isDark=$isDark (fullAod=$enableFullAod, alwaysDark=$ncAlwaysDark, mediaColor=$mediaColor)")
             }
         }
     }
