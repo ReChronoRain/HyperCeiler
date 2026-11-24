@@ -91,4 +91,6 @@
     <string name="mishare_use_default_browser">使用默认浏览器打开互传网页链接</string>
     <string name="voiceassist_use_default_browser">使用默认浏览器打开识屏网页链接</string>
     <string name="system_settings_router_use_default_browser">使用默认浏览器打开小米路由管理</string>
+    <string name="quicksearchbox_use_default_browser">使用默认浏览器搜索</string>
+    <string name="quicksearchbox_use_default_browser_desc">解除网页搜索、AI 搜索与全网搜索对小米浏览器的依赖，并改用默认浏览器打开搜索链接</string>
 </resources>

@@ -1441,6 +1441,8 @@
     <!--HTML Viewer-->
     <string name="html_viewer">HTML 查看器</string>
     <string name="html_viewer_disable_cloud_control">禁用云控</string>
+    <!--全局搜索-->
+    <string name="quicksearchbox">全局搜索</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
     <string name="personal_assistant_unlock_widget_count_limit">解除小部件数量限制</string>

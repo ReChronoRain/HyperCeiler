@@ -13,6 +13,7 @@ com.android.phone
 com.android.photopicker
 com.android.providers.downloads
 com.android.providers.downloads.ui
+com.android.quicksearchbox
 com.android.server.telecom
 com.android.settings
 com.android.soundrecorder

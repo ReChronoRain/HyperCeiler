@@ -112,4 +112,6 @@
     <string name="mishare_use_default_browser">Open shared web links in the default browser</string>
     <string name="voiceassist_use_default_browser">Open recognized web links in the default browser</string>
     <string name="system_settings_router_use_default_browser">Open Xiaomi router management in the default browser</string>
+    <string name="quicksearchbox_use_default_browser">Search with the default browser</string>
+    <string name="quicksearchbox_use_default_browser_desc">Remove the Xiaomi browser dependency from web, AI, and OneSearch, and open search links in the default browser</string>
 </resources>
