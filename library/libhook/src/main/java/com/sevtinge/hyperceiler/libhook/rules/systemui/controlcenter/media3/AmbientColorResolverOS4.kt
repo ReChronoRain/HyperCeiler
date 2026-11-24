@@ -34,6 +34,7 @@ internal class AmbientColorResolverOS4 private constructor(
     private class Standard(
         val drawableToBitmap: Method,
         val getPixels: Method,
+        val mainColor: Method,
         val maxArea: Field
     )
 
@@ -183,7 +184,9 @@ internal class AmbientColorResolverOS4 private constructor(
         val sampled = api.getPixels.invoke(null, pixels, bitmap, null) as? Bitmap ?: return null
         if (sampled.isRecycled || sampled.width != expectedWidth || sampled.height != expectedHeight) return null
         if (api.maxArea.getInt(null) != maxArea || Thread.currentThread().isInterrupted) return null
-        val color = AmbientNativeColorOS4.resolve(pixels, sampled.width, sampled.height) ?: return null
+        val color = runCatching {
+            api.mainColor.invoke(null, pixels, sampled.width, sampled.height) as? Int
+        }.getOrNull() ?: AmbientNativeColorOS4.resolve(pixels, sampled.width, sampled.height) ?: return null
         return Colors(color, color)
     }
 
@@ -214,14 +217,15 @@ internal class AmbientColorResolverOS4 private constructor(
                         require(it.returnType === Bitmap::class.java && Modifier.isStatic(it.modifiers) && Modifier.isPrivate(it.modifiers) && !Modifier.isNative(it.modifiers))
                         it.isAccessible = true
                     }
-                    method(palette, "getMainColorHCT", Int::class.javaPrimitiveType!!, IntArray::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!).also {
+                    val mainColor = method(palette, "getMainColorHCT", Int::class.javaPrimitiveType!!,
+                        IntArray::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!).also {
                         require(Modifier.isNative(it.modifiers))
                     }
                     val maxArea = palette.getDeclaredField("MAX_AREA").also {
-                        require(it.type === Int::class.javaPrimitiveType && Modifier.isStatic(it.modifiers))
+                        require(it.type == Int::class.javaPrimitiveType && Modifier.isStatic(it.modifiers))
                         it.isAccessible = true
                     }
-                    Standard(method(utils, "drawable2Bitmap", Bitmap::class.java, Drawable::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!), pixels, maxArea)
+                    Standard(method(utils, "drawable2Bitmap", Bitmap::class.java, Drawable::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!), pixels, mainColor, maxArea)
                 } else null
                 val opt = if (needsOptimized) recover {
                     val scheme = type("com.android.systemui.monet.ColorScheme")

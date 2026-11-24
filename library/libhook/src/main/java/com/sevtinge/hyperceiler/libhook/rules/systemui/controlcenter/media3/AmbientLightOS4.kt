@@ -57,7 +57,7 @@ object AmbientLightOS4 : BaseHook() {
         val groups = ArrayList<Group>()
         try {
             val loader = checkNotNull(required(if (notification) NC + "MiuiMediaViewControllerImpl" else DI + "MiuiIslandMediaViewBinderImpl").classLoader)
-            val custom = notification || mode == 2
+            val custom = notification || island
             val resolver = if (custom) checkNotNull(AmbientColorResolverOS4.create(loader,
                 true, ncOpt || diOpt)) { "OS4 ambient color ABI unavailable" } else null
             if (notification) groups.add(plan(false, 2, ncOpt, PrefsBridge.getBoolean(NP + "_always_dark"), active, resolver))
@@ -240,12 +240,22 @@ object AmbientLightOS4 : BaseHook() {
                         if (group.media!!.get(owner) == null) clearMedia(session, owner)
                         return
                     }
-                    if (data.javaClass != group.resolver!!.mediaDataClass || group.media!!.get(owner) !== data) return
+                    if (data.javaClass != group.resolver!!.mediaDataClass) return
                     session.data = WeakReference(data)
                     sync(session)
                     requestColor(session, owner, data)
                 }
-                Event.FOREGROUND, Event.AOD -> state.session?.let { if (state.busy == 0) sync(it) }
+                Event.FOREGROUND -> state.session?.let {
+                    if (state.busy == 0) {
+                        val currentOwner = it.owner.get()
+                        val data = currentOwner?.let(group.media!!::get)
+                        if (data != null && current(it, currentOwner)) {
+                            requestColor(it, currentOwner, data)
+                        }
+                        sync(it)
+                    }
+                }
+                Event.AOD -> state.session?.let { if (state.busy == 0) sync(it) }
                 Event.PULL -> {
                     val session = state.session ?: return
                     if (!current(session, owner) || state.busy != 0 || group.collectorHolders.indices.any {
