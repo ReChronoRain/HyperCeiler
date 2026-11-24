@@ -120,6 +120,7 @@ bool home_madvise_protect_range(uintptr_t address, size_t bytes);
 #include <exception>
 #include <optional>
 #include <memory>
+#include <mutex>
 #include <span>
 #include <string>
 #include <string_view>
@@ -686,11 +687,23 @@ std::atomic_uint64_t g_back_stock{0};
 std::atomic_uint64_t g_back_stock_width{0};
 std::atomic_uint32_t g_back_stock_sequence{0};
 std::atomic_uint32_t g_back_stock_config{0};
+std::atomic_uint64_t g_back_generation{1};
+std::atomic_uint64_t g_back_stock_generation{0};
 std::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;
 home_layout::BindingRetry g_back_discovery_retry;
 home_layout::BindingRetry g_back_install_retry;
 std::atomic_bool g_back_library_notified{false};
-std::atomic_uint32_t g_back_window_applied[2]{{60u|(100u<<16)},{60u|(100u<<16)}};
+struct BackWindowApplication {
+    uintptr_t receiver = 0;
+    uint64_t generation = 0;
+    home_layout::BackGestureInputs stock{};
+    home_layout::BackWindowRect rect{};
+};
+struct BackWindowState {
+    std::mutex mutex;
+    BackWindowApplication applied;
+};
+BackWindowState g_back_windows[2];
 home_layout::BackWindowShape g_back_window_shape{};
 
 std::atomic_int g_dock_horizontal_delta{0};
@@ -831,24 +844,31 @@ bool back_regions_enabled() {
 extern "C" void hc_back_gesture_entry();
 extern "C" void *hc_back_gesture_original = nullptr;
 extern "C" void hc_back_gesture_body(std::byte *saved) {
+    const auto generation = g_back_generation.load(std::memory_order_acquire);
     if (!back_regions_enabled()) return;
     const auto packed=g_back_gesture_config.load(std::memory_order_acquire);
     const auto integer=[&](unsigned reg){int32_t value;std::memcpy(&value,saved+reg*8,4);return value;};
     float width;std::memcpy(&width,saved+256+8*16,4); // native S8 (not Dart register roles)
     home_layout::BackGestureInputs in{integer(8),integer(21),integer(24),integer(28),integer(22),width};
-    if (home_layout::back_gesture_geometry(in, {})
-            && !g_back_stock_writer.test_and_set(std::memory_order_acquire)) {
+    const bool valid = home_layout::back_gesture_geometry(in, {}).has_value();
+    if (!g_back_stock_writer.test_and_set(std::memory_order_acquire)) {
         g_back_stock_sequence.fetch_add(1, std::memory_order_acq_rel);
-        g_back_stock.store(uint64_t(in.screen_width) | (uint64_t(in.screen_height) << 16)
-            | (uint64_t(in.top) << 32) | (uint64_t(in.bottom) << 48), std::memory_order_release);
-        uint32_t width_bits;
-        std::memcpy(&width_bits, &in.width_dp, sizeof(width_bits));
-        g_back_stock_width.store(uint64_t(width_bits) | (uint64_t(in.density) << 32),
-            std::memory_order_release);
-        g_back_stock_config.store(packed, std::memory_order_release);
+        if (valid) {
+            g_back_stock.store(uint64_t(in.screen_width) | (uint64_t(in.screen_height) << 16)
+                | (uint64_t(in.top) << 32) | (uint64_t(in.bottom) << 48), std::memory_order_release);
+            uint32_t width_bits;
+            std::memcpy(&width_bits, &in.width_dp, sizeof(width_bits));
+            g_back_stock_width.store(uint64_t(width_bits) | (uint64_t(in.density) << 32),
+                std::memory_order_release);
+            g_back_stock_config.store(packed, std::memory_order_release);
+        }
+        g_back_stock_generation.store(valid ? generation : 0, std::memory_order_release);
         g_back_stock_sequence.fetch_add(1, std::memory_order_release);
         g_back_stock_writer.clear(std::memory_order_release);
     }
+    if (!valid || generation != g_back_generation.load(std::memory_order_acquire)
+            || packed != g_back_gesture_config.load(std::memory_order_acquire)
+            || !back_regions_enabled()) return;
     if(!home_layout::adjust_back_gesture_inputs(in,
         {static_cast<int>(packed&0xffffu),static_cast<int>(packed>>16)}))return;
     std::memcpy(saved+8*8,&in.top,4);std::memcpy(saved+21*8,&in.bottom,4);
@@ -860,12 +880,14 @@ Slot g_back_window_update{};
 bool stable_back_read(const Slot &, Words &);
 extern "C" void hc_back_window_body(std::byte *saved){
     static thread_local bool nested=false;
+    const auto generation = g_back_generation.load(std::memory_order_acquire);
     if (nested || !back_regions_enabled()) return;
     const auto seq=g_back_stock_sequence.load(std::memory_order_acquire);if(seq&1)return;
     const auto stock=g_back_stock.load(std::memory_order_acquire);
     const auto stock_width = g_back_stock_width.load(std::memory_order_acquire);
     const auto sampled_config = g_back_stock_config.load(std::memory_order_acquire);
-    if (seq != g_back_stock_sequence.load(std::memory_order_acquire)) return;
+    const auto sampled_generation = g_back_stock_generation.load(std::memory_order_acquire);
+    if (generation != sampled_generation || seq != g_back_stock_sequence.load(std::memory_order_acquire)) return;
     const auto width_bits = static_cast<uint32_t>(stock_width);
     float width_dp;
     std::memcpy(&width_dp, &width_bits, sizeof(width_dp));
@@ -882,14 +904,19 @@ extern "C" void hc_back_window_body(std::byte *saved){
     if(!desired)return;
     auto *scratch=saved+784+g_back_window_shape.rect_sp;
     home_layout::BackWindowRect current{};std::memcpy(&current,scratch,16);
-    if(current==*desired)return;
     const auto nominal=home_layout::back_window_rect(input,side,{});
-    const auto previous=g_back_window_applied[side].load(std::memory_order_acquire);
-    const auto old=home_layout::back_window_rect(input,side,{int(previous&0xffffu),int(previous>>16)});
-    // Preserve another app's stricter exclusion/side region, and never multiply a prior width.
-    if((!nominal||current!=*nominal)&&(!old||current!=*old))return;
+    auto &window = g_back_windows[side];
+    std::unique_lock lock(window.mutex, std::try_to_lock);
+    if (!lock.owns_lock()) return;
+    auto &applied = window.applied;
+    const bool previously_applied = applied.receiver == receiver && applied.generation == generation
+        && applied.stock == input && applied.rect == current;
+    if (!previously_applied) applied = {};
+    if (current == *desired) return;
+    if ((!nominal || current != *nominal) && !previously_applied) return;
     Words live{};if(!stable_back_read(g_back_window_update,live)||live!=g_back_window_update.original_words)return;
     if (!back_regions_enabled()
+            || generation != g_back_generation.load(std::memory_order_acquire)
             || seq != g_back_stock_sequence.load(std::memory_order_acquire)
             || packed != g_back_gesture_config.load(std::memory_order_acquire)) return;
     nested=true;
@@ -899,7 +926,11 @@ extern "C" void hc_back_window_body(std::byte *saved){
     int32_t window_width=0;std::memcpy(&window_width,saved+19*8,4);
     window_width=std::max(window_width,desired->right-desired->left);
     std::memcpy(saved+19*8,&window_width,4);
-    g_back_window_applied[side].store(packed,std::memory_order_release);
+    if (nominal && *desired != *nominal) {
+        applied = {receiver, generation, input, *desired};
+    } else {
+        applied = {};
+    }
     g_back_window_observed.store(true, std::memory_order_relaxed);
 }
 std::string g_container_path;
@@ -2205,12 +2236,18 @@ bool bind_back_regions(const Library &library) {
     return true;
 }
 
+void invalidate_back_regions() {
+    if (g_back_regions_ready.exchange(false, std::memory_order_acq_rel)) {
+        g_back_generation.fetch_add(1, std::memory_order_acq_rel);
+    }
+}
+
 void maintain_back_regions(uint64_t now, bool verify_mapping = false) {
     const auto &order = back_region_order();
     const auto &core = g_slots[kBackGestureSlot];
     const auto &window = g_slots[kBackWindowSlot];
     if (nhk::home_safe_mode::decision().blocked) {
-        g_back_regions_ready.store(false, std::memory_order_release);
+        invalidate_back_regions();
         return;
     }
     if (!core.address || !window.address) return;
@@ -2231,7 +2268,7 @@ void maintain_back_regions(uint64_t now, bool verify_mapping = false) {
     if (!ready && !core.backend_owned && !window.backend_owned
             && g_back_gesture_config.load(std::memory_order_acquire) == (60u | (100u << 16))) return;
 
-    g_back_regions_ready.store(false, std::memory_order_release);
+    invalidate_back_regions();
     if (ready) {
         g_back_install_retry.reset();
         g_back_window_observed.store(false, std::memory_order_relaxed);
@@ -7231,7 +7268,7 @@ bool adopt_layout_state() {
     if (!g_slots[kDockEditSlot].backend_owned) {
         hc_dock_edit_original=nullptr; hc_dock_edit_controller_field=hc_dock_edit_value_field=0;
     }
-    g_back_regions_ready.store(false, std::memory_order_release);
+    invalidate_back_regions();
     g_back_window_observed.store(false, std::memory_order_relaxed);
     g_back_window_reported = false;
     g_back_cleanup_reported = false;
@@ -7264,8 +7301,8 @@ bool adopt_layout_state() {
     }
     g_back_stock.store(0,std::memory_order_release);g_back_stock_width.store(0,std::memory_order_release);
     g_back_stock_config.store(0, std::memory_order_release);
+    g_back_stock_generation.store(0, std::memory_order_release);
     g_back_stock_sequence.store(0,std::memory_order_release);g_back_stock_writer.clear(std::memory_order_release);
-    for(auto &applied:g_back_window_applied)applied.store(60u|(100u<<16),std::memory_order_release);
     g_back_gesture_config.store(60u | (100u << 16), std::memory_order_release);
     g_grid_field = {};
     g_folder_geometry_checked=false;g_folder_geometry_contract={};g_drop_geometry_contract={};

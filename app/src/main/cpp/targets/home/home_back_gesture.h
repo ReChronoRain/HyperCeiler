@@ -109,6 +109,7 @@ inline std::optional<BackWindowShape> resolve_back_window(std::span<const std::b
 struct BackGestureInputs {
     int32_t top, bottom, screen_width, screen_height, density;
     float width_dp;
+    bool operator==(const BackGestureInputs &) const = default;
 };
 
 inline std::optional<int32_t> back_width_pixels(const BackGestureInputs &input) {
