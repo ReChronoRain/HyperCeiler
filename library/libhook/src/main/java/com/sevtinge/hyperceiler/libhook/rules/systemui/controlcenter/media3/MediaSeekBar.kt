@@ -272,6 +272,7 @@ object MediaSeekBar : BaseHook() {
                 val seekBar = getOrCreateRealSeekBar(holder, false) ?: return@afterHookMethod
                 val mediaColor = if (ncProgressColorFromMedia) {
                     CustomBackgroundOS4.seekBarColor(holder)
+                        ?: AmbientLightOS4.seekBarColor(holder, isDark)
                 } else {
                     null
                 }

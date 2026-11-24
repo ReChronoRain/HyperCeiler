@@ -37,6 +37,7 @@ object AmbientLightOS4 : BaseHook() {
     private const val DI = "com.android.systemui.statusbar.notification.mediaisland."
     private const val NP = "system_ui_control_center_media_control"
     private const val DP = "system_ui_island_media_control"
+    private var foregroundGroups: List<Group> = emptyList()
     private enum class Event { ATTACH, DETACH, BIND, FOREGROUND, AOD, PULL }
 
     // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
@@ -61,6 +62,7 @@ object AmbientLightOS4 : BaseHook() {
                 notification && !ncOpt || mode == 2 && !diOpt, ncOpt || diOpt)) { "OS4 ambient color ABI unavailable" } else null
             if (notification) groups.add(plan(false, 2, ncOpt, PrefsBridge.getBoolean(NP + "_always_dark"), active, resolver))
             if (island) groups.add(plan(true, mode, diOpt, false, active, resolver))
+            foregroundGroups = groups.toList()
             // All selected endpoints preflight before the first registration. A
             // partially installed transaction stays inert, including failed unhooks.
             for (group in groups) for ((method, event) in group.methods) {
@@ -68,6 +70,7 @@ object AmbientLightOS4 : BaseHook() {
             }
             registerHotReloadCleanup {
                 active.set(false)
+                foregroundGroups = emptyList()
                 val cleanup = Runnable { cleanAll(groups.map { { it.clear() } }) }
                 if (mainThread()) cleanup.run() else {
                     val finished = CountDownLatch(1)
@@ -82,6 +85,7 @@ object AmbientLightOS4 : BaseHook() {
             active.set(true)
         } catch (error: Throwable) {
             active.set(false)
+            foregroundGroups = emptyList()
             for (handle in handles.asReversed()) try { handle.unhook() } catch (rollback: Throwable) { error.addSuppressed(rollback) }
             throw error
         }
@@ -446,6 +450,23 @@ object AmbientLightOS4 : BaseHook() {
             }
             view.x = original.x; view.y = original.y
         } finally { slot.syncing = false }
+    }
+
+    fun seekBarColor(holder: Any, dark: Boolean): Int? {
+        for (group in foregroundGroups) {
+            for (state in group.states.values.toList()) {
+                val session = state.session ?: continue
+                val owner = session.owner.get() ?: continue
+                if (!current(session, owner)) continue
+                for (slot in session.slots) {
+                    if (slot.holder.get() === holder) {
+                        val colors = session.colors ?: return null
+                        return if (dark) colors.dark else colors.light
+                    }
+                }
+            }
+        }
+        return null
     }
 
     private fun sync(session: Session) {
