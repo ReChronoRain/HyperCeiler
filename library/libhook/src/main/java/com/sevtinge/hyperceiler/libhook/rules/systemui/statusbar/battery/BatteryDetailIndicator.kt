@@ -268,6 +268,11 @@ object BatteryDetailIndicator : BaseHook() {
             if (colors != null) {
                 number.setTextColor(colors)
             }
+            // Sync alpha to match clock's transparency state (fixes lock screen depth effect washout)
+            val clockAlpha = clock.alpha
+            if (Math.abs(iconView.alpha - clockAlpha) > 0.01f) {
+                iconView.alpha = clockAlpha
+            }
         }
     }
 
