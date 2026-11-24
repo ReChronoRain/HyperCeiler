@@ -1328,6 +1328,8 @@
     <!--HTML Viewer-->
     <string name="html_viewer">HTML 檢視器</string>
     <string name="html_viewer_disable_cloud_control">停用雲端控制</string>
+    <!--全域搜尋-->
+    <string name="quicksearchbox">全域搜尋</string>
     <!--App vault-->
     <string name="personal_assistant">智慧助理</string>
     <string name="personal_assistant_unlock_widget_count_limit">解鎖小工具數量限制</string>

@@ -1490,6 +1490,8 @@
     <!--HTML Viewer-->
     <string name="html_viewer">HTML Viewer</string>
     <string name="html_viewer_disable_cloud_control">Disable Cloud control</string>
+    <!--Global Search-->
+    <string name="quicksearchbox">Global Search</string>
     <!--App vault-->
     <string name="personal_assistant">Personal assistant</string>
     <string name="personal_assistant_unlock_widget_count_limit">Unlock widgets count limit</string>

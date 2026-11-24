@@ -102,6 +102,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/quicksearchbox"
+        android:summary="com.android.quicksearchbox"
+        android:title="@string/quicksearchbox"
+        app:inflatedXml="@xml/quicksearchbox"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/telecom"
         android:summary="com.android.server.telecom"
         android:title="@string/telecom"
