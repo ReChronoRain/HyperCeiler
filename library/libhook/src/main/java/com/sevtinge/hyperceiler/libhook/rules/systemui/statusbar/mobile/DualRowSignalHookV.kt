@@ -101,6 +101,75 @@ class DualRowSignalHookV : MobileSignalHook() {
         hookDarkMode { rootView, darkInfo ->
             onDarkModeChanged(rootView, darkInfo)
         }
+
+        hookDarkDispatcherFallback()
+    }
+
+    // ==================== HyperOS 4 反色兜底 ====================
+
+    /** 缓存全局反色状态, 给新建 View 用 (第一次 bind 时未必能拿到 Triple) */
+    private var lastDarkInfo: DarkInfo? = null
+
+    /**
+     * HyperOS 4: MiuiMobileIconBinder.bind 的返回值里不一定还有 StateFlowImpl<Triple>,
+     * 导致 hookDarkMode 静默 return, 克隆出来的双排图标永远不反色。
+     * 这里直接订阅 SysuiDarkIconDispatcher.mDarkChangeFlow(DarkChange 流),
+     * 它是所有图标最终取色的源头, 与 binder 无关。
+     */
+    private fun hookDarkDispatcherFallback() {
+        runCatching {
+            // HyperOS 4: MiuiMobileIconBinder.bind 内部未必还有 StateFlowImpl<Triple>,
+            // hookDarkMode 会静默 return, 克隆出来的双排图标就永远不反色。
+            // 这里直接钩 plugins.DarkIconDispatcher$DarkReceiver.onDarkChanged:
+            // 系统每次改深浅色都会打到所有 receiver(含原生信号图标), 从参数里取最终色值再套给克隆图标。
+            val receiverItf = loadClass("com.android.systemui.plugins.DarkIconDispatcher\$DarkReceiver")
+            receiverItf.findMethod { name("onDarkChanged") }.createAfterHook { param ->
+                val info = darkInfoFromArgs(param.args) ?: return@createAfterHook
+                applyGlobalDarkInfo(info)
+            }
+        }.onFailure { e ->
+            XposedLog.w(TAG, lpparam.packageName, "hookDarkDispatcherFallback error: ${e.message}")
+        }
+    }
+
+    /** 兼容 onDarkChanged 的两种签名, 统一归一成 DarkInfo */
+    private fun darkInfoFromArgs(args: Array<Any?>): DarkInfo? {
+        if (args.isEmpty()) return null
+        // aosp 签名: (boolean isDark, int tintColor, int lightColor, int darkColor, ...)
+        (args[0] as? Boolean)?.let { isDark ->
+            val color = (args.getOrNull(1) as? Int) ?: 0
+            return DarkInfo.fromTintLightColor(isUseTint = true, isLight = !isDark, color = color)
+        }
+        // MIUI 老签名: (ArrayList<Rect> areas, float darkIntensity, int tint)
+        val intensity = args.getOrNull(1) as? Float
+        if (intensity != null && intensity in 0f..1f) {
+            val tint = (args.getOrNull(2) as? Int) ?: 0
+            return DarkInfo(
+                isUseTint = true,
+                isLight = intensity < 0.5f,
+                color = tint,
+                darkIntensity = intensity,
+                tint = tint
+            )
+        }
+        return null
+    }
+
+
+    private fun applyGlobalDarkInfo(info: DarkInfo) {
+        lastDarkInfo = info
+        viewCache.values.forEach { set ->
+            set.forEach { rootView ->
+                val key = System.identityHashCode(rootView)
+                viewDarkState[key] = info
+                if (rootView.isAttachedToWindow) {
+                    try {
+                        refreshDualIconsForView(rootView, info.isUseTint, info.isLight, info.color)
+                    } catch (_: Throwable) {
+                    }
+                }
+            }
+        }
     }
 
     // ==================== 视图创建 ====================
@@ -214,7 +283,13 @@ class DualRowSignalHookV : MobileSignalHook() {
         syncDualSignalVisibility(rootView, true)
 
         if (simSignalLevels.isNotEmpty()) {
-            refreshDualIconsForView(rootView, isUseTint = false, isLight = true)
+            val cached = lastDarkInfo
+            refreshDualIconsForView(
+                rootView,
+                isUseTint = cached?.isUseTint ?: false,
+                isLight = cached?.isLight ?: true,
+                color = cached?.color
+            )
         }
 
         setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_half_to_top_distance", 3f)
@@ -498,11 +573,35 @@ class DualRowSignalHookV : MobileSignalHook() {
         mainHandler.post(refreshRunnable)
     }
 
+    /** HyperOS 4: mobile_signal_container 里除了 mobile_signal 还有 mobile_type /
+     *  mobile_left_mobile_inout / mobile_signal_dot 等同级节点, 只隐藏 mobile_signal
+     *  会留下一条"单独的信号栏"。这里整组隐藏, 并对兄弟节点补刀。 */
+    private val legacySignalChildNames = arrayOf(
+        "mobile_signal",
+        "mobile_type",
+        "mobile_left_mobile_inout",
+        "mobile_signal_dot",
+        "mobile_signal_roaming",
+        "mobile_signal_activity"
+    )
+
     private fun syncDualSignalVisibility(rootView: ViewGroup, useDualSignal: Boolean) {
         val dualContainer = rootView.findByViewId<FrameLayout>(ID_DUAL_CONTAINER)
-        val mobileSignal = rootView.findById<ImageView>("mobile_signal")
         dualContainer?.visibility = if (useDualSignal) View.VISIBLE else View.GONE
-        mobileSignal?.visibility = if (useDualSignal) View.GONE else View.VISIBLE
+
+        val legacyContainer = rootView.findById<View>("mobile_signal_container")
+        if (useDualSignal && dualContainer != null) {
+            // 双排生效时整组隐藏, 否则只剩一条不反色的原生单排
+            legacyContainer?.visibility = View.GONE
+            legacySignalChildNames.forEach { name ->
+                rootView.findById<View>(name)?.visibility = View.GONE
+            }
+        } else {
+            legacyContainer?.visibility = View.VISIBLE
+            legacySignalChildNames.forEach { name ->
+                rootView.findById<View>(name)?.visibility = View.VISIBLE
+            }
+        }
     }
 
     private inline fun <T, R> Iterable<T>.associateNotNull(transform: (T) -> Pair<R, Int>?): Map<R, Int> {
