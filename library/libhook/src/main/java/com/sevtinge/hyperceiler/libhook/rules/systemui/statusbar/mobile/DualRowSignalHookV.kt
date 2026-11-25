@@ -26,6 +26,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemProperties
 import android.telephony.SubscriptionManager
 import android.util.SparseArray
 import android.view.View
@@ -58,7 +59,17 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.util.concurrent.ConcurrentHashMap
 
 class DualRowSignalHookV : MobileSignalHook() {
-    private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container") }
+    /** 原生单排信号条里需要被双排替代的节点名字片段(HyperOS 各版本命名不完全一致, 用 contains 匹配) */
+private val LEGACY_SIGNAL_CHILD_NAMES = listOf(
+    "mobile_signal",
+    "mobile_type",
+    "mobile_inout",
+    "mobile_left",
+    "mobile_right",
+    "mobile_roaming"
+)
+
+private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container") }
     private val ID_SIGNAL_SLOT1 by lazy { getOrCreateViewId("dual_signal_slot1") }
     private val ID_SIGNAL_SLOT2 by lazy { getOrCreateViewId("dual_signal_slot2") }
 
@@ -331,12 +342,20 @@ class DualRowSignalHookV : MobileSignalHook() {
         }
         // HyperOS 4 兜底: setCurrentSubscriptionsLocked 还没被拦到时 networkControllerInstance 为 null,
         // 直接问 SubscriptionManager, 否则会一直误判成单卡而根本不创建双排容器。
-        return try {
-            SubscriptionManager.getActiveSubscriptionInfoCount()
-        } catch (e: Throwable) {
-            XposedLog.w(TAG, lpparam.packageName, "getActiveMobileControllerCount fallback error: ${e.message}")
-            0
+        // 注意 getActiveSubscriptionInfoCount() 是 @hide, 编译期不可见, 只能用公开的 list()。
+        val fromSub = runCatching {
+            SubscriptionManager.getActiveSubscriptionInfoList()?.size ?: 0
+        }.getOrElse { 0 }
+        if (fromSub > 0) return fromSub
+        // 最后兜底: LOADED 的卡数量(模块跑在 SystemUI 进程, 读系统属性不需要权限)
+        val loaded = runCatching {
+            (SystemProperties.get("gsm.sim.state") ?: "").split(',')
+                .count { it.trim() == "LOADED" }
+        }.getOrElse { 0 }
+        if (loaded > 0) {
+            XposedLog.w(TAG, lpparam.packageName, "getActiveMobileControllerCount fallback to gsm.sim.state: $loaded")
         }
+        return loaded
     }
 
     // ==================== 资源加载 ====================
@@ -612,8 +631,14 @@ class DualRowSignalHookV : MobileSignalHook() {
             }
             for (i in 0 until legacyContainer.childCount) {
                 val child = legacyContainer.getChildAt(i) ?: continue
-                // 跳过我们自己注入的双排容器, 其余原生节点全部按需隐藏/恢复
+                // 跳过我们自己注入的双排容器
                 if (dualContainer != null && child === dualContainer) continue
+                // 只处理原生信号相关节点, 未知节点一律保持原状,
+                // 避免把 OS4 新加/改名的节点也一起隐藏而导致布局异常
+                val childName = runCatching { child.resources.getResourceEntryName(child.id) }.getOrNull()
+                if (childName == null || !LEGACY_SIGNAL_CHILD_NAMES.any { childName.contains(it) }) {
+                    continue
+                }
                 if (useDualSignal) {
                     if (child.visibility != View.GONE) child.visibility = View.GONE
                 } else {
