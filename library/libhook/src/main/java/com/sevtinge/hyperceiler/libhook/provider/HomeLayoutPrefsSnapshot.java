@@ -19,6 +19,8 @@ public final class HomeLayoutPrefsSnapshot {
     public static final String DISMISS_VERSION = "hc_recent_dismiss_version";
     public static final String INFINITE_KEY = "home_other_infinite_scroll";
     public static final String INFINITE_VERSION = "hc_infinite_scroll_version";
+    public static final String FREEFORM_SHORTCUT_KEY = "home_other_freeform_shortcut_menu";
+    public static final String SHARE_APK_KEY = "home_other_allow_share_apk";
     public static final String SHORTCUT_MENU_KEY = "home_other_shortcut_remove_restrictions";
     // Optional cursor extras preserve schema 4's exact columns for older clients.
     public static final String RECENTS_BAR_KEY = "home_recent_hide_status_bar_in_task_view";
@@ -172,6 +174,10 @@ public final class HomeLayoutPrefsSnapshot {
             Object hideBar = values.get("prefs_key_" + RECENTS_BAR_KEY);
             if (hideBar != null && !(hideBar instanceof Boolean)) return null;
             Bundle extras = new Bundle();
+            Object freeform = values.get("prefs_key_" + FREEFORM_SHORTCUT_KEY);
+            if (freeform instanceof Boolean enabled) extras.putInt(FREEFORM_SHORTCUT_KEY, enabled ? 1 : 0);
+            Object shareApk = values.get("prefs_key_" + SHARE_APK_KEY);
+            if (shareApk instanceof Boolean enabled) extras.putInt(SHARE_APK_KEY, enabled ? 1 : 0);
             Object shortcutMenu = values.get("prefs_key_" + SHORTCUT_MENU_KEY);
             if (shortcutMenu instanceof Boolean enabled) extras.putInt(SHORTCUT_MENU_KEY, enabled ? 1 : 0);
             Object dismiss = values.get("prefs_key_" + DISMISS_KEY);

@@ -572,11 +572,20 @@ static bool query_binder(Config &result) {
     if(valid&&has_infinite_scroll)valid=read_recent_header([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.recent,true,&has_recent_header);
+    bool has_shortcut_menu = false;
     if (valid && has_recent_header && (endpoint.capabilities & kShortcutMenuCapability)) {
         int32_t magic = 0, value = 0;
         if (AParcel_readInt32(output, &magic) == STATUS_OK && magic == kShortcutMenuMagic
-            && AParcel_readInt32(output, &value) == STATUS_OK && value == 1)
-            candidate.policies |= kShortcutMenuPolicy;
+            && AParcel_readInt32(output, &value) == STATUS_OK && (value == 0 || value == 1)) {
+            has_shortcut_menu = true;
+            if (value == 1) candidate.policies |= kShortcutMenuPolicy;
+        }
+    }
+    if (has_shortcut_menu && (endpoint.capabilities & kShortcutActionsCapability)) {
+        int32_t magic = 0, value = 0;
+        if (AParcel_readInt32(output, &magic) == STATUS_OK && magic == kShortcutActionsMagic
+            && AParcel_readInt32(output, &value) == STATUS_OK && value >= 0)
+            candidate.policies |= static_cast<uint64_t>(value) & kShortcutActionPolicies;
     }
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {

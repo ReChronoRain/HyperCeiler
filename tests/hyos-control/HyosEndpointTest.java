@@ -53,6 +53,41 @@ public class HyosEndpointTest {
   publish(prefs("allow_hook",true,"home_title_hide_report_text",true,key,"true"));
   eq(endpoint().receiveCombinedSnapshot(new Parcel(DESCRIPTOR),0).flags(),33);
  });
+ run("share APK is carried only by the shortcut actions replies",()->{
+  String key=HomeLayoutPrefsSnapshot.SHARE_APK_KEY;
+  publish(prefs("allow_hook",true,key,true));
+  var current=endpoint().receiveCombinedSnapshot(new Parcel(DESCRIPTOR),0);
+  eq(current.flags(),129);
+  eq(current.layout().policies(),8L);
+  eq(receive(),1);
+  for(boolean actions:new boolean[]{false,true}){
+   var reply=new Parcel("");
+   HomeLayoutNativeEndpointOS4.writeCombinedReply(reply,current,true,true,actions);
+   reply.setDataPosition(0);
+   eq(reply.readInt(),actions?0x48435334:0x48435333);
+   eq(reply.readInt(),1);
+   eq(reply.readInt(),actions?129:1);
+  }
+  var tail=new Parcel("");
+  HomeLayoutNativeEndpointOS4.writeShortcutActions(tail,current.layout().policies());
+  tail.setDataPosition(0);
+  eq(tail.readInt(),0x48435341);
+  eq(tail.readInt(),8);
+  publish(prefs("allow_hook",true,key,false));
+  eq(endpoint().receiveCombinedSnapshot(new Parcel(DESCRIPTOR),0).flags(),1);
+ });
+ run("freeform and share APK flags are independent",()->{
+  String freeform=HomeLayoutPrefsSnapshot.FREEFORM_SHORTCUT_KEY;
+  String share=HomeLayoutPrefsSnapshot.SHARE_APK_KEY;
+  for (boolean shareEnabled : new boolean[]{false,true}) {
+   publish(prefs("allow_hook",true,freeform,true,share,shareEnabled));
+   var current=endpoint().receiveCombinedSnapshot(new Parcel(DESCRIPTOR),0);
+   eq(current.flags(),257|(shareEnabled?128:0));
+   eq(current.layout().policies(),16L|(shareEnabled?8L:0L));
+  }
+  publish(prefs("allow_hook",true,freeform,false,share,true));
+  eq(endpoint().receiveCombinedSnapshot(new Parcel(DESCRIPTOR),0).flags(),129);
+ });
  run("allow_hook absent fails closed",()->{publish(prefs("home_other_high_models",true));eq(receive(),0);});
  run("allow false fails closed despite all feature preferences",()->{publish(prefs("allow_hook",false,"home_other_high_models",true,"home_dock_bg_custom_enable",true));eq(receive(),0);});
  run("framework gate absent follows existing true default",()->{publish(prefs("allow_hook",true));eq(receive(),1);});

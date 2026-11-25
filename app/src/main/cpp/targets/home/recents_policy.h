@@ -16,7 +16,7 @@ static_assert(__atomic_always_lock_free(sizeof(uint64_t), nullptr));
 inline uint64_t project(const hyos_snapshot::Snapshot &snapshot, int64_t now) noexcept {
     const auto &t = snapshot.config.tweaks;
     if (now <= 0 || !snapshot.available || (snapshot.flags & hyos_snapshot::kAllowed) == 0
-        || !hyos_snapshot::valid_flags(static_cast<int32_t>(snapshot.flags), true)
+        || !hyos_snapshot::valid_flags(static_cast<int32_t>(snapshot.flags), true, true)
         || snapshot.epoch <= 0 || snapshot.revision <= 0 || !t.animation_recents_enabled
         || t.animation_recents_rate_percent < 30 || t.animation_recents_rate_percent > 200
         || snapshot.valid_until <= now
