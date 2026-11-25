@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.quicksearchbox
 
+import android.app.Activity
 import android.app.Instrumentation
 import android.app.SearchManager
 import android.content.Context
@@ -33,6 +34,7 @@ import java.lang.reflect.Method
 
 object OpenSearchesInDefaultBrowser : BaseHook() {
     private const val XIAOMI_BROWSER = "com.android.browser"
+    private const val FULL_SEARCH_ACTIVITY = "com.android.browser.fullsearch.FullSearchActivity"
     private const val SEARCH_ENGINE = "com.android.quicksearchbox.xiaomi.searchengine.f"
     private const val DEFAULT_SEARCH_URL = "https://www.baidu.com/s?wd={searchTerms}"
     private val browserCapabilities = setOf(
@@ -42,6 +44,7 @@ object OpenSearchesInDefaultBrowser : BaseHook() {
     )
 
     private var startActivityNoThrow: Method? = null
+    private var startFullSearch: Method? = null
     private var appMetaData: Method? = null
 
     override fun useDexKit() = true
@@ -52,16 +55,36 @@ object OpenSearchesInDefaultBrowser : BaseHook() {
                 matcher {
                     returnType = "boolean"
                     paramTypes("android.content.Context", "android.content.Intent")
-                    addUsingString("startActivityNoThrow() context = ")
+                    addUsingString("startActivityNoThrow")
                 }
             }.singleOrNull()
         }
-        appMetaData = optionalMember("appMetaData") { bridge ->
+        startFullSearch = optionalMember("startFullSearch") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    returnType = "void"
+                    paramTypes(
+                        "android.content.Context", "android.content.Intent",
+                        "java.lang.String", "java.util.HashMap"
+                    )
+                    addUsingString(FULL_SEARCH_ACTIVITY)
+                    addUsingString("urlTemp")
+                }
+            }.singleOrNull()
+        }
+        appMetaData = optionalMember("browserAppMetaData") { bridge ->
             bridge.findMethod {
                 matcher {
                     returnType = "boolean"
                     paramTypes("android.content.Context", "java.lang.String", "java.lang.String")
                     addUsingString("getAppMetaData() failure. error = ")
+                }
+            }.singleOrNull() ?: bridge.findMethod {
+                matcher {
+                    returnType = "boolean"
+                    paramTypes("android.content.Context", "java.lang.String", "java.lang.String")
+                    addInvoke("Landroid/content/pm/PackageManager;->getApplicationInfo(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;")
+                    addInvoke("Landroid/os/Bundle;->getBoolean(Ljava/lang/String;)Z")
                 }
             }.singleOrNull()
         }
@@ -69,6 +92,17 @@ object OpenSearchesInDefaultBrowser : BaseHook() {
     }
 
     override fun init() {
+        startFullSearch?.createHook {
+            before { param ->
+                val context = param.args[0] as? Context ?: return@before
+                val intent = param.args[1] as? Intent ?: return@before
+                val uri = searchUri(context, intent, param.args[2] as? String) ?: return@before
+                val flags = if (context is Activity) intent.flags else
+                    intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK
+                val target = BrowserLinks.forDefaultBrowser(context, uri, flags) ?: return@before
+                if (runCatching { context.startActivity(target) }.isSuccess) param.result = null
+            }
+        }
         startActivityNoThrow?.createHook {
             before { param ->
                 val context = param.args[0] as? Context ?: return@before
@@ -81,7 +115,8 @@ object OpenSearchesInDefaultBrowser : BaseHook() {
         // different call sites; rewriting the framework call keeps them all in sync.
         hookAllMethods(Instrumentation::class.java, "execStartActivity", object : IMethodHook {
             override fun before(param: HookParam) {
-                val context = EzXposed.appContextOrNull ?: return
+                val context =
+                    param.args.firstOrNull() as? Context ?: EzXposed.appContextOrNull ?: return
                 for (index in param.args.indices) {
                     val intent = param.args[index] as? Intent ?: continue
                     redirect(context, intent)?.let { param.args[index] = it }
@@ -103,29 +138,37 @@ object OpenSearchesInDefaultBrowser : BaseHook() {
 
     private fun redirect(context: Context, intent: Intent): Intent? {
         if (!BrowserLinks.targetsXiaomiBrowser(intent)) return null
-        val data = intent.data
-        val uri = when (data?.scheme?.lowercase()) {
-            "http", "https" -> BrowserLinks.webUri(data)?.takeUnless(BrowserLinks::isBrowserDownload)
-            "mibrowser" -> BrowserLinks.recoverWebUri(intent)
-            null -> queryUri(
-                context,
-                intent.getStringExtra(SearchManager.QUERY)
-                    ?: intent.getStringExtra("query")
-            )
-
-            else -> null
-        } ?: return null
+        val uri = searchUri(context, intent) ?: return null
         return BrowserLinks.forDefaultBrowser(context, uri, intent.flags)
     }
 
-    private fun queryUri(context: Context, query: String?): Uri? {
+    private fun searchUri(context: Context, intent: Intent, fullSearchQuery: String? = null): Uri? {
+        val data = intent.data
+        if (BrowserLinks.isBrowserDownload(data)) return null
+        BrowserLinks.recoverWebUri(intent)?.let { return it }
+        val query = when {
+            data == null -> fullSearchQuery ?: intent.getStringExtra(SearchManager.QUERY)
+            data.scheme == "mibrowser" && data.host == "miui.browser.aisearch" &&
+                data.path == "/open" -> data.getQueryParameter("query")
+
+            else -> return null
+        }
+        BrowserLinks.webUri(query)?.takeUnless(BrowserLinks::isBrowserDownload)?.let { return it }
+        return queryUri(context, query, intent.getStringExtra("urlTemp"))
+    }
+
+    private fun queryUri(context: Context, query: String?, intentTemplate: String?): Uri? {
         val keyword = query?.trim()?.takeIf { it.isNotEmpty() } ?: return null
-        val template = runCatching {
+        val encoded = Uri.encode(keyword)
+        intentTemplate?.let { BrowserLinks.webUri(it.replace("{searchTerms}", encoded)) }
+            ?.let { return it }
+        val engineTemplate = runCatching {
             val engine = Class.forName(SEARCH_ENGINE, false, context.classLoader)
                 .getMethod("b", Context::class.java)
                 .invoke(null, context)
             engine?.javaClass?.getMethod("h", Context::class.java)?.invoke(engine, context) as? String
-        }.getOrNull() ?: DEFAULT_SEARCH_URL
-        return BrowserLinks.webUri(template.replace("{searchTerms}", Uri.encode(keyword)))
+        }.getOrNull()
+        return engineTemplate?.let { BrowserLinks.webUri(it.replace("{searchTerms}", encoded)) }
+            ?: BrowserLinks.webUri(DEFAULT_SEARCH_URL.replace("{searchTerms}", encoded))
     }
 }
