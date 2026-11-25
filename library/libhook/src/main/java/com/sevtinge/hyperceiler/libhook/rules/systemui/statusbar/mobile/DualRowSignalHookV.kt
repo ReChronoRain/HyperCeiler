@@ -342,9 +342,15 @@ private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container
         }
         // HyperOS 4 兜底: setCurrentSubscriptionsLocked 还没被拦到时 networkControllerInstance 为 null,
         // 直接问 SubscriptionManager, 否则会一直误判成单卡而根本不创建双排容器。
-        // 注意 getActiveSubscriptionInfoCount() 是 @hide, 编译期不可见, 只能用公开的 list()。
+        // getActiveSubscriptionInfoCount()/getActiveSubscriptionInfoList() 都是 @hide,
+        // 编译期不可见, 只能运行时反射拿。
         val fromSub = runCatching {
-            SubscriptionManager.getActiveSubscriptionInfoList()?.size ?: 0
+            val cls = SubscriptionManager::class.java
+            val list = cls.getDeclaredMethod("getActiveSubscriptionInfoList").invoke(null) as? List<*>
+            val size = list?.size ?: 0
+            if (size > 0) size else {
+                (cls.getDeclaredMethod("getActiveSubscriptionInfoCount").invoke(null) as? Int) ?: 0
+            }
         }.getOrElse { 0 }
         if (fromSub > 0) return fromSub
         // 最后兜底: LOADED 的卡数量(模块跑在 SystemUI 进程, 读系统属性不需要权限)
