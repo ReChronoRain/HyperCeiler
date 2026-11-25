@@ -2665,6 +2665,7 @@ recent_entry 0, report
 /* Shortcut list predicate, before entering a managed Dart frame. */
 recent_entry 0, shortcuts
 recent_entry 0, shortcutmenu
+recent_entry 0, shareapk
 recent_entry 0, recentshaptic
 recent_entry 1, recentshaptic
 recent_entry 2, recentshaptic

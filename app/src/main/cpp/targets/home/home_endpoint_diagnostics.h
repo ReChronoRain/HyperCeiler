@@ -14,6 +14,8 @@ constexpr int32_t kDockHorizontalCapability=32;
 constexpr int32_t kInfiniteScrollCapability=64;
 constexpr int32_t kShortcutMenuCapability=128;
 constexpr int32_t kShortcutMenuMagic=0x4843534d;
+constexpr int32_t kShortcutActionsCapability=256;
+constexpr int32_t kShortcutActionsMagic=0x48435341;
 struct EndpointDiagnostics {int32_t schema=0,revision=0,capabilities=0,pid=0;};
 enum class EndpointDiagnosticState { Missing, Valid, Malformed, Unsupported };
 // A trailing diagnostic block cannot invalidate a functional snapshot. Old clients

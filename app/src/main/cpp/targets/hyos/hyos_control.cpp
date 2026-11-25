@@ -196,7 +196,7 @@ bool query_snapshot(hyos_snapshot::Words &words) {
         if (input != nullptr) AParcel_delete(input);
         input = nullptr;
     };
-    auto expected_ack = hyos_snapshot::kShortcutAck;
+    auto expected_ack = hyos_snapshot::kShortcutActionsAck;
     if (associated) {
         const auto fallback = [&](int32_t code, int32_t ack) {
             if (status != STATUS_UNKNOWN_TRANSACTION) return;
@@ -206,7 +206,8 @@ bool query_snapshot(hyos_snapshot::Words &words) {
             expected_ack = ack;
             transact(code);
         };
-        transact(hyos_snapshot::kShortcutTransaction);
+        transact(hyos_snapshot::kShortcutActionsTransaction);
+        fallback(hyos_snapshot::kShortcutTransaction, hyos_snapshot::kShortcutAck);
         fallback(hyos_snapshot::kBackTransaction, hyos_snapshot::kBackAck);
         fallback(hyos_snapshot::kTransaction, hyos_snapshot::kAck);
     }
@@ -368,7 +369,7 @@ bool ensure_thread(std::atomic_bool &started, void *(*body)(void *)) {
 namespace hyos_control {
 bool active() { return g_active.load(std::memory_order_acquire); }
 bool feature_enabled(uint32_t flag) {
-    if (flag == 0 || (flag & ~(kKnownFlags | kShortcutMenu)) != 0) return false;
+    if (flag == 0 || (flag & ~(kKnownFlags | kShortcutMenu | hyos_snapshot::kShortcutActions)) != 0) return false;
     unsigned flags = 0;
     return fresh_flags(flags) && (flags & kAllowed) != 0 && (flags & flag) == flag;
 }

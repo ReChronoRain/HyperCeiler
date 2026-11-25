@@ -41,6 +41,7 @@ extern "C" void hc_home_diagnostic_sample();
 #include "home_report_render.h"
 #include "home_shortcut_management.h"
 #include "home_shortcut_menu.h"
+#include "home_shortcut_actions.h"
 #include "home_recents_haptic_runtime.h"
 #include "home_layout_knobs.h"
 #include "home_workspace_geometry.h"
@@ -159,6 +160,8 @@ void hc_shortcuts_0_entry();
 void* hc_shortcuts_original=nullptr;
 void hc_shortcutmenu_0_entry();
 void* hc_shortcutmenu_original = nullptr;
+void hc_shareapk_0_entry();
+void* hc_shareapk_original = nullptr;
 void* hc_recentshaptic_originals[7]{};
 void hc_recentshaptic_0_entry();void hc_recentshaptic_1_entry();void hc_recentshaptic_2_entry();
 void hc_recentshaptic_3_entry();void hc_recentshaptic_4_entry();void hc_recentshaptic_5_entry();void hc_recentshaptic_6_entry();
@@ -553,7 +556,8 @@ constexpr size_t kCustomTitleDrawerSlot = kInfiniteSlotBase + 2;
 constexpr size_t kShortcutManagementSlot = kCustomTitleDrawerSlot + 1;
 constexpr size_t kRecentsHapticSlotBase = kShortcutManagementSlot + 1;
 constexpr size_t kShortcutMenuSlot = kRecentsHapticSlotBase + 7;
-constexpr size_t kSlotCount = kShortcutMenuSlot + 1;
+constexpr size_t kShareApkSlot = kShortcutMenuSlot + 1;
+constexpr size_t kSlotCount = kShareApkSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -567,6 +571,10 @@ std::atomic_bool g_shortcuts_ready{false};
 std::atomic_bool g_shortcut_menu_requested{false}, g_shortcut_menu_ready{false};
 std::atomic_uint64_t g_shortcut_menu_hits{0}, g_shortcut_menu_applied{0};
 home_layout::BindingRetry g_shortcut_menu_retry;
+std::atomic_bool g_share_apk_requested{false}, g_share_apk_ready{false};
+std::atomic_uintptr_t g_share_apk_return{0};
+std::atomic_bool g_share_apk_applied{false};
+home_layout::BindingRetry g_share_apk_retry;
 std::shared_ptr<const home_layout::haptic::Plan> g_recents_haptic_routing;
 std::atomic_uint g_recents_haptic_bind_failure{0};
 std::atomic_uint g_shortcuts_bind_failure{0};
@@ -750,7 +758,13 @@ std::array<std::atomic_uint64_t,64> g_recent_hits{},g_recent_applied{};
 std::array<std::atomic_uint64_t,64> g_recent_skip_trace{},g_recent_apply_trace{};
 std::array<std::atomic_uint32_t,64> g_recent_skips{};
 
+bool shortcut_actions_requested(const home_layout::Config &config) {
+    return (config.policies & (home_layout::kShortcutMenuPolicy | home_layout::kShortcutActionPolicies)) != 0;
+}
+
 void sync_shortcut_menu_config(const home_layout::Config &config) {
+    g_share_apk_requested.store((config.policies & home_layout::kShareApkPolicy) != 0,
+                                std::memory_order_release);
     const bool enabled = (config.policies & home_layout::kShortcutMenuPolicy) != 0;
     if (g_shortcut_menu_requested.exchange(enabled, std::memory_order_acq_rel) != enabled)
         __android_log_print(ANDROID_LOG_INFO, kTag, "shortcut menu requested=%d", enabled);
@@ -1467,6 +1481,7 @@ struct RuntimeFeatures {
     std::optional<home_layout::features::ReportFeature> report;
     std::optional<home_layout::features::shortcuts::Plan> shortcuts;
     std::optional<uint32_t> shortcut_menu;
+    std::optional<home_layout::features::shortcut_actions::ShareApk> share_apk;
     std::optional<home_layout::haptic::Plan> recents_haptic;
     std::optional<home_layout::features::drawer::Plan> drawer;
     std::optional<home_layout::features::prestart::Plan> prestart;
@@ -1575,6 +1590,7 @@ const char* diagnostic_feature(size_t slot) {
     if(slot==kReportSlot)return "隐藏桌面信息上报提示";
     if(slot==kShortcutManagementSlot)return "桌面快捷方式管理";
     if (slot == kShortcutMenuSlot) return "桌面快捷菜单数量";
+    if (slot == kShareApkSlot) return "长按分享应用";
     if(slot>=kRecentsHapticSlotBase&&slot<kRecentsHapticSlotBase+7)return "最近任务卡片滑动振动";
     if(slot>=kFolderPreviewReturnSlotBase&&slot<kFolderPreviewReturnSlotBase+3)return "大文件夹预览归位动画";
     return "用途未知的原生挂钩";
@@ -1784,6 +1800,7 @@ bool ensure_runtime_features() {
     found.report=home_layout::features::report_feature(*code);
     found.shortcuts=home_layout::features::shortcuts::resolve(*code);
     found.shortcut_menu = home_layout::features::shortcut_menu::resolve(*code);
+    found.share_apk = home_layout::features::shortcut_actions::resolve_share_apk(*code);
     found.recents_haptic=home_layout::haptic::resolve(*code);
     found.prestart=home_layout::features::prestart::resolve(*code);
     const char* recent_failure=nullptr;
@@ -4940,6 +4957,44 @@ void maintain_shortcut_menu(uint64_t now, bool verify_mapping = false) {
     }
 }
 
+void maintain_share_apk(uint64_t now, bool verify_mapping = false) {
+    static const std::vector<size_t> order{kShareApkSlot};
+    auto &slot = g_slots[kShareApkSlot];
+    if (nhk::home_safe_mode::decision().blocked) {
+        g_share_apk_ready.store(false, std::memory_order_release);
+        return;
+    }
+    if (g_share_apk_ready.load(std::memory_order_acquire)) {
+        Words words{};
+        if (bank_live(order) && (!verify_mapping
+                || (stable_read(slot, words) && words == slot.patch_words))) return;
+        g_share_apk_ready.store(false, std::memory_order_release);
+        g_share_apk_retry.reset();
+    }
+    if ((!g_share_apk_requested.load(std::memory_order_acquire) && !nhk::slot_has_pending(slot))
+        || !g_share_apk_retry.due(now)) return;
+    if (!slot.address && ensure_dart_library() && ensure_runtime_features() && g_runtime_features.share_apk) {
+        const auto& plan = *g_runtime_features.share_apk;
+        Slot bound;
+        uintptr_t async_return = 0;
+        nhk::CodeSource return_source;
+        Words return_words;
+        if (bind_dart_target(plan.eligibility, bound.address, bound.source, bound.original_words)
+            && bind_dart_target(plan.async_return, async_return, return_source, return_words)) {
+            bound.replacement = reinterpret_cast<void*>(hc_shareapk_0_entry);
+            bound.original = &hc_shareapk_original;
+            g_share_apk_return.store(async_return, std::memory_order_release);
+            slot = bound;
+        }
+    }
+    if (slot.address && nhk::ensure_slots_live(g_slots, slot_host(), order)
+        && bank_live(order) && hc_shareapk_original) {
+        g_share_apk_ready.store(true, std::memory_order_release);
+        g_share_apk_retry.reset();
+        __android_log_print(ANDROID_LOG_INFO, kTag, "share APK menu installation verified");
+    }
+}
+
 bool bind_report() {
     if(g_slots[kReportSlot].address)return true;
     if(!g_report_requested.load(std::memory_order_acquire))return false;
@@ -5658,7 +5713,7 @@ void *worker(void *) {
     // A new worker attempt must not replace a slot with an outstanding backend
     // or write obligation. Retry known cleanup using the existing attempt path.
     for (size_t index = 0; index < g_slots.size(); ++index) {
-        if (index == kBackGestureSlot || index == kBackWindowSlot || index == kShortcutMenuSlot) continue;
+        if (index == kBackGestureSlot || index == kBackWindowSlot || index == kShortcutMenuSlot || index == kShareApkSlot) continue;
         auto &slot = g_slots[index];
         if (nhk::slot_has_pending(slot) && !nhk::settle_slot_pending(slot, slot_host())) {
             __android_log_print(ANDROID_LOG_WARN, kTag,
@@ -5711,7 +5766,7 @@ void *worker(void *) {
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
         || config.object_scales[0].enabled || config.object_scales[1].enabled || config.object_scales[2].enabled
         || config.recent.requested() || (config.policies&home_layout::kDismissAnimationPolicy) || config.drawer_hide_search || config.dock_horizontal!=0 || config.infinite_scroll
-        || (config.policies & home_layout::kShortcutMenuPolicy)
+        || shortcut_actions_requested(config)
         || hyperceiler_home_prestart_disabled() || hc_recents_haptic_enabled()
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
@@ -5910,6 +5965,7 @@ void *worker(void *) {
     (void) bind_widget_scale();
     (void) bind_title_hide();
     maintain_shortcut_menu(monotonic_ms());
+    maintain_share_apk(monotonic_ms());
     arm_hooks(order);
     maintain_back_regions(monotonic_ms());
     publish_hooks();
@@ -5984,7 +6040,8 @@ void *worker(void *) {
     uint64_t last_shortcut_config_query = 0;
     home_layout::BindingRetry layout_bank_retry;
     bool layout_bank_failed = false;
-    bool shortcut_requested = g_shortcut_menu_requested.load(std::memory_order_acquire);
+    bool shortcut_requested = shortcut_actions_requested(config);
+    bool share_apk_applied_reported = false;
     bool shortcut_hit_reported = false;
     bool shortcut_applied_reported = false;
     for (;;) {
@@ -6037,6 +6094,11 @@ void *worker(void *) {
             if (home_layout::query_config(latest)) sync_shortcut_menu_config(latest);
         }
         maintain_shortcut_menu(now, verify_shortcut);
+        maintain_share_apk(now, verify_shortcut);
+        if (!share_apk_applied_reported && g_share_apk_applied.load(std::memory_order_relaxed)) {
+            share_apk_applied_reported = true;
+            __android_log_print(ANDROID_LOG_INFO, kTag, "share APK menu eligibility enabled");
+        }
         if (!shortcut_hit_reported && g_shortcut_menu_hits.load(std::memory_order_relaxed)) {
             shortcut_hit_reported = true;
             __android_log_print(ANDROID_LOG_INFO, kTag, "shortcut menu first callback observed");
@@ -6167,7 +6229,7 @@ void *worker(void *) {
             home_layout::Config latest;
             if (home_layout::query_config(latest)) {
                 sync_title_config(latest);
-                shortcut_requested |= (latest.policies & home_layout::kShortcutMenuPolicy) != 0;
+                shortcut_requested |= shortcut_actions_requested(latest);
                 if (latest.grid_enabled && located && located->x != 0 && located->y != 0
                     && std::find(order.begin(), order.end(), size_t{0}) == order.end()) {
                     if (!g_slots[0].backend_owned) g_slots[0] = {located->x, reinterpret_cast<void *>(cell_x_replacement),
@@ -6504,7 +6566,8 @@ void *worker(void *) {
             g_captures_armed = false;
             __android_log_print(ANDROID_LOG_ERROR, kTag,
                 "layout hook bank unhealthy; stopped overriding");
-            if (!shortcut_requested && !nhk::slot_has_pending(g_slots[kShortcutMenuSlot]))
+            if (!shortcut_requested && !nhk::slot_has_pending(g_slots[kShortcutMenuSlot])
+                && !nhk::slot_has_pending(g_slots[kShareApkSlot]))
                 return attempt_finished();
             layout_bank_failed = true;
         }
@@ -6991,6 +7054,19 @@ extern "C" void hc_shortcuts_body(home_layout::recent_render::Registers* saved,u
     g_shortcuts_hits.fetch_add(1,std::memory_order_relaxed);
     if(home_layout::features::shortcuts::apply(*saved,g_shortcuts_ready.load(std::memory_order_acquire),
         reinterpret_cast<uintptr_t>(hc_shortcuts_original)))g_shortcuts_applied.fetch_add(1,std::memory_order_relaxed);
+}
+
+extern "C" void hc_shareapk_body(home_layout::recent_render::Registers* saved, unsigned) {
+    if (!saved) return;
+    bool enabled = g_share_apk_ready.load(std::memory_order_acquire)
+        && g_share_apk_requested.load(std::memory_order_acquire);
+#ifdef HYPERCEILER_HYOS_BACKEND
+    enabled = enabled && hyos_control::feature_enabled(hyos_control::kShareApk);
+#endif
+    if (home_layout::features::shortcut_actions::apply_share_apk(*saved, enabled,
+            reinterpret_cast<uintptr_t>(hc_shareapk_original),
+            g_share_apk_return.load(std::memory_order_acquire)))
+        g_share_apk_applied.store(true, std::memory_order_relaxed);
 }
 
 extern "C" void hc_shortcutmenu_body(home_layout::recent_render::Registers* saved, unsigned) {
@@ -7576,6 +7652,14 @@ bool adopt_layout_state() {
     g_shortcut_menu_hits.store(0, std::memory_order_relaxed);
     g_shortcut_menu_applied.store(0, std::memory_order_relaxed);
     g_shortcut_menu_retry.reset();
+    g_share_apk_requested.store(false, std::memory_order_release);
+    g_share_apk_ready.store(false, std::memory_order_release);
+    g_share_apk_applied.store(false, std::memory_order_relaxed);
+    g_share_apk_retry.reset();
+    if (!g_slots[kShareApkSlot].backend_owned && !nhk::slot_has_pending(g_slots[kShareApkSlot])) {
+        hc_shareapk_original = nullptr;
+        g_share_apk_return.store(0, std::memory_order_release);
+    }
     if (!g_slots[kShortcutMenuSlot].backend_owned && !nhk::slot_has_pending(g_slots[kShortcutMenuSlot])) {
         hc_shortcutmenu_original = nullptr;
     }
@@ -7613,7 +7697,7 @@ bool adopt_layout_state() {
     g_view_end = 0;
     for (size_t index = 0; index < g_slots.size(); ++index) {
         auto &slot = g_slots[index];
-        if ((index == kBackGestureSlot || index == kBackWindowSlot || index == kShortcutMenuSlot)
+        if ((index == kBackGestureSlot || index == kBackWindowSlot || index == kShortcutMenuSlot || index == kShareApkSlot)
                 && (slot.backend_owned || nhk::slot_has_pending(slot))) continue;
         slot = Slot{};
     }
