@@ -116,6 +116,8 @@ bool home_madvise_protect_range(uintptr_t address, size_t bytes);
 #include <cstdint>
 #include <cstring>
 #include <cstdlib>
+#include <chrono>
+#include <condition_variable>
 #include <fstream>
 #include <exception>
 #include <optional>
@@ -679,6 +681,21 @@ void sync_folder_layout(const home_layout::Config &config) {
     }
 }
 std::atomic_uint32_t g_back_gesture_config{60u | (100u << 16)};
+constexpr uint32_t kStockBackConfig = 60u | (100u << 16);
+#ifndef HYPERCEILER_HYOS_BACKEND
+std::atomic_uint32_t g_live_back_config{0};
+std::mutex g_back_config_mutex;
+std::condition_variable g_back_config_changed;
+bool g_back_config_pending = false;
+#endif
+
+uint32_t back_gesture_config() {
+#ifndef HYPERCEILER_HYOS_BACKEND
+    const auto live = g_live_back_config.load(std::memory_order_acquire);
+    if (live != 0) return live;
+#endif
+    return g_back_gesture_config.load(std::memory_order_acquire);
+}
 std::atomic_bool g_back_regions_ready{false};
 std::atomic_bool g_back_window_observed{false};
 bool g_back_window_reported = false;
@@ -846,7 +863,7 @@ extern "C" void *hc_back_gesture_original = nullptr;
 extern "C" void hc_back_gesture_body(std::byte *saved) {
     const auto generation = g_back_generation.load(std::memory_order_acquire);
     if (!back_regions_enabled()) return;
-    const auto packed=g_back_gesture_config.load(std::memory_order_acquire);
+    const auto packed=back_gesture_config();
     const auto integer=[&](unsigned reg){int32_t value;std::memcpy(&value,saved+reg*8,4);return value;};
     float width;std::memcpy(&width,saved+256+8*16,4); // native S8 (not Dart register roles)
     home_layout::BackGestureInputs in{integer(8),integer(21),integer(24),integer(28),integer(22),width};
@@ -867,7 +884,7 @@ extern "C" void hc_back_gesture_body(std::byte *saved) {
         g_back_stock_writer.clear(std::memory_order_release);
     }
     if (!valid || generation != g_back_generation.load(std::memory_order_acquire)
-            || packed != g_back_gesture_config.load(std::memory_order_acquire)
+            || packed != back_gesture_config()
             || !back_regions_enabled()) return;
     if(!home_layout::adjust_back_gesture_inputs(in,
         {static_cast<int>(packed&0xffffu),static_cast<int>(packed>>16)}))return;
@@ -898,8 +915,8 @@ extern "C" void hc_back_window_body(std::byte *saved){
     };
     uintptr_t receiver=0;std::memcpy(&receiver,saved+20*8,8);if(!receiver)return;
     unsigned char side=0;std::memcpy(&side,reinterpret_cast<const void*>(receiver+g_back_window_shape.side_field),1);if(side>1)return;
-    const auto packed=g_back_gesture_config.load(std::memory_order_acquire);
-    if (packed != sampled_config && packed != (60u | (100u << 16))) return;
+    const auto packed=back_gesture_config();
+    if (packed != sampled_config && packed != kStockBackConfig) return;
     const auto desired=home_layout::back_window_rect(input,side,{int(packed&0xffffu),int(packed>>16)});
     if(!desired)return;
     auto *scratch=saved+784+g_back_window_shape.rect_sp;
@@ -918,7 +935,7 @@ extern "C" void hc_back_window_body(std::byte *saved){
     if (!back_regions_enabled()
             || generation != g_back_generation.load(std::memory_order_acquire)
             || seq != g_back_stock_sequence.load(std::memory_order_acquire)
-            || packed != g_back_gesture_config.load(std::memory_order_acquire)) return;
+            || packed != back_gesture_config()) return;
     nested=true;
     reinterpret_cast<void(*)(uint32_t,const home_layout::BackWindowRect*)>(g_back_window_update.address)(side,&*desired);
     nested=false;
@@ -2266,7 +2283,7 @@ void maintain_back_regions(uint64_t now, bool verify_mapping = false) {
                 && update == g_back_window_update.original_words) return;
     }
     if (!ready && !core.backend_owned && !window.backend_owned
-            && g_back_gesture_config.load(std::memory_order_acquire) == (60u | (100u << 16))) return;
+            && back_gesture_config() == kStockBackConfig) return;
 
     invalidate_back_regions();
     if (ready) {
@@ -2302,7 +2319,7 @@ void discover_back_regions(uint64_t now) {
     if (g_back_library_notified.exchange(false, std::memory_order_acq_rel))
         g_back_discovery_retry.reset();
     if (g_back_regions_ready.load(std::memory_order_acquire)
-            || g_back_gesture_config.load(std::memory_order_acquire) == (60u | (100u << 16))) return;
+            || back_gesture_config() == kStockBackConfig) return;
     const auto &core = g_slots[kBackGestureSlot];
     const auto &window = g_slots[kBackWindowSlot];
     if (core.backend_owned || window.backend_owned
@@ -2404,6 +2421,19 @@ std::optional<Located> locate() {
 void delay_ms(long milliseconds) {
     timespec delay{milliseconds / 1000, (milliseconds % 1000) * 1000000};
     while (nanosleep(&delay, &delay) != 0 && errno == EINTR) {}
+}
+
+bool wait_layout_pass(long milliseconds) {
+#ifdef HYPERCEILER_HYOS_BACKEND
+    delay_ms(milliseconds);
+    return false;
+#else
+    std::unique_lock lock(g_back_config_mutex);
+    const bool changed = g_back_config_changed.wait_for(lock, std::chrono::milliseconds(milliseconds),
+        [] { return g_back_config_pending; });
+    g_back_config_pending = false;
+    return changed;
+#endif
 }
 
 /*
@@ -5512,9 +5542,24 @@ void *worker(void *) {
      * says nothing". One line costs less than that investigation did.
      */
     (void) pthread_setname_np(pthread_self(), "hc-home-layout");
+    const auto service_back_regions = [] {
+        const auto now = monotonic_ms();
+        discover_back_regions(now);
+        maintain_back_regions(now);
+    };
     home_layout::Config config;
     bool queried = false;
     for (int attempt = 0; attempt < 20; ++attempt) {
+#ifndef HYPERCEILER_HYOS_BACKEND
+        // A direct preference publish can be ready before the layout Binder.
+        if (g_live_back_config.load(std::memory_order_acquire) != 0
+            && back_gesture_config() != kStockBackConfig
+            && !g_back_regions_ready.load(std::memory_order_acquire)
+            && !g_loader_priming.test_and_set(std::memory_order_acquire)) {
+            service_back_regions();
+            g_loader_priming.clear(std::memory_order_release);
+        }
+#endif
         if (home_layout::query_config(config)) { queried = true; break; }
         if (g_library_load_notified.load(std::memory_order_acquire)
             && home_layout::query_bootstrap_config(config)) {
@@ -5522,14 +5567,15 @@ void *worker(void *) {
             g_library_load_notified.store(false, std::memory_order_release);
             break;
         }
-        delay_ms(100);
+        wait_layout_pass(100);
     }
     hc_recents_haptic_refresh();
     if (queried) {
         sync_title_config(config);
         if(!config.dock_show_title)(void)sync_dock_titles(false);
     }
-    if (!queried && !kDockEditPolicy && g_dock_title_requested.load(std::memory_order_acquire) != 1
+    if (!queried && !kDockEditPolicy && back_gesture_config() == kStockBackConfig
+        && g_dock_title_requested.load(std::memory_order_acquire) != 1
         && g_title_desktop_sp.load(std::memory_order_acquire) == 12
         && g_title_drawer_sp.load(std::memory_order_acquire) == 12
         && g_title_color.load(std::memory_order_acquire) == -1
@@ -5608,11 +5654,8 @@ void *worker(void *) {
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
         || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
         || config.tweaks.hotseat_unlimited || config.widget_allow_move || config.folder_auto_close || config.dock_show_title
-                                                                                                      ||
-                                                                                                      config.back_gesture.height !=
-                                                                                                      60 ||
-                                                                                                      config.back_gesture.width !=
-                                                                                                      100
+        || back_gesture_config() != kStockBackConfig
+        || config.back_gesture.height != 60 || config.back_gesture.width != 100
         || config.folder.full_width || config.folder.title_center
         || nhk::source_words_owned(g_dock_title_words);
     if (!kDockEditPolicy && !config.grid_enabled && !any_knob && !top_probe && !any_tweak
@@ -5629,16 +5672,18 @@ void *worker(void *) {
     publish_animation_rate(config.tweaks);
     push_tweaks(config);
 
+    service_back_regions();
     prime_home_layout_first_render_locked();
     std::optional<Located> located;
     for (int attempt = 0; attempt < 60; ++attempt) {
         // A late Dart mapping is discovered and primed here, off the loader and
         // input threads. Keep waiting for it when the Rust image appears first.
+        if (attempt != 0) service_back_regions();
         if(!g_first_render_finished.load(std::memory_order_acquire))prime_home_layout_first_render_locked();
         located = locate();
         if (located) break;
         if (g_library_load_notified.exchange(false, std::memory_order_acq_rel)) continue;
-        delay_ms(100);
+        wait_layout_pass(100);
     }
     if (!located) {
         /*
@@ -5874,6 +5919,7 @@ void *worker(void *) {
     uint64_t last_back_generation_check = 0;
     for (;;) {
         const uint64_t now = monotonic_ms();
+        bool woken = false;
         /*
          * Drawable-desktop gate, the same one the dock maintenance worker uses. While the panel
          * dozes or another app covers home, the desktop is not drawn, so no patched call site can
@@ -5897,11 +5943,18 @@ void *worker(void *) {
                  * again, and while dozing a pass is a handful of word reads, so the tighter bound
                  * costs nothing.
                  */
-                delay_ms(kDozingIterationMs);
-                continue;
+                woken = wait_layout_pass(kDozingIterationMs);
+                if (!woken) continue;
             }
         }
-        delay_ms(kPassIntervalMs);
+        if (!woken) woken = wait_layout_pass(kPassIntervalMs);
+        if (woken) {
+            if (!g_loader_priming.test_and_set(std::memory_order_acquire)) {
+                service_back_regions();
+                g_loader_priming.clear(std::memory_order_release);
+            }
+            continue;
+        }
         // A late libapp or Rust mapping can still arrive after the first setup.
         // Process its notification under the same lease before admitting slots.
         if(g_loader_priming.test_and_set(std::memory_order_acquire))continue;
@@ -7304,6 +7357,9 @@ bool adopt_layout_state() {
     g_back_stock_generation.store(0, std::memory_order_release);
     g_back_stock_sequence.store(0,std::memory_order_release);g_back_stock_writer.clear(std::memory_order_release);
     g_back_gesture_config.store(60u | (100u << 16), std::memory_order_release);
+#ifndef HYPERCEILER_HYOS_BACKEND
+    g_live_back_config.store(0, std::memory_order_release);
+#endif
     g_grid_field = {};
     g_folder_geometry_checked=false;g_folder_geometry_contract={};g_drop_geometry_contract={};
     g_big_folder_size_bound=g_big_folder_size_checked=false;g_big_folder_size_fields={};
@@ -8022,9 +8078,23 @@ void notify_home_back_launcher_loaded() {
     g_back_library_notified.store(true, std::memory_order_release);
 }
 
+#ifndef HYPERCEILER_HYOS_BACKEND
+void publish_home_back_preferences(int height, int width) {
+    const auto packed = static_cast<uint32_t>(height) | (static_cast<uint32_t>(width) << 16);
+    const auto previous = g_live_back_config.exchange(packed, std::memory_order_acq_rel);
+    if (previous == packed || packed == kStockBackConfig
+            || g_back_regions_ready.load(std::memory_order_acquire)) return;
+    {
+        std::lock_guard lock(g_back_config_mutex);
+        g_back_config_pending = true;
+    }
+    g_back_config_changed.notify_one();
+}
+#endif
+
 #ifdef HYPERCEILER_HYOS_BACKEND
-void maintain_hyos_back_regions(HookFunction hook, UnhookFunction unhook) {
-    if (!hook || !hyos_control::allowed()) return;
+void hyperceiler_home_maintain_back_gesture(HookFunction hook, UnhookFunction unhook) {
+    if (!hook || nhk::home_safe_mode::decision().blocked) return;
     home_layout::Config config;
     if (!hyos_control::layout_config(config)) return;
     g_back_gesture_config.store(uint32_t(config.back_gesture.height)

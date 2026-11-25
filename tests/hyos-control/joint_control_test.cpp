@@ -64,7 +64,7 @@ int main(){using namespace fixture;
  run("unavailable HCS reply then first snapshot cannot late install",[]{
   bytes=16;prepare_joint();joint_snapshot_bind();CHECK(joint_snapshot_lookup());
   CHECK(g_startup_phase==StartupPhase::Missed&&executions==0&&!hyos_control::allowed());
-  bytes=188;next_poll();CHECK(hyos_control::allowed()&&g_startup_prepared&&joint_snapshot_lookup()&&executions==0);
+  bytes=hyos_snapshot::kBackByteCount;next_poll();CHECK(hyos_control::allowed()&&g_startup_prepared&&joint_snapshot_lookup()&&executions==0);
  });
  run("real snapshot cannot extend expired absolute HCS deadline",[]{
   server_age=4'000'000'000LL;prepare_joint();joint_snapshot_bind();now+=1'000'000'000LL;

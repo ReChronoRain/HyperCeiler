@@ -56,7 +56,7 @@ std::atomic<int64_t> now{1'000'000'000LL};std::atomic_bool bad_clock{},fail_watc
 std::mutex threads_mutex;std::vector<std::thread> threads;
 void join_workers(){std::vector<std::thread> copy;{std::lock_guard l(threads_mutex);copy.swap(threads);}for(auto &t:copy)if(t.joinable())t.join();}
 std::atomic_bool no_symbol{},no_service{},fail_associate{},fail_prepare{},null_input{},fail_transact{},null_output{},fail_worker{},fail_init{};
-std::atomic_int ack{hyos_snapshot::kAck},available{1},flags{1},bytes{188},read_fail{-1};
+std::atomic_int ack{hyos_snapshot::kBackAck},available{1},flags{1},bytes{196},read_fail{-1};
 std::mutex events_mutex;std::vector<std::string> events;std::vector<unsigned> options;
 int hook(void *target,void *,void **original){if(original!=nullptr)*original=target;return ZN_SUCCESS;}int unhook(void *){return ZN_SUCCESS;}
 ZygiskNextAPI api{};
@@ -75,7 +75,7 @@ void reset(){g_api=nullptr;g_active=false;g_worker_started=false;g_watchdog_star
  sequence=server_age=0;execute_outcome=home_startup::Outcome::Applied;frame_edit=nullptr;
  queries=inits=workers=detaches=allocations=deletes=dec_strong=options_calls=poll_threads=watchdogs=service_refs=report_retries=0;now=1'000'000'000LL;bad_clock=fail_watchdog=false;
  no_symbol=no_service=fail_associate=fail_prepare=null_input=fail_transact=null_output=fail_worker=fail_init=false;
- ack=hyos_snapshot::kAck;available=1;flags=1;bytes=188;read_fail=-1;binder.clazz=&type;api={};api.inlineHook=hook;api.inlineUnhook=unhook;events.clear();options.clear();}
+ ack=hyos_snapshot::kBackAck;available=1;flags=1;bytes=196;read_fail=-1;binder.clazz=&type;api={};api.inlineHook=hook;api.inlineUnhook=unhook;events.clear();options.clear();}
 unsigned last_options(){std::lock_guard l(events_mutex);return options.empty()?999:options.back();}
 void record(const char *name){hyperceiler_hyos_record_home_library(name);}
 void next_poll(){std::thread t([]{poll_flags();});t.join();}
@@ -95,7 +95,7 @@ const AIBinder_Class *AIBinder_Class_define(const char *d,void *(*)(void *),void
 bool AIBinder_associateClass(AIBinder *b,const AIBinder_Class *t){if(fixture::fail_associate)return false;b->clazz=t;return true;}
 binder_status_t AIBinder_prepareTransaction(AIBinder *,AParcel **p){if(!fixture::null_input)*p=fixture::parcel();return fixture::fail_prepare?STATUS_BAD_VALUE:STATUS_OK;}
 binder_status_t AIBinder_transact(AIBinder *,transaction_code_t code,AParcel **input,AParcel **output,uint32_t opts){
- CHECK(code==hyos_snapshot::kTransaction&&opts==0&&*input!=nullptr);++fixture::queries;
+ CHECK(code==hyos_snapshot::kBackTransaction&&opts==0&&*input!=nullptr);++fixture::queries;
  auto words=hyos_snapshot::unavailable_words();words[0]=fixture::ack;words[1]=fixture::available;
  words[2]=fixture::available==0?0:fixture::flags.load();
  auto put=[&](size_t at,int64_t value){uint64_t bits=static_cast<uint64_t>(value);words[at]=static_cast<int32_t>(bits);words[at+1]=static_cast<int32_t>(bits>>32);};
@@ -105,6 +105,7 @@ binder_status_t AIBinder_transact(AIBinder *,transaction_code_t code,AParcel **i
   words[9]=1;words[10]=7;words[11]=10;
   const int32_t tweaks[]{5,0,8,5,0,8,5,0,102,0,0,0,0,100,0,100,0};
   for(size_t i=0;i<17;++i)words[30+i]=tweaks[i];
+  words[47]=60;words[48]=100;
  }
  if(fixture::frame_edit)fixture::frame_edit(words);
  fixture::query_gate.block();
@@ -113,12 +114,13 @@ binder_status_t AIBinder_transact(AIBinder *,transaction_code_t code,AParcel **i
 
 void AIBinder_decStrong(AIBinder *p){CHECK(p==&fixture::binder&&fixture::service_refs>0);--fixture::service_refs;++fixture::dec_strong;}
 int32_t AParcel_getDataSize(const AParcel *p){return p->bytes;}
-binder_status_t AParcel_readInt32(const AParcel *p,int32_t *v){auto *q=const_cast<AParcel *>(p);if(q->pos==q->fail_index)return STATUS_BAD_VALUE;if(q->pos>=47)return STATUS_BAD_VALUE;*v=q->values[q->pos++];return STATUS_OK;}
+binder_status_t AParcel_readInt32(const AParcel *p,int32_t *v){auto *q=const_cast<AParcel *>(p);if(q->pos==q->fail_index||q->pos>=q->bytes/4||q->pos>=static_cast<int>(std::size(q->values)))return STATUS_BAD_VALUE;*v=q->values[q->pos++];return STATUS_OK;}
 void AParcel_delete(AParcel *p){++fixture::deletes;delete p;}
 extern "C" home_native::LibraryLoaded native_init(const home_native::ApiEntries *e){CHECK(e->version==1&&e->hook_func==fixture::api.inlineHook&&e->unhook_func==fixture::api.inlineUnhook);++fixture::inits;fixture::init_gate.block();return fixture::fail_init?nullptr:fixture::loaded;}
 void hyperceiler_home_runtime_options(bool high,bool prestart,bool glass,bool dock,bool report){fixture::options_gate.block();++fixture::options_calls;std::lock_guard l(fixture::events_mutex);fixture::options.push_back((high?2:0)|(prestart?4:0)|(glass?8:0)|(dock?16:0)|(report?32:0));}
 void hyperceiler_hyos_retry_home_report(const ZygiskNextAPI *api){CHECK(api==&fixture::api&&hyos_control::feature_enabled(hyos_control::kHideReport));CHECK(g_publish_mutex.try_lock());g_publish_mutex.unlock();++fixture::report_retries;}
 void hyperceiler_home_after_startup(){CHECK(startup_finished());++fixture::post_startups;}
+void hyperceiler_home_maintain_back_gesture(home_native::HookFunction,home_native::UnhookFunction){}
 namespace home_recents_test {bool atomics();void event(unsigned);}
 #define HOME_RECENTS_RUNTIME_TEST 1
 #define clock_gettime fixture_clock

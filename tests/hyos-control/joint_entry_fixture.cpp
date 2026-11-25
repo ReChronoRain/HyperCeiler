@@ -82,6 +82,10 @@ void joint_images(){using namespace hyos_snapshot_guard;
  const uint32_t state[2]{0x4000,0};std::memcpy(joint::linker.data()+kMutexVa,state,sizeof(state));
 }
 void joint_setup(ZygiskNextAPI *api,bool home){
+ nhk::home_safe_mode::set_reader_for_test([](const char *,char *value,std::size_t capacity){
+  if(capacity==0)return false;
+  value[0]='\0';return true;
+ });
  g_api=nullptr;g_dlopen=nullptr;g_android_dlopen=nullptr;g_dlsym=nullptr;
  g_registered=false;g_home_child=false;g_weather_child=false;g_runtime_base=0;g_app_entry=nullptr;joint::module=nullptr;
  g_startup_armed=false;g_linker_base=0;g_search_binding=0;g_snapshot_attempt=0;

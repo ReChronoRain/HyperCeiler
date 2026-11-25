@@ -66,6 +66,7 @@ object NativeHomeHooksOS4 {
      * or missing push leaves the pipeline enabled.
      */
     private external fun nativeSetDockEnabled(enabled: Boolean): Int
+    private external fun nativeSetBackGesture(height: Int, width: Int)
     private external fun nativeSetDesktopTitleSize(sp: Int): Int
     private external fun nativeSetDrawerTitleSize(sp: Int): Int
     private external fun nativeSetTitleColor(argb: Int): Int
@@ -92,6 +93,8 @@ object NativeHomeHooksOS4 {
     /** The Dock feature switch; see `HomeDockWindow`'s settings read. */
     private const val DOCK_ENABLED_KEY = "home_dock_bg_custom_enable"
     private const val DOCK_ENABLED_STORAGE_KEY = "prefs_key_$DOCK_ENABLED_KEY"
+    private const val BACK_HEIGHT_KEY = "prefs_key_home_navigation_back_area_height"
+    private const val BACK_WIDTH_KEY = "prefs_key_home_navigation_back_area_width"
     private const val LIBRARY_FILE = "libHyperCeilerNative.so"
     private const val PACKAGE = "com.sevtinge.hyperceiler"
     private const val LAUNCHER_PACKAGE = "com.miui.home"
@@ -112,6 +115,8 @@ object NativeHomeHooksOS4 {
 
     private val diagnosticsStarted = AtomicBoolean()
     private val dockWatchStarted = AtomicBoolean()
+    private val backWatchStarted = AtomicBoolean()
+    private val backPreferencesLock = Any()
     @Volatile private var libraryLoaded = false
     private val preferencesRecoveryPending = AtomicBoolean()
     private val preferencesRecoveryRunning = AtomicBoolean()
@@ -123,6 +128,11 @@ object NativeHomeHooksOS4 {
         if (key == null || key == DOCK_ENABLED_STORAGE_KEY) {
             val status = syncDockEnabled()
             stage("dock switch refreshed status=${hex(status)} enabled=${prefBoolean(DOCK_ENABLED_KEY)}")
+        }
+    }
+    private val backGestureListener = SharedPreferences.OnSharedPreferenceChangeListener { preferences, key ->
+        if (key == null || key == BACK_HEIGHT_KEY || key == BACK_WIDTH_KEY) {
+            syncBackGesture(preferences)
         }
     }
 
@@ -216,7 +226,10 @@ object NativeHomeHooksOS4 {
                 stage("dock switch status=${hex(dockStatus)} enabled=${prefBoolean(DOCK_ENABLED_KEY)}")
                 // A failed bootstrap can leave an early handle bound. The target-ready retry
                 // may return a different handle; attach only after that binding succeeds.
-                if (!preferencesRecoveryPending.get()) watchDockEnabled()
+                if (!preferencesRecoveryPending.get()) {
+                    watchDockEnabled()
+                    watchBackGesture()
+                }
             } catch (t: Throwable) {
                 failure = t
                 stage("configure failed detail=${t.javaClass.simpleName}: ${describe(t)}")
@@ -245,7 +258,11 @@ object NativeHomeHooksOS4 {
             ensureLoadedLocked("moduleEntryRecovery")
             return
         }
-        if (!libraryLoaded || !preferencesRecoveryPending.get()) return
+        if (!libraryLoaded) return
+        if (!preferencesRecoveryPending.get()) {
+            watchBackGesture()
+            return
+        }
         if (!preferencesAvailableLocked("preferences recovery")) return
         if (!preferencesRecoveryRunning.compareAndSet(false, true)) return
         try {
@@ -262,6 +279,7 @@ object NativeHomeHooksOS4 {
             )
             nativeSetDockEnabled(PrefsBridge.getBoolean(DOCK_ENABLED_KEY))
             watchDockEnabled()
+            watchBackGesture()
             // Listener registration failure is retryable from the next rule-side init call.
             if (dockWatchStarted.get()) preferencesRecoveryPending.set(false)
             stage("preferences recovered status=${hex(status)} listener=${dockWatchStarted.get()}")
@@ -430,6 +448,35 @@ object NativeHomeHooksOS4 {
     }.onFailure {
         stage("dock switch push failed detail=${describe(it)}")
     }.getOrDefault(0)
+
+    private fun watchBackGesture() {
+        if (!backWatchStarted.compareAndSet(false, true)) return
+        runCatching {
+            val preferences = checkNotNull(PrefsBridge.getSharedPreferences())
+            preferences.registerOnSharedPreferenceChangeListener(backGestureListener)
+            syncBackGesture(preferences)
+        }.onFailure {
+            backWatchStarted.set(false)
+            stage("back gesture listener unavailable detail=${describe(it)}")
+        }
+    }
+
+    private fun syncBackGesture(preferences: SharedPreferences) = synchronized(backPreferencesLock) {
+        runCatching {
+            val values = preferences.all
+            val height = backGestureValue(values[BACK_HEIGHT_KEY], 10..100, 60)
+            val width = backGestureValue(values[BACK_WIDTH_KEY], 100..400, 100)
+            nativeSetBackGesture(height, width)
+        }.onFailure {
+            stage("back gesture push failed detail=${describe(it)}")
+        }
+        Unit
+    }
+
+    private fun backGestureValue(value: Any?, range: IntRange, fallback: Int): Int {
+        val number = value?.toString()?.toIntOrNull() ?: return fallback
+        return if (number in range) number else fallback
+    }
 
     private fun prefBoolean(key: String): Boolean =
         runCatching { PrefsBridge.getBoolean(key) }.getOrDefault(false)

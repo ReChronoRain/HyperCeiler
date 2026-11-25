@@ -189,21 +189,36 @@ bool query_snapshot(hyos_snapshot::Words &words) {
     AParcel *input = nullptr;
     AParcel *output = nullptr;
     binder_status_t status = STATUS_BAD_VALUE;
-    if (associated && AIBinder_prepareTransaction(window, &input) == STATUS_OK && input != nullptr) {
-        status = AIBinder_transact(window, hyos_snapshot::kTransaction, &input, &output, 0);
+    const auto transact = [&](int32_t code) {
+        if (AIBinder_prepareTransaction(window, &input) == STATUS_OK && input != nullptr) {
+            status = AIBinder_transact(window, code, &input, &output, 0);
+        }
+        if (input != nullptr) AParcel_delete(input);
+        input = nullptr;
+    };
+    bool legacy = false;
+    if (associated) {
+        transact(hyos_snapshot::kBackTransaction);
+        if (status == STATUS_UNKNOWN_TRANSACTION) {
+            if (output != nullptr) AParcel_delete(output);
+            output = nullptr;
+            status = STATUS_BAD_VALUE;
+            legacy = true;
+            transact(hyos_snapshot::kTransaction);
+        }
     }
-    if (input != nullptr) AParcel_delete(input);
     AIBinder_decStrong(window);
     bool valid = status == STATUS_OK && output != nullptr
-        && AParcel_getDataSize(output) == hyos_snapshot::kByteCount;
+        && AParcel_getDataSize(output) == (legacy ? hyos_snapshot::kByteCount : hyos_snapshot::kBackByteCount);
     // Android Parcel aligns both primitives to four bytes. This arm64-only
     // reader consumes the three little-endian int64 fields as paired words.
     // Actual Java writer bytes are covered by the cross-language corpus test.
-    for (auto &word : words) {
-        if (!valid || AParcel_readInt32(output, &word) != STATUS_OK) { valid = false; break; }
+    const auto count = legacy ? hyos_snapshot::kLegacyWordCount : words.size();
+    for (size_t index = 0; index < count; ++index) {
+        if (!valid || AParcel_readInt32(output, &words[index]) != STATUS_OK) { valid = false; break; }
     }
     if (output != nullptr) AParcel_delete(output);
-    return valid;
+    return valid && words[0] == (legacy ? hyos_snapshot::kAck : hyos_snapshot::kBackAck);
 }
 
 void poll_flags() {
@@ -305,6 +320,7 @@ void poll_flags() {
         g_poll_completed = true;
     }
     g_first_poll.notify_all();
+    if (g_initialized) hyperceiler_home_maintain_back_gesture(api->inlineHook, api->inlineUnhook);
     g_polling.clear(std::memory_order_release);
 }
 

@@ -6,7 +6,7 @@ namespace home_layout { struct Config; }
 namespace hyos_snapshot { struct Snapshot; }
 namespace hyos_control {
 // Legacy HCY1 remains a Java-side compatibility endpoint. New native control
-// uses the combined HCS1 wire contract in hyos_snapshot.h.
+// uses the combined HCS1/HCS2 wire contracts in hyos_snapshot.h.
 constexpr int32_t kTransaction = 0x00484359;
 constexpr int32_t kAck = 0x48435931;
 constexpr uint32_t kAllowed = 1;

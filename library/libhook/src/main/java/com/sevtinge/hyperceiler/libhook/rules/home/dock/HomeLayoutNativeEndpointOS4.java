@@ -35,6 +35,8 @@ public final class HomeLayoutNativeEndpointOS4 {
     public static final int COMBINED_TRANSACTION_CODE = 0x00484353;
     public static final int COMBINED_ACK = 0x48435331;
     public static final int COMBINED_REPLY_BYTES = 188;
+    public static final int COMBINED_BACK_TRANSACTION_CODE = 0x00484342;
+    private static final int COMBINED_BACK_ACK = 0x48435332;
     private static final String DESCRIPTOR = "android.view.IWindowManager";
     /**
      * Where the current values come from.
@@ -780,11 +782,15 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     /** Fixed HCS1 wire, including the canonical zero payload for denied/unavailable replies. */
     public static void writeCombinedReply(Parcel reply, CombinedSnapshot result) {
+        writeCombinedReply(reply, result, false);
+    }
+
+    public static void writeCombinedReply(Parcel reply, CombinedSnapshot result, boolean includeBack) {
         final CombinedSnapshot value = result == null ? unavailableCombined(null) : result;
         final Snapshot layout = value.layout();
         reply.setDataSize(0);
         reply.setDataPosition(0);
-        reply.writeInt(COMBINED_ACK);
+        reply.writeInt(includeBack ? COMBINED_BACK_ACK : COMBINED_ACK);
         reply.writeInt(value.available());
         reply.writeInt(value.flags());
         reply.writeLong(value.epoch());
@@ -800,6 +806,11 @@ public final class HomeLayoutNativeEndpointOS4 {
         }
         reply.writeInt(TWEAK_COUNT);
         for (int valuePart : layout.tweaks()) reply.writeInt(valuePart);
+        if (includeBack) {
+            final boolean authorized = value.available() == 1 && value.flags() != 0;
+            reply.writeInt(authorized ? layout.backGesture()[0] : 0);
+            reply.writeInt(authorized ? layout.backGesture()[1] : 0);
+        }
     }
 
     public Snapshot receive(Parcel data, int flags) {
