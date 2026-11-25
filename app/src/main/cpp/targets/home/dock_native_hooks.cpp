@@ -1262,29 +1262,33 @@ struct RuntimeContainerProbe {
     std::string path;
     uint64_t inode = 0;
     std::optional<std::pair<uint64_t, uint64_t>> entry;
+    uint64_t retry_at_ns = 0;
 };
 
 constexpr size_t kRuntimeContainerProbeLimit = 8;
-// Only ever touched with `madvise_guard_mutex` held: the dock maintenance
-// path and the layout-side check-and-register path both converge there before
-// touching this cache. Probing an APK reads its tail and central directory, so
-// the answer is cached for the process lifetime instead of once per pass.
+// Both callers hold madvise_guard_mutex. ZIP lookup also returns an empty
+// result on read failure, so only a found entry survives for the cache lifetime.
 std::vector<RuntimeContainerProbe> runtime_container_probes;
 
-/** Stored `libhyper_os_flutter.so` entry of a container, probed at most once. */
 std::optional<std::pair<uint64_t, uint64_t>> runtime_container_entry(
-    const std::string &path, uint64_t inode) {
-    for (const auto &probe : runtime_container_probes) {
-        if (probe.path == path && probe.inode == inode) return probe.entry;
+    std::string_view path, uint64_t inode, uint64_t now_ns) {
+    auto cached = std::ranges::find_if(runtime_container_probes, [&](const auto &probe) {
+        return probe.path == path && probe.inode == inode;
+    });
+    if (cached == runtime_container_probes.end()) {
+        if (runtime_container_probes.size() >= kRuntimeContainerProbeLimit) {
+            // A late executable mapping must get a probe even when preloads
+            // occupied all of the cache entries during startup.
+            runtime_container_probes.erase(runtime_container_probes.begin());
+        }
+        runtime_container_probes.push_back({std::string(path), inode, {}});
+        cached = std::prev(runtime_container_probes.end());
     }
-    if (runtime_container_probes.size() >= kRuntimeContainerProbeLimit) return std::nullopt;
-    RuntimeContainerProbe probe;
-    probe.path = path;
-    probe.inode = inode;
-    probe.entry = nhk::zip_stored_entry(path, "libhyper_os_flutter.so");
-    const auto entry = probe.entry;
-    runtime_container_probes.push_back(std::move(probe));
-    return entry;
+    if (cached->entry || now_ns < cached->retry_at_ns) return cached->entry;
+    cached->entry = nhk::zip_stored_entry(cached->path, "libhyper_os_flutter.so");
+    const uint64_t delay_ns = 5000000000ULL;
+    cached->retry_at_ns = now_ns <= UINT64_MAX - delay_ns ? now_ns + delay_ns : UINT64_MAX;
+    return cached->entry;
 }
 
 /**
@@ -1329,22 +1333,27 @@ bool runtime_candidate_loaded(const std::vector<nhk::FileMapping> &all,
 }
 
 std::optional<RuntimeImageTarget> identify_runtime_image(
-    const std::vector<nhk::FileMapping> &all) {
+    const std::vector<nhk::FileMapping> &all, uint64_t now_ns) {
     for (const auto &mapping : all) {
         if (!flutter_runtime_path(mapping.path)) continue;
         RuntimeImageTarget target{
             std::string(nhk::strip_deleted(mapping.path)), 0, UINT64_MAX};
         if (runtime_candidate_loaded(all, target)) return target;
     }
+    std::vector<std::pair<std::string_view, uint64_t>> checked;
     for (const auto &mapping : all) {
-        if (mapping.writable || mapping.path.empty() || mapping.path.front() != '/') continue;
-        const std::string_view path = nhk::strip_deleted(mapping.path);
-        if (!path.ends_with(".apk")) continue;
-        const auto entry = runtime_container_entry(std::string(path), mapping.inode);
+        // A resource-only APK cannot be the executable Flutter image.
+        if (!mapping.executable || mapping.writable || !mapping.inode) continue;
+        const auto path = nhk::strip_deleted(mapping.path);
+        const auto key = std::pair{path, mapping.inode};
+        if (!path.ends_with(".apk") || std::ranges::find(checked, key) != checked.end()) continue;
+        const bool launcher_apk = path.find("/com.miui.home") != std::string_view::npos;
+        if (!launcher_apk && checked.size() >= kRuntimeContainerProbeLimit) continue;
+        checked.push_back(key);
+        const auto entry = runtime_container_entry(path, mapping.inode, now_ns);
         if (!entry) continue;
         const uint64_t begin = page_down(entry->first);
         const uint64_t end = page_up(entry->first + entry->second);
-        if (mapping.file_offset < begin || mapping.file_offset >= end) continue;
         RuntimeImageTarget target{std::string(path), begin, end};
         if (runtime_candidate_loaded(all, target)) return target;
     }
@@ -1671,7 +1680,7 @@ void maybe_install_madvise_guard_locked() {
     // `extractNativeLibs=false` the kernel reports the APK path for the runtime's
     // mappings, so matching on "libhyper_os_flutter.so" alone only ever finds the
     // vendor's transient preload copy - which the spawner dlcloses moments later.
-    const auto target = identify_runtime_image(all);
+    const auto target = identify_runtime_image(all, now_ns);
     if (!target) {
         // Not loaded yet: stay pending and spend no attempt. The runtime may be
         // dlopen'd seconds after the launcher starts, and a budget consumed by

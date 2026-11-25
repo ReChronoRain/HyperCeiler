@@ -565,6 +565,8 @@ using UnhookFunction = int (*)(void *);
 std::atomic_bool g_report_requested{false},g_report_ready{false};
 std::atomic_bool g_shortcuts_ready{false};
 std::atomic_bool g_shortcut_menu_requested{false}, g_shortcut_menu_ready{false};
+std::atomic_uint64_t g_shortcut_menu_hits{0}, g_shortcut_menu_applied{0};
+home_layout::BindingRetry g_shortcut_menu_retry;
 std::shared_ptr<const home_layout::haptic::Plan> g_recents_haptic_routing;
 std::atomic_uint g_recents_haptic_bind_failure{0};
 std::atomic_uint g_shortcuts_bind_failure{0};
@@ -748,6 +750,12 @@ std::array<std::atomic_uint64_t,64> g_recent_hits{},g_recent_applied{};
 std::array<std::atomic_uint64_t,64> g_recent_skip_trace{},g_recent_apply_trace{};
 std::array<std::atomic_uint32_t,64> g_recent_skips{};
 
+void sync_shortcut_menu_config(const home_layout::Config &config) {
+    const bool enabled = (config.policies & home_layout::kShortcutMenuPolicy) != 0;
+    if (g_shortcut_menu_requested.exchange(enabled, std::memory_order_acq_rel) != enabled)
+        __android_log_print(ANDROID_LOG_INFO, kTag, "shortcut menu requested=%d", enabled);
+}
+
 void sync_title_config(const home_layout::Config &config) {
     const int dock_horizontal=home_layout::valid_dock_horizontal(config.dock_horizontal)?config.dock_horizontal:0;
     if(g_dock_horizontal_delta.exchange(dock_horizontal,std::memory_order_acq_rel)!=dock_horizontal)
@@ -778,8 +786,7 @@ void sync_title_config(const home_layout::Config &config) {
             config.object_scales[1].enabled,config.object_scales[1].percent,
             config.object_scales[2].enabled,config.object_scales[2].percent);
     g_report_requested.store((config.policies&home_layout::kHideReportPolicy)!=0,std::memory_order_release);
-    g_shortcut_menu_requested.store((config.policies & home_layout::kShortcutMenuPolicy) != 0,
-        std::memory_order_release);
+    sync_shortcut_menu_config(config);
     if(g_infinite_requested.exchange(config.infinite_scroll,std::memory_order_acq_rel)!=config.infinite_scroll)
         __android_log_print(ANDROID_LOG_INFO,kTag,"infinite scroll requested=%d",config.infinite_scroll);
     const double icon_scale = config.tweaks.icon_scale_enabled
@@ -4902,6 +4909,37 @@ void bind_shortcut_menu() {
     __android_log_print(ANDROID_LOG_INFO, kTag, "shortcut menu count bound site=%#x", site);
 }
 
+// Runs under the layout setup lease. Its slot can recover while the other
+// layout slots are unavailable, using the same ownership and page protection.
+void maintain_shortcut_menu(uint64_t now, bool verify_mapping = false) {
+    static const std::vector<size_t> order{kShortcutMenuSlot};
+    auto &slot = g_slots[kShortcutMenuSlot];
+    if (nhk::home_safe_mode::decision().blocked) {
+        g_shortcut_menu_ready.store(false, std::memory_order_release);
+        return;
+    }
+    const bool ready = g_shortcut_menu_ready.load(std::memory_order_acquire);
+    if (ready && bank_live(order)) {
+        if (!verify_mapping) return;
+        Words words{};
+        if (stable_read(slot, words) && words == slot.patch_words) return;
+    }
+    if (ready) {
+        g_shortcut_menu_ready.store(false, std::memory_order_release);
+        g_shortcut_menu_retry.reset();
+        __android_log_print(ANDROID_LOG_WARN, kTag, "shortcut menu installation lost");
+    }
+    const bool requested = g_shortcut_menu_requested.load(std::memory_order_acquire);
+    if ((!requested && !nhk::slot_has_pending(slot)) || !g_shortcut_menu_retry.due(now)) return;
+    if (!slot.address && ensure_dart_library()) bind_shortcut_menu();
+    if (slot.address && nhk::ensure_slots_live(g_slots, slot_host(), order)
+            && bank_live(order) && hc_shortcutmenu_original) {
+        g_shortcut_menu_ready.store(true, std::memory_order_release);
+        g_shortcut_menu_retry.reset();
+        __android_log_print(ANDROID_LOG_INFO, kTag, "shortcut menu installation verified");
+    }
+}
+
 bool bind_report() {
     if(g_slots[kReportSlot].address)return true;
     if(!g_report_requested.load(std::memory_order_acquire))return false;
@@ -5018,7 +5056,6 @@ size_t arm_hooks(std::vector<size_t> &order) {
     if(g_aux_bind_retry.due(monotonic_ms())) {
         (void)bind_report();
         (void)bind_shortcut_management();
-        bind_shortcut_menu();
         (void)bind_recents_haptic();
         (void)bind_drawer_search();
         (void)bind_prestart();
@@ -5056,11 +5093,6 @@ size_t arm_hooks(std::vector<size_t> &order) {
         if(g_slots[i].address&&std::find(order.begin(),order.end(),i)==order.end()){order.push_back(i);++added;}
     if(g_slots[kShortcutManagementSlot].address&&std::find(order.begin(),order.end(),kShortcutManagementSlot)==order.end()){
         order.push_back(kShortcutManagementSlot);++added;
-    }
-    if (g_slots[kShortcutMenuSlot].address
-        && std::find(order.begin(), order.end(), kShortcutMenuSlot) == order.end()) {
-        order.push_back(kShortcutMenuSlot);
-        ++added;
     }
     if(g_slots[kReportSlot].address&&std::find(order.begin(),order.end(),kReportSlot)==order.end()){
         order.push_back(kReportSlot);++added;
@@ -5377,8 +5409,6 @@ void publish_indicator_dot_delta() {
     g_prestart_ready.store(nhk::slot_ready(g_slots[kPrestartSlot])&&hc_prestart_original,std::memory_order_release);
     g_report_ready.store(nhk::slot_ready(g_slots[kReportSlot])&&hc_report_original,std::memory_order_release);
     g_shortcuts_ready.store(nhk::slot_ready(g_slots[kShortcutManagementSlot])&&hc_shortcuts_original,std::memory_order_release);
-    g_shortcut_menu_ready.store(nhk::slot_ready(g_slots[kShortcutMenuSlot]) && hc_shortcutmenu_original,
-        std::memory_order_release);
     bool haptic_ready=true;
     for(size_t i=0;i<7;++i)haptic_ready&=nhk::slot_ready(g_slots[kRecentsHapticSlotBase+i])&&hc_recentshaptic_originals[i];
     hc_recents_haptic_ready(haptic_ready);
@@ -5628,7 +5658,7 @@ void *worker(void *) {
     // A new worker attempt must not replace a slot with an outstanding backend
     // or write obligation. Retry known cleanup using the existing attempt path.
     for (size_t index = 0; index < g_slots.size(); ++index) {
-        if (index == kBackGestureSlot || index == kBackWindowSlot) continue;
+        if (index == kBackGestureSlot || index == kBackWindowSlot || index == kShortcutMenuSlot) continue;
         auto &slot = g_slots[index];
         if (nhk::slot_has_pending(slot) && !nhk::settle_slot_pending(slot, slot_host())) {
             __android_log_print(ANDROID_LOG_WARN, kTag,
@@ -5879,6 +5909,7 @@ void *worker(void *) {
     (void) bind_dock_position();
     (void) bind_widget_scale();
     (void) bind_title_hide();
+    maintain_shortcut_menu(monotonic_ms());
     arm_hooks(order);
     maintain_back_regions(monotonic_ms());
     publish_hooks();
@@ -5949,6 +5980,13 @@ void *worker(void *) {
     uint64_t last_panel_query = 0;
     uint64_t last_generation_check = 0;
     uint64_t last_back_generation_check = 0;
+    uint64_t last_shortcut_generation_check = 0;
+    uint64_t last_shortcut_config_query = 0;
+    home_layout::BindingRetry layout_bank_retry;
+    bool layout_bank_failed = false;
+    bool shortcut_requested = g_shortcut_menu_requested.load(std::memory_order_acquire);
+    bool shortcut_hit_reported = false;
+    bool shortcut_applied_reported = false;
     for (;;) {
         const uint64_t now = monotonic_ms();
         bool woken = false;
@@ -5991,6 +6029,33 @@ void *worker(void *) {
         // Process its notification under the same lease before admitting slots.
         if(g_loader_priming.test_and_set(std::memory_order_acquire))continue;
         struct PassLease {~PassLease(){g_loader_priming.clear(std::memory_order_release);}} pass_lease;
+        const bool verify_shortcut = interval_due(last_shortcut_generation_check, now, kGenerationCheckMs);
+        if (verify_shortcut) last_shortcut_generation_check = now;
+        if (layout_bank_failed && interval_due(last_shortcut_config_query, now, 1000)) {
+            last_shortcut_config_query = now;
+            home_layout::Config latest;
+            if (home_layout::query_config(latest)) sync_shortcut_menu_config(latest);
+        }
+        maintain_shortcut_menu(now, verify_shortcut);
+        if (!shortcut_hit_reported && g_shortcut_menu_hits.load(std::memory_order_relaxed)) {
+            shortcut_hit_reported = true;
+            __android_log_print(ANDROID_LOG_INFO, kTag, "shortcut menu first callback observed");
+        }
+        if (!shortcut_applied_reported && g_shortcut_menu_applied.load(std::memory_order_relaxed)) {
+            shortcut_applied_reported = true;
+            __android_log_print(ANDROID_LOG_INFO, kTag, "shortcut menu first limit change 4 to 6");
+        }
+        if (layout_bank_failed) {
+            if (!layout_bank_retry.due(now)
+                || !nhk::ensure_slots_live(g_slots, slot_host(), order) || !bank_live(order)) continue;
+            layout_bank_failed = false;
+            layout_bank_retry.reset();
+            g_ready.store(config.grid_enabled && located && located->x && located->y,
+                std::memory_order_release);
+            g_dart_ready.store(!order.empty(), std::memory_order_release);
+            publish_hooks();
+            __android_log_print(ANDROID_LOG_INFO, kTag, "layout hook bank re-armed");
+        }
         ++iterations;
         if (g_library_load_notified.exchange(false, std::memory_order_acq_rel)) {
             // A matching image can arrive after the initial Rust/Dart snapshot.
@@ -6102,6 +6167,7 @@ void *worker(void *) {
             home_layout::Config latest;
             if (home_layout::query_config(latest)) {
                 sync_title_config(latest);
+                shortcut_requested |= (latest.policies & home_layout::kShortcutMenuPolicy) != 0;
                 if (latest.grid_enabled && located && located->x != 0 && located->y != 0
                     && std::find(order.begin(), order.end(), size_t{0}) == order.end()) {
                     if (!g_slots[0].backend_owned) g_slots[0] = {located->x, reinterpret_cast<void *>(cell_x_replacement),
@@ -6438,7 +6504,9 @@ void *worker(void *) {
             g_captures_armed = false;
             __android_log_print(ANDROID_LOG_ERROR, kTag,
                 "layout hook bank unhealthy; stopped overriding");
-            return attempt_finished();
+            if (!shortcut_requested && !nhk::slot_has_pending(g_slots[kShortcutMenuSlot]))
+                return attempt_finished();
+            layout_bank_failed = true;
         }
     }
 }
@@ -6927,13 +6995,15 @@ extern "C" void hc_shortcuts_body(home_layout::recent_render::Registers* saved,u
 
 extern "C" void hc_shortcutmenu_body(home_layout::recent_render::Registers* saved, unsigned) {
     if (!saved) return;
+    g_shortcut_menu_hits.fetch_add(1, std::memory_order_relaxed);
     bool enabled = g_shortcut_menu_ready.load(std::memory_order_acquire)
         && g_shortcut_menu_requested.load(std::memory_order_acquire);
 #ifdef HYPERCEILER_HYOS_BACKEND
     enabled = enabled && hyos_control::feature_enabled(hyos_control::kShortcutMenu);
 #endif
-    home_layout::features::shortcut_menu::apply(*saved, enabled,
-        reinterpret_cast<uintptr_t>(hc_shortcutmenu_original));
+    if (home_layout::features::shortcut_menu::apply(*saved, enabled,
+            reinterpret_cast<uintptr_t>(hc_shortcutmenu_original)))
+        g_shortcut_menu_applied.fetch_add(1, std::memory_order_relaxed);
 }
 
 extern "C" void hc_report_body(home_layout::recent_render::Registers* saved,unsigned) {
@@ -7503,6 +7573,9 @@ bool adopt_layout_state() {
     hc_shortcuts_original=nullptr;
     g_shortcut_menu_requested.store(false, std::memory_order_release);
     g_shortcut_menu_ready.store(false, std::memory_order_release);
+    g_shortcut_menu_hits.store(0, std::memory_order_relaxed);
+    g_shortcut_menu_applied.store(0, std::memory_order_relaxed);
+    g_shortcut_menu_retry.reset();
     if (!g_slots[kShortcutMenuSlot].backend_owned && !nhk::slot_has_pending(g_slots[kShortcutMenuSlot])) {
         hc_shortcutmenu_original = nullptr;
     }
