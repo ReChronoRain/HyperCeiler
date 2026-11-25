@@ -34,6 +34,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.createBitmap
 import androidx.core.util.size
 import com.sevtinge.hyperceiler.common.log.XposedLog
@@ -62,8 +63,6 @@ class DualRowSignalHookV : MobileSignalHook() {
     /** 原生单排信号条里需要被双排替代的节点名字片段(HyperOS 各版本命名不完全一致, 用 contains 匹配) */
 private val LEGACY_SIGNAL_CHILD_NAMES = listOf(
     "mobile_signal",
-    "mobile_type",
-    "mobile_inout",
     "mobile_left",
     "mobile_right",
     "mobile_roaming"
@@ -258,22 +257,30 @@ private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container
         dualContainer.addView(slot1, ViewGroup.LayoutParams(signalLp))
         dualContainer.addView(slot2, ViewGroup.LayoutParams(signalLp))
 
-        signalContainer.addView(dualContainer)
-
-        // 约束双排容器到 parent end（用 ID_DUAL_CONTAINER 作为约束锚点）
+        // HyperOS 4 关键点: 双排容器必须被四条边约束到 parent, 且 addView 时一并传入
+        // LayoutParams。旧实现先 addView 再用反射把 endToEnd/topToTop/bottomToBottom 设成 0,
+        // 而 ConstraintLayout 里 0 表示"约束到 getChildAt(0) 这个兄弟", 并不是 parent;
+        // 那个兄弟恰好是被隐藏的 mobile_signal, 于是测量退化成负宽度,
+        // ModernStatusBarMobileViewInjector 算出 islandWidth = -177 / -92 并判定 visible = 0,
+        // 表现就是双排根本不显示。正确锚点是 ConstraintLayout.LayoutParams.PARENT_ID (= -1)。
         val dualContainerId = ID_DUAL_CONTAINER
-
-        // 约束双排容器到 parent end
-        try {
-            val dlp = dualContainer.layoutParams
-            dlp.javaClass.getField("endToEnd").setInt(dlp, 0)
-            dlp.javaClass.getField("topToTop").setInt(dlp, 0)
-            dlp.javaClass.getField("bottomToBottom").setInt(dlp, 0)
-            dualContainer.layoutParams = dlp
-        } catch (_: Throwable) {
+        val dualLp = ConstraintLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ).apply {
+            startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+            bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         }
+        signalContainer.addView(dualContainer, dualLp)
 
-        mobileSignal?.visibility = View.GONE
+        // 原生单排信号条只做透明, 不能用 GONE: 它仍占测量空间, 兄弟节点的
+        // endToStart = dualContainer 才有落脚点, 否则约束塌陷又会算成负宽度。
+        mobileSignal?.apply {
+            alpha = 0f
+            visibility = View.INVISIBLE
+        }
 
         // OS3: ConstraintLayout 约束修正
         (signalContainer.findViewByIdName("mobile_type") as? ImageView)?.let { mobileType ->
@@ -290,7 +297,7 @@ private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container
                 val lp = inout.layoutParams
                 lp.javaClass.getField("endToStart").setInt(lp, dualContainerId)
                 lp.javaClass.getField("bottomToBottom").setInt(lp, dualContainerId)
-                lp.javaClass.getField("topToTop").setInt(lp, -1)
+                lp.javaClass.getField("topToTop").setInt(lp, ConstraintLayout.LayoutParams.PARENT_ID)
                 inout.layoutParams = lp
             }
         }
@@ -646,9 +653,33 @@ private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container
                     continue
                 }
                 if (useDualSignal) {
-                    if (child.visibility != View.GONE) child.visibility = View.GONE
+                    // 用 INVISIBLE + alpha=0 而不是 GONE: GONE 会让 ConstraintLayout
+                    // 失去约束锚点, 兄弟节点测量退化, 双排容器宽度被算成负数。
+                    if (child.alpha != 0f) child.alpha = 0f
+                    if (child.visibility != View.INVISIBLE) child.visibility = View.INVISIBLE
                 } else {
                     if (child.visibility != View.VISIBLE) child.visibility = View.VISIBLE
+                    if (child.alpha == 0f) child.alpha = 1f
+                }
+            }
+        }
+
+        // 宽度兜底: 系统 ModernStatusBarMobileViewInjector 用 islandWidth 判定可见性,
+        // 一旦测出 <= 0 就会把整组信号判成不可见(日志里 visible = 0)。
+        // 这里在下一帧复查, 发现非正宽度就重新请求布局并补一次约束, 同时打日志便于排查。
+        if (useDualSignal && dualContainer != null) {
+            dualContainer.post {
+                runCatching {
+                    val w = dualContainer.width
+                    if (w <= 0) {
+                        XposedLog.w(
+                            TAG,
+                            lpparam.packageName,
+                            "dualContainer width=$w, lp=${dualContainer.layoutParams.javaClass.simpleName}, " +
+                                "parent=${(dualContainer.parent as? View)?.javaClass?.simpleName}"
+                        )
+                        dualContainer.requestLayout()
+                    }
                 }
             }
         }
