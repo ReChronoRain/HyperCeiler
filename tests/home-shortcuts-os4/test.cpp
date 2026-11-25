@@ -1,12 +1,40 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "targets/home/home_shortcut_management.h"
+#include "targets/home/home_shortcut_actions.h"
 #include "../runtime-feature-addressing/fixture_image.h"
 #include "fixture.h"
 #include <iostream>
 using namespace home_layout::features::shortcuts;
 static auto identify(const Functions& f){auto bytes=image(f);auto c=Code::parse(bytes);assert(c);return shortcuts::resolve(*c);}
 static Function& function(Functions& f,uint32_t va){return *std::find_if(f.begin(),f.end(),[&](const auto& x){return x.va==va;});}
+
+static void check_freeform_reject_entry() {
+    using namespace home_layout::features::shortcut_actions;
+    home_dynamic::Body words(74, 0xd503201f);
+    words[56] = 0x372001c1; // Existing device rejection branch to word 70.
+    words[69] = 0x37200260; // Getter result branches past the rejection block.
+    assert(has_interior_entry(words, 69, 4));
+    assert(!has_interior_entry(words, 70, 4));
+    words[45] = 0x54000340; // A new conditional edge to word 71.
+    assert(has_interior_entry(words, 70, 4));
+
+    constexpr uintptr_t original = 0x1000, continuation = 0x2000;
+    for (const bool enabled : {false, true}) {
+        for (const uint64_t value : {0x30u, 0x20u, 0x4000u}) {
+            recent_render::Registers saved{};
+            saved.x[22] = 0x8000;
+            saved.x[0] = saved.x[22] + value;
+            auto expected = saved;
+            const bool override = enabled && value == 0x30;
+            expected.branch = override ? continuation : original;
+            assert(apply_freeform(saved, enabled, original, continuation) == override);
+            assert(std::memcmp(&saved, &expected, sizeof(saved)) == 0);
+        }
+    }
+}
+
 int main(){
+    check_freeform_reject_entry();
     const auto f=fixture();auto p=identify(f);assert(p&&p->entry==expected_entry);
     std::map<uint32_t,uint32_t> addresses;auto moved=relocated(f,addresses);
     // Keep the combined ambiguity fixture within Code's 64 MiB image budget.

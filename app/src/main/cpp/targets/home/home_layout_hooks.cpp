@@ -5029,7 +5029,7 @@ void maintain_freeform_shortcut(uint64_t now, bool verify_mapping) {
         uintptr_t resume = 0;
         nhk::CodeSource return_source;
         Words return_words;
-        if (bind_dart_target(plan.device_result, bound.address, bound.source, bound.original_words)
+        if (bind_dart_target(plan.device_reject, bound.address, bound.source, bound.original_words)
             && bind_dart_target(plan.continue_checks, resume, return_source, return_words)) {
             bound.replacement = reinterpret_cast<void*>(hc_freeformshortcut_0_entry);
             bound.original = &hc_freeformshortcut_original;

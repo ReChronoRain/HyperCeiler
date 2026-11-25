@@ -55,9 +55,28 @@ inline bool apply_share_apk(recent_render::Registers& saved, bool enabled,
 }
 
 struct Freeform {
-    uint32_t device_result;
+    uint32_t device_reject;
     uint32_t continue_checks;
 };
+
+inline bool has_interior_entry(const home_dynamic::Body& words, size_t start, size_t count) {
+    for (size_t i = 0; i < words.size(); ++i) {
+        const uint32_t word = words[i];
+        int32_t displacement;
+        if ((word & 0x7c000000u) == 0x14000000u) {
+            displacement = int32_t(word << 6) >> 6;
+        } else if ((word & 0xff000010u) == 0x54000000u || (word & 0x7e000000u) == 0x34000000u) {
+            displacement = int32_t(word << 8) >> 13;
+        } else if ((word & 0x7e000000u) == 0x36000000u) {
+            displacement = int32_t(word << 13) >> 18;
+        } else {
+            continue;
+        }
+        const auto target = int64_t(i) + displacement;
+        if (target > int64_t(start) && target < int64_t(start + count)) return true;
+    }
+    return false;
+}
 
 inline std::optional<Freeform> resolve_freeform(const Code& code) {
     constexpr uint32_t prefix[] = {
@@ -72,9 +91,12 @@ inline std::optional<Freeform> resolve_freeform(const Code& code) {
         if (w.size() != 305 || !std::equal(std::begin(prefix), std::end(prefix), w.begin())) continue;
         // Reuse this menu's native device-approved branch. Its next checks
         // reload their inputs from the frame and retain application eligibility.
-        constexpr uint32_t site = 69, accept = site + 19;
+        constexpr uint32_t site = 69, reject = site + 1, accept = site + 19;
         if (!std::equal(std::begin(result_window), std::end(result_window), w.begin() + site)
             || !std::equal(std::begin(continuation), std::end(continuation), w.begin() + accept)
+            || w[56] != 0x372001c1 || (w[reject + 1] & 0xffc003ffu) != 0xf9400000u
+            || w[reject + 2] != 0xf9402370 || w[reject + 3] != 0x6b10001f
+            || has_interior_entry(w, reject, 4)
             || w[site - 5] != 0xb8473002 || w[site - 4] != 0x8b1c8042
             || w[site - 3] != 0xaa0203e1 || w[site - 2] != 0xf81d83a2
             || w[accept - 2] != 0x9100c2c0 || (w[accept - 1] >> 26) != 5
@@ -88,7 +110,10 @@ inline std::optional<Freeform> resolve_freeform(const Code& code) {
             || !code.body(getter, body) || body.size() < 23
             || body[2] != 0xd10021ef || body[22] != 0xd65f03c0) continue;
         if (result) return {};
-        result = Freeform{function.va + site * 4, function.va + accept * 4};
+        // The branch at word 56 enters the rejection block directly with a
+        // non-boolean x0. Hook the block start and only override the getter's
+        // false result from the fall-through at word 69.
+        result = Freeform{function.va + reject * 4, function.va + accept * 4};
     }
     return result;
 }
