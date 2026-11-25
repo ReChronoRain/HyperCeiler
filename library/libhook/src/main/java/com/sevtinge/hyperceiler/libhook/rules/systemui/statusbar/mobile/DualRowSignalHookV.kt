@@ -48,7 +48,8 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
 import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
@@ -126,9 +127,11 @@ class DualRowSignalHookV : MobileSignalHook() {
             // 系统每次改深浅色都会打到所有 receiver(含原生信号图标), 从参数里取最终色值再套给克隆图标。
             val receiverItf = findClass("com.android.systemui.plugins.DarkIconDispatcher\$DarkReceiver")
             // onDarkChanged 有 boolean 版和 Rect 区间版两种签名, 逐个挂, 避免 SingleResultExpectedException
-            receiverItf.findAllMethods { name("onDarkChanged") }.createAfterHook { param ->
-                val info = darkInfoFromArgs(param.args) ?: return@createAfterHook
-                applyGlobalDarkInfo(info)
+            receiverItf.findAllMethods { name("onDarkChanged") }.createHooks {
+                after { param: HookParam ->
+                    val info = darkInfoFromArgs(param.args) ?: return@after
+                    applyGlobalDarkInfo(info)
+                }
             }
         }.onFailure { e ->
             XposedLog.w(TAG, lpparam.packageName, "hookDarkDispatcherFallback error: ${e.message}")
