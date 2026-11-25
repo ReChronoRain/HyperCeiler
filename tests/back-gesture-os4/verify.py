@@ -1,11 +1,12 @@
 from pathlib import Path
-import subprocess,sys,json
+import os,shlex,subprocess,sys,tempfile
 D=Path(__file__).resolve().parent;W=D.parents[1];R=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else W
 header=R/'app/src/main/cpp/targets/home/home_back_gesture.h'
 if not header.exists():print('BACK_GESTURE=absent; OS4 controls gated; original region unchanged');sys.exit(1)
-out=D/('run-'+R.name);out.mkdir(exist_ok=True)
+image=Path(sys.argv[2]).resolve() if len(sys.argv)>2 else D/'libapp_launcher.so'
 c=r'''
 #include "home_back_gesture.h"
+#include "home_binding_retry.h"
 #include <fstream>
 #include <iostream>
 #include <array>
@@ -62,9 +63,25 @@ int main(int argc,char**argv){
 source=(R/'app/src/main/cpp/targets/home/home_layout_hooks.cpp').read_text(encoding='utf8')
 a=source.index('extern "C" void hc_back_gesture_body(');b=source.index('extern "C" void hc_back_window_entry();',a) if 'hc_back_window_entry' in source else source.index('std::string g_container_path;',a)
 body=source[a:b]
-c=c.replace('using namespace home_layout;', '#include <atomic>\nstd::atomic_bool g_back_regions_ready{true};\nstd::atomic_uint32_t g_back_gesture_config{60u | (100u<<16)},g_back_stock_sequence{0},g_back_stock_config{0};\nstd::atomic_uint64_t g_back_stock_width{0},g_back_generation{1},g_back_stock_generation{0};\nstd::atomic_uint64_t g_back_stock{0};\nstd::atomic_flag g_back_stock_writer=ATOMIC_FLAG_INIT;\n'+body+'\nusing namespace home_layout;')
-(out/'test.cpp').write_text(c)
-cmd=[str(W/'tests/dynamic-address-audit/runtime/zig-windows-x86_64-0.13.0/zig.exe'),'c++','-std=c++20','-O0','-I'+str(R/'app/src/main/cpp/targets/home'),'-I'+str(W/'app/src/main/cpp/targets/home'),'-I'+str(W/'app/src/main/cpp'),str(out/'test.cpp'),'-o',str(out/'test.exe')]
-p=subprocess.run(cmd,capture_output=True,text=True);print(p.stdout+p.stderr,end='');
-if p.returncode:sys.exit(p.returncode)
-p=subprocess.run([str(out/'test.exe'),str(D/'libapp_launcher.so')],capture_output=True,text=True);print(p.stdout+p.stderr,end='');sys.exit(p.returncode)
+a=source.index('std::atomic_uint32_t g_back_gesture_config')
+b=source.index('std::atomic_int g_dock_horizontal_delta',a)
+globals=source[a:b]
+c=c.replace('using namespace home_layout;', '#include <atomic>\n#include <condition_variable>\n#include <mutex>\n'+globals+'\nbool back_regions_enabled(){return g_back_regions_ready;}\n'+body+'\nusing namespace home_layout;')
+c=c.replace(' std::vector<int> packet;', '''
+ g_back_gesture_config=25u|(200u<<16);
+ g_live_back_config=80u|(300u<<16);
+ baseline(1200,2670,0,2573);hc_back_gesture_body(saved.data());
+ ok(integer(8)==437&&integer(21)==2573);
+ g_live_back_config=kStockBackConfig;
+ baseline(1200,2670,0,2573);auto stock=saved;hc_back_gesture_body(saved.data());ok(saved==stock);
+ std::vector<int> packet;''')
+c=c.replace(' std::array<std::byte,784> saved{};', ' g_back_regions_ready=true;g_back_generation=1;\n std::array<std::byte,784> saved{};')
+with tempfile.TemporaryDirectory(prefix='hc-back-core-') as temporary:
+    src=Path(temporary)/'test.cpp'
+    exe=Path(temporary)/'test.exe'
+    src.write_text(c)
+    compiler=shlex.split(os.environ.get('CXX','c++'))
+    include=R/'app/src/main/cpp'
+    subprocess.run([*compiler,'-std=c++20','-O0','-pthread','-I'+str(header.parent),
+                    '-I'+str(include),str(src),'-o',str(exe)],check=True)
+    subprocess.run([str(exe),str(image)],check=True)

@@ -1,6 +1,7 @@
 package android.content
 
 interface SharedPreferences {
+    val all: Map<String, *> get() = emptyMap<String, Any>()
     fun interface OnSharedPreferenceChangeListener {
         fun onSharedPreferenceChanged(preferences: SharedPreferences, key: String?)
     }

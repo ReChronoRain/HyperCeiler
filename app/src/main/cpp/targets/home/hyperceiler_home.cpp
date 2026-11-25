@@ -37,8 +37,8 @@ void prime_home_layout_first_render(int (*hook)(void *, void *, void **),int (*u
 
 void notify_home_layout_library_loaded();
 void notify_home_back_launcher_loaded();
-#ifdef HYPERCEILER_HYOS_BACKEND
-void maintain_hyos_back_regions(home_native::HookFunction hook, home_native::UnhookFunction unhook);
+#ifndef HYPERCEILER_HYOS_BACKEND
+void publish_home_back_preferences(int height, int width);
 #endif
 void home_layout_set_desktop_title_size(int sp);
 void home_layout_set_drawer_title_size(int sp);
@@ -441,6 +441,20 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
     JNIEnv *, jobject) {
     return native_status();
 }
+
+#ifndef HYPERCEILER_HYOS_BACKEND
+extern "C" JNIEXPORT void JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetBackGesture(
+    JNIEnv *, jobject, jint height, jint width) {
+    if (native_installation_blocked() || !is_launcher_process()
+            || height < 10 || height > 100 || width < 100 || width > 400) return;
+    home_layout_prepare_for_launcher_child();
+    publish_home_back_preferences(height, width);
+    if (height != 60 || width != 100) {
+        start_home_layout_hooks("back-prefs", g_hook_function, g_unhook_function);
+    }
+}
+#endif
 
 // The launcher-native motion chain is started by process name, so the Dock preference has to be
 // pushed in explicitly: without this a launcher inside the module's scope keeps its health worker

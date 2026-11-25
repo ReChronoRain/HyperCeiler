@@ -12,6 +12,7 @@ c=r"""
 #include "home_back_gesture.h"
 #include "home_binding_retry.h"
 #include <atomic>
+#include <condition_variable>
 #include <fstream>
 #include <iostream>
 #include <mutex>
