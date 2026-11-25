@@ -7,7 +7,8 @@ constexpr uint64_t kHideReportPolicy=1;
 constexpr uint64_t kDismissAnimationPolicy=2;
 constexpr uint64_t kShortcutMenuPolicy=4;
 constexpr uint64_t kShareApkPolicy=8;
-constexpr uint64_t kShortcutActionPolicies=kShareApkPolicy;
+constexpr uint64_t kFreeformShortcutPolicy=16;
+constexpr uint64_t kShortcutActionPolicies=kShareApkPolicy|kFreeformShortcutPolicy;
 constexpr uint64_t kSupportedPolicies=kHideReportPolicy|kDismissAnimationPolicy;
 template<class Read> bool read_policy_config(Read read,uint64_t& flags,bool optional=true,bool* present=nullptr) {
     flags=0;if(present)*present=false;int32_t magic=0,count=0,lo=0,hi=0;

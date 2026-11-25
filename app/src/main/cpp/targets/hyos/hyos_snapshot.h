@@ -26,7 +26,8 @@ constexpr uint32_t kAllowed = 1;
 constexpr uint32_t kKnownFlags = 63;
 constexpr uint32_t kShortcutMenu = 64;
 constexpr uint32_t kShareApk = 128;
-constexpr uint32_t kShortcutActions = kShareApk;
+constexpr uint32_t kFreeformShortcut = 256;
+constexpr uint32_t kShortcutActions = kShareApk | kFreeformShortcut;
 using Words = std::array<int32_t, kWordCount>;
 static_assert(HC_LAYOUT_KNOB_COUNT == 8);
 static_assert(std::atomic<int32_t>::is_always_lock_free);
@@ -141,6 +142,7 @@ inline bool decode(const Words &words, int64_t now, Snapshot &result) {
     }
     if (candidate.flags & kShortcutMenu) candidate.config.policies |= home_layout::kShortcutMenuPolicy;
     if (candidate.flags & kShareApk) candidate.config.policies |= home_layout::kShareApkPolicy;
+    if (candidate.flags & kFreeformShortcut) candidate.config.policies |= home_layout::kFreeformShortcutPolicy;
     result = candidate;
     return true;
 }

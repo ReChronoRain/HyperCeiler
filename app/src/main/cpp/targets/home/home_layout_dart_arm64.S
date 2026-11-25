@@ -2666,6 +2666,7 @@ recent_entry 0, report
 recent_entry 0, shortcuts
 recent_entry 0, shortcutmenu
 recent_entry 0, shareapk
+recent_entry 0, freeformshortcut
 recent_entry 0, recentshaptic
 recent_entry 1, recentshaptic
 recent_entry 2, recentshaptic

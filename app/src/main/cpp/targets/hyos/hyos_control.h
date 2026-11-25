@@ -18,6 +18,7 @@ constexpr uint32_t kHideReport = 32;
 constexpr uint32_t kKnownFlags = 63;
 constexpr uint32_t kShortcutMenu = 64;
 constexpr uint32_t kShareApk = 128;
+constexpr uint32_t kFreeformShortcut = 256;
 
 inline bool valid_reply(int32_t ack, int32_t available, int32_t flags) {
     return ack == kAck && available == 1 && flags >= 0

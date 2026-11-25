@@ -584,9 +584,8 @@ static bool query_binder(Config &result) {
     if (has_shortcut_menu && (endpoint.capabilities & kShortcutActionsCapability)) {
         int32_t magic = 0, value = 0;
         if (AParcel_readInt32(output, &magic) == STATUS_OK && magic == kShortcutActionsMagic
-            && AParcel_readInt32(output, &value) == STATUS_OK && value >= 0
-            && (static_cast<uint64_t>(value) & ~kShortcutActionPolicies) == 0)
-            candidate.policies |= static_cast<uint64_t>(value);
+            && AParcel_readInt32(output, &value) == STATUS_OK && value >= 0)
+            candidate.policies |= static_cast<uint64_t>(value) & kShortcutActionPolicies;
     }
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {

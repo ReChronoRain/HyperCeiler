@@ -33,6 +33,8 @@ public final class HomeLayoutNativeEndpointOS4 {
     public static final int HYOS_HIDE_REPORT = 32;
     private static final int HYOS_SHORTCUT_MENU = 64;
     private static final int HYOS_SHARE_APK = 128;
+    private static final int HYOS_FREEFORM_SHORTCUT = 256;
+    private static final int HYOS_SHORTCUT_ACTIONS = HYOS_SHARE_APK | HYOS_FREEFORM_SHORTCUT;
     /** HCS1 is a fixed 188-byte atomic authorization + layout reply. HCY1/HCL4 stay unchanged. */
     public static final int COMBINED_TRANSACTION_CODE = 0x00484353;
     public static final int COMBINED_ACK = 0x48435331;
@@ -45,7 +47,8 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static final int COMBINED_SHORTCUT_ACTIONS_ACK = 0x48435334;
     private static final long SHORTCUT_MENU_POLICY = 4;
     private static final long SHARE_APK_POLICY = 8;
-    private static final long SHORTCUT_ACTION_POLICIES = SHARE_APK_POLICY;
+    private static final long FREEFORM_SHORTCUT_POLICY = 16;
+    private static final long SHORTCUT_ACTION_POLICIES = SHARE_APK_POLICY | FREEFORM_SHORTCUT_POLICY;
     private static final String DESCRIPTOR = "android.view.IWindowManager";
     /**
      * Where the current values come from.
@@ -164,6 +167,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         final String key = segment.startsWith("prefs_key_")
             ? segment.substring("prefs_key_".length()) : segment;
         if (HomeLayoutPrefsSnapshot.DISMISS_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.FREEFORM_SHORTCUT_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.SHARE_APK_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENT_ICON_KEY.equals(key)
@@ -460,6 +464,8 @@ public final class HomeLayoutNativeEndpointOS4 {
                     values.put(HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY, 1);
                 if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.SHARE_APK_KEY, 0) == 1)
                     values.put(HomeLayoutPrefsSnapshot.SHARE_APK_KEY, 1);
+                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.FREEFORM_SHORTCUT_KEY, 0) == 1)
+                    values.put(HomeLayoutPrefsSnapshot.FREEFORM_SHORTCUT_KEY, 1);
                 if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_VERSION, 0) == 1) {
                     int dismiss = extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_KEY, -1);
                     if (dismiss == 0 || dismiss == 1) values.put(HomeLayoutPrefsSnapshot.DISMISS_KEY, dismiss);
@@ -691,7 +697,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         // No JNI/remote-preference fallback in a Rust child. Activation requires
         // the module application's authoritative snapshot and normal hook gates.
         if (values == null) return -1;
-        return deriveHyosFlags(values, frameworkReason, checkedFramework) & ~(HYOS_SHORTCUT_MENU | HYOS_SHARE_APK);
+        return deriveHyosFlags(values, frameworkReason, checkedFramework) & ~(HYOS_SHORTCUT_MENU | HYOS_SHORTCUT_ACTIONS);
     }
 
     private static int deriveHyosFlags(java.util.Map<String, Object> values, String frameworkReason,
@@ -715,6 +721,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         if (readBoolean(values, "home_title_hide_report_text", false)) flags |= HYOS_HIDE_REPORT;
         if (readBoolean(values, HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY, false)) flags |= HYOS_SHORTCUT_MENU;
         if (readBoolean(values, HomeLayoutPrefsSnapshot.SHARE_APK_KEY, false)) flags |= HYOS_SHARE_APK;
+        if (readBoolean(values, HomeLayoutPrefsSnapshot.FREEFORM_SHORTCUT_KEY, false)) flags |= HYOS_FREEFORM_SHORTCUT;
         return flags;
     }
 
@@ -820,7 +827,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             : includeShortcut ? COMBINED_SHORTCUT_ACK : includeBack ? COMBINED_BACK_ACK : COMBINED_ACK);
         reply.writeInt(value.available());
         int flags = value.flags();
-        if (!includeShortcutActions) flags &= ~HYOS_SHARE_APK;
+        if (!includeShortcutActions) flags &= ~HYOS_SHORTCUT_ACTIONS;
         if (!includeShortcut && !includeShortcutActions) flags &= ~HYOS_SHORTCUT_MENU;
         reply.writeInt(flags);
         reply.writeLong(value.epoch());
@@ -996,7 +1003,8 @@ public final class HomeLayoutNativeEndpointOS4 {
             (readBoolean(values, "home_title_hide_report_text", false) ? 1L : 0L)
                 | (readBoolean(values, HomeLayoutPrefsSnapshot.DISMISS_KEY, false) ? 2L : 0L)
                 | (readBoolean(values, HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY, false) ? SHORTCUT_MENU_POLICY : 0L)
-                | (readBoolean(values, HomeLayoutPrefsSnapshot.SHARE_APK_KEY, false) ? SHARE_APK_POLICY : 0L),
+                | (readBoolean(values, HomeLayoutPrefsSnapshot.SHARE_APK_KEY, false) ? SHARE_APK_POLICY : 0L)
+                | (readBoolean(values, HomeLayoutPrefsSnapshot.FREEFORM_SHORTCUT_KEY, false) ? FREEFORM_SHORTCUT_POLICY : 0L),
             readDockHorizontal(values), readBoolean(values, HomeLayoutPrefsSnapshot.INFINITE_KEY, false));
     }
 

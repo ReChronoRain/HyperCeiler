@@ -197,6 +197,15 @@ run("share APK follows the authorized snapshot and lease",[]{
  now+=5'000'000'000LL;
  CHECK(!hyos_control::feature_enabled(hyos_control::kShareApk));
 });
+run("freeform shortcut has a separate lease bit",[]{
+ flags=1|hyos_control::kFreeformShortcut;
+ CHECK(boot()&&hyos_control::feature_enabled(hyos_control::kFreeformShortcut));
+ CHECK(!hyos_control::feature_enabled(hyos_control::kShareApk));
+ CHECK(back_config.policies==home_layout::kFreeformShortcutPolicy);
+ flags=1|hyos_control::kShareApk;next_poll();
+ CHECK(!hyos_control::feature_enabled(hyos_control::kFreeformShortcut));
+ CHECK(back_config.policies==home_layout::kShareApkPolicy);
+});
 run("shortcut flag follows the authorized snapshot and lease",[]{
  flags=1|hyos_control::kShortcutMenu;
  CHECK(boot()&&queries==1&&hyos_control::feature_enabled(hyos_control::kShortcutMenu));
