@@ -39,21 +39,20 @@ object OriginFixer {
         return false
     }
 
-    fun rewriteOrigin(origin: String?, pkg: String?, rpId: String?): String? {
+    fun rewriteOrigin(origin: String?, rpId: String?): String? {
         if (origin.isNullOrEmpty()) return null
 
         if (isWebRp(rpId)) {
             return if (origin.startsWith("https://")) null else "https://$rpId"
         }
-        when (FidoPasskeyConfig.originModeFor(pkg)) {
-            "web" -> return if (origin.startsWith("https://")) null else FidoPasskeyConfig.WEB_ORIGIN
-            "base64url" -> if (origin.startsWith("android:apk-key-hash:")) {
-                // apk-key-hash 要求无 padding 的 base64url；客户端给出的编码不规范时会被
-                // 严格校验拒，这里解码后重编码归一（幂等：已规范则返回 null 不动）
-                val hash = origin.substring("android:apk-key-hash:".length)
-                val out = "android:apk-key-hash:" + b64encodeUrlSafe(b64decode(hash))
-                return if (out == origin) null else out
-            }
+        if (FidoPasskeyConfig.OTHER_APPS_MODE == "base64url"
+            && origin.startsWith("android:apk-key-hash:")
+        ) {
+            // apk-key-hash 要求无 padding 的 base64url；客户端给出的编码不规范时会被
+            // 严格校验拒，这里解码后重编码归一（幂等：已规范则返回 null 不动）
+            val hash = origin.substring("android:apk-key-hash:".length)
+            val out = "android:apk-key-hash:" + b64encodeUrlSafe(b64decode(hash))
+            return if (out == origin) null else out
         }
         return null
     }
@@ -101,7 +100,7 @@ object OriginFixer {
             val inner = JSONObject(cjd)
             val pkg = inner.optString("androidPackageName", "")
             val oldOrigin = inner.optString("origin", "")
-            val newOrigin = rewriteOrigin(oldOrigin, pkg, rpId)
+            val newOrigin = rewriteOrigin(oldOrigin, rpId)
             if (newOrigin == null || newOrigin == oldOrigin) return null
             inner.put("origin", newOrigin)
             XposedLog.i(

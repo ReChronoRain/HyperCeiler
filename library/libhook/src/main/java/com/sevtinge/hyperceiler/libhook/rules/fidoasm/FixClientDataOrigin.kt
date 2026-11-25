@@ -33,7 +33,8 @@ object FixClientDataOrigin : BaseHook() {
     override fun useDexKit() = true
 
     override fun initDexKit(): Boolean {
-        processorClasses = requiredMemberList("clientDataProcessor") { bridge ->
+        // optionalMemberList：空命中不抛异常，由 init() 的 NOTHING hooked 警告按源码语义提示重定位
+        processorClasses = optionalMemberList("clientDataProcessor") { bridge ->
             bridge.findClass {
                 matcher {
                     addUsingString(FidoPasskeyConfig.CLIENT_DATA_NEEDLE)

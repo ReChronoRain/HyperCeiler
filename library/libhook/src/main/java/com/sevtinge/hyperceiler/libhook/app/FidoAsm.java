@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.fidoasm.BypassVendorValidate;
 import com.sevtinge.hyperceiler.libhook.rules.fidoasm.FixClientDataOrigin;
+import com.sevtinge.hyperceiler.libhook.rules.fidoasm.FixUserHandle;
 import com.sevtinge.hyperceiler.libhook.rules.fidoasm.ForgeAssetLinkResponse;
 
 @HookBase(targetPackage = "com.fido.asm")
@@ -32,5 +33,6 @@ public class FidoAsm extends BaseLoad {
         initHook(ForgeAssetLinkResponse.INSTANCE, PrefsBridge.getBoolean("unlock_passkeys"));
         initHook(BypassVendorValidate.INSTANCE, PrefsBridge.getBoolean("unlock_passkeys"));
         initHook(FixClientDataOrigin.INSTANCE, PrefsBridge.getBoolean("unlock_passkeys"));
+        initHook(FixUserHandle.INSTANCE, PrefsBridge.getBoolean("unlock_passkeys"));
     }
 }
