@@ -46,7 +46,9 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
@@ -122,8 +124,9 @@ class DualRowSignalHookV : MobileSignalHook() {
             // hookDarkMode 会静默 return, 克隆出来的双排图标就永远不反色。
             // 这里直接钩 plugins.DarkIconDispatcher$DarkReceiver.onDarkChanged:
             // 系统每次改深浅色都会打到所有 receiver(含原生信号图标), 从参数里取最终色值再套给克隆图标。
-            val receiverItf = loadClass("com.android.systemui.plugins.DarkIconDispatcher\$DarkReceiver")
-            receiverItf.findMethod { name("onDarkChanged") }.createAfterHook { param ->
+            val receiverItf = findClass("com.android.systemui.plugins.DarkIconDispatcher\$DarkReceiver")
+            // onDarkChanged 有 boolean 版和 Rect 区间版两种签名, 逐个挂, 避免 SingleResultExpectedException
+            receiverItf.findAllMethods { name("onDarkChanged") }.createAfterHook { param ->
                 val info = darkInfoFromArgs(param.args) ?: return@createAfterHook
                 applyGlobalDarkInfo(info)
             }
