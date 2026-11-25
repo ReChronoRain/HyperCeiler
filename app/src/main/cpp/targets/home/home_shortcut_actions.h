@@ -78,6 +78,43 @@ inline bool has_interior_entry(const home_dynamic::Body& words, size_t start, si
     return false;
 }
 
+inline std::optional<uint32_t> resolve_share_apk_click(const Code& code) {
+    constexpr uint32_t file_check[] = {
+        0xf85f83a0, 0xb840b001, 0x8b1c8021, 0x6b16003f, 0x54000061,
+        0xaa1603e0, 0x14000002,
+    };
+    constexpr uint32_t check_result[] = {0x6b16001f, 0x54000220, 0x37200200};
+    constexpr uint32_t file_exists_prefix[] = {
+        0xa9bf79fd, 0xaa0f03fd, 0xd10081ef, 0xf81f83a1,
+    };
+    constexpr size_t file = 54, exists = 61, result_site = 62;
+    std::optional<uint32_t> result;
+    for (const auto& function : code.functions()) {
+        const auto& w = function.words;
+        if (w.size() != 84 || w[2] != 0xd100e1ef || w[49] != 0x372000a0
+            || w[80] != 0xaa1603e0 || w[83] != 0xd65f03c0
+            || !std::equal(std::begin(file_check), std::end(file_check), w.begin() + file)
+            || !std::equal(std::begin(check_result), std::end(check_result), w.begin() + result_site)
+            || (w[65] & 0xffc003ffu) != 0x91400361u
+            || has_interior_entry(w, result_site, 4)) continue;
+        uint32_t target = 0;
+        home_dynamic::Body body;
+        if (!home_dynamic::target(w[exists], function.va + exists * 4, target)
+            || !code.prefix(target, 4, body)
+            || !std::equal(body.begin(), body.end(), file_exists_prefix)) continue;
+        if (result) return {};
+        result = function.va + result_site * 4;
+    }
+    return result;
+}
+
+inline const char* share_apk_click_result(const recent_render::Registers& saved) {
+    if (saved.x[0] == saved.x[22]) return "file_missing";
+    if (saved.x[0] == saved.x[22] + 0x30) return "file_not_found";
+    if (saved.x[0] == saved.x[22] + 0x20) return "file_ready";
+    return "unexpected_file_check_result";
+}
+
 inline std::optional<Freeform> resolve_freeform(const Code& code) {
     constexpr uint32_t prefix[] = {
         0xa9bf79fd, 0xaa0f03fd, 0xd10101ef, 0xf81f83b6, 0xf81f03a1,
