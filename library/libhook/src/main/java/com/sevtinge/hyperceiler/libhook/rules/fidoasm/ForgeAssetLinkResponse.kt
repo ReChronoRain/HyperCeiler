@@ -32,6 +32,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLConnection
 import java.util.Collections
+import java.util.WeakHashMap
 
 object ForgeAssetLinkResponse : BaseHook() {
 
@@ -42,6 +43,8 @@ object ForgeAssetLinkResponse : BaseHook() {
         Collections.synchronizedSet(HashSet())
     private val hookedMethods: MutableSet<Method> =
         Collections.synchronizedSet(HashSet())
+    private val requestBodies: MutableMap<Any, ByteArrayOutputStream> =
+        Collections.synchronizedMap(WeakHashMap())
 
     override fun init() {
         for (method in URL::class.java.declaredMethods) {
@@ -77,7 +80,15 @@ object ForgeAssetLinkResponse : BaseHook() {
 
         hookNoArgOnce(cls, "getOutputStream") { method ->
             method.createBeforeHook { param ->
-                if (forgedUrl(param.thisObjectOrNull) != null) param.result = ByteArrayOutputStream()
+                val conn = param.thisObjectOrNull
+                if (conn != null && forgedUrl(conn) != null) {
+                    // 请求体收进捕获缓冲（闸门裁决要用），不再是黑洞
+                    val bos = ByteArrayOutputStream()
+                    synchronized(requestBodies) {
+                        requestBodies[conn] = bos
+                    }
+                    param.result = bos
+                }
             }
         }
 
@@ -91,11 +102,19 @@ object ForgeAssetLinkResponse : BaseHook() {
             method.createHook {
                 before { param ->
                     val conn = param.thisObjectOrNull
-                    if (forgedUrl(conn) != null) {
-                        XposedLog.i(TAG, packageName, "FORGE response <= ${describe(conn)}")
-                        param.result = ByteArrayInputStream(
-                            FidoPasskeyConfig.FORGED_ASSETLINK_BODY.toByteArray(Charsets.UTF_8)
-                        )
+                    val forge = forgedUrl(conn)
+                    if (conn != null && forge != null) {
+                        val url = safeUrl(conn)
+                        val reqBody = takeRequestBody(conn)
+                        // assetlink 走闸门裁决（通过体 / 忠实失败体）；其它伪造目标用静态体
+                        val resp = if (url != null && url.contains("/pass/verify/assetlink")) {
+                            AssetlinkGate.forgeResponse(reqBody)
+                        } else {
+                            forge
+                        }
+                        val reqPreview = preview(reqBody?.toByteArray(Charsets.UTF_8) ?: ByteArray(0))
+                        XposedLog.i(TAG, packageName, "FORGE response <= ${describe(conn)} req=$reqPreview")
+                        param.result = ByteArrayInputStream(resp.toByteArray(Charsets.UTF_8))
                     }
                 }
                 after { param ->
@@ -152,6 +171,14 @@ object ForgeAssetLinkResponse : BaseHook() {
 
     private fun forgedUrl(conn: Any?): String? {
         return FidoPasskeyConfig.forgeBodyFor(safeUrl(conn))
+    }
+
+    /** 取走该连接捕获的请求体（getOutputStream 时收进缓冲），无则 null */
+    private fun takeRequestBody(conn: Any): String? {
+        synchronized(requestBodies) {
+            val bos = requestBodies.remove(conn) ?: return null
+            return String(bos.toByteArray(), Charsets.UTF_8)
+        }
     }
 
     private fun safeUrl(conn: Any?): String? {
