@@ -11,8 +11,12 @@
 namespace hyos_snapshot {
 constexpr int32_t kTransaction = 0x00484353;
 constexpr int32_t kAck = 0x48435331;
-constexpr size_t kWordCount = 47;
-constexpr int32_t kByteCount = 188;
+constexpr int32_t kBackTransaction = 0x00484342;
+constexpr int32_t kBackAck = 0x48435332;
+constexpr size_t kLegacyWordCount = 47;
+constexpr size_t kWordCount = kLegacyWordCount + 2;
+constexpr int32_t kByteCount = kLegacyWordCount * sizeof(int32_t);
+constexpr int32_t kBackByteCount = kWordCount * sizeof(int32_t);
 constexpr int64_t kMaxLeaseNanos = 5'000'000'000LL;
 constexpr uint32_t kAllowed = 1;
 constexpr uint32_t kKnownFlags = 63;
@@ -58,11 +62,11 @@ inline bool valid_flags(int32_t flags) {
         && ((flags & 8) == 0 || (flags & 16) != 0);
 }
 
-// Fixed HCS1 Parcel layout: 3 ints, 3 longs, grid/count, 8 knob pairs,
-// tweak count, 17 tweak ints. No optional tail or legacy-format fallback.
+// HCS1 carries the first 47 words. HCS2 appends the two back-region values.
 // The server's BOOTTIME deadline is retained; receipt never renews its lease.
 inline bool decode(const Words &words, int64_t now, Snapshot &result) {
-    if (now <= 0 || words[0] != kAck || (words[1] != 0 && words[1] != 1)
+    const bool has_back = words[0] == kBackAck;
+    if (now <= 0 || (!has_back && words[0] != kAck) || (words[1] != 0 && words[1] != 1)
         || !valid_flags(words[2]) || words[12] != HC_LAYOUT_KNOB_COUNT
         || words[29] != 17) return false;
     Snapshot candidate;
@@ -115,6 +119,14 @@ inline bool decode(const Words &words, int64_t now, Snapshot &result) {
         tweaks[7] != 0, tweaks[5], tweaks[6], tweaks[9] != 0, tweaks[8],
         tweaks[10] != 0, tweaks[11] != 0, tweaks[12] != 0, tweaks[13],
         tweaks[14] != 0, tweaks[15], tweaks[16] != 0};
+    const auto height = words[kLegacyWordCount];
+    const auto width = words[kLegacyWordCount + 1];
+    if (has_back) {
+        if (!within(height, 10, 100) || !within(width, 100, 400)) return false;
+        candidate.config.back_gesture = {height, width};
+    } else if (height != 0 || width != 0) {
+        return false;
+    }
     result = candidate;
     return true;
 }

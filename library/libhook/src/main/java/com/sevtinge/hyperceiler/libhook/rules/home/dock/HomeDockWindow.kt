@@ -599,7 +599,8 @@ class HomeDockWindow : BaseHook() {
                         }
                         val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
                         val hyos = code == HomeLayoutNativeEndpointOS4.HYOS_TRANSACTION_CODE
-                        val combined = code == HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE
+                        val combined = code == HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE ||
+                            code == HomeLayoutNativeEndpointOS4.COMBINED_BACK_TRANSACTION_CODE
                         if (!layout && !hyos && !combined && !DockNativeMotionEndpoint.handles(code)) return@createBeforeHook
                         val data = param.args[1] as Parcel
                         val position = data.dataPosition()
@@ -630,7 +631,8 @@ class HomeDockWindow : BaseHook() {
                     val code = param.args[0] as Int
                     val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
                     val hyos = code == HomeLayoutNativeEndpointOS4.HYOS_TRANSACTION_CODE
-                    val combined = code == HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE
+                    val combinedBack = code == HomeLayoutNativeEndpointOS4.COMBINED_BACK_TRANSACTION_CODE
+                    val combined = combinedBack || code == HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE
                     val state = code == DockNativeMotionEndpoint.STATE_TRANSACTION_CODE
                     if (stopped
                         || (!layout && !hyos && !combined && !state && !DockNativeMotionEndpoint.handles(code))) {
@@ -641,7 +643,7 @@ class HomeDockWindow : BaseHook() {
                     if (combined) {
                         val result = combinedReply.get()
                         combinedReply.remove()
-                        HomeLayoutNativeEndpointOS4.writeCombinedReply(reply, result)
+                        HomeLayoutNativeEndpointOS4.writeCombinedReply(reply, result, combinedBack)
                     } else if (hyos) {
                         val flags = hyosReply.get() ?: -1
                         hyosReply.remove()

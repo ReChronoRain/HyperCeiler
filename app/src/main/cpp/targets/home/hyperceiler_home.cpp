@@ -397,7 +397,6 @@ void hyperceiler_home_runtime_options(bool high_models, bool disable_prestart,
 #ifdef HYPERCEILER_HYOS_BACKEND
 void hyperceiler_home_after_startup() {
     if (native_installation_blocked()) return;
-    maintain_hyos_back_regions(g_hook_function, g_unhook_function);
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     if (hyos_control::feature_enabled(hyos_control::kDock))
         start_dock_native_motion(g_hook_function, g_unhook_function);

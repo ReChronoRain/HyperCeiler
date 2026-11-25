@@ -49,6 +49,26 @@ public final class CombinedSnapshotTest {
  static void join(Thread t){try{t.join(5000);check(!t.isAlive());}catch(InterruptedException e){throw new AssertionError(e);}}
 
  public static void main(String[] args){
+  run("HCS2 appends authorized back values and preserves the HCS1 layout",()->{
+   eq(HomeLayoutNativeEndpointOS4.COMBINED_BACK_TRANSACTION_CODE,0x00484342);
+   publish(prefs("allow_hook",true,"home_navigation_back_area_height",25,"home_navigation_back_area_width",200));
+   var snapshot=read();
+   byte[] legacy=wire(snapshot);
+   var reply=new Parcel(DESC);
+   HomeLayoutNativeEndpointOS4.writeCombinedReply(reply,snapshot,true);
+   eq(reply.dataSize(),196);eq(reply.dataPosition(),196);
+   var bytes=reply.marshall();
+   var frame=ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+   eq(frame.getInt(0),0x48435332);eq(frame.getInt(188),25);eq(frame.getInt(192),200);
+   check(Arrays.equals(legacy,4,188,bytes,4,188));
+   publish(prefs("allow_hook",false,"home_navigation_back_area_height",25,"home_navigation_back_area_width",200));
+   for(var inactive:new HomeLayoutNativeEndpointOS4.CombinedSnapshot[]{read(),null}){
+    HomeLayoutNativeEndpointOS4.writeCombinedReply(reply,inactive,true);
+    eq(reply.dataSize(),196);eq(reply.dataPosition(),196);
+    frame=ByteBuffer.wrap(reply.marshall()).order(ByteOrder.LITTLE_ENDIAN);
+    eq(frame.getInt(0),0x48435332);eq(frame.getLong(188),0L);
+   }
+  });
   run("exact independent transaction and ACK constants",()->{eq(HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE,0x00484353);eq(HomeLayoutNativeEndpointOS4.COMBINED_ACK,0x48435331);eq(HomeLayoutNativeEndpointOS4.COMBINED_REPLY_BYTES,188);eq(HomeLayoutNativeEndpointOS4.HYOS_TRANSACTION_CODE,0x00484359);eq(HomeLayoutNativeEndpointOS4.TRANSACTION_CODE,0x0048434c);});
   run("cold missing combined snapshot unavailable not guessed layout",()->{inactive(read(),0);eq(read().epoch(),0L);eq(read().revision(),0L);});
   run("old reload numeric cache cannot activate combined snapshot",()->{BaseHook.putHotReloadRuntimeState("OS4.HomeLayout.ProviderSnapshot.v1",Map.of("allow_hook",1,"home_layout_unlock_grids_new",1,"home_layout_unlock_grids_cell_x",9));inactive(read(),0);check(get("cachedValues")!=null);});

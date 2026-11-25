@@ -8023,8 +8023,8 @@ void notify_home_back_launcher_loaded() {
 }
 
 #ifdef HYPERCEILER_HYOS_BACKEND
-void maintain_hyos_back_regions(HookFunction hook, UnhookFunction unhook) {
-    if (!hook || !hyos_control::allowed()) return;
+void hyperceiler_home_maintain_back_gesture(HookFunction hook, UnhookFunction unhook) {
+    if (!hook || nhk::home_safe_mode::decision().blocked) return;
     home_layout::Config config;
     if (!hyos_control::layout_config(config)) return;
     g_back_gesture_config.store(uint32_t(config.back_gesture.height)
