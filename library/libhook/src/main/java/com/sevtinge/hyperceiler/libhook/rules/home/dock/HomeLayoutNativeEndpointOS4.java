@@ -31,12 +31,16 @@ public final class HomeLayoutNativeEndpointOS4 {
     public static final int HYOS_SOFT_GLASS = 8;
     public static final int HYOS_DOCK = 16;
     public static final int HYOS_HIDE_REPORT = 32;
+    private static final int HYOS_SHORTCUT_MENU = 64;
     /** HCS1 is a fixed 188-byte atomic authorization + layout reply. HCY1/HCL4 stay unchanged. */
     public static final int COMBINED_TRANSACTION_CODE = 0x00484353;
     public static final int COMBINED_ACK = 0x48435331;
     public static final int COMBINED_REPLY_BYTES = 188;
     public static final int COMBINED_BACK_TRANSACTION_CODE = 0x00484342;
     private static final int COMBINED_BACK_ACK = 0x48435332;
+    public static final int COMBINED_SHORTCUT_TRANSACTION_CODE = 0x00484355;
+    private static final int COMBINED_SHORTCUT_ACK = 0x48435333;
+    private static final long SHORTCUT_MENU_POLICY = 4;
     private static final String DESCRIPTOR = "android.view.IWindowManager";
     /**
      * Where the current values come from.
@@ -155,6 +159,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         final String key = segment.startsWith("prefs_key_")
             ? segment.substring("prefs_key_".length()) : segment;
         if (HomeLayoutPrefsSnapshot.DISMISS_KEY.equals(key)
+            || HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENT_ICON_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.RECENT_TEXT_KEY.equals(key)
             || HomeLayoutPrefsSnapshot.INFINITE_KEY.equals(key)
@@ -445,6 +450,8 @@ public final class HomeLayoutNativeEndpointOS4 {
                 // It must not erase a complete cache, especially while an APK is being replaced.
                 if (!isProviderSchema(cursor)) return null;
                 final android.os.Bundle extras = cursor.getExtras();
+                if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY, 0) == 1)
+                    values.put(HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY, 1);
                 if (extras != null && extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_VERSION, 0) == 1) {
                     int dismiss = extras.getInt(HomeLayoutPrefsSnapshot.DISMISS_KEY, -1);
                     if (dismiss == 0 || dismiss == 1) values.put(HomeLayoutPrefsSnapshot.DISMISS_KEY, dismiss);
@@ -676,7 +683,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         // No JNI/remote-preference fallback in a Rust child. Activation requires
         // the module application's authoritative snapshot and normal hook gates.
         if (values == null) return -1;
-        return deriveHyosFlags(values, frameworkReason, checkedFramework);
+        return deriveHyosFlags(values, frameworkReason, checkedFramework) & ~HYOS_SHORTCUT_MENU;
     }
 
     private static int deriveHyosFlags(java.util.Map<String, Object> values, String frameworkReason,
@@ -698,6 +705,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             if (readInt(values, "home_dock_add_blur", 0) == 1) flags |= HYOS_SOFT_GLASS;
         }
         if (readBoolean(values, "home_title_hide_report_text", false)) flags |= HYOS_HIDE_REPORT;
+        if (readBoolean(values, HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY, false)) flags |= HYOS_SHORTCUT_MENU;
         return flags;
     }
 
@@ -786,13 +794,17 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     public static void writeCombinedReply(Parcel reply, CombinedSnapshot result, boolean includeBack) {
+        writeCombinedReply(reply, result, includeBack, false);
+    }
+
+    public static void writeCombinedReply(Parcel reply, CombinedSnapshot result, boolean includeBack, boolean includeShortcut) {
         final CombinedSnapshot value = result == null ? unavailableCombined(null) : result;
         final Snapshot layout = value.layout();
         reply.setDataSize(0);
         reply.setDataPosition(0);
-        reply.writeInt(includeBack ? COMBINED_BACK_ACK : COMBINED_ACK);
+        reply.writeInt(includeShortcut ? COMBINED_SHORTCUT_ACK : includeBack ? COMBINED_BACK_ACK : COMBINED_ACK);
         reply.writeInt(value.available());
-        reply.writeInt(value.flags());
+        reply.writeInt(includeShortcut ? value.flags() : value.flags() & ~HYOS_SHORTCUT_MENU);
         reply.writeLong(value.epoch());
         reply.writeLong(value.revision());
         reply.writeLong(value.deadline());
@@ -806,7 +818,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         }
         reply.writeInt(TWEAK_COUNT);
         for (int valuePart : layout.tweaks()) reply.writeInt(valuePart);
-        if (includeBack) {
+        if (includeBack || includeShortcut) {
             final boolean authorized = value.available() == 1 && value.flags() != 0;
             reply.writeInt(authorized ? layout.backGesture()[0] : 0);
             reply.writeInt(authorized ? layout.backGesture()[1] : 0);
@@ -857,7 +869,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                 return denied("title size out of range");
             }
             if (read.dockHorizontalDelta() < -20 || read.dockHorizontalDelta() > 80) return denied("dock horizontal margin out of range");
-            if ((read.policies() & ~3L) != 0) return denied("unsupported layout policy bits");
+            if ((read.policies() & ~(3L | SHORTCUT_MENU_POLICY)) != 0) return denied("unsupported layout policy bits");
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
             read.knobEnabled(), read.knobDeltaDp(), read.tweaks(), read.title(), read.customTitles(),
             read.widgetAllowMove(), read.folder().clone(), read.backGesture().clone(), read.folderAutoClose(), read.objectScales().clone(), read.dockShowTitle(), read.recent().clone(), read.drawerHideSearch(), read.policies(), read.dockHorizontalDelta(), read.infiniteScroll());
@@ -964,7 +976,8 @@ public final class HomeLayoutNativeEndpointOS4 {
                 boundedBack(readInt(values, "home_navigation_back_area_width", 100), 100, 400, 100)}, readBoolean(values, "home_folder_auto_close", false), readObjectScales(values),
             readBoolean(values, "home_dock_icon_title", false), readRecent(values), readBoolean(values, "home_drawer_hide_search", false),
             (readBoolean(values, "home_title_hide_report_text", false) ? 1L : 0L)
-                | (readBoolean(values, HomeLayoutPrefsSnapshot.DISMISS_KEY, false) ? 2L : 0L),
+                | (readBoolean(values, HomeLayoutPrefsSnapshot.DISMISS_KEY, false) ? 2L : 0L)
+                | (readBoolean(values, HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY, false) ? SHORTCUT_MENU_POLICY : 0L),
             readDockHorizontal(values), readBoolean(values, HomeLayoutPrefsSnapshot.INFINITE_KEY, false));
     }
 
@@ -1038,7 +1051,12 @@ public final class HomeLayoutNativeEndpointOS4 {
     public static final int ENDPOINT_DIAGNOSTICS_MAGIC = 0x48434431;
     public static final int ENDPOINT_DIAGNOSTICS_SCHEMA = 1;
     public static final int ENDPOINT_REVISION = 20261028;
-    public static final int ENDPOINT_CAPABILITIES = 127; // object scales + Dock titles + recents + drawer search + layout policies
+    public static final int ENDPOINT_CAPABILITIES = 255;
+
+    public static void writeShortcutMenu(Parcel reply, long policies) {
+        reply.writeInt(0x4843534d);
+        reply.writeInt((policies & SHORTCUT_MENU_POLICY) != 0 ? 1 : 0);
+    }
 
     public static final int INFINITE_SCROLL_MAGIC = 0x48434957;
     public static void writeInfiniteScroll(Parcel reply, boolean enabled) {
@@ -1051,6 +1069,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
     public static final int POLICY_MAGIC = 0x4843504f;
     public static void writePolicies(Parcel reply, long flags) {
+        flags &= ~SHORTCUT_MENU_POLICY;
         reply.writeInt(POLICY_MAGIC);reply.writeInt(2);
         reply.writeInt((int) flags);reply.writeInt((int) (flags >>> 32));
     }

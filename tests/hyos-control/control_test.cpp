@@ -48,7 +48,7 @@ std::atomic_int prepares{},executions{},maintenances{},revocations{},restoration
 std::atomic_int recents_services{},recents_cancels{},recents_prepares{};
 hyos_snapshot::Snapshot recents_frame;bool recents_read=false;
 home_layout::Config back_config;
-bool back_authorized=false, legacy_endpoint=false;
+bool back_authorized=false, legacy_endpoint=false, back_endpoint=false;
 int back_services=0;
 std::atomic_bool fail_prepare_startup{},execute_authorized{},revoke_pending{},force_restore_failure{};
 std::atomic<int64_t> sequence{0},server_age{0};
@@ -60,7 +60,7 @@ std::atomic<int64_t> now{1'000'000'000LL};std::atomic_bool bad_clock{},fail_watc
 std::mutex threads_mutex;std::vector<std::thread> threads;
 void join_workers(){std::vector<std::thread> copy;{std::lock_guard l(threads_mutex);copy.swap(threads);}for(auto &t:copy)if(t.joinable())t.join();}
 std::atomic_bool no_symbol{},no_service{},fail_associate{},fail_prepare{},null_input{},fail_transact{},null_output{},fail_worker{},fail_init{};
-std::atomic_int ack{hyos_snapshot::kBackAck},available{1},flags{1},bytes{196},read_fail{-1};
+std::atomic_int ack{hyos_snapshot::kShortcutAck},available{1},flags{1},bytes{196},read_fail{-1};
 std::mutex events_mutex;std::vector<std::string> events;std::vector<unsigned> options;
 int hook(void *target,void *,void **original){if(original!=nullptr)*original=target;return ZN_SUCCESS;}int unhook(void *){return ZN_SUCCESS;}
 ZygiskNextAPI api{};
@@ -74,13 +74,13 @@ void reset(){g_api=nullptr;g_active=false;g_worker_started=false;g_watchdog_star
  g_startup_requested=g_startup_applied=g_startup_declined=0;g_startup_error=home_startup::Error::None;g_last_startup_phase=StartupPhase::Pending;
  prepares=executions=maintenances=revocations=restorations=post_startups=0;
  recents_services=recents_cancels=recents_prepares=0;recents_frame={};recents_read=false;
- back_config={};back_authorized=legacy_endpoint=false;back_services=0;
+ back_config={};back_authorized=legacy_endpoint=back_endpoint=false;back_services=0;
  g_last_recents_status={home_recents::Phase::Cold,home_recents::Error::None,false,0};
  fail_prepare_startup=execute_authorized=revoke_pending=force_restore_failure=false;
  sequence=server_age=0;execute_outcome=home_startup::Outcome::Applied;frame_edit=nullptr;
  queries=inits=workers=detaches=allocations=deletes=dec_strong=options_calls=poll_threads=watchdogs=service_refs=report_retries=0;now=1'000'000'000LL;bad_clock=fail_watchdog=false;
  no_symbol=no_service=fail_associate=fail_prepare=null_input=fail_transact=null_output=fail_worker=fail_init=false;
- ack=hyos_snapshot::kBackAck;available=1;flags=1;bytes=196;read_fail=-1;binder.clazz=&type;api={};api.inlineHook=hook;api.inlineUnhook=unhook;events.clear();options.clear();}
+ ack=hyos_snapshot::kShortcutAck;available=1;flags=1;bytes=196;read_fail=-1;binder.clazz=&type;api={};api.inlineHook=hook;api.inlineUnhook=unhook;events.clear();options.clear();}
 unsigned last_options(){std::lock_guard l(events_mutex);return options.empty()?999:options.back();}
 void record(const char *name){hyperceiler_hyos_record_home_library(name);}
 void next_poll(){std::thread t([]{poll_flags();});t.join();}
@@ -101,11 +101,12 @@ bool AIBinder_associateClass(AIBinder *b,const AIBinder_Class *t){if(fixture::fa
 binder_status_t AIBinder_prepareTransaction(AIBinder *,AParcel **p){if(!fixture::null_input)*p=fixture::parcel();return fixture::fail_prepare?STATUS_BAD_VALUE:STATUS_OK;}
 binder_status_t AIBinder_transact(AIBinder *,transaction_code_t code,AParcel **input,AParcel **output,uint32_t opts){
  const bool legacy=code==hyos_snapshot::kTransaction;
- CHECK((legacy?fixture::legacy_endpoint:code==hyos_snapshot::kBackTransaction)&&opts==0&&*input!=nullptr);++fixture::queries;
- if(!legacy&&fixture::legacy_endpoint){
+ const bool back=code==hyos_snapshot::kBackTransaction;
+ CHECK((legacy||back||code==hyos_snapshot::kShortcutTransaction)&&opts==0&&*input!=nullptr);++fixture::queries;
+ if((!legacy&&fixture::legacy_endpoint)||(!legacy&&!back&&fixture::back_endpoint)){
   AParcel_delete(*input);*input=nullptr;return STATUS_UNKNOWN_TRANSACTION;
  }
- auto words=hyos_snapshot::unavailable_words();words[0]=legacy?hyos_snapshot::kAck:fixture::ack.load();words[1]=fixture::available;
+ auto words=hyos_snapshot::unavailable_words();words[0]=legacy?hyos_snapshot::kAck:back?hyos_snapshot::kBackAck:fixture::ack.load();words[1]=fixture::available;
  words[2]=fixture::available==0?0:fixture::flags.load();
  auto put=[&](size_t at,int64_t value){uint64_t bits=static_cast<uint64_t>(value);words[at]=static_cast<int32_t>(bits);words[at+1]=static_cast<int32_t>(bits>>32);};
  put(3,123);put(5,++fixture::sequence);
@@ -114,7 +115,7 @@ binder_status_t AIBinder_transact(AIBinder *,transaction_code_t code,AParcel **i
   words[9]=1;words[10]=7;words[11]=10;
   const int32_t tweaks[]{5,0,8,5,0,8,5,0,102,0,0,0,0,100,0,100,0};
   for(size_t i=0;i<17;++i)words[30+i]=tweaks[i];
-  words[47]=60;words[48]=100;
+  if(!legacy){words[47]=60;words[48]=100;}
  }
  if(fixture::frame_edit)fixture::frame_edit(words);
  fixture::query_gate.block();
@@ -171,9 +172,25 @@ run("back config is loaded and refreshed while Dart startup is pending",[]{
 });
 run("old endpoint retains layout and stock back values",[]{
  legacy_endpoint=true;
- CHECK(boot()&&queries==2&&back_services==1&&back_authorized);
+ CHECK(boot()&&queries==3&&back_services==1&&back_authorized);
  CHECK(back_config.grid_enabled&&back_config.cell_x==7);
  CHECK(back_config.back_gesture.height==60&&back_config.back_gesture.width==100);
+});
+run("back endpoint fallback preserves layout and back geometry",[]{
+ back_endpoint=true;
+ frame_edit=[](hyos_snapshot::Words &words){words[47]=25;words[48]=200;};
+ CHECK(boot()&&queries==2&&back_authorized&&back_config.grid_enabled);
+ CHECK(back_config.back_gesture.height==25&&back_config.back_gesture.width==200);
+ CHECK(!hyos_control::feature_enabled(hyos_control::kShortcutMenu));
+});
+run("shortcut flag follows the authorized snapshot and lease",[]{
+ flags=1|hyos_control::kShortcutMenu;
+ CHECK(boot()&&queries==1&&hyos_control::feature_enabled(hyos_control::kShortcutMenu));
+ CHECK(back_config.policies&home_layout::kShortcutMenuPolicy);
+ flags=1;next_poll();
+ CHECK(!hyos_control::feature_enabled(hyos_control::kShortcutMenu)&&back_config.policies==0);
+ flags=1|hyos_control::kShortcutMenu;next_poll();now+=5'000'000'000LL;
+ CHECK(!hyos_control::feature_enabled(hyos_control::kShortcutMenu));
 });
 run("Recents service reads whole published HCS without extra Binder queries",[]{
  frame_edit=[](hyos_snapshot::Words &words){words[44]=1;words[45]=175;};
@@ -220,11 +237,11 @@ run("repeated starts never spawn replacement for stalled worker",[]{query_gate.a
 run("null or incomplete API keeps active companion closed",[]{CHECK(!hyperceiler_hyos_start_home_control(nullptr));CHECK(hyos_control::active()&&!hyos_control::allowed()&&workers==0);api.inlineHook=nullptr;CHECK(!hyperceiler_hyos_start_home_control(&api));CHECK(workers==0);});
 run("different API publication rejected",[]{boot();auto other=api;CHECK(!hyperceiler_hyos_start_home_control(&other));CHECK(workers==2);});
 run("record accepts only exact known basenames and null is inert",[]{record(nullptr);record("libapp.so.bak");record("otherlibapp.so");CHECK(g_pending_libraries==0&&workers==0);record("/data/a.apk!/lib/libapp.so");CHECK(g_pending_libraries==2);});
-run("unknown and zero feature mask cannot pass lease check",[]{flags=63;boot();CHECK(!hyos_control::feature_enabled(0)&&!hyos_control::feature_enabled(64)&&hyos_control::feature_enabled(2|32));});
+run("unknown and zero feature mask cannot pass lease check",[]{flags=63;boot();CHECK(!hyos_control::feature_enabled(0)&&!hyos_control::feature_enabled(128)&&hyos_control::feature_enabled(2|32));});
 for(int bits=0;bits<=63;++bits)run(("wire flags "+std::to_string(bits)).c_str(),[bits]{flags=bits;boot();bool valid=bits==0||((bits&1)&&(!(bits&8)||(bits&16)));CHECK((inits==1)==(valid&&(bits&1)));CHECK(hyos_control::allowed()==(valid&&(bits&1)));CHECK(last_options()==(valid&&(bits&1)?static_cast<unsigned>(bits&62):0));});
 for(int failure=0;failure<15;++failure)run(("transport or malformed reply "+std::to_string(failure)).c_str(),[failure]{switch(failure){case 0:no_symbol=true;break;case 1:no_service=true;break;case 2:binder.clazz=&bad_type;break;case 3:binder.clazz=nullptr;fail_associate=true;break;case 4:fail_prepare=true;break;case 5:null_input=true;break;case 6:fail_transact=true;break;case 7:null_output=true;break;case 8:bytes=16;break;case 9:bytes=8;break;case 10:ack=0;break;case 11:available=2;break;case 12:read_fail=0;break;case 13:read_fail=1;break;case 14:read_fail=2;break;}CHECK(!boot());CHECK(inits==0&&last_options()==0&&!hyos_control::allowed()&&g_pending_libraries==2);});
 run("unassociated remote Binder uses exact descriptor",[]{binder.clazz=nullptr;CHECK(boot());CHECK(inits==1&&events.size()==1);});
-run("unknown flag bit refused",[]{flags=65;CHECK(!boot());CHECK(inits==0);});
+run("unknown flag bit refused",[]{flags=129;CHECK(!boot());CHECK(inits==0);});
 run("first snapshot alone owns installation and later notifications cannot retry",[]{flags=63;CHECK(boot());CHECK(executions==0&&post_startups==0&&report_retries==0);hyos_control::on_first_home_snapshot(0x100000);CHECK(executions==1&&execute_authorized&&g_startup_phase==StartupPhase::Applied);hyos_control::on_first_home_snapshot(0x100000);next_poll();CHECK(executions==1&&maintenances==1&&post_startups==1&&report_retries==1);});
 run("window arriving before preparation is permanently missed",[]{hyos_control::on_first_home_snapshot(0x100000);CHECK(g_startup_phase==StartupPhase::Missed);CHECK(boot());hyos_control::on_first_home_snapshot(0x100000);next_poll();CHECK(executions==0&&maintenances==0&&g_startup_prepared);});
 run("window arriving while native initialization blocks never waits or retries",[]{init_gate.arm();CHECK(!hyperceiler_hyos_start_home_control(&api));init_gate.wait();auto start=std::chrono::steady_clock::now();hyos_control::on_first_home_snapshot(0x100000);auto elapsed=std::chrono::steady_clock::now()-start;init_gate.release();join_workers();CHECK(elapsed<std::chrono::milliseconds(100)&&g_startup_phase==StartupPhase::Missed&&executions==0);next_poll();CHECK(executions==0);});

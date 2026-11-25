@@ -488,7 +488,7 @@
       "page": "home_other_new",
       "key": "prefs_key_home_other_shortcut_remove_restrictions",
       "title": "解锁快捷菜单数量限制",
-      "status": "ui_gate_unadapted",
+      "status": "declared_adapted_requires_evidence",
       "dependency": null
     },
     {

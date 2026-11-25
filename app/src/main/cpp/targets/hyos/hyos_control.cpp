@@ -196,18 +196,22 @@ bool query_snapshot(hyos_snapshot::Words &words) {
         if (input != nullptr) AParcel_delete(input);
         input = nullptr;
     };
-    bool legacy = false;
+    auto expected_ack = hyos_snapshot::kShortcutAck;
     if (associated) {
-        transact(hyos_snapshot::kBackTransaction);
-        if (status == STATUS_UNKNOWN_TRANSACTION) {
+        const auto fallback = [&](int32_t code, int32_t ack) {
+            if (status != STATUS_UNKNOWN_TRANSACTION) return;
             if (output != nullptr) AParcel_delete(output);
             output = nullptr;
             status = STATUS_BAD_VALUE;
-            legacy = true;
-            transact(hyos_snapshot::kTransaction);
-        }
+            expected_ack = ack;
+            transact(code);
+        };
+        transact(hyos_snapshot::kShortcutTransaction);
+        fallback(hyos_snapshot::kBackTransaction, hyos_snapshot::kBackAck);
+        fallback(hyos_snapshot::kTransaction, hyos_snapshot::kAck);
     }
     AIBinder_decStrong(window);
+    const bool legacy = expected_ack == hyos_snapshot::kAck;
     bool valid = status == STATUS_OK && output != nullptr
         && AParcel_getDataSize(output) == (legacy ? hyos_snapshot::kByteCount : hyos_snapshot::kBackByteCount);
     // Android Parcel aligns both primitives to four bytes. This arm64-only
@@ -218,7 +222,7 @@ bool query_snapshot(hyos_snapshot::Words &words) {
         if (!valid || AParcel_readInt32(output, &words[index]) != STATUS_OK) { valid = false; break; }
     }
     if (output != nullptr) AParcel_delete(output);
-    return valid && words[0] == (legacy ? hyos_snapshot::kAck : hyos_snapshot::kBackAck);
+    return valid && words[0] == expected_ack;
 }
 
 void poll_flags() {
@@ -364,7 +368,7 @@ bool ensure_thread(std::atomic_bool &started, void *(*body)(void *)) {
 namespace hyos_control {
 bool active() { return g_active.load(std::memory_order_acquire); }
 bool feature_enabled(uint32_t flag) {
-    if (flag == 0 || (flag & ~kKnownFlags) != 0) return false;
+    if (flag == 0 || (flag & ~(kKnownFlags | kShortcutMenu)) != 0) return false;
     unsigned flags = 0;
     return fresh_flags(flags) && (flags & kAllowed) != 0 && (flags & flag) == flag;
 }

@@ -238,7 +238,8 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(kRecentMagic); put_u32(kRecentWireCount);
     for(int i=0;i<kRecentWireCount;++i)put_u32(config.recent.values[i]);
     put_u32(kDrawerMagic);put_u32(config.drawer_hide_search);
-    put_u32(kPolicyMagic);put_u32(2);put_u32(uint32_t(config.policies));put_u32(uint32_t(config.policies>>32));
+    const auto cached_policies = config.policies & kSupportedPolicies;
+    put_u32(kPolicyMagic);put_u32(2);put_u32(uint32_t(cached_policies));put_u32(uint32_t(cached_policies>>32));
     put_u32(kDockHorizontalMagic);put_u32(1);put_u32(uint32_t(config.dock_horizontal));
     put_u32(kInfiniteScrollMagic);put_u32(config.infinite_scroll?1:0);
     put_u32(kRecentHeaderMagic);put_u32(config.recent.values[RecentConfig::HideIcon]|(config.recent.values[RecentConfig::HideText]<<1));
@@ -571,6 +572,12 @@ static bool query_binder(Config &result) {
     if(valid&&has_infinite_scroll)valid=read_recent_header([&](int32_t& word){
         return AParcel_readInt32(output,&word)==STATUS_OK;
     },candidate.recent,true,&has_recent_header);
+    if (valid && has_recent_header && (endpoint.capabilities & kShortcutMenuCapability)) {
+        int32_t magic = 0, value = 0;
+        if (AParcel_readInt32(output, &magic) == STATUS_OK && magic == kShortcutMenuMagic
+            && AParcel_readInt32(output, &value) == STATUS_OK && value == 1)
+            candidate.policies |= kShortcutMenuPolicy;
+    }
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
         return value >= lo && value <= hi;
