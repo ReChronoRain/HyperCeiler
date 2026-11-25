@@ -12,7 +12,7 @@ b=Path(__file__).resolve().parent;r=b.parents[1];j=test_paths.JAVA_HOME/'bin'
 prod=[r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'/f for f in ['rules/home/dock/HomeLayoutNativeEndpointOS4.java','provider/HomeLayoutPrefsSnapshot.java','provider/HomeGesturePrefsSnapshot.java','base/FrameworkHookGate.java']]
 prod += [r/'library/common/src/main/java/com/sevtinge/hyperceiler/common/log/ModuleLog.java']
 tests=['HomeLayoutNativeEndpointOS4Test','HomeLayoutIdleSnapshotTest','HomeLayoutAtomicReloadTest'];old=r/'tests/home-layout-native'
-stubs=list((old/'stubs').rglob('*.java'))+[r/'tests/home-dock-window/stubs/android/os'/f for f in ['Binder.java','IBinder.java','Parcel.java']]
+stubs=[p for p in (old/'stubs').rglob('*.java') if p.name!='ModuleLog.java']+[r/'tests/home-dock-window/stubs/android/os'/f for f in ['Binder.java','IBinder.java','Parcel.java']]
 with tempfile.TemporaryDirectory(prefix='hc-hyos-legacy-layout-') as t:
  cmd=[str(j/'javac'),'--release','21','-encoding','UTF-8','-d',t,*map(str,stubs+prod+[old/(f+'.java') for f in tests])]
  z=subprocess.run(cmd,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT);(a.output/'legacy-build.txt').write_text(z.stdout)

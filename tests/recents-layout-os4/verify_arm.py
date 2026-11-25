@@ -7,7 +7,8 @@ sys.path.insert(0,str(ROOT/'tests/home-layout-native'))
 from dart_dump import Elf
 from unicorn import Uc,UC_ARCH_ARM64,UC_MODE_ARM,UC_HOOK_CODE
 from unicorn import arm64_const as A
-clang=next((Path(sys.argv[1])/'toolchains/llvm/prebuilt').glob('*/bin/clang'))
+clang=next(p for p in (Path(sys.argv[1])/'toolchains/llvm/prebuilt').glob('*/bin/clang*')
+           if p.name in ('clang', 'clang.exe'))
 with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
  obj=Path(work)/'bank.o';subprocess.run([str(clang),'--target=aarch64-linux-android35','-I'+str(ROOT/'app/src/main/cpp'),'-c',str(ROOT/'app/src/main/cpp/targets/home/home_layout_dart_arm64.S'),'-o',str(obj)],check=True)
  elf=Elf(obj);sym=elf.sections[elf.section_names['.symtab']];strings=elf.sections[sym[6]];strings=elf.data[strings[4]:strings[4]+strings[5]];symbols=[]
@@ -16,10 +17,10 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
  text_index=elf.section_names['.text'];section=elf.sections[text_index];raw=elf.data[section[4]:section[4]+section[5]]
  code_base,callback,stop,stack,dart_frame=0x100000,0x400000,0x401000,0x608000,0x708000
  checks=0
- for family,index in [('recent',i) for i in (0,1,16,63)]+[('prestart',0),('drawer',0),('drawer',1),('report',0),('shortcuts',0)]+[('recentshaptic',i) for i in range(7)]:
+ for family,index in [('recent',i) for i in (0,1,16,63)]+[('prestart',0),('drawer',0),('drawer',1),('report',0),('shortcuts',0),('shortcutmenu',0)]+[('recentshaptic',i) for i in range(7)]:
   start=next(v for n,s,v in symbols if n==f'hc_{family}_{index}_entry')
   end=next((v for n,s,v in symbols if s==text_index and v>start and n.startswith('hc_') and n.endswith('_entry')),len(raw))
-  for terminal in ((False,) if family=='drawer' else (False,True)):
+  for terminal in ((False,) if family in ('drawer','shortcutmenu') else (False,True)):
    haptic_disabled=terminal and family=='recentshaptic'
    if family=='recentshaptic':terminal=False
    for changed_reg in ((0,1,3,18,29) if family=='recent' else (0,)):
@@ -47,6 +48,9 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
     u.mem_write(0x420000,struct.pack('<I',int(not haptic_disabled)))
     u.mem_write(0x421000,struct.pack('<7Q',*([stop]*7)))
     regs={i:0x123000+i*32 for i in range(31)};regs.update({15:dart_frame-128,29:dart_frame,30:stop})
+    if family=='shortcutmenu':
+     regs[0]=4
+     regs[30]=code_base+start
     q={i:(i+1)<<80|0x76540000+i for i in range(32)}
     for i,v in regs.items():u.reg_write(getattr(A,f'UC_ARM64_REG_X{i}'),v)
     for i,v in q.items():u.reg_write(getattr(A,f'UC_ARM64_REG_Q{i}'),v)
@@ -63,7 +67,7 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
      assert int.from_bytes(uc.mem_read(saved+248,8),'little')==0xa0000000
      assert int.from_bytes(uc.mem_read(saved+768,8),'little')==0x400000
      assert int.from_bytes(uc.mem_read(saved+776,8),'little')==0x10
-     expected_x[changed_reg]=0xabc00000+changed_reg
+     expected_x[changed_reg]=6 if family=='shortcutmenu' else 0xabc00000+changed_reg
      expected_q[3]=(0xaabbcc<<80)|0x112233
      if family=='drawer' and index==0:uc.mem_write(dart_frame-8,struct.pack('<Q',regs[22]))
      uc.mem_write(saved+changed_reg*8,struct.pack('<Q',expected_x[changed_reg]))
@@ -91,4 +95,4 @@ with tempfile.TemporaryDirectory(prefix='hc-recents-arm-')as work:
     assert u.reg_read(A.UC_ARM64_REG_SP)==stack and u.reg_read(A.UC_ARM64_REG_NZCV)==0xa0000000
     assert u.reg_read(A.UC_ARM64_REG_FPCR)==0x400000 and u.reg_read(A.UC_ARM64_REG_FPSR)==0x10
     checks+=1
- print(f'recents/prestart/drawer/report/shortcuts/haptic ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')
+ print(f'recents/prestart/drawer/report/shortcuts/shortcutmenu/haptic ARM64 gateway PASS: {checks} cases; live/terminal routing, all GPR/Q registers, SP16, NZCV, FPCR/FPSR and native clobbers')

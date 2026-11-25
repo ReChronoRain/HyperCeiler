@@ -27,6 +27,32 @@ public class HyosEndpointTest {
  run("specs returned to caller cannot mutate authoritative schema",()->{var spec=HomeLayoutPrefsSnapshot.specs();var originalType=spec[0][0];spec[0][0]="wrong";eq(HomeLayoutPrefsSnapshot.specs()[0][0],originalType);publish(prefs("allow_hook",true));eq(receive(),1);});
  run("initial missing snapshot unavailable, not allowed defaults",()->eq(receive(),-1));
  run("empty actual provider snapshot is authoritative disabled",()->{publish(Map.of());eq(receive(),0);});
+ run("shortcut preference is optional and old reply formats keep their original flags",()->{
+  String key=HomeLayoutPrefsSnapshot.SHORTCUT_MENU_KEY;
+  publish(prefs("allow_hook",true,"home_title_hide_report_text",true,key,true));
+  var current=endpoint().receiveCombinedSnapshot(new Parcel(DESCRIPTOR),0);
+  eq(current.flags(),97);
+  eq(current.layout().policies(),5L);
+  eq(receive(),33);
+  for(boolean legacy:new boolean[]{true,false}){
+   var reply=new Parcel("");
+   HomeLayoutNativeEndpointOS4.writeCombinedReply(reply,current,true,!legacy);
+   reply.setDataPosition(0);
+   eq(reply.readInt(),legacy?0x48435332:0x48435333);
+   eq(reply.readInt(),1);
+   eq(reply.readInt(),legacy?33:97);
+  }
+  var policies=new Parcel("");
+  HomeLayoutNativeEndpointOS4.writePolicies(policies,current.layout().policies());
+  HomeLayoutNativeEndpointOS4.writeShortcutMenu(policies,current.layout().policies());
+  policies.setDataPosition(8);
+  eq(policies.readInt(),1);
+  eq(policies.readInt(),0);
+  eq(policies.readInt(),0x4843534d);
+  eq(policies.readInt(),1);
+  publish(prefs("allow_hook",true,"home_title_hide_report_text",true,key,"true"));
+  eq(endpoint().receiveCombinedSnapshot(new Parcel(DESCRIPTOR),0).flags(),33);
+ });
  run("allow_hook absent fails closed",()->{publish(prefs("home_other_high_models",true));eq(receive(),0);});
  run("allow false fails closed despite all feature preferences",()->{publish(prefs("allow_hook",false,"home_other_high_models",true,"home_dock_bg_custom_enable",true));eq(receive(),0);});
  run("framework gate absent follows existing true default",()->{publish(prefs("allow_hook",true));eq(receive(),1);});
