@@ -141,9 +141,36 @@ object DisableAppInfoUpload : BaseHook() {
     private fun disableInvokeInterceptCheckApi() {
         logD("/interceptcheck", interceptCheckInvokerList)
 
-        interceptCheckInvokerList.forEach {
-            it.createHook {
-                returnConstant(null)
+        interceptCheckInvokerList.forEach { method ->
+            method.createHook {
+                replace {
+                    try {
+                        val classLoader = method.declaringClass.classLoader
+                        val cloudParamsClass = Class.forName(
+                            "com.miui.packageInstaller.model.CloudParams",
+                            false,
+                            classLoader
+                        )
+                        val successClass = Class.forName(
+                            "com.miui.packageInstaller.model.CloudResult\$Success",
+                            false,
+                            classLoader
+                        )
+                        // Missing CloudParams selects NO_NETWORK. Keep the normal local risk checks
+                        // by using the installer's default parameters and leaving the Virus result alone.
+                        val cloudParams = cloudParamsClass.getDeclaredConstructor().newInstance()
+                        successClass.getDeclaredConstructor(cloudParamsClass)
+                            .newInstance(cloudParams)
+                    } catch (e: ReflectiveOperationException) {
+                        XposedLog.w(
+                            TAG,
+                            lpparam.packageName,
+                            "Unable to create local intercept check result",
+                            e
+                        )
+                        null
+                    }
+                }
             }
         }
     }
