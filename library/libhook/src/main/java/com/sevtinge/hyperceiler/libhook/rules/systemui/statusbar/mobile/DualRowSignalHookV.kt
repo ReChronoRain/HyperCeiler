@@ -182,8 +182,11 @@ class DualRowSignalHookV : MobileSignalHook() {
 
     private fun onViewCreated(rootView: ViewGroup, subId: Int) {
         val mobileGroup = rootView.findById<LinearLayout>("mobile_group") ?: return
-        val signalContainer: ViewGroup = rootView.findById("mobile_signal_container") ?: return
-        val mobileSignal = rootView.findById<ImageView>("mobile_signal") ?: return
+        // mobile_signal 找不到时仍继续(OS4 布局可能已改名), 只是不再做原生图标隐藏
+        val mobileSignal = rootView.findById<ImageView>("mobile_signal")
+        val signalContainer: ViewGroup = rootView.findById<ViewGroup>("mobile_signal_container")
+            ?: (mobileSignal?.parent as? ViewGroup)
+            ?: return
 
         val activeCount = getActiveMobileControllerCount()
         if (activeCount <= 1) {
@@ -259,7 +262,7 @@ class DualRowSignalHookV : MobileSignalHook() {
         } catch (_: Throwable) {
         }
 
-        mobileSignal.visibility = View.GONE
+        mobileSignal?.visibility = View.GONE
 
         // OS3: ConstraintLayout 约束修正
         (signalContainer.findViewByIdName("mobile_type") as? ImageView)?.let { mobileType ->
@@ -319,11 +322,19 @@ class DualRowSignalHookV : MobileSignalHook() {
     // ==================== 活跃 SIM 数量查询 ====================
 
     private fun getActiveMobileControllerCount(): Int {
-        val controller = networkControllerInstance ?: return 0
+        val controller = networkControllerInstance
+        if (controller != null) {
+            val count = runCatching {
+                controller.getObjectFieldAs<SparseArray<*>>("mMobileSignalControllers").size
+            }.getOrElse { 0 }
+            if (count > 0) return count
+        }
+        // HyperOS 4 兜底: setCurrentSubscriptionsLocked 还没被拦到时 networkControllerInstance 为 null,
+        // 直接问 SubscriptionManager, 否则会一直误判成单卡而根本不创建双排容器。
         return try {
-            controller.getObjectFieldAs<SparseArray<*>>("mMobileSignalControllers").size
+            SubscriptionManager.getActiveSubscriptionInfoCount()
         } catch (e: Throwable) {
-            XposedLog.w(TAG, lpparam.packageName, "getActiveMobileControllerCount error: ${e.message}")
+            XposedLog.w(TAG, lpparam.packageName, "getActiveMobileControllerCount fallback error: ${e.message}")
             0
         }
     }
@@ -579,33 +590,35 @@ class DualRowSignalHookV : MobileSignalHook() {
         mainHandler.post(refreshRunnable)
     }
 
-    /** HyperOS 4: mobile_signal_container 里除了 mobile_signal 还有 mobile_type /
-     *  mobile_left_mobile_inout / mobile_signal_dot 等同级节点, 只隐藏 mobile_signal
-     *  会留下一条"单独的信号栏"。这里整组隐藏, 并对兄弟节点补刀。 */
-    private val legacySignalChildNames = arrayOf(
-        "mobile_signal",
-        "mobile_type",
-        "mobile_left_mobile_inout",
-        "mobile_signal_dot",
-        "mobile_signal_roaming",
-        "mobile_signal_activity"
-    )
-
+    /**
+     * HyperOS 4 关键点: dualContainer 是挂在 mobile_signal_container 内部的子 View。
+     * 所以绝对不能把 mobile_signal_container 本身设为 GONE —— 父 View GONE 会连同
+     * 双排容器一起不参与布局/绘制, 表现就是"双排彻底消失, 只剩单排"。
+     *
+     * 正确做法: 容器始终 VISIBLE, 只把容器里"非双排"的原生子 View 逐个隐藏。
+     * 这样既不残留多出来的那条单排栏, 双排图标也照常显示。
+     */
     private fun syncDualSignalVisibility(rootView: ViewGroup, useDualSignal: Boolean) {
         val dualContainer = rootView.findByViewId<FrameLayout>(ID_DUAL_CONTAINER)
         dualContainer?.visibility = if (useDualSignal) View.VISIBLE else View.GONE
 
-        val legacyContainer = rootView.findById<View>("mobile_signal_container")
-        if (useDualSignal && dualContainer != null) {
-            // 双排生效时整组隐藏, 否则只剩一条不反色的原生单排
-            legacyContainer?.visibility = View.GONE
-            legacySignalChildNames.forEach { name ->
-                rootView.findById<View>(name)?.visibility = View.GONE
+        val legacyContainer = rootView.findById<ViewGroup>("mobile_signal_container")
+            ?: (rootView.findById<View>("mobile_signal")?.parent as? ViewGroup)
+
+        if (legacyContainer != null) {
+            // 容器自身必须保持可见, 否则里面的 dualContainer 永远不显示
+            if (legacyContainer.visibility != View.VISIBLE) {
+                legacyContainer.visibility = View.VISIBLE
             }
-        } else {
-            legacyContainer?.visibility = View.VISIBLE
-            legacySignalChildNames.forEach { name ->
-                rootView.findById<View>(name)?.visibility = View.VISIBLE
+            for (i in 0 until legacyContainer.childCount) {
+                val child = legacyContainer.getChildAt(i) ?: continue
+                // 跳过我们自己注入的双排容器, 其余原生节点全部按需隐藏/恢复
+                if (dualContainer != null && child === dualContainer) continue
+                if (useDualSignal) {
+                    if (child.visibility != View.GONE) child.visibility = View.GONE
+                } else {
+                    if (child.visibility != View.VISIBLE) child.visibility = View.VISIBLE
+                }
             }
         }
     }
