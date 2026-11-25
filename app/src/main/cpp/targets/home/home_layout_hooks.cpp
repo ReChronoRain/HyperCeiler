@@ -166,6 +166,8 @@ void hc_shareapkclick_0_entry();
 void* hc_shareapkclick_original = nullptr;
 void hc_freeformshortcut_0_entry();
 void* hc_freeformshortcut_original = nullptr;
+void hc_freeformshortcutclick_0_entry();
+void* hc_freeformshortcutclick_original = nullptr;
 void* hc_recentshaptic_originals[7]{};
 void hc_recentshaptic_0_entry();void hc_recentshaptic_1_entry();void hc_recentshaptic_2_entry();
 void hc_recentshaptic_3_entry();void hc_recentshaptic_4_entry();void hc_recentshaptic_5_entry();void hc_recentshaptic_6_entry();
@@ -563,7 +565,8 @@ constexpr size_t kShortcutMenuSlot = kRecentsHapticSlotBase + 7;
 constexpr size_t kShareApkSlot = kShortcutMenuSlot + 1;
 constexpr size_t kFreeformShortcutSlot = kShareApkSlot + 1;
 constexpr size_t kShareApkClickSlot = kFreeformShortcutSlot + 1;
-constexpr size_t kSlotCount = kShareApkClickSlot + 1;
+constexpr size_t kFreeformShortcutClickSlot = kShareApkClickSlot + 1;
+constexpr size_t kSlotCount = kFreeformShortcutClickSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
@@ -586,6 +589,7 @@ std::atomic_bool g_freeform_shortcut_requested{false}, g_freeform_shortcut_ready
 std::atomic_uintptr_t g_freeform_shortcut_resume{0};
 std::atomic_bool g_freeform_shortcut_applied{false};
 home_layout::BindingRetry g_freeform_shortcut_retry;
+home_layout::BindingRetry g_freeform_shortcut_click_retry;
 std::shared_ptr<const home_layout::haptic::Plan> g_recents_haptic_routing;
 std::atomic_uint g_recents_haptic_bind_failure{0};
 std::atomic_uint g_shortcuts_bind_failure{0};
@@ -1497,6 +1501,7 @@ struct RuntimeFeatures {
     std::optional<home_layout::features::shortcut_actions::ShareApk> share_apk;
     std::optional<uint32_t> share_apk_click;
     std::optional<home_layout::features::shortcut_actions::Freeform> freeform_shortcut;
+    std::optional<uint32_t> freeform_shortcut_click;
     std::optional<home_layout::haptic::Plan> recents_haptic;
     std::optional<home_layout::features::drawer::Plan> drawer;
     std::optional<home_layout::features::prestart::Plan> prestart;
@@ -1608,6 +1613,7 @@ const char* diagnostic_feature(size_t slot) {
     if (slot == kShareApkSlot) return "长按分享应用";
     if (slot == kShareApkClickSlot) return "长按分享应用点击";
     if (slot == kFreeformShortcutSlot) return "长按小窗模式";
+    if (slot == kFreeformShortcutClickSlot) return "长按小窗模式点击";
     if(slot>=kRecentsHapticSlotBase&&slot<kRecentsHapticSlotBase+7)return "最近任务卡片滑动振动";
     if(slot>=kFolderPreviewReturnSlotBase&&slot<kFolderPreviewReturnSlotBase+3)return "大文件夹预览归位动画";
     return "用途未知的原生挂钩";
@@ -1821,6 +1827,8 @@ bool ensure_runtime_features() {
     if (found.share_apk)
         found.share_apk_click = home_layout::features::shortcut_actions::resolve_share_apk_click(*code);
     found.freeform_shortcut = home_layout::features::shortcut_actions::resolve_freeform(*code);
+    if (found.freeform_shortcut)
+        found.freeform_shortcut_click = home_layout::features::shortcut_actions::resolve_freeform_click(*code);
     found.recents_haptic=home_layout::haptic::resolve(*code);
     found.prestart=home_layout::features::prestart::resolve(*code);
     const char* recent_failure=nullptr;
@@ -5056,6 +5064,14 @@ void maintain_freeform_shortcut(uint64_t now, bool verify_mapping) {
         g_freeform_shortcut_ready.store(false, std::memory_order_release);
         return;
     }
+    const auto maintain_click = [&] {
+        maintain_shortcut_click(kFreeformShortcutClickSlot,
+            g_freeform_shortcut_ready.load(std::memory_order_acquire)
+                && g_freeform_shortcut_requested.load(std::memory_order_acquire),
+            g_runtime_features.freeform_shortcut_click, reinterpret_cast<void*>(hc_freeformshortcutclick_0_entry),
+            &hc_freeformshortcutclick_original, verify_mapping, g_freeform_shortcut_click_retry, now);
+    };
+    maintain_click();
     if (g_freeform_shortcut_ready.load(std::memory_order_acquire)) {
         Words words{};
         if (bank_live(order) && (!verify_mapping
@@ -5084,6 +5100,7 @@ void maintain_freeform_shortcut(uint64_t now, bool verify_mapping) {
         g_freeform_shortcut_ready.store(true, std::memory_order_release);
         g_freeform_shortcut_retry.reset();
         __android_log_print(ANDROID_LOG_INFO, kTag, "freeform shortcut installation verified");
+        maintain_click();
     }
 }
 
@@ -5806,7 +5823,8 @@ void *worker(void *) {
     // or write obligation. Retry known cleanup using the existing attempt path.
     for (size_t index = 0; index < g_slots.size(); ++index) {
         if (index == kBackGestureSlot || index == kBackWindowSlot || index == kShortcutMenuSlot
-                || index == kShareApkSlot || index == kFreeformShortcutSlot || index == kShareApkClickSlot) continue;
+                || index == kShareApkSlot || index == kFreeformShortcutSlot
+                || index == kShareApkClickSlot || index == kFreeformShortcutClickSlot) continue;
         auto &slot = g_slots[index];
         if (nhk::slot_has_pending(slot) && !nhk::settle_slot_pending(slot, slot_host())) {
             __android_log_print(ANDROID_LOG_WARN, kTag,
@@ -6669,6 +6687,7 @@ void *worker(void *) {
             if (!shortcut_requested && !nhk::slot_has_pending(g_slots[kShortcutMenuSlot])
                 && !nhk::slot_has_pending(g_slots[kShareApkSlot])
                 && !nhk::slot_has_pending(g_slots[kShareApkClickSlot])
+                && !nhk::slot_has_pending(g_slots[kFreeformShortcutClickSlot])
                 && !nhk::slot_has_pending(g_slots[kFreeformShortcutSlot]))
                 return attempt_finished();
             layout_bank_failed = true;
@@ -7193,6 +7212,17 @@ extern "C" void hc_freeformshortcut_body(home_layout::recent_render::Registers* 
             reinterpret_cast<uintptr_t>(hc_freeformshortcut_original),
             g_freeform_shortcut_resume.load(std::memory_order_acquire)))
         g_freeform_shortcut_applied.store(true, std::memory_order_relaxed);
+}
+
+extern "C" void hc_freeformshortcutclick_body(home_layout::recent_render::Registers* saved, unsigned) {
+    saved->branch = reinterpret_cast<uintptr_t>(hc_freeformshortcutclick_original);
+    if (!g_freeform_shortcut_ready.load(std::memory_order_acquire)
+        || !g_freeform_shortcut_requested.load(std::memory_order_acquire)) return;
+#ifdef HYPERCEILER_HYOS_BACKEND
+    if (!hyos_control::feature_enabled(hyos_control::kFreeformShortcut)) return;
+#endif
+    __android_log_print(ANDROID_LOG_INFO, kTag, "freeform shortcut click outcome=%s",
+        home_layout::features::shortcut_actions::freeform_click_result(*saved));
 }
 
 extern "C" void hc_shortcutmenu_body(home_layout::recent_render::Registers* saved, unsigned) {
@@ -7782,10 +7812,14 @@ bool adopt_layout_state() {
     g_freeform_shortcut_ready.store(false, std::memory_order_release);
     g_freeform_shortcut_applied.store(false, std::memory_order_relaxed);
     g_freeform_shortcut_retry.reset();
+    g_freeform_shortcut_click_retry.reset();
     if (!g_slots[kFreeformShortcutSlot].backend_owned && !nhk::slot_has_pending(g_slots[kFreeformShortcutSlot])) {
         hc_freeformshortcut_original = nullptr;
         g_freeform_shortcut_resume.store(0, std::memory_order_release);
     }
+    if (!g_slots[kFreeformShortcutClickSlot].backend_owned
+        && !nhk::slot_has_pending(g_slots[kFreeformShortcutClickSlot]))
+        hc_freeformshortcutclick_original = nullptr;
     g_share_apk_requested.store(false, std::memory_order_release);
     g_share_apk_ready.store(false, std::memory_order_release);
     g_share_apk_applied.store(false, std::memory_order_relaxed);
@@ -7835,7 +7869,8 @@ bool adopt_layout_state() {
     for (size_t index = 0; index < g_slots.size(); ++index) {
         auto &slot = g_slots[index];
         if ((index == kBackGestureSlot || index == kBackWindowSlot || index == kShortcutMenuSlot
-                || index == kShareApkSlot || index == kFreeformShortcutSlot || index == kShareApkClickSlot)
+                || index == kShareApkSlot || index == kFreeformShortcutSlot
+                || index == kShareApkClickSlot || index == kFreeformShortcutClickSlot)
                 && (slot.backend_owned || nhk::slot_has_pending(slot))) continue;
         slot = Slot{};
     }

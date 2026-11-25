@@ -162,4 +162,36 @@ inline bool apply_freeform(recent_render::Registers& saved, bool enabled,
     saved.branch = continue_checks;
     return true;
 }
+
+inline std::optional<uint32_t> resolve_freeform_click(const Code& code) {
+    constexpr uint32_t component_check[] = {
+        0xf85803a0, 0xb8417001, 0x8b1c8021, 0x6b16003f, 0x54000061, 0xaa1603e0,
+    };
+    constexpr uint32_t start_prefix[] = {
+        0xa9bf79fd, 0xaa0f03fd, 0xd100a1ef, 0xf81f83b6, 0xf81f03a1, 0xf81e83a2,
+    };
+    constexpr size_t component = 69, result_site = 72, start_call = 78;
+    std::optional<uint32_t> result;
+    for (const auto& function : code.functions()) {
+        const auto& w = function.words;
+        if (w.size() != 134 || w[2] != 0xd10241ef
+            || w[46] != 0x372002e0 || w[66] != 0x36200060
+            || !std::equal(std::begin(component_check), std::end(component_check), w.begin() + component)
+            || (w[75] >> 26) != 5 || w[76] != 0xf85903a1 || w[77] != 0xaa0003e2
+            || has_interior_entry(w, result_site, 4)) continue;
+        uint32_t target = 0;
+        home_dynamic::Body body;
+        if (!home_dynamic::target(w[start_call], function.va + start_call * 4, target)
+            || !code.prefix(target, 6, body)
+            || !std::equal(body.begin(), body.end(), start_prefix)) continue;
+        if (result) return {};
+        result = function.va + result_site * 4;
+    }
+    return result;
+}
+
+inline const char* freeform_click_result(const recent_render::Registers& saved) {
+    // The following Dart comparison uses the compressed halves of x1 and x22.
+    return uint32_t(saved.x[1]) == uint32_t(saved.x[22]) ? "component_missing" : "calling_start";
+}
 } // namespace home_layout::features::shortcut_actions
