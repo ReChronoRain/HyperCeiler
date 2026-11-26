@@ -32,7 +32,8 @@ import java.util.Locale
  *
  * 抓 RP 自己的 assetlinks.json 按标准 DAL 语义比对（get_login_creds +
  * namespace=android_app + 包名 + sha256_cert_fingerprints），无静态白名单；
- * 浏览器流比对 web 条目（site=https://<rpId>）。拒绝时伪造忠实失败体
+ * 浏览器流无条件放行（web 源由框架按 rpId 生成、RP 服务端自验，且绝大多数
+ * 站点不发 web 条目）。拒绝时伪造忠实失败体
  * （asset_not_support / fingerprints not match），上游抛原生 vendor validate
  * 异常，与真机拒批行为一致。声明每 URL 进程内只抓一次。
  */
@@ -107,31 +108,11 @@ object AssetlinkGate {
         assetlinkUrlListJson: String?, isBrowser: Boolean
     ): Int {
         if (rp.isNullOrEmpty()) return DENY_UNLISTED
-        if (isBrowser) return webDalCheck(rp, assetlinkUrlListJson)
+        // 浏览器流（namespace=web）无条件放行——web 源由框架按 rpId 生成、RP 服务端
+        // 自验，闸门无从核验（绝大多数站点不发 web 条目）。
+        if (isBrowser) return PASS
         if (pkg.isNullOrEmpty()) return DENY_UNLISTED
         return dalCheck(rp, pkg, fp, assetlinkUrlListJson)
-    }
-
-    /** 浏览器流：声明里找 namespace=web + site=https://<rpId> + get_login_creds 条目 */
-    private fun webDalCheck(rp: String, assetlinkUrlListJson: String?): Int {
-        for (url in declarationUrls(rp, assetlinkUrlListJson)) {
-            val arr = declarations(url)
-            for (i in 0 until arr.length()) {
-                val entry = arr.optJSONObject(i) ?: continue
-                if (!arrayContains(entry.optJSONArray("relation"), REL_LOGIN_CREDS)) continue
-                val target = entry.optJSONObject("target") ?: continue
-                if (target.optString("namespace") != "web") continue
-                if (siteMatches(target.optString("site", null), rp)) return PASS
-            }
-        }
-        return DENY_UNLISTED
-    }
-
-    private fun siteMatches(declaredSite: String?, rp: String): Boolean {
-        if (declaredSite == null) return false
-        var s = declaredSite.trim()
-        while (s.endsWith("/")) s = s.substring(0, s.length - 1)
-        return s.equals("https://$rp", ignoreCase = true)
     }
 
     /** 抓 assetlinks.json 做标准 DAL 比对（每 URL 进程内只抓一次） */
