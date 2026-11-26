@@ -334,7 +334,7 @@ class HomeDockWindow : BaseHook() {
         },
         glassClient::record)
     private val nativeMotionReply = ThreadLocal<Int>()
-    private val recentsStatusBar = HomeRecentsStatusBarOS4(glassClient::record)
+    private val recentsStatusBar = HomeRecentsStatusBarOS4({ screenInteractive(fallback = false) }, glassClient::record)
     private val layoutEndpoint = HomeLayoutNativeEndpointOS4()
     private val layoutReply = ThreadLocal<HomeLayoutNativeEndpointOS4.Snapshot>()
     private val combinedReply = ThreadLocal<HomeLayoutNativeEndpointOS4.CombinedSnapshot>()
@@ -408,13 +408,13 @@ class HomeDockWindow : BaseHook() {
      * which keeps the worker running exactly as before instead of silently switching Dock
      * maintenance off.
      */
-    private fun screenInteractive(): Boolean = runCatching {
+    private fun screenInteractive(fallback: Boolean = true): Boolean = runCatching {
         val manager = powerManager ?: run {
             val context = service?.getObjectFieldAs<Context>("mContext")
             context?.getSystemService(PowerManager::class.java)?.also { powerManager = it }
         }
-        if (manager == null) true else manager.isInteractive
-    }.getOrDefault(true)
+        manager?.isInteractive ?: fallback
+    }.getOrDefault(fallback)
 
     /**
      * The panel can remain interactive for hours while another app covers the launcher. In that

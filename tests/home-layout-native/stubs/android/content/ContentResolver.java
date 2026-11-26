@@ -2,20 +2,24 @@ package android.content;
 
 /** Legacy per-key and atomic single-row provider fixtures; no Android/device dependency. */
 public class ContentResolver {
-    private static final java.util.Map<String, Object> ROWS = new java.util.HashMap<>();
+    private static final java.util.Map<String, Object> ROWS = new java.util.concurrent.ConcurrentHashMap<>();
     public static boolean recentsExtras = false;
     public static boolean recentHeaderExtras = false;
     public static boolean recentDismissExtras = false;
     private static String[][] specs = new String[0][];
-    private static int failureIndex = -1, queries;
+    private static int failureIndex = -1;
+    private static volatile int queries;
     private static String failureMode;
-    private static boolean wrongSchema, emptyBatch;
-    private static android.database.ContentObserver observer;
+    private static volatile boolean wrongSchema;
+    private static boolean emptyBatch;
+    public static volatile boolean registrationFails;
+    private static volatile android.database.ContentObserver observer;
     private static String observedUri;
     private static int registrations, unregistrations;
     public static java.util.function.Consumer<String> afterRead;
     public void registerContentObserver(android.net.Uri uri, boolean descendants,
         android.database.ContentObserver candidate) {
+        if (registrationFails) throw new IllegalStateException("observer unavailable");
         if (!descendants) throw new AssertionError("pref observer must include key descendants");
         observedUri = uri.toString(); observer = candidate; registrations++;
     }
@@ -23,8 +27,9 @@ public class ContentResolver {
         if (observer == candidate) { observer = null; unregistrations++; }
     }
     public static void signalChange(String uri) {
-        if (observer != null && uri.startsWith(observedUri + "/"))
-            observer.onChange(false, android.net.Uri.parse(uri));
+        final var target = observer;
+        if (target != null && (uri.equals(observedUri) || uri.startsWith(observedUri + "/")))
+            target.onChange(false, android.net.Uri.parse(uri));
     }
     public static int registrationCount() { return registrations; }
     public static int unregistrationCount() { return unregistrations; }

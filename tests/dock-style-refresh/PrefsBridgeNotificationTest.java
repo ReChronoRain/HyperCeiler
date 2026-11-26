@@ -33,9 +33,45 @@ public final class PrefsBridgeNotificationTest {
   check(ctx.resolver.events.get(1).endsWith("/pref/string/"+K),"all-prefs URI");
   if(remoteMode==1)check(remove?!remote.values.containsKey(K):"gale".equals(remote.values.get(K)),"remote success preserved");
  }
+ static void exerciseClear(int remoteMode) {
+  Prefs local = new Prefs();
+  String key = "prefs_key_home_layout_workspace_padding_top";
+  local.values.put(key, 60);
+  Context ctx = new Context(local);
+  Prefs remote = remoteMode == 0 ? null : new Prefs();
+  PrefsBridge.initForApp(ctx);
+  PrefsBridge.setRemotePrefs(remote);
+  ctx.resolver.events.clear();
+  if (remote != null) {
+   remote.values.put(K, "daybreak");
+   remote.succeed = remoteMode != 2;
+   remote.readOnly = remoteMode == 3;
+  }
+
+  local.succeed = false;
+  PrefsBridge.clearAllByApp();
+  check(local.values.containsKey(key), "failed clear removed the local value");
+  check(ctx.resolver.events.isEmpty(), "failed clear notified observers");
+
+  local.succeed = true;
+  PrefsBridge.clearAllByApp();
+  check(local.values.isEmpty(), "local reset did not clear the physical value");
+  check(ctx.resolver.events.size() == (remoteMode == 1 ? 4 : 2), "wrong reset notification count");
+  check(ctx.resolver.events.get(0).endsWith("/integer/" + key), "layout key URI");
+  check(ctx.resolver.events.get(1).endsWith("/pref/integer/" + key), "layout observer URI");
+  if (remoteMode == 1) {
+   check(remote.values.isEmpty(), "remote reset did not clear remote values");
+   check(ctx.resolver.events.get(2).endsWith("/string/" + K), "remote-only key URI");
+   check(ctx.resolver.events.get(3).endsWith("/pref/string/" + K), "remote-only observer URI");
+  }
+ }
  public static void main(String[] a){
   String[] modes={"remote absent","remote writable","remote commit false","remote read-only"};
   for(int i=0;i<4;i++){final int m=i;test("put / "+modes[i],()->exercise("put",false,m));test("remove / "+modes[i],()->exercise("remove",true,m));}
+  for (int i = 0; i < modes.length; i++) {
+   final int mode = i;
+   test("clear / " + modes[i], () -> exerciseClear(mode));
+  }
   test("failed physical commit emits no notification",()->{Prefs p=new Prefs();Context c=new Context(p);PrefsBridge.initForApp(c);PrefsBridge.setRemotePrefs(null);p.succeed=false;PrefsBridge.putString(K,"gale");PrefsBridge.removeByApp(K);check(c.resolver.events.isEmpty(),"failed local writes silent");check(!p.values.containsKey(K),"failed local value unchanged");});
   test("hook writes remain blocked",()->{Prefs p=new Prefs();Context c=new Context(p);PrefsBridge.initForApp(c);PrefsBridge.initForHook(p);PrefsBridge.putString(K,"gale");PrefsBridge.removeByApp(K);check(p.values.isEmpty()&&c.resolver.events.isEmpty(),"hook wrote or notified");});
   System.out.println("PrefsBridge notifications: "+pass+" passed, "+fail+" failed");if(fail>0)System.exit(1);

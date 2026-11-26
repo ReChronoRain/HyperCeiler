@@ -247,7 +247,12 @@ public final class HomeLayoutNativeEndpointOS4Test {
         check(descriptorRejected);
     }
 
-    public static void main(String[] args) {
+    @SuppressWarnings("PMD.AvoidAccessibilityAlteration")
+    public static void main(String[] args) throws ReflectiveOperationException {
+        // Provider mapping drives refresh synchronously; cadence is tested with a real worker separately.
+        var refresher = HomeLayoutNativeEndpointOS4.class.getDeclaredField("refresher");
+        refresher.setAccessible(true);
+        refresher.set(null, new Thread());
         checkProviderMapping();
         checkTransactionBoundary();
     }
