@@ -35,18 +35,35 @@ import android.os.Looper;
 import android.os.UserHandle;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.zip.CRC32;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AppDetails extends BaseHook {
+
+    private static final ExecutorService IO_EXECUTOR = Executors.newSingleThreadExecutor();
+    private static final AtomicBoolean sPreparing = new AtomicBoolean(false);
 
     private Class<?> mAmAppInfoCls;
     private Class<?> mFragmentCls;
@@ -304,6 +321,8 @@ public class AppDetails extends BaseHook {
                     modRes.getString(R.string.app_details_playstore), "");
                 addPrefMethod.invoke(fragment, "open_in_app",
                     modRes.getString(R.string.app_details_launch), "");
+                addPrefMethod.invoke(fragment, "share_apk",
+                    modRes.getString(R.string.app_details_share_apk), "");
             } catch (Throwable t) {
                 XposedLog.w(TAG, getPackageName(), "addCustomPreferences error", t);
             }
@@ -335,6 +354,7 @@ public class AppDetails extends BaseHook {
             case "data_path" -> handleCopyPath(act, title, mLastPackageInfo.applicationInfo.dataDir, param);
             case "open_in_market" -> handleOpenInMarket(act, param);
             case "open_in_app" -> handleOpenInApp(act, modRes, param);
+            case "share_apk" -> handleShareApk(act, modRes, param);
         }
     }
 
@@ -418,6 +438,224 @@ public class AppDetails extends BaseHook {
         } catch (Throwable t) {
             XposedLog.w(TAG, getPackageName(), "startActivityAsUser error", t);
         }
+    }
+
+    private File resolveOriginalApk() {
+        if (mLastPackageInfo == null || mLastPackageInfo.applicationInfo == null) {
+            return null;
+        }
+        String sourceDir = mLastPackageInfo.applicationInfo.sourceDir;
+        if (sourceDir == null || sourceDir.isEmpty()) {
+            return null;
+        }
+        File apkFile = new File(sourceDir);
+        return apkFile.exists() ? apkFile : null;
+    }
+
+    private String getPreparingMessage(Resources modRes, PackageInfo pkgInfo) {
+        int splitCount = getSplitApkCount(pkgInfo);
+        if (splitCount > 0) {
+            return modRes.getString(R.string.app_details_share_apk_preparing_split, splitCount);
+        }
+        return modRes.getString(R.string.app_details_share_apk_preparing);
+    }
+
+    private void launchShareChooser(Activity act, File shareFile, String packageName, String failedMsg) {
+        try {
+            boolean isApks = shareFile.getName().endsWith(".apks");
+            String mimeType = isApks ? "application/zip" : "application/vnd.android.package-archive";
+            Uri uri = getShareUri(act, shareFile);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setType(mimeType);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            intent.putExtra(Intent.EXTRA_PACKAGE_NAME, packageName);
+            intent.putExtra("com.miui.mishare.extra.MISHARE_APK_PACKAGE_NAME", packageName);
+            act.startActivity(Intent.createChooser(intent, null));
+        } catch (Throwable t) {
+            XposedLog.e(TAG, getPackageName(), "Failed to launch share intent", t);
+            Toast.makeText(act, failedMsg, Toast.LENGTH_SHORT).show();
+        } finally {
+            sPreparing.set(false);
+        }
+    }
+
+    private void performShareInBackground(Activity act, File originalApk, PackageInfo pkgInfo, String failedMsg) {
+        IO_EXECUTOR.execute(() -> {
+            try {
+                File shareFile = prepareShareFile(act, originalApk, pkgInfo);
+                act.runOnUiThread(() -> launchShareChooser(act, shareFile, pkgInfo.packageName, failedMsg));
+            } catch (Throwable t) {
+                XposedLog.e(TAG, getPackageName(), "Failed to prepare share file", t);
+                act.runOnUiThread(() -> Toast.makeText(act, failedMsg, Toast.LENGTH_SHORT).show());
+                sPreparing.set(false);
+            }
+        });
+    }
+
+    private void handleShareApk(Activity act, Resources modRes, HookParam param) {
+        File originalApk = resolveOriginalApk();
+        if (originalApk == null) {
+            Toast.makeText(act, modRes.getString(R.string.app_details_share_apk_failed), Toast.LENGTH_SHORT).show();
+            param.setResult(true);
+            return;
+        }
+
+        if (!sPreparing.compareAndSet(false, true)) {
+            param.setResult(true);
+            return;
+        }
+
+        String failedMsg = modRes.getString(R.string.app_details_share_apk_failed);
+        Toast.makeText(act, getPreparingMessage(modRes, mLastPackageInfo), Toast.LENGTH_SHORT).show();
+        performShareInBackground(act, originalApk, mLastPackageInfo, failedMsg);
+        param.setResult(true);
+    }
+
+    private Uri getShareUri(Context context, File file) {
+        String[] authorities = {
+            "com.miui.securitycenter.zman.fileProvider",
+            "com.miui.securitycenter.fileProvider",
+            context.getPackageName() + ".fileProvider",
+            context.getPackageName() + ".provider"
+        };
+
+        for (String authority : authorities) {
+            try {
+                return FileProvider.getUriForFile(context, authority, file);
+            } catch (Throwable ignored) {}
+        }
+
+        android.os.StrictMode.setVmPolicy(new android.os.StrictMode.VmPolicy.Builder().build());
+        return Uri.fromFile(file);
+    }
+
+    private static File getSharedApkDir(Context context) {
+        return new File(context.getCacheDir(), "shared_apk");
+    }
+
+    private static void cleanupSharedApkDir(Context context) {
+        File shareDir = getSharedApkDir(context);
+        if (!shareDir.exists()) return;
+        File[] files = shareDir.listFiles();
+        if (files == null) return;
+        for (File file : files) {
+            file.delete();
+        }
+    }
+
+    private static boolean copyFile(File src, File dst) {
+        try (InputStream in = new FileInputStream(src);
+             OutputStream out = new FileOutputStream(dst)) {
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            return true;
+        } catch (IOException e) {
+            XposedLog.e("AppDetails", "Failed to copy file: " + src + " -> " + dst, e);
+            return false;
+        }
+    }
+
+    private String buildShareFileName(Context context, PackageInfo pkgInfo) {
+        try {
+            String appLabel = pkgInfo.applicationInfo.loadLabel(context.getPackageManager()).toString().trim();
+            String versionName = pkgInfo.versionName;
+            long versionCode = pkgInfo.getLongVersionCode();
+            String safeName = appLabel.replaceAll("[/\\\\:*?\"<>|]", "_");
+            if (versionName != null && !versionName.isEmpty()) {
+                return safeName + "_" + versionName + "(" + versionCode + ")";
+            } else {
+                return safeName + "_(" + versionCode + ")";
+            }
+        } catch (Throwable t) {
+            return pkgInfo.packageName;
+        }
+    }
+
+    private static int getSplitApkCount(PackageInfo pkgInfo) {
+        if (pkgInfo != null && pkgInfo.applicationInfo != null &&
+            pkgInfo.applicationInfo.splitSourceDirs != null &&
+            pkgInfo.applicationInfo.splitSourceDirs.length > 0) {
+            return 1 + pkgInfo.applicationInfo.splitSourceDirs.length;
+        }
+        return 0;
+    }
+
+    private static long computeCrc32(File file) throws IOException {
+        CRC32 crc = new CRC32();
+        try (InputStream in = new FileInputStream(file)) {
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                crc.update(buf, 0, len);
+            }
+        }
+        return crc.getValue();
+    }
+
+    private static void addStoredFileToZip(ZipOutputStream zos, File file, String entryName) throws IOException {
+        ZipEntry entry = new ZipEntry(entryName);
+        entry.setMethod(ZipEntry.STORED);
+        entry.setSize(file.length());
+        entry.setCompressedSize(file.length());
+        entry.setCrc(computeCrc32(file));
+        zos.putNextEntry(entry);
+        try (InputStream in = new FileInputStream(file)) {
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                zos.write(buf, 0, len);
+            }
+        }
+        zos.closeEntry();
+    }
+
+    private File createApksZip(PackageInfo pkgInfo, File outputFile) {
+        try {
+            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(outputFile))) {
+                zos.setMethod(ZipOutputStream.STORED);
+                File baseApk = new File(pkgInfo.applicationInfo.sourceDir);
+                addStoredFileToZip(zos, baseApk, "base.apk");
+
+                if (pkgInfo.applicationInfo.splitSourceDirs != null) {
+                    for (String splitPath : pkgInfo.applicationInfo.splitSourceDirs) {
+                        File splitApk = new File(splitPath);
+                        addStoredFileToZip(zos, splitApk, splitApk.getName());
+                    }
+                }
+            }
+            return outputFile;
+        } catch (Exception e) {
+            XposedLog.e(TAG, getPackageName(), "Failed to create APKS zip", e);
+            return null;
+        }
+    }
+
+    private File prepareShareFile(Context context, File originalApkFile, PackageInfo pkgInfo) {
+        cleanupSharedApkDir(context);
+        File shareDir = getSharedApkDir(context);
+        if (!shareDir.exists() && !shareDir.mkdirs()) {
+            return originalApkFile;
+        }
+
+        String baseName = buildShareFileName(context, pkgInfo);
+
+        if (getSplitApkCount(pkgInfo) > 0) {
+            File apksFile = new File(shareDir, baseName + ".apks");
+            File result = createApksZip(pkgInfo, apksFile);
+            if (result != null) {
+                return result;
+            }
+        }
+
+        File renamedApk = new File(shareDir, baseName + ".apk");
+        if (copyFile(originalApkFile, renamedApk)) {
+            return renamedApk;
+        }
+        return originalApkFile;
     }
 }
 
