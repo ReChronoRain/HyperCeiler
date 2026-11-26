@@ -20,15 +20,18 @@ static void check_freeform_reject_entry() {
 
     constexpr uintptr_t original = 0x1000, continuation = 0x2000;
     for (const bool enabled : {false, true}) {
-        for (const uint64_t value : {0x30u, 0x20u, 0x4000u}) {
-            recent_render::Registers saved{};
-            saved.x[22] = 0x8000;
-            saved.x[0] = saved.x[22] + value;
-            auto expected = saved;
-            const bool override = enabled && value == 0x30;
-            expected.branch = override ? continuation : original;
-            assert(apply_freeform(saved, enabled, original, continuation) == override);
-            assert(std::memcmp(&saved, &expected, sizeof(saved)) == 0);
+        for (const uint64_t value : {0u, 0x30u, 0x20u, 0x4000u}) {
+            for (const uint64_t device : {0x20u, 0x30u}) {
+                recent_render::Registers saved{};
+                saved.x[22] = 0x8001;
+                saved.x[0] = saved.x[22] + value;
+                saved.x[1] = saved.x[22] + device;
+                auto expected = saved;
+                const bool override = enabled && value == 0x4000 && device == 0x30;
+                expected.branch = override ? continuation : original;
+                assert(apply_freeform(saved, enabled, original, continuation) == override);
+                assert(std::memcmp(&saved, &expected, sizeof(saved)) == 0);
+            }
         }
     }
 }

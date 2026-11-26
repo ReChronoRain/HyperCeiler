@@ -56,7 +56,7 @@ inline bool apply_share_apk(recent_render::Registers& saved, bool enabled,
 
 struct Freeform {
     uint32_t device_reject;
-    uint32_t continue_checks;
+    uint32_t continue_after_device;
 };
 
 inline bool has_interior_entry(const home_dynamic::Body& words, size_t start, size_t count) {
@@ -126,12 +126,14 @@ inline std::optional<Freeform> resolve_freeform(const Code& code) {
     for (const auto& function : code.functions()) {
         const auto& w = function.words;
         if (w.size() != 305 || !std::equal(std::begin(prefix), std::end(prefix), w.begin())) continue;
-        // Reuse this menu's native device-approved branch. Its next checks
-        // reload their inputs from the frame and retain application eligibility.
-        constexpr uint32_t site = 69, reject = site + 1, accept = site + 19;
+        constexpr uint32_t device_branch = 56, site = 69, reject = site + 1, accept = site + 19;
         if (!std::equal(std::begin(result_window), std::end(result_window), w.begin() + site)
             || !std::equal(std::begin(continuation), std::end(continuation), w.begin() + accept)
-            || w[56] != 0x372001c1 || (w[reject + 1] & 0xffc003ffu) != 0xf9400000u
+            || !home_dynamic::ldw(w[device_branch - 2], 0, 1)
+            || !home_dynamic::field(home_dynamic::imm9(w[device_branch - 2]))
+            || w[device_branch - 1] != 0x8b1c8021
+            || w[device_branch] != 0x372001c1 || w[device_branch + 1] != 0xf9403f40
+            || (w[reject + 1] & 0xffc003ffu) != 0xf9400000u
             || w[reject + 2] != 0xf9402370 || w[reject + 3] != 0x6b10001f
             || has_interior_entry(w, reject, 4)
             || w[site - 5] != 0xb8473002 || w[site - 4] != 0x8b1c8042
@@ -147,19 +149,23 @@ inline std::optional<Freeform> resolve_freeform(const Code& code) {
             || !code.body(getter, body) || body.size() < 23
             || body[2] != 0xd10021ef || body[22] != 0xd65f03c0) continue;
         if (result) return {};
-        // The branch at word 56 enters the rejection block directly with a
-        // non-boolean x0. Hook the block start and only override the getter's
-        // false result from the fall-through at word 69.
-        result = Freeform{function.va + reject * 4, function.va + accept * 4};
+        // The device branch enters with its owner in x0 and false in x1.
+        // Resume directly after that branch so Dart still initializes the
+        // reactive value and frame spill used by the subsequent checks.
+        result = Freeform{function.va + reject * 4, function.va + (device_branch + 1) * 4};
     }
     return result;
 }
 
 inline bool apply_freeform(recent_render::Registers& saved, bool enabled,
-                           uintptr_t original, uintptr_t continue_checks) {
+                           uintptr_t original, uintptr_t continue_after_device) {
     saved.branch = original;
-    if (!enabled || !original || !continue_checks || saved.x[0] != saved.x[22] + 0x30) return false;
-    saved.branch = continue_checks;
+    const auto dart_null = saved.x[22];
+    const auto dart_true = dart_null + 0x20;
+    const auto dart_false = dart_null + 0x30;
+    if (!enabled || !original || !continue_after_device || saved.x[1] != dart_false
+        || saved.x[0] == dart_null || saved.x[0] == dart_true || saved.x[0] == dart_false) return false;
+    saved.branch = continue_after_device;
     return true;
 }
 
