@@ -738,6 +738,9 @@
     <string name="system_ui_statusbar_music_width_desc">讓滚動歌詞尽可能滚動完整</string>
     <string name="system_ui_controlcenter_title">通知與控制中心</string>
     <string name="system_ui_controlcenter_media_card_title">媒體通知卡片</string>
+    <string name="system_ui_control_center_media_control_hide_media_card_title">隱藏媒體通知</string>
+    <string name="system_ui_control_center_media_control_hide_media_card">隱藏媒體通知</string>
+    <string name="system_ui_control_center_media_control_hide_media_card_desc">在通知欄和鎖屏隱藏媒體通知卡片</string>
     <string name="system_ui_control_center_magnet_tile_settings">磁貼</string>
     <string name="system_ui_control_center_notification_title">通知中心</string>
     <string name="system_control_center_5g_tile">5G 網絡開關</string>
