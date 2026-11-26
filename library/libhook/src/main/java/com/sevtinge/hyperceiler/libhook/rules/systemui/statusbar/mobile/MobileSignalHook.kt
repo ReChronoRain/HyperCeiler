@@ -21,14 +21,17 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile
 import android.telephony.SubscriptionManager
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import java.lang.ref.WeakReference
+import java.util.WeakHashMap
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.modernStatusBarMobileView
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper
-import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 /**
@@ -45,14 +48,21 @@ abstract class MobileSignalHook : StatusBarHook() {
     protected fun hookConstructAndBind(callback: (ViewGroup, Int) -> Unit) {
         modernStatusBarMobileView.findMethod { name("constructAndBind") }
             .createAfterHook { param ->
-                val rootView = param.result as? ViewGroup ?: return@createAfterHook
-                val subId = rootView.getIntField("subId")
-                try {
-                    callback(rootView, subId)
-                } catch (e: Throwable) {
-                    XposedLog.e(TAG, lpparam.packageName, "hookConstructAndBind callback error", e)
-                }
+                handleConstructAndBind(param.result, callback)
             }
+    }
+
+    private fun handleConstructAndBind(
+        result: Any?,
+        callback: (ViewGroup, Int) -> Unit
+    ) {
+        val rootView = result as? ViewGroup ?: return
+        val subId = rootView.getIntField("subId")
+        try {
+            callback(rootView, subId)
+        } catch (e: Throwable) {
+            XposedLog.e(TAG, lpparam.packageName, "hookConstructAndBind callback error", e)
+        }
     }
 
     /**
@@ -61,52 +71,111 @@ abstract class MobileSignalHook : StatusBarHook() {
      * @param callback 回调 (rootView, darkInfo)
      */
     protected fun hookDarkMode(callback: (ViewGroup, DarkInfo) -> Unit) {
+        val observers = WeakHashMap<ViewGroup, TintObserver>()
+        registerHotReloadCleanup {
+            observers.values.toList().forEach { it.dispose() }
+            observers.clear()
+        }
+
+        fun observe(container: ViewGroup, binding: Any) {
+            try {
+                val source = MobileTintSource.find(binding) ?: return
+                val observer = observers[container]
+                if (observer != null) {
+                    observer.source = source
+                    observer.dispatch(force = true)
+                } else {
+                    TintObserver(container, source, callback).also {
+                        observers[container] = it
+                        it.start()
+                    }
+                }
+            } catch (e: Throwable) {
+                XposedLog.e(TAG, lpparam.packageName, "hookDarkMode source error", e)
+            }
+        }
+
         miuiMobileIconBinder.findMethod { name("bind") }
             .createAfterHook { param ->
                 val container = param.args[0] as? ViewGroup ?: return@createAfterHook
                 val binding = param.result ?: return@createAfterHook
+                observe(container, binding)
+            }
 
-                val tintFlow = findTintLightColorFlow(binding)
-                if (tintFlow == null) {
-                    XposedLog.w(TAG, lpparam.packageName, "hookDarkMode: tintLightColorFlow not found")
-                    return@createAfterHook
-                }
-
-                MobileViewHelper.collectFlow(container, tintFlow) { triple ->
-                    try {
-                        callback(container, extractDarkInfo(triple))
-                    } catch (e: Throwable) {
-                        XposedLog.e(TAG, lpparam.packageName, "hookDarkMode flow error", e)
-                    }
-                }
+        // ROM 可能内联 bind；构造结束时再从视图取得实际 binding，避免漏装观察器。
+        modernStatusBarMobileView.findMethod { name("constructAndBind") }
+            .createAfterHook { param ->
+                val container = param.result as? ViewGroup ?: return@createAfterHook
+                val binding = runCatching { container.getObjectField("binding") }.getOrNull()
+                    ?: return@createAfterHook
+                observe(container, binding)
             }
     }
 
-    /** 从 binding 对象中找到 tintLightColorFlow（值为 Triple 的 StateFlowImpl 字段） */
-    private fun findTintLightColorFlow(binding: Any): Any? {
-        for (field in binding.javaClass.declaredFields) {
-            try {
-                field.isAccessible = true
-                val value = field.get(binding) ?: continue
-                if (value.javaClass.simpleName == "StateFlowImpl") {
-                    val currentValue = value.callMethodAs<Any>("getValue")
-                    if (currentValue.javaClass.simpleName == "Triple") {
-                        return value
-                    }
-                }
-            } catch (_: Throwable) { continue }
-        }
-        return null
-    }
+    /**
+     * SystemUI 的 onIconTintChanged 和 onDarkChanged 都会写同一条 Flow。
+     * 绘制前读取它的最新值，覆盖应用背景变化；颜色不变时不重复刷新图标。
+     * 监听随视图 attach/detach 注册和移除，热重载时也显式清理。
+     */
+    private inner class TintObserver(
+        container: ViewGroup,
+        var source: MobileTintSource,
+        private val callback: (ViewGroup, DarkInfo) -> Unit
+    ) : View.OnAttachStateChangeListener, ViewTreeObserver.OnPreDrawListener {
+        private val containerRef = WeakReference(container)
+        private var tree: ViewTreeObserver? = null
+        private var lastInfo: DarkInfo? = null
+        private var errorReported = false
 
-    /** 从 Triple(isUseTint, isLight, color) 提取 DarkInfo */
-    private fun extractDarkInfo(triple: Any): DarkInfo {
-        val cls = triple.javaClass
-        return DarkInfo.fromTintLightColor(
-            isUseTint = cls.getMethod("getFirst").invoke(triple) as Boolean,
-            isLight = cls.getMethod("getSecond").invoke(triple) as Boolean,
-            color = cls.getMethod("getThird").invoke(triple) as Int
-        )
+        fun start() {
+            val container = containerRef.get() ?: return
+            container.addOnAttachStateChangeListener(this)
+            dispatch(force = true)
+            if (container.isAttachedToWindow) onViewAttachedToWindow(container)
+        }
+
+        fun dispatch(force: Boolean = false) {
+            val container = containerRef.get() ?: return
+            try {
+                val info = source.read()
+                if (force || info != lastInfo) {
+                    callback(container, info)
+                    lastInfo = info
+                }
+                errorReported = false
+            } catch (e: Throwable) {
+                if (!errorReported) {
+                    XposedLog.e(TAG, lpparam.packageName, "hookDarkMode callback error", e)
+                    errorReported = true
+                }
+            }
+        }
+
+        override fun onPreDraw(): Boolean {
+            dispatch()
+            return true
+        }
+
+        override fun onViewAttachedToWindow(view: View) {
+            removePreDrawListener()
+            tree = view.viewTreeObserver.also { it.addOnPreDrawListener(this) }
+            // bind 时双排容器可能尚未创建；attach 后必须应用一次当前颜色。
+            dispatch(force = true)
+        }
+
+        override fun onViewDetachedFromWindow(view: View) {
+            removePreDrawListener()
+        }
+
+        private fun removePreDrawListener() {
+            tree?.takeIf { it.isAlive }?.removeOnPreDrawListener(this)
+            tree = null
+        }
+
+        fun dispose() {
+            removePreDrawListener()
+            containerRef.get()?.removeOnAttachStateChangeListener(this)
+        }
     }
 
     /**
