@@ -26,6 +26,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemProperties
 import android.telephony.SubscriptionManager
 import android.util.SparseArray
 import android.view.View
@@ -33,6 +34,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.createBitmap
 import androidx.core.util.size
 import com.sevtinge.hyperceiler.common.log.XposedLog
@@ -46,7 +48,10 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
@@ -55,7 +60,15 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.util.concurrent.ConcurrentHashMap
 
 class DualRowSignalHookV : MobileSignalHook() {
-    private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container") }
+    /** 原生单排信号条里需要被双排替代的节点名字片段(HyperOS 各版本命名不完全一致, 用 contains 匹配) */
+private val LEGACY_SIGNAL_CHILD_NAMES = listOf(
+    "mobile_signal",
+    "mobile_left",
+    "mobile_right",
+    "mobile_roaming"
+)
+
+private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container") }
     private val ID_SIGNAL_SLOT1 by lazy { getOrCreateViewId("dual_signal_slot1") }
     private val ID_SIGNAL_SLOT2 by lazy { getOrCreateViewId("dual_signal_slot2") }
 
@@ -101,14 +114,89 @@ class DualRowSignalHookV : MobileSignalHook() {
         hookDarkMode { rootView, darkInfo ->
             onDarkModeChanged(rootView, darkInfo)
         }
+
+        hookDarkDispatcherFallback()
+    }
+
+    // ==================== HyperOS 4 反色兜底 ====================
+
+    /** 缓存全局反色状态, 给新建 View 用 (第一次 bind 时未必能拿到 Triple) */
+    private var lastDarkInfo: DarkInfo? = null
+
+    /**
+     * HyperOS 4: MiuiMobileIconBinder.bind 的返回值里不一定还有 StateFlowImpl<Triple>,
+     * 导致 hookDarkMode 静默 return, 克隆出来的双排图标永远不反色。
+     * 这里直接订阅 SysuiDarkIconDispatcher.mDarkChangeFlow(DarkChange 流),
+     * 它是所有图标最终取色的源头, 与 binder 无关。
+     */
+    private fun hookDarkDispatcherFallback() {
+        runCatching {
+            // HyperOS 4: MiuiMobileIconBinder.bind 内部未必还有 StateFlowImpl<Triple>,
+            // hookDarkMode 会静默 return, 克隆出来的双排图标就永远不反色。
+            // 这里直接钩 plugins.DarkIconDispatcher$DarkReceiver.onDarkChanged:
+            // 系统每次改深浅色都会打到所有 receiver(含原生信号图标), 从参数里取最终色值再套给克隆图标。
+            val receiverItf = findClass("com.android.systemui.plugins.DarkIconDispatcher\$DarkReceiver")
+            // onDarkChanged 有 boolean 版和 Rect 区间版两种签名, 逐个挂, 避免 SingleResultExpectedException
+            receiverItf.findAllMethods { name("onDarkChanged") }.createHooks {
+                after { param: HookParam ->
+                    val info = darkInfoFromArgs(param.args) ?: return@after
+                    applyGlobalDarkInfo(info)
+                }
+            }
+        }.onFailure { e ->
+            XposedLog.w(TAG, lpparam.packageName, "hookDarkDispatcherFallback error: ${e.message}")
+        }
+    }
+
+    /** 兼容 onDarkChanged 的两种签名, 统一归一成 DarkInfo */
+    private fun darkInfoFromArgs(args: Array<Any?>): DarkInfo? {
+        if (args.isEmpty()) return null
+        // aosp 签名: (boolean isDark, int tintColor, int lightColor, int darkColor, ...)
+        (args[0] as? Boolean)?.let { isDark ->
+            val color = (args.getOrNull(1) as? Int) ?: 0
+            return DarkInfo.fromTintLightColor(isUseTint = true, isLight = !isDark, color = color)
+        }
+        // MIUI 老签名: (ArrayList<Rect> areas, float darkIntensity, int tint)
+        val intensity = args.getOrNull(1) as? Float
+        if (intensity != null && intensity in 0f..1f) {
+            val tint = (args.getOrNull(2) as? Int) ?: 0
+            return DarkInfo(
+                isUseTint = true,
+                isLight = intensity < 0.5f,
+                color = tint,
+                darkIntensity = intensity,
+                tint = tint
+            )
+        }
+        return null
+    }
+
+
+    private fun applyGlobalDarkInfo(info: DarkInfo) {
+        lastDarkInfo = info
+        viewCache.values.forEach { set ->
+            set.forEach { rootView ->
+                val key = System.identityHashCode(rootView)
+                viewDarkState[key] = info
+                if (rootView.isAttachedToWindow) {
+                    try {
+                        refreshDualIconsForView(rootView, info.isUseTint, info.isLight, info.color)
+                    } catch (_: Throwable) {
+                    }
+                }
+            }
+        }
     }
 
     // ==================== 视图创建 ====================
 
     private fun onViewCreated(rootView: ViewGroup, subId: Int) {
         val mobileGroup = rootView.findById<LinearLayout>("mobile_group") ?: return
-        val signalContainer: ViewGroup = rootView.findById("mobile_signal_container") ?: return
-        val mobileSignal = rootView.findById<ImageView>("mobile_signal") ?: return
+        // mobile_signal 找不到时仍继续(OS4 布局可能已改名), 只是不再做原生图标隐藏
+        val mobileSignal = rootView.findById<ImageView>("mobile_signal")
+        val signalContainer: ViewGroup = rootView.findById<ViewGroup>("mobile_signal_container")
+            ?: (mobileSignal?.parent as? ViewGroup)
+            ?: return
 
         val activeCount = getActiveMobileControllerCount()
         if (activeCount <= 1) {
@@ -169,22 +257,30 @@ class DualRowSignalHookV : MobileSignalHook() {
         dualContainer.addView(slot1, ViewGroup.LayoutParams(signalLp))
         dualContainer.addView(slot2, ViewGroup.LayoutParams(signalLp))
 
-        signalContainer.addView(dualContainer)
-
-        // 约束双排容器到 parent end（用 ID_DUAL_CONTAINER 作为约束锚点）
+        // HyperOS 4 关键点: 双排容器必须被四条边约束到 parent, 且 addView 时一并传入
+        // LayoutParams。旧实现先 addView 再用反射把 endToEnd/topToTop/bottomToBottom 设成 0,
+        // 而 ConstraintLayout 里 0 表示"约束到 getChildAt(0) 这个兄弟", 并不是 parent;
+        // 那个兄弟恰好是被隐藏的 mobile_signal, 于是测量退化成负宽度,
+        // ModernStatusBarMobileViewInjector 算出 islandWidth = -177 / -92 并判定 visible = 0,
+        // 表现就是双排根本不显示。正确锚点是 ConstraintLayout.LayoutParams.PARENT_ID (= -1)。
         val dualContainerId = ID_DUAL_CONTAINER
-
-        // 约束双排容器到 parent end
-        try {
-            val dlp = dualContainer.layoutParams
-            dlp.javaClass.getField("endToEnd").setInt(dlp, 0)
-            dlp.javaClass.getField("topToTop").setInt(dlp, 0)
-            dlp.javaClass.getField("bottomToBottom").setInt(dlp, 0)
-            dualContainer.layoutParams = dlp
-        } catch (_: Throwable) {
+        val dualLp = ConstraintLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ).apply {
+            startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+            bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         }
+        signalContainer.addView(dualContainer, dualLp)
 
-        mobileSignal.visibility = View.GONE
+        // 原生单排信号条只做透明, 不能用 GONE: 它仍占测量空间, 兄弟节点的
+        // endToStart = dualContainer 才有落脚点, 否则约束塌陷又会算成负宽度。
+        mobileSignal?.apply {
+            alpha = 0f
+            visibility = View.INVISIBLE
+        }
 
         // OS3: ConstraintLayout 约束修正
         (signalContainer.findViewByIdName("mobile_type") as? ImageView)?.let { mobileType ->
@@ -201,7 +297,7 @@ class DualRowSignalHookV : MobileSignalHook() {
                 val lp = inout.layoutParams
                 lp.javaClass.getField("endToStart").setInt(lp, dualContainerId)
                 lp.javaClass.getField("bottomToBottom").setInt(lp, dualContainerId)
-                lp.javaClass.getField("topToTop").setInt(lp, -1)
+                lp.javaClass.getField("topToTop").setInt(lp, ConstraintLayout.LayoutParams.PARENT_ID)
                 inout.layoutParams = lp
             }
         }
@@ -214,7 +310,13 @@ class DualRowSignalHookV : MobileSignalHook() {
         syncDualSignalVisibility(rootView, true)
 
         if (simSignalLevels.isNotEmpty()) {
-            refreshDualIconsForView(rootView, isUseTint = false, isLight = true)
+            val cached = lastDarkInfo
+            refreshDualIconsForView(
+                rootView,
+                isUseTint = cached?.isUseTint ?: false,
+                isLight = cached?.isLight ?: true,
+                color = cached?.color
+            )
         }
 
         setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_half_to_top_distance", 3f)
@@ -238,13 +340,35 @@ class DualRowSignalHookV : MobileSignalHook() {
     // ==================== 活跃 SIM 数量查询 ====================
 
     private fun getActiveMobileControllerCount(): Int {
-        val controller = networkControllerInstance ?: return 0
-        return try {
-            controller.getObjectFieldAs<SparseArray<*>>("mMobileSignalControllers").size
-        } catch (e: Throwable) {
-            XposedLog.w(TAG, lpparam.packageName, "getActiveMobileControllerCount error: ${e.message}")
-            0
+        val controller = networkControllerInstance
+        if (controller != null) {
+            val count = runCatching {
+                controller.getObjectFieldAs<SparseArray<*>>("mMobileSignalControllers").size
+            }.getOrElse { 0 }
+            if (count > 0) return count
         }
+        // HyperOS 4 兜底: setCurrentSubscriptionsLocked 还没被拦到时 networkControllerInstance 为 null,
+        // 直接问 SubscriptionManager, 否则会一直误判成单卡而根本不创建双排容器。
+        // getActiveSubscriptionInfoCount()/getActiveSubscriptionInfoList() 都是 @hide,
+        // 编译期不可见, 只能运行时反射拿。
+        val fromSub = runCatching {
+            val cls = SubscriptionManager::class.java
+            val list = cls.getDeclaredMethod("getActiveSubscriptionInfoList").invoke(null) as? List<*>
+            val size = list?.size ?: 0
+            if (size > 0) size else {
+                (cls.getDeclaredMethod("getActiveSubscriptionInfoCount").invoke(null) as? Int) ?: 0
+            }
+        }.getOrElse { 0 }
+        if (fromSub > 0) return fromSub
+        // 最后兜底: LOADED 的卡数量(模块跑在 SystemUI 进程, 读系统属性不需要权限)
+        val loaded = runCatching {
+            (SystemProperties.get("gsm.sim.state") ?: "").split(',')
+                .count { it.trim() == "LOADED" }
+        }.getOrElse { 0 }
+        if (loaded > 0) {
+            XposedLog.w(TAG, lpparam.packageName, "getActiveMobileControllerCount fallback to gsm.sim.state: $loaded")
+        }
+        return loaded
     }
 
     // ==================== 资源加载 ====================
@@ -498,11 +622,67 @@ class DualRowSignalHookV : MobileSignalHook() {
         mainHandler.post(refreshRunnable)
     }
 
+    /**
+     * HyperOS 4 关键点: dualContainer 是挂在 mobile_signal_container 内部的子 View。
+     * 所以绝对不能把 mobile_signal_container 本身设为 GONE —— 父 View GONE 会连同
+     * 双排容器一起不参与布局/绘制, 表现就是"双排彻底消失, 只剩单排"。
+     *
+     * 正确做法: 容器始终 VISIBLE, 只把容器里"非双排"的原生子 View 逐个隐藏。
+     * 这样既不残留多出来的那条单排栏, 双排图标也照常显示。
+     */
     private fun syncDualSignalVisibility(rootView: ViewGroup, useDualSignal: Boolean) {
         val dualContainer = rootView.findByViewId<FrameLayout>(ID_DUAL_CONTAINER)
-        val mobileSignal = rootView.findById<ImageView>("mobile_signal")
         dualContainer?.visibility = if (useDualSignal) View.VISIBLE else View.GONE
-        mobileSignal?.visibility = if (useDualSignal) View.GONE else View.VISIBLE
+
+        val legacyContainer = rootView.findById<ViewGroup>("mobile_signal_container")
+            ?: (rootView.findById<View>("mobile_signal")?.parent as? ViewGroup)
+
+        if (legacyContainer != null) {
+            // 容器自身必须保持可见, 否则里面的 dualContainer 永远不显示
+            if (legacyContainer.visibility != View.VISIBLE) {
+                legacyContainer.visibility = View.VISIBLE
+            }
+            for (i in 0 until legacyContainer.childCount) {
+                val child = legacyContainer.getChildAt(i) ?: continue
+                // 跳过我们自己注入的双排容器
+                if (dualContainer != null && child === dualContainer) continue
+                // 只处理原生信号相关节点, 未知节点一律保持原状,
+                // 避免把 OS4 新加/改名的节点也一起隐藏而导致布局异常
+                val childName = runCatching { child.resources.getResourceEntryName(child.id) }.getOrNull()
+                if (childName == null || !LEGACY_SIGNAL_CHILD_NAMES.any { childName.contains(it) }) {
+                    continue
+                }
+                if (useDualSignal) {
+                    // 用 INVISIBLE + alpha=0 而不是 GONE: GONE 会让 ConstraintLayout
+                    // 失去约束锚点, 兄弟节点测量退化, 双排容器宽度被算成负数。
+                    if (child.alpha != 0f) child.alpha = 0f
+                    if (child.visibility != View.INVISIBLE) child.visibility = View.INVISIBLE
+                } else {
+                    if (child.visibility != View.VISIBLE) child.visibility = View.VISIBLE
+                    if (child.alpha == 0f) child.alpha = 1f
+                }
+            }
+        }
+
+        // 宽度兜底: 系统 ModernStatusBarMobileViewInjector 用 islandWidth 判定可见性,
+        // 一旦测出 <= 0 就会把整组信号判成不可见(日志里 visible = 0)。
+        // 这里在下一帧复查, 发现非正宽度就重新请求布局并补一次约束, 同时打日志便于排查。
+        if (useDualSignal && dualContainer != null) {
+            dualContainer.post {
+                runCatching {
+                    val w = dualContainer.width
+                    if (w <= 0) {
+                        XposedLog.w(
+                            TAG,
+                            lpparam.packageName,
+                            "dualContainer width=$w, lp=${dualContainer.layoutParams.javaClass.simpleName}, " +
+                                "parent=${(dualContainer.parent as? View)?.javaClass?.simpleName}"
+                        )
+                        dualContainer.requestLayout()
+                    }
+                }
+            }
+        }
     }
 
     private inline fun <T, R> Iterable<T>.associateNotNull(transform: (T) -> Pair<R, Int>?): Map<R, Int> {

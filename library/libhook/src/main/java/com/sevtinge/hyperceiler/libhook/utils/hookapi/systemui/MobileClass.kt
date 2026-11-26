@@ -48,4 +48,12 @@ object MobileClass {
     val statusBarIconControllerImpl by lazy {
         loadClass("com.android.systemui.statusbar.phone.ui.StatusBarIconControllerImpl")
     }
+    /** HyperOS 4: 反色派发器(含 DarkChange 内部类), 用于拿 mDarkChangeFlow 订阅 isUseTint/isLight/color */
+    val sysuiDarkIconDispatcher by lazy {
+        loadClass("com.android.systemui.statusbar.phone.SysuiDarkIconDispatcher")
+    }
+    /** HyperOS 4: 每个 View 级反色回调(UiOffloadThread 里派发 onDarkChanged) */
+    val darkIconDispatcherImpl by lazy {
+        loadClass("com.android.systemui.statusbar.phone.DarkIconDispatcherImpl")
+    }
 }
