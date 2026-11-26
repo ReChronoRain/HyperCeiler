@@ -87,6 +87,22 @@ inline std::optional<uint32_t> resolve_share_apk_click(const Code& code) {
     constexpr uint32_t file_exists_prefix[] = {
         0xa9bf79fd, 0xaa0f03fd, 0xd10081ef, 0xf81f83a1,
     };
+    // The stock callback reads the package from the captured menu arguments.
+    // Its actual share call consumes only the receiver and package.
+    constexpr uint32_t package_load[] = {
+        0xb8417020, 0x8b1c8000, 0xb8417002, 0x8b1c8042, 0x6b16005f,
+        0x54000061, 0xaa1603e0, 0x14000003, 0xb8407040, 0x8b1c8000,
+        0x6b16001f, 0x54000061, 0xf9407f62, 0x14000002, 0xaa0003e2,
+        0xb840f020, 0x8b1c8000, 0xaa0003e1,
+    };
+    constexpr uint32_t share_prefix[] = {
+        0xa9bf79fd, 0xaa0f03fd, 0xd10041ef, 0xaa0103e0, 0xaa0203e3,
+        0xf81f83a2, 0xaa1603e1,
+    };
+    constexpr uint32_t confirmation_args[] = {
+        0xb8413022, 0x8b1c8042, 0xb8417040, 0x8b1c8000, 0x6b16001f,
+        0x540000e0, 0xb840f020, 0x8b1c8000, 0xb8417023, 0x8b1c8063, 0xaa0003e1,
+    };
     constexpr size_t file = 54, exists = 61, result_site = 62;
     std::optional<uint32_t> result;
     for (const auto& function : code.functions()) {
@@ -95,13 +111,26 @@ inline std::optional<uint32_t> resolve_share_apk_click(const Code& code) {
             || w[80] != 0xaa1603e0 || w[83] != 0xd65f03c0
             || !std::equal(std::begin(file_check), std::end(file_check), w.begin() + file)
             || !std::equal(std::begin(check_result), std::end(check_result), w.begin() + result_site)
+            || w[5] != 0xf81e83a3 || w[9] != 0xf81e03a0 || w[13] != 0xf85e83a2
+            || w[14] != 0xb8017002 || w[69] != 0xf85e03a2
             || (w[65] & 0xffc003ffu) != 0x91400361u
             || has_interior_entry(w, result_site, 4)) continue;
-        uint32_t target = 0;
-        home_dynamic::Body body;
+        uint32_t target = 0, share = 0, confirm = 0;
+        home_dynamic::Body body, callback, confirmation;
+        const uint32_t callback_va = function.va + uint32_t(w.size() * 4);
         if (!home_dynamic::target(w[exists], function.va + exists * 4, target)
             || !code.prefix(target, 4, body)
-            || !std::equal(body.begin(), body.end(), file_exists_prefix)) continue;
+            || !std::equal(body.begin(), body.end(), file_exists_prefix)
+            || !code.body(callback_va, callback) || callback.size() != 43
+            || callback[2] != 0xf9400fa0 || callback[3] != 0xb8417001 || callback[4] != 0x8b1c8021
+            || callback[6] != 0x372002a0
+            || !std::equal(std::begin(package_load), std::end(package_load), callback.begin() + 7)
+            || !std::equal(std::begin(confirmation_args), std::end(confirmation_args), callback.begin() + 27)
+            || !home_dynamic::target(callback[25], callback_va + 25 * 4, share)
+            || !code.body(share, body) || body.size() != 47
+            || !std::equal(std::begin(share_prefix), std::end(share_prefix), body.begin())
+            || !home_dynamic::target(callback[38], callback_va + 38 * 4, confirm)
+            || !code.body(confirm, confirmation) || confirmation.size() != 151) continue;
         if (result) return {};
         result = function.va + result_site * 4;
     }
@@ -113,6 +142,28 @@ inline const char* share_apk_click_result(const recent_render::Registers& saved)
     if (saved.x[0] == saved.x[22] + 0x30) return "file_not_found";
     if (saved.x[0] == saved.x[22] + 0x20) return "file_ready";
     return "unexpected_file_check_result";
+}
+
+template<class Read>
+inline bool apply_share_apk_click(recent_render::Registers& saved, Read read) {
+    const auto dart_null = saved.x[22];
+    if (saved.x[0] != dart_null || saved.x[29] < 32) return false;
+    const auto object = [&](uint64_t value) {
+        return (value & 1) && uint32_t(value) != uint32_t(dart_null);
+    };
+    const auto field = [&](uint64_t owner, unsigned offset, uint64_t& value) {
+        uint32_t compressed = 0;
+        if (!object(owner) || !read(owner + offset, compressed)) return false;
+        value = (saved.x[28] << 32) + compressed;
+        return object(value);
+    };
+    uint64_t closure = 0, item = 0, component = 0, package = 0;
+    if (!read(saved.x[29] - 32, closure) || !field(closure, 0x17, item)
+        || !field(item, 0x17, component) || !field(component, 0x7, package)) return false;
+    // Continue through the original confirmation and share callback. A real
+    // file that failed existsSync still takes the stock rejection path.
+    saved.x[0] = dart_null + 0x20;
+    return true;
 }
 
 inline std::optional<Freeform> resolve_freeform(const Code& code) {

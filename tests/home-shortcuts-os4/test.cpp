@@ -8,6 +8,39 @@ using namespace home_layout::features::shortcuts;
 static auto identify(const Functions& f){auto bytes=image(f);auto c=Code::parse(bytes);assert(c);return shortcuts::resolve(*c);}
 static Function& function(Functions& f,uint32_t va){return *std::find_if(f.begin(),f.end(),[&](const auto& x){return x.va==va;});}
 
+static void check_share_apk_click() {
+    using namespace home_layout::features::shortcut_actions;
+    constexpr uint64_t heap = 8, dart_null = (heap << 32) + 0x101;
+    constexpr uint64_t frame = 0x1000, closure = (heap << 32) + 0x201;
+    constexpr uint32_t item = 0x301, component = 0x401, package = 0x501;
+    const std::map<uintptr_t, uint64_t> fields{
+        {frame - 32, closure}, {closure + 0x17, item},
+        {(heap << 32) + item + 0x17, component}, {(heap << 32) + component + 0x7, package},
+    };
+    for (const auto result : {dart_null, dart_null + 0x20, dart_null + 0x30}) {
+        for (const auto missing : {uint64_t{0}, frame - 32, closure + 0x17,
+                                   (heap << 32) + item + 0x17, (heap << 32) + component + 0x7}) {
+            recent_render::Registers saved{};
+            saved.x[0] = result;
+            saved.x[22] = dart_null;
+            saved.x[28] = heap;
+            saved.x[29] = frame;
+            saved.branch = 0x6000;
+            auto expected = saved;
+            const bool applied = result == dart_null && missing == 0;
+            if (applied) expected.x[0] += 0x20;
+            assert(apply_share_apk_click(saved, [&](uintptr_t address, auto& value) {
+                const auto entry = fields.find(address);
+                if (entry == fields.end()) return false;
+                value = static_cast<std::remove_reference_t<decltype(value)>>(
+                    address == missing ? uint32_t(dart_null) : entry->second);
+                return true;
+            }) == applied);
+            assert(std::memcmp(&saved, &expected, sizeof(saved)) == 0);
+        }
+    }
+}
+
 static void check_freeform_reject_entry() {
     using namespace home_layout::features::shortcut_actions;
     home_dynamic::Body words(74, 0xd503201f);
@@ -37,6 +70,7 @@ static void check_freeform_reject_entry() {
 }
 
 int main(){
+    check_share_apk_click();
     check_freeform_reject_entry();
     const auto f=fixture();auto p=identify(f);assert(p&&p->entry==expected_entry);
     std::map<uint32_t,uint32_t> addresses;auto moved=relocated(f,addresses);
