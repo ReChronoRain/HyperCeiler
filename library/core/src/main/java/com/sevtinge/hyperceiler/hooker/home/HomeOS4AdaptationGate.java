@@ -40,8 +40,7 @@ public final class HomeOS4AdaptationGate {
     private static final Set<String> ADAPTED_OTHER_KEYS = Set.of(
         "prefs_key_home_folder_auto_close", "prefs_key_home_other_home_mode", "prefs_key_home_widget_allow_moved_to_minus_one_screen",
         "prefs_key_home_other_all_hide_app_activity",
-        "prefs_key_home_other_shortcut_remove_restrictions", "prefs_key_home_other_allow_share_apk",
-        "prefs_key_home_other_freeform_shortcut_menu",
+        "prefs_key_home_other_shortcut_remove_restrictions", "prefs_key_home_other_allow_share_apk", "prefs_key_home_other_tasks_shortcut_menu", "prefs_key_home_other_freeform_shortcut_menu",
         "prefs_key_home_other_disable_prestart", "prefs_key_home_other_infinite_scroll", "prefs_key_home_title_hide_report_text");
 
     // Keep the UI in sync with the verified OS4 native workspace/quick-switch paths.
