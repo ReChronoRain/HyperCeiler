@@ -750,6 +750,7 @@
     <string name="system_settings_novelty_haptic_title">Dokunsal geribildirim sayfasının yeni sürümünün kilidini açın</string>
     <string name="system_settings_novelty_haptic_desc">Yalnızca Sesler ve Dokunsal Geri Bildirim özelliğine sahip cihazlar için - Dokunsal Geri Bildirim sayfası</string>
     <string name="system_settings_unlock_google_header">Google girişinin kilidini aç</string>
+    <string name="system_settings_hide_xiaomi_account">Xiaomi hesabını gizle</string>
     <string name="system_settings_unlock_ui_mode">Uygulama düzeni optimizasyonlarının kilidini açın</string>
     <string name="system_settings_usb_mode">USB\'ye bağlanırken açılan pencereyi gizle</string>
     <string name="system_settings_usb_mode_choose">USB varsayılan seçeneği</string>

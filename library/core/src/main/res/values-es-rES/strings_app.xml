@@ -671,6 +671,7 @@
     <string name="system_settings_novelty_haptic_title">Desbloquear la nueva versión de la página de ajustes táctiles</string>
     <string name="system_settings_novelty_haptic_desc">Solo para dispositivos con sonidos &amp; Haptics - la página de Haptics</string>
     <string name="system_settings_unlock_google_header">Desbloquear la entrada de Google</string>
+    <string name="system_settings_hide_xiaomi_account">Ocultar cuenta de Xiaomi</string>
     <string name="system_settings_usb_mode">No aparece ventana emergente cuando se conecta a USB</string>
     <string name="system_settings_usb_mode_choose">Opción predeterminada de USB</string>
     <string name="system_settings_usb_default">predeterminado</string>

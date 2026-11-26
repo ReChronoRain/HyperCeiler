@@ -533,6 +533,7 @@
     <!--Settings-->
     <string name="system_settings_safe_wifi">看看 Wi-Fe 密码</string>
     <string name="system_settings_unlock_google_header">解锁咕噜咕噜条目</string>
+    <string name="system_settings_hide_xiaomi_account">隐藏小米账号</string>
     <string name="system_settings_ai_image_unlock_memc">让动作片更流畅</string>
     <string name="system_settings_more_notification_settings">通知设置... 圆圆的... 还想要...</string>
     <string name="system_settings_develop_speed_mode">解锁 Moster 模式</string>
