@@ -31,6 +31,34 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 public class FixColor extends BaseHook {
     @Override
     public void init() {
+        // OS4: 假时钟头迁到 CcFakeStatusBarIcons（ROM DEX 核验：updateHeaderColor()/onDarkChanged(ArrayList, float, int)，
+        // 字段 mTintAreas(OS4)/mArea(OS3)、mDarkIntensity/mDarkColor；OS3 的 NotificationShadeFakeStatusBarClock 路径已不存在）
+        Class<?> os4Clock = findClassIfExists("com.android.systemui.controlcenter.header.CcFakeStatusBarIcons");
+        if (os4Clock != null) {
+            findAndHookMethod(os4Clock, "updateHeaderColor", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    try {
+                        Object self = param.getThisObject();
+                        // the tint list is named mTintAreas on OS4 and mArea on OS3 (ROM dexdump)
+                        ArrayList<?> areas;
+                        try {
+                            areas = (ArrayList<?>) getObjectField(self, "mTintAreas");
+                        } catch (Throwable renamed) {
+                            areas = (ArrayList<?>) getObjectField(self, "mArea");
+                        }
+                        float darkIntensity = (float) getObjectField(self, "mDarkIntensity");
+                        int clockColor = (int) getObjectField(self, "mDarkColor");
+                        callMethod(self, "onDarkChanged", areas, darkIntensity, clockColor);
+                        param.setResult(null);
+                    } catch (Throwable ignored) {
+                        // one of the fields is missing on this build: let the original method run
+                    }
+                }
+            });
+            return;
+        }
+        // OS3 旧路径
         findAndHookMethod("com.android.systemui.controlcenter.phone.widget.NotificationShadeFakeStatusBarClock", "updateHeaderColor", new IMethodHook() {
             @Override
             public void before(HookParam param) {

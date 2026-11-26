@@ -27,11 +27,14 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object HideRecentCard : BaseHook() {
     override fun init() {
-        findClass("com.android.systemui.shared.recents.system.ActivityManagerWrapper")
-            .findMethod {
-                name("needRemoveTask")
-                parameterTypes(findClass("com.android.systemui.shared.recents.model.GroupedRecentTaskInfoCompat"))
-            }.createAfterHook { param ->
+        // OS4: shared.recents 模型重构，ActivityManagerWrapper.needRemoveTask(GroupedRecentTaskInfoCompat) 已无属主。
+        // 类/模型缺失时整条规则降级跳过（待真机 dumpsys 反编译后补 OS4 recents 挂点）。
+        val wrapper = findClassIfExists("com.android.systemui.shared.recents.system.ActivityManagerWrapper") ?: return
+        val groupedInfo = findClassIfExists("com.android.systemui.shared.recents.model.GroupedRecentTaskInfoCompat") ?: return
+        wrapper.findMethod {
+            name("needRemoveTask")
+            parameterTypes(groupedInfo)
+        }.createAfterHook { param ->
                 val pkgName = param.args[0]
                     ?.getObjectField("mMainTaskInfo")
                     ?.getObjectField("realActivity")
