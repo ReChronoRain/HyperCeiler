@@ -49,5 +49,5 @@
     <string name="provision_system_preparing">系统准备中</string>
     <string name="provision_system_complete">设置完毕</string>
     <string name="provision_scope_open_failed">无法打开作用域页面</string>
-    <string name="provision_get_md_failed">## 获取内容失败。   \n - 您可前往[此处](%URL%)查看原始内容。   \n - 或尝试[刷新](hyperceiler://refresh)此页。</string>
+    <string name="provision_get_md_failed" formatted="false">## 获取内容失败。   \n - 您可前往[此处](%URL%)查看原始内容。   \n - 或尝试[刷新](hyperceiler://refresh)此页。</string>
 </resources>

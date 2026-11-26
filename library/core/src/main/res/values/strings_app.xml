@@ -1387,7 +1387,7 @@
     <string name="home_animation_recents_category">Recents &amp; gesture animations</string>
     <string name="home_animation_recents_enable">Custom duration</string>
     <string name="home_animation_recents_enable_desc">Override the duration of recents, swipe-up and other desktop animations</string>
-    <string name="home_animation_open_rate_desc">30%–200%; below 100% speeds animations up, above 100% slows them down</string>
+    <string name="home_animation_open_rate_desc" formatted="false">30%–200%; below 100% speeds animations up, above 100% slows them down</string>
     <string name="home_animation_open_rate">Duration ratio</string>
     <string name="home_dock_unlock_style">Dock unlock fly-in animation</string>
     <string name="home_dock_unlock_style_daybreak">Rise and settle</string>
