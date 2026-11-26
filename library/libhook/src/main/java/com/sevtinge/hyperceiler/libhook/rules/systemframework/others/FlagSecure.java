@@ -66,12 +66,23 @@ public class FlagSecure {
             XposedLog.e(TAG, "system", "hook ScreenCapture failed", t);
         }
 
-        // WifiDisplay (S~Baklava) / OverlayDisplay (S~Baklava) / VirtualDisplay (U~Baklava)
-        try {
-            hookDisplayControl(classLoader);
-        } catch (Throwable t) {
-            XposedLog.e(TAG, "system", "hook DisplayControl failed", t);
-        }
+        // 注意：这里刻意不再 hook DisplayControl.createVirtualDisplay(String, boolean)。
+        // 该重载在 AOSP 中是被 WifiDisplayAdapter 用来创建 Wi-Fi Display（投屏）显示的
+        // (services/core/java/com/android/server/display/WifiDisplayAdapter.java:397)，
+        // 其第二个参数 secure 是投屏会话的协商结果、不是"请求安全显示"：native 侧
+        // RemoteDisplay.Listener#onDisplayConnected 给的 flags 经 WifiDisplayController.java:753
+        // 传到 WifiDisplayAdapter.java:384（RemoteDisplay.DISPLAY_FLAG_SECURE），而 native
+        // 也只有在谈成 HDCP 时才会建立安全编码会话。
+        // Java 侧单方面把它置为 true 只会让 SurfaceFlinger 把投屏显示当成安全显示：
+        //   - 框架侧的 DisplayDeviceInfo 仍是非 secure（deviceFlags 未被改），
+        //   - 但 SurfaceFlinger 侧该显示已是 secure，采集缓冲走受保护通路；
+        // 非 HDCP 会话下手机侧硬件编码器（Venus/V4L2，非安全会话）拿不到可用缓冲，
+        // 首帧即 Poll error → MM_VIDEO_EVENT_FAILURE-RuntimeError，手机随后主动
+        // RTSP TEARDOWN，表现就是"投上去几秒就断"。
+        // 投屏显示的 secure 位应完全交给会话/HDCP 协商决定，这里不能改。
+        //
+        // 让受保护内容进入截屏/录屏/投屏画面的手段改为从窗口层取消安全位
+        // （见下面 secureLockedHooker），显示侧的 secure 位一概不动。
 
         // VirtualDisplay with MediaProjection (S~Baklava)
         try {
@@ -87,15 +98,6 @@ public class FlagSecure {
             XposedLog.e(TAG, "system", "hook WindowState failed", t);
         }
     }
-
-    private final ChainHooker createDisplayHooker = new ChainHooker() {
-        @Override
-        public Object intercept(XposedInterface.Chain chain) throws Throwable {
-            Object[] args = chain.getArgs().toArray();
-            args[1] = true;
-            return chain.proceed(args);
-        }
-    };
 
     private final ChainHooker screenCaptureHooker = new ChainHooker() {
         @Override
@@ -117,18 +119,23 @@ public class FlagSecure {
     private final ChainHooker createVirtualDisplayLockedHooker = new ChainHooker() {
         @Override
         public Object intercept(XposedInterface.Chain chain) throws Throwable {
-            var caller = (int) chain.getArg(2);
-            if (caller >= 10000 && chain.getArg(1) == null) {
-                // not os and not media projection
+            // AOSP: VirtualDisplayAdapter.createVirtualDisplayLocked(
+            //     IVirtualDisplayCallback callback, IMediaProjection projection, int ownerUid,
+            //     String ownerPackageName, String uniqueId, Surface surface, int flags,
+            //     VirtualDisplayConfig virtualDisplayConfig)
+            //
+            // 只有"媒体投影"创建的采集显示需要 SECURE；系统/厂商内部创建的显示
+            // （projection == null，含 Wi-Fi Display 投屏、副屏/Overlay 等）一律保持原样。
+            // 给投屏/其他系统虚拟屏强行加 SECURE，会让它们的采集缓冲走受保护通路，
+            // 非安全硬件编码器会话首帧就会失败（Poll error / 0x8000100A）。
+            if (chain.getArg(1) == null) {
                 return chain.proceed();
             }
             for (int i = 3; i < chain.getArgs().size(); i++) {
                 var arg = chain.getArg(i);
                 if (arg instanceof Integer) {
-                    var flags = (int) arg;
-                    flags |= DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
                     Object[] args = chain.getArgs().toArray();
-                    args[i] = flags;
+                    args[i] = (int) arg | DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
                     return chain.proceed(args);
                 }
             }
@@ -137,16 +144,17 @@ public class FlagSecure {
         }
     };
 
+    // 窗口层的安全位。isSecureLocked() 决定 WindowState.setInitialSurfaceControlProperties()
+    // 里 setSecure(mSurfaceControl, isSecureLocked()) 的取值（AOSP WindowState.java:1200），
+    // 也就是 SurfaceFlinger 中该窗口 layer 的 secure 位。这里对所有调用者返回 false：
+    //   - layer 不再是安全层，SF 会把它合成到任何显示上，因此截图、录屏、投屏（含非 HDCP
+    //     的 Miracast）都能看到受保护内容，而且不需要把投屏显示标成安全显示；
+    //   - 代价是本机 FLAG_SECURE 语义整体失效（最近任务缩略图、AOSP 16 的
+    //     sensitiveContentPackages 判定等一并放开），这是"允许截屏"功能的预期取舍；
+    //   - Widevine L1 等 buffer 级硬件保护不受影响，那类内容在任何通路上依旧是黑屏。
     private final ChainHooker secureLockedHooker = new ChainHooker() {
         @Override
-        public Object intercept(XposedInterface.Chain chain) throws Throwable {
-            var walker = StackWalker.getInstance();
-            var match = walker.walk(frames -> frames
-                .map(StackWalker.StackFrame::getMethodName)
-                .limit(10)
-                .skip(6)
-                .anyMatch(s -> s.equals("setInitialSurfaceControlProperties") || s.equals("createSurfaceLocked")));
-            if (match) return chain.proceed();
+        public Object intercept(XposedInterface.Chain chain) {
             return false;
         }
     };
@@ -213,13 +221,6 @@ public class FlagSecure {
         captureSecureLayersField.setAccessible(true);
         hookMethods(screenCaptureClazz, screenCaptureHooker, "nativeCaptureDisplay");
         hookMethods(screenCaptureClazz, screenCaptureHooker, "nativeCaptureLayers");
-    }
-
-    private void hookDisplayControl(ClassLoader classLoader) throws ClassNotFoundException, NoSuchMethodException {
-        var displayControlClazz = classLoader.loadClass("com.android.server.display.DisplayControl");
-        var method = displayControlClazz.getDeclaredMethod(
-            "createVirtualDisplay", String.class, boolean.class);
-        hook(method, createDisplayHooker);
     }
 
     private void hookVirtualDisplayAdapter(ClassLoader classLoader) throws ClassNotFoundException {
