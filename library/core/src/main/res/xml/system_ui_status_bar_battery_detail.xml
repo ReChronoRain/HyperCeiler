@@ -95,7 +95,7 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_battery_detail_font_size"
             android:title="@string/system_ui_statusbar_battery_detail_font_size_title"
-            app:defaultValue="16"
+            app:defaultValue="14"
             app:defaultValueTitle="@string/array_default"
             app:dividerValue="2"
             app:format="%.1f dp"
@@ -128,7 +128,7 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_battery_detail_left_margin"
             android:title="@string/system_ui_statusbar_battery_detail_left_margin_title"
-            app:defaultValue="8"
+            app:defaultValue="4"
             app:defaultValueTitle="@string/array_default"
             app:dividerValue="2"
             app:format="%.1f dp"
@@ -139,7 +139,7 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_battery_detail_right_margin"
             android:title="@string/system_ui_statusbar_battery_detail_right_margin_title"
-            app:defaultValue="8"
+            app:defaultValue="4"
             app:defaultValueTitle="@string/array_default"
             app:dividerValue="2"
             app:format="%.1f dp"
