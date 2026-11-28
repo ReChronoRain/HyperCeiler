@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.battery
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
@@ -38,6 +39,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
 import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
@@ -49,6 +51,7 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import java.io.File
 import java.io.FileInputStream
 import java.lang.ref.WeakReference
 import java.util.Collections
@@ -101,6 +104,9 @@ object BatteryDetailIndicator : BaseHook() {
     private const val ID_CLOCK = "clock"
     private const val STYLE_NETWORK_SPEED_NUMBER = "TextAppearance.StatusBar.NetWorkSpeedNumber"
     private const val STYLE_CLOCK = "TextAppearance.StatusBar.Clock"
+    private const val CLASS_MIUI_CONFIGS = "com.miui.utils.configs.MiuiConfigs"
+    private const val PROP_MI_FONT_PATH = "ro.miui.ui.font.mi_font_path"
+    private const val DEFAULT_MISANS_FONT_PATH = "/system/fonts/MiSansVF.ttf"
     private const val FONT_MIPRO_BOLD = "mipro-bold"
     private const val FONT_MIPRO_MEDIUM = "mipro-medium"
     private const val FONT_MISANS = "misans"
@@ -140,7 +146,7 @@ object BatteryDetailIndicator : BaseHook() {
         PrefsBridge.getInt("system_ui_statusbar_battery_detail_update_spacing", 2).coerceIn(1, 10)
     }
     private val fontSize by lazy {
-        PrefsBridge.getInt("system_ui_statusbar_battery_detail_font_size", 16)
+        PrefsBridge.getInt("system_ui_statusbar_battery_detail_font_size", 14)
     }
     private val bold by lazy {
         PrefsBridge.getBoolean("system_ui_statusbar_battery_detail_bold")
@@ -152,10 +158,10 @@ object BatteryDetailIndicator : BaseHook() {
         PrefsBridge.getInt("system_ui_statusbar_battery_detail_fixed_width", 10)
     }
     private val leftMargin by lazy {
-        PrefsBridge.getInt("system_ui_statusbar_battery_detail_left_margin", 8)
+        PrefsBridge.getInt("system_ui_statusbar_battery_detail_left_margin", 4)
     }
     private val rightMargin by lazy {
-        PrefsBridge.getInt("system_ui_statusbar_battery_detail_right_margin", 8)
+        PrefsBridge.getInt("system_ui_statusbar_battery_detail_right_margin", 4)
     }
     private val verticalOffset by lazy {
         PrefsBridge.getInt("system_ui_statusbar_battery_detail_vertical_offset", 8)
@@ -242,7 +248,7 @@ object BatteryDetailIndicator : BaseHook() {
                 val nsView = param.thisObject as? View
                 if (nsView != null && ViewHelper.isCustomTextIcon(nsView)) {
                     val lp = nsView.layoutParams ?: LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                    ViewHelper.initStatusbarTextIcon(nsView.context, lp, nsView, false)
+                    ViewHelper.initStatusbarTextIcon(nsView.context, lp, nsView, isBatteryAtRight)
                 }
             }
         }
@@ -252,7 +258,7 @@ object BatteryDetailIndicator : BaseHook() {
                 it.name in listOf("onDarkChanged", "onLightDarkTintChanged", "onDarkChangedWithContrast")
             }.createAfterHooks { param ->
                 val nsView = param.thisObject as? View
-                if (nsView != null && ViewHelper.isCustomTextIcon(nsView)) {
+                if (nsView != null && ViewHelper.isCustomTextIcon(nsView) && !isBatteryAtRight) {
                     syncColorWithClock(nsView)
                 }
             }
@@ -277,18 +283,24 @@ object BatteryDetailIndicator : BaseHook() {
     }
 
     private fun findCachedClock(iconView: View): TextView? {
-        val container = iconView.parent as? ViewGroup ?: return null
+        val container = iconView.parent as? ViewGroup
+        val root = iconView.rootView as? ViewGroup
+        if (container == null && root == null) return null
+        val res = (container ?: root)!!.resources
         synchronized(clockCache) {
             clockCache[iconView]?.get()?.let { cached ->
-                if (cached.parent === container) return cached
+                if (cached.parent != null && (cached.parent === container || (root != null && cached.rootView === root))) {
+                    return cached
+                }
                 clockCache.remove(iconView)
             }
 
             if (cachedClockId == -1) {
-                cachedClockId = container.resources.getIdentifier(ID_CLOCK, "id", PKG_SYSTEMUI)
+                cachedClockId = res.getIdentifier(ID_CLOCK, "id", PKG_SYSTEMUI)
             }
             val clock = if (cachedClockId != 0) {
-                container.findViewById<TextView>(cachedClockId)
+                container?.findViewById<TextView>(cachedClockId)
+                    ?: root?.findViewById<TextView>(cachedClockId)
             } else {
                 null
             }
@@ -297,6 +309,19 @@ object BatteryDetailIndicator : BaseHook() {
             }
             return clock
         }
+    }
+
+    private fun reapplyNetworkSpeedTint(iconView: View): Boolean {
+        val lightColor = runCatching { iconView.getIntField("mLightColor") }.getOrDefault(0)
+        val darkColor = runCatching { iconView.getIntField("mDarkColor") }.getOrDefault(0)
+        if (lightColor == 0 && darkColor == 0) return false
+        val areas = iconView.getObjectFieldOrNull("mAreas")
+        val darkIntensity = runCatching { iconView.getObjectFieldOrNull("mDarkIntensity") as? Float }.getOrNull() ?: 0f
+        val tint = runCatching { iconView.getIntField("mTint") }.getOrDefault(0)
+        return runCatching {
+            iconView.callMethod("onDarkChanged", areas, darkIntensity, tint)
+            true
+        }.getOrDefault(false)
     }
 
     private fun startDataCollection() {
@@ -329,7 +354,9 @@ object BatteryDetailIndicator : BaseHook() {
                             ?: (tv as? TextView)
                         number?.text = tii.iconText
                     }
-                syncColorWithClock(tv)
+                if (!isBatteryAtRight) {
+                    syncColorWithClock(tv)
+                }
             }
         }
     }
@@ -798,6 +825,68 @@ object BatteryDetailIndicator : BaseHook() {
             return contentMode == 1 || contentMode == 4 || contentMode == 5
         }
 
+        private fun buildVariationTypeface(fontPath: String, weight: Int): Typeface? {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
+            if (!File(fontPath).exists()) return null
+            return runCatching {
+                Typeface.Builder(fontPath)
+                    .setFontVariationSettings("'wght' $weight")
+                    .build()
+            }.getOrNull()
+        }
+
+        private fun applyClockTypeface(iconTextView: TextView, isBold: Boolean) {
+            val miuiConfigsCls = loadClassOrNull(CLASS_MIUI_CONFIGS, lpparam.classLoader)
+            if (miuiConfigsCls != null) {
+                val isPad = runCatching { miuiConfigsCls.getField("IS_PAD").getBoolean(null) }.getOrDefault(false)
+                val fontPath = runCatching { miuiConfigsCls.getField("FONT_MIPRO_PATH").get(null) as? String }.getOrNull()
+                    ?.takeIf { it.isNotEmpty() }
+                    ?: PropUtils.getProp(PROP_MI_FONT_PATH, DEFAULT_MISANS_FONT_PATH)
+                val targetTf = if (isBold) {
+                    buildVariationTypeface(fontPath, 650)
+                        ?: runCatching { miuiConfigsCls.getField("sMiproTypefaceWght600").get(null) as? Typeface }.getOrNull()
+                } else {
+                    if (isPad) {
+                        runCatching { miuiConfigsCls.getMethod("getMiProTypefaceWght460").invoke(null) as? Typeface }.getOrNull()
+                    } else {
+                        null
+                    } ?: runCatching { miuiConfigsCls.getField("sMiproTypefaceWght500").get(null) as? Typeface }.getOrNull()
+                        ?: buildVariationTypeface(fontPath, 500)
+                }
+                if (targetTf != null) {
+                    val applied = runCatching {
+                        val method = miuiConfigsCls.getDeclaredMethod(
+                            "applyStatusBarTypeface",
+                            Typeface::class.java,
+                            Array<TextView>::class.java
+                        )
+                        method.isAccessible = true
+                        method.invoke(null, targetTf, arrayOf(iconTextView))
+                        true
+                    }.getOrDefault(false)
+                    if (applied) return
+                    iconTextView.typeface = targetTf
+                    return
+                }
+            }
+
+            val fontPath = PropUtils.getProp(PROP_MI_FONT_PATH, DEFAULT_MISANS_FONT_PATH)
+            val variationTf = buildVariationTypeface(fontPath, if (isBold) 650 else 500)
+            if (variationTf != null) {
+                iconTextView.typeface = variationTf
+                return
+            }
+
+            val familyName = if (isBold) FONT_MIPRO_BOLD else FONT_MIPRO_MEDIUM
+            iconTextView.typeface = runCatching {
+                Typeface.create(familyName, if (isBold) Typeface.BOLD else Typeface.NORMAL)
+            }.getOrNull()
+                ?: runCatching {
+                    Typeface.create(FONT_MISANS, if (isBold) Typeface.BOLD else Typeface.NORMAL)
+                }.getOrNull()
+                ?: if (isBold) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+        }
+
         @SuppressLint("DiscouragedApi")
         fun initStatusbarTextIcon(
             mContext: Context,
@@ -812,25 +901,24 @@ object BatteryDetailIndicator : BaseHook() {
                 ?: (iconView as? TextView) ?: return
 
             val res = mContext.resources
-            val styleId = res.getIdentifier(STYLE_NETWORK_SPEED_NUMBER, "style", PKG_SYSTEMUI)
+            val styleId = res.getIdentifier(STYLE_CLOCK, "style", PKG_SYSTEMUI)
                 .takeIf { it != 0 }
-                ?: res.getIdentifier(STYLE_CLOCK, "style", PKG_SYSTEMUI)
+                ?: res.getIdentifier(STYLE_NETWORK_SPEED_NUMBER, "style", PKG_SYSTEMUI)
             if (styleId != 0) {
                 iconTextView.setTextAppearance(styleId)
             }
-            syncColorWithClock(iconView)
+            if (!isBatteryAtRight || !reapplyNetworkSpeedTint(iconView)) {
+                syncColorWithClock(iconView)
+            }
 
-            val familyName = if (bold) FONT_MIPRO_BOLD else FONT_MIPRO_MEDIUM
-            val tf = runCatching { Typeface.create(familyName, if (bold) Typeface.BOLD else Typeface.NORMAL) }.getOrNull()
-                ?: runCatching { Typeface.create(FONT_MISANS, if (bold) Typeface.BOLD else Typeface.NORMAL) }.getOrNull()
-                ?: if (bold) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
-            iconTextView.typeface = tf
+            applyClockTypeface(iconTextView, bold)
+            iconTextView.includeFontPadding = false
 
             val fSize = fontSize * 0.5f
             if (isMultiLineContent(content) && !singleRow) {
                 iconTextView.isSingleLine = false
                 iconTextView.maxLines = 2
-                val lineSpacing = if (fSize > 8.5f) 0.85f else 0.9f
+                val lineSpacing = if (fSize > 8.5f) 0.85f else 0.8f
                 iconTextView.setLineSpacing(0f, lineSpacing)
             } else {
                 iconTextView.isSingleLine = true
@@ -840,20 +928,19 @@ object BatteryDetailIndicator : BaseHook() {
 
             val leftMarginPx = dp2px(leftMargin * 0.5f)
             val rightMarginPx = dp2px(rightMargin * 0.5f)
-            val topMarginPx = if (verticalOffset != 8) dp2px((verticalOffset - 8) * 0.5f) else 0
-
-            iconTextView.setPaddingRelative(leftMarginPx, topMarginPx, rightMarginPx, 0)
+            iconTextView.setPaddingRelative(leftMarginPx, 0, rightMarginPx, 0)
+            iconTextView.translationX = 0f
+            iconTextView.translationY = if (verticalOffset != 8) dp2px((verticalOffset - 8) * 0.5f).toFloat() else 0f
 
             if (fixedWidth > 10) {
                 lp.width = dp2px(fixedWidth.toFloat())
                 iconView.layoutParams = lp
             }
 
-            when (align) {
-                2 -> iconTextView.gravity = Gravity.START or Gravity.CENTER_VERTICAL
-                3 -> iconTextView.gravity = Gravity.CENTER
-                4 -> iconTextView.gravity = Gravity.END or Gravity.CENTER_VERTICAL
-                else -> iconTextView.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+            iconTextView.gravity = when (align) {
+                2 -> Gravity.START or Gravity.CENTER_VERTICAL
+                4 -> Gravity.END or Gravity.CENTER_VERTICAL
+                else -> Gravity.CENTER
             }
         }
     }
