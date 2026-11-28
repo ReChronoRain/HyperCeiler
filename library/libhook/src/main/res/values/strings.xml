@@ -61,6 +61,19 @@
     <string name="security_center_battery_health_dead">Dead</string>
     <string name="security_center_battery_health_over_voltage">Over Voltage</string>
     <string name="security_center_battery_health_cold">Cold</string>
+    <string name="security_center_battery_days_to_full_charge">Days to Full Charge</string>
+    <string name="security_center_battery_days_format">%1$d days</string>
+    <string name="security_center_battery_days_less_than_one">&lt; 1 day</string>
+    <string name="security_center_battery_days_ready">Next Charge</string>
+    <string name="security_center_battery_dialog_schedule_title">Schedule Next Full Charge</string>
+    <string name="security_center_battery_dialog_schedule_message" formatted="false">Charge to 100% on the next charging session?\n\nThe system will charge to 100% the next time the charger is plugged in, then restore the 80% limit and restart the 30-day cycle.</string>
+    <string name="security_center_battery_dialog_schedule_confirm">Schedule</string>
+    <string name="security_center_battery_dialog_cancel_title">Cancel Scheduled Full Charge</string>
+    <string name="security_center_battery_dialog_cancel_message" formatted="false">Next charge is already scheduled to reach 100%. Do you want to cancel and restore the 30-day protection cycle?</string>
+    <string name="security_center_battery_dialog_cancel_confirm">Restore Protection</string>
+    <string name="security_center_battery_toast_scheduled">Scheduled to fully charge next time</string>
+    <string name="security_center_battery_toast_cancelled">30-day protection cycle restored</string>
+    <string name="security_center_battery_dialog_dismiss">Cancel</string>
     <string name="app_link_open_always">Allows the app to open supported links</string>
     <string name="app_link_open_never">Don\'t allow apps to open links</string>
     <string name="dashboard_5g">Use 5G</string>

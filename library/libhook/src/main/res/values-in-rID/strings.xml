@@ -20,5 +20,18 @@
     <string name="security_center_battery_health_dead">Rusak</string>
     <string name="security_center_battery_health_over_voltage">Tegangan berlebih</string>
     <string name="security_center_battery_health_cold">Dingin</string>
+    <string name="security_center_battery_days_to_full_charge">Hari Hingga Penuh</string>
+    <string name="security_center_battery_days_format">%1$d hari</string>
+    <string name="security_center_battery_days_less_than_one">&lt; 1 hari</string>
+    <string name="security_center_battery_days_ready">Pengisian Berikutnya</string>
+    <string name="security_center_battery_dialog_schedule_title">Jadwalkan Pengisian Penuh Berikutnya</string>
+    <string name="security_center_battery_dialog_schedule_message" formatted="false">Isi daya hingga 100% pada pengisian daya berikutnya?\n\nSistem akan mengisi daya hingga 100% saat pengisi daya dicolokkan berikutnya, lalu memulihkan batas 80% dan memulai kembali siklus 30 hari.</string>
+    <string name="security_center_battery_dialog_schedule_confirm">Jadwalkan</string>
+    <string name="security_center_battery_dialog_cancel_title">Batalkan Pengisian Penuh Terjadwal</string>
+    <string name="security_center_battery_dialog_cancel_message" formatted="false">Pengisian daya berikutnya telah dijadwalkan hingga 100%. Batalkan dan pulihkan siklus perlindungan 30 hari?</string>
+    <string name="security_center_battery_dialog_cancel_confirm">Pulihkan Perlindungan</string>
+    <string name="security_center_battery_toast_scheduled">Dijadwalkan untuk terisi penuh berikutnya</string>
+    <string name="security_center_battery_toast_cancelled">Siklus perlindungan 30 hari dipulihkan</string>
+    <string name="security_center_battery_dialog_dismiss">Batal</string>
 </resources>
 

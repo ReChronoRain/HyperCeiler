@@ -21,13 +21,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Resources
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Message
+import android.widget.Toast
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
@@ -68,6 +71,9 @@ object MoreBatteryInfoNew : BaseHook() {
     private const val METHOD_SET_TOUCH_ANIM = "setTouchAnimationEnable"
     private const val METHOD_ADD_PREFERENCE = "addPreference"
     private const val METHOD_SET_VISIBLE = "setVisible"
+    private const val METHOD_SET_SELECTABLE = "setSelectable"
+    private const val METHOD_SET_SHOW_RIGHT_ARROW = "setShowRightArrow"
+    private const val METHOD_SET_ON_PREF_CLICK = "setOnPreferenceClickListener"
 
     private val manufacturingDateMethod by lazy<Method> {
         requiredMember("manufacturingDate") {
@@ -128,6 +134,12 @@ object MoreBatteryInfoNew : BaseHook() {
     private const val CURRENT_NOW_KEY = "reference_battery_current_now"
     private const val CAPACITY_LEVEL_KEY = "reference_battery_capacity_level"
     private const val TIME_TO_FULL_KEY = "reference_battery_time_to_full"
+    private const val DAYS_TO_FULL_CHARGE_KEY = "reference_days_to_full_charge"
+    private const val BATTERY_PROTECT_MODE_KEY = "security_pc_secure_protect_mode_key"
+    private const val BATTERY_LAST_FULLY_CHARGE_TIME_KEY = "pc_security_center_last_fully_charge_time"
+    private const val PROTECT_MODE_ALWAYS = 2
+    private const val FULL_CHARGE_CYCLE_MS = 2592000000L
+    private const val ONE_DAY_MS = 86400000L
 
     private const val CAPACITY_EMPTY_TEXT = "--"
     private const val BATTERY_DATE_FORMAT = "yyyyMMdd"
@@ -179,7 +191,8 @@ object MoreBatteryInfoNew : BaseHook() {
         STATUS_KEY,
         CURRENT_NOW_KEY,
         CAPACITY_LEVEL_KEY,
-        TIME_TO_FULL_KEY
+        TIME_TO_FULL_KEY,
+        DAYS_TO_FULL_CHARGE_KEY
     )
 
     private var batteryInfoCategory: Any? = null
@@ -198,6 +211,8 @@ object MoreBatteryInfoNew : BaseHook() {
     private var cycleCountPreference: Any? = null
     private var todayChargePreference: Any? = null
     private var currentTempPreference: Any? = null
+    private var daysToFullChargePreference: Any? = null
+    private var batteryFragment: Any? = null
 
     @SuppressLint("StaticFieldLeak")
     private var batteryContext: Context? = null
@@ -235,6 +250,7 @@ object MoreBatteryInfoNew : BaseHook() {
 
     private fun hookChargeProtectFragment() {
         val fragmentClass = findClassIfExists(CHARGE_PROTECT_FRAGMENT_CLASS) ?: return
+        val preferenceClass = findClassIfExists("androidx.preference.Preference")
 
         runCatching {
             fragmentClass.interceptHookMethod("onCreatePreferences", Bundle::class.java, String::class.java) { chain ->
@@ -247,6 +263,73 @@ object MoreBatteryInfoNew : BaseHook() {
         }.onFailure {
             XposedLog.e(TAG,
                 packageName, "Failed to hook $CHARGE_PROTECT_FRAGMENT_CLASS#onCreatePreferences", it)
+        }
+
+        if (preferenceClass != null) {
+            runCatching {
+                fragmentClass.interceptHookMethod(
+                    "onPreferenceChange",
+                    preferenceClass,
+                    Any::class.java
+                ) { chain ->
+                    val result = chain.proceed()
+                    refreshDynamicBatteryRows()
+                    result
+                }
+            }.onFailure {
+                XposedLog.e(
+                    TAG,
+                    packageName,
+                    "Failed to hook $CHARGE_PROTECT_FRAGMENT_CLASS#onPreferenceChange",
+                    it
+                )
+            }
+
+            runCatching {
+                fragmentClass.interceptHookMethod(
+                    "onPreferenceClick",
+                    preferenceClass
+                ) { chain ->
+                    val pref = chain.getArg(0)
+                    val key = runCatching { pref?.callMethod(METHOD_GET_KEY) as? String }.getOrNull()
+                    if (key == DAYS_TO_FULL_CHARGE_KEY) {
+                        showScheduleFullChargeDialog(chain.thisObject)
+                        true
+                    } else {
+                        chain.proceed()
+                    }
+                }
+            }.onFailure {
+                XposedLog.e(
+                    TAG,
+                    packageName,
+                    "Failed to hook $CHARGE_PROTECT_FRAGMENT_CLASS#onPreferenceClick",
+                    it
+                )
+            }
+
+            runCatching {
+                fragmentClass.interceptHookMethod(
+                    "onPreferenceTreeClick",
+                    preferenceClass
+                ) { chain ->
+                    val pref = chain.getArg(0)
+                    val key = runCatching { pref?.callMethod(METHOD_GET_KEY) as? String }.getOrNull()
+                    if (key == DAYS_TO_FULL_CHARGE_KEY) {
+                        showScheduleFullChargeDialog(chain.thisObject)
+                        true
+                    } else {
+                        chain.proceed()
+                    }
+                }
+            }.onFailure {
+                XposedLog.e(
+                    TAG,
+                    packageName,
+                    "Failed to hook $CHARGE_PROTECT_FRAGMENT_CLASS#onPreferenceTreeClick",
+                    it
+                )
+            }
         }
     }
 
@@ -284,6 +367,7 @@ object MoreBatteryInfoNew : BaseHook() {
             return
         }
 
+        batteryFragment = fragment
         batteryContext = runCatching {
             fragment.callMethod("getContext") as? Context
         }.getOrNull() ?: runCatching {
@@ -311,6 +395,7 @@ object MoreBatteryInfoNew : BaseHook() {
         currentNowPreference = findPreferenceByKey(CURRENT_NOW_KEY)
         capacityLevelPreference = findPreferenceByKey(CAPACITY_LEVEL_KEY)
         timeToFullPreference = findPreferenceByKey(TIME_TO_FULL_KEY)
+        daysToFullChargePreference = findPreferenceByKey(DAYS_TO_FULL_CHARGE_KEY)
     }
 
     private fun updateOrEnsurePref(
@@ -380,6 +465,9 @@ object MoreBatteryInfoNew : BaseHook() {
         technologyPreference = updateOrEnsurePref(
             technologyPreference, category, context, TECHNOLOGY_KEY,
             modRes.getString(R.string.security_center_battery_technology), 110
+        )
+        daysToFullChargePreference = updateOrEnsureDaysToFullPref(
+            category, context, modRes, 150
         )
 
         setPrefOrder(currentTempPreference, 80)
@@ -473,6 +561,13 @@ object MoreBatteryInfoNew : BaseHook() {
             timeToFullPreference,
             resolveTimeToFullText(batteryManager)
         )
+
+        val daysToFullText = if (isAlwaysProtectMode(context)) {
+            resolveDaysToFullChargeText(context, modRes)
+        } else {
+            null
+        }
+        updateDatePreference(daysToFullChargePreference, daysToFullText)
     }
 
     private fun ensureTextPreference(
@@ -510,6 +605,202 @@ object MoreBatteryInfoNew : BaseHook() {
             XposedLog.e(TAG, packageName, "Failed to add dynamic preference $key", it)
         }
         return textPreference
+    }
+
+    private fun updateOrEnsureDaysToFullPref(
+        category: Any,
+        context: Context,
+        modRes: Resources,
+        order: Int
+    ): Any? {
+        val existing = daysToFullChargePreference
+        val title = modRes.getString(R.string.security_center_battery_days_to_full_charge)
+        if (existing != null) {
+            runCatching {
+                existing.callMethod(METHOD_SET_TITLE, title)
+                existing.callMethod(METHOD_SET_ORDER, order)
+                existing.callMethod(METHOD_SET_CLICKABLE, true)
+                existing.callMethod(METHOD_SET_SELECTABLE, true)
+                existing.callMethod(METHOD_SET_TOUCH_ANIM, true)
+                existing.callMethod(METHOD_SET_SHOW_RIGHT_ARROW, true)
+                batteryFragment?.let { existing.callMethod(METHOD_SET_ON_PREF_CLICK, it) }
+            }
+            return existing
+        }
+
+        val textPreferenceClass =
+            findClassIfExists("miuix.preference.TextPreference") ?: return null
+
+        val textPreference = try {
+            newInstance(textPreferenceClass, context)
+        } catch (_: Throwable) {
+            try {
+                newInstance(textPreferenceClass, context, null)
+            } catch (_: Throwable) {
+                XposedLog.e(TAG, packageName, "Unable to create TextPreference for $DAYS_TO_FULL_CHARGE_KEY")
+                null
+            }
+        }
+
+        if (textPreference == null) return null
+
+        runCatching { textPreference.callMethod(METHOD_SET_KEY, DAYS_TO_FULL_CHARGE_KEY) }
+        runCatching { textPreference.callMethod(METHOD_SET_TITLE, title) }
+        runCatching { textPreference.callMethod(METHOD_SET_CLICKABLE, true) }
+        runCatching { textPreference.callMethod(METHOD_SET_SELECTABLE, true) }
+        runCatching { textPreference.callMethod(METHOD_SET_TOUCH_ANIM, true) }
+        runCatching { textPreference.callMethod(METHOD_SET_SHOW_RIGHT_ARROW, true) }
+        runCatching { textPreference.callMethod(METHOD_SET_ORDER, order) }
+        runCatching { batteryFragment?.let { textPreference.callMethod(METHOD_SET_ON_PREF_CLICK, it) } }
+
+        runCatching {
+            category.callMethod(METHOD_ADD_PREFERENCE, textPreference)
+        }.onFailure {
+            XposedLog.e(TAG, packageName, "Failed to add dynamic preference $DAYS_TO_FULL_CHARGE_KEY", it)
+        }
+        return textPreference
+    }
+
+    private fun isAlwaysProtectMode(context: Context): Boolean {
+        return runCatching {
+            android.provider.Settings.Secure.getInt(
+                context.contentResolver,
+                BATTERY_PROTECT_MODE_KEY,
+                0
+            ) == PROTECT_MODE_ALWAYS
+        }.getOrDefault(false)
+    }
+
+    private fun isNextFullChargeScheduled(context: Context): Boolean {
+        val lastFullyChargeTime = runCatching {
+            android.provider.Settings.Secure.getLong(
+                context.contentResolver,
+                BATTERY_LAST_FULLY_CHARGE_TIME_KEY,
+                0L
+            )
+        }.getOrDefault(0L)
+        if (lastFullyChargeTime <= 0L) return true
+        val nextFullyChargeTime = lastFullyChargeTime + FULL_CHARGE_CYCLE_MS
+        val remainingMs = nextFullyChargeTime - System.currentTimeMillis()
+        return remainingMs <= 0L
+    }
+
+    private fun resolveDaysToFullChargeText(context: Context, modRes: Resources): String {
+        val lastFullyChargeTime = runCatching {
+            android.provider.Settings.Secure.getLong(
+                context.contentResolver,
+                BATTERY_LAST_FULLY_CHARGE_TIME_KEY,
+                0L
+            )
+        }.getOrDefault(0L)
+
+        if (lastFullyChargeTime <= 0L) {
+            return modRes.getString(R.string.security_center_battery_days_ready)
+        }
+
+        val nextFullyChargeTime = lastFullyChargeTime + FULL_CHARGE_CYCLE_MS
+        val remainingMs = nextFullyChargeTime - System.currentTimeMillis()
+
+        return if (remainingMs <= 0L) {
+            modRes.getString(R.string.security_center_battery_days_ready)
+        } else {
+            val days = remainingMs / ONE_DAY_MS
+            if (days > 0L) {
+                modRes.getString(R.string.security_center_battery_days_format, days)
+            } else {
+                modRes.getString(R.string.security_center_battery_days_less_than_one)
+            }
+        }
+    }
+
+    private fun showScheduleFullChargeDialog(fragment: Any?) {
+        val targetFragment = fragment ?: batteryFragment
+        val context = runCatching {
+            targetFragment?.callMethod("getContext") as? Context
+        }.getOrNull() ?: runCatching {
+            targetFragment?.callMethod("requireContext") as? Context
+        }.getOrNull() ?: batteryContext ?: return
+
+        val activity = runCatching {
+            targetFragment?.callMethod("getActivity") as? Activity
+        }.getOrNull() ?: runCatching {
+            targetFragment?.callMethod("requireActivity") as? Activity
+        }.getOrNull() ?: (context as? Activity) ?: return
+
+        val modRes = AppsTool.getModuleRes(context)
+        val isScheduled = isNextFullChargeScheduled(context)
+
+        val title = if (isScheduled) {
+            modRes.getString(R.string.security_center_battery_dialog_cancel_title)
+        } else {
+            modRes.getString(R.string.security_center_battery_dialog_schedule_title)
+        }
+
+        val message = if (isScheduled) {
+            modRes.getString(R.string.security_center_battery_dialog_cancel_message)
+        } else {
+            modRes.getString(R.string.security_center_battery_dialog_schedule_message)
+        }
+
+        val positiveBtnText = if (isScheduled) {
+            modRes.getString(R.string.security_center_battery_dialog_cancel_confirm)
+        } else {
+            modRes.getString(R.string.security_center_battery_dialog_schedule_confirm)
+        }
+
+        val negativeBtnText = modRes.getString(R.string.security_center_battery_dialog_dismiss)
+
+        val positiveClickListener = DialogInterface.OnClickListener { _, _ ->
+            if (isScheduled) {
+                android.provider.Settings.Secure.putLong(
+                    context.contentResolver,
+                    BATTERY_LAST_FULLY_CHARGE_TIME_KEY,
+                    System.currentTimeMillis()
+                )
+                Toast.makeText(
+                    context,
+                    modRes.getString(R.string.security_center_battery_toast_cancelled),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                android.provider.Settings.Secure.putLong(
+                    context.contentResolver,
+                    BATTERY_LAST_FULLY_CHARGE_TIME_KEY,
+                    1L
+                )
+                Toast.makeText(
+                    context,
+                    modRes.getString(R.string.security_center_battery_toast_scheduled),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            refreshDynamicBatteryRows()
+        }
+
+        val miuixBuilderClass = findClassIfExists("miuix.appcompat.app.AlertDialog\$Builder")
+        if (miuixBuilderClass != null) {
+            val shown = runCatching {
+                val builder = miuixBuilderClass.getConstructor(Context::class.java).newInstance(activity)
+                builder.callMethod("setTitle", title as CharSequence)
+                builder.callMethod("setMessage", message as CharSequence)
+                builder.callMethod("setPositiveButton", positiveBtnText as CharSequence, positiveClickListener)
+                builder.callMethod("setNegativeButton", negativeBtnText as CharSequence, null as DialogInterface.OnClickListener?)
+                builder.callMethod("show")
+                true
+            }.getOrDefault(false)
+            if (shown) return
+        }
+
+        runCatching {
+            android.app.AlertDialog.Builder(activity)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveBtnText, positiveClickListener)
+                .setNegativeButton(negativeBtnText, null)
+                .show()
+        }.onFailure {
+            XposedLog.e(TAG, packageName, "Failed to create AlertDialog", it)
+        }
     }
 
     private fun resolveBatteryDateText(
@@ -807,6 +1098,8 @@ object MoreBatteryInfoNew : BaseHook() {
         cycleCountPreference = null
         todayChargePreference = null
         currentTempPreference = null
+        daysToFullChargePreference = null
+        batteryFragment = null
         batteryContext = null
     }
 

@@ -52,6 +52,19 @@
     <string name="security_center_battery_health_dead">損壞</string>
     <string name="security_center_battery_health_over_voltage">過壓</string>
     <string name="security_center_battery_health_cold">過冷</string>
+    <string name="security_center_battery_days_to_full_charge">距離充滿天數</string>
+    <string name="security_center_battery_days_format">%1$d 天</string>
+    <string name="security_center_battery_days_less_than_one">&lt; 1 天</string>
+    <string name="security_center_battery_days_ready">下次充電</string>
+    <string name="security_center_battery_dialog_schedule_title">預約下次充滿</string>
+    <string name="security_center_battery_dialog_schedule_message" formatted="false">是否將下一次充電設定為充至 100%？\n\n系統將在下次接上充電器時充滿，充滿後將自動恢復 80% 限制並重新開始 30 天週期。</string>
+    <string name="security_center_battery_dialog_schedule_confirm">確認預約</string>
+    <string name="security_center_battery_dialog_cancel_title">取消預約</string>
+    <string name="security_center_battery_dialog_cancel_message" formatted="false">目前已設定為下次充電充至 100%。是否取消預約，恢復 30 天保護週期？</string>
+    <string name="security_center_battery_dialog_cancel_confirm">恢復保護</string>
+    <string name="security_center_battery_toast_scheduled">已設定為下次充電充滿</string>
+    <string name="security_center_battery_toast_cancelled">已恢復 30 天週期保護</string>
+    <string name="security_center_battery_dialog_dismiss">取消</string>
     <string name="app_link_open_always">允許應用程式打開支持的鏈接</string>
     <string name="app_link_open_never">不要允許應用程式打開鏈接</string>
     <string name="dashboard_5g">使用5G</string>
